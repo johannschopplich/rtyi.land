@@ -19,7 +19,7 @@ export default async () => {
     themeConfig: {
       nav: [
         { text: "Home", link: "/" },
-        { text: "Streams", items: modelNavItems },
+        { text: "Stream Analysis", items: modelNavItems },
       ],
 
       sidebar: [
@@ -34,7 +34,13 @@ export default async () => {
         },
         {
           text: "Stream Analysis",
-          items: modelNavItems,
+          items: [
+            {
+              text: "Overview",
+              link: "/streams",
+            },
+            ...modelNavItems,
+          ],
         },
       ],
 

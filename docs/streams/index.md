@@ -4,27 +4,27 @@ description: Comprehensive overview of all stream analyses across all AI models
 ---
 
 <script setup>
-import { data as modelStreams } from './model-streams.data.ts'
+import { data as modelStreams } from "./model-streams.data.ts";
 
 const MODEL_LABELS = {
-  'claude-opus-4-20250514': 'Claude Opus 4',
-  'claude-sonnet-4-20250514': 'Claude Sonnet 4',
-  'gemini-2-5-pro-preview-05-06': 'Gemini 2.5 Pro',
+  "claude-opus-4-20250514": "Claude Opus 4",
+  "claude-sonnet-4-20250514": "Claude Sonnet 4",
+  "gemini-2-5-pro-preview-05-06": "Gemini 2.5 Pro",
 };
 
 const streamsByDate = {};
-let totalStreams = 0;
+let totalAnalyses = 0;
 
 for (const [modelName, streams] of Object.entries(modelStreams)) {
-  totalStreams += streams.length;
+  totalAnalyses += streams.length;
 
   for (const stream of streams) {
-      streamsByDate[stream.rawDate] ??= {
-        date: stream.date,
-        rawDate: stream.rawDate,
-        models: [],
-        excerpt: stream.excerpt, // Use excerpt from first model
-      };
+    streamsByDate[stream.rawDate] ??= {
+      date: stream.date,
+      rawDate: stream.rawDate,
+      models: [],
+      excerpt: stream.excerpt, // Use excerpt from first model
+    };
 
     streamsByDate[stream.rawDate].models.push({
       name: stream.model,
@@ -35,7 +35,7 @@ for (const [modelName, streams] of Object.entries(modelStreams)) {
 }
 
 // Convert to array and sort by date (newest first)
-const groupedStreams = Object.values(streamsByDate).sort((a, b) => 
+const groupedStreams = Object.values(streamsByDate).sort((a, b) =>
   b.rawDate.localeCompare(a.rawDate)
 );
 
@@ -62,7 +62,7 @@ const dateRange =
 This page provides a comprehensive overview of all stream analyses processed by different AI models.
 
 ::: tip Summary
-**Total Streams:** {{ totalStreams }}
+**Total Analyses:** {{ totalAnalyses }}
 
 **Unique Dates:** {{ totalDates }}
 
