@@ -4,7 +4,7 @@ description: Comprehensive overview of all stream analyses across all AI models
 ---
 
 <script setup>
-import { data as modelStreams } from "./model-streams.data.ts";
+import { data as modelStreams } from "./model-streams.data";
 
 const MODEL_LABELS = {
   "claude-opus-4-20250514": "Claude Opus 4",

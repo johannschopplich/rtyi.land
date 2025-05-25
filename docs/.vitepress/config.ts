@@ -20,6 +20,7 @@ export default async () => {
       nav: [
         { text: "Home", link: "/" },
         { text: "Stream Analysis", items: modelNavItems },
+        { text: "Prompts", link: "/prompts" },
       ],
 
       sidebar: [
@@ -41,6 +42,10 @@ export default async () => {
             },
             ...modelNavItems,
           ],
+        },
+        {
+          text: "Prompts",
+          link: "/prompts",
         },
       ],
 

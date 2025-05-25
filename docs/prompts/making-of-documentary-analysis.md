@@ -1,3 +1,8 @@
+---
+title: Making-of Documentary Analysis
+description: Analysis prompt for video game making-of documentaries, exploring common structures, patterns, and themes.
+---
+
 # Making-of Documentary Analysis
 
 ```md
@@ -48,6 +53,7 @@ After your analysis, provide a summary that encapsulates the typical structure a
 Present your findings in the following format:
 
 <documentary_summary>
+
 ## Typical Structure
 
 [Describe the common structural elements and their usual order]
