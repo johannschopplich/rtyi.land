@@ -1,4 +1,4 @@
-# Video Game Documentary Summary
+# Video Game Documentaries: A Comprehensive Analysis
 
 ## Typical Structure
 
