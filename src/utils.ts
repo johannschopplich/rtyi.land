@@ -11,11 +11,11 @@ import {
 import { createAnthropic } from "@ai-sdk/anthropic";
 import { createOpenAI } from "@ai-sdk/openai";
 import { createGoogleGenerativeAI } from "@ai-sdk/google";
-import { createStorage } from "unstorage";
+import { createStorage, StorageValue } from "unstorage";
 import fsDriver from "unstorage/drivers/fs";
 
-export function getQuestionStorage() {
-  return createStorage({
+export function getQuestionStorage<T extends StorageValue>() {
+  return createStorage<T>({
     driver: fsDriver({ base: KV_QUESTIONS_DIR }),
   });
 }

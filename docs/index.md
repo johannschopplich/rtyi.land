@@ -14,7 +14,7 @@ hero:
       link: /streams
     - theme: alt
       text: Video Game Documentary Summary
-      link: /research/video-game-documentary-summary
+      link: /research/video-game-documentaries
 
 features:
   - title: Gemini 2.5 Pro

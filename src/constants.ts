@@ -4,8 +4,10 @@ import { fileURLToPath } from "node:url";
 export const ROOT_DIR = fileURLToPath(new URL("..", import.meta.url));
 
 // Paths
-export const TRANSCRIPTS_DIR = join(ROOT_DIR, "transcripts");
 export const DATA_DIR = join(ROOT_DIR, ".data");
+export const DOCS_DIR = join(ROOT_DIR, "docs");
+export const TRANSCRIPTS_DIR = join(ROOT_DIR, "transcripts");
+
 export const STREAMS_DIR = join(DATA_DIR, "streams");
 export const KV_QUESTIONS_DIR = join(DATA_DIR, "kv", "questions");
 

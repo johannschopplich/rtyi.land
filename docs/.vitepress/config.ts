@@ -20,8 +20,13 @@ export default async () => {
       nav: [
         { text: "Home", link: "/" },
         { text: "Stream Analysis", items: modelNavItems },
-        { text: "Questions", link: "/questions" },
-        { text: "Prompts", link: "/prompts" },
+        {
+          text: "Questions",
+          items: [
+            { text: "Questions & Narrative Arc", link: "/questions/summary" },
+            { text: "Generated Questions", link: "/questions" },
+          ],
+        },
       ],
 
       sidebar: [
@@ -30,7 +35,7 @@ export default async () => {
           items: [
             {
               text: "Video Game Documentary Summary",
-              link: "/research/video-game-documentary-summary",
+              link: "/research/video-game-documentaries",
             },
           ],
         },
@@ -47,10 +52,8 @@ export default async () => {
         {
           text: "Questions",
           items: [
-            {
-              text: "Overview",
-              link: "/questions",
-            },
+            { text: "Questions & Narrative Arc", link: "/questions/summary" },
+            { text: "Generated Questions", link: "/questions" },
           ],
         },
         {

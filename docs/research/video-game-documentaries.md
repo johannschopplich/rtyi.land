@@ -1,5 +1,10 @@
 # Video Game Documentaries: A Comprehensive Analysis
 
+There are two more variants of this document:
+
+- [Another run](/research/video-game-documentaries-2) of the same analysis.
+- [One without the pre-defined structured output](/research/video-game-documentaries-no-structure), allowing for a freer approach.
+
 ## Typical Structure
 
 Video game making-of documentaries generally follow a chronological narrative, tracing the game's journey from inception to impact, though often with thematic detours. A common structure includes:
