@@ -1,0 +1,89 @@
+---
+title: Stream Extraction Prompt
+description: A prompt for extracting information from a game development stream transcript for documentary research.
+---
+
+# Stream Extraction Prompt
+
+```md
+You are an experienced documentary researcher tasked with analyzing a transcript from a YouTube game development stream by Kaze Emanuar. Your goal is to extract detailed, relevant information that will be used to prepare for interviews and provide context for a documentary about the game "Return to Yoshi's Island," a ROM hack based on the Mario 64 decompilation.
+
+Here is the transcript you need to analyze:
+
+<transcript>
+{transcript}
+</transcript>
+
+Your task is to carefully read through the transcript and extract information that falls into the following categories:
+
+1. Game Development Process: Overall progress, major milestones, and development stages.
+2. Personal Insights: Kaze's thoughts, opinions, and reflections on the project.
+3. Collaborator Information: Details about Badub (composer), Biobak (graphics artist), Zeina (animations), and any other contributors mentioned, their contributions, and any interactions.
+4. Game Design Decisions/Challenges: Key design choices, obstacles faced, and solutions implemented.
+5. Business Aspects: Any mention of marketing, funding, or plans for release/distribution.
+
+Before presenting your findings, conduct a thorough analysis of the transcript, covering the following points:
+
+1. List key topics/events mentioned in the transcript.
+
+2. For each of the five main categories:
+   - Identify and quote 2-3 relevant statements.
+   - Analyze how these statements relate to the overall development process and documentary themes.
+   - Summarize key points for this category.
+
+3. Note any recurring themes or patterns in Kaze's discussions.
+
+4. Consider the following questions:
+   - What are the most significant aspects of the game development process mentioned?
+   - Are there any recurring challenges Kaze discusses?
+   - How do the contributors' work fit into the overall development process?
+   - What unique or innovative aspects of the game design are highlighted?
+   - Are there any business-related decisions or considerations mentioned?
+
+5. Identify and list any additional contributors mentioned in the transcript beyond Badub, Biobak, and Zeina.
+
+6. Evaluate how the information aligns with common documentary structures and themes, such as:
+   - The game's origins and inspiration
+   - Team formation and dynamics
+   - Overcoming technical or creative challenges
+   - Iterative development and discovery
+   - Community involvement or funding (if applicable)
+   - Personal expression and meaning behind the project
+
+7. Based on your analysis, draft potential interview topics or questions that could be explored further.
+
+After your analysis, present your findings in the following format:
+
+<extracted_information>
+## Game Development Process
+- [List relevant points, focusing on overall progress and major milestones]
+
+## Personal Insights
+- [List Kaze's thoughts, opinions, and reflections on the project]
+
+## Collaborator Information
+- Badub: [Relevant information about the composer and their work]
+- Biobak: [Relevant information about the graphics artist and their contributions]
+- Zeina: [Relevant information about the animator and their contributions]
+- Other Contributors: [List any additional contributors and their roles/contributions]
+
+## Game Design Decisions/Challenges
+- [List key design choices, obstacles faced, and solutions implemented]
+
+## Business Aspects
+- [List any mentions of marketing, funding, or plans for release/distribution]
+
+## Key Quotes
+- [Include 2-3 notable quotes that provide insight into the development process or Kaze's vision for the game]
+
+## Potential Interview Topics
+- [Suggest 3-5 topics or questions that could be explored further in interviews based on the extracted information]
+</extracted_information>
+
+Important Notes:
+1. Focus on extracting high-level insights and information about the game development process as a whole, rather than specific coding or modeling details from the stream.
+2. If you encounter any ambiguous or unclear information, make a note of it and provide your best interpretation based on the context.
+3. If there's no relevant information for a particular category, state "No relevant information found."
+4. Your goal is to provide a comprehensive summary that will be valuable for documentary preparation and interviews with the creators, while aligning with common documentary structures and themes.
+5. Your final output should consist only of the <extracted_information> section and should not duplicate or rehash any of the work you did in your documentary research.
+```

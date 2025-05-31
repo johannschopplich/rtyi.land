@@ -4,9 +4,12 @@ layout: home
 hero:
   name: "RTYI Documentary"
   text: "Research and Stream Analysis"
-  tagline: All I need to prepare for interviews and discussions
+  tagline: My preparation for the Return to Yoshis Island documentary.
   actions:
     - theme: brand
+      text: Questions
+      link: /questions
+    - theme: alt
       text: Stream Analysis
       link: /streams
     - theme: alt

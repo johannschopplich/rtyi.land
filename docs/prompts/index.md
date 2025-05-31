@@ -11,11 +11,7 @@ This section contains various prompts and analyses used for research and documen
 **Total Prompts:** {{ prompts.length }}
 
 <div class="prompt-list">
-  <div 
-    v-for="prompt in prompts" 
-    :key="prompt.url"
-    class="prompt-item"
-  >
+  <div v-for="prompt in prompts" :key="prompt.url" class="prompt-item">
     <h3>
       <a :href="prompt.url">{{ prompt.title }}</a>
     </h3>
@@ -30,10 +26,11 @@ This section contains various prompts and analyses used for research and documen
   position: relative;
   display: flex;
   flex-direction: column;
-  gap: 1.5rem;
+  gap: 16px;
 }
 
 .prompt-item {
+  position: relative;
   border: 1px solid var(--vp-c-divider);
   border-radius: 8px;
   padding: 20px 24px;
@@ -41,8 +38,8 @@ This section contains various prompts and analyses used for research and documen
 }
 
 .prompt-item h3 {
-  margin: 0 0 8px 0;
   position: initial;
+  margin: 0 0 8px 0;
 }
 
 .prompt-item h3 a {
@@ -63,7 +60,8 @@ This section contains various prompts and analyses used for research and documen
 .prompt-excerpt {
   margin: 0;
   color: var(--vp-c-text-2);
-  font-size: var(--vp-custom-block-font-size);
+  font-size: 14px;
   line-height: 24px;
+  font-weight: 500;
 }
 </style>

@@ -4,11 +4,11 @@ description: Comprehensive analysis of all streams processed by Gemini 2.5 Pro
 ---
 
 <script setup>
-import { data as modelStreams } from './model-streams.data.ts'
+import { data as modelStreams } from "./model-streams.data.ts";
 
-const MODEL_NAME = 'gemini-2-5-pro-preview-05-06'
-const streams = modelStreams[MODEL_NAME] || []
-const modelLabel = 'Gemini 2.5 Pro'
+const MODEL_NAME = "gemini-2-5-pro-preview-05-06";
+const streams = modelStreams[MODEL_NAME] || [];
+const modelLabel = "Gemini 2.5 Pro";
 </script>
 
 # {{ modelLabel }} – Stream Analysis

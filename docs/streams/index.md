@@ -36,7 +36,7 @@ for (const [modelName, streams] of Object.entries(modelStreams)) {
 
 // Convert to array and sort by date (newest first)
 const groupedStreams = Object.values(streamsByDate).sort((a, b) =>
-  b.rawDate.localeCompare(a.rawDate)
+  b.rawDate.localeCompare(a.rawDate),
 );
 
 // Get model statistics
@@ -84,7 +84,9 @@ This page provides a comprehensive overview of all stream analyses processed by 
   </thead>
   <tbody>
     <tr v-for="model in modelStats" :key="model.name">
-      <td><strong>{{ model.label }}</strong></td>
+      <td>
+        <strong>{{ model.label }}</strong>
+      </td>
       <td>{{ model.count }}</td>
       <td>
         <span v-if="model.count > 0">
@@ -93,7 +95,9 @@ This page provides a comprehensive overview of all stream analyses processed by 
         <span v-else>No streams</span>
       </td>
       <td style="white-space: nowrap;">
-        <a :href="`/streams/${model.name}`" v-if="model.count > 0">Details →</a>
+        <a :href="`/streams/${model.name}`" v-if="model.count > 0"
+          >Details →</a
+        >
       </td>
     </tr>
   </tbody>
@@ -119,14 +123,11 @@ This page provides a comprehensive overview of all stream analyses processed by 
         <strong>{{ streamGroup.date }}</strong>
       </td>
       <td>
-      <div
-          v-for="model in streamGroup.models" 
-          :key="model.id"
-      >
-        <a :href="`/streams/${model.id}`" style="white-space: nowrap;">
-          {{ model.label }}
-        </a>
-      </div>
+        <div v-for="model in streamGroup.models" :key="model.id">
+          <a :href="`/streams/${model.id}`" style="white-space: nowrap;">
+            {{ model.label }}
+          </a>
+        </div>
       </td>
       <td>{{ streamGroup.excerpt }}</td>
     </tr>

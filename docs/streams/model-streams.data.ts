@@ -2,7 +2,7 @@ import { defineLoader } from "vitepress";
 import fsp from "fs/promises";
 import path from "path";
 import { glob } from "tinyglobby";
-import { DATA_DIR } from "../../src/constants";
+import { STREAMS_DIR } from "../../src/constants";
 import { extractContent, formatDateFromYYYYMMDD } from "../.vitepress/utils";
 
 export interface ModelStreamData {
@@ -10,12 +10,15 @@ export interface ModelStreamData {
   date: string;
   rawDate: string;
   model: string;
-  excerpt?: string;
+  excerpt: string;
 }
 
 export default defineLoader({
   async load() {
-    const files = await glob(`**/*.txt`, { cwd: DATA_DIR, absolute: true });
+    const files = await glob("**/*.txt", {
+      cwd: STREAMS_DIR,
+      absolute: true,
+    });
 
     const streamsByModel: Record<string, ModelStreamData[]> = {};
 
@@ -45,13 +48,13 @@ export default defineLoader({
 
         streamsByModel[modelDir] ??= [];
         streamsByModel[modelDir].push(streamData);
-      })
+      }),
     );
 
     // Sort streams within each model by date (newest first)
     for (const modelName of Object.keys(streamsByModel)) {
       streamsByModel[modelName].sort((a, b) =>
-        b.rawDate.localeCompare(a.rawDate)
+        b.rawDate.localeCompare(a.rawDate),
       );
     }
 

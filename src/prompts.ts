@@ -1,10 +1,12 @@
+import { z } from "zod";
+
 export const EXTRACTION_PROMPT_REASONING = `
 You are an experienced documentary researcher tasked with analyzing a transcript from a YouTube game development stream by Kaze Emanuar. Your goal is to extract detailed, relevant information that will be used to prepare for interviews and provide context for a documentary about the game "Return to Yoshi's Island," a ROM hack based on the Mario 64 decompilation.
 
 Here is the transcript you need to analyze:
 
 <transcript>
-{{transcript}}
+{transcript}
 </transcript>
 
 Your task is to carefully read through the transcript and extract information that falls into the following categories:
@@ -80,3 +82,55 @@ Important Notes:
 4. Your goal is to provide a comprehensive summary that will be valuable for documentary preparation and interviews with the creators, while aligning with common documentary structures and themes.
 5. Your final output should consist only of the <extracted_information> section and should not duplicate or rehash any of the work you did in your documentary research.
 `.trim();
+
+export const INTERVIEW_QUESTIONS_PROMPT = `
+You are assisting in the production of a documentary about "Return to Yoshi's Island," a ROM hack created by Kaze Emanuar based on the Mario 64 decompilation project. Your task is to generate insightful interview questions for Kaze and his core contributors (Biobak, Badub, and Zeina) based on extracted information from Kaze's game development streams.
+
+Here is the extracted information from a recent stream:
+
+<stream_info>
+{streamInfo}
+</stream_info>
+
+The date of this stream was: {streamDate}
+
+Before generating questions, please analyze the stream information carefully, focusing on:
+1. List key topics discussed in the stream
+2. Quote relevant parts of the stream that provide insights into:
+   a. Game development progress and challenges
+   b. Personal insights from Kaze
+   c. Information about collaborators and their contributions
+   d. Game design decisions and technical challenges
+   e. Business aspects and potential legal issues
+3. Identify specific challenges or decisions mentioned
+4. Note which collaborators (Biobak, Badub, and Zeina) are specifically mentioned in this stream
+
+Based on your analysis, you will generate:
+- 5-7 interview questions for Kaze
+- 2-3 questions each for any collaborators (Biobak, Badub, and Zeina) who are mentioned in the stream
+
+The questions should be:
+- Personal and insightful
+- Relevant to the information provided in the stream
+- Designed to elicit responses that would be engaging in a documentary format
+- Varied in focus (e.g., technical challenges, creative decisions, collaborative process, personal motivations)
+- Open-ended to encourage detailed, reflective responses
+
+For each question, provide a brief context explaining why you chose it based on the stream information.
+
+Remember to craft questions that will elicit responses suitable for a compelling documentary narrative. Focus on the human stories behind the game's development, key creative and technical decisions, and the collaborative process. Avoid yes/no questions and instead aim for open-ended queries that encourage detailed, reflective responses.
+`.trim();
+
+const QUESTION_SET_SCHEMA = z.object({
+  context: z
+    .string()
+    .describe("Brief explanation of why you're asking this question"),
+  question: z.string().describe("The actual interview question"),
+});
+
+export const INTERVIEW_QUESTIONS_SCHEMA = z.object({
+  kaze: z.array(QUESTION_SET_SCHEMA),
+  biobak: z.array(QUESTION_SET_SCHEMA),
+  badub: z.array(QUESTION_SET_SCHEMA),
+  zeina: z.array(QUESTION_SET_SCHEMA),
+});

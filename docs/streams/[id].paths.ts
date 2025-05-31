@@ -1,12 +1,15 @@
 import fsp from "fs/promises";
 import path from "path";
 import { glob } from "tinyglobby";
-import { DATA_DIR } from "../../src/constants";
+import { STREAMS_DIR } from "../../src/constants";
 import { extractContent, formatDateFromYYYYMMDD } from "../.vitepress/utils";
 
 export default {
   async paths() {
-    const files = await glob(`**/*.txt`, { cwd: DATA_DIR, absolute: true });
+    const files = await glob("**/*.txt", {
+      cwd: STREAMS_DIR,
+      absolute: true,
+    });
 
     const results = await Promise.all(
       files.map(async (filePath) => {
@@ -17,7 +20,7 @@ export default {
 
         if (!content) {
           throw new Error(
-            `No extracted information available for ${fileName}. Check again!`
+            `No extracted information available for ${fileName}. Check again!`,
           );
         }
 
@@ -33,7 +36,7 @@ export default {
           },
           content,
         };
-      })
+      }),
     );
 
     // Sort by model directory first, then by date

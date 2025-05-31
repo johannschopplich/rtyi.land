@@ -4,11 +4,11 @@ description: Comprehensive analysis of all streams processed by Claude Opus 4
 ---
 
 <script setup>
-import { data as modelStreams } from './model-streams.data.ts'
+import { data as modelStreams } from "./model-streams.data.ts";
 
-const MODEL_NAME = 'claude-opus-4-20250514'
-const streams = modelStreams[MODEL_NAME] || []
-const modelLabel = 'Claude Opus 4'
+const MODEL_NAME = "claude-opus-4-20250514";
+const streams = modelStreams[MODEL_NAME] || [];
+const modelLabel = "Claude Opus 4";
 </script>
 
 # {{ modelLabel }} – Stream Analysis

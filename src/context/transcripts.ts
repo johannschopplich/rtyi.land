@@ -1,11 +1,11 @@
 import * as clack from "@clack/prompts";
-import { readFile, writeFile, access } from "node:fs/promises";
+import * as fsp from "node:fs/promises";
 import { constants } from "node:fs";
 import { generateText } from "ai";
 import { join, basename, extname } from "node:path";
-import { resolveProviderLanguageModel, ensureDirectoryExists } from "./utils";
-import { DATA_DIR } from "./constants";
-import { EXTRACTION_PROMPT_REASONING } from "./prompts";
+import { resolveProviderLanguageModel, ensureDirectoryExists } from "../utils";
+import { STREAMS_DIR } from "../constants";
+import { EXTRACTION_PROMPT_REASONING } from "../prompts";
 import { template } from "utilful";
 import slugify from "@sindresorhus/slugify";
 import { AnthropicProviderOptions } from "@ai-sdk/anthropic";
@@ -14,7 +14,7 @@ export async function processTranscript(filePath: string, model: string) {
   const fileName = basename(filePath);
   const fileNameWithoutExt = basename(filePath, extname(filePath));
   const modelSlug = slugify(model);
-  const modelDir = join(DATA_DIR, modelSlug);
+  const modelDir = join(STREAMS_DIR, modelSlug);
   const outputPath = join(modelDir, `${slugify(fileNameWithoutExt)}.txt`);
 
   await ensureDirectoryExists(modelDir);
@@ -25,7 +25,7 @@ export async function processTranscript(filePath: string, model: string) {
   }
 
   try {
-    const transcriptContent = await readFile(filePath, "utf-8");
+    const transcriptContent = await fsp.readFile(filePath, "utf-8");
     const languageModel = resolveProviderLanguageModel(model);
 
     const result = await generateText({
@@ -45,7 +45,7 @@ export async function processTranscript(filePath: string, model: string) {
       }),
     });
 
-    await writeFile(outputPath, result.text);
+    await fsp.writeFile(outputPath, result.text);
     clack.note(`Processed ${fileName}`);
 
     return result.text;
@@ -61,7 +61,7 @@ export function createTranscriptProcessor(model: string) {
 
 async function isFileProcessed(filePath: string) {
   try {
-    await access(filePath, constants.F_OK);
+    await fsp.access(filePath, constants.F_OK);
     return true;
   } catch {
     return false;

@@ -1,21 +1,30 @@
 import type { LanguageModelV1 } from "ai";
 import process from "node:process";
-import { mkdir, access } from "node:fs/promises";
+import * as fsp from "node:fs/promises";
 import { constants } from "node:fs";
 import {
   DEFAULT_ANTHROPIC_MODEL,
   DEFAULT_GOOGLE_MODEL,
   DEFAULT_OPENAI_MODEL,
+  KV_QUESTIONS_DIR,
 } from "./constants";
 import { createAnthropic } from "@ai-sdk/anthropic";
 import { createOpenAI } from "@ai-sdk/openai";
 import { createGoogleGenerativeAI } from "@ai-sdk/google";
+import { createStorage } from "unstorage";
+import fsDriver from "unstorage/drivers/fs";
+
+export function getQuestionStorage() {
+  return createStorage({
+    driver: fsDriver({ base: KV_QUESTIONS_DIR }),
+  });
+}
 
 export async function ensureDirectoryExists(dirPath: string) {
   try {
-    await access(dirPath, constants.F_OK);
+    await fsp.access(dirPath, constants.F_OK);
   } catch {
-    await mkdir(dirPath, { recursive: true });
+    await fsp.mkdir(dirPath, { recursive: true });
   }
 }
 

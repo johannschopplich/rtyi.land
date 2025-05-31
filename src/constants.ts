@@ -6,6 +6,8 @@ export const ROOT_DIR = fileURLToPath(new URL("..", import.meta.url));
 // Paths
 export const TRANSCRIPTS_DIR = join(ROOT_DIR, "transcripts");
 export const DATA_DIR = join(ROOT_DIR, ".data");
+export const STREAMS_DIR = join(DATA_DIR, "streams");
+export const KV_QUESTIONS_DIR = join(DATA_DIR, "kv", "questions");
 
 // AI language models
 export const DEFAULT_OPENAI_MODEL = "o4-mini" as const;

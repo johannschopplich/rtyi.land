@@ -1,12 +1,12 @@
 import { defineConfig } from "vitepress";
 import * as fsp from "fs/promises";
-import { DATA_DIR, MODEL_LABELS } from "../../src/constants";
+import { STREAMS_DIR, MODEL_LABELS } from "../../src/constants";
 
 const SLUGIFIED_MODEL_LABELS: Record<string, string> = Object.fromEntries(
   Object.entries(MODEL_LABELS).map(([key, value]) => [
     key.replaceAll(".", "-"),
     value,
-  ])
+  ]),
 );
 
 export default async () => {
@@ -20,6 +20,7 @@ export default async () => {
       nav: [
         { text: "Home", link: "/" },
         { text: "Stream Analysis", items: modelNavItems },
+        { text: "Questions", link: "/questions" },
         { text: "Prompts", link: "/prompts" },
       ],
 
@@ -44,6 +45,15 @@ export default async () => {
           ],
         },
         {
+          text: "Questions",
+          items: [
+            {
+              text: "Overview",
+              link: "/questions",
+            },
+          ],
+        },
+        {
           text: "Prompts",
           link: "/prompts",
         },
@@ -61,7 +71,7 @@ export default async () => {
 
 async function getModelNavItems() {
   try {
-    const modelDirs = await fsp.readdir(DATA_DIR, { withFileTypes: true });
+    const modelDirs = await fsp.readdir(STREAMS_DIR, { withFileTypes: true });
 
     return modelDirs
       .filter((dirent) => dirent.isDirectory())
@@ -70,7 +80,10 @@ async function getModelNavItems() {
         link: `/streams/${dirent.name}`,
       }));
   } catch (error) {
-    console.warn(`Could not read model directories from ${DATA_DIR}:`, error);
+    console.warn(
+      `Could not read model directories from ${STREAMS_DIR}:`,
+      error,
+    );
     return [];
   }
 }
