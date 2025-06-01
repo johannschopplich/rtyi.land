@@ -23,7 +23,10 @@ export default async () => {
         {
           text: "Questions",
           items: [
-            { text: "Questions & Narrative Arc", link: "/questions/summary" },
+            {
+              text: "Questions & Narrative Arc",
+              link: "/questions/summary-and-narrative-arc",
+            },
             { text: "Generated Questions", link: "/questions" },
           ],
         },
@@ -52,7 +55,10 @@ export default async () => {
         {
           text: "Questions",
           items: [
-            { text: "Questions & Narrative Arc", link: "/questions/summary" },
+            {
+              text: "Questions & Narrative Arc",
+              link: "/questions/summary-and-narrative-arc",
+            },
             { text: "Generated Questions", link: "/questions" },
           ],
         },

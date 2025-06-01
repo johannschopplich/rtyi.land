@@ -28,6 +28,7 @@ export default defineLoader({
         const fileName = path.basename(filePath, ".txt");
 
         let questionsData: Record<string, string[]>;
+
         try {
           questionsData = JSON.parse(fileContent);
         } catch (error) {

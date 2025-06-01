@@ -1,3 +1,7 @@
+---
+outline: deep
+---
+
 # Documentary Questions for "Return to Yoshi's Island"
 
 ## Documentary Narrative Arc for "Return to Yoshi's Island"
@@ -110,9 +114,7 @@ Based on your provided documentary structures and the specifics of RTYI, here's 
     - The power of community and open-source development.
     - A final, poignant thought on the legacy of RTYI and the spirit of fan creation.
 
----
-
-## 1. Overarching Questions (For All Interviewees)
+## Overarching Questions (For All Interviewees)
 
 These questions aim to build the core narrative spine.
 
@@ -137,7 +139,7 @@ These questions aim to build the core narrative spine.
 13. **Lessons Learned:** What's the most significant lesson (personal, technical, or creative) you've learned from working on a project of this scale and ambition?
 14. **The Future:** Beyond RTYI, what are your personal aspirations in game development or related creative fields? How has working on RTYI influenced those?
 
-## 2. Specific Questions for Each Team Member
+## Specific Questions for Each Team Member
 
 ### Kaze Emanuar (Lead Developer, Programmer, Visionary)
 
@@ -269,9 +271,7 @@ _(Many of the stream-generated questions are excellent starting points, rephrase
 14. With impending parenthood mentioned, how do you anticipate this new chapter influencing your creative work and collaboration on long-term projects like RTYI?
 15. What has been the most rewarding aspect of contributing your artistic and animation talents to RTYI?
 
----
-
-## 3. Things You Might Have Missed (Or to Probe Deeper On)
+## Things You Might Have Missed (Or to Probe Deeper On)
 
 - **The "Decompilation Difference" in Detail:** While asked generally, for Kaze specifically: What _couldn't_ you have done in RTYI without the decomp? For the artists/composer: Does it grant them more freedom in practice (e.g., more animation frames, complex models, better sound quality) that Kaze can then implement?
 - **Tooling:**

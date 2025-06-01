@@ -7,8 +7,8 @@ hero:
   tagline: My preparation for the Return to Yoshis Island documentary.
   actions:
     - theme: brand
-      text: Questions
-      link: /questions
+      text: Question Summary & Narrative Arc
+      link: /questions/summary-and-narrative-arc
     - theme: alt
       text: Stream Analysis
       link: /streams

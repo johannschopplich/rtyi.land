@@ -1,6 +1,6 @@
 ---
 title: Gemini 2.5 Pro – Stream Analysis
-description: Comprehensive analysis of all streams processed by Gemini 2.5 Pro
+description: Comprehensive analysis of all streams processed by Gemini 2.5 Pro.
 ---
 
 <script setup>

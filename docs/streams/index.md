@@ -1,6 +1,6 @@
 ---
 title: Stream Analysis Overview
-description: Comprehensive overview of all stream analyses across all AI models
+description: Comprehensive overview of all stream analyses across all AI models.
 ---
 
 <script setup>
@@ -11,34 +11,42 @@ const MODEL_LABELS = {
   "gemini-2-5-pro-preview-05-06": "Gemini 2.5 Pro",
 };
 
-const streamsByDate = {};
-let totalAnalyses = 0;
+const streamMap = Object.entries(modelStreams).reduce(
+  (map, [modelName, streams]) => {
+    for (const stream of streams) {
+      const currentStream = map.get(stream.rawDate);
+      if (currentStream) {
+        currentStream.models.push({
+          name: stream.model,
+          label: MODEL_LABELS[modelName],
+          id: stream.id,
+        });
+      } else {
+        map.set(stream.rawDate, {
+          date: stream.date,
+          rawDate: stream.rawDate,
+          models: [
+            {
+              name: stream.model,
+              label: MODEL_LABELS[modelName],
+              id: stream.id,
+            },
+          ],
+          excerpt: stream.excerpt,
+        });
+      }
+    }
 
-for (const [modelName, streams] of Object.entries(modelStreams)) {
-  totalAnalyses += streams.length;
-
-  for (const stream of streams) {
-    streamsByDate[stream.rawDate] ??= {
-      date: stream.date,
-      rawDate: stream.rawDate,
-      models: [],
-      excerpt: stream.excerpt, // Use excerpt from first model
-    };
-
-    streamsByDate[stream.rawDate].models.push({
-      name: stream.model,
-      label: MODEL_LABELS[modelName],
-      id: stream.id,
-    });
-  }
-}
+    return map;
+  },
+  new Map(),
+);
 
 // Convert to array and sort by date (newest first)
-const groupedStreams = Object.values(streamsByDate).sort((a, b) =>
+const groupedStreams = [...streamMap.values()].sort((a, b) =>
   b.rawDate.localeCompare(a.rawDate),
 );
 
-// Get model statistics
 const modelStats = Object.entries(modelStreams)
   .map(([modelName, streams]) => ({
     name: modelName,
@@ -49,9 +57,9 @@ const modelStats = Object.entries(modelStreams)
   }))
   .sort((a, b) => a.label.localeCompare(b.label));
 
-const totalDates = groupedStreams.length;
+const totalStreams = groupedStreams.length;
 const dateRange =
-  totalDates > 0
+  totalStreams > 0
     ? `${groupedStreams[groupedStreams.length - 1].date} – ${groupedStreams[0].date}`
     : "No streams available";
 </script>
@@ -61,9 +69,7 @@ const dateRange =
 This page provides a comprehensive overview of all stream analyses processed by different AI models.
 
 ::: tip Summary
-**Total Analyses:** {{ totalAnalyses }}
-
-**Unique Dates:** {{ totalDates }}
+**Total Streams:** {{ totalStreams }}
 
 **Date Range:** {{ dateRange }}
 
@@ -94,9 +100,9 @@ This page provides a comprehensive overview of all stream analyses processed by 
         <span v-else>No streams</span>
       </td>
       <td style="white-space: nowrap;">
-        <a :href="`/streams/${model.name}`" v-if="model.count > 0"
-          >Details →</a
-        >
+        <a :href="`/streams/${model.name}`" v-if="model.count > 0">
+          Details →
+        </a>
       </td>
     </tr>
   </tbody>
@@ -105,7 +111,7 @@ This page provides a comprehensive overview of all stream analyses processed by 
 ## All Streams
 
 ::: info Grouping by Date
-{{ totalDates }} unique stream dates with analyses from different models. Each row shows all available model analyses for that date.
+{{ totalStreams }} unique stream dates with analyses from different models. Each row shows all available model analyses for that date.
 :::
 
 <table>
@@ -124,7 +130,7 @@ This page provides a comprehensive overview of all stream analyses processed by 
       <td>
         <div v-for="model in streamGroup.models" :key="model.id">
           <a :href="`/streams/${model.id}`" style="white-space: nowrap;">
-            {{ model.label }}
+            {{ model.label }} →
           </a>
         </div>
       </td>

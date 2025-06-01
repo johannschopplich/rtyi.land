@@ -1,6 +1,6 @@
 ---
 title: Claude Opus 4 – Stream Analysis
-description: Comprehensive analysis of all streams processed by Claude Opus 4
+description: Comprehensive analysis of all streams processed by Claude Opus 4.
 ---
 
 <script setup>

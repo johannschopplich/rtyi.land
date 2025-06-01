@@ -2,7 +2,7 @@
 
 There are two more variants of this document:
 
-- [Another run](/research/video-game-documentaries-2) of the same analysis.
+- [Another run](/research/video-game-documentaries-2) of the same prompt.
 - [One without the pre-defined structured output](/research/video-game-documentaries-no-structure), allowing for a freer approach.
 
 ## Typical Structure
