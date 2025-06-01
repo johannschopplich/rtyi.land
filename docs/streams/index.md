@@ -8,7 +8,6 @@ import { data as modelStreams } from "./model-streams.data";
 
 const MODEL_LABELS = {
   "claude-opus-4-20250514": "Claude Opus 4",
-  "claude-sonnet-4-20250514": "Claude Sonnet 4",
   "gemini-2-5-pro-preview-05-06": "Gemini 2.5 Pro",
 };
 
