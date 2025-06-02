@@ -2,18 +2,16 @@ import * as fsp from "fs/promises";
 import * as path from "path";
 import { glob } from "tinyglobby";
 
+export interface FileProcessorParams {
+  filePath: string;
+  fileContent: string;
+  fileName: string;
+}
+
 export async function globAndProcessFiles<T>(
   pattern: string,
   baseDir: string,
-  processor: ({
-    filePath,
-    fileContent,
-    fileName,
-  }: {
-    filePath: string;
-    fileContent: string;
-    fileName: string;
-  }) => T | Promise<T> | null | undefined,
+  processor: (params: FileProcessorParams) => T | Promise<T> | null | undefined,
 ) {
   const files = await glob(pattern, {
     cwd: baseDir,
