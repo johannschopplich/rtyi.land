@@ -10,7 +10,6 @@ export default createContentLoader("prompts/*.md", {
         url,
         frontmatter,
         excerpt: excerpt || frontmatter.description || "",
-      }))
-      .sort((a, b) => a.title.localeCompare(b.title));
+      }));
   },
 });

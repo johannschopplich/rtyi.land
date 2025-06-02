@@ -1,25 +1,24 @@
-import fsp from "fs/promises";
-import path from "path";
-import { glob } from "tinyglobby";
+import * as path from "path";
 import { KV_QUESTIONS_DIR } from "../../src/constants";
-import { formatDateFromYYYYMMDD } from "../.vitepress/utils";
+import {
+  formatDateFromYYYYMMDD,
+  globAndProcessFiles,
+} from "../.vitepress/utils";
+
+export interface QuestionData {
+  context: string;
+  question: string;
+}
 
 export default {
   async paths() {
-    const files = await glob("*.txt", {
-      cwd: KV_QUESTIONS_DIR,
-      absolute: true,
-    });
+    const results = await globAndProcessFiles(
+      "*.txt",
+      KV_QUESTIONS_DIR,
+      ({ filePath, fileName, fileContent }) => {
+        const fileNameWithoutExt = path.basename(filePath, ".txt");
 
-    const results = await Promise.all(
-      files.map(async (filePath) => {
-        const fileContent = await fsp.readFile(filePath, "utf8");
-        const fileName = path.basename(filePath, ".txt");
-
-        let questionsData: Record<
-          string,
-          { context: string; question: string }[]
-        >;
+        let questionsData: Record<string, QuestionData[]>;
 
         try {
           questionsData = JSON.parse(fileContent);
@@ -28,7 +27,7 @@ export default {
         }
 
         // Extract date from filename (format: YYYYMMDD-title)
-        const [rawDate] = fileName.split("-");
+        const [rawDate] = fileNameWithoutExt.split("-");
         const formattedDate = formatDateFromYYYYMMDD(rawDate);
 
         // Filter out contributors with empty question arrays
@@ -73,7 +72,7 @@ ${questionsData[contributor]
 
         return {
           params: {
-            id: fileName,
+            id: fileNameWithoutExt,
             date: formattedDate,
             rawDate,
             contributors: contributors.length,
@@ -81,7 +80,7 @@ ${questionsData[contributor]
           },
           content: markdownContent,
         };
-      }),
+      },
     );
 
     // Sort by date (newest first)

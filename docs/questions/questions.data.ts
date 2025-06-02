@@ -1,9 +1,10 @@
+import * as path from "path";
 import { defineLoader } from "vitepress";
-import fsp from "fs/promises";
-import path from "path";
-import { glob } from "tinyglobby";
 import { KV_QUESTIONS_DIR } from "../../src/constants";
-import { formatDateFromYYYYMMDD } from "../.vitepress/utils";
+import {
+  formatDateFromYYYYMMDD,
+  globAndProcessFiles,
+} from "../.vitepress/utils";
 
 export interface QuestionStreamData {
   id: string;
@@ -15,28 +16,21 @@ export interface QuestionStreamData {
 
 export default defineLoader({
   async load() {
-    const files = await glob(`**/*.txt`, {
-      cwd: KV_QUESTIONS_DIR,
-      absolute: true,
-    });
-
-    const questionStreams: QuestionStreamData[] = [];
-
-    await Promise.all(
-      files.map(async (filePath) => {
-        const fileContent = await fsp.readFile(filePath, "utf8");
-        const fileName = path.basename(filePath, ".txt");
+    const questionStreams = await globAndProcessFiles(
+      "**/*.txt",
+      KV_QUESTIONS_DIR,
+      ({ filePath, fileName, fileContent }) => {
+        const fileNameWithoutExt = path.basename(fileName, ".txt");
 
         let questionsData: Record<string, string[]>;
 
         try {
           questionsData = JSON.parse(fileContent);
         } catch (error) {
-          console.warn(`Invalid JSON in ${fileName}:`, error);
-          return;
+          throw new Error(`Invalid JSON in ${filePath}`);
         }
 
-        const [rawDate] = fileName.split("-");
+        const [rawDate] = fileNameWithoutExt.split("-");
         const formattedDate = formatDateFromYYYYMMDD(rawDate);
 
         // Filter out contributors with empty question arrays
@@ -49,15 +43,15 @@ export default defineLoader({
         );
 
         const streamData: QuestionStreamData = {
-          id: fileName,
+          id: fileNameWithoutExt,
           date: formattedDate,
           rawDate,
           contributors,
           totalQuestions,
         };
 
-        questionStreams.push(streamData);
-      }),
+        return streamData;
+      },
     );
 
     // Sort by date (newest first)

@@ -68,12 +68,9 @@ export default async () => {
         },
       ],
 
-      socialLinks: [
-        {
-          icon: "github",
-          link: "https://github.com/johannschopplich/rtyi-doc",
-        },
-      ],
+      footer: {
+        message: "Made for internal use only by Johann Schopplich.",
+      },
     },
   });
 };
