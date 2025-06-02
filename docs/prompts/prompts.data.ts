@@ -9,7 +9,7 @@ export default createContentLoader("prompts/*.md", {
         title: frontmatter.title,
         url,
         frontmatter,
-        excerpt: excerpt || frontmatter.description || "",
+        excerpt: frontmatter.description,
       }));
   },
 });

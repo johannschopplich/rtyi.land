@@ -4,6 +4,10 @@ outline: deep
 
 # Documentary Questions for "Return to Yoshi's Island"
 
+::: info Second run
+There [another result](/questions/summary-and-narrative-arc-2.md) with a more open prompt.
+:::
+
 ## Documentary Narrative Arc for "Return to Yoshi's Island"
 
 Based on your provided documentary structures and the specifics of RTYI, here's a potential narrative arc:
