@@ -3,18 +3,18 @@ layout: home
 
 hero:
   name: "RTYI Documentary"
-  text: "Research and Stream Analysis"
-  tagline: My preparation for the Return to Yoshis Island documentary.
+  text: "Research and Preparation"
+  tagline: My documentation for the Return to Yoshis Island documentary.
   actions:
     - theme: brand
-      text: Question Summary & Narrative Arc
-      link: /questions/summary-and-narrative-arc
+      text: Narrative Arc
+      link: /drafts/narrative-arc
+    - theme: brand
+      text: Interview Questions
+      link: /drafts/questions
     - theme: alt
       text: Stream Analysis
       link: /streams
-    - theme: alt
-      text: Video Game Documentary Summary
-      link: /research/video-game-documentaries
 
 features:
   - title: Gemini 2.5 Pro

@@ -1,9 +1,31 @@
 # Video Game Documentaries: A Comprehensive Analysis
 
-There are two more variants of this document:
+I have transcribed and analyzed my favorite video game making-of documentaries to create a summary that captures their common structure, patterns, and themes.
 
-- [Another run](/research/video-game-documentaries-2) of the same prompt.
-- [One without the pre-defined structured output](/research/video-game-documentaries-no-structure), allowing for a freer approach.
+::: tip Variations
+
+- [Second analysis iteration](/research/video-game-documentaries-2) applying the same analytical framework to validate findings.
+- [Unstructured analysis approach](/research/video-game-documentaries-no-structure) without predetermined categories.
+
+:::
+
+## Sources & Credits
+
+Credit is due to the original creators of the documentaries analyzed in this research. Their work has been invaluable in understanding the nuances of video game development narratives. Special thanks to:
+
+- [MattKC](https://www.youtube.com/@MattKC) for _The Making of LEGO Island: A Documentary_.
+- [ThatGuyGlen](https://www.youtube.com/@ThatGuyGlen) for the remaining documentary essays analyzed.
+
+This analysis draws upon the following primary source materials:
+
+- [The Making of LEGO Island: A Documentary](https://www.youtube.com/watch?v=bG55COe_f8I)
+- [How Hollow Knight Was Made and First Appeared on Newgrounds](https://www.youtube.com/watch?v=kSAlVBFdC6k)
+- [How Untitled Goose Game Was Made and Inspired by Hitman](https://www.youtube.com/watch?v=ZpZZ49-ifJw)
+- [How Undertale Was Made and Why its Success Scared The Creator](https://www.youtube.com/watch?v=NIIx3gmLdpA)
+- [How Stardew Valley Was Made by Only One Person](https://www.youtube.com/watch?v=4-k6j9g5Hzk)
+- [How Celeste Was Made and Inspired by Real-Life Rock Climbing](https://www.youtube.com/watch?v=MSKOQr_YS-U)
+- [How The Binding of Isaac Was Made and Designed to Fail](https://www.youtube.com/watch?v=FT3m8fGLrKQ)
+- [How Shovel Knight Was Made and Started as a Joke](https://www.youtube.com/watch?v=xMikv4TFQ6A)
 
 ## Typical Structure
 
