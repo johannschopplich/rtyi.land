@@ -5,7 +5,6 @@ I have transcribed and analyzed my favorite video game making-of documentaries t
 ::: tip Variations
 
 - [Second analysis iteration](/research/video-game-documentaries-2) applying the same analytical framework to validate findings.
-- [Unstructured analysis approach](/research/video-game-documentaries-no-structure) without predetermined categories.
 
 :::
 

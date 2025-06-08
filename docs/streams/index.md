@@ -1,6 +1,6 @@
 ---
-title: Stream Analysis Overview
-description: Comprehensive overview of all stream analyses across all AI models.
+title: Stream Analysis
+description: Overview of all stream analyses processed by different AI models.
 ---
 
 <script setup>
@@ -66,7 +66,9 @@ const dateRange =
 
 # Stream Analysis Overview
 
-This page provides a comprehensive overview of all stream analyses processed by different AI models.
+Most of [Kaze's development streams](https://www.youtube.com/@KazeClips/streams) have been transcribed with Whisper and afterwards analyzed by various AI models. This page provides an overview of all stream analyses.
+
+These summaries save me hours of watching and allow me to prepare for the interviews and discussions with Kaze and the team.
 
 ::: tip Summary
 **Total Streams:** {{ totalStreams }}
@@ -77,6 +79,8 @@ This page provides a comprehensive overview of all stream analyses processed by 
 :::
 
 ## Models Overview
+
+Google's Gemini provides more detailed summaries, while Claude Opus is more concise. I prefer Gemini for its depth, but Claude Opus is great for quick overviews.
 
 <table>
   <thead>
@@ -108,10 +112,10 @@ This page provides a comprehensive overview of all stream analyses processed by 
   </tbody>
 </table>
 
-## All Streams
+## Stream Overview
 
-::: info Grouping by Date
-{{ totalStreams }} unique stream dates with analyses from different models. Each row shows all available model analyses for that date.
+::: info Note
+Some names may be incorrect due to transcription errors. Furthermore, the summaries are not perfect and may contain inaccuracies.
 :::
 
 <table>

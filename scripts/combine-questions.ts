@@ -70,7 +70,9 @@ ${allQuestions.badub.map((q) => `- **Question**: ${q.question}\n  **Context**: $
 ${allQuestions.zeina.map((q) => `- **Question**: ${q.question}\n  **Context**: ${q.context}`).join("\n")}
 `.trimStart();
 
-await fsp.writeFile(path.join(DOCS_DIR, "questions/_all.md"), markdown);
+await fsp.writeFile(
+  path.join(DOCS_DIR, "questions/_all-questions.md"),
+  markdown,
+);
 
-// Success message
 clack.outro("All questions processed successfully!");

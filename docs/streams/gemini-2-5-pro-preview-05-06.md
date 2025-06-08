@@ -13,7 +13,9 @@ const modelLabel = "Gemini 2.5 Pro";
 
 # {{ modelLabel }} – Stream Analysis
 
-This page contains all stream analyses processed by {{ modelLabel }}.
+This page presents a systematic analysis of [Kaze's development streams](https://www.youtube.com/@KazeClips/streams) processed by the **{{ modelLabel }}** model after they were transcribed with Whisper.
+
+Each stream provides insights into the development process, collaboration, and game design decisions made by Kaze.
 
 ::: tip Summary
 **Total Streams:** {{ streams.length }}

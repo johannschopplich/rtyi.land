@@ -50,7 +50,7 @@ These questions aim to build the narrative arc. I might slightly adapt them for 
 
 #### Genesis & Vision
 
-1.  **The Spark:** "Return to Yoshi's Island" has been a journey of nearly three years. Take us back to the very beginning. What was the initial spark, the core idea, or the "aha!" moment that made you decide "I need to make _this_ game, a Yoshi's Island themed adventure in the Mario 64 engine"?
+1.  **The Spark:** "Return to Yoshi's Island" has been a journey of more three years. Take us back to the very beginning. What was the initial spark, or the "aha!" moment that made you decide "I need to make _this_ game, a Yoshi's Island themed adventure in the Mario 64 engine"?
 2.  **Why Yoshi's Island?** What is it about the original Yoshi's Island that you wanted to capture or reinterpret in a 3D Mario 64 context?
 3.  **Decompilation Power:** The SM64 decompilation project was a game-changer. How did its availability directly enable or inspire the ambition and scope of RTYI in ways that wouldn't have been feasible before?
 4.  **Early Ambitions:** You've mentioned the final game is "unrecognizable from the demo." What were your initial ambitions for RTYI, and how did that vision evolve as development progressed and new technical possibilities opened up?

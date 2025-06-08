@@ -29,12 +29,12 @@ export default defineConfig({
         text: "Research",
         items: [
           {
-            text: "Video Game Documentaries",
-            link: "/research/video-game-documentaries",
-          },
-          {
             text: "Stream Analysis",
             link: "/streams",
+          },
+          {
+            text: "Video Game Documentaries",
+            link: "/research/video-game-documentaries",
           },
         ],
       },

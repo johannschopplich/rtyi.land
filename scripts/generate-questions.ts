@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 import * as fsp from "node:fs/promises";
-import { join } from "node:path";
+import * as path from "node:path";
 import process from "node:process";
 import * as clack from "@clack/prompts";
 import ansis from "ansis";
@@ -10,14 +10,14 @@ import { generateQuestions } from "../src/context/questions";
 
 clack.intro("Interview Questions Generator");
 
-const streamExtractsDir = join(
+const streamExtractsDir = path.join(
   STREAMS_DIR,
   DEFAULT_GOOGLE_PRO_MODEL.replaceAll(".", "-"),
 );
 
 const files = (await fsp.readdir(streamExtractsDir))
   .filter((file) => file.endsWith(".txt"))
-  .map((file) => join(streamExtractsDir, file));
+  .map((file) => path.join(streamExtractsDir, file));
 
 if (files.length === 0) {
   clack.cancel(`No files found in ${ansis.bold(streamExtractsDir)}.`);
