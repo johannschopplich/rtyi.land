@@ -7,8 +7,8 @@ hero:
   tagline: Personal documentation for the Return to Yoshi's Island documentary.
   actions:
     - theme: brand
-      text: Story Preparation
-      link: /drafts/story-preparation
+      text: Narrative Arcs
+      link: /drafts/narrative-arcs
     - theme: brand
       text: Interview Questions
       link: /drafts/questions
