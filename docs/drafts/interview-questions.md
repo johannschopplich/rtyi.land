@@ -116,7 +116,7 @@ These questions are tailored to each team member's specific role and contributio
 
 **On Technical Mastery**
 
-1.  You didn't just hack SM64; you fundamentally rewrote massive parts of it – the sound engine, the collision system, even the (optimized LibUltra). What drove you to take on these immense tasks, and what specific gameplay experience in RTYI would be impossible without them?
+1.  You didn't just hack SM64, you fundamentally rewrote massive parts of it: the sound engine, the collision system, even the OS (optimized LibUltra). What drove you to take on these immense tasks, and what specific gameplay experience in RTYI would be impossible without them?
 
     ::: info Follow-ups
 
