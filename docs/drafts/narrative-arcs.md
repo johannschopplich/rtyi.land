@@ -45,9 +45,9 @@ This outline will guide the filming process, allowing the final story to emerge 
 
 - **Narrative Goal:** Showcase Biobak's role in defining the game's look and feel, transforming Kaze's functional designs into living worlds.
 - **Key Content:**
-  - **The Reworks:** Focus on a major level rework like "Oily Boily Bay" or "Course 1." Show before-and-after footage and Kaze's genuine reaction from the stream ("Holy shit, everything is different").
-  - **The Process:** Explore the back-and-forth between Kaze's technical needs and Biobak's artistic vision, especially for unique themes like the "craft" aesthetic or the Star Select screen.
-  - **Beyond Models:** Highlight his role as an idea contributor, suggesting level flow concepts and giving real-time feedback.
+  - **The Reworks:** Focus on a major level rework like "Oily Boily Bay" or Course 1. Show before-and-after footage and Kaze's genuine reaction from the stream ("Holy shit, everything is different").
+  - **The Process:** Explore the back-and-forth between Kaze's technical needs and Biobak's artistic vision, especially for unique themes like the "craft" aesthetic or the Star Select screen. Detail how Kaze adapts Biobak's high-poly models for the N64's limitations.
+  - **Beyond Models:** Highlight his role as an idea contributor, suggesting level flow concepts, proposing the "Chubby Chai guys" (thimbles) as enemies, and giving real-time feedback that shapes levels.
 - **B-Roll:**
   - Timelapses of Biobak working in Blender.
   - Kaze reviewing Biobak's detailed changelogs.
@@ -58,7 +58,10 @@ This outline will guide the filming process, allowing the final story to emerge 
 - **Narrative Goal:** Demonstrate how music is a fundamental pillar of the game's atmosphere and a direct influence on design.
 - **Key Content:**
   - **Music as Inspiration:** Kaze: "I love working with a song already made for the level because it gives me so many ideas for the vibe." Show how the Cowboy Level music's arrival instantly solidified the atmosphere.
-  - **Technical Artistry:** The challenge of composing for the N64's limited sound font, the ambition of a dynamic overworld with nearly 20 seamlessly transitioning tracks, and Kaze's own rewrite of the sound engine to support this.
+  - **Technical Artistry:**
+    - The challenge of composing for the N64's limited sound font, but using it creatively to evoke a "new yet familiar" sound.
+    - The ambition of a dynamic overworld with nearly 20 seamlessly transitioning tracks.
+    - The technical constraint of ROM space for music, with the OST taking up a significant portion of the 64MB cartridge limit.
   - **Collaboration:** How does Kaze convey a mood to Badub? How does the music then influence Kaze's level design? How is the final music integrated to time with cutscenes or events?
 - **B-Roll:**
   - Footage of Badub's composition software.
@@ -69,8 +72,8 @@ This outline will guide the filming process, allowing the final story to emerge 
 - **Narrative Goal:** Highlight Zeina's multifaceted role in providing animation, art, and vital playtesting feedback.
 - **Key Content:**
   - **Animation:** Showcase her process for a key character, like the Wiggler, Dry Bones, or the "Piano Guy," conveying emotion and personality within N64 limits.
-  - **Beyond Animation:** Her contributions to models (Peach, Toad) and textures (bunny footprints, signs), and her role in providing concept art (mutant Yoshi, zoo entrance).
-  - **The First Playtester:** Emphasize her role as a vital feedback source whose experience directly leads to design changes.
+  - **Beyond Animation:** Her contributions to models (Peach, Toad), textures (bunny footprints, signs), and her role in providing concept art that sparked design directions (the "mutant Yoshi" boss, zoo entrance).
+  - **The First Playtester:** Emphasize her role as a vital feedback source whose experience directly leads to design changes. Use Kaze's quote: "it was very painful to watch her" playtest a difficult section, which led to him making it easier.
 - **B-Roll:**
   - Zeina's animation software side-by-side with the in-game character.
   - Kaze reviewing her animations and models.
@@ -83,7 +86,7 @@ This outline will guide the filming process, allowing the final story to emerge 
 
 - **Narrative Goal:** Show how the first level embodies the project's core philosophies: player-centric teaching, collaborative polish, and relentless iteration to create the perfect "first step."
 - **Key Content:**
-  - **The Tutorial Problem:** How to teach advanced RTYI movement without intrusive text?
+  - **The Tutorial Problem:** How to teach advanced RTYI movement without intrusive text, a challenge due to the N64's low resolution.
   - **The Solution: "Tutorial Bunnies."** A product of teamwork:
     - **Biobak:** Suggested the interactive rings to get a coin, teaching new mechanics through action (rather than instruction).
     - **Zeina:** Animated the bunnies, teaching through visual demonstration.
@@ -117,7 +120,7 @@ This is my favorite arc. It perfectly captures Kaze's creative process, the team
   - **The Challenge:** The Styrofoam texture. How to create realistic shine on a console that can't do modern lighting?
   - **The Solution:** Kaze's "fake" lighting system (CPU-based normal mapping). Explain this accessibly.
   - **Enemy Designs:** Brainstorming and rejecting enemy ideas (scissors) before settling on thematic ones like the "Thimble Shy Guys."
-  - **Community Contribution:** Leila and others providing doodles, textures, and technical suggestions.
+  - **Community Contribution:** Leila, Danik, and others providing doodles, textures, and technical suggestions.
 
 ### The Space Arcade: Killing Your Darlings
 
@@ -140,7 +143,7 @@ This is my favorite arc. It perfectly captures Kaze's creative process, the team
     - **New Sound Engine:** For dynamic, seamless music and better effects.
     - **New Collision System:** For stable, consistent movement and to fix "floor clacking."
     - **Graphics (F3DX3):** To render bigger, more detailed worlds via collaboration with Soren (microcode developer).
-  - **The Payoff:** Connect each technical change to a visible result (e.g., Badub's dynamic overworld music, complex platforming in the Ice Castle, Biobak's highly detailed level reworks).
+  - **The Payoff:** Connect each technical change to a visible result (e.g., 60 FPS, enhanced movement, better lighting) that enables Badub's dynamic overworld music, complex platforming in the Ice Castle, and Biobak's highly detailed level reworks.
 - **B-Roll:**
   - Side-by-side comparisons of a bug in vanilla SM64 vs. the smooth result in RTYI.
   - Kaze looking at performance profiler data from Soren's tools.
@@ -154,7 +157,7 @@ This is my favorite arc. It perfectly captures Kaze's creative process, the team
   - Kaze's belief that the overworld is the "final stretch" and "most important part."
   - **The Philosophy:** "If you can see it, you can go there." Visualize this with sketches and 3D mock-ups.
   - **The "Tease":** The design principle of showing players a distant landmark (like the lighthouse) that they can't reach until much later.
-  - **Player Impact:** Showcase dynamic events that permanently change the island, like the "Rain Flower" quest.
+  - **Player Impact:** Showcase dynamic events that permanently change the island, like the "Rain Flower" quest where saving Yoshis stops the rain.
   - **Narrative Gating:** The evolution of the Dory rescue mechanic from a simple coin payment to a story-driven event where the Yoshis you rescue help you.
 - **B-Roll:**
   - Fly-throughs of the overworld blockout.

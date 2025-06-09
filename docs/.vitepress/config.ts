@@ -7,7 +7,7 @@ export default defineConfig({
   themeConfig: {
     nav: [
       { text: "Home", link: "/" },
-      { text: "Narrative Arc", link: "/drafts/narrative-arc" },
+      { text: "Narrative Arcs", link: "/drafts/narrative-arcs" },
       { text: "Interview Questions", link: "/drafts/interview-questions" },
     ],
 
@@ -16,8 +16,8 @@ export default defineConfig({
         text: "Drafts",
         items: [
           {
-            text: "Narrative Arc",
-            link: "/drafts/narrative-arc",
+            text: "Narrative Arcs",
+            link: "/drafts/narrative-arcs",
           },
           {
             text: "Interview Questions",
