@@ -4,270 +4,272 @@ outline: deep
 
 # Narrative Arcs for RTYI Documentary
 
-This document outlines key narrative arcs and themes to explore during interviews with Kaze Emanuar, Biobak, Badub, and Zeina. Each arc is a potential mini-story for the final documentary. The goal is to capture the "why" and "how" of the project, focusing on creative processes, technical challenges of high-level ROM hacking, and the human stories of the creators. The documentary should be accessible and resonant for a non-technical audience.
+This document outlines key main storylines and themes to explore during interviews with Kaze Emanuar, Biobak, Badub, and Zeina. Each arc represents a potential mini-story within the larger documentary. The focus is on capturing both the creative and technical aspects of high-level ROM hacking, while keeping the human stories front and center. The goal is to make this accessible and resonant to viewers who may not have technical backgrounds.
 
 ::: tip Plan
-This outline will guide the filming process, allowing the final story to emerge organically from the interviews and editing process. It ensures all essential narrative beats are covered.
+This outline serves as a roadmap for filming, while allowing the actual story to emerge organically from the interview and editing process. It helps ensure all the essential narrative beats are covered.
 :::
 
 ## Project Origins & Philosophies
 
-**Central Theme:** The vision, passion, and mindset required to begin a project of this scale.
+**Main Focus:** Understanding the vision, passion and mindset required to begin a project of this scale.
 
-### The Spark
+### How It All Started
 
-- **Narrative Goal:** Establish the project's central paradox: a visually stunning, modern-feeling game on a 30-year-old console. Who would do this, and why?
-- **Key Content:**
-  - **Introduction:** Kaze's history with _Super Mario 64_ and _Yoshi's Island_. What specific elements (aesthetic, mechanics, "vibe") from _Yoshi's Island_ did he want to fuse with SM64's 3D platforming?
-  - **The "Why":** Explore his simple, powerful starting point: "I like Yoshi." What does this statement mean to him in terms of nostalgia, art, and feeling?
-  - **The Catalyst:** The role of the SM64 decompilation project as the key to creative freedom compared to traditional ROM hacking.
-  - **The Conflict:** Frame this as a fan game, a passion project in a legal grey area that will never be sold.
+- **Narrative Goal:** The central contrast of creating a visually stunning, modern-feeling game on a 30-year-old console. Who would take on this challenge, and why?
+- **Topics to Cover:**
+  - **Background:** Kaze's history with both _Super Mario 64_ and _Yoshi's Island_. Which specific elements (aesthetic, mechanics, "vibe") from _Yoshi's Island_ did he want to fuse with SM64's 3D platforming?
+  - **Core Motivation:** Explore his straightforward starting point: "I like Yoshi." What does this mean to him personally (nostalgia, art, and feeling)?
+  - **Technical Foundation:** How the SM64 decompilation project opened up possibilities that weren't available in traditional ROM hacking.
+  - **The Reality:** Acknowledging this as a fan project in a legally uncertain space that will never be sold commercially.
 - **B-Roll:**
   - RTYI gameplay juxtaposed with classic SM64 and SNES Yoshi's Island footage.
-  - Archival footage of the N64 console.
+  - Archival footage of the N64 console and era.
 
 ### Kaze's Philosophy
 
-- **Narrative Goal:** Define Kaze's principles of game design and his creative mindset.
-- **Key Content:**
-  - **Core Principles:** Explore his key philosophies: "excitement over difficulty," creating a "feeling" and "placeness," intrinsic motivation, and his critique of "safe" AAA games or those that feel like a "chore."
-  - **Evolution as a Designer:** Contrast RTYI with "Last Impact." Use his quote: "Back when I was making last impact I just like whenever I had an idea i would just put it in almost like unfiltered." How has his approach matured?
-  - **The Mindset:** His belief that one must be "mentally unwell" to succeed in game development. Explore what this means to him – obsession, perseverance, or a unique way of thinking.
+- **Narrative Goal:** Understanding Kaze's principles of game design and creative mindset.
+- **Topics to Cover:**
+  - **Core Principles:** His key philosophies: "excitement over difficulty," creating a "feeling" and "placeness," intrinsic motivation, and his critique of "safe" AAA games or those that feel like a "chore."
+  - **Growth as a Designer:** Comparing RTYI with his earlier work "Last Impact." Using his reflection: "Back when I was making Last Impact, like whenever I had an idea, I would just put it in almost unfiltered." How has his approach matured?
+  - **The Creative Mindset:** His belief that one must be "mentally unwell" to succeed in game development. What does he actually mean by this – is it about obsession, persistence, or thinking differently?
 - **B-Roll:**
-  - Kaze at his workstation.
-  - Gameplay from various courses that exemplifies his design principles (e.g., player freedom, lack of hand-holding).
+  - Kaze working at his computer.
+  - Examples from different courses showing his design philosophy in action (player freedom, no hand-holding).
 
 ## The Core Team
 
-**Central Theme:** The motivations, creative processes, and collaborative dynamics of the key artists.
+**Main Focus:** Understanding each team member's contributions, creative process, and collaborative dynamics.
 
 ### Biobak
 
-- **Narrative Goal:** Showcase Biobak's role in defining the game's look and feel, transforming Kaze's functional designs into living worlds.
-- **Key Content:**
-  - **The Reworks:** Focus on a major level rework like "Oily Boily Bay" or Course 1. Show before-and-after footage and Kaze's genuine reaction from the stream ("Holy shit, everything is different").
-  - **The Process:** Explore the back-and-forth between Kaze's technical needs and Biobak's artistic vision, especially for unique themes like the "craft" aesthetic or the Star Select screen. Detail how Kaze adapts Biobak's high-poly models for the N64's limitations.
-  - **Beyond Models:** Highlight his role as an idea contributor, suggesting level flow concepts, proposing the "Chubby Chai guys" (thimbles) as enemies, and giving real-time feedback that shapes levels.
+- **Narrative Goal:** Showing how Biobak transforms Kaze's functional level designs into visually rich environments.
+- **Topics to Cover:**
+  - **The Reworks:** Focus on a major level reworks like "Oily Boily Bay" or Course 1. Include before-and-after comparisons and Kaze's genuine reactions from streams ("Holy shit, everything is different").
+  - **The Process:** The back-and-forth between Kaze's technical requirements and Biobak's artistic vision, particularly for unique themes like the craft aesthetic or the Star Select screen. How Kaze adapts Biobak's high-poly models to work within N64 limitations.
+  - **Beyond Visuals:** His contributions to gameplay ideas, suggesting level flow improvements, creating enemy concepts like the "Chubby Chai guys" (thimbles), and providing real-time feedback that influences level design.
 - **B-Roll:**
-  - Timelapses of Biobak working in Blender.
+  - Time-lapse footage of Biobak modeling in Blender.
   - Kaze reviewing Biobak's detailed changelogs.
-  - Split-screen of Biobak's concept art and the final in-game result.
+  - Comparisons between Biobak's concept art and final in-game results.
 
 ### Badub
 
-- **Narrative Goal:** Demonstrate how music is a fundamental pillar of the game's atmosphere and a direct influence on design.
-- **Key Content:**
-  - **Music as Inspiration:** Kaze: "I love working with a song already made for the level because it gives me so many ideas for the vibe." Show how the Cowboy Level music's arrival instantly solidified the atmosphere.
-  - **Technical Artistry:**
-    - The challenge of composing for the N64's limited sound font, but using it creatively to evoke a "new yet familiar" sound.
-    - The ambition of a dynamic overworld with nearly 20 seamlessly transitioning tracks.
-    - The technical constraint of ROM space for music, with the OST taking up a significant portion of the 64MB cartridge limit.
-  - **Collaboration:** How does Kaze convey a mood to Badub? How does the music then influence Kaze's level design? How is the final music integrated to time with cutscenes or events?
+- **Narrative Goal:** Showing how music shapes the game's atmosphere and directly influences design decisions.
+- **Topics to Cover:**
+  - **Music-Driven Design:** Kaze's approach: "I love working with a song already made for the level because it gives me so many ideas for the vibe." Show how the Cowboy Level music's arrival mid-stream instantly solidified the atmosphere.
+  - **Technical Challenges:**
+    - Composing within the N64's limited sound font while creating something that sounds both new yet familiar. Kaze: "It sounds like a completely new soundtrack with like a similar vibe to me. That's what I want anyway."
+    - The ambitious dynamic overworld featuring nearly 20 tracks that transition seamlessly.
+    - Managing ROM space constraints, with the OST taking up a significant portion of the 64MB cartridge limit.
+  - **Collaborative Process:** How Kaze communicates a mood to Badub, how the music then influences Kaze's level design, and how the final music is integrated with cutscenes and events.
 - **B-Roll:**
-  - Footage of Badub's composition software.
-  - Gameplay footage scored by different musical concepts to show how the "vibe" changes.
+  - Badub's composition software in action.
+  - Gameplay footage scored by different musical concepts to demonstrate how the "vibe" changes.
 
 ### Zeina
 
-- **Narrative Goal:** Highlight Zeina's multifaceted role in providing animation, art, and vital playtesting feedback.
-- **Key Content:**
-  - **Animation:** Showcase her process for a key character, like the Wiggler, Dry Bones, or the "Piano Guy," conveying emotion and personality within N64 limits.
-  - **Beyond Animation:** Her contributions to models (Peach, Toad), textures (bunny footprints, signs), and her role in providing concept art that sparked design directions (the "mutant Yoshi" boss, zoo entrance).
-  - **The First Playtester:** Emphasize her role as a vital feedback source whose experience directly leads to design changes. Use Kaze's quote: "it was very painful to watch her" playtest a difficult section, which led to him making it easier.
+- **Narrative Goal:** Exploring Zeina's diverse contributions through animation, art, and crucial playtesting feedback.
+- **Topics to Cover:**
+  - **Character Animation:** Her process for bringing characters to life within N64 constraints – examples like the Wiggler, Dry Bones, or the "Piano Guy."
+  - **Artistic Contributions:** Her work on models (Peach, Toad), textures (bunny footprints, signs), and concept art that inspired new design directions (the "mutant Yoshi" boss, zoo entrance).
+  - **Playtesting Role:** Her importance as the first player to experience content. Using Kaze's observation: "It was very painful to watch her" struggle with a difficult section, leading to design adjustments.
 - **B-Roll:**
-  - Zeina's animation software side-by-side with the in-game character.
+  - Split-screen of Zeina's animation software and the final in-game character.
   - Kaze reviewing her animations and models.
 
 ## Creational Case Studies
 
-**Central Theme:** The messy, challenging, and rewarding process of building a level, told through self-contained stories.
+**Main Focus:** Following the complete journey of specific levels from concept to completion, showing the messy, iterative and rewarding nature of game development.
 
 ### Course 1: The First Impression
 
-- **Narrative Goal:** Show how the first level embodies the project's core philosophies: player-centric teaching, collaborative polish, and relentless iteration to create the perfect "first step."
-- **Key Content:**
-  - **The Tutorial Problem:** How to teach advanced RTYI movement without intrusive text, a challenge due to the N64's low resolution.
-  - **The Solution: "Tutorial Bunnies."** A product of teamwork:
-    - **Biobak:** Suggested the interactive rings to get a coin, teaching new mechanics through action (rather than instruction).
-    - **Zeina:** Animated the bunnies, teaching through visual demonstration.
-  - **The Rework:** Biobak's complete visual overhaul years later, showing the team's evolving quality standards and commitment to polish.
+- **Narrative Goal:** Demonstrating how the opening level embodies the project's core values: teaching through gameplay, collaborative polish, and continuous iteration to create the perfect "first step."
+- **Topics to Cover:**
+  - **Design Challenge:** Teaching the advanced RTYI movement without intrusive text tutorials, due to the N64's low resolution.
+  - **The Team Solution: Tutorial Bunnies.**
+    - **Biobak:** Proposed interactive ring challenges that teach new mechanics through action rather than instruction.
+    - **Zeina:** Created bunny animations that demonstrate moves visually.
+  - **Continuous Improvement:** Biobak's complete visual overhaul years later, showing the team's evolving standards and commitment to quality.
 - **B-Roll:**
-  - Gameplay of the final Tutorial Bunny system.
+  - Final Tutorial Bunny system in action.
   - Zeina's animation files and Biobak's reworked models.
-  - Split-screen: the original demo version vs. Biobak's reworked version.
+  - Comparison between the original demo and Biobak's refined version.
 
 ### The Cowboy Level: Finding the "Vibe"
 
 ::: tip Highlight
-This is my favorite arc. It perfectly captures Kaze's creative process, the team's collaborative synergy, and the power of music to inspire design.
+This is my favorite arc. It perfectly captures Kaze's creative process, the team's collaborative synergy, the power of music to inspire design.
 :::
 
-- **Narrative Goal:** Document the journey of establishing a level's identity from scratch, highlighting the team's collaborative synergy.
-- **Key Content:**
-  - **The Vision:** Kaze's "Cowboyaboo" philosophy, an over-the-top, "goofy, funny" town.
-  - **The "Shit Phase":** Kaze's struggle with the initial art style (trying different building colors and textures). "This building style is just not exciting me."
-  - **The Breakthrough:** The pivotal moment when Badub's music arrives mid-stream ("Oh, this is so good... that's so perfect"), which directly inspires the addition of the skybox and fog, finally solidifying the "vibe."
-  - **Collaboration:** Biobak's real-time suggestions helping Kaze iterate, while Zeina's animations (Dry Bones, Piano Guy) populate the world.
+- **Narrative Goal:** Documenting the journey of a level finding its identity from scratch, highlighting the team's collaborative dynamic.
+- **Topics to Cover:**
+  - **Initial Concept:** Kaze's "Cowboyaboo" vision – an over-the-top, "goofy, funny" town.
+  - **The "Shit Phase":** Kaze's frustration with early art style attempts (experimenting with building colors and textures). "This building style is just not exciting me."
+  - **The Turning Point:** The moment Badub's music arrives during a stream ("Oh, this is so good... that's so perfect"), immediately inspiring the addition of atmospheric elements like skybox and fog, finally solidifying the "vibe."
+  - **Team Dynamic:** Biobak offering real-time suggestions while Zeina's character animations (Dry Bones, Piano Guy) bring the world to life.
 - **B-Roll:**
-  - Kaze's MS Paint maps and early "ugly" blockout models.
-  - Kaze's face as he listens to Badub's new track for the first time.
+  - Kaze's rough MS Paint planning sketches and early placeholder models.
+  - Capturing Kaze's reaction to hearing Badub's track for the first time.
 
 ### The Craft Level: From "Stupid Idea" to Technical Achievement
 
-- **Narrative Goal:** Show how a simple aesthetic led to deep technical innovation and creative problem-solving.
-- **Key Content:**
-  - The "crayon drawing" mechanic as a unique gameplay hook.
-  - **The Challenge:** The Styrofoam texture. How to create realistic shine on a console that can't do modern lighting?
-  - **The Solution:** Kaze's "fake" lighting system (CPU-based normal mapping). Explain this accessibly.
-  - **Enemy Designs:** Brainstorming and rejecting enemy ideas (scissors) before settling on thematic ones like the "Thimble Shy Guys."
-  - **Community Contribution:** Leila, Danik, and others providing doodles, textures, and technical suggestions.
+- **Narrative Goal:** Showing how a simple aesthetic concept led to significant technical innovation and creative problem-solving.
+- **Topics to Cover:**
+  - The unique "crayon drawing" gameplay mechanic.
+  - **Technical Problem:** Creating realistic Styrofoam shine on hardware that predates modern lighting techniques.
+  - **Innovative Solution:** Kaze's "fake" lighting system (CPU-based normal mapping).
+  - **Enemy Designs:** Brainstorming and discarding enemy ideas (like scissors) before settling on thematically appropriate ones like "Thimble Shy Guys."
+  - **Community Input:** Contributions from Leila, Danik, and others providing doodles, textures, and technical advice.
 
 ### The Space Arcade: Killing Your Darlings
 
-- **Narrative Goal:** Explore the painful but necessary process of scrapping a bad idea for a better one.
-- **Key Content:**
-  - **The Initial Idea:** Brainstorming the "Space Arcade" with pinball concepts.
-  - **The Realization:** Kaze's critique: "The idea we had for this level is terrible." He dislikes the "ugly arcade carpet" and feels it lacks the "Mario 64 spirit."
-  - **The Pivot:** The live brainstorming session that leads to the "Shy Guy Space Station," a more original and fitting retro-futuristic concept. This highlights the commitment to quality over sunk costs.
+- **Narrative Goal:** Illustrating the painful but necessary process of scrapping a bad idea for a better one.
+- **Topics to Cover:**
+  - **Original Concept:** The initial "Space Arcade" with pinball elements.
+  - **The Problem:** Kaze's realization: "The idea we had for this level is terrible." His issues with the "ugly arcade carpet" aesthetic and lack of "Mario 64 spirit."
+  - **The Solution:** Live brainstorming leading to the "Shy Guy Space Station" concept – more original and fitting with the retro-futuristic theme. This highlights the commitment to quality over sunk costs.
 - **B-Roll:**
-  - Gameplay of the old, ugly arcade level vs. concept art for the new Shy Guy station.
+  - Gameplay of the discarded arcade level vs. concept art for the new space station.
 
 ## The Custom Engine
 
-**Central Theme:** The necessity of invention. This arc frames Kaze as an engine architect, not just a modder, to make his vision a reality.
+**Main Focus:** Explaining why standard modding wasn't enough and how Kaze became an engine developer to realize his vision.
 
-- **Narrative Goal:** Explain why Kaze had to rewrite core parts of the 30-year-old game engine and how those changes enabled the final product.
-- **Key Content:**
-  - **The Problem:** Limitations of the original code. The sound engine is "fucked," the vanilla collision is "unusable," and he can't trust the emulators.
-  - **The Solution:** Frame each overhaul as a response to a creative need:
-    - **New Sound Engine:** For dynamic, seamless music and better effects.
-    - **New Collision System:** For stable, consistent movement and to fix "floor clacking."
-    - **Graphics (F3DEX3):** To render bigger, more detailed worlds via collaboration with Sauraen (microcode developer).
-  - **The Payoff:** Connect each technical change to a visible result (e.g., 60 FPS, enhanced movement, better lighting) that enables Badub's dynamic overworld music, complex platforming in the Ice Castle, and Biobak's highly detailed level reworks.
+- **Narrative Goal:** Explaining the need to rewrite core parts of the game enginge and how this enables creative possibilities.
+- **Topics to Cover:**
+  - **The Limitations:** Original code problems – the sound engine is "fucked," vanilla collision is "unusable," emulator inconsistencies.
+  - **Purpose-Driven Solutions:**
+    - **New Sound Engine:** Enabling dynamic, seamless music and improved effects.
+    - **Collision System Overhaul:** Ensuring stable, consistent movement and fixing "floor clacking" bugs.
+    - **Graphics Enhancement (F3DEX3):** Rendering larger, more detailed worlds through collaboration with microcode developer Sauraen.
+  - **Creative Impact:** Connecting each technical improvement to player experience – 60 FPS, enhanced movement, better lighting, Badub's dynamic overworld music, complex Ice Castle platforming, Biobak's detailed level environments.
 - **B-Roll:**
-  - Side-by-side comparisons of a bug in vanilla SM64 vs. the smooth result in RTYI.
-  - Kaze looking at performance profiler data from Sauraen's tools.
+  - Side-by-side comparisons of vanilla SM64 bugs vs. RTYI's smooth performance.
+  - Performance profiler data from Sauraen's development tools.
 
 ## The Overworld as a Character
 
-**Central Theme:** Building a seamless, dynamic, secret-filled world, not just a level select. Focuses on the game's most ambitious feature.
+**Main Focus:** Building a seamless, dynamic, secret-filled world rather than just a level selection. The game's most ambitious feature.
 
-- **Narrative Goal:** Explore the design philosophy behind making the hub world the game's true "main character."
-- **Key Content:**
+- **Narrative Goal:** Understanding the design philosophy behind making the hub world the game's true "main character."
+- **Topics to Cover:**
   - Kaze's belief that the overworld is the "final stretch" and "most important part."
-  - **The Philosophy:** "If you can see it, you can go there." Visualize this with sketches and 3D mock-ups.
-  - **The "Tease":** The design principle of showing players a distant landmark (like the lighthouse) that they can't reach until much later.
-  - **Player Impact:** Showcase dynamic events that permanently change the island, like the "Rain Flower" quest where saving Yoshis stops the rain.
-  - **Narrative Gating:** The evolution of the Dory rescue mechanic from a simple coin payment to a story-driven event where the Yoshis you rescue help you.
+  - **Design Philosophy:** "If you can see it, you can go there." Visualizing this with sketches and mockups.
+  - **The Long Game:** Showing players distant landmarks (like the lighthouse) they won't reach until much later.
+  - **Living World:** Dynamic events that permanently alter the island, such as the "Rain Flower" quest where rescued Yoshis stop the rain.
+  - **Story Integration:** Evolution from simple coin payments to narrative events where rescued Yoshis actively help you progress.
 - **B-Roll:**
-  - Fly-throughs of the overworld blockout.
+  - Aerial tours of the overworld layout.
   - Kaze's MS Paint maps.
-  - A before-and-after split-screen of an overworld event.
+  - Before-and-after comparisons of world-changing events.
 
 ## The "Shit Phase" & Iteration
 
-**Central Theme:** Creativity is a messy process of failure and refinement, not a single flash of genius. Embraces the "ugly blockout" aesthetic and the pain of "killing your darlings."
+**Main Focus:** Showing that creative work is an iterative process of failure and refinement, not instant perfection. Embracing the early "ugly blockout" stages and the pain of "killing your darlings."
 
-- **Narrative Goal:** Demystify the creative process by showing that even experts produce "crap" on the way to creating art.
-- **Key Content:**
-  - **The Mantra:** Kaze's philosophy that levels always "look like shit at the beginning."
-  - **Micro-Story 1: The Paper Plane.** Show the early, "volatile, chaotic" physics attempts vs. the final, smooth flight.
-  - **Micro-Story 2: The Minecart Chase.** The initial "really, really difficult" concept of swapping carts vs. the more manageable single-platform redesign.
-  - **Micro-Story 3: The Boss Redesigns.** The "tumors" on the Yoshi boss becoming "mushrooms." Raphael the Raven's evolution from a simple walking enemy to one that erupts from the ground.
+- **Narrative Goal:** Making the creative process relatable by showing that even experts start with rough drafts.
+- **Topics to Cover:**
+  - **Core Philosophy:** Kaze's acceptance that levels always "look like shit at the beginning."
+  - **Example 1: Paper Plane Physics.** From "volatile, chaotic" early attempts to smooth, controlled flight.
+  - **Example 2: Minecart Redesign.** The initial "really, really difficult" cart-swapping concept simplified to a single-platform approach.
+  - **Example 3: Boss Evolution.** The Yoshi boss's "tumors" becoming "mushrooms," Raphael the Raven changing from a simple walker to dramatically erupting from the ground.
 - **B-Roll:**
-  - A montage of Kaze's ugliest placeholder models and blockouts.
-  - Kaze on stream, sighing and saying "this sucks," followed by the moment of breakthrough and the polished result.
+  - Montage of Kaze's roughest placeholder models and layouts.
+  - Stream moments of frustration ("this sucks") followed by breakthrough moments and polished results.
 
 ## Rethinking Rewards
 
-**Central Theme:** Questioning the fundamentals of game collectibles (coins and stars).
+**Main Focus:** Questioning standard game design conventions around collectibles (coins and stars) and progression.
 
-- **Narrative Goal:** Explain Kaze's vision for making rewards more meaningful and integrated into the world (rather than just being a checklist).
-- **Key Content:**
-  - Kaze's critique of repetitive 100-Coin Stars and the decision to remove them.
+- **Narrative Goal:** Understanding Kaze's approach to making rewards meaningful and integrated into the game world (rather than just being a checklist).
+- **Topics to Cover:**
+  - Kaze's critique of traditional 100-Coin Stars and the decision to remove them.
   - **Yoshi Coins:** Rewards for "special interactions" and exploration, not just collection.
-  - **The Global Economy:** Coins are a currency to _change the world_ (build bridges, help NPCs), making them "feel more valuable than Mario Odyssey."
-  - **Respecting Player Time:** The removal of "boot out" stars encourages immersion and continuous play. "The game doesn't waste your time. That is important to me."
+  - **Economy System:** Coins as actual currency to transform the world (building bridges, helping NPCs), making them "feel more valuable than Mario Odyssey."
+  - **Flow Preservation:** Removing "boot out" stars to maintain immersion and respect player time. "The game doesn't waste your time. That is important to me."
 - **B-Roll:**
-  - The game's UI showing the global coin counter.
-  - A simple animation showing coins being given to an NPC, followed by a bridge or path appearing.
+  - UI showing the global coin counter system.
+  - Simple visualization of coins being used to unlock world changes.
 
 ## Kaze & Zeina: A Shared Creation
 
-**Central Theme:** The unique collaboration of a creative and personal partnership.
+**Main Focus:** The personal dimension of creative partnership and how their relationship shapes RTYI.
 
-- **Narrative Goal:** Provide an intimate, humanizing look at the project's core, showing how it is shaped by Kaze and Zeina's shared life.
-- **Key Content:**
-  - **Creative Partnership:**
-    - Zeina's direct artistic contributions: the "mutant Yoshi" concept, zoo entrance drawings, textures, models.
-    - The animation pipeline: Kaze programs the logic, then waits for Zeina's animations to bring characters to life. Use Kaze's quote: "all we're waiting now is for a few animations that zena's making."
+- **Narrative Goal:** A more intimate look at how personal and creative lives intersect in game development.
+- **Topics to Cover:**
+  - **Creative Collaboration:**
+    - Zeina's direct contributions: the "mutant Yoshi" concept, zoo entrance drawings, various textures and models.
+    - Their workflow: Kaze programs the logic, then integrates Zeina's animations. His dependency: "All we're waiting now is for a few animations that Zeina's making."
     - Real-time iteration shown through stream clips of Kaze reviewing her work.
-  - **The First Playtester:**
-    - Zeina's role as the first true audience.
-    - **Key Story:** Kaze making a level easier because "it was very painful to watch her" playtest it—a direct link between their shared experience and the game's design.
+  - **Critical Playtesting:**
+    - Zeina as the project's first true audience.
+    - **Specific Example:** Kaze making a level easier after watching her struggle – "It was very painful to watch her" – showing direct impact on design.
   - **Life & Parenthood:**
-    - Ground the project in reality with anecdotes: making terrariums, haircuts, moving house.
-    - **The Ultimate Collaboration: Parenthood.** Introduce the fact they are expecting a child in the project's final stretch. This adds personal stakes and reframes the "human cost" of such a massive undertaking.
+    - Personal moments that ground the project: making terrariums, haircuts, moving homes.
+    - **New Chapter:** Their expectation of a child during the project's final phase, adding personal stakes to the development timeline. This adds personal stakes and reframes the "human cost" of RTYI's scope.
 - **B-Roll:**
-  - Footage of Kaze reviewing Zeina's animation files.
-  - Side-by-side shots of Zeina's concept art and the final in-game models.
-  - Candid personal photos or clips, if they consent, to emphasize the "Home Base" theme.
+  - Kaze reviewing Zeina's work during streams.
+  - Zeina's concept art alongside final implementations.
+  - Personal moments (with their permission) to establish the "working from home" reality.
 
-## The Developer's Struggle
+## Development Challenges
 
-**Central Theme:** The personal, creative, and technical challenges that define a project of this scale.
+**Main Focus:** The personal, creative, and technical challenges that involved in a project of this scale.
 
-### The Tyranny of the N64
+### Working Within N64 Limitations
 
-- **Narrative Goal:** Personify the N64 as both a beloved canvas and a relentless adversary.
-- **Key Content:**
-  - **The RAM Limit:** The constant battle with memory. Use Kaze's trick to avoid modeling Cowboy store items: "this is a trick we do so we don't actually have to 3D model the stuff here because we are getting pretty close to running out of RAM."
-  - **Emulator Hell:** The frustration of bugs that only appear on certain emulators or on real hardware, and the challenge of N64 hardware stability.
-  - **Creative Blocks & Breakthroughs:** Show the struggle to find the right aesthetic for a level (Ice Castle, Cowboy Level) and the joy of finding a solution.
-  - **Technical Hurdles:** The story of a specific, frustrating bug (compiler errors, F3DX3 performance, the audio engine) and the collaborative effort to solve it.
+- **Narrative Goal:** Portraying the N64 as both a creative canvas and a constant technical challenge.
+- **Topics to Cover:**
+  - **Memory Management:** The ongoing battle with RAM limits. For example, Kaze's trick to avoid modeling store items: "This is a trick we do so we don't actually have to 3D model the stuff here because we are getting pretty close to running out of RAM."
+  - **Platform Inconsistencies:** Frustration of bugs that only appear on certain emulators or real hardware, making testing difficult.
+  - **Creative Roadblocks:** The struggle to find the right look for a level (Ice Castle, Cowboy Level) and the satisfaction of breakthrough moments.
+  - **Technical Mysteries:** Specific bug stories (compiler errors, F3DEX3 performance, audio problems) and collaborative problem-solving.
 - **B-Roll:**
-  - Game crashing on N64 hardware.
-  - Kaze looking stressed while debugging.
-  - The performance profiler on screen showing red bars.
+  - Game crashes on actual N64 hardware.
+  - Kaze troubleshooting technical issues.
+  - Performance profiler showing system limits.
   - Discord chats with collaborators like Sauraen.
 
-### The Human Cost
+### Personal Investment
 
-- **Narrative Goal:** Ground the immense project in human reality.
-- **Key Content:**
-  - **The Financial Reality:** Kaze's sincerity about the project's opportunity cost ("tens of thousands") and his reliance on sponsorships, Patreon, and donations.
-  - **The Personal Cost:** Balancing the project with a full-time job and becoming a father. Quotes about burnout ("pure torture") and dedication.
-  - **Resolving Creative Differences:** How does the team navigate disagreements to arrive at a better final product?
-  - **The Motivation:** Reiterate why he does it – the passion and drive to create something unique.
+- **Narrative Goal:** The real-world impact of dedicating years to a passion project.
+- **Topics to Cover:**
+  - **Financial Reality:** Kaze's transparency about opportunity costs ("tens of thousands") and reliance on community support through sponsorships, Patreon, and donations.
+  - **Personal Balance:** Managing the project alongside full-time work and fatherhood. Acknowledging moments of burnout ("pure torture") while maintaining dedication.
+  - **Team Dynamics:** How creative disagreements are resolved constructively for a better final product.
+  - **Core Motivation:** Why continue despite challenges – the passion and drive to create something unique and meaningful.
 
-## Legacy & The Future
+## Community and Future
 
-**Central Theme:** The project's relationship with the community and the looming shadow of Nintendo.
+**Main Focus:** The project's relationship with its community and the uncertain legal landscape.
 
-### The Open Development Model
+### Open Development
 
-- **Narrative Goal:** Explain the dynamic of building a game live on stream with community input.
-- **Key Content:**
-  - **The Demo Strategy:** The purpose of the Course 1 demo is to gather data on physics and camera.
-  - **Feedback Philosophy:** Kaze's "feelings are real, reasoning is stupid" approach. How does the stream help or hinder his focus?
-  - **Open Source:** His plan to release the engine and source code, and his hopes for how the community will use it to maintain the codebase or create new hacks.
+- **Narrative Goal:** Understanding the dynamic (benefits and challenges) of developing publicly with community involvement.
+- **Topics to Cover:**
+  - **Demo Strategy:** Using the Course 1 demo to gather real player data on physics and camera systems.
+  - **Feedback Integration:** Kaze's principle: "feelings are real, reasoning is stupid." How stream feedback helps or hinders progress.
+  - **Open Source Plans:** Releasing the engine and source code, hoping the community will maintain and build upon the codebase.
 - **B-Roll:**
-  - Clips of chat suggesting ideas that were implemented (e.g., the "growing flower" vine, "mirror Mario" wall-kick).
+  - Chat suggestions that made it into the game (growing flower vine, mirror Mario wall-kick mechanic).
 
-### The Shadow of Nintendo
+### The Looming Shadow of Nintendo
 
-- **Narrative Goal:** Address the project's single greatest external threat.
-- **Key Content:**
-  - Kaze's history with takedowns ("70 of my videos") and his "calculated risk" mindset.
-  - The strategic release plan (avoiding major Nintendo releases, copyright-free trailers).
-  - **The Contingency Plan:** The plan to asset-swap and create an original IP ("legally distinct" version) if a C&D is issued. Explore his aspiration for commercial game development.
+- **Narrative Goal:** Addressing the legal uncertainties surrounding fan projects.
+- **Topics to Cover:**
+  - The project's single greatest external threat: Nintendo.
+  - Kaze's awareness and concern of potential Nintendo legal action ("Nintendo might just murder me").
+  - Kaze's history with takedowns ("70 of my videos") and his "calculated risk" approach.
+  - Strategic release planning (avoiding major Nintendo releases, copyright-free trailers).
+  - **Backup Plan:** The asset-swap strategy to create a "legally distinct" version if needed, and aspirations for future commercial game development.
 
-### Nearing Completion & Polish
+### The Final Stretch
 
-- **Narrative Goal:** Reflect on the journey and the project's legacy.
-- **Key Content:**
+- **Narrative Goal:** Reflecting on the journey and the project's impact/legacy.
+- **Topics to Cover:**
   - Stories from beta testing and how feedback shaped the final game.
-  - What does "finished" mean for a project of this scale?
+  - Defining what "finished" means for project of this scope.
   - Lessons learned from this massive undertaking.
   - Reflections from each team member on their journey with RTYI and what they've accomplished.
-  - A final thought on the enduring appeal of retro gaming and the spirit of fan creation.
+  - Final thoughts on why retro gaming and the spirit of fan creation continue to matter/resonate.
