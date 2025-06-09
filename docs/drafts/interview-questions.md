@@ -18,20 +18,20 @@ These central questions are for Kaze, Biobak, Badub, and Zeina individually. Thi
     - What was Kaze's pitch like?
     - Personal nostalgia for Super Mario 64 or Yoshi's Island
     - Role of the SM64 decompilation project
-    - Kaze: "I like Yoshi" - what does that mean to him?
+    - Kaze: "I like Yoshi" - What does that mean to you on a deeper level?
 
     :::
 
-2.  **The Drive:** This is years of work, all released for free. Kaze has described it as requiring an obsessive level of dedication. What keeps you going? What's the personal drive that makes you pour so much time and talent into this?
+2.  **The Drive:** This is years of work, all released for free. Kaze has described it as requiring an obsessive level of dedication, costing him "tens of thousands" personally. What keeps you going? What's the personal drive that makes you pour so much time and talent into this?
 
     ::: info Follow-ups
 
     - The joy of creation vs. the "pure torture" moments
-    - What gets you through burnout?
+    - How do you push through burnout or creative blocks?
     - The desire to push the N64 to its limits
     - Proving what's possible on 30-year-old hardware
-    - The opportunity cost ("tens of thousands")
-    - Kaze: "If you want to be successful making video games you need to be mentally unwell"
+    - The passion for creation vs. financial realities
+    - Kaze: "If you want to be successful making video games you need to be mentally unwell" - what's the story behind that feeling?
 
     :::
 
@@ -43,19 +43,19 @@ These central questions are for Kaze, Biobak, Badub, and Zeina individually. Thi
     - How the Yoshi theme influences everything
     - Blending nostalgia with innovation
     - "Excitement over difficulty" philosophy
-    - Creating intrinsic motivation vs. extrinsic rewards
-    - Kaze critiquing AAA games that feel like a "chore"
+    - Creating intrinsic motivation vs. extrinsic rewards like coin collecting
+    - Kaze's critique of AAA games that can feel like a "chore"
 
     :::
 
-4.  **The Creative Process:** Could you walk me through the typical creative process? How does an idea become a finished piece, whether that's a level, a song, a model, or an animation? What's the collaboration like?
+4.  **The Creative Process:** Could you walk me through the typical creative process? How does an idea become a finished piece, whether that's a level, a song, a model, or an animation? What is the collaboration like day-to-day?
 
     ::: info Follow-ups
 
-    - MS Paint maps and ugly blockout models
-    - Discord discussions vs. live stream feedback
+    - MS Paint maps and first rough drafts
+    - Discord DMs and discussions vs. live stream feedback
     - The back-and-forth between technical needs and artistic vision
-    - "Shit phase" philosophy - everything looks terrible at first
+    - The "shit phase" philosophy - the feeling that everything looks terrible at first
     - Real-time iteration during streams
     - How feedback flows between team members
 
@@ -65,27 +65,26 @@ These central questions are for Kaze, Biobak, Badub, and Zeina individually. Thi
 
     ::: info Follow-ups
 
-    - Specific bugs that only show on real hardware
-    - Creative dead ends like the Space Arcade concept
+    - Specific bugs that only show on real N64 hardware
+    - Creative dead ends like the initial Space Arcade or Volcano concepts
     - The Styrofoam texture lighting challenge
-    - Paper plane physics going "volatile and chaotic"
-    - Compiler errors and F3DEX3 performance issues
-    - "This building style is just not exciting me"
+    - The Wiggler's difficult animation rigging
+    - The paper plane physics going "volatile and chaotic"
+    - Kaze: "This building style is just not exciting me"
     - Times when ideas had to be completely scrapped
 
     :::
 
-6.  **The N64 Spirit:** You're developing for hardware from 1996. How do those famous N64 limitations actually force you to be more creative? Can you share an example where a limitation led to something unique that wouldn't exist otherwise?
+6.  **The N64 Spirit:** You're developing for hardware from 1996. How do those famous N64 limitations (low-poly models, texture memory, RAM limits) actually force you to be more creative? Can you share an example where a limitation led to something unique?
 
     ::: info Follow-ups
 
-    - Low-poly models and texture memory constraints
-    - CPU-based normal mapping for fake lighting
-    - Sound font limitations creating a distinct style
-    - RAM limits forcing creative solutions ("we don't actually have to 3D model the stuff")
-    - Collision system being "unusable" in vanilla
-    - The "fucked" audio engine requiring complete rewrite
-    - Performance profiler showing red bars
+    - Working within a 64MB ROM and 4KB texture memory budget
+    - The "fucked" vanilla audio engine requiring a complete rewrite
+    - The vanilla collision system being "unusable"
+    - Inventing CPU-based normal mapping for fake lighting on the styrofoam
+    - Performance profilers showing red bars and forcing optimization
+    - The freedom and challenges of the SM64 decompilation project
 
     :::
 
@@ -95,10 +94,10 @@ These central questions are for Kaze, Biobak, Badub, and Zeina individually. Thi
 
     - What moments do you want players to remember?
     - The impact on the SM64 modding community
-    - Open source engine and codebase release plans
+    - The plan to release the engine and source code publicly
     - Your personal sense of accomplishment
     - Proving what fan projects can achieve
-    - The enduring appeal of retro gaming
+    - The enduring appeal of retro-style game development
 
     :::
 
@@ -116,103 +115,97 @@ These questions are tailored to each team member's specific role and contributio
 
 **On Vision & Design Philosophy**
 
-1.  You have very clear design principles: creating "placeness," prioritizing excitement over difficulty, respecting the player's time. Can you tell me about a time you had to make a tough call to stick to these principles? Maybe something you really liked but had to cut?
+1.  You have very clear design principles: creating "placeness," prioritizing excitement over difficulty, and respecting the player's time. Can you tell me about a time you had to make a tough call to stick to these principles? Maybe something you really liked but had to cut because it didn't fit?
 
     ::: info Follow-ups
 
-    - The Space Arcade being "terrible" despite initial excitement
-    - AAA games as a "chore" - what specifically bothers you?
-    - "Cowboyaboo" philosophy - over-the-top and goofy
-    - Removing 100-coin stars and "boot out" mechanics
-    - "Back when I was making Last Impact I would just put ideas in almost unfiltered"
-    - The maturation from Last Impact to RTYI
+    - The Space Arcade being "terrible" and needing a full rework
+    - Critiquing AAA games as a "chore" - what specifically bothers you?
+    - "Cowboyaboo" philosophy of over-the-top and goofy
+    - The decision to remove 100-coin stars and "boot out" mechanics
+    - The maturation from "Last Impact" to RTYI: "Back when I was making Last Impact, I would just put ideas in almost unfiltered"
 
     :::
 
-2.  You've said the Overworld is "the most important part of the game." What's your vision for it? How are you making it more than just a hub world like in traditional Mario 64?
+2.  You've said the Overworld is "the most important part of the game." What's your vision for it? How are you making it more than just a hub world by embracing the "if you can see it, you can go there" philosophy?
 
     ::: info Follow-ups
 
-    - "If you can see it, you can go there"
-    - The "tease" of distant landmarks like the lighthouse
-    - Permanent world changes (Rain Flower quest, Dory rescue)
-    - Nearly 20 seamlessly transitioning music tracks
-    - Dynamic events that affect the entire island
+    - Teasing distant landmarks like the lighthouse or volcano
+    - Permanent world changes like the Rain Flower quest or Dory rescue
+    - The seamlessly transitioning music tracks by Badub
+    - Dynamic overworld events like the pirate invasion
     - The evolution from simple coin payment to story-driven events
-    - Making coins "feel more valuable than Mario Odyssey"
+    - The coin system and making coins "feel more valuable than Mario Odyssey"
 
     :::
 
 **On Technical Mastery**
 
-1.  You didn't just mod SM64, you rewrote huge chunks of it. The sound engine, collision system, even optimized the OS. What drove you to take on these massive technical challenges? What can you do in RTYI that would be impossible without them?
+1.  You didn't just mod SM64, you've rewritten huge chunks of its foundation: the sound engine, collision system, even the operating system. What drove you to take on these massive technical challenges? What can you do in RTYI that would be impossible without them?
 
     ::: info Follow-ups
 
-    - Vanilla collision being "unusable" - specific examples
-    - The audio engine being "fucked" - what exactly was wrong?
-    - Collaboration with Sauraen on F3DEX3 microcode
+    - Why was the vanilla collision "unusable"?
+    - What exactly was "fucked" about the original audio engine?
+    - Collaboration with Sauraen on the F3DEX3 microcode
     - Enabling 60 FPS gameplay
-    - Supporting Badub's dynamic overworld music
+    - Supporting Badub's dynamic music and Zeina's complex animations
     - Complex platforming in the Ice Castle
     - The new quaternion-based animation system
 
     :::
 
-2.  You often have to debug on real N64 hardware because emulators are often inaccurate. What's the most frustrating "emulator hell" bug you've dealt with? How do you even track down something that only breaks on real hardware?
+2.  You often have to debug on real N64 hardware because emulators are often inaccurate. What's the most frustrating "emulator hell" bug you've dealt with? How do you even track down something that only breaks on a real console?
 
     ::: info Follow-ups
 
-    - Performance profiler tools from Sauraen
+    - Performance profiler and trace tools from Sauraen
     - Crashes that "just work" on certain emulators
-    - N64 hardware stability issues
+    - N64 hardware stability and floating point exception issues
     - The challenge of testing on multiple emulator types
-    - Specific examples of emulator-only bugs
-    - Why you can't trust emulators for final testing
+    - Why you can't trust emulators for final performance testing
 
     :::
 
 **On Collaboration & The Public Eye**
 
-1.  You have a really strong vision for this game, but you're also working with talented collaborators. How do you balance staying true to your vision while being open to their input? What's a time when someone's suggestion fundamentally improved your original idea?
+1.  You have a strong vision for RTYI, but you're also working with a talented team. How do you balance staying true to your vision while being open to their input? Can you recall a moment when a collaborator's suggestion fundamentally changed or improved your original idea?
 
     ::: info Follow-ups
 
-    - Biobak's level reworks ("Holy shit, everything is different")
-    - Badub's cowboy music arriving mid-stream and changing everything
+    - Biobak's complete rework of the pirate ship level ("Holy shit, everything is different")
+    - Badub's cowboy music arriving mid-stream and changing the whole "vibe"
     - Zeina's "mutant Yoshi" boss concept
     - Tutorial Bunnies as a collaborative solution
-    - Real-time suggestions during streams
-    - "Feelings are real, reasoning is stupid" philosophy
+    - The "Feelings are real, reasoning is stupid" philosophy for feedback
+    - How do you manage tasks and feedback in a remote, informal team?
 
     :::
 
-2.  You develop RTYI live on stream with hundreds of people watching and commenting. How do you filter all that input? You've said you value the "feeling" behind feedback but not always the "reasoning". What does that mean in practice?
+2.  You develop RTYI live on stream with hundreds of people watching and commenting. How do you filter all that input? You've said you value the "feeling" behind feedback but not always the "reasoning." What does that mean in practice?
 
     ::: info Follow-ups
 
-    - Specific examples of chat ideas being implemented
-    - The "growing flower" vine suggestion
-    - "Mirror Mario" wall-kick mechanic
-    - How streaming helps vs. hinders focus
-    - Managing the firehose of suggestions
-    - Beta testing feedback vs. stream feedback
+    - Specific chat ideas being implemented, like the "growing flower" vine or "Mirror Mario" wall-kick mechanic
+    - How streaming helps vs. hinders focus and creativity
+    - Managing the pressure of working in public
+    - Beta tester feedback vs. real-time stream feedback
 
     :::
 
 **On The "Nintendo Risk" & The Future**
 
-1.  Nintendo has taken down over 70 of your videos. Every fan project lives under that shadow. How does this reality affect your development and release strategy? What's your plan if the worst happens?
+1.  Nintendo has taken down over 70 of your videos. Every fan project lives under that shadow. How does this reality affect your development and release strategy? And what's your plan if the worst happens?
 
     ::: info Follow-ups
 
     - Strategic release timing to avoid major Nintendo launches
-    - Copyright-free trailers as protection
+    - Using copyright-free trailers for protection
     - The "legally distinct" asset-swap contingency plan
     - Aspirations for commercial game development
-    - Open source release to preserve the work
-    - The "calculated risk" mindset
-    - Why you do this despite the risks
+    - Open-sourcing the engine and code to preserve the work
+    - The "calculated risk" mindset: Why you do this despite the risks?
 
     :::
 
@@ -226,55 +219,54 @@ These questions are tailored to each team member's specific role and contributio
 
 **On Visuals & World-Building**
 
-1.  Kaze often shows these basic grey-box levels, and then later we see your rework that completely transforms them. Can you walk me through what happens in between? How do you take a functional layout and breathe life into it? The Course 1 and "Oily Boily Bay" transformation are my favorite reworks.
+1.  We often see Kaze build a functional version of a level "to make the platforming good." Then later we see your rework that completely transforms the levels. Can you walk me through your process? How do you take that basic layout and breathe life into it? The Course 1, Pirate Ship, or Oily Boily Bay reworks are my favorite examples.
 
     ::: info Follow-ups
 
-    - Before/after comparisons
+    - The dialogue between you and Kaze during a rework
     - Kaze's stream reactions to your reworks
-    - Your detailed changelogs explaining every change
-    - Course 1 visual overhaul years later
+    - Your detailed changelogs explaining every decision
     - Evolving quality standards over time
-    - Adding "placeness" to functional geometry
+    - How you add "placeness" and story through visual details
+    - Balancing Kaze's gameplay needs with your artistic vision
 
     :::
 
-2.  The Craft Level has such a unique look—cardboard, styrofoam, crayons. What inspired that aesthetic, and how did you make those materials feel convincing on N64 hardware?
+2.  The Craft Level has such a unique look – cardboard, styrofoam, crayons. What inspired this aesthetic, and what are the challenges of making those everyday materials feel tactile and convincing on N64 hardware?
 
     ::: info Follow-ups
 
-    - Creating "fake" lighting for the Styrofoam shine
-    - Translating community "doodle" contributions
+    - Translating community "doodle" contributions into game assets
     - The "Chubby Chai guys" (thimbles) as enemies
     - Working within texture memory limits
-    - Making materials feel tactile without modern shaders
-    - Collaborating with community contributors like Leila and Danik
+    - Making materials feel convincing without modern shaders
+    - Collaborating with community contributors on this level
 
     :::
 
 **On Collaboration & N64 Constraints**
 
-1.  How does Kaze communicate what he's looking for in a level? Does he give you reference images, describe a vibe, play you the music? How do you translate that into a cohesive visual style?
+1.  How does Kaze communicate what he's looking for in a level's art style? Does he give you reference images or describe a "vibe?" How do you translate that direction into a cohesive visual identity?
 
     ::: info Follow-ups
 
     - Receiving MS Paint maps or blockout models
-    - Your role as idea contributor beyond just visuals
-    - Suggesting level flow improvements
-    - Real-time feedback during streams
-    - The back-and-forth on technical feasibility
+    - Your role as an idea contributor beyond just visuals
+    - Suggesting level flow or gameplay improvements
+    - The back-and-forth on technical feasibility for your ideas
+    - A time Kaze's initial idea was vague and you had to define the look
 
     :::
 
-2.  Making detailed, modern-looking environments for the N64 must be challenging. What's your process for creating something beautiful while managing polycounts, texture limits, and all those constraints on such old hardware?
+2.  You create these detailed, modern-looking environments, but for 30-year-old hardware. What's your process for modeling and texturing something beautiful while constantly battling N64 polycounts, texture limits, and memory constraints?
 
     ::: info Follow-ups
 
-    - How Kaze adapts your high-poly models
-    - Creative solutions for RAM limitations
-    - Working with the N64's color palette restrictions
-    - Optimizing without losing your artistic vision
-    - The constant battle with memory limits
+    - Kaze's process of adapting high-poly models
+    - Creative solutions for working with the N64's limited color palette
+    - Optimizing geometry and textures without losing the artistic vision
+    - The constant conversation about memory and performance
+    - An example of an idea that was just too ambitious for the hardware
 
     :::
 
@@ -288,53 +280,51 @@ These questions are tailored to each team member's specific role and contributio
 
 **On Musical Identity**
 
-1.  What's the musical identity you're creating for "Return to Yoshi's Island"? How do you blend the nostalgic sounds of Mario 64 and Yoshi's Island while making something that feels both fresh and familiar?
+1.  What's the musical identity you're creating for "Return to Yoshi's Island"? How do you blend the nostalgic sounds of Mario 64 and Yoshi's Island while creating something that feels both fresh and familiar?
 
     ::: info Follow-ups
 
     - Using the limited N64 sound font creatively
-    - Achieving a "new yet familiar" sound
+    - Achieving that "new yet familiar" sound
     - Balancing nostalgia with innovation
-    - The influence of both source games
-    - Creating cohesion across diverse level themes
+    - How the "Yoshi" theme influences your compositions vs. the "Mario 64" theme
+    - Creating a cohesive soundtrack across so many diverse level themes
 
     :::
 
-2.  Kaze has said your music directly inspires his level design. Can you walk me through creating music for a specific theme? That moment when your Cowboy Level track arrived during his stream seemed like a turning point.
+2.  Kaze has said your music directly inspires his level design. Can you tell me about the moment you sent the Cowboy Level track? It seemed to arrive mid-stream and completely changed the direction of that level's atmosphere.
 
     ::: info Follow-ups
 
-    - The Cowboy music arriving mid-stream ("Oh, this is so good")
-    - How the music inspired adding skybox and fog
-    - Kaze's vibe descriptions translating to composition
-    - Music arriving before vs. after level design
-    - The collaborative back-and-forth
+    - Kaze's reaction to hearing the track for the first time: "Oh, this is so good"
+    - How the music inspired Kaze to add the skybox and fog
+    - Translating Kaze's "vibe" descriptions into a composition
+    - Creating music for a specific theme or level
+    - Composing for a level before vs. after its design is established
 
     :::
 
 **On The Craft of N64 Music**
 
-1.  Composing for the N64 has unique challenges. The small sound font and ROM space constraints. How do these limitations shape your compositions? Do you see them as restrictions or creative opportunities?
+1.  Composing for the N64 has unique challenges – the small sound font, the limited ROM space. How do these limitations shape your compositions? Do you see them more as a restriction or a creative opportunity?
 
     ::: info Follow-ups
 
-    - The OST taking significant ROM space (64MB limit)
+    - The OST taking up a significant ROM space (64MB limit)
     - Working with Kaze's rewritten sound engine
     - Creative workarounds for instrument limitations
-    - Making dynamic music within constraints
-    - The challenge vs. opportunity mindset
+    - The process of making dynamic music within these constraints
 
     :::
 
-2.  The overworld has almost 20 tracks that seamlessly transition as you explore. What were the challenges in composing such an ambitious adaptive score for N64 hardware?
+2.  The overworld has nearly 20 tracks that seamlessly transition as the player explores. From a composer's perspective, what were the biggest challenges in creating such an ambitious and adaptive score for N64 hardware?
 
     ::: info Follow-ups
 
-    - Ensuring smooth transitions between area themes
-    - Working with Kaze on timing and triggers
-    - Technical implementation challenges
-    - Creating musical coherence across the island
-    - Dynamic music responding to player actions
+    - Ensuring smooth musical and key transitions between themes
+    - Working with Kaze on the technical implementation of triggers
+    - Composing music that responds to player actions or events
+    - Maintaining a cohesive musical identity across the entire island
 
     :::
 
@@ -346,15 +336,15 @@ These questions are tailored to each team member's specific role and contributio
 
 :::
 
-**On Animation & Giving Life to Characters**
+**On Animation & Character**
 
-1.  You bring the game's characters to life through animation. What's your approach to giving personality and emotion to characters within the N64's technical limits? My favorite character is the Piano Guy, he has so much charisma.
+1.  You bring the game's characters to life through animation. What's your approach to giving personality and emotion to characters within the N64's technical limits? The Piano Guy is favorite character with so much charisma.
 
     ::: info Follow-ups
 
-    - Working with bone limits and old "geo bone" system
-    - The new quaternion-based animation system benefits
-    - Conveying character through movement, not polygon count
+    - The challenges of the old "geo bone" system
+    - The benefits of the new quaternion-based animation system
+    - Conveying personality through movement, not polygon count
     - Making enemies feel alive and reactive
     - The animation pipeline with Kaze's programming
 
@@ -362,27 +352,27 @@ These questions are tailored to each team member's specific role and contributio
 
 **On Art, Design & Influence**
 
-1.  Beyond animation, you've contributed so much: 2D art, 3D models, concept art. Can you tell me about your concept art for the mutant Yoshi boss or the zoo entrance? How did those drawings shape what the team built?
+1.  Beyond animation, you contribute so much: 2D art, 3D models, concept art. Could you tell me about the story behind your concept for the mutant Yoshi boss, or your drawings for the zoo entrance? How did those initial ideas shape what the team built?
 
     ::: info Follow-ups
 
     - Collaborating with Kaze and Biobak on cohesive style
     - Creating models like Peach and Toad
-    - Texture work (bunny footprints, signs)
-    - Initial sketches becoming key game elements
-    - Your artistic influence on the project's direction
+    - Contributing textures like the bunny footprints or level signs
+    - Seeing your initial sketches become key game elements
+    - Your artistic influence on the project's overall direction and style
 
     :::
 
-2.  Kaze says your feedback as the "first playtester" is invaluable. What kinds of things do you notice as an artist and animator that might get missed otherwise? I heard there was a section he made easier because it was "painful to watch" you play it.
+2.  Kaze often says your feedback as the "first playtester" is invaluable. I'd love to hear your side of the story where a section was so "painful to watch" you play that he made it easier. What kind of issues do you tend to notice that a programmer might miss?
 
     ::: info Follow-ups
 
     - The "painful to watch" story from your perspective
-    - How gameplay feel influences your animation choices
-    - Catching issues a programmer might miss
-    - Your unique perspective as artist and player
-    - Direct changes made based on your feedback
+    - How does the feel of the gameplay influence your animation choices?
+    - Catching visual or flow issues that a technical developer might overlook
+    - Unique perspective as both an artist and a player
+    - Other specific changes made based on your feedback
 
     :::
 
@@ -390,51 +380,50 @@ These questions are tailored to each team member's specific role and contributio
 
 These questions are for Kaze and Zeina together, focusing on their unique dynamic as both creative and personal partners.
 
-1.  **A Shared Creation:** You've built "Return to Yoshi's Island" together as both collaborators and partners. How does your creative partnership work day to day? Where do you draw the line between work and home when you're both so deep in this project?
+1.  **A Shared Creation:** You're building RTYI together as collaborators and partners. How does that creative partnership work day-to-day? Where do you draw the line between work and home when you're both so deep in this project?
 
     ::: info Follow-ups
 
-    - Design decisions made casually at home
+    - Design decisions made casually over dinner or at home
     - Switching off from "developer mode"
-    - Working in the same space
+    - The dynamic of working in the same physical space
     - How the project weaves into daily life
-    - Balancing creative work with personal time
+    - Balancing the creative work with personal life
 
     :::
 
-2.  **The Feedback Loop:** You have this unique dynamic. Kaze, you see your first player's raw reactions, and Zeina, you can give feedback directly to the lead developer. How does being partners affect that professional feedback? Does it make things easier or harder to be honest with each other?
+2.  **The Feedback Loop:** You have this unique direct feedback loop. Kaze, you see your first player's raw reactions, and Zeina, you can give feedback directly to the lead developer. How does being partners affect that professional feedback? Does it make things easier or harder to be honest with each other?
 
     ::: info Follow-ups
 
     - The "painful to watch" playtest from both perspectives
     - Resolving creative disagreements
     - Being each other's harshest critics
-    - The benefits of instant, honest feedback
-    - How personal dynamics affect professional choices
+    - The benefits of being able to give instant, honest feedback
+    - How personal dynamics affect professional choices on the game
 
     :::
 
-3.  **The Animation Pipeline:** Let's talk about bringing a character to life. Kaze programs the behavior, Zeina provides the animation. Can you walk me through creating a specific character together? From "we need an enemy that does X" to the final animated character in the game?
+3.  **The Animation Pipeline:** Let's walk through bringing a character to life together. Kaze, you program the behavior; Zeina, you provide the animation. Can you take me through the process for a specific character, like the Wiggler or Dry Bones? From "we need an enemy that does X" to the final, animated character in the game.
 
     ::: info Follow-ups
 
-    - The Wiggler or Dry Bones creation process
-    - Kaze seeing finished animations for the first time
-    - Technical constraints meeting artistic vision
-    - The waiting game ("all we're waiting now is for animations")
-    - How animation changes affect programming and vice versa
+    - The back-and-forth on the Wiggler's notoriously difficult rigging
+    - Kaze, what's it like seeing a finished animation for the first time?
+    - How do technical constraints from Kaze meet Zeina's artistic vision?
+    - The waiting game: "All we're waiting for now is animations"
+    - How do animation changes affect programming, and vice versa?
 
     :::
 
-4.  **Life, Art, and Parenthood:** This project has been part of your lives for years, and now you're expecting a child as it nears completion. How has the project shaped your life together, and how has your life shaped the project?
+4.  **Life, Art, and Parenthood:** This project has been part of your lives for years, and you became parents as it nears completion. How has this project shaped your life together, and how has your life, and parenthood, shaped the project and your perspective on it?
 
     ::: info Follow-ups
 
     - Balancing development with life events (moving, terrariums, haircuts)
     - How expecting a child changes the project's stakes
-    - The "human cost" of such a massive undertaking
-    - What this project means as you enter parenthood
-    - The legacy you're creating together
+    - Reflecting on the "human cost" of such a massive undertaking
+    - What does this project mean to you as a legacy you're creating together?
 
     :::
 
