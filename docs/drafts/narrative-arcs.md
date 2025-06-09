@@ -142,11 +142,11 @@ This is my favorite arc. It perfectly captures Kaze's creative process, the team
   - **The Solution:** Frame each overhaul as a response to a creative need:
     - **New Sound Engine:** For dynamic, seamless music and better effects.
     - **New Collision System:** For stable, consistent movement and to fix "floor clacking."
-    - **Graphics (F3DEX3):** To render bigger, more detailed worlds via collaboration with Soren (microcode developer).
+    - **Graphics (F3DEX3):** To render bigger, more detailed worlds via collaboration with Sauraen (microcode developer).
   - **The Payoff:** Connect each technical change to a visible result (e.g., 60 FPS, enhanced movement, better lighting) that enables Badub's dynamic overworld music, complex platforming in the Ice Castle, and Biobak's highly detailed level reworks.
 - **B-Roll:**
   - Side-by-side comparisons of a bug in vanilla SM64 vs. the smooth result in RTYI.
-  - Kaze looking at performance profiler data from Soren's tools.
+  - Kaze looking at performance profiler data from Sauraen's tools.
 
 ## The Overworld as a Character
 
@@ -229,7 +229,7 @@ This is my favorite arc. It perfectly captures Kaze's creative process, the team
   - Game crashing on N64 hardware.
   - Kaze looking stressed while debugging.
   - The performance profiler on screen showing red bars.
-  - Discord chats with collaborators like Soren.
+  - Discord chats with collaborators like Sauraen.
 
 ### The Human Cost
 
