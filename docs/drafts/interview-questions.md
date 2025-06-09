@@ -4,244 +4,333 @@ outline: deep
 
 # Interview Questions for the RTYI Team
 
-All questions are designed to elicit detailed, narrative-rich answers that contribute to the documentary's overarching narrative. The questions are grouped into overarching themes and specific team member roles, allowing for both broad insights and focused expertise.
+The questions are open-ended to establish core themes and encourage storytelling. I will actively listen for interesting stories to follow up on and dive into specific, role-oriented topics.
 
-## Overarching Questions (For All Interviewees)
+### Part 1: For All Team Members
 
-::: info Plan
-These questions aim to build the narrative arc. I might slightly adapt them for each person.
+These central questions are for Kaze, Biobak, Badub, and Zeina individually. This will hopefully allow me to weave together their different perspectives on the same key topics, creating a multi-faceted narrative for the documentary.
+
+1.  **The Genesis:** Let's go back to the beginning. Can you tell me how you first became involved with "Return to Yoshi's Island"? What was it about this specific idea that captured your imagination? A massive, Yoshi's Island-themed adventure built in the Mario 64 engine. What made you decide to commit to such a huge project?
+
+::: info Follow-ups
+
+- Initial excitement or skepticism.
+- What was Kaze's initial pitch to you?
+- Personal nostalgia for Super Mario 64 or Yoshi's Island.
+
 :::
 
-1.  **The Beginning:**
-    - How did you first get involved with "Return to Yoshi's Island"? What excited you about the initial concept or Kaze's vision?
-    - What were your initial expectations for the project, and how have those evolved?
-    - What does "Return to Yoshi's Island" mean to you personally, beyond just a game project?
-2.  **Your Role & Passion:** Could you describe your primary role on the project? What aspects of that work you are most passionate about?
-3.  **Motivation & Passion (The "Why"):**
-    - "Return to Yoshi's Island" is a massive, multi-year fan project, offered for free. What motivates you to dedicate so much time and energy to this specific project, more or less without direct financial compensation?
-    - Can you describe a moment during development where your passion for the project was truly tested or reignited?
-4.  **Defining RTYI:**
-    - From your perspective and role, what is the core vision or feeling that "Return to Yoshi's Island" aims to capture?
-    - What, in your opinion, makes RTYI special or distinct from other SM64 hacks or even official Mario titles? What is its unique identity?
-    - ~~Could you walk us through your typical creative process for your contributions to the game? How do ideas go from concept to implementation?~~
-    - How do you balance paying homage to the original "Yoshi's Island" and "Super Mario 64" with creating something entirely new and innovative?
-5.  **Collaboration & Team Dynamics:**
-    - RTYI is a collaborative effort. Can you describe the dynamic of working with Kaze/the rest of the core team? How are ideas shared, refined, and integrated across different disciplines (code, art, music, animation)?
-    - How are creative differences or technical challenges typically handled and resolved within the team?
-    - What has been the most rewarding aspect of collaborating on this project? And perhaps, what's been the most challenging?
-6.  **Challenges & Triumphs:**
-    - What has been the single biggest challenge you've personally faced or witnessed the team face during the development of RTYI? How was it overcome?
-    - On the other hand, what's a moment of triumph or a breakthrough in your area of work on RTYI that you're particularly proud of or found most satisfying?
-7.  **N64 Limitations & Innovation:**
-    - The N64 is beloved but has significant limitations. How do these constraints shape your work and force creative problem-solving?
-    - Working with N64 hardware, even via decompilation, presents unique limitations. What do you see as the biggest recurring challenge (technical or creative) in developing for this platform?
-    - On the other hand, what's the most exciting or rewarding part of pushing the boundaries of what the N64 can do?
-8.  **The Community:** Kaze often develops RTYI live on stream. How do you feel the open development process and direct community interaction influence the project?
-9.  **Nintendo & Fan Games:** What are your thoughts on creating ambitious fan games based on existing Nintendo IP? How do you navigate the enthusiasm for the source material with the potential concerns from IP holders?
-10. **Legacy & Hopes:**
-    - When "Return to Yoshi's Island" is finally released, what are your biggest hopes for how players will experience and remember the game?
-    - What do you believe will be the lasting legacy of "Return to Yoshi's Island"?
-11. **Lessons Learned:** What lessons (personal, technical, or creative) have you learned from working on a project of this scale and ambition? What will you carry forward into future projects?
-12. ~~**Your Future:** Beyond RTYI, what are your personal aspirations in game development or related creative fields? How has working on RTYI influenced those?~~
+2.  **The Drive:** This is a multi-year project, often described by Kaze as requiring an obsessive level of dedication, all to be released for free. From your perspective, what is the personal drive or passion that keeps you dedicated to investing so much of your time and talent?
 
-## Questions for Each Team Member
+::: info Follow-ups
 
-### Kaze Emanuar (Lead Developer)
+- The joy of creation vs. the "torture" of the grind.
+- What keeps you going during moments of burnout?
+- The desire to push the N64 or prove what's possible.
 
-#### Genesis & Vision
+:::
 
-1.  **The Spark:** "Return to Yoshi's Island" has been a journey of more three years. Take us back to the very beginning. What was the initial spark, or the "aha!" moment that made you decide "I need to make _this_ game, a Yoshi's Island themed adventure in the Mario 64 engine"?
-2.  **Why Yoshi's Island?** What is it about the original Yoshi's Island that you wanted to capture or reinterpret in a 3D Mario 64 context?
-3.  **Decompilation Power:** The SM64 decompilation project was a game-changer. How did its availability directly enable or inspire the ambition and scope of RTYI in ways that wouldn't have been feasible before?
-4.  **Early Ambitions:** You've mentioned the final game is "unrecognizable from the demo." What were your initial ambitions for RTYI, and how did that vision evolve as development progressed and new technical possibilities opened up?
-5.  **Building the Team:** RTYI isn't a solo project. How did you go about assembling your core team (Biobak, Badub, Zeina)? What qualities were you looking for, and how did you pitch your vision to them?
+3.  **The Soul of RTYI:** From your unique role on the team, what do you believe is the _soul_ of "Return to Yoshi's Island"? What is the core feeling or experience you are all trying to create, and how does that make it different from any other Mario 64 hack or even official Nintendo games?
 
-#### Design Philosophy & Creative Process
+::: info Follow-ups
 
-6.  **The Kaze Philosophy:** You have strong game design philosophies – "less is more," "excitement over difficulty," "positive frustration," "placeness." Can you elaborate on these principles and give concrete examples of how they've shaped specific levels, mechanics, or overall design choices in RTYI?
-7.  **Intuitive vs. Cryptic:** You've scrapped ideas that felt too "cryptic." How do you define intuitive gameplay, and what's your process for testing and ensuring players can understand RTYI's unique mechanics without excessive hand-holding?
-8.  **"Mario Feel" vs. Innovation:** You want to retain the "Mario feel" but also introduce new mechanics. How do you navigate that balance? Can you discuss a specific design choice where you consciously diverged from SM64 convention and why?
-9.  **Level Design Journey:** Walk us through the conceptual journey of a particularly challenging or rewarding level in RTYI (e.g., Frantic Fleet Factory, Oil Rig, Cowboy Level, Ice Castle, Craft Level, Astral Arcade). From initial idea (sometimes "dogshit," sometimes a breakthrough) to implementing mechanics, art, and ensuring it contributes to the overall narrative or player journey.
-10. **Brainstorming & Originality:** You stress the need for a surplus of ideas. Describe your brainstorming process, especially for original level themes and mechanics. How do you avoid repetition and strive for novelty?
-11. **The Overworld as the Heart:** You've called the overworld "the most important part of the game," aiming for a massive, explorable, secret-filled Yoshi's Island. What's your grand vision for this hub? How do you approach designing unique level entrances and progression systems (like Overworld Events) that feel organic and rewarding?
-12. **Storytelling in a Platformer:** You want to "tell stories" in RTYI, with evolving character arcs and narrative beats. How do you approach weaving narrative into a primarily platforming-focused game, and how did the story (e.g., Bowser's motivations, the "slavery plot" revision) evolve?
+- The game's specific "vibe" (e.g., "placeness," "excitement").
+- How does the "Yoshi" theme influence your work?
+- The blend of nostalgia and innovation.
 
-#### Technical Prowess & N64 Mastery
+:::
 
-13. **The Custom Engine:** You've essentially rewritten large parts of SM64. What motivated this deep dive into custom engine development, including a new OS? What were the biggest hurdles, and what unique capabilities has it unlocked for RTYI?
-14. **Pushing the N64:** RTYI aims for impressive visuals and performance (like 60FPS in some areas, infinite draw distance) on original hardware. Can you share one or two of the most demanding technical hurdles you've overcome (e.g., rendering, collision, lighting, sound engine rewrite, F3DEX3 integration) and the innovative solutions you devised? What does this reveal about the N64's untapped potential?
-15. **"Lying to the Compiler" & "Hacky" Solutions:** You have a pragmatic, sometimes unconventional coding style. Can you explain this philosophy and give an example of a "hacky" solution or "lying to the compiler" that yielded significant benefits for RTYI?
-16. **Emulator Hell vs. Hardware:** You often test on N64 hardware due to emulator inaccuracies. What are the biggest frustrations and necessities of developing for actual retro hardware in an era of emulation?
-17. **Optimization as Art:** You seem to genuinely enjoy optimization. What drives this pursuit, and how does meticulous optimization (e.g., coin rendering, audio refactoring, Soren's Trace) contribute to the overall player experience, even in ways players might not consciously notice?
+4.  **The Creative Process:** This project is a major collaboration. Could you walk me through the typical creative process? How does an idea go from a concept to a finished piece that we see in the game? Whether it's for a level, a song, a model, or an animation?
 
-#### Collaboration & Community
+::: info Follow-ups
 
-18. **Leading the Team:** How do you manage and integrate the diverse contributions from Biobak, Badub, and Zeina? How do you foster a productive collaborative environment, handle creative differences (you mentioned your strong vision can lead to arguments), and ensure everyone's work aligns with the project's core?
-19. **Live Streaming Development:** How has live-streaming RTYI's development influenced your workflow, design choices, community engagement, and even personal motivation? Does the direct feedback loop accelerate or complicate the process?
-20. **Community Feedback Philosophy:** You've said, "what people feel... is real... But their reasoning is most of the time stupid." How does this perspective guide how you filter and apply community feedback to a project like RTYI?
-21. **Open Source & Legacy:** You're committed to releasing RTYI and its engine open source. What are your primary motivations, and what impact do you hope this will have on the SM64 modding community?
+- Initial briefs or discussions.
+- How is feedback exchanged (Discord, live stream, etc.)?
+- The back-and-forth between Kaze's technical needs and your artistic contribution.
 
-#### The Human Element & The "Why"
+:::
 
-22. **The "Journey":** RTYI has been a multi-year endeavor. What fuels your dedication through the "pure torture" phases? Can you describe the emotional rollercoaster – the self-doubt, the breakthroughs, the immense personal effort?
-23. **Balancing Act:** You develop RTYI alongside a full-time job and now, impending fatherhood. How do you manage these immense commitments and maintain creative momentum?
-24. **Personal Drive & Ambition:** You've been open about wanting your channel to grow and to "get famous." How does this personal ambition intersect with your passion for creating high-quality games like RTYI?
-25. **The "Nintendo Risk" & Fan Game Realities:** You're pragmatic about potential Nintendo intervention. How does this reality shape your release strategy, your creative freedom, and your vision for the future of ambitious fan projects? What's your "calculated risk" philosophy?
+5.  **A Story of a Challenge:** Every big project has its hurdles. Can you share a story about a particularly difficult challenge you faced? Be it a technical nightmare, a creative block, or a team disagreement? And what was the breakthrough or moment of triumph that followed?
 
-#### Reflections & The Future
+::: info Follow-ups
 
-26. **Evolution as a Designer:** How has your approach to game design evolved from "Last Impact" to RTYI, especially in balancing ambitious ideas with N64 limitations and intuitive gameplay?
-27. **"Finished" Game:** With a project this vast and iterative, what does "completely finished" truly mean to you for RTYI? How do you balance polish with the desire to finally release it?
-28. **Beyond RTYI:** You plan to develop an original IP. How has the journey of RTYI—its technical achievements, collaborative nature, and community engagement—prepared you for commercial game development? What key lessons will you carry forward?
-29. **The Core Motivation:** If you had to distill it down, what is the single most profound reason you pour so much of your life into creating these ambitious N64 experiences? What do you hope players ultimately take away from RTYI?
-30. **Looking Back:** What's one decision you made during RTYI's development that you're incredibly proud of, and perhaps one you might do differently if you started today?
+- A specific bug, a difficult model, a challenging composition.
+- A time an idea wasn't working and had to be scrapped.
+- The feeling of finally solving the problem.
 
-## Biobak (Graphic Artist)
+:::
 
-#### Joining RTYI & Initial Vision:
+6.  **The N64 Spirit:** You're developing for 30-year-old hardware in the modern era. How do the famous limitations of the N64 force you to be more creative? For example the low-poly models, the texture memory, the processing power, the sound font? Can you give an example of a feature or an aesthetic choice in RTYI that exists _because_ of a limitation, not in spite of it?
 
-1.  Kaze mentioned you've been a long-term collaborator. How did you first connect with Kaze, and what made you decide to join the "Return to Yoshi's Island" project as a graphic artist?
-2.  What were your initial thoughts on the concept of a Yoshi's Island-themed Mario 64 hack? What artistic possibilities or challenges did you foresee?
-3.  Kaze has a very strong vision. How did he initially communicate the desired art style or aesthetic for RTYI to you?
+::: info Follow-ups
 
-#### The Art of RTYI - Process & Philosophy
+- Specific workarounds for polycount or texture size.
+- How limitations foster a unique, recognizable art or music style.
+- CPU-based normal mapping, creative use of sound font, etc.
 
-4.  **Defining the Look:** Could you describe your artistic approach to RTYI? How do you balance the iconic art styles of Yoshi's Island and Mario 64 while creating something fresh and unique? What are your main influences for this project?
-5.  **The "Biobak Rework":** Kaze often refers to your level reworks significantly transforming his initial blockouts. Can you walk us through your typical process for taking a level concept or Kaze's base geometry and elevating it to its final visual state? (e.g., Course 1, Oily Boily Bay, Zoo, Wario's Prison).
-6.  **Crafting Assets:** From characters like Bowser and enemies, to environmental details like switches and props, what's your process for modeling and texturing assets for RTYI? How do you ensure they fit the overall aesthetic?
-7.  **N64 Graphical Constraints:** The N64 has notorious limitations (polycount, texture memory/resolution, color palettes, combiners). How do these constraints fundamentally shape your artistic choices and techniques? Can you share an example of an asset where you had to employ a clever workaround or make a tough compromise?
-8.  **Pushing the Boundaries:** Kaze aims for RTYI to be one of the "prettiest N64 games." How do you, as a graphic artist, contribute to pushing the N64's visual capabilities? What specific techniques (like your use of combiners) do you employ?
-9.  **Specific Contributions - Examples:**
-    - **Tutorial Rings/Billboards:** Kaze credited you with the idea for the interactive tutorial rings. Can you tell us about that and your philosophy for clear UI/UX design on the N64?
-    - **Bowser Model:** Walk us through the process of updating such an iconic character for RTYI.
-    - **Star Select Screen:** Kaze loved your 3D panorama mockups. What was your vision for these, and how do they enhance the player's experience?
-    - **"Net Peanut" / Sludge Blarg:** Kaze called this concept medal-worthy. What was the inspiration and design process?
-    - **Level Themes (Oil Rig, Power Plant, etc.):** How do you interpret Kaze's thematic briefs (e.g., "evil, bowser, construction") into a visual language?
+:::
 
-#### Collaboration with Kaze & Team
+7.  **The Legacy:** When players finally get their hands on the full game, what is the one essential feeling or experience you hope they take away from it? In your eyes, what will be the lasting legacy of "Return to Yoshi's Island"?
 
-10. **Creative Synergy:** Describe your collaborative workflow with Kaze. How do you typically exchange ideas, provide and receive feedback (especially when Kaze has strong opinions or makes live changes), and resolve creative or technical differences?
-11. **Interpreting Vision:** Kaze often has a specific "vibe" he wants for a level. How does he communicate this to you, and how do you translate that abstract feeling into concrete visual elements?
-12. **Beyond Visuals:** Kaze mentioned you contribute design ideas beyond graphics. How often does this happen, and what's that collaborative dynamic like when proposing gameplay elements?
-13. **Technical Dialogue:** When Kaze is integrating your assets and encounters technical issues (UVs, materials, performance), how do you work together to troubleshoot and ensure your art translates effectively into the game?
-14. **Working with a Flexible Pipeline:** Kaze mentioned your workflow can be flexible ("whatever Biobak feels like making first"). How does this autonomy influence your work, and how do you maintain overall project coherence?
+::: info Follow-ups
 
-#### Challenges & Rewards
+- What do you want players to remember most?
+- What does this project represent for the SM64 modding community?
+- Your personal sense of accomplishment.
 
-15. **Most Challenging Asset/Level:** What has been the most artistically or technically challenging piece you've worked on for RTYI, and why?
-16. **Most Rewarding Contribution:** What aspect of your work on RTYI are you most proud of or found most artistically fulfilling?
-17. **The N64 Grind:** Creating high-quality assets under N64 constraints can be laborious. What keeps you motivated and passionate about this specific platform and project?
-18. **Seeing it Come Together:** What's it like to see Kaze integrate your art live on stream, or to see players react to levels you've visually defined?
+:::
 
-#### Reflections & Future
+### Part 2: Individual Interviews
 
-19. **Evolution of Style:** Has your artistic style or approach changed or evolved through working on RTYI and collaborating with Kaze?
-20. **The RTYI Legacy:** What do you hope players will remember most about the visual identity of "Return to Yoshi's Island"?
-21. **Lessons Learned:** What are the key takeaways for you as an artist from working on such an ambitious fan project?
+These questions are tailored to each team member's specific role and documented contributions.
 
-## Badub (Composer)
+#### Kaze Emanuar (Lead Developer)
 
-#### Joining RTYI & Musical Vision
+- **Introduction Reminder:**
+  - _"For the camera, please state your name and your role on the project."_
 
-1.  How did you become the composer for "Return to Yoshi's Island"? What was Kaze's initial musical vision or request for the project?
-2.  The original Yoshi's Island and Mario 64 have iconic soundtracks. What was your initial approach to composing for a game that draws from both, while also needing its own identity?
-3.  What excites you most, musically, about a project titled "Return to Yoshi's Island"?
+**On Vision & Design Philosophy**
 
-#### Crafting the Score - Process & Philosophy
+1.  You have very clear design principles: creating "placeness," prioritizing "excitement over difficulty," and respecting the player's time. Can you give a specific example from RTYI where you had to make a tough decision to uphold one of these principles, perhaps even scrapping an idea like the "Space Arcade" that you initially liked?
 
-4.  **Musical Identity:** How would you describe the overall musical identity you're aiming for with RTYI? Are there specific moods, themes, or emotions you're trying to evoke?
-5.  **Original vs. Remix:** Kaze mentioned the OST is mostly custom but with some remixes. What's your philosophy on when to create entirely original pieces versus reinterpreting classic Mario/Yoshi tunes for RTYI? How do you keep remixes fresh?
-6.  **Capturing the "Vibe":** Kaze often talks about the "vibe" of a level. How does he communicate this to you (e.g., gameplay footage, concept art, descriptions)? Walk us through your process of translating a level concept (e.g., "evil, bowser, construction" for an industrial factory, or a "cowboyaboo" town) into a musical score.
-7.  **Dynamic Music:** Course 14 features dynamic music where elements change based on player location. Can you describe the creative and technical process behind composing such adaptive music for the N64?
-8.  **The N64 Sound:** Composing for the N64 means working with its specific sound font and audio limitations (ROM space, channel limits). How do these technical constraints influence your creative process, instrumentation choices, and arrangement techniques? Are there surprising creative opportunities within these limits?
-9.  **The "Music Level":** Kaze mentioned a "Music Level" being a significant collaborative effort. What are your initial thoughts or discussions about this? What unique opportunities or challenges do you anticipate in composing for a level so intrinsically tied to music?
+::: info Follow-ups
 
-#### Collaboration with Kaze & Team
+- AAA games as a "chore."
+- His "Cowboyaboo" or "Craft Level" philosophies.
+- Removing 100-coin stars and "boot out" stars.
 
-10. **Collaborative Workflow:** Describe your typical collaborative process with Kaze. How do you receive briefs, share drafts, and iterate on tracks based on his feedback?
-11. **Music Enhancing Gameplay:** How do specific gameplay elements Kaze develops (e.g., boss mechanics, Mario's movement, cutscene timing) influence your compositions? Are there moments where music is designed to directly cue or enhance player actions?
-12. **Sound Design Involvement:** Kaze expressed hope for your involvement in sound design. Is this an area you're contributing to? If so, how does your approach to sound design complement your musical compositions for RTYI?
-13. **Working with Iterative Design:** Game levels and concepts in RTYI can evolve significantly. How do you adapt your musical work when a level's theme, mood, or structure changes during development?
+:::
 
-#### Challenges & Rewards
+2.  The Overworld has been called "the most important part of the game." What is your grand vision for it? How do you use "overworld events" and an interconnected design to create an experience different from a traditional Mario 64 hub?
 
-14. **Technical Hurdles:** What have been the most significant technical challenges in composing and implementing music for RTYI on the N64 (e.g., the 5MB song file issue Kaze mentioned, streamed audio vs. sequenced)?
-15. **Creative Breakthroughs:** Can you share an example of a track or musical idea for RTYI that you're particularly proud of, or one that was a result of a creative breakthrough?
-16. **Sustaining Creativity:** RTYI is a long project with a vast amount of music needed (Kaze mentioned 98 songs at one point!). How do you sustain your creative energy and inspiration over such a long period and for so many diverse pieces?
-17. **The OST Release:** Kaze has floated ideas like an OST cartridge. What does the possibility of your music having a physical release, or broader distribution beyond the game itself, mean to you as a composer?
+::: info Follow-ups
 
-#### Reflections & Future
+- "If you can see it, you can go there."
+- The "tease" of seeing a future landmark.
+- Permanently changing the world (Rain Flower, Dory rescue).
 
-18. **Evolution as a Composer:** How has working on RTYI and other Kaze projects influenced your approach to game music composition?
-19. **The Sound of RTYI:** What do you hope players will feel or remember about the music of "Return to Yoshi's Island" long after they've played it?
-20. **Lessons from the N64:** What are the key takeaways for you from the experience of composing for the N64 platform in the modern era?
+:::
 
-## Zeina (Model Animator & Artist)
+**On Technical Mastery**
 
-#### Joining RTYI & Role Definition:
+1.  You didn't just hack SM64; you fundamentally rewrote massive parts of it – the sound engine, the collision system, even the N64 OS. What drove you to take on these monumental tasks, and what specific gameplay experience in RTYI would be impossible without them?
 
-1.  How did you become involved with "Return to Yoshi's Island," particularly in your role focusing on model animation and other art contributions?
-2.  Kaze has praised your work extensively. Could you describe the scope of your contributions to RTYI? (e.g., character animation, model creation, textures, concept art, UI elements, playtesting, promotional material).
-3.  What was it about Kaze's vision for RTYI that excited you or made you want to contribute your artistic talents?
+::: info Follow-ups
 
-#### The Art of Animation & Modeling on N64
+- Vanilla collision being "unusable."
+- The audio engine being "fucked."
+- Collaboration with Soren on F3DEX3.
 
-4.  **Animation Philosophy:** What's your approach to creating animations that feel authentic to the N64/Mario 64 style yet fresh and expressive for RTYI? How do you inject personality into characters like Mario, Bowser, Wiggler, Dry Bones, or the new NPCs?
-5.  **Technical Animation Challenges:**
-    - The N64 has significant limitations for animation (bone limits, "geo bone" system, no native squash/stretch). Can you discuss some of the unique technical hurdles you face and how you overcome them?
-    - Kaze mentioned a new animation format, potentially quaternion-based, and an IK rig you co-developed. Can you explain what these advancements mean for animation quality and workflow in RTYI?
-6.  **Animating Key Moments:**
-    - **Bosses (e.g., Bowser, Raphael the Raven, Yoshi Pentapus):** Walk us through your process for animating a complex boss fight. How do you collaborate with Kaze to ensure animations align with gameplay mechanics and narrative beats?
-    - **Cutscenes (e.g., end cutscene, oil bus):** What's your creative journey for developing cinematic animations that tell a story within N64 constraints?
-    - **Player Character (Mario):** With the animation system overhaul and new moves, what are your goals for Mario's animations in RTYI?
-7.  **Modeling & Asset Creation:**
-    - You've contributed models (e.g., piano guy, milk bottles, Tumbleweed Store sign, Raven). What's your process for designing and creating 3D assets that fit RTYI's diverse themes (Wild West, Ice Castle, craft world) and N64 limitations?
-    - Kaze mentioned you providing footprint textures and other 2D art. How does your 2D art contribute to the game's world-building?
-8.  **Crafting the "Yoshi's Island" Feel:** The game is a "Return to Yoshi's Island." How does this theme influence your animation style or character designs? Are there specific elements from the original Yoshi's Island you try to evoke?
+:::
 
-#### Collaboration & Iteration
+2.  You often have to debug issues on actual N64 hardware because emulators are inaccurate. Can you share a story of a particularly frustrating "emulator hell" bug that only revealed itself on the console and the process of hunting it down?
 
-9.  **Working with Kaze:** You have a very close collaborative and personal relationship with Kaze. How does this dynamic shape your creative process and contributions to RTYI? How do you typically exchange ideas, give and receive feedback (sometimes live on stream)?
-10. **Playtesting & Design Input:** Kaze mentioned your playtesting feedback directly leads to design changes. Can you share your perspective on playtesting RTYI and how your experience as a player informs your artistic or design suggestions?
-11. **Integrating with the Team:** How do your animation and art assets integrate with the work of other collaborators, like Biobak's graphics or Badub's music, to create a cohesive experience?
-12. **Promotional Material:** Kaze mentioned your idea for a "documentary style" release video for "the slide." How do you approach conceptualizing promotional content that captures the spirit of RTYI?
+::: info Follow-ups
 
-#### Challenges & Rewards
+- Performance profiler tools.
+- Crashes that "just work" on some emulators.
 
-13. **Most Demanding Animation/Model:** What has been the most challenging animation or model you've worked on for RTYI, and what made it so?
-14. **Proudest Contribution:** Is there a specific animation, model, or artistic contribution to RTYI that you're particularly proud of or feel best represents your work?
-15. **Balancing Life and Passion Project:** Contributing to a massive fan game while balancing other aspects of life (including new parenthood, as Kaze mentioned) must be demanding. What motivates you to dedicate your time and talent?
+:::
 
-#### Reflections & Future
+**On Collaboration & The Public Eye**
 
-16. **Evolution of Skills:** How has working on RTYI, with its custom tools and ambitious goals, helped you grow as an animator and artist?
-17. **The Animator's Impact:** What do you hope players will feel or appreciate about the animation and character life in "Return to Yoshi's Island"?
-18. **Beyond RTYI:** Do you share Kaze's ambitions for original game development, and how does your experience on RTYI contribute to that?
+1.  You have a very strong, singular vision for this game. How do you balance that with the creative input from your collaborators? Can you recall a time a suggestion from Biobak, Badub, or Zeina fundamentally changed or improved your own concept for a level or mechanic?
 
-## Things I Missed / Further Considerations:
+::: info Follow-ups
 
-1.  **Playtesters (other than Zeina, if applicable):**
+- Biobak's level reworks ("Holy shit, everything is different").
+- Badub's cowboy music solidifying the "vibe."
+- Zeina's "mutant Yoshi" boss concept.
 
-    - If there was a dedicated testing team or key community testers beyond Zeina, their perspective on the game's evolution, difficulty, and finding obscure bugs could be insightful.
-    - _Question Example for a Tester:_ "You've seen RTYI evolve through many iterations. What was one of the most surprising changes or bug discoveries you encountered during testing?"
+:::
 
-2.  **Tool Creators/Key Technical Collaborators (e.g., Soren, Lila):**
+2.  You develop RTYI live on stream, with a constant firehose of community feedback. You've said you value the "feeling" behind feedback but not always the "reasoning." How do you filter that input to improve the game without compromising your vision?
 
-    - The generated questions for Kaze mention Soren (F3DEX3, Sec64, Soren's Trace) and Lila (Fast64 contributions, quaternion system) as providing pivotal tools or code. A short interview or statement from them could add a fascinating layer to the "Technical Feats & Nightmares" section.
-    - _Question Example for Soren/Lila:_ "Your tool [F3DEX3/Fast64 contribution/Quaternion system] played a significant role in RTYI's development. Can you describe what it enables and the collaborative process of integrating it with Kaze's custom engine?"
+::: info Follow-ups
 
-3.  **The Broader SM64 Modding Community:**
+- "Feelings are real, reasoning is stupid."
+- How stream helps vs. hinders focus.
+- Specific examples of chat ideas being implemented.
 
-    - While not direct interviews, perhaps intersperse the documentary with brief insights or reactions from notable figures in the SM64 modding scene about the impact/anticipation for RTYI. This could be gathered from existing online commentary or short, targeted questions.
-    - _Topic to Explore:_ How does RTYI fit into the history and future of SM64 modding?
+:::
 
-4.  **The "Why" of Retro Development:**
+**On The "Nintendo Risk" & The Future**
 
-    - A deeper philosophical dive with all interviewees: In an age of hyper-realistic modern games, what is the enduring appeal of developing for and pushing the limits of 28-year-old hardware like the N64? What unique satisfaction does it bring?
+1.  The shadow of Nintendo looms over any fan project. You've had over 70 of your videos taken down in the past. How does this "calculated risk" influence your development, your release strategy, and your contingency plan to create a "legally distinct" original IP?
 
-5.  **The "Business" of Passion:**
+::: info Follow-ups
 
-    - Kaze touches on sponsorships and potential future monetization (of an original IP). Exploring the practical realities of funding such long-term, high-effort fan projects, even if they are ultimately free, could be a compelling narrative thread. How do creators sustain themselves?
+- Strategic release timing.
+- Copyright-free trailers.
+- The plan to asset-swap for a commercial game.
 
-6.  **Visual Storytelling through Gameplay:**
-    - Encourage all interviewees to "show, don't just tell." When they describe a challenge or a feature, prompt them to relate it to what the player sees or experiences directly in the game. Since it's narrator-less, their descriptions will build the visual narrative for the audience. You can use gameplay footage to illustrate their points.
+:::
+
+#### Biobak (Graphics Artist & Designer)
+
+- **Introduction Reminder:**
+  - _"For the camera, please state your name and your role on the project."_
+
+**On Visuals & World-Building**
+
+1.  Kaze often shows a level in a basic "grey box" state and then, later, a "Biobak rework" that completely transforms it. Can you walk me through your artistic process of taking one of those functional layouts and infusing it with life, atmosphere, and "placeness"? I love the "Oily Boily Bay" and Course 1 reworks.
+
+::: info Follow-ups
+
+- Before/after comparisons.
+- Kaze's stream reaction to your reworks.
+- Your detailed changelogs.
+
+:::
+
+2.  The "Craft Level" has a very distinct, tactile aesthetic. What were your key inspirations for that look, and what were the challenges in making materials like cardboard, styrofoam, and crayons feel convincing on the N64?
+
+::: info Follow-ups
+
+- Creating the "fake" lighting for the Styrofoam.
+- Translating the "doodle" contributions into the game.
+- The "Chubby Chai guys" (thimbles) as enemies.
+
+:::
+
+**On Collaboration & N64 Constraints**
+
+1.  How does Kaze typically communicate the desired "vibe" for a level to you? Is it through descriptions, music, or reference images? How do you translate that feeling into a cohesive art style?
+
+::: info Follow-ups
+
+- Receiving MS Paint maps or blockout models.
+- Your role as an idea contributor, shaping the level's flow.
+
+:::
+
+2.  Creating detailed, modern-looking assets for the N64 is a huge challenge. What is your process for managing polycounts, texture memory, and color palettes to create something that looks beautiful but still performs well on the original hardware?
+
+::: info Follow-ups
+
+- How Kaze adapts your high-poly models.
+- The back-and-forth on technical needs vs. artistic vision.
+
+:::
+
+#### Badub (Composer)
+
+- **Introduction Reminder:**
+  - _"For the camera, please state your name and your role on the project."_
+
+**On Musical Identity**
+
+1.  What is the musical identity of "Return to Yoshi's Island"? How do you approach blending the nostalgic sounds and instruments of _Super Mario 64_ and _Yoshi's Island_ to create a soundtrack that feels both new and familiar?
+
+::: info Follow-ups
+
+- Using the limited N64 sound font creatively.
+- The goal of a "new yet familiar" sound.
+
+:::
+
+2.  Kaze has said your music is a direct inspiration for his level design. Can you walk us through your process for composing a track for a specific theme, like the "Cowboy Level" or the "Space Arcade"?
+
+::: info Follow-ups
+
+- The story of the Cowboy Level music arriving mid-stream.
+- How Kaze's "vibe" description translates into music.
+
+:::
+
+**On The Craft of N64 Music**
+
+1.  Composing for the N64 is a unique technical craft. How do its limitations shape your compositions? For example the small sound font, the ROM space, and the audio engine. Do you see them as restrictions or as creative opportunities?
+
+::: info Follow-ups
+
+- The OST taking up a significant portion of the 64MB cartridge.
+- The challenge of Kaze's custom sound engine.
+
+:::
+
+2.  The overworld features nearly 20 seamlessly transitioning tracks. What were the creative and technical challenges in composing and implementing such an ambitious, adaptive score on the N64?
+
+::: info Follow-ups
+
+- Ensuring smooth transitions between different area themes.
+- Working with Kaze to time music to events or locations.
+
+:::
+
+#### Zeina (Animator & Artist)
+
+- **Introduction Reminder:**
+  - _"For the camera, please state your name and your role on the project."_
+
+**On Animation & Giving Life to Characters**
+
+1.  You're responsible for bringing RTYI's characters to life. What is your approach to giving personality and emotion to a character through animation, especially within the N64's technical limits? Can you use a specific character like the Wiggler or the "Piano Guy" as an example?
+
+::: info Follow-ups
+
+- Working with bone limits and the old "geo bone" system.
+- The new quaternion-based animation system and what it allows.
+- Conveying character through movement, not just polygons.
+
+:::
+
+**On Art, Design & Influence**
+
+1.  Beyond animation, you've contributed 2D art like footprint textures, 3D models like Peach, and vital concept art. Can you tell the story behind your concept art for the "mutant Yoshi" boss or the zoo entrance, and how those initial drawings sparked a direction for the team?
+
+::: info Follow-ups
+
+- Collaborating with Kaze and Biobak on a cohesive look.
+- The process of creating a model or texture for the game.
+
+:::
+
+2.  Kaze has said your feedback as the "first playtester" is invaluable and has led to direct changes in the game. From your perspective, what is the importance of having an artist and animator also act as a key playtester? What kinds of things do you notice that a programmer might not?
+
+::: info Follow-ups
+
+- The story of the difficult section Kaze made easier because it was "painful to watch" you play.
+- How gameplay feel influences your animation choices.
+
+:::
+
+### Part 3: Joint Interview (Kaze & Zeina)
+
+These questions are for Kaze and Zeina together, focusing on their unique dynamic as both creative and personal partners.
+
+1.  **A Shared Creation:** "Return to Yoshi's Island" is a project you've built together, both as collaborators and as a couple. Can you describe how your creative partnership works on a day-to-day basis? Where does "work life" end and "home life" begin when you're this deeply invested in a shared project?
+
+::: info Follow-ups
+
+- Anecdotes of design decisions made casually at home.
+- How do you switch off from "developer mode"?
+
+:::
+
+2.  **The Feedback Loop:** You have a unique feedback dynamic. Kaze, you get to see your very first player's raw reaction. Zeina, you get to give feedback directly to the lead developer. How does your personal relationship affect that professional feedback? Is it easier to be blunt and honest, or do you have to be more careful?
+
+::: info Follow-ups
+
+- Let's revisit the "painful to watch" playtest story from both of your perspectives.
+- How do you resolve creative disagreements?
+
+:::
+
+3.  **The Animation Pipeline:** Let's talk about the process for a specific character. Kaze, you program the AI and behavior. Zeina, you provide the animation that gives it life. Can you walk me through the journey of a character you collaborated on closely, from Kaze saying "we need an enemy that does X" to the final, animated character in the game?
+
+::: info Follow-ups
+
+- The Wiggler or Dry Bones as examples.
+- The moment Kaze sees the finished animation for the first time.
+
+:::
+
+4.  **Life, Art, and Parenthood:** This project has spanned a huge chapter of your lives, including becoming parents. How has the project been shaped by your life together, and how has your life been shaped by the demands of the project?
+
+::: info Follow-ups
+
+- Anecdotes about balancing development with personal life (moving, terrariums, haircuts).
+- How did expecting a child in the final stretch affect the project's stakes and your perspective on it?
+
+:::

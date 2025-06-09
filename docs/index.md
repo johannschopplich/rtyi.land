@@ -11,7 +11,7 @@ hero:
       link: /drafts/narrative-arcs
     - theme: brand
       text: Interview Questions
-      link: /drafts/questions
+      link: /drafts/interview-questions
     - theme: alt
       text: Stream Analysis
       link: /streams

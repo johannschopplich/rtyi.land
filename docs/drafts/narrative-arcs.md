@@ -2,7 +2,7 @@
 outline: deep
 ---
 
-# Documentary Interview & Story Preparation
+# Narrative Arcs for RTYI Documentary
 
 This document outlines key narrative arcs and themes to explore during interviews with Kaze Emanuar, Biobak, Badub, and Zeina. Each arc is a potential mini-story for the final documentary. The goal is to capture the "why" and "how" of the project, focusing on creative processes, technical challenges of high-level ROM hacking, and the human stories of the creators. The documentary should be accessible and resonant for a non-technical audience.
 
@@ -142,7 +142,7 @@ This is my favorite arc. It perfectly captures Kaze's creative process, the team
   - **The Solution:** Frame each overhaul as a response to a creative need:
     - **New Sound Engine:** For dynamic, seamless music and better effects.
     - **New Collision System:** For stable, consistent movement and to fix "floor clacking."
-    - **Graphics (F3DX3):** To render bigger, more detailed worlds via collaboration with Soren (microcode developer).
+    - **Graphics (F3DEX3):** To render bigger, more detailed worlds via collaboration with Soren (microcode developer).
   - **The Payoff:** Connect each technical change to a visible result (e.g., 60 FPS, enhanced movement, better lighting) that enables Badub's dynamic overworld music, complex platforming in the Ice Castle, and Biobak's highly detailed level reworks.
 - **B-Roll:**
   - Side-by-side comparisons of a bug in vanilla SM64 vs. the smooth result in RTYI.

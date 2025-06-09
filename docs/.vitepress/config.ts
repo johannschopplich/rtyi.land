@@ -2,7 +2,7 @@ import { defineConfig } from "vitepress";
 
 export default defineConfig({
   title: "RTYI Documentary",
-  description: "Research and Stream Analysis",
+  description: "Research and Preparation",
 
   themeConfig: {
     nav: [
@@ -36,16 +36,6 @@ export default defineConfig({
             text: "Video Game Documentaries",
             link: "/research/video-game-documentaries",
           },
-        ],
-      },
-      {
-        text: "Questions",
-        items: [
-          {
-            text: "Questions & Narrative Arc",
-            link: "/questions/summary-and-narrative-arc",
-          },
-          { text: "Generated Questions", link: "/questions" },
         ],
       },
       {
