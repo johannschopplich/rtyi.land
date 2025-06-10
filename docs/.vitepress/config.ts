@@ -4,7 +4,16 @@ export default defineConfig({
   title: "RTYI Documentary",
   description: "Research and Preparation",
 
+  head: [
+    [
+      "link",
+      { rel: "icon", href: "/logo.svg", sizes: "any", type: "image/svg+xml" },
+    ],
+  ],
+
   themeConfig: {
+    logo: "/logo.svg",
+
     nav: [
       { text: "Home", link: "/" },
       { text: "Narrative Arcs", link: "/drafts/narrative-arcs" },

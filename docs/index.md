@@ -5,6 +5,9 @@ hero:
   name: RTYI Documentary
   text: Research and Preparation
   tagline: Personal documentation for the Return to Yoshi's Island documentary.
+  image:
+    src: /logo-shadow.svg
+    alt: Vitest
   actions:
     - theme: brand
       text: Narrative Arcs
