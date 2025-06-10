@@ -174,7 +174,7 @@ These questions are tailored to each team member's specific role and contributio
 
     ::: info Follow-ups
 
-    - Biobak's complete rework of the pirate ship level ("Holy shit, everything is different")
+    - Biobak's complete rework of the Pirate Ship level ("Holy shit, everything is different")
     - Badub's cowboy music arriving mid-stream and changing the whole "vibe"
     - Zeina's "mutant Yoshi" boss concept
     - Tutorial Bunnies as a collaborative solution
@@ -219,54 +219,57 @@ These questions are tailored to each team member's specific role and contributio
 
 **On Visuals & World-Building**
 
-1.  We often see Kaze build a functional version of a level "to make the platforming good." Then later we see your rework that completely transforms the levels. Can you walk me through your process? How do you take that basic layout and breathe life into it? The Course 1, Pirate Ship, or Oily Boily Bay reworks are my favorite examples.
+1.  We often see Kaze build a functional "blockout" version of a level to get the platforming right. Then later, we see your rework that completely transforms the levels. Can you walk me through your process? How do you take that basic layout and breathe life into it? The Course 1, Pirate Ship, or Oily Boily Bay reworks are my favorite examples.
 
     ::: info Follow-ups
 
-    - The dialogue between you and Kaze during a rework
-    - Kaze's stream reactions to your reworks
-    - Your detailed changelogs explaining every decision
+    - Kaze's reaction to the Pirate Ship rework: "Holy shit, everything is different"
+    - What does a level look like when you receive it? (MS Paint maps, simple geometry?)
+    - Detailed changelogs explaining every decision
+    - How do you add "placeness" and story through visual details?
     - Evolving quality standards over time
-    - How you add "placeness" and story through visual details
     - Balancing Kaze's gameplay needs with your artistic vision
 
     :::
 
-2.  The Craft Level has such a unique look – cardboard, styrofoam, crayons. What inspired this aesthetic, and what are the challenges of making those everyday materials feel tactile and convincing on N64 hardware?
+2.  You create these detailed, modern-looking levels, but they have to run on 30-year-old hardware. What's your process for modeling and texturing something beautiful while constantly battling N64 polycounts, texture limits, and memory constraints?
 
     ::: info Follow-ups
 
-    - Translating community "doodle" contributions into game assets
-    - The "Chubby Chai guys" (thimbles) as enemies
-    - Working within texture memory limits
-    - Making materials feel convincing without modern shaders
-    - Collaborating with community contributors on this level
+    - The process of sending high-poly models to Kaze
+    - Creative solutions for N64's limited color palette
+    - Vertex colors and N64-specific shader "combiners"
+    - Optimizing geometry and textures without losing the artistic vision
+    - An example of an idea that was just too ambitious for the hardware
+    - An example of an idea that surprisingly _did_ work after some optimization
 
     :::
 
-**On Collaboration & N64 Constraints**
+**On Collaboration & Creative Vision**
 
 1.  How does Kaze communicate what he's looking for in a level's art style? Does he give you reference images or describe a "vibe?" How do you translate that direction into a cohesive visual identity?
 
     ::: info Follow-ups
 
     - Receiving MS Paint maps or blockout models
+    - Translating a feeling or "vibe" into a concrete visual identity
     - Your role as an idea contributor beyond just visuals
     - Suggesting level flow or gameplay improvements
     - The back-and-forth on technical feasibility for your ideas
     - A time Kaze's initial idea was vague and you had to define the look
+    - A time your artistic choice fundamentally changed Kaze's initial gameplay idea
 
     :::
 
-2.  You create these detailed, modern-looking environments, but for 30-year-old hardware. What's your process for modeling and texturing something beautiful while constantly battling N64 polycounts, texture limits, and memory constraints?
+2.  Kaze often talks about creating "placeness", a sense that a level is a real, coherent environment. From your perspective as the artist, what does "placeness" mean? How do your level reworks, like for Oily Boily Bay or the Zoo, contribute to this goal beyond just making them "prettier"?
 
     ::: info Follow-ups
 
-    - Kaze's process of adapting high-poly models
-    - Creative solutions for working with the N64's limited color palette
-    - Optimizing geometry and textures without losing the artistic vision
-    - The constant conversation about memory and performance
-    - An example of an idea that was just too ambitious for the hardware
+    - Using environmental details to tell a story
+    - The importance of lighting in creating atmosphere on the N64
+    - Small details that players might not notice but that add to the world's believability
+    - How a level's visual identity influences asset creation (enemies, objects, etc.)
+    - A favorite "placemaking" detail you've added that you're particularly proud of
 
     :::
 
