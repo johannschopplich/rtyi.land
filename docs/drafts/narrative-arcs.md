@@ -7,7 +7,7 @@ outline: deep
 This document outlines key main storylines and themes to explore during interviews with Kaze Emanuar, Biobak, Badub, and Zeina. Each arc represents a potential mini-story within the larger documentary. The focus is on capturing both the creative and technical aspects of high-level ROM hacking, while keeping the human stories front and center. The goal is to make this accessible and resonant to viewers who may not have technical backgrounds.
 
 ::: tip Plan
-This outline serves as a roadmap for filming, while allowing the actual story to emerge organically from the interview and editing process. It helps ensure all the essential narrative beats are covered.
+This outline serves only as a roadmap for filming, while allowing the actual story to emerge organically from the interview and editing process. It helps ensure all the essential narrative beats are covered.
 :::
 
 ## Project Origins & Philosophies
