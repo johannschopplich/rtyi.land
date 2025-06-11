@@ -1,8 +1,9 @@
 import { defineConfig } from "vitepress";
 
 export default defineConfig({
-  title: "RTYI Documentary",
-  description: "Research and Preparation",
+  title: "Return To Yoshi's Island Documentary",
+  description:
+    "Beyond the cartridge: My personal space for researching and preparing the Return to Yoshi's Island documentary.",
 
   head: [
     [
