@@ -55,7 +55,8 @@ export default defineConfig({
     ],
 
     footer: {
-      message: "Made for internal use only by Johann Schopplich.",
+      message:
+        'Written for internal use by <a href="https://byjohann.link">Johann Schopplich</a>.',
     },
   },
 });
