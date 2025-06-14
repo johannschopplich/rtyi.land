@@ -1,15 +1,27 @@
 import { defineConfig } from "vitepress";
+import { description, name, ogImage, ogUrl, twitterImage } from "./meta";
 
 export default defineConfig({
-  title: "RTYI Documentary",
-  description:
-    "Beyond the cartridge: My personal space for researching and preparing the Return to Yoshi's Island documentary.",
+  title: name,
+  description,
 
   head: [
     [
       "link",
       { rel: "icon", href: "/logo.svg", sizes: "any", type: "image/svg+xml" },
     ],
+    ["meta", { name: "author", content: "Johann Schopplich" }],
+    ["meta", { property: "og:type", content: "website" }],
+    ["meta", { property: "og:url", content: ogUrl }],
+    ["meta", { property: "og:title", content: name }],
+    ["meta", { property: "og:description", content: description }],
+    ["meta", { property: "og:image", content: ogImage }],
+    ["meta", { name: "twitter:title", content: name }],
+    ["meta", { name: "twitter:description", content: description }],
+    ["meta", { name: "twitter:image", content: twitterImage }],
+    ["meta", { name: "twitter:site", content: "@jschopplich" }],
+    ["meta", { name: "twitter:creator", content: "@jschopplich" }],
+    ["meta", { name: "twitter:card", content: "summary_large_image" }],
   ],
 
   themeConfig: {
