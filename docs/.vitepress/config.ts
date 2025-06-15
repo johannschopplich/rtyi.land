@@ -6,9 +6,15 @@ export default defineConfig({
   description,
 
   head: [
+    ["link", { rel: "icon", href: "/favicon.ico", sizes: "48x48" }],
     [
       "link",
-      { rel: "icon", href: "/logo.svg", sizes: "any", type: "image/svg+xml" },
+      {
+        rel: "icon",
+        href: "/favicon.svg",
+        sizes: "any",
+        type: "image/svg+xml",
+      },
     ],
     ["meta", { name: "author", content: "Johann Schopplich" }],
     ["meta", { property: "og:type", content: "website" }],
