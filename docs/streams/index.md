@@ -70,6 +70,8 @@ Most of [Kaze's development streams](https://www.youtube.com/@KazeClips/streams)
 
 These summaries save me hours of watching and allow me to prepare for the interviews and discussions with Kaze and the team.
 
+The [comprehensive prompt](/prompts/2.stream-extraction) I wrote guarantees the consistent extraction of key insights, collaborator information, game design decisions and challenges, and business aspects discussions from the stream content.
+
 ::: tip Summary
 **Total Streams:** {{ totalStreams }}
 
