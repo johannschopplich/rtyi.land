@@ -19,7 +19,7 @@ This outline serves only as a roadmap for filming, while allowing the actual sto
 - **Narrative Goal:** The central contrast of creating a visually stunning, modern-feeling game on a 30-year-old console. Who would take on this challenge, and why?
 - **Topics to Cover:**
   - **Background:** Kaze's history with both _Super Mario 64_ and _Yoshi's Island_. Which specific elements (aesthetic, mechanics, "vibe") from _Yoshi's Island_ did he want to fuse with SM64's 3D platforming?
-  - **Core Motivation:** Explore his straightforward starting point: "I like Yoshi." What does this mean to him personally (nostalgia, art, and feeling)?
+  - **Core Motivation:** Explore his straightforward starting point: "I like Yoshi. That's kind of where the thought process ended." What does this mean to him personally (nostalgia, art, and feeling)?
   - **Technical Foundation:** How the SM64 decompilation project opened up possibilities that weren't available in traditional ROM hacking.
   - **The Reality:** Acknowledging this as a fan project in a legally uncertain space that will never be sold commercially.
 - **B-Roll:**

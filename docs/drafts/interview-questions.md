@@ -18,7 +18,7 @@ These central questions are for Kaze, Biobak, Badub, and Zeina individually. Thi
     - What was Kaze's pitch like?
     - Personal nostalgia for Super Mario 64 or Yoshi's Island
     - Role of the SM64 decompilation project
-    - Kaze: "I like Yoshi" - What does that mean to you on a deeper level?
+    - Kaze: "I like Yoshi. That's kind of where the thought process ended." – What does that mean to you on a deeper level?
 
     :::
 
@@ -31,7 +31,7 @@ These central questions are for Kaze, Biobak, Badub, and Zeina individually. Thi
     - The desire to push the N64 to its limits
     - Proving what's possible on 30-year-old hardware
     - The passion for creation vs. financial realities
-    - Kaze: "If you want to be successful making video games you need to be mentally unwell" - what's the story behind that feeling?
+    - Kaze: "If you want to be successful making video games you need to be mentally unwell" – what's the story behind that feeling?
 
     :::
 
@@ -55,7 +55,7 @@ These central questions are for Kaze, Biobak, Badub, and Zeina individually. Thi
     - MS Paint maps and first rough drafts
     - Discord DMs and discussions vs. live stream feedback
     - The back-and-forth between technical needs and artistic vision
-    - The "shit phase" philosophy - the feeling that everything looks terrible at first
+    - The "shit phase" philosophy – the feeling that everything looks terrible at first
     - Real-time iteration during streams
     - How feedback flows between team members
 
@@ -120,7 +120,7 @@ These questions are tailored to each team member's specific role and contributio
     ::: info Follow-ups
 
     - The Space Arcade being "terrible" and needing a full rework
-    - Critiquing AAA games as a "chore" - what specifically bothers you?
+    - Critiquing AAA games as a "chore" – what specifically bothers you?
     - "Cowboyaboo" philosophy of over-the-top and goofy
     - The decision to remove 100-coin stars and "boot out" mechanics
     - The maturation from "Last Impact" to RTYI: "Back when I was making Last Impact, I would just put ideas in almost unfiltered"
