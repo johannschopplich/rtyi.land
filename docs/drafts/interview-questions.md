@@ -6,7 +6,7 @@ outline: deep
 
 The questions are open-ended to establish core themes and encourage storytelling. I will actively listen for interesting stories to follow up on and dive into specific, role-oriented topics.
 
-### Part 1: For All Team Members
+### For All Team Members
 
 These central questions are for Kaze, Biobak, Badub, and Zeina individually. This will hopefully allow me to weave together their different perspectives on the same key topics, creating a multi-faceted narrative for the documentary.
 
@@ -101,7 +101,7 @@ These central questions are for Kaze, Biobak, Badub, and Zeina individually. Thi
 
     :::
 
-### Part 2: Individual Interviews
+### Individual Interviews
 
 These questions are tailored to each team member's specific role and contributions, allowing for deeper dives into their unique perspectives and expertise.
 
@@ -379,7 +379,7 @@ These questions are tailored to each team member's specific role and contributio
 
     :::
 
-### Part 3: Joint Interview (Kaze & Zeina)
+### Kaze & Zeina Joint Interview
 
 These questions are for Kaze and Zeina together, focusing on their unique dynamic as both creative and personal partners.
 
