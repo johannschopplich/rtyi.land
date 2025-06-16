@@ -11,9 +11,16 @@ export default {
     const url = new URL(request.url);
 
     // Check if the path requires authentication
-    const requiresAuth = PROTECTED_PATHS.some(
-      (path) => url.pathname === path || url.pathname.startsWith(`${path}/`),
-    );
+    const requiresAuth = PROTECTED_PATHS.some((path) => {
+      // Check direct path match
+      if (url.pathname === path || url.pathname.startsWith(`${path}/`)) {
+        return true;
+      }
+
+      // Check VitePress SPA asset files (e.g., /assets/drafts_*.js)
+      const assetPattern = `/assets${path}_`;
+      return url.pathname.startsWith(assetPattern);
+    });
 
     if (requiresAuth && !validateCredentials(request, env)) {
       return new Response("Unauthorized", {
