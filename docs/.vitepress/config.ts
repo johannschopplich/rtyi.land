@@ -28,10 +28,21 @@ export default defineConfig({
     ["meta", { name: "twitter:site", content: "@jschopplich" }],
     ["meta", { name: "twitter:creator", content: "@jschopplich" }],
     ["meta", { name: "twitter:card", content: "summary_large_image" }],
+    [
+      "link",
+      {
+        rel: "apple-touch-icon",
+        href: "/apple-touch-icon.png",
+        sizes: "180x180",
+      },
+    ],
   ],
 
   themeConfig: {
-    logo: "/favicon.svg",
+    logo: {
+      dark: "/favicon-dark.svg",
+      light: "/favicon-light.svg",
+    },
 
     nav: [
       { text: "Home", link: "/" },
