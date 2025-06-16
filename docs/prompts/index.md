@@ -4,7 +4,7 @@ import { data as prompts } from "./prompts.data";
 
 # Prompts
 
-This page contains various prompts and analyses used for research and interview preparation. Each prompt is designed to explore different aspects of the RTYI documentation preparation.
+This page contains various prompts and analyses used for research and interview preparation. Each prompt is designed to explore different aspects of the RTYI documentary preparation.
 
 ## Available Prompts
 

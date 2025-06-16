@@ -3,14 +3,25 @@
  * Protects the entire VitePress documentation site
  */
 
-const REALM = "RTYI Documentation";
+const REALM = "RTYI Documentary";
+
+// Paths that should be publicly accessible without authentication
+const ALLOWED_PATHS = [
+  "/health",
+  "/ping",
+  "/favicon.ico",
+  "/favicon.svg",
+  "/favicon-dark.svg",
+  "/favicon-light.svg",
+  "/apple-touch-icon.png",
+];
 
 export default {
   async fetch(request, env): Promise<Response> {
     const url = new URL(request.url);
 
-    // Skip auth for health checks and monitoring
-    if (url.pathname === "/health" || url.pathname === "/ping") {
+    // Skip auth for allowed paths (health checks, monitoring, and assets)
+    if (ALLOWED_PATHS.includes(url.pathname)) {
       return env.ASSETS.fetch(request);
     }
 
