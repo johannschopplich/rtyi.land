@@ -4,28 +4,18 @@
  */
 
 const REALM = "RTYI Documentary";
-
-// Paths that should be publicly accessible without authentication
-const ALLOWED_PATHS = [
-  "/health",
-  "/ping",
-  "/favicon.ico",
-  "/favicon.svg",
-  "/favicon-dark.svg",
-  "/favicon-light.svg",
-  "/apple-touch-icon.png",
-];
+const PROTECTED_PATHS = ["/drafts", "/streams"];
 
 export default {
   async fetch(request, env): Promise<Response> {
     const url = new URL(request.url);
 
-    // Skip auth for allowed paths (health checks, monitoring, and assets)
-    if (ALLOWED_PATHS.includes(url.pathname)) {
-      return env.ASSETS.fetch(request);
-    }
+    // Check if the path requires authentication
+    const requiresAuth = PROTECTED_PATHS.some(
+      (path) => url.pathname === path || url.pathname.startsWith(`${path}/`),
+    );
 
-    if (!validateCredentials(request, env)) {
+    if (requiresAuth && !validateCredentials(request, env)) {
       return new Response("Unauthorized", {
         status: 401,
         headers: {
