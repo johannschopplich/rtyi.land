@@ -1,14 +1,14 @@
-import * as clack from "@clack/prompts";
 import * as fsp from "node:fs/promises";
-import { generateObject } from "ai";
 import { basename } from "node:path";
-import { resolveProviderLanguageModel, getQuestionStorage } from "../utils";
+import * as clack from "@clack/prompts";
+import { generateObject } from "ai";
+import { template } from "utilful";
 import { DEFAULT_GOOGLE_PRO_MODEL } from "../constants";
 import {
   INTERVIEW_QUESTIONS_PROMPT,
   INTERVIEW_QUESTIONS_SCHEMA,
 } from "../prompts";
-import { template } from "utilful";
+import { getQuestionStorage, resolveProviderLanguageModel } from "../utils";
 
 export async function generateQuestions(filePath: string) {
   const storage = getQuestionStorage();

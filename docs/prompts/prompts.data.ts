@@ -5,7 +5,7 @@ export default createContentLoader("prompts/*.md", {
   transform(rawData) {
     return rawData
       .filter(({ url }) => url !== "/prompts/")
-      .map(({ url, frontmatter, excerpt }) => ({
+      .map(({ url, frontmatter }) => ({
         title: frontmatter.title,
         url,
         frontmatter,

@@ -1,5 +1,5 @@
+import * as path from "node:path";
 import { defineLoader } from "vitepress";
-import * as path from "path";
 import { STREAMS_DIR } from "../../src/constants";
 import {
   extractContent,
@@ -22,7 +22,7 @@ export default defineLoader({
       STREAMS_DIR,
       ({ filePath, fileName, fileContent }) => {
         const modelDir = path.basename(path.dirname(filePath));
-        let content = extractContent(fileContent);
+        const content = extractContent(fileContent);
 
         if (!content) return;
 
@@ -38,7 +38,7 @@ export default defineLoader({
           rawDate,
           model: modelDir,
           excerpt:
-            excerpt.length > 200 ? excerpt.substring(0, 200) + "…" : excerpt,
+            excerpt.length > 200 ? `${excerpt.substring(0, 200)  }…` : excerpt,
         };
 
         return streamInfo;

@@ -1,4 +1,4 @@
-import * as path from "path";
+import * as path from "node:path";
 import { STREAMS_DIR } from "../../src/constants";
 import {
   extractContent,
@@ -13,7 +13,7 @@ export default {
       STREAMS_DIR,
       ({ filePath, fileName, fileContent }) => {
         const modelDir = path.basename(path.dirname(filePath));
-        let content = extractContent(fileContent);
+        const content = extractContent(fileContent);
 
         if (!content) {
           throw new Error(

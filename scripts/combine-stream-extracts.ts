@@ -1,7 +1,7 @@
-#!/usr/bin/env node
-import * as clack from "@clack/prompts";
 import * as fsp from "node:fs/promises";
 import * as path from "node:path";
+import process from "node:process";
+import * as clack from "@clack/prompts";
 import ansis from "ansis";
 import {
   DEFAULT_GOOGLE_PRO_MODEL,
@@ -27,7 +27,7 @@ if (files.length === 0) {
 
 clack.note(`Found ${ansis.bold(files.length)} stream extracts`);
 
-let allExtracts: string[] = [];
+const allExtracts: string[] = [];
 
 for (const file of files) {
   let fileContent = await fsp.readFile(file, "utf8");

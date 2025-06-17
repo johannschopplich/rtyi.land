@@ -1,5 +1,5 @@
-import * as fsp from "fs/promises";
-import * as path from "path";
+import * as fsp from "node:fs/promises";
+import * as path from "node:path";
 import { glob } from "tinyglobby";
 
 export interface FileProcessorParams {
@@ -39,7 +39,7 @@ export function formatDateFromYYYYMMDD(dateString: string) {
   const month = dateString.substring(4, 6);
   const day = dateString.substring(6, 8);
 
-  const date = new Date(parseInt(year), parseInt(month) - 1, parseInt(day));
+  const date = new Date(Number.parseInt(year), Number.parseInt(month) - 1, Number.parseInt(day));
 
   return date.toLocaleDateString("en-US", {
     year: "numeric",

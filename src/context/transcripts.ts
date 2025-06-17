@@ -1,14 +1,14 @@
-import * as clack from "@clack/prompts";
-import * as fsp from "node:fs/promises";
+import type { AnthropicProviderOptions } from "@ai-sdk/anthropic";
 import { constants } from "node:fs";
+import * as fsp from "node:fs/promises";
+import { basename, extname, join } from "node:path";
+import * as clack from "@clack/prompts";
+import slugify from "@sindresorhus/slugify";
 import { generateText } from "ai";
-import { join, basename, extname } from "node:path";
-import { resolveProviderLanguageModel, ensureDirectoryExists } from "../utils";
+import { template } from "utilful";
 import { STREAMS_DIR } from "../constants";
 import { EXTRACTION_PROMPT_REASONING } from "../prompts";
-import { template } from "utilful";
-import slugify from "@sindresorhus/slugify";
-import { AnthropicProviderOptions } from "@ai-sdk/anthropic";
+import { ensureDirectoryExists, resolveProviderLanguageModel } from "../utils";
 
 export async function processTranscript(filePath: string, model: string) {
   const fileName = basename(filePath);

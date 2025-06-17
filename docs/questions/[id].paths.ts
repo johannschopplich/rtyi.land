@@ -1,4 +1,4 @@
-import * as path from "path";
+import * as path from "node:path";
 import { KV_QUESTIONS_DIR } from "../../src/constants";
 import {
   formatDateFromYYYYMMDD,
@@ -39,7 +39,7 @@ export default {
           0,
         );
 
-        let markdownContent = `# Stream Questions Analysis
+        const markdownContent = `# Stream Questions Analysis
 
 ::: tip Summary
 **Date:** ${formattedDate}

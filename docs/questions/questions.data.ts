@@ -1,4 +1,4 @@
-import * as path from "path";
+import * as path from "node:path";
 import { defineLoader } from "vitepress";
 import { KV_QUESTIONS_DIR } from "../../src/constants";
 import {
@@ -26,7 +26,7 @@ export default defineLoader({
 
         try {
           questionsData = JSON.parse(fileContent);
-        } catch (error) {
+        } catch {
           throw new Error(`Invalid JSON in ${filePath}`);
         }
 

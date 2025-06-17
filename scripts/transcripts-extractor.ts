@@ -1,4 +1,3 @@
-#!/usr/bin/env node
 import * as fsp from "node:fs/promises";
 import { join } from "node:path";
 import process from "node:process";

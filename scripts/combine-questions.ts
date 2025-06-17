@@ -1,12 +1,11 @@
-#!/usr/bin/env node
-import * as clack from "@clack/prompts";
+import type { z } from "zod";
 import * as fsp from "node:fs/promises";
 import * as path from "node:path";
+import * as clack from "@clack/prompts";
 import ansis from "ansis";
-import { z } from "zod";
-import { getQuestionStorage } from "../src/utils";
 import { DOCS_DIR } from "../src/constants";
 import { INTERVIEW_QUESTIONS_SCHEMA } from "../src/prompts";
+import { getQuestionStorage } from "../src/utils";
 
 type StorageValue = z.infer<typeof INTERVIEW_QUESTIONS_SCHEMA>;
 
