@@ -7,7 +7,7 @@ const REALM = "RTYI Documentary";
 const PROTECTED_PATHS = ["/drafts", "/streams"];
 
 export default {
-  async fetch(request, env): Promise<Response> {
+  async fetch(request, env) {
     const url = new URL(request.url);
 
     // Check if the path requires authentication
