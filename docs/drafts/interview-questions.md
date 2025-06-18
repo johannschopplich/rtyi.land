@@ -295,7 +295,7 @@ These questions are tailored to each team member's specific role and contributio
 
     :::
 
-2.  Kaze has said your music directly inspires his level design. Can you tell me about the moment you sent the Cowboy Level track? It seemed to arrive mid-stream and completely changed the direction of that level's atmosphere.
+2.  Kaze has said your music directly inspires his level design. Can you tell me about the moment you sent the Cowboy Level track? It arrived mid-stream and completely changed the direction of that level's atmosphere.
 
     ::: info Follow-ups
 
