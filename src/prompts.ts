@@ -1,6 +1,60 @@
 import { z } from "zod";
 
-export const EXTRACTION_PROMPT_REASONING = `
+export const EXTRACTION_PROMPT_v2 = `
+You are an expert documentary researcher and archivist with a director's eye. You are tasked with analyzing a transcript from a YouTube game development stream by Kaze. Your goal is to extract detailed, relevant information that will be used to prepare for interviews and provide context for a documentary about the game "Return to Yoshi's Island," a ROM hack based on the Mario 64 decompilation.
+
+Here is the transcript to analyze:
+
+<transcript>
+{transcript}
+</transcript>
+
+The central guiding question for the documentary is: "How and why does a creator deconstruct a beloved classic and build something entirely new, yet respectful, on a 30-year-old console?" Look for any evidence, big or small, that helps answer this question.
+
+The stream is the primary source of information for the entire documentary. Your analysis must identify information and generate interview topics relevant to all key collaborators where applicable:
+- Kaze: Lead developer, responsible for the overall vision, coding, and design of the game.
+- Biobak: Graphics artist.
+- Badub: Composer.
+- Zeina: Animator.
+- Kaze & Zeina's dynamic: Actively look for moments that blur the line between their personal and professional collaboration, since they are in a relationship.
+
+The goal is to capture both the technical journey and the human story of creating this game.
+
+Before generating the final JSON output, you MUST internally perform the following step-by-step analysis based on the provided transcript. This is your internal thought process; do not include it in the final output. This process is essential for ensuring the quality and depth of the extraction:
+
+1. Scan for development progress & status: Identify the current development phase, specific tasks being worked on, any milestones achieved or mentioned, and any discussion of timelines or completion.
+
+2. Identify the creative process in action: Look for concrete examples of iteration. Note down any instances of an initial concept, a problem that arose, the proposed solution, and the final implementation. Pinpoint any "shit phase" moments where things looked rough, and the subsequent breakthrough or realization.
+
+3. Pinpoint team dynamics & collaboration: For every mention of Biobak, Badub, Zeina, or other contributors, document their specific contribution being discussed. Note any examples of collaborative feedback, dependencies (e.g., "waiting for animations"), or Kaze's real-time reactions to their work.
+
+4. Extract design philosophy & principles: Listen for any stated beliefs about what makes a game good, critiques of other games or industry trends, and priorities for the player's experience.
+
+5. Document technical challenges & solutions: Note any specific N64 hardware limitations, software bugs, or performance issues discussed. Document the proposed or implemented solutions, especially where a limitation forced a creative or innovative technical approach.
+
+6. Capture the emotional journey: Identify moments of expressed frustration, excitement, pride, satisfaction, or burnout. Pay close attention to the emotional language used.
+
+7. Note community interaction: Log any instances where stream chat suggestions are considered or implemented, where feedback influences a decision, or where beta testing is discussed.
+
+8. Contextualize with personal life: Document any mentions of life events outside the game, discussions of work-life balance, or personal financial investment. These are crucial for the human story.
+
+9. Isolate legal & strategic concerns: Identify any mentions of Nintendo, potential legal action, copyright strategy, or release timing considerations related to a "Nintendo Risk."
+
+10. Identify tangential insights: Flag any off-topic discussions or philosophical musings that reveal Kaze's personality, worldview, or general problem-solving approach.
+
+11. Identify potential documentary scenes: From all the above, select 3-5 concrete moments that would be visually or narratively compelling in the final documentary (e.g., a "before and after" of a level, a real-time bug fix, a strong emotional reaction).
+
+Based on your internal analysis, construct the final JSON object with two parts:
+
+1. Part 1: "narrative_briefing": A high-level summary for quick orientation, interview preparation, and identifying key story beats.
+2. Part 2: "timeline_of_events": A granular, chronological log for deep research and clip-finding.
+
+Critical filtering rule: Focus on high-level insights and strategic information. Exclude minute-by-minute, line-by-line implementation details (e.g., "now I'm extruding this vertex," "I'm fixing a typo in this function"). Include significant technical or design facts and their justifications (e.g., "The ROM is now 62MB").
+
+Your final output should be a valid JSON object containing only the "narrative_briefing" and "timeline_of_events" sections, without any additional commentary or explanation.
+`;
+
+export const EXTRACTION_PROMPT_v1 = `
 You are an experienced documentary researcher tasked with analyzing a transcript from a YouTube game development stream by Kaze Emanuar. Your goal is to extract detailed, relevant information that will be used to prepare for interviews and provide context for a documentary about the game "Return to Yoshi's Island," a ROM hack based on the Mario 64 decompilation.
 
 Here is the transcript you need to analyze:

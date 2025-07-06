@@ -4,10 +4,11 @@ import * as fsp from "node:fs/promises";
 import { basename, extname, join } from "node:path";
 import * as clack from "@clack/prompts";
 import slugify from "@sindresorhus/slugify";
-import { generateText } from "ai";
+import { generateObject } from "ai";
 import { template } from "utilful";
 import { STREAMS_DIR } from "../constants";
-import { EXTRACTION_PROMPT_REASONING } from "../prompts";
+import { EXTRACTION_PROMPT_v2 } from "../prompts";
+import { TranscriptAnalysisSchema } from "../schemas";
 import { ensureDirectoryExists, resolveProviderLanguageModel } from "../utils";
 
 export async function processTranscript(filePath: string, model: string) {
@@ -15,7 +16,7 @@ export async function processTranscript(filePath: string, model: string) {
   const fileNameWithoutExt = basename(filePath, extname(filePath));
   const modelSlug = slugify(model);
   const modelDir = join(STREAMS_DIR, modelSlug);
-  const outputPath = join(modelDir, `${slugify(fileNameWithoutExt)}.txt`);
+  const outputPath = join(modelDir, `${slugify(fileNameWithoutExt)}.json`);
 
   await ensureDirectoryExists(modelDir);
 
@@ -28,9 +29,14 @@ export async function processTranscript(filePath: string, model: string) {
     const transcriptContent = await fsp.readFile(filePath, "utf-8");
     const languageModel = resolveProviderLanguageModel(model);
 
-    const result = await generateText({
+    const { object } = await generateObject({
       model: languageModel,
       temperature: model.startsWith("gemini") ? 1 : 0.5,
+      schema: TranscriptAnalysisSchema,
+      output: "object",
+      prompt: template(EXTRACTION_PROMPT_v2, {
+        transcript: transcriptContent,
+      }),
       providerOptions: {
         // Enable reasoning for the Anthropic model
         anthropic: {
@@ -40,15 +46,16 @@ export async function processTranscript(filePath: string, model: string) {
           },
         } satisfies AnthropicProviderOptions,
       },
-      prompt: template(EXTRACTION_PROMPT_REASONING, {
-        transcript: transcriptContent,
-      }),
     });
 
-    await fsp.writeFile(outputPath, result.text);
+    await fsp.writeFile(
+      outputPath,
+      JSON.stringify(object, undefined, 2),
+      "utf-8",
+    );
     clack.note(`Processed ${fileName}`);
 
-    return result.text;
+    return object;
   } catch (error) {
     clack.cancel(`Error processing ${fileName}`);
     console.error(error);
