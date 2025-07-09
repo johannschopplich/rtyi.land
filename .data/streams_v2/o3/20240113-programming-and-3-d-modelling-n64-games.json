@@ -1,0 +1,186 @@
+{
+  "stream_context": {
+    "summary": "Kaze reviews and integrates Biobak’s full re-work of Course 5 (the ghost-ship) while live-debugging crashes caused by outdated texture-animation tables, adjusting N64-specific rendering (layers, combiners, texture formats, lighting) and planning design tweaks (coins, skybox fade, secret doors). He briefly shows progress on the western saloon hub, evaluates a new saloon music draft from Badub, and shares opinions on tools and workflow.",
+    "level": ["Course 5", "saloon hub", "overworld engine"]
+  },
+  "development_findings": [
+    {
+      "summary": "Course 5’s entire ghost-ship model has been rebuilt by Biobak: new geometry (1 700 tris hull), real railings, anchor, cannon holes, shredded sails, interior rooms, captain’s quarters, and treasure room lighting.",
+      "quote": "\"First of all, dude, this is fucking sick looking … somehow we managed to do this with a thousand seven hundred triangles.\""
+    },
+    {
+      "summary": "Kaze must down-res or split some window textures because N64 can’t mix the chosen alpha map with RGBA at current resolution.",
+      "quote": "\"Unfortunately, this isn’t gonna work … this one will have to be a lower-res texture.\""
+    },
+    {
+      "summary": "Transparent sails look nicer but create expensive overdraw; Kaze leans toward cut-out layer 4 to avoid Z-sorting cost.",
+      "quote": null
+    },
+    {
+      "summary": "Clear-color clears cost ~3 ms (~10 % of frame), so the project intentionally runs without a frame clear to stay within performance budget.",
+      "quote": "\"Applying the clear color takes around three milliseconds which is like 10 percent of the render time of a frame.\""
+    },
+    {
+      "summary": "New jail mechanic in western hub: each captured outlaw NPC will appear in a visible jail cell as stars are collected.",
+      "quote": "\"Every time you catch an outlaw the outlaw will be in here, so this jail cell slowly fills up as you collect stars.\""
+    },
+    {
+      "summary": "Saloon NPC count kept low to avoid lag and dialog bloat; Kaze emphasises meaningful text over crowd density.",
+      "quote": null
+    },
+    {
+      "summary": "Debug crash traced to obsolete texture-animation (TXS) tables after geometry shift (+700 units). Removing or updating them stops the matrix-underflow crash.",
+      "quote": "\"It was TX channels. We need to remake the texture animations, that’s what's going on here.\""
+    },
+    {
+      "summary": "Kaze plans skybox/sea fade: skybox clamped in view space, bottom fades to colour that outer sea ring also fades to.",
+      "quote": null
+    },
+    {
+      "summary": "Plank added to ship’s bow will become bouncy ‘diving board’ giving shortcut + possible Yoshi coin reward.",
+      "quote": null
+    },
+    {
+      "summary": "Library red-coin puzzle revised: sliding bookshelf now telegraphed with red books, scratches, and slight protrusion to reduce confusion.",
+      "quote": null
+    },
+    {
+      "summary": "Switch in sleeping-tables room will open external Shy Guy minigame door instead of spawning climb blocks; camera cutscene redesign required.",
+      "quote": null
+    },
+    {
+      "summary": "Engine and hack will be open-sourced at release; current optimized engine is private to avoid early leak.",
+      "quote": "\"When I release this hack my engine will be public. I'll make the hack open source … at the same time.\""
+    }
+  ],
+  "context_findings": [
+    {
+      "summary": "Kaze distrusts modern tech (captchas, Windows 11, spyware) and prefers minimal tooling (rarely uses ChatGPT for Mario because “there’s no use case so far”).",
+      "quote": null
+    },
+    {
+      "summary": "Shows mix of excitement (praise for Biobak’s work) and frustration (compile crashes, texture limits), illustrating emotional highs and lows of N64 dev.",
+      "quote": null
+    },
+    {
+      "summary": "Believes many industry programmers are over-paid/under-worked; contrasts this with his own busy schedule.",
+      "quote": "\"I think programmers in a 35-hour work week, they just work 10 hours … programmers are the laziest people on the planet.\""
+    }
+  ],
+  "contributor_findings": {
+    "biobak": [
+      {
+        "summary": "Delivered extensive Course 5 rework with embedded changelog; asks Kaze to read it before import.",
+        "quote": null
+      },
+      {
+        "summary": "Flags specific implementation needs (window brightness, sail combiner export issue) during stream.",
+        "quote": null
+      }
+    ],
+    "badub": [
+      {
+        "summary": "Sent first draft of saloon theme; Kaze finds it too upbeat and similar to earlier zoo track; Badub agrees to revise.",
+        "quote": "\"He says he's changing it. Nice.\""
+      }
+    ],
+    "zeina": [
+      {
+        "summary": "Briefly appears in chat; no development actions this session.",
+        "quote": null
+      }
+    ]
+  },
+  "key_stories": [
+    {
+      "title": "Ghost-Ship Makeover",
+      "summary": "The old Course 5 looked dated, so Biobak rebuilt the entire ghost-ship. Kaze live-reviews the model, fixing texture formats, lighting combiners, and anchor shading in real time.",
+      "challenge": "Outdated visuals and performance issues in a three-year-old level.",
+      "process": "Biobak remodels; Kaze imports, adjusts layers, reduces textures, and resolves rendering constraints.",
+      "outcome": "New ship adopted; to-do list created for skybox fade, coins, plank bounce, and collision re-authoring.",
+      "key_quote": "\"This room is so fucking cool … Nothing's the same in here.\"",
+      "related_to": ["kaze", "biobak"]
+    },
+    {
+      "title": "Mysterious Crash Hunt",
+      "summary": "After importing the new model, the game crashes with a matrix underflow. Kaze methodically removes objects until he identifies outdated texture-animation channels as the culprit.",
+      "challenge": "Game crashes immediately on load after import.",
+      "process": "Binary-style elimination of object types; suspects coins, then detect-channels; confirms TXS tables pointing to shifted geometry.",
+      "outcome": "Crash fixed; texture animations slated for rebuild.",
+      "key_quote": "\"It was TX channels. We need to remake the texture animations.\"",
+      "related_to": ["kaze"]
+    },
+    {
+      "title": "Saloon Music Redo",
+      "summary": "Badub submits a saloon track, but Kaze feels it clashes with the dark, quiet vibe. Composer and dev discuss references and agree to rework the piece.",
+      "challenge": "Music draft doesn’t fit atmosphere and resembles previous zoo level tune.",
+      "process": "Kaze plays sample, compares to reference pirate/western tunes, provides feedback in DM/live.",
+      "outcome": "Badub starts revising; new version expected next session.",
+      "key_quote": "\"Too upbeat and happy … I was thinking it should sound like this.\"",
+      "related_to": ["kaze", "badub"]
+    }
+  ],
+  "open_questions": [
+    {
+      "topic": "Texture format limits and two-cycle combiners",
+      "context": "Stream shows multiple quick fixes (alpha maps, IA8 vs CI4) but not a consolidated rule-set.",
+      "questions": [
+        "Can you walk through the definitive texture/combiner guidelines you’ve settled on?",
+        "What tools or scripts automate checking these constraints?"
+      ],
+      "related_to": ["kaze", "biobak"],
+      "priority": "high"
+    },
+    {
+      "topic": "Skybox lighting strategy",
+      "context": "Kaze plans to fade skybox into colour and maybe use it for interior lighting but remains undecided.",
+      "questions": [
+        "What final technique will you use for skybox-driven lighting?",
+        "Will interiors receive dynamic light from storms or remain static?"
+      ],
+      "related_to": ["kaze", "biobak"],
+      "priority": "medium"
+    },
+    {
+      "topic": "NPC writing workload",
+      "context": "Kaze worries about writing text for many saloon NPCs.",
+      "questions": [
+        "Who is responsible for narrative/dialogue writing?",
+        "Will you bring in external writers or community help?"
+      ],
+      "related_to": ["kaze"],
+      "priority": "medium"
+    },
+    {
+      "topic": "Open-source release plan",
+      "context": "Engine to be public at launch, but details sparse.",
+      "questions": [
+        "What license will you use?",
+        "How will you separate proprietary assets from code?",
+        "Any fears of clones or misuse?"
+      ],
+      "related_to": ["kaze"],
+      "priority": "medium"
+    },
+    {
+      "topic": "Zeina’s current role",
+      "context": "Zeina only briefly mentioned; unclear workload as animator.",
+      "questions": [
+        "What animations is Zeina currently focused on?",
+        "How does personal relationship influence collaboration and feedback?"
+      ],
+      "related_to": ["zeina", "kaze"],
+      "priority": "low"
+    },
+    {
+      "topic": "Performance headroom",
+      "context": "Clear-color removal saved ~10 % frame; other optimisations unspoken.",
+      "questions": [
+        "What is current average CPU/GPU utilisation per level?",
+        "Which effects are still at risk of being cut for performance?"
+      ],
+      "related_to": ["kaze", "biobak"],
+      "priority": "medium"
+    }
+  ]
+}

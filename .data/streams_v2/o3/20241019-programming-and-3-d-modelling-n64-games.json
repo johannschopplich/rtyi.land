@@ -1,0 +1,150 @@
+{
+  "stream_context": {
+    "summary": "Kaze spends most of the stream inside Course 14 (working title “Hand-Made Heights”) implementing two set-pieces: a physics-driven paper-airplane ride that has to swoop and land on a pyramid, and a giant rubber-band slingshot that hurls Mario forward.  He also drops into the demo build on real N64 hardware to show recent performance/visual fixes.",
+    "level": ["Course 14", "Demo Overworld/N64 test"]
+  },
+  "development_findings": [
+    {
+      "summary": "Paper-airplane object now exists; Kaze is tuning a custom physics loop so the plane loses speed when climbing, gains when diving, and occasionally performs flips before landing on a pyramid.",
+      "quote": "We just kind of need to fudge the equations in a way that we get the result we want."
+    },
+    {
+      "summary": "Bug where forward velocity stayed at zero traced to an un-initialised stack value; fixing that produced stable velocity gain/loss.",
+      "quote": "Oh, that's the issue. It was a random value on stack that we used."
+    },
+    {
+      "summary": "Plane behaviour depends heavily on angVelPitch; Kaze clamps it at 0x3000 and adds friction to keep motion believable yet chaotic.",
+      "quote": null
+    },
+    {
+      "summary": "Added cardboard paper-target objects off-stream; they now break when hit by Mario’s face.",
+      "quote": "I finished programming the paper targets off-stream. You can now break them with Mario’s face."
+    },
+    {
+      "summary": "Created large mechanical Toad NPC that spawns a star once dialogue ends; size and ‘robotic’ text style are deliberate.",
+      "quote": null
+    },
+    {
+      "summary": "Rubber-band slingshot implemented with a simple bone animation in Blender; first frame was being cut by Fast64’s smart-range export, causing mis-alignment.",
+      "quote": "The first animation frame wasn't exporting because there's a smart animation range feature that cuts out all the frames until the first one we have a keyframe on."
+    },
+    {
+      "summary": "Demo build now uses the new F3DX3 microcode, giving better RSP performance; occlusion planes and triangle strips are also in use.",
+      "quote": "F3DX3 is in the game, which is a little faster than all the microcodes that existed back then… my game now is RSP-bottlenecked."
+    },
+    {
+      "summary": "N64 visual fixes: coverage-multiply-alpha issue causing lines on billboards resolved; option to disable anti-aliasing raises framerate to ~50 FPS in busy areas.",
+      "quote": "You turn it off, you almost get 50 FPS here."
+    },
+    {
+      "summary": "Mip-mapping still limited to two levels because Fast64 can’t export more; adding manual display-lists is considered too time-consuming.",
+      "quote": null
+    }
+  ],
+  "context_findings": [
+    {
+      "summary": "Kaze distrusts generative AI for actual coding and finds it \"absolutely horrendous\" right now.",
+      "quote": "AI used to be better at programming, but at the moment it is absolutely horrendous."
+    },
+    {
+      "summary": "He is frustrated by chat’s constant questions during unfinished features and sometimes responds bluntly to keep focus.",
+      "quote": "The answer to every single one of your questions so far is just shut up and wait."
+    },
+    {
+      "summary": "Believes limited daily hobby time is enough for ROM-hacking, criticising excuses about school/time.",
+      "quote": "School is like six hours a day… you have all the time you want and you're just being a pussy."
+    },
+    {
+      "summary": "Birthday is tomorrow; mentions turning older (not 30 yet) and planning a bonus stream.",
+      "quote": null
+    },
+    {
+      "summary": "Marketing: prefers to keep all promotion on his main personal accounts rather than spin up separate ‘game’ socials—until a future original game.",
+      "quote": null
+    },
+    {
+      "summary": "Suspicious that Analogue 3D haven’t offered him a review unit; assumes either product is poor or he’s considered irrelevant.",
+      "quote": "If they're not sending me a review copy… surely there's a reason for that. And surely that means it's garbage."
+    }
+  ],
+  "contributor_findings": {
+    "biobak": [
+      {
+        "summary": "Appeared briefly in chat; no specific task discussed in this stream.",
+        "quote": null
+      }
+    ],
+    "badub": [],
+    "zeina": [
+      {
+        "summary": "Joined chat near the end; Kaze shows her the finished paper-airplane and rubber-band work.",
+        "quote": null
+      }
+    ]
+  },
+  "key_stories": [
+    {
+      "title": "Taming the Paper-Airplane",
+      "summary": "Kaze’s attempt to recreate realistic yet fun paper-plane physics kept spiralling into uncontrollable flips or stalled motion.  A hidden bug (garbage stack value) froze velocity, and the interaction between forward speed and angular pitch needed constant tweaking.",
+      "challenge": "Plane either spun endlessly or lost all speed, refusing to follow intended swoop-swoop path.",
+      "process": "Added gravity, clamped angVelPitch, introduced sine-based force, printed debug values, found un-initialised stack variable, iteratively tuned friction and velocity scaling.",
+      "outcome": "Plane now climbs, dives, regains speed, and can be steered to land on the pyramid; backflips optional.",
+      "key_quote": "I didn't think that programming a paper plane was going to be this much of a problem.",
+      "related_to": ["kaze"]
+    },
+    {
+      "title": "Demo on Real Hardware",
+      "summary": "The public demo is close; Kaze ran it on his N64 to verify fixes: anti-aliasing artifacts removed and performance up thanks to F3DX3 microcode.",
+      "challenge": "Visible lines on billboards and sub-30 FPS in crowded scenes.",
+      "process": "Diagnosed coverage×alpha bug, implemented toggle for AA, updated microcode, and sprinkled occlusion planes.",
+      "outcome": "Visual issues gone and busy areas hit ~50 FPS when AA is off; still minor Z-fighting to address.",
+      "key_quote": "This whole area is basically 60 FPS. Isn’t that nice?",
+      "related_to": ["kaze"]
+    }
+  ],
+  "open_questions": [
+    {
+      "topic": "Final naming & concept of Course 14",
+      "context": "Kaze floated “Hand-Made Heights” but no decision was made.",
+      "questions": [
+        "What thematic hook will decide the final course name?",
+        "How do the different ‘biomes’ (desert, grasslands, Styrofoam mountains, castle) tie together narratively?"
+      ],
+      "related_to": ["kaze", "biobak"],
+      "priority": "medium"
+    },
+    {
+      "topic": "Rubber-band gameplay function",
+      "context": "Animation exists but in-game behaviour (e.g., how far Mario is launched, player control) still undecided.",
+      "questions": [
+        "Will the slingshot be mandatory, optional shortcut, or part of a puzzle?",
+        "How will the launch distance and direction be communicated to players?",
+        "Any fail-states or safety nets planned?"
+      ],
+      "related_to": ["kaze", "zeina"],
+      "priority": "high"
+    },
+    {
+      "topic": "F3DX3 microcode benefits",
+      "context": "Mentioned as faster but details sparse.",
+      "questions": [
+        "What concrete gains (cycle counts / % performance) has F3DX3 delivered?",
+        "Were there compatibility issues migrating from previous microcodes?",
+        "Is further RSP optimisation planned?"
+      ],
+      "related_to": ["kaze"],
+      "priority": "medium"
+    },
+    {
+      "topic": "Marketing strategy",
+      "context": "Kaze is unsure whether to create separate social media for the hack.",
+      "questions": [
+        "What audience segments is the team targeting and how?",
+        "Would a dedicated channel help reach non-ROM-hacking fans?",
+        "How will Nintendo’s stance influence promotion?"
+      ],
+      "related_to": ["kaze"],
+      "priority": "low"
+    }
+  ]
+}

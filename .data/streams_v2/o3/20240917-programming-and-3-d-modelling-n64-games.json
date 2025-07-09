@@ -1,0 +1,93 @@
+{
+  "stream_context": {
+    "summary": "Kaze spent the whole session trying to create a convincing, low-poly \"styrofoam\" material for a mountain area. The work ranged from texture hunting and Blender experiments to planning an N64-friendly fake-bump-mapping technique.",
+    "level": ["mountain area (unnumbered course)"]
+  },
+  "development_findings": [
+    {
+      "summary": "Return to Yoshi’s Island will contain 15 courses in total.",
+      "quote": "There’s going to be 15 courses in total."
+    },
+    {
+      "summary": "Kaze wants the mountain’s rock to look like styrofoam so the model can use fewer polygons and add visual variety.",
+      "quote": "This mountain here I think it would look better if it was made out of styrofoam and we could do this in less polygons."
+    },
+    {
+      "summary": "He plans to fake bump-mapping with two 64×64 textures: a base texture and a highlight texture whose visibility is driven by vertex alpha based on camera/light angle.",
+      "quote": "We need one texture without the highlights and then a texture that is just the highlights that we multiply with shade alpha."
+    },
+    {
+      "summary": "After hours of failures with displacement and AI textures, he settles on exporting a normal map, pre-rotating it into 5–8 orientations, and rewriting it every frame so the CPU simulates lighting; technique inspired by Daryl’s earlier single-direction hack.",
+      "quote": "We’re going to multiply the normals with the angle between the camera and the light and overwrite the normal maps every frame."
+    },
+    {
+      "summary": "The method limits surfaces to a small set of allowed rotations (about 6–8) to keep data costs acceptable.",
+      "quote": null
+    },
+    {
+      "summary": "Leela’s earlier idea, already implemented across the game, saved roughly 30 instructions but introduced \"very cursed\" code.",
+      "quote": "Your idea worked… it saved like 30 instructions or so, unfortunately that means we have very cursed code like this."
+    },
+    {
+      "summary": "Once affine matrices are added, a current divide-by-12 hack (6 instructions, ~10 ns) will be removed.",
+      "quote": null
+    }
+  ],
+  "context_findings": [
+    {
+      "summary": "Kaze is visibly frustrated by chat questions unrelated to the current task and says streaming social interaction drains him.",
+      "quote": "I really don’t want to talk about things. I want to just talk about making my game… I find it very exhausting to have to engage in social stuff when I just want to work."
+    }
+  ],
+  "contributor_findings": {
+    "biobak": [],
+    "badub": [],
+    "zeina": []
+  },
+  "key_stories": [
+    {
+      "title": "The Styrofoam Texture Odyssey",
+      "summary": "Kaze spent the entire stream chasing a convincing styrofoam look. Texture-site searches, AI generation, Blender displacement, and particle systems all failed. Eventually he devised a CPU-side normal-map trick and postponed implementation to next stream.",
+      "challenge": "Need a seamless, highlight-reactive styrofoam material that looks good and saves polygons.",
+      "process": "Tried JPEG textures, sponge photos, displacement in Blender, AI prompts, community-supplied photos, and particle systems; discussed limitations of N64 lighting; designed a multi-normal-map workaround.",
+      "outcome": "Decided to pre-compute and rotate normal maps and program a custom per-frame lighting routine; real work deferred.",
+      "key_quote": "I did not think making styrofoam would turn into this much of a disaster.",
+      "related_to": ["kaze"]
+    }
+  ],
+  "open_questions": [
+    {
+      "topic": "CPU-driven normal-map system",
+      "context": "Kaze outlined generating 5–8 rotated normal maps and rewriting them each frame to fake bump mapping.",
+      "questions": [
+        "What exact performance cost does he expect on real N64 hardware?",
+        "How will memory be managed for the multiple rotated maps?",
+        "Could this technique be generalized for other materials?"
+      ],
+      "related_to": ["kaze"],
+      "priority": "high"
+    },
+    {
+      "topic": "Affine matrices overhaul",
+      "context": "Current code divides by 12 in six instructions; Kaze said this will be replaced once affine matrices are in.",
+      "questions": [
+        "What are the new affine matrices for?",
+        "How will they simplify or optimize rendering?",
+        "Timeline for integration?"
+      ],
+      "related_to": ["kaze"],
+      "priority": "medium"
+    },
+    {
+      "topic": "Course count and scope",
+      "context": "He confirmed 15 courses exist but gave no detail.",
+      "questions": [
+        "Have the individual course themes been locked in?",
+        "How far along is each course?",
+        "What criteria decide when a course is ‘done’?"
+      ],
+      "related_to": ["kaze"],
+      "priority": "low"
+    }
+  ]
+}

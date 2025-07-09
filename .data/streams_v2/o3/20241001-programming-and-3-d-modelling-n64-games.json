@@ -1,0 +1,209 @@
+{
+  "stream_context": {
+    "summary": "Kaze integrates Biobak’s newly finished Course 1 rework, fixes draw-order bugs, benchmarks performance, and begins importing revamped actors while preparing a one-level demo.",
+    "level": ["Course 1"]
+  },
+  "development_findings": [
+    {
+      "summary": "Imported Biobak’s full geometry rework of Course 1 and began reorganising draw layers; most static pieces were moved to “layout 0” to improve render order and RDP cost.",
+      "quote": "Today we are working on the rework of Course 1 that Biobak just finished."
+    },
+    {
+      "summary": "Planned a public demo that will contain only the reworked Course 1 once visuals, actors and collision are complete.",
+      "quote": "The demo will just be one stage, nothing more."
+    },
+    {
+      "summary": "Implemented a new render-order strategy: duplicate materials or place geometry on layer 0 when it never needs to draw over anything; resorted meshes in Blender by distance & material.",
+      "quote": null
+    },
+    {
+      "summary": "Benchmarking showed ~73 % CPU idle on real N64; switching to the X3 build (larger vertex buffer) raised frame-rate to roughly 49–60 FPS with Course 1 fully loaded.",
+      "quote": "In a 33.3 ms frame, we have 24.3 idle time. The CPU is not working two thirds of the time."
+    },
+    {
+      "summary": "Added a custom physics bone that gives Mario’s nose soft-body ‘jiggle’; uses stored acceleration and pendulum maths, written for minimal performance cost.",
+      "quote": "It is a genuine physics bone I added to Mario… this is hyper-optimised; if you make one change it’s just going to crash."
+    },
+    {
+      "summary": "Created a rotating lens-flare sun that tracks camera yaw/pitch by manipulating UVs rather than rotating geometry, keeping it cheap on the RDP.",
+      "quote": "You look up and you get blinded… this should have happened when you look at the wing cap entrance."
+    },
+    {
+      "summary": "Fixed a nasty stripe artefact by disabling “coverage × alpha” in the material; RDP time dropped slightly after the change.",
+      "quote": null
+    },
+    {
+      "summary": "ROM has grown to 63 MB; Kaze insists on staying below the 64 MB historical limit to preserve ‘true’ N64 authenticity even though larger ROMs run on hardware.",
+      "quote": "If you go over 64 MB, are you really still making an N64 game? It just feels like cheating to me."
+    },
+    {
+      "summary": "Began importing updated actors: Yoshi Egg (coin-star spawner), Bouncy Flower, Goomba King, Spiked Goomba, Bunny Goomba, Paragoomba, Rabbits, Windmill Propeller; most models now use fewer materials and triangles.",
+      "quote": null
+    },
+    {
+      "summary": "Discovered billboard-bone quirks causing inverted scaling/rotation on new Goomba models; will re-rig bones and give correct shadows off-stream.",
+      "quote": null
+    },
+    {
+      "summary": "Plans to modify Goomba King fight so his movement feels less clunky and animate castle doors that open only when he exits.",
+      "quote": null
+    },
+    {
+      "summary": "Badub delivered biome-specific music variants (e.g., Course 14 pyramids); engine will fade channels in/out depending on sub-area.",
+      "quote": "This song has versions for every biome… it will smoothly fade mini-channels in and out."
+    }
+  ],
+  "context_findings": [
+    {
+      "summary": "Kaze streams mainly for live feedback, not as a professional content creator; applies ‘minimum effort’ to streaming logistics.",
+      "quote": "I stream because I want to stream and because I like having people give me feedback… I’m not trying to be a professional streamer."
+    },
+    {
+      "summary": "Modding income from YouTube/Patreon is ‘not even half’ of his normal job salary, so the project remains a passion side-gig.",
+      "quote": "Modding makes me some amount of money… but it’s not even half of what my normal job makes."
+    },
+    {
+      "summary": "Considers a second-channel video series analysing why each course is worth playing, hoping community comments will spark design insights.",
+      "quote": "I might realise important things, maybe people can give me important insights once they hear my thought processes."
+    },
+    {
+      "summary": "Expresses pride in pushing N64 visuals (‘prettiest N64 game’) yet staying within period-correct limits; sees exceeding 64 MB as cheating.",
+      "quote": null
+    },
+    {
+      "summary": "Shows typical emotional roller-coaster: excitement over performance wins (‘hell yeah’) and frustration with rendering bugs or actor glitches.",
+      "quote": null
+    },
+    {
+      "summary": "Floats branding idea of ‘I hate video games, so I’m making the first good one,’ reflecting his contrarian humour and high standards.",
+      "quote": null
+    }
+  ],
+  "contributor_findings": {
+    "biobak": [
+      {
+        "summary": "Delivered complete Course 1 visual overhaul, including distant-background request and sun-flare spin idea.",
+        "quote": "One change Biobak requested was… an infinitely far background here."
+      },
+      {
+        "summary": "Re-modelled several actors (Goomba King, Spiked Goomba, Paragoomba, Bunny Goomba, Rabbits, Bouncy Flower) with fewer materials, better UVs, and cosmetic upgrades such as shoe shine.",
+        "quote": "Saved three materials and helm is half the size… I had so much room left I gave him soles and shine to his shoes."
+      }
+    ],
+    "badub": [
+      {
+        "summary": "Composed new multi-biome tracks (e.g., grassland, pyramid) with smooth channel-fade system planned for engine.",
+        "quote": "This song has versions for every biome."
+      }
+    ],
+    "zeina": []
+  },
+  "key_stories": [
+    {
+      "title": "Bouncy Nose Physics",
+      "summary": "Kaze wanted a playful detail and coded a soft-body simulation for Mario’s nose via a dedicated physics bone.",
+      "challenge": "Add dynamic movement without tanking performance.",
+      "process": "Stored previous nose position, calculated acceleration, applied pendulum maths each frame; hyper-optimised C code.",
+      "outcome": "Fully functional, cheap nose jiggle displayed on stream.",
+      "key_quote": "Do you see it? It’s actual rigid body physics, or soft body physics, I don’t know how you call it.",
+      "related_to": ["kaze"]
+    },
+    {
+      "title": "Layer 0 Render-Order Fix",
+      "summary": "Integrating Course 1 rework caused severe draw-order glitches; Kaze re-layered geometry and fixed material settings.",
+      "challenge": "Geometry and trees rendered over/under incorrectly due to N64 microcode limitations.",
+      "process": "Moved eligible meshes to layout 0, duplicated materials where necessary, resorted faces, disabled coverage-alpha bug.",
+      "outcome": "Visuals stabilised and RDP time dropped; game holds ~50–60 FPS on console.",
+      "key_quote": "We should make as much as possible of this layout 0.",
+      "related_to": ["kaze", "biobak"]
+    },
+    {
+      "title": "Authenticity vs. Size",
+      "summary": "Project ROM nears 64 MB; Kaze debates whether exceeding that boundary undermines the goal of making a ‘real’ N64 game.",
+      "challenge": "Balancing asset growth with historical hardware limits.",
+      "process": "Checked current size (63 MB), noted theoretical 254 MB cap, but declared >64 MB ‘lame’.",
+      "outcome": "Team will try to stay under 64 MB, influencing future optimisation and asset decisions.",
+      "key_quote": "If you go over 64 MB, are you really still making an N64 game? It just feels like cheating to me.",
+      "related_to": ["kaze"]
+    }
+  ],
+  "open_questions": [
+    {
+      "topic": "Course 1 collision rework",
+      "context": "Visual overhaul is done but collision still matches the old layout; Kaze postponed it.",
+      "questions": [
+        "Who is responsible for updating collision maps?",
+        "What tools or workflow will be used to align collision with new geometry?",
+        "Will any design changes (e.g., hidden areas, red coins) require collision tweaks?"
+      ],
+      "related_to": ["kaze", "biobak"],
+      "priority": "high"
+    },
+    {
+      "topic": "Goomba King fight redesign",
+      "context": "Kaze mentioned the boss’s movement feels junky and that a change is planned.",
+      "questions": [
+        "What specific mechanics or patterns are being altered?",
+        "Will new animations or code be required from Biobak or Zeina?",
+        "How will difficulty balance be tested?"
+      ],
+      "related_to": ["kaze", "biobak"],
+      "priority": "medium"
+    },
+    {
+      "topic": "Yoshi Egg star-spawn actor",
+      "context": "New model exists but behaviour and colour-swap logic still need coding.",
+      "questions": [
+        "How will prim-colour swapping work across different levels?",
+        "Will egg remain after star collection or despawn?",
+        "Any unique sound or particle effects planned?"
+      ],
+      "related_to": ["kaze", "biobak"],
+      "priority": "medium"
+    },
+    {
+      "topic": "Dynamic music system",
+      "context": "Badub’s biome tracks will fade channels in/out by sub-area.",
+      "questions": [
+        "What technical solution will handle channel fading on real N64 hardware?",
+        "How many channels are available before hitting audio CPU limits?",
+        "Do level designers need to place triggers manually?"
+      ],
+      "related_to": ["kaze", "badub"],
+      "priority": "medium"
+    },
+    {
+      "topic": "ROM size mitigation",
+      "context": "Project is already 63 MB with only 14 courses integrated.",
+      "questions": [
+        "What compression or asset culling strategies are on the table?",
+        "Could optional high-res assets be separated for emulator builds?",
+        "Is there a hard cut-off point for adding new content?"
+      ],
+      "related_to": ["kaze", "biobak", "badub"],
+      "priority": "high"
+    },
+    {
+      "topic": "Billboard-bone limitations",
+      "context": "New Goomba variants suffered inverted scaling because billboard bones ignore parent rotation.",
+      "questions": [
+        "Is there a planned code fix or will artists need stricter rig guidelines?",
+        "Does this affect other future actors like flying enemies?",
+        "Can billboard matrices be extended without performance loss?"
+      ],
+      "related_to": ["kaze", "biobak"],
+      "priority": "low"
+    },
+    {
+      "topic": "Second-channel analysis series",
+      "context": "Kaze floated idea to analyse each course publicly.",
+      "questions": [
+        "Is this purely for community feedback or will it feed back into design docs?",
+        "Will other team members participate?",
+        "Timeline for first episode?"
+      ],
+      "related_to": ["kaze"],
+      "priority": "low"
+    }
+  ]
+}

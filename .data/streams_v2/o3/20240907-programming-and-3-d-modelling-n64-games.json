@@ -1,0 +1,167 @@
+{
+  "stream_context": {
+    "summary": "Kaze prototyped the scrolling shooter level inspired by Super Mario Land, modelling a bird enemy, picking sound effects, testing collision and camera behaviour, and discussing technical limits and distribution hurdles.",
+    "level": ["Course 14", "Scrolling-shooter sub-stage"]
+  },
+  "development_findings": [
+    {
+      "summary": "Built a low-poly 3D model for the Mario Land bird enemy; final version uses 50 triangles, outline added for visibility.",
+      "quote": null
+    },
+    {
+      "summary": "Enemy death will be an 8-frame animated texture rather than a mesh swap to save memory.",
+      "quote": "What if we just have it be an animated texture… it’s that simple."
+    },
+    {
+      "summary": "Camera must stay fixed behind Mario; attempts to offset or follow him caused aiming issues and excessive movement.",
+      "quote": "I tried having the camera follow Mario… it was way too much movement."
+    },
+    {
+      "summary": "Fixed a bug where Mario was rendered off-centre in the shooter view.",
+      "quote": "What the fuck, you’re right… How is he not centered? There we go."
+    },
+    {
+      "summary": "Stage already at ~19 000 triangles; additional models must stay small; memory budget is tight.",
+      "quote": "This already has 19 000 triangles and it’s barely finished."
+    },
+    {
+      "summary": "Birds made ‘shootable’ by iterating through all cannon shots each frame; cannonball impact effect added after chat feedback.",
+      "quote": null
+    },
+    {
+      "summary": "Selected Bullet Bill launch SFX (Mario Land cannon) after testing several existing samples.",
+      "quote": null
+    },
+    {
+      "summary": "Will choose microcode (RSP vs RDP) per level to maximise FPS; switching mid-frame is technically possible but unsafe.",
+      "quote": null
+    },
+    {
+      "summary": "GLideN’s point-filter bug makes symmetrical sprites appear skewed; hopes RT64 or a GlideN update lands before release.",
+      "quote": null
+    },
+    {
+      "summary": "Plans to finish two more stages; Course 14 is already \"half-way done\", demo with first course coming \"in the near future\".",
+      "quote": null
+    }
+  ],
+  "context_findings": [
+    {
+      "summary": "Kaze was visibly fatigued; parents are visiting and prolonged social contact drains him.",
+      "quote": "Even though that looked so easy just now, I don’t know why I’m so exhausted… my parents are here right now, I can’t be around people for too long."
+    },
+    {
+      "summary": "Philosophy: lower barrier to entry—hack must run without end-users compiling plugins or tweaking emulator settings.",
+      "quote": "Every step along the way you lose some percentage of your player base; I don’t want people to have to compile a plugin to play my game."
+    },
+    {
+      "summary": "Accepts risk of Nintendo takedown but continues regardless; last contact was in 2019.",
+      "quote": "Yes of course there is a worry that Nintendo is just going to say now fuck you… you just have to live with that."
+    },
+    {
+      "summary": "Wants consistent thumbnail style on YouTube for algorithm visibility.",
+      "quote": "It’s important on YouTube that your thumbnails have a somewhat consistent style, because it makes people more likely to click them."
+    }
+  ],
+  "contributor_findings": {
+    "biobak": [
+      {
+        "summary": "Joined late during low-energy portion; no specific task discussed this stream.",
+        "quote": null
+      }
+    ],
+    "badub": [],
+    "zeina": [
+      {
+        "summary": "Mentioned in chat contextually (needs a separate Minecraft account, is \"very very cold\"). No project work this session.",
+        "quote": null
+      }
+    ]
+  },
+  "key_stories": [
+    {
+      "title": "Off-centre Mario Bug",
+      "summary": "While demonstrating the shooter view, chat noticed Mario wasn’t centred. After quick debugging Kaze realigned the camera.",
+      "challenge": "Player sprite appeared slightly to the left, harming aim.",
+      "process": "Checked camera coordinates, discovered misalignment, updated transform.",
+      "outcome": "Camera now perfectly centred; formed basis for future aiming logic.",
+      "key_quote": "Wow, what the fuck? How is he not centered?",
+      "related_to": ["kaze"]
+    },
+    {
+      "title": "Choosing Animated Texture over Extra Meshes",
+      "summary": "Enemy death animation initially considered as separate 3D models. Memory limits forced a rethink.",
+      "challenge": "Storing multiple meshes would exceed triangle and memory budgets.",
+      "process": "Analysed sprite sheet from Mario Land; realised an 8-frame texture swap could replicate effect.",
+      "outcome": "Adopted animated texture approach, saving space and code complexity.",
+      "key_quote": "We’re actually not doing voxel art here; we just make this texture spawn.",
+      "related_to": ["kaze"]
+    },
+    {
+      "title": "Reducing Player Setup Friction",
+      "summary": "Kaze explained why the hack must bundle a ready-to-run emulator/plugin.",
+      "challenge": "Custom plugins like RT64 currently require manual compilation and configuration.",
+      "process": "Outlined plan to distribute pre-configured emulator once stable plugins exist.",
+      "outcome": "Design principle for final release: one-click launch to maximise audience.",
+      "key_quote": "The less people have to set up, the better; ROM hackers severely underrate the barrier to entry.",
+      "related_to": ["kaze"]
+    }
+  ],
+  "open_questions": [
+    {
+      "topic": "Microcode optimisation strategy",
+      "context": "Kaze said some levels will run better on RSP and some on RDP and hinted at per-level selection.",
+      "questions": [
+        "Which criteria determine microcode choice for each level?",
+        "What tooling is used to profile RSP vs RDP performance?",
+        "Could dynamic switching ever be safe on N64?"
+      ],
+      "related_to": ["kaze"],
+      "priority": "medium"
+    },
+    {
+      "topic": "GLideN / RT64 compatibility plan",
+      "context": "Current plugins render point-filtered textures incorrectly; Kaze hopes RT64 is ready before release.",
+      "questions": [
+        "If RT64 is delayed, what fallback solution will ship?",
+        "Have you considered contributing fixes to GlideN?",
+        "Will the demo demand a specific emulator build?"
+      ],
+      "related_to": ["kaze"],
+      "priority": "high"
+    },
+    {
+      "topic": "Shooter level balance",
+      "context": "Concern that standing in the middle may let players dodge everything.",
+      "questions": [
+        "What mechanics will force movement (e.g., enemy patterns, obstacles)?",
+        "Will Mario have a damage meter or one-hit failure?",
+        "How will difficulty scale across play-styles?"
+      ],
+      "related_to": ["kaze"],
+      "priority": "medium"
+    },
+    {
+      "topic": "Team collaboration pipeline",
+      "context": "Chatters offered sprites; Biobak and Zeina’s roles not visible in this task.",
+      "questions": [
+        "How are art assets handed off between Biobak, Zeina and Kaze?",
+        "What tools/version control do you use to integrate models and animations?",
+        "How do last-minute chat contributions get vetted?"
+      ],
+      "related_to": ["kaze", "biobak", "zeina"],
+      "priority": "low"
+    },
+    {
+      "topic": "Nintendo legal risk contingency",
+      "context": "Kaze acknowledges potential takedown but has no explicit plan.",
+      "questions": [
+        "Do you have a contingency if Nintendo issues a DMCA?",
+        "Would assets be open-sourced immediately?",
+        "Are there design decisions made to minimise legal exposure?"
+      ],
+      "related_to": ["kaze"],
+      "priority": "medium"
+    }
+  ]
+}

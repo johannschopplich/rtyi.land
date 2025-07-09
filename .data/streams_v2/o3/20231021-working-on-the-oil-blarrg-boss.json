@@ -1,0 +1,204 @@
+{
+  "stream_context": {
+    "summary": "Kaze spent the session polishing several visual set-pieces instead of the planned Ooblack boss.  He and Biobak iterated on new star-select backdrops, implemented a bobbing submarine and spot-lights for the water course, and scripted a bird animation for the level-select screen.  Much of the stream revolved around troubleshooting vertex colours, N64 combiners and a mysterious sine-wave bug while discussing future level themes and an overworld redesign.",
+    "level": [
+      "star-select screens",
+      "Jurassic Jungle (course 9)",
+      "Lofty Lumberleafs (course 10)",
+      "Sub-course water level",
+      "Overworld"
+    ]
+  },
+  "development_findings": [
+    {
+      "summary": "Current Ooblack boss is largely finished but still needs grill animations and additional coins; Kaze repeatedly postponed it for other tasks.",
+      "quote": "I think all that's missing right now for the boss fight is the grills animating."
+    },
+    {
+      "summary": "Decision to add an animation where the Ooblack block spits Mario out after emerging.",
+      "quote": "Maybe after he comes out of here we just have an animation of him spitting out Mario and Mario lands over here."
+    },
+    {
+      "summary": "Star-select backgrounds are being completely re-done by Biobak; each uses animated scenery (e.g., clouds, bird) plus course-specific lighting.",
+      "quote": null
+    },
+    {
+      "summary": "Kaze inserted a new low-poly submarine that bobs via sine-wave on both position and roll; he fixed erratic values caused by a missing math header that linked the wrong sine table in GCC.",
+      "quote": "How did it just link the sine table to a random thing instead of telling me that there's no sine table?"
+    },
+    {
+      "summary": "Water course runs ~60 FPS on real N64, giving headroom for added fishes, jellyfish and framebuffer effects (though the latter look low-res in emulators).",
+      "quote": "The level that the sub is in runs 60 FPS on N64 pretty much consistently. We can actually go sicko mode on that level."
+    },
+    {
+      "summary": "Spot-lights were rebuilt with texture-based alpha plus vertex colours to avoid colour-banding and an ‘X’ artifact caused by vertex shading.",
+      "quote": "You can see the colour banding even here… I think we need to change the circles a little bit."
+    },
+    {
+      "summary": "Implemented a multi-phase bird: idle hop, twitching tail, take-off on A-press; discovered object updates freeze during the fade-out, so animation must continue while the screen fades.",
+      "quote": "Everything just freezes when I press A.  I need to make it so that while the fade-out is happening, the animation is actually playing."
+    },
+    {
+      "summary": "Global guideline: stars are placed 200 units above ground, boxes at 300.",
+      "quote": null
+    },
+    {
+      "summary": "Planned overworld redesign to a single tropical island inspired by Mario Party’s intro.",
+      "quote": "I was thinking we should theme the island for the overworld like this… tropical island. I think it’s a very cute design that works perfectly for our game."
+    },
+    {
+      "summary": "Discussed remaining course themes: Wild-West ‘catch the evildoers’, Arctic ice-cream world with a train, comic-book skyscraper city; rejected music, casino, Sonic and ‘fanboy’ concepts.",
+      "quote": null
+    },
+    {
+      "summary": "Retro sections shortlist: Paper Mario 64 Goomba Town, Mario Paint, Dr Mario, Mario Land 1, Smash 64; still subject to change.",
+      "quote": "We looked at all of the retro games for a long time and we found nothing decent."
+    }
+  ],
+  "context_findings": [
+    {
+      "summary": "Kaze moves house tomorrow; will have a dedicated ‘dungeon’ office and may stream irregularly during a week off.",
+      "quote": "Next stream is not going to be here anymore because we are moving tomorrow… I’m going to have my own dungeon."
+    },
+    {
+      "summary": "Excitement over latest YouTube video achieving double the usual views within hours.",
+      "quote": "This video got more views in like not even two hours than most videos get in a day."
+    },
+    {
+      "summary": "Expressed frustration with GCC compiling the wrong sine table and with DK64’s gameplay.",
+      "quote": "DK64 is a very charming piece of shit… playing it is the worst thing ever."
+    },
+    {
+      "summary": "Philosophy: prefers that players don’t notice the creator inside the game, in case of future ‘cancellation’.",
+      "quote": "The player shouldn’t even know that I exist… that way if I get cancelled on Twitter, no one has to put down the game."
+    },
+    {
+      "summary": "Rejects using ‘femboy’ term due to sexual connotation; wants inclusivity without explicit sexuality.",
+      "quote": "I would not want him to be referred to as a femboy, because that seems like a sexual thing."
+    }
+  ],
+  "contributor_findings": {
+    "biobak": [
+      {
+        "summary": "Providing re-worked star-select graphics, submarine model, light textures and feedback on cloud and light motion.",
+        "quote": "Okay, I think this is doing the thing that Biobak wants."
+      },
+      {
+        "summary": "Discussed desired sine-wave offsets (Y, Z) for submarine and wobble parameters for spot-lights.",
+        "quote": null
+      }
+    ],
+    "badub": [],
+    "zeina": [
+      {
+        "summary": "Zeina appeared briefly in chat; after the move she will stop streaming on mic and only join via chat.",
+        "quote": "I won’t be on stream anymore. I will be in the chat from here on out."
+      }
+    ]
+  },
+  "key_stories": [
+    {
+      "title": "The Submarine Sine-Wave Bug",
+      "summary": "While animating the new submarine’s gentle bob, Kaze received impossible 16 000-unit offsets.  After long confusion he discovered GCC had linked an incorrect sine table because he hadn’t included the math header.",
+      "challenge": "Submarine y-position and roll produced garbage values, ruining animation.",
+      "process": "Verified vertex counts, checked combiners, printed sine inputs, finally realised math.h wasn’t included so compiler used garbage.",
+      "outcome": "Included math.h and rewrote with new sine function; submarine now bobs smoothly.",
+      "key_quote": "How did it just link the sine table to a random thing instead of telling me that there's no sine table?",
+      "related_to": ["kaze"]
+    },
+    {
+      "title": "Spot-Light Colour-Banding Fix",
+      "summary": "Biobak’s dock lights showed harsh colour-banding and an ‘X’ artifact.  Kaze diagnosed vertex shading issues and rebuilt the lights with better alpha textures and duplicated geometry.",
+      "challenge": "Lights appeared banded and showed an unwanted ‘X’.",
+      "process": "Tested prim vs vertex colours, realised vertex normals caused shading, remodelled lights as separate quads using whiteness as alpha mask.",
+      "outcome": "Smooth, ominous lights without artifacts now frame the star-select screen.",
+      "key_quote": "You can see the colour banding even here… I think we need to change the circles a little bit.",
+      "related_to": ["kaze", "biobak"]
+    },
+    {
+      "title": "Bird Animation Freeze",
+      "summary": "A charming bird was added to the star-select backdrop, but pressing A froze its take-off.  Kaze traced the issue to the menu code halting object updates during fade-out.",
+      "challenge": "Animation stopped when player pressed A to select a star.",
+      "process": "Inserted idle and take-off animations, noticed objects froze, inspected update loop that stops after A-press.",
+      "outcome": "Temporary workaround by shortening fade; plans to let animation continue during fade in next session.",
+      "key_quote": "Everything just freezes when I press A… I need the objects to update while the fade-out is happening.",
+      "related_to": ["kaze", "biobak"]
+    }
+  ],
+  "open_questions": [
+    {
+      "topic": "Ooblack boss completion",
+      "context": "Kaze states only grill animation & coin balance remain but keeps delaying work.",
+      "questions": [
+        "What specific mechanics remain for the Ooblack boss?",
+        "Is the difficulty finalized?",
+        "Why has work shifted away repeatedly?"
+      ],
+      "related_to": ["kaze"],
+      "priority": "high"
+    },
+    {
+      "topic": "Overworld tropical island redesign",
+      "context": "Kaze plans to remake the overworld as a Mario Party-style tropical island.",
+      "questions": [
+        "What gameplay or navigation advantages does the island bring?",
+        "How will level entrances integrate into the layout?",
+        "Is fast travel planned?"
+      ],
+      "related_to": ["kaze", "biobak"],
+      "priority": "medium"
+    },
+    {
+      "topic": "Bird animation freeze workaround",
+      "context": "Menu code halts object updates during fade.",
+      "questions": [
+        "How will the update loop be refactored to allow animations?",
+        "Are other interactive elements affected by this freeze?"
+      ],
+      "related_to": ["kaze"],
+      "priority": "medium"
+    },
+    {
+      "topic": "Persistent vertex-shading ‘X’ bug",
+      "context": "Kaze calls it ‘definitely a bug I have to fix one day’.",
+      "questions": [
+        "What causes the vertex-shade X artifact on N64?",
+        "Can it be solved engine-wide without manual remodels?"
+      ],
+      "related_to": ["kaze", "biobak"],
+      "priority": "low"
+    },
+    {
+      "topic": "Retro section final lineup",
+      "context": "Shortlist includes five minigames but Kaze ‘not 100% happy’.",
+      "questions": [
+        "Which retro games are still contenders?",
+        "What design goals must each retro section fulfill?",
+        "How does IP risk factor in?"
+      ],
+      "related_to": ["kaze"],
+      "priority": "medium"
+    },
+    {
+      "topic": "Remaining course themes",
+      "context": "Music, casino rejected; Wild-West, Arctic ice-cream, comic city are maybes.",
+      "questions": [
+        "What criteria will decide the final four course themes?",
+        "How will each tie mechanically to Mario 64 movement?",
+        "Any community feedback influencing choices?"
+      ],
+      "related_to": ["kaze", "biobak"],
+      "priority": "medium"
+    },
+    {
+      "topic": "Legal considerations",
+      "context": "Nintendo/legal issues were not discussed.",
+      "questions": [
+        "Has the team assessed potential legal risk for release?",
+        "Will the tropical overworld or retro sections reuse copyrighted assets?"
+      ],
+      "related_to": ["kaze"],
+      "priority": "low"
+    }
+  ]
+}

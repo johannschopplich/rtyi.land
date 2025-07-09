@@ -1,0 +1,174 @@
+{
+  "stream_context": {
+    "summary": "Kaze codes and designs the Power Plant interior of the Oil Level, debugging moving platforms, planning collectible placement, and brainstorming two new enemies (a redesigned Amp and a psychedelic “Oil Fuzzy”). He also discusses recent engine optimisations, graphics/texture needs, and future demo plans.",
+    "level": ["Oil Level – Power Plant interior"]
+  },
+  "development_findings": [
+    {
+      "summary": "A moving-elevator platform in the Power Plant failed because a duplicate, overlapping copy existed and collision was missing; removing the duplicate and adding collision fixed it.",
+      "quote": "What if there were two of the exact same platform in the exact same spot overlapping each other—and that's why it didn't work."
+    },
+    {
+      "summary": "Current FPS improvements: after inlining small functions, engine performance rose from ~43–45 fps to 45–49 fps (now ~47 fps after a culling fix); Kaze is running out of “big” optimisations.",
+      "quote": "We're slowly getting to a point where I no longer know any more optimisations which is crazy."
+    },
+    {
+      "summary": "First Power Plant room layout: treadmill start, vertical pipes, sliding ramps, and a dangling platform that you pull down to reach a Yoshi Coin early, so players don’t have to replay half the star if they miss it.",
+      "quote": null
+    },
+    {
+      "summary": "Initial idea for breakable crates/barrels was dropped; collectible will instead use the dangling-platform gimmick. Crates may still appear as scenery.",
+      "quote": null
+    },
+    {
+      "summary": "Dynamic lighting plan: new Amp enemies will emit light, briefly illuminating nearby vertices as they travel along pipes and gates.",
+      "quote": null
+    },
+    {
+      "summary": "Amp redesign: switch to Odyssey-style grey sphere with animated electric spikes (pyramids that scale, fade, and randomly roll); several will spline along metal tracks in the Power Plant.",
+      "quote": null
+    },
+    {
+      "summary": "Concepted a new enemy, the “Oil Fuzzy”: touching it causes a full-screen psychedelic wobble (FOV oscillation, viewport sine shift, rainbow fog/water), audio slow-down, extreme squash-and-stretch, and uncontrollable sliding. No direct damage; danger comes from environment.",
+      "quote": "The level is gonna glow in rainbow colors, the whole viewport is gonna go… Mario's gonna be super squashy and stretchy—it's gonna feel uncontrollable."
+    },
+    {
+      "summary": "Evaluated removing polygonal transition graphics and regenerating them from SVG at load-time; savings estimated at ~9 KB ROM, judged probably not worth the complexity.",
+      "quote": null
+    },
+    {
+      "summary": "Textures for this area are placeholders until Biobak delivers final art; Kaze is hesitant to commit vibe-critical elements without those textures.",
+      "quote": null
+    },
+    {
+      "summary": "Kaze intends to release one or two small, topical demo hacks before RTYI to finalise camera & physics and ensure financial viability.",
+      "quote": "Before RTYI's release, I do want to release one or two more demos where people can just play-test the physics and stuff."
+    }
+  ],
+  "context_findings": [
+    {
+      "summary": "Kaze finds constant questions about release dates frustrating and wishes streams without them.",
+      "quote": "I hope we can go a whole stream without people asking me for release dates every 15 minutes."
+    },
+    {
+      "summary": "He recently moved and now works from a basement; Zeina occupies the upstairs, a running joke about being ‘out of his hair’.",
+      "quote": "Zeina is finally out of my hair—she is upstairs now and I'm downstairs—isn't that nice."
+    },
+    {
+      "summary": "Audience composition shifted toward programmers after the source-code rework; technical content now outperforms casual content.",
+      "quote": "I feel like a lot of programmers watch my channel now and not so much the casual audience ever since the source code revert."
+    },
+    {
+      "summary": "Financial incentive strongly influences project choice (e.g., won’t remaster Ocarina of Time without funding; wants ‘click-bait’ hacks pre-release).",
+      "quote": "I would like to do OOT next but I need financial incentive—I can't just do it, it would be irresponsible."
+    },
+    {
+      "summary": "Kaze is under NDA at Gears for Breakfast and cannot talk about what he’s working on there.",
+      "quote": "I am not allowed to tell what I am working on—I'm still actively working there."
+    }
+  ],
+  "contributor_findings": {
+    "biobak": [
+      {
+        "summary": "Responsible for final textures in the Power Plant; current area will remain ‘ugly’ until Biobak polishes it.",
+        "quote": "I guess this whole area is gonna be ugly until Biobak gets to it."
+      },
+      {
+        "summary": "Fixed geometric issues with polygonal shadows/transitions and supplied early Amp graphics for Kaze to review.",
+        "quote": null
+      }
+    ],
+    "badub": [],
+    "zeina": [
+      {
+        "summary": "No development input this stream; playful separation joke (she forbids Kaze from coming upstairs).",
+        "quote": "She said I am never allowed to come upstairs—and then she punched me."
+      }
+    ]
+  },
+  "key_stories": [
+    {
+      "title": "The Phantom Platform",
+      "summary": "A newly scripted elevator wouldn’t move. Through systematic checks Kaze discovered a duplicate platform occupying the same coordinates and lacking collision data.",
+      "challenge": "Elevator platform failed to displace Mario.",
+      "process": "Verified platform displacement globally, checked tick functions, hypothesised duplicate objects, inspected scene, removed extra instance, added collision.",
+      "outcome": "Elevator now works correctly.",
+      "key_quote": "What if there were two of the exact same platform in the exact same spot overlapping each other—that's why it didn't work.",
+      "related_to": ["kaze"]
+    },
+    {
+      "title": "Inventing the Oil Fuzzy",
+      "summary": "Kaze brainstorms a unique enemy that mixes Yoshi’s Island nostalgia with new mechanics, experimenting live with matrix hacks to create a psychedelic visual filter.",
+      "challenge": "Create an enemy mechanic that feels fresh and fits an oil-powered factory theme.",
+      "process": "Tested viewport matrix manipulations, hue shifts, FOV pulsations; decided on rainbow fog, slippery physics and audio warping triggered by contact.",
+      "outcome": "Clear design spec for ‘Oil Fuzzy’ to prototype next stream.",
+      "key_quote": "The level is gonna glow in rainbow colors, the whole viewport is gonna go… Mario's gonna be super squashy and stretchy—it's gonna feel uncontrollable.",
+      "related_to": ["kaze", "biobak"]
+    },
+    {
+      "title": "Chasing Every Frame",
+      "summary": "Over the week Kaze squeezed more performance from the engine by inlining small functions, pushing typical scenes close to 49 fps.",
+      "challenge": "Maintain stable high framerate in complex new areas.",
+      "process": "Profiled code, inlined and removed minor functions, adjusted culling.",
+      "outcome": "Jump from ~43 fps to peak 49 fps; only small gains remain.",
+      "key_quote": "We're slowly getting to a point where I no longer know any more optimisations which is crazy.",
+      "related_to": ["kaze"]
+    }
+  ],
+  "open_questions": [
+    {
+      "topic": "Redesigned Amp enemy",
+      "context": "Kaze described Odyssey-style amps that emit light and travel along pipes but exact behaviour and difficulty impact were not detailed.",
+      "questions": [
+        "How will the new Amp’s movement patterns differ from vanilla?",
+        "Will their lighting be purely cosmetic or affect gameplay visibility?",
+        "Any performance concerns with real-time vertex lighting on N64 hardware?"
+      ],
+      "related_to": ["kaze", "biobak"],
+      "priority": "high"
+    },
+    {
+      "topic": "Oil Fuzzy implementation",
+      "context": "Concept involves heavy visual and audio distortion plus physics changes.",
+      "questions": [
+        "What technical tricks will be used to keep the trippy effect performant on real hardware?",
+        "How will the game communicate the Oil Fuzzy’s effects to players beforehand?",
+        "Will accessibility (e.g., epilepsy concerns) be addressed?"
+      ],
+      "related_to": ["kaze", "biobak", "badub"],
+      "priority": "high"
+    },
+    {
+      "topic": "Dynamic Lighting System",
+      "context": "Kaze wants enemy-driven vertex lighting in the Power Plant.",
+      "questions": [
+        "What is the current status of the dynamic lighting engine?",
+        "How many dynamic light sources can the N64 realistically handle simultaneously?",
+        "Will other levels use this system?"
+      ],
+      "related_to": ["kaze"],
+      "priority": "medium"
+    },
+    {
+      "topic": "Breakable Objects",
+      "context": "Crates/barrels were discussed then shelved for collectible placement reasons.",
+      "questions": [
+        "Is there still a plan for breakable scenery elsewhere in the game?",
+        "How will breakables be telegraphed visually without ruining the industrial theme?"
+      ],
+      "related_to": ["kaze", "biobak"],
+      "priority": "low"
+    },
+    {
+      "topic": "Pre-release Demo Strategy",
+      "context": "Kaze wants small ‘click-bait’ hacks to fine-tune physics and camera.",
+      "questions": [
+        "What concrete metrics or feedback will determine when the camera/physics are ‘final’?",
+        "How will these demos be marketed and monetised?",
+        "Will they use assets from RTYI or be entirely separate?"
+      ],
+      "related_to": ["kaze"],
+      "priority": "medium"
+    }
+  ]
+}

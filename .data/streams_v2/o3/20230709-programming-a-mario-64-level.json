@@ -1,0 +1,193 @@
+{
+  "stream_context": {
+    "summary": "Kaze works on Bozo’s Oil Rig, focusing on a new wet-cement mechanic, a construction-worker Koopa NPC, and a container-style redesign of the Tox Box enemy.  He also discusses engine optimisations, remaining N64 crashes, and an overworld economy system.",
+    "level": ["Bozo’s Oil Rig", "Overworld (design discussion)"]
+  },
+  "development_findings": [
+    {
+      "summary": "Implemented a wet-cement system: Mario’s ground-pound and dive leave a butt/footprint decal that darkens with repeated contact, using a 12×12 I4 texture (2 pixels/byte) and separate routines for odd/even pixels.",
+      "quote": "Sometimes when we ground-pound we’re at an odd number of pixels, so we have to add two different bytes instead of the same byte twice."
+    },
+    {
+      "summary": "Bug in footprint rendering traced to a missing texture-width/offset line; fixed by duplicating the half-width calculation across both even and odd branches.",
+      "quote": "That part was missing everywhere—no wonder this didn’t work."
+    },
+    {
+      "summary": "Zeina delivered the butt-print sprite; Kaze integrated it and iterated on cement textures to achieve a visible but N64-friendly look.",
+      "quote": null
+    },
+    {
+      "summary": "Modelled a ‘tired’ construction-worker Koopa (≈328 tris) with a Bowser-branded hard-hat, custom shell/boot colours, and planned animation list (idle, talk, angry, carry-glass, upset, walk, fall/slide).",
+      "quote": "Any change requests, speak your mind now or shut up forever."
+    },
+    {
+      "summary": "Planned fence around the cement pit so Mario visibly breaks site rules and upsets the Koopa.",
+      "quote": null
+    },
+    {
+      "summary": "Redesigned Tox Boxes as metal shipping-container cubes with faces, inspired by ChatGPT suggestions; faces will be symmetrical, texture sourced from container photos.",
+      "quote": "In the oil-rig theme you could redesign them as large shipping containers… I actually like ChatGPT."
+    },
+    {
+      "summary": "Overworld economy agreed with Biobak: global coins buy temporary ‘Power Star’ assists, donate to NPCs to change the hub world, and purchase Yoshi Coins.",
+      "quote": "We’ve come to a pretty good agreement… you’ll be able to donate to characters so you can see the overworld change while you play."
+    },
+    {
+      "summary": "Created a highly optimised atan2s routine; peers compared it to academic papers.",
+      "quote": "Someone sent me a paper and then realised, oh wait—you did the same thing."
+    },
+    {
+      "summary": "Beta builds run smoothly but still crash frequently on real N64 hardware; crash-hunting is a release blocker.",
+      "quote": "While it runs super well when it runs, there’s still a lot of crashes… I need to figure those out before we can release."
+    },
+    {
+      "summary": "Maintains strict poly/texture budgets to keep future multiplayer viable; Koopa worker kept at ~328 triangles.",
+      "quote": null
+    }
+  ],
+  "context_findings": [
+    {
+      "summary": "Streamed shirtless due to European heatwave; no AC, only ceiling fan. Mentions recent beach trips.",
+      "quote": "I am basically just dying right now from all the heat."
+    },
+    {
+      "summary": "Coding philosophy: ignores style guides; only cares if compiler passes.",
+      "quote": "If the compiler doesn’t see a difference, I also don’t see a difference."
+    },
+    {
+      "summary": "Motivation is intrinsic; earnings are low compared to possible industry jobs but he prefers creative freedom and channel growth.",
+      "quote": "I would make a lot more money if I just did literally anything else with my skills."
+    },
+    {
+      "summary": "Expressed frustration at GCC ‘undefined reference’ bug and at Twitch ads; prefers YouTube but dislikes its latency.",
+      "quote": null
+    },
+    {
+      "summary": "Proud, almost giddy, when major bugs or optimisations land (footprints, atan2s).",
+      "quote": null
+    }
+  ],
+  "contributor_findings": {
+    "biobak": [
+      {
+        "summary": "Debated overworld redesign with Kaze via DMs; agreed on coin-based store/donation system.",
+        "quote": "I’ve had some arguments with Biobak… I think we’ve come to a pretty good agreement."
+      }
+    ],
+    "badub": [],
+    "zeina": [
+      {
+        "summary": "Provided the butt-print graphic and will animate the construction Koopa per Kaze’s specification list.",
+        "quote": "I’m sending you all of Wario’s animations… including a funny little walk cycle."
+      }
+    ]
+  },
+  "key_stories": [
+    {
+      "title": "Cracking the Cement Footprint Bug",
+      "summary": "Kaze wanted Mario’s ground-pound to leave realistic footprints in wet cement. Initial renders looked corrupted; half of the prints were missing or offset.",
+      "challenge": "Handling I4 textures where two pixels share a byte caused even/odd addressing errors.",
+      "process": "Debugged texture offsets, discovered a missing width calculation duplicated across branches, and corrected texture index math.",
+      "outcome": "Footprints now render correctly, darken over time, and integrate Zeina’s custom sprite.",
+      "key_quote": "That part was missing everywhere—no wonder this didn’t work.",
+      "related_to": ["kaze", "zeina"]
+    },
+    {
+      "title": "Accidental State-of-the-Art atan2s",
+      "summary": "While profiling, Kaze rewrote the game’s angle-calculation routine. Discord peers linked an academic paper showing the same approach.",
+      "challenge": "Need for a faster angle lookup for performance on N64 hardware.",
+      "process": "Hand-optimised the math, reducing divisions and table lookups.",
+      "outcome": "Routine considered ‘state-of-the-art’ within hobbyist N64 circles; may become a standalone video topic.",
+      "key_quote": "Look at my atan2s code—I think I accidentally made a state-of-the-art programming code.",
+      "related_to": ["kaze"]
+    },
+    {
+      "title": "Designing the Overworld Economy",
+      "summary": "Kaze and Biobak sparred over how to make the hub feel alive and player-friendly.",
+      "challenge": "Balancing accessibility for weaker players with meaningful progression.",
+      "process": "Debated coin persistence, power-star assists, and environmental changes via donations.",
+      "outcome": "Agreed system: global coins, optional star power-up, donate to remodel overworld, plus collectible Yoshi Coins.",
+      "key_quote": "You’ll be able to buy a Power Star… and donate to characters so you can see the overworld change while you play.",
+      "related_to": ["kaze", "biobak"]
+    }
+  ],
+  "open_questions": [
+    {
+      "topic": "Persistent N64 Crashes",
+      "context": "Kaze reports frequent hardware crashes despite good performance.",
+      "questions": [
+        "What specific crash types remain?",
+        "What tools or emulation improvements are needed to diagnose them?",
+        "How is the team dividing crash-hunting duties?"
+      ],
+      "related_to": ["kaze"],
+      "priority": "high"
+    },
+    {
+      "topic": "Atan2s Optimisation Details",
+      "context": "Kaze claims a state-of-the-art routine but hasn’t explained the maths.",
+      "questions": [
+        "What micro-optimisations were employed?",
+        "How much speed-up did it yield on real hardware?",
+        "Could this be shared with the wider ROM-hacking community?"
+      ],
+      "related_to": ["kaze"],
+      "priority": "medium"
+    },
+    {
+      "topic": "Overworld Store Implementation",
+      "context": "Concept agreed with Biobak but mechanics unbuilt.",
+      "questions": [
+        "How will prices and coin sinks be balanced?",
+        "Will donations visually alter the hub in real time?",
+        "Any concerns about undermining difficulty?"
+      ],
+      "related_to": ["kaze", "biobak"],
+      "priority": "medium"
+    },
+    {
+      "topic": "Multiplayer Scope",
+      "context": "Kaze briefly mentioned keeping poly counts low for future multiplayer.",
+      "questions": [
+        "Is multiplayer officially planned?",
+        "Local or online?",
+        "Technical hurdles for N64 hardware?"
+      ],
+      "related_to": ["kaze"],
+      "priority": "medium"
+    },
+    {
+      "topic": "Tox Box Redesign Execution",
+      "context": "Initial idea: shipping-container cubes.",
+      "questions": [
+        "Final colour/texture scheme?",
+        "Will behaviour change or only appearance?",
+        "Any performance impact from new textures?"
+      ],
+      "related_to": ["kaze", "biobak"],
+      "priority": "low"
+    },
+    {
+      "topic": "Team Roles and Workflows",
+      "context": "Badub wasn’t mentioned; Zeina and Biobak appear informally via chat.",
+      "questions": [
+        "How are tasks assigned and tracked?",
+        "How do time zones and personal life affect collaboration?",
+        "What is Badub currently working on?"
+      ],
+      "related_to": ["kaze", "badub", "zeina", "biobak"],
+      "priority": "medium"
+    },
+    {
+      "topic": "Release Strategy & Nintendo Legal",
+      "context": "Kaze will ‘upload a patch’ but awaits Nintendo tolerance.",
+      "questions": [
+        "Is there a contingency if Nintendo objects?",
+        "How will patches be distributed and versioned?",
+        "Planned marketing timeline?"
+      ],
+      "related_to": ["kaze"],
+      "priority": "high"
+    }
+  ]
+}

@@ -10,6 +10,7 @@ import {
   DEFAULT_GOOGLE_MODEL,
   DEFAULT_GOOGLE_PRO_MODEL,
   DEFAULT_OPENAI_MODEL,
+  DEFAULT_OPENAI_PRO_MODEL,
   STREAMS_DIR,
   TRANSCRIPTS_DIR,
 } from "../src/constants";
@@ -26,6 +27,7 @@ const modelName = await clack.select({
     DEFAULT_GOOGLE_PRO_MODEL,
     DEFAULT_GOOGLE_MODEL,
     DEFAULT_OPENAI_MODEL,
+    DEFAULT_OPENAI_PRO_MODEL,
     DEFAULT_ANTHROPIC_PRO_MODEL,
     DEFAULT_ANTHROPIC_MODEL,
   ].map((model) => ({ value: model, label: model })),

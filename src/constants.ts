@@ -13,6 +13,7 @@ export const KV_QUESTIONS_DIR = join(DATA_DIR, "kv", "questions");
 
 // AI language models
 export const DEFAULT_OPENAI_MODEL = "o4-mini" as const;
+export const DEFAULT_OPENAI_PRO_MODEL = "o3" as const;
 export const DEFAULT_ANTHROPIC_MODEL = "claude-sonnet-4-20250514" as const;
 export const DEFAULT_ANTHROPIC_PRO_MODEL = "claude-opus-4-20250514" as const;
 export const DEFAULT_GOOGLE_MODEL = "gemini-2.5-flash" as const;
@@ -20,6 +21,7 @@ export const DEFAULT_GOOGLE_PRO_MODEL = "gemini-2.5-pro" as const;
 
 export const MODEL_LABELS: Record<string, string> = {
   [DEFAULT_OPENAI_MODEL]: "o4-mini",
+  [DEFAULT_OPENAI_PRO_MODEL]: "o3",
   [DEFAULT_ANTHROPIC_MODEL]: "Claude Sonnet 4",
   [DEFAULT_ANTHROPIC_PRO_MODEL]: "Claude Opus 4",
   [DEFAULT_GOOGLE_MODEL]: "Gemini 2.5 Flash",

@@ -1,0 +1,158 @@
+{
+  "stream_context": {
+    "summary": "Kaze spends the session defining the late-game “Ice Castle” course: mapping its physical layout, listing star objectives, brainstorming unique mechanics, and prototyping a workable ice-brick visual style with live shader/combiner tests.",
+    "level": ["Ice Castle (unnumbered late-game course)"]
+  },
+  "development_findings": [
+    {
+      "summary": "Course theme set as a lonely, late-game ice castle evoking Tick Tock Clock difficulty and atmosphere.",
+      "quote": "I want you to think about levels like Tick Tock Clock when you think about this here."
+    },
+    {
+      "summary": "Overall layout will be a U/H-shaped multi-storey castle with a bridge linking two towers, a foyer with slippery stairs, a basement ‘cold-haze’ section that damages Mario over time, and an exterior snowfield.",
+      "quote": null
+    },
+    {
+      "summary": "Current star plan: 1) red-coin star outside/courtyard, 2) platforming star visible early via slippery foyer stairs, 3) cold-haze basement traversal, 4) boss fight against a giant Raven on the roof, 5) 8-bit pipe mini-level themed after Mario Land 1, 6) snowman cave reached through a hill beside the castle (still fluid).",
+      "quote": null
+    },
+    {
+      "summary": "New platforming mechanics under consideration: sliding ice waves the player rides, rotating hexagonal ice prisms that redirect wall-jumps, gusts of wind, cracking ice blocks, reflective ice floors, and an ‘appearing path’ Galaxy-style.",
+      "quote": null
+    },
+    {
+      "summary": "Visual R&D: testing two reflection approaches—(a) CPU-generated normal-map reflections per wall direction (limited to six orientations, expensive) and (b) simpler scrolling additive shine texture; IA8 format chosen over RGBA16 to reduce N64 color-quantisation artefacts.",
+      "quote": "The format we used there was RGBA16… quantisation looks a lot less bad because now it's four-bit alpha instead of one."
+    },
+    {
+      "summary": "Zeina’s ‘icy bricks combiner’ material is the current base; Kaze tweaked combiner settings and camera-dependent texture scrolling for a frosty shine effect.",
+      "quote": null
+    },
+    {
+      "summary": "Technical groundwork: Kaze wrote a custom N64 OS (rewrite of Libultra) for finer control and future optimisation.",
+      "quote": "I wrote a new OS for my N64… it gives me a lot more control."
+    },
+    {
+      "summary": "Plans to exploit frame-buffer tricks: rooms where the buffer isn’t cleared to create busy echoing visuals; potential use of fake volumetric fog similar to PC-port experiments.",
+      "quote": null
+    },
+    {
+      "summary": "Ambition to launch the game simultaneously on real N64 hardware and PC for ‘insane advertising’.",
+      "quote": "Dual release on PC and N64 at the same time is perfectly possible."
+    },
+    {
+      "summary": "Source code will be released publicly, continuing Kaze’s open-source practice.",
+      "quote": "Despite what people seem to think I will release the source code."
+    }
+  ],
+  "context_findings": [
+    {
+      "summary": "Kaze shows playful frustration at Twitch bot raids, haircut mishap, and texture-quantisation issues; overall tone remains upbeat and iterative.",
+      "quote": null
+    },
+    {
+      "summary": "Expresses philosophy of open development: frequent source releases and desire for simultaneous multi-platform launch.",
+      "quote": null
+    },
+    {
+      "summary": "Mentions writing the new OS as a personal optimisation challenge.",
+      "quote": null
+    }
+  ],
+  "contributor_findings": {
+    "biobak": [
+      {
+        "summary": "Worked off-stream with Kaze to explore art styles; provided the initial icy-brick texture that outperformed Kaze’s tests in-stream.",
+        "quote": "He had some neat ideas and I had some neat ideas… I think this is a decent art style for this level."
+      }
+    ],
+    "badub": [],
+    "zeina": [
+      {
+        "summary": "Provided the ‘icy bricks combiner’ material Kaze used as the shader base.",
+        "quote": null
+      },
+      {
+        "summary": "Currently modelling/animating the giant Raven boss.",
+        "quote": "Oh, Zeina's making the raven. That looks pretty nice."
+      }
+    ]
+  },
+  "key_stories": [
+    {
+      "title": "Cracking the Ice-Brick Look",
+      "summary": "Kaze and Biobak experiment live with textures and combiners to find a believable ice-brick shader that survives N64 colour limits.",
+      "challenge": "RGBA16 quantisation produced ugly banding and purple artefacts.",
+      "process": "Switched to IA8 palettes, adjusted combiner math, introduced camera-scroll shine, compared with Biobak’s version.",
+      "outcome": "Settled on a frosty scrolling-shine material based on Zeina’s combiner; CPU-normal-map method kept as future possibility.",
+      "key_quote": "Why does Biobak picking a random blue texture just look better than me actually… is this not just combiner?",
+      "related_to": ["kaze", "biobak", "zeina"]
+    },
+    {
+      "title": "Writing a New N64 Operating System",
+      "summary": "Off-stream, Kaze rewrote large parts of Libultra to streamline performance for Return to Yoshi’s Island.",
+      "challenge": "Libultra’s overhead and lack of flexibility for modern tricks.",
+      "process": "Stripped Libultra to essentials, rebuilt modules for tighter control, plans ongoing optimisation.",
+      "outcome": "Already running; expected to unlock significant optimisation opportunities for the hack.",
+      "key_quote": "It's basically just a rewrite of Libultra… we're gonna find a lot of optimisations with the new OS.",
+      "related_to": ["kaze"]
+    }
+  ],
+  "open_questions": [
+    {
+      "topic": "Performance cost of CPU-generated normal-map reflections",
+      "context": "Kaze notes it is expensive and limited to six wall orientations but doesn’t quantify the hit or decide if it will ship.",
+      "questions": [
+        "What framerate penalty does the normal-map method impose on real N64 hardware?",
+        "Have you profiled it against the simpler scrolling-shine approach?",
+        "Will you keep it only for showcase rooms or drop it entirely?"
+      ],
+      "related_to": ["kaze", "biobak", "zeina"],
+      "priority": "high"
+    },
+    {
+      "topic": "Final star list and sequencing",
+      "context": "Only five stars are fully locked; one remains undecided and overall progression order is still rough.",
+      "questions": [
+        "What concept will replace the missing sixth star?",
+        "How will player navigation be gated to avoid frustration while preserving the labyrinth feel?",
+        "Will red coins be outside, in the courtyard, or split?"
+      ],
+      "related_to": ["kaze"],
+      "priority": "medium"
+    },
+    {
+      "topic": "New N64 OS details",
+      "context": "Kaze claims the rewrite is done and yields more control.",
+      "questions": [
+        "Which specific subsystems were rewritten?",
+        "What concrete optimisation wins have you measured so far?",
+        "Will the OS be open-sourced alongside the hack?"
+      ],
+      "related_to": ["kaze"],
+      "priority": "medium"
+    },
+    {
+      "topic": "Simultaneous PC/N64 release logistics",
+      "context": "Kaze says a dual launch is ‘perfectly possible’ but gives no plan.",
+      "questions": [
+        "What distribution method will you use for N64 ROM versus PC build?",
+        "How will you manage input differences and feature parity?",
+        "Any legal considerations with Nintendo for wider exposure?"
+      ],
+      "related_to": ["kaze"],
+      "priority": "medium"
+    },
+    {
+      "topic": "Badub’s musical direction",
+      "context": "Badub is the composer but was not present; no info on score approach for Ice Castle.",
+      "questions": [
+        "What musical influences will guide the Ice Castle theme?",
+        "How does Badub adapt Yoshi’s Island motifs to N64 hardware?",
+        "Any technical constraints (sample memory, tempo) the level design must consider?"
+      ],
+      "related_to": ["badub"],
+      "priority": "low"
+    }
+  ]
+}

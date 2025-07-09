@@ -1,0 +1,152 @@
+{
+  "stream_context": {
+    "summary": "Kaze blocks-out and refines the cardboard-craft themed Course 14: draws multiple traversal paths, relocates the spawn point, prototypes props (toilet-paper-roll mushrooms, crayons, fences, cardboard mountains) and repeatedly checks performance on real N64 hardware. A sizeable part of the stream is spent diagnosing over-draw, fine-tuning RSP optimisations, and hunting assets (e.g. a toilet-paper texture).",
+    "level": ["Course 14"]
+  },
+  "development_findings": [
+    {
+      "summary": "Course 14 is intended to mimic the non-linear structure of Peach’s Fury; Kaze draws at least five interconnected paths plus a paper-airplane warp and wants each route to serve a distinct collectible purpose.",
+      "quote": "This is very similar to the layout in Peach's Fury and that one was really not linear."
+    },
+    {
+      "summary": "The spawn point was moved to a central island to balance navigation and give players multiple opening choices.",
+      "quote": "I think we want the spawn point to be here. This is more balanced and in the middle of the level."
+    },
+    {
+      "summary": "New craft-style props confirmed or prototyped: toilet-paper-roll mushrooms (gift-wrap top + staple), crayons/ruler platforms, cardboard fences, glue zones that shorten jumps, tilt-bridges held by toothpicks, a toilet-paper-roll slide, and a paper-airplane that ferries Mario to the big pipe.",
+      "quote": null
+    },
+    {
+      "summary": "Level currently uses ~3-4 K triangles but suffers from heavy over-draw; RDP time 36.8 ms versus RSP 18–22 ms (≈50 FPS ceiling). Plan is to cut hidden geometry and disable Z-buffer on skybox to reclaim budget.",
+      "quote": "You see 18 milliseconds RSP… the RDP is at 36.8. That means it's all the overdraw."
+    },
+    {
+      "summary": "Kaze saved ~30 RSP instructions by caching GMAT stack indices and inlining maths; he may gain ~20 more by replacing gMatStackIndex with a pointer-add version.",
+      "quote": "I found 30 instruction improvement in Graph Render again … I'm going to try to replace GMAT stack index with GMAT stack add."
+    },
+    {
+      "summary": "Real-hardware testing is now done exclusively with the USB-based SummerCart, which flashes builds in seconds and is judged more reliable and cheaper than the EverDrive X7.",
+      "quote": "The EverDrive X7 is dog-shit … The SummerCart just works."
+    },
+    {
+      "summary": "A limited public demo (only Course 1) is planned for release ‘soon’ to gather feedback.",
+      "quote": null
+    },
+    {
+      "summary": "Kaze considers creating beginner-friendly YouTube explainer videos (e.g., how BLJ works) as low-effort content to boost channel reach.",
+      "quote": null
+    }
+  ],
+  "context_findings": [
+    {
+      "summary": "Kaze is self-employed; still takes commissions but at ‘hefty’ rates.",
+      "quote": null
+    },
+    {
+      "summary": "Streamer finances: SimpleFlips has sent ≈$3,500 but lack of address prevents formal invoicing and final payment.",
+      "quote": "He sent me like around $3,500 at this point, but I can't write an invoice to him because he didn't give me his address."
+    },
+    {
+      "summary": "Personal notes: proud of new automatic lawn-mower (‘I have become a boomer’); enjoys chocolate rewards; had a stressful nightmare about social-media backlash.",
+      "quote": null
+    },
+    {
+      "summary": "Emotional tone oscillates between excitement over optimisations and mild frustration when asset hunting or debating difficulty.",
+      "quote": null
+    }
+  ],
+  "contributor_findings": {
+    "biobak": [],
+    "badub": [],
+    "zeina": [
+      {
+        "summary": "Present in chat; jokingly assigned the role of ‘chat mom’, but no production tasks discussed.",
+        "quote": null
+      }
+    ]
+  },
+  "key_stories": [
+    {
+      "title": "Toilet-Paper-Roll Mushroom",
+      "summary": "Kaze needs a craft-style platform to liven up flat areas, settles on a mushroom built from a toilet-paper roll, gift-wrap cap, and a 3D staple.",
+      "challenge": "Find a convincing, low-poly prop and suitable texture within N64 limits.",
+      "process": "Searched online, balked at paid assets, accepted a Discord user’s texture, modelled the roll and staple, tweaked a shader for subtle gift-wrap shine.",
+      "outcome": "Prop approved for Course 14; doubles as example of ‘materials must look realistic to be convincing’.",
+      "key_quote": "This mushroom here works … we all know wrap paper has a little bit of a shine to it, so if it doesn't have the shine, people might not identify it.",
+      "related_to": ["kaze"]
+    },
+    {
+      "title": "Rendering Breakthrough",
+      "summary": "Course 14 initially ran slowly on real hardware; Kaze clawed back RSP time through code-level hacks.",
+      "challenge": "Graph render functions were executing redundant instructions, limiting frame-rate.",
+      "process": "Cached GMAT stack index, inlined VAC3F cross, used restrict qualifiers; identified further gains via pointer arithmetic.",
+      "outcome": "~30 saved instructions (with ~20 more possible) and a path toward smoother 50 FPS cap.",
+      "key_quote": "I saved 30 instructions on graph render today which is very exciting.",
+      "related_to": ["kaze"]
+    },
+    {
+      "title": "Choosing the SummerCart",
+      "summary": "Kaze needed fast iteration on real N64 hardware.",
+      "challenge": "EverDrive X7’s 40-second SD flashes and reliability issues slowed testing.",
+      "process": "Compared devices live; demonstrated SummerCart’s USB upload completing in seconds.",
+      "outcome": "SummerCart adopted as default hardware test platform for the project.",
+      "key_quote": "Just because something costs more doesn't mean it's better; the SummerCart is cheaper and works.",
+      "related_to": ["kaze"]
+    }
+  ],
+  "open_questions": [
+    {
+      "topic": "Over-draw Optimisation Strategy",
+      "context": "RDP time is the main bottleneck (36.8 ms) due to large, overlapping cardboard faces and Z-buffered skybox.",
+      "questions": [
+        "What concrete steps will you take to cut over-draw without sacrificing the craft aesthetic?",
+        "Do you plan to disable Z-buffer for certain layers or split geometry by zone?",
+        "What performance target (ms/frame) are you aiming for on real N64 hardware?"
+      ],
+      "related_to": ["kaze"],
+      "priority": "high"
+    },
+    {
+      "topic": "Team Contributions for Course 14",
+      "context": "No mention of Biobak’s art, Badub’s music, or Zeina’s animations specific to this level.",
+      "questions": [
+        "What assets is Biobak producing for the cardboard level?",
+        "Will Badub compose a craft-themed track and how will it integrate with paper sound FX?",
+        "Is Zeina animating props like the paper airplane or glue zones?"
+      ],
+      "related_to": ["biobak", "badub", "zeina"],
+      "priority": "high"
+    },
+    {
+      "topic": "Luigi Doodle Star Mechanic",
+      "context": "Kaze hinted at a ‘draw a star for Luigi’ objective near the mountain section.",
+      "questions": [
+        "How will the player ‘draw’ the star—gesture input, collectible pencils, timed event?",
+        "Is this mechanic reused elsewhere or unique to Course 14?"
+      ],
+      "related_to": ["kaze", "zeina"],
+      "priority": "high"
+    },
+    {
+      "topic": "Interior Cardboard Box Sub-Area",
+      "context": "He wants one box you can enter, possibly lined with aluminium foil for visual variety.",
+      "questions": [
+        "What gameplay purpose will the interior serve—secret star, boss, bonus coins?",
+        "Any special lighting or reflection tech needed for foil surfaces?"
+      ],
+      "related_to": ["kaze", "biobak"],
+      "priority": "medium"
+    },
+    {
+      "topic": "Public Demo and Release Roadmap",
+      "context": "A Course 1 demo ‘soon’ was mentioned but no timeline or goals discussed.",
+      "questions": [
+        "What feedback are you seeking from the demo?",
+        "How will the demo influence full-game scope and schedule?",
+        "Are there legal considerations for a public ROM release?"
+      ],
+      "related_to": ["kaze"],
+      "priority": "medium"
+    }
+  ]
+}

@@ -1,0 +1,216 @@
+{
+  "stream_context": {
+    "summary": "Kaze focused on Course 11’s ‘Bowser Plaza / Bowser’s Office’ area: modelling & coding an elevator, doors and NPC logic for the union-strike mission, while showing a freshly-reworked ‘Cloud Ocean’ level and a new options menu.  Implementation bugs (object Y drift, door timing) were debugged live.  Zeina’s new Wiggler animations were imported, and dynamic hint dialogue for that NPC was written.  Future plans (Wild West Valley, camera improvements, multiplayer, release timing) were discussed.",
+    "level": [
+      "Course 11 – Bowser Plaza / Bowser’s Office",
+      "Cloud Ocean (reworked earlier level)"
+    ]
+  },
+  "development_findings": [
+    {
+      "summary": "Cloud Ocean visual overhaul: slowed cloud movement, removed side-mountains, added vertical gradient and lower skybox stars to create a ‘near-infinite’ vista and boost performance.",
+      "quote": "It looks so much more vast… now it looks near infinite and the mountains are gone."
+    },
+    {
+      "summary": "New in-game options menu: toggles for interlacing, FPS limiter (adds ~25 % framerate), placeholder ‘Quick 64’ entry; menu increases performance especially on hardware.",
+      "quote": "This increases frame rate by like twenty-five percent."
+    },
+    {
+      "summary": "Bowser Office design: Shy Guy receptionist, waiting seats, proximity-activated elevator that carries player upward; elevator doors coded to open/close on action states 0 and 3.",
+      "quote": "You’re gonna go here and the Shy Guy says… then this will be the elevator; a door here opens and closes when you come by."
+    },
+    {
+      "summary": "Strike narrative: In Act 3 Bowser orders a ‘strike breaker’; when player exits office, minions vanish and an oil-monster boss attacks, dragging Mario to a separate arena.",
+      "quote": "As soon as you leave the building that’s when everyone’s gone and that’s when the boss appears and eats Mario."
+    },
+    {
+      "summary": "Elevator implementation challenges: doors initially failed to move; Y-position bugs traced to gravity accumulating tiny velocities; fixed by checking distance to zero and adjusting variables.",
+      "quote": "Why the fuck is it not moving? … The gravity kept decreasing its y-velocity… eventually it fell through the floor."
+    },
+    {
+      "summary": "Wiggler supervisor NPC: Zeina’s new animations (idle, angry, stomp, talk) imported; hitbox approximated with two cylinders; four context-sensitive dialogues give progressive hints and then disable after tasks completed; text count now 169.",
+      "quote": "Whenever you destroy something, the dialogue is no longer available… we’re already at 169 dialogues."
+    },
+    {
+      "summary": "Performance status: worst-case 25 FPS on real N64 after cloud optimisations.",
+      "quote": "Performance on the N64 now? The worst part is twenty-five FPS."
+    },
+    {
+      "summary": "Future level ‘Wild West Valley’: planned cowboy enemies, Dry Bones sheriff boss, scavenger-hunt map, wanted posters, red coins and 8-bit pipe stars.",
+      "quote": "The next level… Wild West Valley. There’s gonna be cowboys… Dry Bones sheriff… scavenger hunt."
+    },
+    {
+      "summary": "Release targeting: project ~75 % complete; Kaze prefers September launches to lower Nintendo takedown risk.",
+      "quote": "I like to release my games around September… that’s the time where it’s least likely Nintendo’s gonna take them down."
+    },
+    {
+      "summary": "Physical release plan: no cartridges to avoid lawsuits; may sell box/manual with QR code link; suggests using private domain to host ROM.",
+      "quote": "I might make a box and an instruction booklet… and you can get the cartridge somewhere else not from me."
+    }
+  ],
+  "context_findings": [
+    {
+      "summary": "Kaze worries AI will render human creative skills futile and predicts monopolisation if only big studios can train proprietary AIs.",
+      "quote": "People will not be able to keep their job… big companies will hire people to make art to train the AIs and have an exclusive ability to use AI."
+    },
+    {
+      "summary": "Financial/personal: Cannot secure house loan due to low income; father-in-law may help save €20 k in taxes; hopes to stream from a basement ‘bunker’.",
+      "quote": "I actually can’t get a loan right now… but we can afford the house… I will be streaming from a bunker."
+    },
+    {
+      "summary": "Work balance: Holds full-time industry job while hacking; YouTube shorts pay $5 each to edit but channel not yet profitable; large backlog of scheduled shorts.",
+      "quote": "YouTube is just not profitable for me because my channel is not that big."
+    },
+    {
+      "summary": "Emotional tone: frustration during elevator bug, excitement over cloud overhaul and future levels; playful banter about Koopalings, AI, Twitch ads, etc.",
+      "quote": null
+    },
+    {
+      "summary": "Philosophy on releases: chooses September windows and avoids shipping carts to minimise legal exposure to Nintendo.",
+      "quote": null
+    }
+  ],
+  "contributor_findings": {
+    "biobak": [
+      {
+        "summary": "Praised new Cloud Ocean look; suggested adding more room details (tables, Mario toys) and moving Yoshi figures in Bowser office intro.",
+        "quote": "I so much prefer this over the previous one… maybe instead of a cardboard box we can make it into just a whole bedroom."
+      },
+      {
+        "summary": "Proposed QR-code download link inside physical manual; discussed Wild West Valley wanted posters and conspiracy-theory Yoshi room.",
+        "quote": "We can make it QR scannable… Do I get to make the wanted posters?"
+      }
+    ],
+    "badub": [
+      {
+        "summary": "Delivered new multi-layered track for second Bowser level with switchable channels for indoor/outdoor ambience.",
+        "quote": "This one is composed in a specific way where you can disable two channels and… get an indoors version."
+      }
+    ],
+    "zeina": [
+      {
+        "summary": "Created full Wiggler animation set (walk, jump, angry, talk, stomp) and Bowser sitting/tantrum animations; collaborated live on import and tuning.",
+        "quote": "Wiggler’s animation was a lot harder than Bowser’s walk cycle but I did it faster."
+      }
+    ]
+  },
+  "key_stories": [
+    {
+      "title": "Making the Cloud Ocean Feel Infinite",
+      "summary": "The original cloud-ocean stage felt cramped and visually busy.  Kaze and Biobak re-examined the scene, slowed the cloud layer, removed bordering mountains, pushed the skybox lower and added a gradient to convey vastness.",
+      "challenge": "Level looked like ‘Bob-omb Battlefield size’ and performance sagged.",
+      "process": "Scaled environment, altered sky art, adjusted cloud speed.",
+      "outcome": "Now appears ‘near infinite’ and runs faster; team unanimously prefers new look.",
+      "key_quote": "Now it looks near infinite… so much better than the previous one.",
+      "related_to": ["kaze", "biobak"]
+    },
+    {
+      "title": "Building Bowser’s Office Elevator",
+      "summary": "A functional elevator and doors were required for the office cut-scene.  Initial code failed: doors wouldn’t move and objects sank through the floor.",
+      "challenge": "Doors didn’t respond; Y-coordinate drift from gravity caused objects to fall.",
+      "process": "Added distance checks, corrected action states, debugged object-home reference, tuned open speed.",
+      "outcome": "Elevator now moves, doors sync, and triggers work for cut-scene.",
+      "key_quote": "Hey, we got an elevator shaft.",
+      "related_to": ["kaze"]
+    },
+    {
+      "title": "Wiggler the Overseer and Dynamic Hint Dialogue",
+      "summary": "Zeina supplied new animations while Kaze built a hint system: Wiggler’s dialogue changes as the player sabotages construction tasks, guiding progress and then disabling itself.",
+      "challenge": "Needed context-sensitive text and proper hitboxes for segmented model.",
+      "process": "Imported animations, approximated two-cylinder hitbox, wrote four dialogues tied to task flags.",
+      "outcome": "Wiggler supervisor fully functional; dialogue count surpasses original SM64.",
+      "key_quote": "Whenever you destroy something, the dialogue is no longer available.",
+      "related_to": ["kaze", "zeina"]
+    }
+  ],
+  "open_questions": [
+    {
+      "topic": "Strike-Breaker Oil Monster Boss",
+      "context": "Concept described but no technical or artistic details given.",
+      "questions": [
+        "What is the visual design of the oil monster?",
+        "How will the ‘eating Mario’ transition to the arena be implemented?",
+        "What gameplay mechanics will the boss use and which team members are involved?"
+      ],
+      "related_to": ["kaze", "biobak"],
+      "priority": "high"
+    },
+    {
+      "topic": "Options Menu Final Scope",
+      "context": "Menu currently has interlacing toggle, FPS limiter and placeholder entries.",
+      "questions": [
+        "What additional settings will be offered in the final build?",
+        "Will options be configurable on real N64 hardware saves?",
+        "How will visual quality vs performance be balanced?"
+      ],
+      "related_to": ["kaze"],
+      "priority": "medium"
+    },
+    {
+      "topic": "Release & Legal Strategy",
+      "context": "Kaze plans September release and selling boxes/manuals only.",
+      "questions": [
+        "Why is September perceived as safer from takedowns?",
+        "What steps will be taken if Nintendo still issues a claim?",
+        "How will QR code hosting be managed to avoid shutdowns?"
+      ],
+      "related_to": ["kaze"],
+      "priority": "medium"
+    },
+    {
+      "topic": "Multiplayer Implementation",
+      "context": "Multiplayer ‘planned’ but not started.",
+      "questions": [
+        "What form of multiplayer (co-op, split-screen, online) is envisioned?",
+        "Technical approach on original hardware?",
+        "Timeline and required resources?"
+      ],
+      "related_to": ["kaze"],
+      "priority": "medium"
+    },
+    {
+      "topic": "Wild West Valley Level Details",
+      "context": "Early brainstorming only.",
+      "questions": [
+        "What unique mechanics will differentiate this course?",
+        "Art direction and music style plans?",
+        "How will wanted posters and scavenger hunt be integrated?"
+      ],
+      "related_to": ["kaze", "biobak", "badub"],
+      "priority": "medium"
+    },
+    {
+      "topic": "Camera Sphere-Collision Feature",
+      "context": "Planned to stop wall clipping.",
+      "questions": [
+        "What algorithm will be used for sphere collision?",
+        "Expected performance cost on N64?",
+        "Which levels will benefit most?"
+      ],
+      "related_to": ["kaze"],
+      "priority": "low"
+    },
+    {
+      "topic": "AI-Generated Assets Policy",
+      "context": "Discussion of AI replacing creatives; mixed opinions.",
+      "questions": [
+        "Will AI be used for any music, art, or code in RtYI?",
+        "What ethical guidelines will the team adopt?",
+        "How does Badub view AI music after composing manually?"
+      ],
+      "related_to": ["kaze", "badub", "biobak", "zeina"],
+      "priority": "low"
+    },
+    {
+      "topic": "Impact of Possible House Purchase",
+      "context": "Kaze may buy house with basement ‘bunker’ studio.",
+      "questions": [
+        "If move happens, how will development schedule or stream setup change?",
+        "Will Zeina’s workflow be affected?",
+        "Financial implications for project pacing?"
+      ],
+      "related_to": ["kaze", "zeina"],
+      "priority": "low"
+    }
+  ]
+}

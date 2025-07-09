@@ -7,8 +7,8 @@ import slugify from "@sindresorhus/slugify";
 import { generateObject } from "ai";
 import { template } from "utilful";
 import { STREAMS_DIR } from "../constants";
-import { EXTRACTION_PROMPT_v2 } from "../prompts";
-import { TranscriptAnalysisSchema } from "../schemas";
+import { STREAM_ANALYSIS_PROMPT_v2 } from "../prompts";
+import { StreamAnalysisSchema } from "../schemas";
 import { ensureDirectoryExists, resolveProviderLanguageModel } from "../utils";
 
 export async function processTranscript(filePath: string, model: string) {
@@ -32,19 +32,19 @@ export async function processTranscript(filePath: string, model: string) {
     const { object } = await generateObject({
       model: languageModel,
       temperature: model.startsWith("gemini") ? 1 : 0.5,
-      schema: TranscriptAnalysisSchema,
+      schema: StreamAnalysisSchema,
       output: "object",
-      prompt: template(EXTRACTION_PROMPT_v2, {
+      prompt: template(STREAM_ANALYSIS_PROMPT_v2, {
         transcript: transcriptContent,
       }),
       providerOptions: {
-        // Enable reasoning for the Anthropic model
-        anthropic: {
-          thinking: {
-            type: "enabled",
-            budgetTokens: model.startsWith("claude-opus") ? 16_000 : 32_000,
-          },
-        } satisfies AnthropicProviderOptions,
+        // TODO: Reasoning for Anthropic models is not supported with object generation
+        // anthropic: {
+        //   thinking: {
+        //     type: "enabled",
+        //     budgetTokens: model.startsWith("claude-opus") ? 16_000 : 32_000,
+        //   },
+        // } satisfies AnthropicProviderOptions,
       },
     });
 

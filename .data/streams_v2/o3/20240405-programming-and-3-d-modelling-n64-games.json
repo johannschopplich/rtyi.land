@@ -1,0 +1,157 @@
+{
+  "stream_context": {
+    "summary": "Kaze spends a surprise day-off stream refining the Western-desert town level: he adds bandits, trains with VFX/SFX, coins, and finally debugs the Pokey enemy while wrestling with severe N64 memory limits.",
+    "level": ["desert railway town (course still unnamed)"]
+  },
+  "development_findings": [
+    {
+      "summary": "Animated trains now have visual effects, sound effects, screen shake and can damage Mario.",
+      "quote": "They now have VFX, they have SFX, they have the camera shake and they do that to you."
+    },
+    {
+      "summary": "Bandit NPCs steal goods from a hat shop and tumbleweed shop; this storytelling trick avoids modelling extra props, saving RAM.",
+      "quote": "This is a trick we do so we don't actually have to 3D model the stuff here because we are getting pretty close to running out of RAM."
+    },
+    {
+      "summary": "The level hit the 64 MB ceiling (40 k triangles, ROM 62.7 MB).  Kaze cut the Yoshi Ranch area and began trimming collision meshes, unused banks, and considering per-area data loads.",
+      "quote": "We are out of memory ... I'm fine with cutting out the Yoshi Ranch. I think that was unnecessary fluff anyway."
+    },
+    {
+      "summary": "Placeholder songs are a major memory drain; final music will free space once temporary lumps are removed.",
+      "quote": "There's like 15 minutes of code slumps in here that aren't actually part of the game."
+    },
+    {
+      "summary": "Vanilla SM64 Pokey performs 37 floor raycasts per frame; Kaze’s engine optimised them away, breaking the enemy.  Restoring per-frame floor checks and billboard scaling fixed it.",
+      "quote": "For some reason a Pokey needs 6 Raycasts—actually 37 Raycasts every tick."
+    },
+    {
+      "summary": "Billboard matrix in his engine ignores scale, so Pokey head had to be up-scaled 3.33× and rotated 180° to render correctly.",
+      "quote": "Our billboard matrix cannot take a scale."
+    },
+    {
+      "summary": "Spawn/despawn distances for Pokey increased to 5 000/6 000 units now that performance issues are resolved.",
+      "quote": null
+    },
+    {
+      "summary": "Using SM64 decomp rather than ROM Manager complicates per-area memory because of C linker hurdles.",
+      "quote": "In D-Comp, it's so hard to just have data per area ... there’s a lot of stupid C things you need to do."
+    }
+  ],
+  "context_findings": [
+    {
+      "summary": "PayPal froze Kaze’s account for three months, blocking music-request donations mid-stream.",
+      "quote": "They asked me to verify my identity three months ago ... and now they just closed my account basically."
+    },
+    {
+      "summary": "Kaze has a week off from his paid job at Gears for Breakfast and spends it streaming ROM-hack work.",
+      "quote": "I’m off work for this week ... it's a bonus stream."
+    },
+    {
+      "summary": "He benches 315 lbs but feels over-trained; mentions needing more rest days.",
+      "quote": "My body feels so fucked up today ... I increased the weight so much, I need to take more rest days."
+    },
+    {
+      "summary": "Expresses disdain for boss fights, 2D platformers, and idioms; values concise, precise language.",
+      "quote": "I value language that is concise and precise, so if you just add on things, they tend to make it worse for me."
+    }
+  ],
+  "contributor_findings": {
+    "biobak": [
+      {
+        "summary": "Discussed metallic vs. matte teeth on Chain Chomp and other texture tweaks.",
+        "quote": null
+      },
+      {
+        "summary": "Will create a Pokey model for Bowser’s amusement-park level and a tumbleweed store scene.",
+        "quote": "I gotta ask Zeina to make a tumbleweed store here ... You’re right, I will just reuse that [Pokey] one."
+      }
+    ],
+    "badub": [
+      {
+        "summary": "Soundtrack currently 70 % SM64 sound-font but used creatively to feel fresh.",
+        "quote": "It’s freaking amazing how different from the default Mario 64 sound ... 70 % of the instruments, but they’re used in really creative ways."
+      }
+    ],
+    "zeina": [
+      {
+        "summary": "Tasked with tumbleweed-store assets and Pokey/Dry Bones animations; present in chat despite panic episode.",
+        "quote": "Let me ask Zeina to make a tumbleweed store here."
+      }
+    ]
+  },
+  "key_stories": [
+    {
+      "title": "Pokey Resurrection",
+      "summary": "Kaze tried to drop the vanilla Pokey into the new engine; it rendered invisibly and floated. He discovered his optimisation removed essential per-frame floor raycasts and billboard scaling.",
+      "challenge": "Pokey segments spawned but instantly vanished or flew overhead.",
+      "process": "Stubbed out functions, printed debug info, compared with vanilla, reinstated floor checks, fixed billboard scale and rotation.",
+      "outcome": "Pokey now works, with correct shadow, size and spawn range.",
+      "key_quote": "We finally fixed it. Took forever because some random Mario 64 functions broke when I optimised my stuff.",
+      "related_to": ["kaze"]
+    },
+    {
+      "title": "RAM Crisis in the Desert Level",
+      "summary": "The Western town exceeded N64 memory.  Crashes forced immediate cuts and optimisation.",
+      "challenge": "Level at 62.7 MB crashed when loading OpenGL layout.",
+      "process": "Removed Yoshi Ranch, merged collision meshes, considered deleting effect/command banks, studied memory overlay to locate free blocks.",
+      "outcome": "Level now loads; per-area loading still on the table.",
+      "key_quote": "Honestly, I'm fine with cutting out the Yoshi Ranch. I think that was unnecessary fluff anyway.",
+      "related_to": ["kaze", "biobak", "zeina"]
+    },
+    {
+      "title": "Donation Blackout",
+      "summary": "Music-request donations failed live on stream.",
+      "challenge": "Streamlabs sent tips to an old, now-blocked PayPal.",
+      "process": "Checked Streamlabs, PayPal, email; realised account verification stall.",
+      "outcome": "No fix yet; Kaze may need new payment pipeline.",
+      "key_quote": "It just goes to the wrong email address ... I don't know what to do about this right now.",
+      "related_to": ["kaze"]
+    }
+  ],
+  "open_questions": [
+    {
+      "topic": "Per-area memory streaming",
+      "context": "Kaze says decomp makes it ‘so hard’ yet memory pressure may force it.",
+      "questions": [
+        "What concrete plan exists to load data per area?",
+        "How much work and who would own it?",
+        "Could ROM Manager features be ported over?"
+      ],
+      "related_to": ["kaze"],
+      "priority": "high"
+    },
+    {
+      "topic": "Cut Yoshi Ranch content",
+      "context": "Area removed to save RAM; called ‘unnecessary fluff’.",
+      "questions": [
+        "What gameplay was originally planned for Yoshi Ranch?",
+        "Is there a possibility of reinstating it later or in another form?",
+        "How does the cut affect narrative pacing?"
+      ],
+      "related_to": ["kaze", "biobak", "zeina"],
+      "priority": "medium"
+    },
+    {
+      "topic": "Legal boundary of Nintendo code reuse",
+      "context": "Chat asked whether Kaze’s custom renderer still counts as Nintendo code (‘Ship of Theseus’).",
+      "questions": [
+        "How does the team delineate original vs. Nintendo code?",
+        "Any legal counsel consulted?",
+        "Does this affect planned distribution?"
+      ],
+      "related_to": ["kaze"],
+      "priority": "medium"
+    },
+    {
+      "topic": "Soundtrack finalisation",
+      "context": "Badub currently uses 70 % SM64 sound-font placeholders; memory heavy.",
+      "questions": [
+        "What is the target sound-font balance in the final OST?",
+        "Will custom samples alleviate or worsen RAM?",
+        "Timeline for locking music so placeholders can be purged?"
+      ],
+      "related_to": ["badub", "kaze"],
+      "priority": "low"
+    }
+  ]
+}

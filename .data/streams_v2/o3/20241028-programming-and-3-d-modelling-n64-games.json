@@ -1,0 +1,159 @@
+{
+  "stream_context": {
+    "summary": "Kaze worked almost exclusively on Course 14, prototyping a cardboard-box set-piece where Mario pulls a strip of packing tape to open a flap and drop into a ‘hell’ sub-area.  He also fixed a severe performance regression, debugged a Bowser-grabbing crash, and talked through upcoming video content.",
+    "level": ["Course 14"]
+  },
+  "development_findings": [
+    {
+      "summary": "Course 14’s core gimmick is a giant cardboard box that hides a hell stage; Mario must open the box first and then fall inside.",
+      "quote": "\"Mario needs to be able to open the zipper and fall into here … it would be a cardboard flap.\""
+    },
+    {
+      "summary": "The original ‘zipper’ idea (from Biobak) was rejected because it felt unfitting; Kaze pivoted to a strip of packing tape that Mario pulls, requiring vertex animation to ‘grow’ as it unpeels.",
+      "quote": "\"A zipper feels so unfitting … my next idea would have been to have a piece of tape that you can pull.\""
+    },
+    {
+      "summary": "Technical plan: implement the tape as a very thin, segmented animated actor that extends while Mario walks backward; animation speed and segment count still being tuned.",
+      "quote": null
+    },
+    {
+      "summary": "Outstanding tasks for Course 14 include modelling the Bowser object, the flap itself, Peach-to-the-rescue sequence, and finalising the ‘zipper to hell’ (now tape) mechanic.",
+      "quote": "\"We need the Bowser still. We need the flap still. We need the peach to the rescue, and we wanted the zipper to hell.\""
+    },
+    {
+      "summary": "A major performance bug was traced to a leftover ‘infinite draw distance’ setting from another hack; culling distances were reinstated and mountains consolidated into a single material, hugely improving FPS.",
+      "quote": "\"The reason it ran poorly is because … the drawing distance for everything [was] set at infinite.\""
+    },
+    {
+      "summary": "Kaze introduced an HD Mario model with jiggle physics on the nose, higher-res textures, 3D buttons, and cleaned-up topology.",
+      "quote": "\"He also has new features like his nose jiggles … everything is higher resolution.\""
+    },
+    {
+      "summary": "Kaze located and fixed a Bowser-holding bug that zeroed Mario’s action arg only in certain emulators; root cause was an unconditional intro-scene reset that overwrote state.",
+      "quote": null
+    },
+    {
+      "summary": "A comet-like challenge system called ‘Yoshi Stars’ is planned: 45 optional missions triggered by Yoshis that impose special conditions (e.g., collect red coins with ≤2 A-presses). These will not appear in the next public demo.",
+      "quote": "\"I’m planning 45 of those in total … Yoshi will not be in the demo I’m releasing this time.\""
+    }
+  ],
+  "context_findings": [
+    {
+      "summary": "Kaze states he lives in Canada and considers Germany \"one of the worst\" places to live, reflecting a preference that may influence his work environment.",
+      "quote": "\"Germany is the worst country to live in … I am a German living in Canada.\""
+    },
+    {
+      "summary": "He is actively pursuing Twitter monetisation, hitting 250 k impressions in five days and describing it as \"making a hell of a bank.\"",
+      "quote": "\"The Twitter monetization grind is going way better than I thought … we hit 250k today.\""
+    },
+    {
+      "summary": "Kaze dislikes producing technical ‘show-off’ features without gameplay purpose, aiming for cohesive mechanics instead of ‘random technology’.",
+      "quote": "\"Don’t want to make a ROM-hack exhibiting random technology. That’s not what I’m interested in.\""
+    },
+    {
+      "summary": "He has the coming week off and plans daily streams, including on-stream workouts, indicating current time availability.",
+      "quote": null
+    }
+  ],
+  "contributor_findings": {
+    "biobak": [
+      {
+        "summary": "Suggested using a zipper to open the box and provided reference images; continues to give aesthetic feedback during stream.",
+        "quote": null
+      }
+    ],
+    "badub": [],
+    "zeina": [
+      {
+        "summary": "Kaze mentioned that \"Zena’s friends\" were visiting, implying occasional real-life interruptions.",
+        "quote": null
+      }
+    ]
+  },
+  "key_stories": [
+    {
+      "title": "From Zipper to Tape",
+      "summary": "Course 14 originally featured a zipper that Mario would unzip to access a hell area.  Kaze felt the zipper clashed with the cardboard aesthetic and, after discussing with Biobak, switched to a roll of packing tape that peels back as Mario walks.",
+      "challenge": "Make an opening mechanism that fits a cardboard box theme.",
+      "process": "Rejected zipper, brainstormed alternatives (staples, knife, tape), settled on animated tape with vertex stretching.",
+      "outcome": "Prototype tape actor implemented; animation speed and segment count still being refined.",
+      "key_quote": "\"A piece of tape would work, but I’d have to make it grow … it might actually be better and more fitting.\"",
+      "related_to": ["kaze", "biobak"]
+    },
+    {
+      "title": "Infinite Draw Distance Bug",
+      "summary": "Course 14’s frame-rate was extremely poor until Kaze discovered that an ‘infinite draw distance’ flag from a previous project was still active.",
+      "challenge": "Severe performance drop in new level.",
+      "process": "Profiled the scene, realised culling was disabled, reinstated reasonable distances and merged mountain materials.",
+      "outcome": "Performance now “mostly fine,” enabling further detail work.",
+      "key_quote": "\"Back from my other ROM-hack, I still had the drawing distance for everything set at infinite.\"",
+      "related_to": ["kaze"]
+    },
+    {
+      "title": "Bowser-Grabbing Crash",
+      "summary": "Holding Bowser caused Mario’s action state to reset on Project 64 but not on Nemu, leading to softlocks.",
+      "challenge": "Inconsistent emulator bug when Mario grabs Bowser in Course 14.",
+      "process": "Set breakpoints on action arg, traced overwrite to unconditional intro-scene reset, re-scoped code to avoid zeroing.",
+      "outcome": "Bug fixed; mechanic works across emulators.",
+      "key_quote": "\"Something is overwriting the action arg only in this level … it was the reset intro scene running when there is none.\"",
+      "related_to": ["kaze"]
+    }
+  ],
+  "open_questions": [
+    {
+      "topic": "Tape Animation Implementation",
+      "context": "Prototype works but start-state animation is ‘iffy’ and needs consistent speed without high triangle cost.",
+      "questions": [
+        "What final method will you use to animate the tape without hurting N64 performance?",
+        "How will Mario’s interaction (grabbing, pulling) be communicated to players?",
+        "Will the tape mechanic be reused elsewhere in the hack?"
+      ],
+      "related_to": ["kaze", "biobak"],
+      "priority": "high"
+    },
+    {
+      "topic": "Remaining Course 14 Assets",
+      "context": "Kaze listed missing elements: Bowser object, flap model, Peach rescue scene.",
+      "questions": [
+        "What is the design concept for the Bowser encounter in this course?",
+        "How will the Peach-to-the-rescue sequence function mechanically?",
+        "Who is responsible for modelling/animating these assets and what is the timeline?"
+      ],
+      "related_to": ["kaze", "zeina", "biobak"],
+      "priority": "medium"
+    },
+    {
+      "topic": "Yoshi Star System",
+      "context": "Kaze plans 45 comet-style Yoshi missions but only gave one example.",
+      "questions": [
+        "How will Yoshi missions integrate into the main progression?",
+        "What variety of constraints or themes are planned for these 45 stars?",
+        "What technical framework triggers the Yoshi appearance in each course?"
+      ],
+      "related_to": ["kaze"],
+      "priority": "medium"
+    },
+    {
+      "topic": "Music Integration",
+      "context": "Kaze mentioned the area will feel better once Badub’s music is added but provided no details.",
+      "questions": [
+        "What is Badub’s vision for Course 14’s soundtrack?",
+        "How do you coordinate level atmosphere with composition?",
+        "What tools are used to fit new music within N64 limitations?"
+      ],
+      "related_to": ["badub", "kaze"],
+      "priority": "low"
+    },
+    {
+      "topic": "Release Roadmap",
+      "context": "Kaze deflected questions about release dates and said Yoshi won’t be in the next demo.",
+      "questions": [
+        "What milestones must be hit before the next public demo?",
+        "Are there internal deadlines for finishing Course 14?",
+        "How will the absence of Yoshi affect demo feedback collection?"
+      ],
+      "related_to": ["kaze"],
+      "priority": "medium"
+    }
+  ]
+}

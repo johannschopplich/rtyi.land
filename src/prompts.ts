@@ -1,60 +1,90 @@
-import { z } from "zod";
+// #region analysis-prompt
+export const STREAM_ANALYSIS_PROMPT_v2 = `
+You are an expert documentary researcher. Analyse the transcript from Kaze Emanuar's YouTube game development stream. Your goal is to extract concrete, actionable information about the development of "Return to Yoshi's Island," a ROM hack based on the Mario 64 decompilation. This information will be used to prepare comprehensive interviews with the development team for a documentary.
 
-export const EXTRACTION_PROMPT_v2 = `
-You are an expert documentary researcher and archivist with a director's eye. You are tasked with analyzing a transcript from a YouTube game development stream by Kaze. Your goal is to extract detailed, relevant information that will be used to prepare for interviews and provide context for a documentary about the game "Return to Yoshi's Island," a ROM hack based on the Mario 64 decompilation.
+As you analyze this transcript, keep in mind that the stream is from Kaze's perspective. Consider the following central question: "How and why does a creator and his team deconstruct a beloved classic and build something entirely new, yet respectful, on a nearly 30-year-old console?"
 
-Here is the transcript to analyze:
+## Key Team Members to Track
+
+- Kaze Emanuar: Lead developer (vision, coding, design), heart and soul of the project
+- Biobak: Graphics artist
+- Badub: Composer
+- Zeina: Animator (also Kaze's spouse – note any personal/professional dynamic)
+
+## Analysis Instructions
+
+For each of the following categories, carefully examine the transcript and extract relevant information specific to this stream. Conduct a step-by-step analysis, but only output the final JSON object that conforms to the schema.
+
+1. Development Insights:
+   - Current project status and milestones
+   - Design decisions and their rationale
+   - Influences from other games or media
+   - Technical challenges and solutions
+   - Creative process examples (concepts → problems → solutions)
+   - Any "breakthrough" moments or significant pivots
+
+2. Team & Collaboration:
+   - Specific contributions from each team member
+   - Examples of collaboration or feedback
+   - Dependencies between team members
+   - Team dynamics or working relationships
+
+3. Creator Context:
+   - Kaze's opinions, interests, philosophy, principles, or worldview (about game design or life in general)
+   - Emotional moments (frustration, excitement, satisfaction)
+   - Personal life mentions (whether or not they directly affect the project)
+   - Work-life balance discussions
+   - Financial or time investments
+
+4. External Factors:
+   - Community feedback or involvement
+   - Legal/Nintendo concerns or considerations
+   - Release strategy or timing
+   - Marketing or distribution plans
+
+5. Complete Stories:
+   Identify self-contained incidents with:
+   - A challenge or initial idea
+   - The process of working through it
+   - The outcome or resolution
+
+6. Knowledge Gaps:
+   Note what ISN'T fully explained:
+   - Mentioned but unexplored topics
+   - Decisions without clear rationale
+   - References to work not shown
+   - Team dynamics only partially revealed
+
+## Important Notes
+
+- Include quotes that illustrate key points only if they are particularly impactful or revealing
+- Focus on information that generates meaningful interview questions
+- It's okay if some categories have no findings – do not force any information where it doesn't exist
+
+## Exclusions
+
+Do not include:
+- Line-by-line code explanations without broader significance
+- Minute modeling details without design insights
+- Repetitive testing without learning moments
+- Stream management issues
+- Known information about team roles – only include new or surprising insights
+
+## Output
+
+After your internal analysis, generate a single, valid JSON object that conforms to the provided schema.
+
+## Context
+
+Here is the transcript to analyse:
 
 <transcript>
 {transcript}
 </transcript>
-
-The central guiding question for the documentary is: "How and why does a creator deconstruct a beloved classic and build something entirely new, yet respectful, on a 30-year-old console?" Look for any evidence, big or small, that helps answer this question.
-
-The stream is the primary source of information for the entire documentary. Your analysis must identify information and generate interview topics relevant to all key collaborators where applicable:
-- Kaze: Lead developer, responsible for the overall vision, coding, and design of the game.
-- Biobak: Graphics artist.
-- Badub: Composer.
-- Zeina: Animator.
-- Kaze & Zeina's dynamic: Actively look for moments that blur the line between their personal and professional collaboration, since they are in a relationship.
-
-The goal is to capture both the technical journey and the human story of creating this game.
-
-Before generating the final JSON output, you MUST internally perform the following step-by-step analysis based on the provided transcript. This is your internal thought process; do not include it in the final output. This process is essential for ensuring the quality and depth of the extraction:
-
-1. Scan for development progress & status: Identify the current development phase, specific tasks being worked on, any milestones achieved or mentioned, and any discussion of timelines or completion.
-
-2. Identify the creative process in action: Look for concrete examples of iteration. Note down any instances of an initial concept, a problem that arose, the proposed solution, and the final implementation. Pinpoint any "shit phase" moments where things looked rough, and the subsequent breakthrough or realization.
-
-3. Pinpoint team dynamics & collaboration: For every mention of Biobak, Badub, Zeina, or other contributors, document their specific contribution being discussed. Note any examples of collaborative feedback, dependencies (e.g., "waiting for animations"), or Kaze's real-time reactions to their work.
-
-4. Extract design philosophy & principles: Listen for any stated beliefs about what makes a game good, critiques of other games or industry trends, and priorities for the player's experience.
-
-5. Document technical challenges & solutions: Note any specific N64 hardware limitations, software bugs, or performance issues discussed. Document the proposed or implemented solutions, especially where a limitation forced a creative or innovative technical approach.
-
-6. Capture the emotional journey: Identify moments of expressed frustration, excitement, pride, satisfaction, or burnout. Pay close attention to the emotional language used.
-
-7. Note community interaction: Log any instances where stream chat suggestions are considered or implemented, where feedback influences a decision, or where beta testing is discussed.
-
-8. Contextualize with personal life: Document any mentions of life events outside the game, discussions of work-life balance, or personal financial investment. These are crucial for the human story.
-
-9. Isolate legal & strategic concerns: Identify any mentions of Nintendo, potential legal action, copyright strategy, or release timing considerations related to a "Nintendo Risk."
-
-10. Identify tangential insights: Flag any off-topic discussions or philosophical musings that reveal Kaze's personality, worldview, or general problem-solving approach.
-
-11. Identify potential documentary scenes: From all the above, select 3-5 concrete moments that would be visually or narratively compelling in the final documentary (e.g., a "before and after" of a level, a real-time bug fix, a strong emotional reaction).
-
-Based on your internal analysis, construct the final JSON object with two parts:
-
-1. Part 1: "narrative_briefing": A high-level summary for quick orientation, interview preparation, and identifying key story beats.
-2. Part 2: "timeline_of_events": A granular, chronological log for deep research and clip-finding.
-
-Critical filtering rule: Focus on high-level insights and strategic information. Exclude minute-by-minute, line-by-line implementation details (e.g., "now I'm extruding this vertex," "I'm fixing a typo in this function"). Include significant technical or design facts and their justifications (e.g., "The ROM is now 62MB").
-
-Your final output should be a valid JSON object containing only the "narrative_briefing" and "timeline_of_events" sections, without any additional commentary or explanation.
 `;
+// #endregion analysis-prompt
 
-export const EXTRACTION_PROMPT_v1 = `
+export const STREAM_ANALYSIS_PROMPT_v1 = `
 You are an experienced documentary researcher tasked with analyzing a transcript from a YouTube game development stream by Kaze Emanuar. Your goal is to extract detailed, relevant information that will be used to prepare for interviews and provide context for a documentary about the game "Return to Yoshi's Island," a ROM hack based on the Mario 64 decompilation.
 
 Here is the transcript you need to analyze:
@@ -174,17 +204,3 @@ For each question, provide a brief context explaining why you chose it based on 
 
 Remember to craft questions that will elicit responses suitable for a compelling documentary narrative. Focus on the human stories behind the game's development, key creative and technical decisions, and the collaborative process. Avoid yes/no questions and instead aim for open-ended queries that encourage detailed, reflective responses.
 `.trim();
-
-const QUESTION_SET_SCHEMA = z.object({
-  context: z
-    .string()
-    .describe("Brief explanation of why you're asking this question"),
-  question: z.string().describe("The actual interview question"),
-});
-
-export const INTERVIEW_QUESTIONS_SCHEMA = z.object({
-  kaze: z.array(QUESTION_SET_SCHEMA),
-  biobak: z.array(QUESTION_SET_SCHEMA),
-  badub: z.array(QUESTION_SET_SCHEMA),
-  zeina: z.array(QUESTION_SET_SCHEMA),
-});

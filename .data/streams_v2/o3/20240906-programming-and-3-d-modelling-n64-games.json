@@ -1,0 +1,146 @@
+{
+  "stream_context": {
+    "summary": "Kaze spends most of the session chasing a persistent crash in Return to Yoshi’s Island, finishes basic UV-mapping for wall textures, and then switches to designing the Course 13 “8-bit pipe” retro stage. After debating submarines and standard platforming, he locks in a black-and-white, forced-perspective plane shooter based on Super Mario Land 1 World 4-3.",
+    "level": [
+      "course 13",
+      "8-bit pipe retro section",
+      "overworld / hub (wall UVs)"
+    ]
+  },
+  "development_findings": [
+    {
+      "summary": "Crash source traced to invalid coin-formation objects (e.g. at X-coords –5008, –6651). Removing those objects stops the level from hard-crashing.",
+      "quote": "I bet it's one of those coin formations here crashing."
+    },
+    {
+      "summary": "Retro stage decision: a 60 FPS, on-rails plane shooter in black & white, camera locked head-on. Uses a 3D voxel-style Mario plane and simple 3D enemy models, replicating Super Mario Land 1 – 4-3.",
+      "quote": "Yes, it being Land 1 is non-negotiable."
+    },
+    {
+      "summary": "Play-area will be visually bounded by textured borders; fog will be added to avoid showing the entire corridor at once.",
+      "quote": null
+    },
+    {
+      "summary": "Prototype plane model built in-stream (≈420 triangles); entire front half deleted to save polys because it is never visible.",
+      "quote": null
+    },
+    {
+      "summary": "Only Project64 + GlideN64 will be officially supported; Kaze refuses to target Parallel or other emulators due to bug-workarounds and usability costs.",
+      "quote": "Every emulator is broken as fuck… I just have to pick one emulator and run with it."
+    },
+    {
+      "summary": "Uses the N64 Expansion Pak and plans to keep the retro shooter at 60 FPS.",
+      "quote": null
+    },
+    {
+      "summary": "Long-term performance idea (hypothetical): rewriting the original graph-render code to fit one cache block would let the base game hit 30 FPS and make adding Luigi trivial.",
+      "quote": "The first thing I do is fix the graph render code… and now the entire game runs at 30 FPS."
+    },
+    {
+      "summary": "Upgrader / Fast64 workflow tweaks: Lila guides Kaze to ‘check for update and install main’; Kaze preparing a pull-request to improve the Upgrader UI so others don’t misuse it.",
+      "quote": null
+    }
+  ],
+  "context_findings": [
+    {
+      "summary": "Parents are visiting Germany for 10 days; Kaze spent several hours setting up an automatic lawn-mower before stream.",
+      "quote": null
+    },
+    {
+      "summary": "He received ~15 new Yoshi plushies from his parents; collection is visible on camera.",
+      "quote": null
+    },
+    {
+      "summary": "He plans to stream nearly every day to increase income, claiming he is highly productive while live.",
+      "quote": "I need to work more because I want to make more money, so that's why I'm going to just stream basically every day now."
+    },
+    {
+      "summary": "Philosophy on toolchain: pick one emulator, master its quirks, and avoid spreading effort across multiple broken tools.",
+      "quote": null
+    }
+  ],
+  "contributor_findings": {
+    "biobak": [
+      {
+        "summary": "Suggested alternative retro ideas, confirmed that a black-and-white aesthetic would still look good, and renamed draw-layer enums to match engine expectations.",
+        "quote": null
+      }
+    ],
+    "badub": [],
+    "zeina": []
+  },
+  "key_stories": [
+    {
+      "title": "Coin-Formation Crash Hunt",
+      "summary": "A mysterious level crash persists despite removing collision triangles. Kaze suspects coin formations, deletes specific instances, and the game finally boots.",
+      "challenge": "Game crashes on load.",
+      "process": "Tried collision fixes, then isolated actors and scanned coordinates until suspect formations were found and removed.",
+      "outcome": "Crash resolved; level stable.",
+      "key_quote": "Yeah, it is one of the coin formations.",
+      "related_to": ["kaze"]
+    },
+    {
+      "title": "Choosing the Super Mario Land 1 Plane Level",
+      "summary": "Course 13 needed an 8-bit section. After rejecting deserts and submarines, Kaze—and chat—agree on the iconic plane stage from SML1. Constraints (pre-1996 games) and aesthetic goals guide the decision.",
+      "challenge": "Find a retro concept that is nostalgic yet mechanically fresh.",
+      "process": "Brainstorming multiple SML1 areas, weighing gameplay translation effort, sprite requirements, and uniqueness.",
+      "outcome": "Locked in a forced-perspective shooter; implementation details sketched in stream.",
+      "key_quote": "I want them to be like all platforming… but yes, it being Land 1 is non-negotiable.",
+      "related_to": ["kaze", "biobak"]
+    }
+  ],
+  "open_questions": [
+    {
+      "topic": "Upgrader UI overhaul",
+      "context": "Kaze mentions a pull request and confusion about users mis-using the Upgrader.",
+      "questions": [
+        "What specific pain points does the current Upgrader have?",
+        "How will the new UI reduce user errors?",
+        "Is there a timeline for merging these changes?"
+      ],
+      "related_to": ["kaze"],
+      "priority": "medium"
+    },
+    {
+      "topic": "Retro plane shooter implementation",
+      "context": "High-level spec exists, but details like enemy behaviour, hit detection, and scrolling logic are undefined.",
+      "questions": [
+        "What technical approach will be used to lock camera and convert 3D input to 2D plane movement?",
+        "How will enemy waves and projectiles be scripted?",
+        "Who will create music/SFX in Game Boy style?"
+      ],
+      "related_to": ["kaze", "badub", "biobak"],
+      "priority": "high"
+    },
+    {
+      "topic": "Art responsibilities for voxel enemies",
+      "context": "Kaze suggests simple voxel art for plane enemies but no artist is assigned.",
+      "questions": [
+        "Will Biobak handle voxel modelling and animations?",
+        "What tools and workflow will be used to keep sprites within performance limits?"
+      ],
+      "related_to": ["biobak", "kaze"],
+      "priority": "medium"
+    },
+    {
+      "topic": "Zeina’s animation workload",
+      "context": "No mention of Zeina in this stream.",
+      "questions": [
+        "What tasks is Zeina currently handling?",
+        "Will she animate the plane and Mario’s new movement set?"
+      ],
+      "related_to": ["zeina", "kaze"],
+      "priority": "low"
+    },
+    {
+      "topic": "Music direction for Course 13 retro stage",
+      "context": "Badub is not referenced; 8-bit soundtrack requirements unclear.",
+      "questions": [
+        "Will the plane level reuse SML1 chiptunes or get an original composition?",
+        "What constraints (channel count, sample rate) apply for authenticity?"
+      ],
+      "related_to": ["badub", "kaze"],
+      "priority": "medium"
+    }
+  ]
+}

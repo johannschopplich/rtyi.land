@@ -1,7 +1,7 @@
 import * as path from "node:path";
+import { tryParseJSON } from "utilful";
 import { STREAMS_DIR } from "../../src/constants";
 import {
-  extractContent,
   formatDateFromYYYYMMDD,
   globAndProcessFiles,
 } from "../.vitepress/utils";
@@ -9,15 +9,15 @@ import {
 export default {
   async paths() {
     const results = await globAndProcessFiles(
-      "**/*.txt",
+      "**/*.json",
       STREAMS_DIR,
       ({ filePath, fileName, fileContent }) => {
         const modelDir = path.basename(path.dirname(filePath));
-        const content = extractContent(fileContent);
+        const streamData = tryParseJSON<Record<string, any>>(fileContent);
 
-        if (!content) {
+        if (!streamData) {
           throw new Error(
-            `No extracted information available for ${fileName}. Check again!`,
+            `Failed to parse JSON for ${fileName}. Check the file format!`,
           );
         }
 
@@ -30,8 +30,8 @@ export default {
             date: formattedDate,
             rawDate,
             model: modelDir,
+            streamData,
           },
-          content,
         };
       },
     );

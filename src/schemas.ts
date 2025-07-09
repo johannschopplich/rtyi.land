@@ -1,157 +1,116 @@
 import { z } from "zod";
 
-const SummaryPointSchema = z.object({
-  point: z
-    .string()
-    .describe(
-      "An interpretive summary of a key finding, decision, or fact from the stream.",
-    ),
-  supporting_quote: z
-    .string()
-    .nullable()
-    .describe(
-      "An optional, direct quote from the transcript that serves as powerful evidence for the point.",
-    ),
-});
+const QUOTE_INSTRUCTIONS =
+  "Minor grammatical errors should be corrected and surrounding quotation marks must be ommitted.";
 
-const KeyFindingsSchema = z.object({
-  development_and_design: z
-    .array(SummaryPointSchema)
-    .describe(
-      'The "What": Key points about game status, design decisions, creative iteration, technical challenges, and specific feature implementation.',
-    ),
-  creator_and_collaboration: z
-    .array(SummaryPointSchema)
-    .describe(
-      'The "Who": Key points about Kaze\'s personal philosophies, emotional journey, and information on collaborator contributions and team dynamics.',
-    ),
-  strategy_and_context: z
-    .array(SummaryPointSchema)
-    .describe(
-      'The "How": Key points about funding, release strategy, legal concerns, community interaction, and personal life context.',
-    ),
-});
+const TeamMemberSchema = z
+  .string()
+  .describe(
+    'Lowercased name of the team member, e.g. "kaze", "biobak", "badub", or "zeina"',
+  );
 
-const DocumentarySceneSchema = z.object({
-  scene_description: z
-    .string()
-    .describe(
-      "A description of a concrete moment from the stream that would work well as a visual or narrative scene in the documentary.",
-    ),
-  supporting_quote: z
-    .string()
-    .describe("The key quote that anchors this potential scene."),
-});
-
-const InterviewTopicsSchema = z.object({
-  kaze: z
-    .array(z.string())
-    .describe("Actionable interview topics specifically for Kaze Emanuar."),
-  biobak: z
-    .array(z.string())
-    .describe(
-      "Actionable interview topics specifically for Biobak, based on information from the stream.",
-    ),
-  badub: z
-    .array(z.string())
-    .describe(
-      "Actionable interview topics specifically for Badub, based on information from the stream.",
-    ),
-  zeina: z
-    .array(z.string())
-    .describe(
-      "Actionable interview topics specifically for Zeina, based on information from the stream.",
-    ),
-  general_team: z
-    .array(z.string())
-    .describe("High-level topics that could be asked of any team member."),
-});
-
-// Part 1: The Director's Briefing Schema
-const NarrativeBriefingSchema = z.object({
-  stream_synopsis: z
-    .string()
-    .describe(
-      "A single paragraph summarizing the stream's overall focus, key activities, and general tone.",
-    ),
-  key_findings: KeyFindingsSchema.describe(
-    "A comprehensive, categorized collection of the most important information from the stream.",
-  ),
-  potential_documentary_scenes: z
-    .array(DocumentarySceneSchema)
-    .describe(
-      "A curated list of 3-5 concrete moments ideal for inclusion in the documentary.",
-    ),
-  potential_interview_topics: InterviewTopicsSchema.describe(
-    "A list of targeted, actionable interview topics for each team member.",
-  ),
-});
-
-// Part 2: The Research Log Schema
-const EventSchema = z.object({
-  time_marker: z
-    .string()
-    .describe(
-      'A descriptive string indicating when in the stream this happened (e.g., "Start of stream", "During Overworld blockout").',
-    ),
+const FindingSchema = z.object({
   summary: z
     .string()
-    .describe(
-      "A concise, one-sentence summary of what is happening or being discussed in this moment.",
-    ),
+    .describe("A concise, factual statement of what was discussed or revealed"),
   quote: z
     .string()
-    .describe(
-      "The single most representative raw quote from the transcript for this moment.",
-    ),
-  type: z
-    .enum([
-      "Technical",
-      "Design",
-      "Collaboration",
-      "Philosophy",
-      "Community",
-      "Personal",
-    ])
-    .describe("The primary category of the moment."),
-  people_involved: z
-    .array(z.enum(["Kaze", "Biobak", "Badub", "Zeina", "Chat", "Other"]))
-    .describe(
-      "An array of names of the people or roles actively mentioned or involved.",
-    ),
-  connections: z
-    .object({
-      level: z
-        .string()
-        .nullable()
-        .describe(
-          'The specific game level being discussed, if any (e.g., "Overworld", "Course 2").',
-        ),
-      feature: z
-        .string()
-        .nullable()
-        .describe("The specific game feature or character being discussed."),
-    })
-    .describe("Links this event to specific in-game elements."),
-  significance: z
-    .string()
-    .describe(
-      "Brief analysis (1-2 sentences) of why this moment is valuable for the documentary; what it reveals.",
-    ),
-  potential_narrative_arc: z
-    .string()
     .nullable()
-    .describe("If this moment suggests a narrative arc, describe it here."),
+    .describe(
+      `An optional, supporting quote if particularly insightful. ${QUOTE_INSTRUCTIONS}`,
+    ),
 });
 
-// The final, top-level schema for the entire JSON output
-export const TranscriptAnalysisSchema = z.object({
-  narrative_briefing: NarrativeBriefingSchema.describe(
-    "The Director's Briefing: A comprehensive, high-level summary for quick orientation and targeted interview topic generation.",
-  ),
-  timeline_of_events: z
-    .array(EventSchema)
+const StorySchema = z.object({
+  title: z.string().describe("A short title for this story or incident"),
+  summary: z.string().describe("A 2-3 sentence overview of the story"),
+  challenge: z
+    .string()
+    .describe("The problem or challenge that initiated the story"),
+  process: z
+    .string()
+    .describe("Steps taken by Kaze or the team to address the challenge"),
+  outcome: z
+    .string()
+    .describe("The resolution, learning, or current state of the situation"),
+  key_quote: z
+    .string()
     .describe(
-      "The Research Log: A detailed, chronological log of specific moments for deep research and contextual analysis.",
+      `The most revealing quote from this story. ${QUOTE_INSTRUCTIONS}`,
+    ),
+  related_to: z
+    .array(TeamMemberSchema)
+    .describe("Team members involved or relevant to this story"),
+});
+
+const OpenQuestionSchema = z.object({
+  topic: z
+    .string()
+    .describe("The subject that was mentioned but not fully explained"),
+  context: z
+    .string()
+    .describe(
+      "A brief summary of the information that was provided in the stream",
+    ),
+  questions: z
+    .array(z.string())
+    .describe("Follow-up questions to ask in the interview"),
+  related_to: z
+    .array(TeamMemberSchema)
+    .describe("Team members who can provide more information on this topic"),
+  priority: z
+    .enum(["low", "medium", "high"])
+    .describe("The priority for the documentary"),
+});
+
+export const StreamAnalysisSchema = z.object({
+  stream_context: z.object({
+    summary: z
+      .string()
+      .describe(
+        "A concise summary of the stream's main activity and key themes",
+      ),
+    level: z
+      .array(z.string())
+      .describe(
+        'Specific game level(s) or area(s) being worked on (e.g. "Course 1", "Overworld")',
+      ),
+  }),
+
+  development_findings: z
+    .array(FindingSchema)
+    .describe(
+      "Key findings about the game's development, design decisions, technical aspects, and creative process",
+    ),
+
+  context_findings: z
+    .array(FindingSchema)
+    .describe(
+      "Findings about Kaze's personal context, emotions, philosophy, or external factors (community, legal, business)",
+    ),
+
+  contributor_findings: z
+    .object({
+      biobak: z
+        .array(FindingSchema)
+        .describe("Contributions and insights from Biobak"),
+      badub: z
+        .array(FindingSchema)
+        .describe("Contributions and insights from Badub"),
+      zeina: z
+        .array(FindingSchema)
+        .describe("Contributions and insights from Zeina"),
+    })
+    .describe("Findings about the core contributors or team dynamics"),
+
+  key_stories: z
+    .array(StorySchema)
+    .max(3)
+    .describe("Self-contained narrative arcs to reference in interviews"),
+
+  open_questions: z
+    .array(OpenQuestionSchema)
+    .describe(
+      "Unresolved topics or knowledge gaps that translate directly into interview questions",
     ),
 });

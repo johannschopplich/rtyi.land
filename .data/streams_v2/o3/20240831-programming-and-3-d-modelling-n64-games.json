@@ -1,0 +1,147 @@
+{
+  "stream_context": {
+    "summary": "Kaze finishes most of the Course 13 ice‐castle platforming and works with Soren (guest programmer) to swap Return to Yoshi’s Island from Nintendo’s F3DEX2 microcode to Soren’s new F3DEX3 branch, profiling and fixing graphics bugs while improving frame-rate.",
+    "level": ["Course 13", "Castle Interior/Ice Castle"]
+  },
+  "development_findings": [
+    {
+      "summary": "Course 13 castle platforming is mechanically complete; remaining work is visual polish (textures, enemies, mirror wall-kick section, new Mario grind animation).",
+      "quote": "I finished all the platforming inside the castle. Right now we just have to make the castle look good."
+    },
+    {
+      "summary": "Each door is a loading cutoff so back rooms don’t render until entered, saving performance.",
+      "quote": "By having a door like this, I can make it so that the room behind here doesn't render right now."
+    },
+    {
+      "summary": "Transparent layers were reordered (Layer 6 decals first, Layer 5 other transparencies) to render decals correctly by depth.",
+      "quote": "Because you have to render transparent stuff in Z order … we want to render the decals first."
+    },
+    {
+      "summary": "Microcode upgraded to F3DEX3: +56-vertex buffers, command-hinted batching, material skip logic; gains ≈300 µs RSP and ≈1 ms RDP in test scene.",
+      "quote": "We might be able to get around 300 microseconds of performance in X1 for free and then a lot more performance globally in the entire game."
+    },
+    {
+      "summary": "Auto-batched material logic in X3 skips duplicate texture loads; removing it added ~1.4 ms RDP in the rabbit test case.",
+      "quote": "It's literally a 3 millisecond difference … you got some rabbit problems."
+    },
+    {
+      "summary": "Threshold-alpha combiner trick (dual-textured dither pattern) makes distant geometry fade smoothly into clouds.",
+      "quote": "It's threshold alpha with combiner clamping … the pattern alternates between just over the threshold and just under."
+    },
+    {
+      "summary": "Door crash traced to recent Layer 5/6 change; still unresolved (‘It shouldn’t have crashed there’).",
+      "quote": null
+    },
+    {
+      "summary": "Plan to use occlusion-plane variant of X3 for heavy-overdraw scenes; will swap microcodes at level load.",
+      "quote": "The occlusion plane is something that you want to use in a scene where overdraw is a problem … I can just swap the microcode out on level load."
+    },
+    {
+      "summary": "Point-light code removed in LVP-NOC pipeline; only directional lights kept to save cycles.",
+      "quote": "LVP-NOC does not have point lights at all."
+    },
+    {
+      "summary": "Anti-aliasing currently enabled; disabling via custom GBI define is possible and tested for extra speed.",
+      "quote": null
+    }
+  ],
+  "context_findings": [
+    {
+      "summary": "Kaze and Zeina recently became parents; baby currently with grandparents so Kaze can stream.",
+      "quote": "The baby is currently hanging out with her grandparents."
+    },
+    {
+      "summary": "Fitness focus: Kaze bulking, plans annual cut after Christmas.",
+      "quote": "I usually cut like once a year. I was planning to cut again, I think after Christmas."
+    },
+    {
+      "summary": "Kaze’s design philosophy values tight performance; criticises Rare’s N64 games for runtime decompression and low-res fallback.",
+      "quote": "I'm about to fail a … rant about how terrible Banjo-Kazooie optimizes."
+    },
+    {
+      "summary": "Expressed frustration with JRPG ‘waiting’ mechanics while praising FFVII’s vibe.",
+      "quote": "Goddamn, I hate JRPGs … literally 50 % of the gameplay time is just me sitting there like this."
+    }
+  ],
+  "contributor_findings": {
+    "biobak": [
+      {
+        "summary": "Active in chat; will supply new video benchmark footage soon; no immediate asset tasks mentioned.",
+        "quote": "It's OK, Biobak. I have a video bench for soon anyway."
+      }
+    ],
+    "badub": [],
+    "zeina": [
+      {
+        "summary": "Creating assets for the outside village area (penguin huts).",
+        "quote": "It will be a little village with penguin huts. Zeina is actually working on some assets for it right now."
+      }
+    ]
+  },
+  "key_stories": [
+    {
+      "title": "Switching to F3DEX3",
+      "summary": "Kaze invites microcode author Soren onto the stream. Together they merge F3DEX3, debug profiler glitches, and measure large performance wins on both RSP and RDP.",
+      "challenge": "Return to Yoshi’s Island was RSP-bound despite prior optimisations.",
+      "process": "Integrated new branch, fixed GBI mismatches, compared cycle tables, disabled faulty rainbow text code, tested batching.",
+      "outcome": "Game now runs ~1–1.5 ms faster per frame; Kaze commits to ship with EX3 and to add remaining lighting/emulator support.",
+      "key_quote": "I’m excited to see my name in the credits of the best Nintendo 64 game.",
+      "related_to": ["kaze", "soren"]
+    },
+    {
+      "title": "Castle 13 Build Push",
+      "summary": "Skipping a week of streams let Kaze finish all internal platforming of the ice castle, adding slide safety paths, toxic ice section and mirror wall-kick concept.",
+      "challenge": "Level previously looked ‘complete ass’ and lacked fair recovery paths.",
+      "process": "Re-textured floors, tweaked slide coins, added coin safety lines, tested fall-recovery routes.",
+      "outcome": "Mechanics locked; visuals still need enemy density and texture polish.",
+      "key_quote": "I think the difficulty here is appropriate for CoS 13.",
+      "related_to": ["kaze"]
+    }
+  ],
+  "open_questions": [
+    {
+      "topic": "Lighting command compatibility for emulators",
+      "context": "EX3 requires different lighting GBI; Kaze plans self-modifying code to auto-switch but hasn’t implemented.",
+      "questions": [
+        "How exactly will you detect emulator vs console?",
+        "Any risk of desync or maintenance burden?",
+        "Timeline for finishing this task?"
+      ],
+      "related_to": ["kaze", "soren"],
+      "priority": "high"
+    },
+    {
+      "topic": "Occlusion-plane microcode rollout",
+      "context": "Soren will optimise the occlusion-plane version; Kaze wants to use it in high-overdraw scenes.",
+      "questions": [
+        "Which specific levels will benefit most?",
+        "Will swapping microcodes mid-game cause loading hitches?",
+        "How will artists know where occlusion planes exist?"
+      ],
+      "related_to": ["kaze", "soren", "biobak"],
+      "priority": "medium"
+    },
+    {
+      "topic": "Rabbit model batching",
+      "context": "Current rabbit enemy reloads same textures per limb; options are manual batching, single-material model, or rely on EX3 auto-batch.",
+      "questions": [
+        "Which solution will be adopted?",
+        "Does this impact Biobak’s modelling workflow?",
+        "Are other multi-material enemies affected?"
+      ],
+      "related_to": ["kaze", "biobak"],
+      "priority": "medium"
+    },
+    {
+      "topic": "Exterior penguin village assets",
+      "context": "Zeina is creating huts for outside area; little detail provided.",
+      "questions": [
+        "Art style goals and references?",
+        "Gameplay purpose of village?",
+        "How parenting duties affect Zeina’s workflow?"
+      ],
+      "related_to": ["zeina", "kaze"],
+      "priority": "low"
+    }
+  ]
+}

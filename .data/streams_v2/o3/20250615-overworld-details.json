@@ -1,0 +1,167 @@
+{
+  "stream_context": {
+    "summary": "Kaze spends most of the stream hunting a one-frame landing crash, then imports and tests Biobak’s huge re-work of Course 2 (now called “Dino Dino Domain”).  Debugging exposes both an animation-pointer bug and a hard N64 memory ceiling (the new level exceeded the pool by ~1 KB).  Kaze hot-fixes memory by ripping out an unused ‘leaf boat’ asset, tweaks render modes, and reviews Biobak’s exhaustive change-log.  He also shows a new auto-save-block, a revamped vine-jump mechanic and brainstorms a disco-ball star set-piece for the nightclub sub-area.",
+    "level": ["Course 2 – Dino Dino Domain", "Overworld"]
+  },
+  "development_findings": [
+    {
+      "summary": "Pressing A one frame before Mario lands can crash the game; Kaze traced it to animation switching and possible Project64-specific behaviour but root cause is still open.",
+      "quote": "It was the animations somehow. I turned off the animations for a second and now I'm fucking around … the game doesn't crash."
+    },
+    {
+      "summary": "Bug-fighting workflow: Kaze debugs straight in N64 assembly with Nemu64, reading registers, stepping through set Mario action and memory pools.",
+      "quote": "You might need to be able to read assembly to fix bugs like this, but if you are a modern software programmer you have different tools."
+    },
+    {
+      "summary": "Biobak’s visual overhaul pushes Course 2 to ~41 000 triangles and so many textures that the ROM ran out of RAM by ~1 KB; Kaze freed space by deleting an unused ‘leaf boat’ model and enabling ‘bleed & inline’ texture packing.",
+      "quote": "We were using literally one kilobyte of memory too much in this level … all of that for one texture."
+    },
+    {
+      "summary": "Kaze added a ‘save block’ in front of level exits even though the game auto-saves, believing players need a visible save interaction.",
+      "quote": "This is about psychology. I already know people are going to hit the save block, then hit it again, then turn the game off."
+    },
+    {
+      "summary": "Vine-jumping controls rewritten: Mario now auto-aligns to the next vine and a single A-press hops across, reducing camera fiddling and difficulty.",
+      "quote": "You just kind of attach to these and it automatically rotates to the next one … I think this makes the player's life a little easier."
+    },
+    {
+      "summary": "Nightclub set-piece redesign: star will sit inside the disco ball; grabbing it breaks the ball, halts lighting and music, and stops Shy Guy dancing.",
+      "quote": "Imagine the star is inside the disco ball and as soon as you steal it, the entire room goes dark, the Shy Guy stops dancing."
+    },
+    {
+      "summary": "Camera & tutorial tweaks: re-adding Course 1 wall-kick tutorial, new egg-slide camera angle to raise tension, plan to teach mechanics in multiple spots.",
+      "quote": null
+    },
+    {
+      "summary": "Engine housekeeping: Kaze reached ‘zero compile warnings’ with very strict GCC flags and fixed a random N64 crash by removing old cartridge consolidation issues.",
+      "quote": null
+    },
+    {
+      "summary": "Fast64 texture-scroll runs at 30 FPS; Kaze plans to code native scrolling for 60 FPS in final build.",
+      "quote": null
+    }
+  ],
+  "context_findings": [
+    {
+      "summary": "Kaze upgraded to Windows 11 (suspected virus) and had to reinstall dev tools, leading to GIMP and NVidia frustrations.",
+      "quote": "I installed Windows 11 about a week ago because I thought I might have had a virus."
+    },
+    {
+      "summary": "Annoyed that viewers accuse Joshua’s narration of being an AI voice; sees it as a broader ‘AI-investigation’ fad.",
+      "quote": "I got so many complaints that I was using an AI voice in my video, when it's just like, that's just how Joshua sounds, man."
+    },
+    {
+      "summary": "Personal note: his aquarium pleco has just hatched babies; mentioned while GIMP froze.",
+      "quote": "I found out today that my pleco baby is hatched."
+    }
+  ],
+  "contributor_findings": {
+    "biobak": [
+      {
+        "summary": "Delivered a complete visual and layout re-work of Dino Dino Domain: lower poly water, mossy bricks, new Yoshi camp, nightclub, garden, retro pipe area, etc.",
+        "quote": "We’re gonna get a big DinoDino domain rework today. We have a lot of stuff to look at today. It’s going to be very exciting."
+      },
+      {
+        "summary": "Change-log includes performance-minded polygon cuts, texture AO tricks, scrolling waterfalls, and camera suggestions.",
+        "quote": null
+      },
+      {
+        "summary": "His extra textures triggered the memory overflow that Kaze debugged.",
+        "quote": null
+      }
+    ],
+    "badub": [],
+    "zeina": [
+      {
+        "summary": "Zeina is producing neon sign assets for the retro section of Course 15; briefly mentioned by Kaze.",
+        "quote": "Zeina's making a lot of these for the retro section of Course 15, so that's gonna be sweet."
+      }
+    ]
+  },
+  "key_stories": [
+    {
+      "title": "The 1-KB Memory Crisis",
+      "summary": "After importing Biobak’s revamped Course 2, the game crashed on load.  Kaze traced the fault through Nemu64 and discovered the level exceeded N64 RAM by roughly one kilobyte.",
+      "challenge": "Level refused to load, throwing ‘out of memory’ in surface-node allocation.",
+      "process": "Stepped through decompression, verified segment 7 pointer, calculated free space vs. request, identified overage.",
+      "outcome": "Deleted an unused ‘leaf boat’ asset, enabled texture inlining, and the level loaded successfully.",
+      "key_quote": "We were using literally one kilobyte of memory too much in this level.",
+      "related_to": ["kaze", "biobak"]
+    },
+    {
+      "title": "Frame-Perfect Landing Crash",
+      "summary": "A mysterious crash occurs when A is pressed the frame before Mario lands.  Kaze live-debugs assembly, suspects animation pointer thrashing, and notes it might be Project64-specific.",
+      "challenge": "Game hard-crashes during certain frame-perfect inputs.",
+      "process": "Used smart debugger, inspected register flow, isolated to animation switching, toggled animations off for testing.",
+      "outcome": "Turning off animations stops the crash; root cause still pending.",
+      "key_quote": "It was the animations somehow.  I turned off the animations for a second and now I'm fucking around … the game doesn't crash.",
+      "related_to": ["kaze"]
+    },
+    {
+      "title": "Designing the Disco-Ball Heist",
+      "summary": "During level review, Kaze and chat ideate turning the nightclub’s disco ball into a destructible housing for a star, affecting lights and music.",
+      "challenge": "Make the star collectible memorable and thematically consistent.",
+      "process": "Brainstorm live: place star in disco ball, let Mario grab pole, snap line, ball shatters.",
+      "outcome": "Concept accepted; added to to-do list for implementation.",
+      "key_quote": "When Mario collects it, the room goes dark and grey, Shy Guy stops dancing, the music stops.",
+      "related_to": ["kaze", "biobak"]
+    }
+  ],
+  "open_questions": [
+    {
+      "topic": "Root cause of animation-related landing crash",
+      "context": "Turning animations off prevents the crash but definitive fix not found.",
+      "questions": [
+        "What specific animation pointer or state mismatch causes the crash?",
+        "Is it reproducible on real N64 hardware or only emulators?",
+        "Who will own the fix and testing?"
+      ],
+      "related_to": ["kaze"],
+      "priority": "high"
+    },
+    {
+      "topic": "Long-term memory budgeting",
+      "context": "Course 2 barely fits after emergency texture cuts; other levels may face same issue.",
+      "questions": [
+        "What is the target per-level memory budget?",
+        "Will assets be globally audited or streamed per sub-area?",
+        "Can compression or dynamic unloading solve future overages?"
+      ],
+      "related_to": ["kaze", "biobak"],
+      "priority": "high"
+    },
+    {
+      "topic": "Vine-jump mechanic playtesting",
+      "context": "Auto-snap system introduced but untested with new players.",
+      "questions": [
+        "How will the team validate that the new vine mechanic is intuitive?",
+        "Will additional camera or HUD cues be needed?",
+        "Who coordinates external playtests?"
+      ],
+      "related_to": ["kaze"],
+      "priority": "medium"
+    },
+    {
+      "topic": "Nightclub audio & music integration",
+      "context": "Disco ball star concept needs music shutdown effect.",
+      "questions": [
+        "Has Badub composed or planned adaptive tracks for the nightclub?",
+        "How will music fade or cut when the star is taken?",
+        "Any technical hurdles with dynamic music on N64 hardware?"
+      ],
+      "related_to": ["badub", "kaze"],
+      "priority": "medium"
+    },
+    {
+      "topic": "Neon sign assets for Course 15",
+      "context": "Zeina is preparing neon animations.",
+      "questions": [
+        "What is the art/animation pipeline for these signs?",
+        "Any lessons from Dino Domain’s performance that apply?",
+        "How do Zeina and Kaze coordinate frame budgets and palette limits?"
+      ],
+      "related_to": ["zeina", "kaze"],
+      "priority": "low"
+    }
+  ]
+}

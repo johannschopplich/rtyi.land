@@ -1,0 +1,167 @@
+{
+  "stream_context": {
+    "summary": "Kaze spends most of the stream debugging a crash in Course 15’s snowflake particle system, optimising memory/vertex allocation, and re-evaluating the level’s ‘styrofoam snow’ visual. He also prototypes new platform layouts (tilt bridges, zipper to a hidden hell area) and discusses broad performance work (overdraw cuts, anti-aliasing, mip-maps).",
+    "level": ["Course 15"]
+  },
+  "development_findings": [
+    {
+      "summary": "Course 15 is now the main blocker; a snowflake particle bug caused emulator crashes and revealed a missing ‘×4’ in vertex-buffer allocation that corrupted memory.",
+      "quote": "It’s like it’s missing the multiply by four here. Okay, so that mystery is solved."
+    },
+    {
+      "summary": "Project 64 crashed when an inline function handled snow allocation; moving the code into a separate function prevented the crash, indicating an emulator quirk rather than game bug.",
+      "quote": "How does changing the function from an inline to not an inline make it work? This garbage emulator, man."
+    },
+    {
+      "summary": "Real N64 hardware and most emulators run fine; only Parallel Launcher and some PJ64 builds fail. Kaze considers officially recommending Project 64 1.6 or real hardware for release.",
+      "quote": null
+    },
+    {
+      "summary": "Styrofoam ‘normal-mapped’ snow both crashes and looks wrong; Kaze and Biobak decide to scrap it. New plan: snow becomes flat cardboard with stapled white paper edges; normal-map effect may stay only on grass.",
+      "quote": "Do we even want the normal map styrofoam? I don't think it does look good."
+    },
+    {
+      "summary": "Shell texturing is used but only on small actors due to heavy performance cost.",
+      "quote": "Shell texturing is extremely expensive… we’ve used it in some places, but only on small actors."
+    },
+    {
+      "summary": "Tilt-bridge platforms implemented; Kaze tunes speed and width for difficulty and tests with input latency.",
+      "quote": null
+    },
+    {
+      "summary": "‘Zipper to hell’ secret entrance positioned; additional spring platform added for accessibility.",
+      "quote": null
+    },
+    {
+      "summary": "Planned geometry culling: cut holes under overhanging cardboard and give mountains their own material to reduce RDP time (currently ~40 ms).",
+      "quote": null
+    },
+    {
+      "summary": "Anti-aliasing toggle gives ~3 fps gain (23→26); mip-maps added selectively but limit combiners.",
+      "quote": null
+    },
+    {
+      "summary": "ROM is targeted to fit exactly 64 MB; final build teased as the “first quadruple-A N64 game.”",
+      "quote": null
+    }
+  ],
+  "context_findings": [
+    {
+      "summary": "Kaze is frustrated by power outages, stream view losses, and emulator instability.",
+      "quote": "I'm so pissed, you guys have no idea… whenever that happens, your view count just drops back to zero."
+    },
+    {
+      "summary": "He refuses to give release dates; repeated questions irritate him.",
+      "quote": "It’s all RTYI and it’s getting close to completion. Please stop asking me for release dates. I will literally lose my mind."
+    },
+    {
+      "summary": "Main employment is external programming job; ROM-hack is hobby that requires monetised videos and streams.",
+      "quote": "It was up to me, I just wouldn't make videos at all, but then I can't do my thing as a hobby that makes money."
+    },
+    {
+      "summary": "Explores Twitter ad-share and YouTube revenue; jokes about earning ‘50 cents’ per viral reply.",
+      "quote": null
+    },
+    {
+      "summary": "Philosophy: prioritises hardware accuracy; would rather change recommended emulator than alter valid code.",
+      "quote": "What if we force people to stop using Parallel? What if we just say Parallel is too inaccurate – use Project 64 1.6 or real N64."
+    },
+    {
+      "summary": "Marketing line: intends to brand RTYI as “the first quadruple A N64 game ever.”",
+      "quote": null
+    },
+    {
+      "summary": "Legal awareness: would need to strip Mario IP for a commercial Steam release; acknowledges Nintendo risk.",
+      "quote": "If I were to release this game on Steam, obviously I would have to remove all the Mario assets though."
+    }
+  ],
+  "contributor_findings": {
+    "biobak": [
+      {
+        "summary": "Proposed replacing styrofoam snow with cardboard sheets stapled with white paper edging; Kaze accepts and adds to task list.",
+        "quote": null
+      },
+      {
+        "summary": "Suggested bubble-wrap area where popping nine bubbles yields a Yoshi coin; Kaze adds to to-do.",
+        "quote": null
+      },
+      {
+        "summary": "Recommends trimming hidden geometry / adding darker rim around void to save RDP time; Kaze begins implementing.",
+        "quote": null
+      }
+    ],
+    "badub": [],
+    "zeina": [
+      {
+        "summary": "A friend of Zeina installed the HDMI ‘N64 Digital’ mod in Kaze’s console; Zeina otherwise not involved this session.",
+        "quote": null
+      }
+    ]
+  },
+  "key_stories": [
+    {
+      "title": "The Snowflake Crash Mystery",
+      "summary": "Snow particle effects in Course 15 repeatedly crashed Project 64, halting progress.",
+      "challenge": "Unknown crashes during snow rendering made level unplayable in main dev emulator.",
+      "process": "Kaze inspected assembly, found vertex-buffer mis-allocation (missing ×4) and tried moving an inline function out to isolate emulator issues.",
+      "outcome": "Bug is fixed on real hardware; Project 64 works when function is non-inline; memory corruption resolved.",
+      "key_quote": "This garbage emulator man, I swear.",
+      "related_to": ["kaze"]
+    },
+    {
+      "title": "Styrofoam Snow Redesign",
+      "summary": "The stylish normal-mapped styrofoam snow caused visual issues and performance hits.",
+      "challenge": "Effect looked bad and sometimes crashed due to complex shaders and overdraw.",
+      "process": "Kaze debated merits, Biobak suggested replacing with simpler cardboard + stapled paper aesthetic.",
+      "outcome": "Decision made to scrap styrofoam effect, restrict normal-maps to grass, and implement new visual with performance savings.",
+      "key_quote": "Do we even want the styrofoam before I spent years on fixing the styrofoam?",
+      "related_to": ["kaze", "biobak"]
+    }
+  ],
+  "open_questions": [
+    {
+      "topic": "Shell texturing guidelines",
+      "context": "Kaze says technique is ‘extremely expensive’ and used sparingly, but did not specify where or how.",
+      "questions": [
+        "Which specific objects currently use shell texturing?",
+        "What criteria determine when it’s worth the performance cost?",
+        "Any plans to optimise or replace these spots?"
+      ],
+      "related_to": ["kaze"],
+      "priority": "medium"
+    },
+    {
+      "topic": "Final release platforms & legality",
+      "context": "Kaze mentions possibly releasing on Steam without Mario assets but gives no concrete plan.",
+      "questions": [
+        "What is the current release strategy (ROM only, PC port, both)?",
+        "Has the team begun asset replacement to avoid Nintendo IP?",
+        "How will emulator compatibility be handled at launch?"
+      ],
+      "related_to": ["kaze"],
+      "priority": "high"
+    },
+    {
+      "topic": "Audio & SFX capacity",
+      "context": "Kaze notes that unique zipper sounds may require ‘unused sound effects’, unsure if any are left.",
+      "questions": [
+        "What is the current sound-bank memory budget?",
+        "How many new effects are still feasible?",
+        "Can Badub confirm availability or propose compression strategies?"
+      ],
+      "related_to": ["badub", "kaze"],
+      "priority": "low"
+    },
+    {
+      "topic": "Peach & Bowser doodle assets",
+      "context": "Kaze lists missing ‘peach doodle’ and ‘bowser doodle that shoots flame’ but no follow-up.",
+      "questions": [
+        "What is the design brief for these doodles?",
+        "Who is responsible and what’s the timeline?",
+        "Are there technical constraints on the flame effect?"
+      ],
+      "related_to": ["biobak", "zeina"],
+      "priority": "medium"
+    }
+  ]
+}

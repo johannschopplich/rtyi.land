@@ -1,0 +1,174 @@
+{
+  "stream_context": {
+    "summary": "Kaze focuses on Course 12 (Wild-West saloon) of Return to Yoshi’s Island, importing a piano-playing Shy Guy NPC, fixing a crash, and polishing a cinematic “high-noon” duel setup.",
+    "level": ["Course 12"]
+  },
+  "development_findings": [
+    {
+      "summary": "Course 12 is nearly complete; it is the 12th of 15 planned levels.",
+      "quote": "This is course 12 out of 15."
+    },
+    {
+      "summary": "Zeina’s piano-playing Shy Guy was imported, lit, and vertex-colored; Kaze implemented looping animations and dialogue triggers.",
+      "quote": "Our mission today is to import the piano playing guy, which Zeina has animated and modeled."
+    },
+    {
+      "summary": "Directional audio was added so the piano music pans from the Shy Guy’s position.",
+      "quote": "I’m going to pan the music so that it sounds like the guy is playing it."
+    },
+    {
+      "summary": "All saloon NPCs now swivel toward Mario when the music stops, enhancing atmosphere.",
+      "quote": "When the piano guy stops the music, the entire bar should look at you."
+    },
+    {
+      "summary": "A mysterious crash was traced to a RAM overflow; Kaze merged collision meshes and removed temporary exports to free memory.",
+      "quote": "It’s a RAM overflow. We’re out of memory… we have to optimize the level."
+    },
+    {
+      "summary": "Kaze adopted finer-grained object lists to skip unnecessary interaction checks, improving performance.",
+      "quote": "We gotta get used to using these more… you can skip a whole interaction check for every object which is huge."
+    },
+    {
+      "summary": "Low-level cache-invalidation trick and inlining a sound routine shaved memory bandwidth and ~0.2 µs per frame.",
+      "quote": "He just live watched me gain 0.2 microseconds of performance."
+    },
+    {
+      "summary": "Engine currently runs on Fast3DX 2; migration to Fast3DX 3 is planned but blocked by a 20 % FPS regression.",
+      "quote": "We’re using Fast3DX 2, but we want to use Fast3DX 3… it’s 20% lower FPS than normal."
+    },
+    {
+      "summary": "A letter-boxed ‘high-noon’ camera shot was scripted; Mario’s inputs and camera are force-locked during the duel setup.",
+      "quote": "This is the vision we were looking for… It’s high noon."
+    },
+    {
+      "summary": "Next tasks: model a 3-2-1 countdown, import the Mario Party 2 card gun, and script the quick-draw duel.",
+      "quote": "We’re going to model a countdown here… Mario will pull out his card gun and whoever shoots first wins."
+    }
+  ],
+  "context_findings": [
+    {
+      "summary": "Kaze only recently discovered that ‘soft skills’ refer to interpersonal abilities and now sees their importance.",
+      "quote": "Someone explained to me what soft skills are… that changes everything."
+    },
+    {
+      "summary": "He works full-time as an Unreal Engine 5 programmer under NDA; ROM-hacks remain a ‘hobby’ that he still works on full-time hours.",
+      "quote": "Yes I am a programmer… romhacks are technically just a hobby but I do work on them full-time."
+    },
+    {
+      "summary": "Repeated frustration with VS Code auto-format failures affected mood and pace.",
+      "quote": "Dude, the fucking not having the auto-indenting work is so annoying."
+    },
+    {
+      "summary": "Philosophy on competitive games: once he understands systems deeply, they turn into ‘spreadsheet simulators’ and lose fun.",
+      "quote": "I’ve gotten too good at video games… they’re no longer games to me, they’re just math formulas in a permanent loop."
+    },
+    {
+      "summary": "Cautious about ROM leaks; jokes that testers must deposit $100,000 as collateral.",
+      "quote": "You have to send me $100,000… I’ll send you the $100,000 back."
+    }
+  ],
+  "contributor_findings": {
+    "biobak": [],
+    "badub": [],
+    "zeina": [
+      {
+        "summary": "Created, animated, and vertex-colored the piano Shy Guy model used in Course 12.",
+        "quote": "I think she did a good job vertex coloring this."
+      },
+      {
+        "summary": "Earlier animation export broke; Kaze fixed it but re-downloading overwrote the good version, requiring re-export.",
+        "quote": "I fixed it and didn’t send it back to her, so me downloading it again just broke it again—so that was on me."
+      },
+      {
+        "summary": "Provided live feedback in chat about cowboy dialect and enjoyed seeing the NPC implemented.",
+        "quote": null
+      }
+    ]
+  },
+  "key_stories": [
+    {
+      "title": "RAM Overflow Scare",
+      "summary": "A seemingly minor addition caused the saloon level to crash. Debugging revealed the N64’s 4 MB RAM was exceeded.",
+      "challenge": "Game crashed immediately after adding the piano NPC.",
+      "process": "Tried removing new code, opened debugger, inspected level scripts, then checked memory usage. Found collision geometry and duplicate geo-layouts consuming ~800 triangles too many.",
+      "outcome": "Merged meshes and deleted temporary objects, freeing memory and stabilizing the level.",
+      "key_quote": "It’s a RAM overflow. We’re out of memory… we have to optimize the level.",
+      "related_to": ["kaze", "zeina"]
+    },
+    {
+      "title": "Bringing the Piano Shy Guy to Life",
+      "summary": "Zeina’s model became the centerpiece of the Wild-West saloon through lighting tweaks, looping animations, directional audio, and interactive crowd behavior.",
+      "challenge": "Import a new animated NPC and make it feel integrated and interactive.",
+      "process": "Adjusted vertex colors and lighting, fixed broken animation export, coded dialogue to pause music, added stereo panning, and scripted NPCs to glare at Mario when the music stops.",
+      "outcome": "A fully functional set-piece that runs at 60 FPS on real hardware and sets the tone for the level.",
+      "key_quote": "Look at it. He’s done… Ding, ding, ding, ding!",
+      "related_to": ["kaze", "zeina"]
+    },
+    {
+      "title": "A Soft-Skills Epiphany",
+      "summary": "Kaze realized he had misunderstood ‘soft skills’ his whole career, believing only technical aptitude mattered.",
+      "challenge": "Lacked awareness of interpersonal aspects of work.",
+      "process": "A friend explained that soft skills are about communication, not knowledge.",
+      "outcome": "Kaze declared it ‘changes everything,’ hinting at a shift in how he’ll lead and collaborate.",
+      "key_quote": "I thought soft skills was like knowledge… but no, soft skills is how you talk to people. That changes everything.",
+      "related_to": ["kaze"]
+    }
+  ],
+  "open_questions": [
+    {
+      "topic": "Fast3DX 3 Performance Bottleneck",
+      "context": "Kaze says switching from Fast3DX 2 to 3 drops FPS by ~20 % but hasn’t detailed the culprit.",
+      "questions": [
+        "What specific mark did you find in Fast3DX 3?",
+        "How will you approach profiling and fixing it?",
+        "Is there a fallback plan if the performance isn’t recovered?"
+      ],
+      "related_to": ["kaze"],
+      "priority": "high"
+    },
+    {
+      "topic": "Card Gun Duel Mechanics",
+      "context": "He plans a Mario Party 2–style quick-draw with countdown and gun model, but design is sketchy.",
+      "questions": [
+        "How will the duel be triggered and scored?",
+        "Will Boshi or another NPC be the opponent?",
+        "Any legal concerns ripping the exact Mario Party asset?"
+      ],
+      "related_to": ["kaze", "zeina", "biobak", "badub"],
+      "priority": "medium"
+    },
+    {
+      "topic": "Memory Management Strategy for Final Levels",
+      "context": "Course 12 already hit RAM limits; three more courses remain.",
+      "questions": [
+        "What global memory budget have you set per level?",
+        "Will additional optimizations (e.g., streamed assets) be needed?",
+        "How will you prevent late-stage surprises?"
+      ],
+      "related_to": ["kaze"],
+      "priority": "high"
+    },
+    {
+      "topic": "Team Dynamics & Communication",
+      "context": "Aside from Zeina, little is known about how Biobak and Badub interact in day-to-day work.",
+      "questions": [
+        "How are tasks divided among the four of you?",
+        "What tools or rituals keep everyone in sync?",
+        "How has Kaze’s new focus on soft skills affected collaboration?"
+      ],
+      "related_to": ["kaze", "biobak", "badub", "zeina"],
+      "priority": "medium"
+    },
+    {
+      "topic": "Release Timeline & Strategy",
+      "context": "Kaze says life is too busy to predict a release date.",
+      "questions": [
+        "What milestones remain after Course 15?",
+        "Will there be a public demo or staggered release?",
+        "Any plans for physical cartridge or limited edition?"
+      ],
+      "related_to": ["kaze"],
+      "priority": "low"
+    }
+  ]
+}

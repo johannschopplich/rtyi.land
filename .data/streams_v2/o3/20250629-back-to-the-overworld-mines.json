@@ -1,0 +1,209 @@
+{
+  "stream_context": {
+    "summary": "Kaze programs several overworld features for Return to Yoshi’s Island: an unlock-star door animation with new particle effects, a coin-gated cannon NPC, and discusses the cinematic storybook intro. He shows a newly finished level on real N64 hardware and notes upcoming optimisations.",
+    "level": ["overworld", "intro cut-scene", "newly finished level (unnamed)"]
+  },
+  "development_findings": [
+    {
+      "summary": "Current public engine builds are on GitHub, but the Return to Yoshi’s Island branch will become open-source only after release.",
+      "quote": "This right now is not open source yet. It will be open source though, once it's done."
+    },
+    {
+      "summary": "WaveRace 64-style water visuals are planned; Kaze believes the visual part is simple to implement.",
+      "quote": "The WaveRace 64 water physics are not difficult to implement. From what I've seen, the visuals of it at least are pretty simple."
+    },
+    {
+      "summary": "A major optimisation is queued: switching all 4×4 matrices to 4×3, expected to be significant at this late stage.",
+      "quote": "I am going to… turn all the 4x4 matrices finally into 4x3 matrices. That will be a pretty big optimisation."
+    },
+    {
+      "summary": "Kaze replaced Mario 64’s behaviour-loop system with a tick-based comment to save roughly two microseconds per actor, cutting wasted cache loads.",
+      "quote": "With 100 actors, that's like 200 microseconds you just throw away."
+    },
+    {
+      "summary": "Storyboard intro concept: scene starts 3D, morphs into 2D storybook pages, then fades back to 3D island before gameplay; idea documented for team.",
+      "quote": "…and then right here, it turns into a storybook… storybook alpha overlay disappears slowly to reveal the island below it in 3D."
+    },
+    {
+      "summary": "Memory budget for storybook images calculated (~0.5 MB uncompressed). Plan to use CI8 textures, compression, or load as separate level; about 4-7 MB ROM space remains.",
+      "quote": "We have around 4 MB left… If Redz does the compression thing, then we get like another 4 MB."
+    },
+    {
+      "summary": "Unlock-star door re-imagined: variable number of stars orbit Mario, scaling with requirement, with pixie-dust particles; intended to replace original star animation.",
+      "quote": "All stars should do this instead, right? That looks so much better than a normal star animation."
+    },
+    {
+      "summary": "New NPC “Corrupt Dom” (black Bob-omb) patrols near cannon and charges 200 coins for access; four behaviour states coded.",
+      "quote": "I want this to cost coins, like it's important to me that some things just cost money."
+    },
+    {
+      "summary": "Dialogue system refactor inadvertently broke question prompts; needs off-stream fix before NPC works.",
+      "quote": "I might have just broken this. I changed a lot about dialogues."
+    },
+    {
+      "summary": "Upcoming feature: a ‘sand form’ power-up to be implemented soon.",
+      "quote": null
+    }
+  ],
+  "context_findings": [
+    {
+      "summary": "Kaze’s motivation philosophy: work shouldn’t rely on feeling motivated; you just work.",
+      "quote": "If you need motivation, you're already fucked up. Why do you need to feel motivated to work? Are you stupid? Just work."
+    },
+    {
+      "summary": "He recently relocated from Germany to Canada for better prospects; migration was easy as a programmer.",
+      "quote": "I'm off to Canada and to flee Germany. Germany sucks."
+    },
+    {
+      "summary": "Streams occur 1-3 times weekly around 2 p.m. local time.",
+      "quote": "My streams are always around 2 p.m. my local time."
+    },
+    {
+      "summary": "Kaze shares accounts (Twitter, Facebook) with collaborators and worries about potential misuse.",
+      "quote": "One day, someone who's just sharing accounts with me is gonna do some bad stuff, and I'm gonna get into trouble."
+    }
+  ],
+  "contributor_findings": {
+    "biobak": [
+      {
+        "summary": "Provided a storyboard of the Yoshi memory flashback and uploaded reference images during the stream.",
+        "quote": null
+      },
+      {
+        "summary": "Actively collaborates on visual decisions; Kaze notes Biobak ‘pinching’ him in chat when needed.",
+        "quote": null
+      }
+    ],
+    "badub": [
+      {
+        "summary": "Expected to compose or retrieve music for the cinematic boat-eaten scene and other cut-scenes.",
+        "quote": "Oh yeah, I'm sure Badub can pull that up."
+      }
+    ],
+    "zeina": [
+      {
+        "summary": "Appeared in chat in a ‘bad mood’, no project-specific contribution noted this stream.",
+        "quote": null
+      }
+    ]
+  },
+  "key_stories": [
+    {
+      "title": "Storybook Intro Breakthrough",
+      "summary": "While reviewing a fan-made Parakarry intro, Kaze imagines turning it into a hybrid 3D/2D storybook cinematic that dissolves into the playable island, fitting Yoshi’s Story aesthetics.",
+      "challenge": "Create an opening cut-scene that feels fresh yet faithful.",
+      "process": "Brain-stormed live, sketched sequence and wrote notes to share with team.",
+      "outcome": "Concept accepted; memory and compression considerations logged for implementation.",
+      "key_quote": "Imagine this is a 3D scene… then the storybook overlay disappears slowly to reveal the island below it in 3D.",
+      "related_to": ["kaze", "biobak", "badub"]
+    },
+    {
+      "title": "Reinventing the Star Door",
+      "summary": "Original Mario 64 star-door unlock felt weak. Kaze builds a new effect: required stars spawn around Mario with pixie dust, scaling inversely with count.",
+      "challenge": "Make door unlock memorable and informative.",
+      "process": "Prototyped scaling formulas, smooth-step curves, dust particles, timing tweaks.",
+      "outcome": "Visual approved; will replace standard star animation across the game.",
+      "key_quote": "All stars should do this instead, right? That looks so much better than a normal star animation.",
+      "related_to": ["kaze"]
+    },
+    {
+      "title": "The Corrupt Bob-omb Cannon Keeper",
+      "summary": "To gate cannon usage, Kaze designs ‘Corrupt Dom,’ a patrolling Bob-omb that charges 200 coins, adding economy and narrative flavor.",
+      "challenge": "Integrate optional progression tied to coin economy.",
+      "process": "Modelled patrol logic, dialogue states; encounters broken dialogue system.",
+      "outcome": "NPC behaviour coded; dialogue bug remains for next session.",
+      "key_quote": "200 coins and I'll let you in on my cannon.",
+      "related_to": ["kaze"]
+    }
+  ],
+  "open_questions": [
+    {
+      "topic": "Boat-eaten cut-scene",
+      "context": "Kaze references a planned scene where a boat is eaten during a screen shake but isn’t sure how to implement it.",
+      "questions": [
+        "What is the narrative purpose of the boat being eaten?",
+        "Which technical approach will be used to depict destruction on N64 hardware?",
+        "Who will handle the animation and music cues?"
+      ],
+      "related_to": ["kaze", "biobak", "badub", "zeina"],
+      "priority": "medium"
+    },
+    {
+      "topic": "WaveRace-style water physics",
+      "context": "Kaze says visuals are simple but admits not fully understanding WaveRace physics.",
+      "questions": [
+        "What visual and physical features of WaveRace water are essential?",
+        "Will water affect gameplay (buoyancy, waves) or remain cosmetic?",
+        "Who will prototype and benchmark the implementation?"
+      ],
+      "related_to": ["kaze"],
+      "priority": "low"
+    },
+    {
+      "topic": "Sand Form Power-up",
+      "context": "Kaze teases an upcoming ‘sand form’ but offers no details.",
+      "questions": [
+        "What abilities will sand form grant Mario?",
+        "How will it interact with level design and puzzles?",
+        "Which team member will model/animate the form?"
+      ],
+      "related_to": ["kaze", "zeina", "biobak"],
+      "priority": "high"
+    },
+    {
+      "topic": "Progressive Music as Yoshis are Rescued",
+      "context": "Early plan to evolve music with Yoshi count is uncertain.",
+      "questions": [
+        "Is dynamic layering still feasible within N64 RAM/audio limits?",
+        "How will music transitions be triggered?",
+        "Can Badub compose modular tracks to support this?"
+      ],
+      "related_to": ["kaze", "badub"],
+      "priority": "medium"
+    },
+    {
+      "topic": "Texture Copyright & Outsourcing",
+      "context": "Kaze mentions paying artists for original textures to avoid copyright issues.",
+      "questions": [
+        "What is the budget and timeline for commissioning textures?",
+        "What art direction guidelines will external artists follow?",
+        "Has the team drafted licensing agreements?"
+      ],
+      "related_to": ["kaze", "biobak"],
+      "priority": "medium"
+    },
+    {
+      "topic": "Open-source Licensing Strategy",
+      "context": "Engine will be open-sourced post-release; details unspecified.",
+      "questions": [
+        "Which licence will be chosen (MIT, GPL, etc.)?",
+        "Will proprietary assets be excluded?",
+        "How will community contributions be managed after release?"
+      ],
+      "related_to": ["kaze"],
+      "priority": "low"
+    },
+    {
+      "topic": "Dialogue System Refactor",
+      "context": "Refactor broke yes/no questions across the game.",
+      "questions": [
+        "What architectural changes caused the regression?",
+        "Is there a testing framework to prevent future dialogue bugs?",
+        "Will the new system support localisation?"
+      ],
+      "related_to": ["kaze"],
+      "priority": "high"
+    },
+    {
+      "topic": "Storybook Image Memory Budget",
+      "context": "Rough estimates made but final method undecided.",
+      "questions": [
+        "Will images stream from cart or preload?",
+        "What compression ratio is achievable on hardware?",
+        "How will CI8 limitations impact art style?"
+      ],
+      "related_to": ["kaze", "biobak"],
+      "priority": "medium"
+    }
+  ]
+}

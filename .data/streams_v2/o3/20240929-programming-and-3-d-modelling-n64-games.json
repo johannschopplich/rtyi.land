@@ -1,0 +1,154 @@
+{
+  "stream_context": {
+    "summary": "Kaze codes two new enemies (a metal thimble-based Shy Guy and a \"Burt the Bashful\"-style painted egg) for the cardboard Course 14, debugs their behaviour and reflective shader, and live-tests Biobak’s large visual/performance rework of Course 1.",
+    "level": ["Course 14", "Course 1"]
+  },
+  "development_findings": [
+    {
+      "summary": "Finished first pass of “thimble guys” enemy: chase Mario, head-shake idle, dive-attack, can be kicked to knockback like bullies, no traditional squish death because metal; added environment-mapped shine on helmet and solved a compiler shadowing bug that stopped the texture scroll.",
+      "quote": "“Destroying them is kinda not fun… it needs to knock Mario back like bullies – that felt nice once I tried it.”"
+    },
+    {
+      "summary": "Began prototype of egg enemy inspired by Burt the Bashful: large painted egg with cardboard feet that hops toward Mario; contact bounces Mario instead of causing damage, making pits lethal in Course 14 arenas.",
+      "quote": "“He’ll be like a Goomba that just trampoline-bounces you off the stage.”"
+    },
+    {
+      "summary": "Technical approach for enemies: keep all behaviour of one enemy in a single inc.c file for cache friendliness; uses environment-map decal for specular effect (no true shaders on N64).",
+      "quote": null
+    },
+    {
+      "summary": "Course 1 visual rework by Biobak integrated: 220 fewer triangles, 7 fewer materials, new skybox, detailed grass, better windmill, consolidated forest; performance on real N64 remains near-60 fps.",
+      "quote": "“It’s the same performance, and there’s still optimisation headroom – overall going to be better.”"
+    },
+    {
+      "summary": "Overworld design goal: full 360° model of Yoshi’s Island so players progressively explore deeper parts as they gain stars.",
+      "quote": "“It is super important that the overworld is the entirety of Yoshi’s Island.”"
+    },
+    {
+      "summary": "Star structure clarified: ~135 main stars plus 45 ‘Yoshi Stars’ with 11 mission types (e.g., A-press limits).",
+      "quote": null
+    },
+    {
+      "summary": "Considering separate N64 cartridge release for the OST alongside the game to sell as merch; will consult lawyer for legalities.",
+      "quote": "“Releasing it on a cartridge would be the coolest thing ever.”"
+    },
+    {
+      "summary": "Upcoming public content plan: BLJ explainer video, an updated re-release of ‘The Missing Link’, then ‘First One’ remake; may produce ‘Mario 64 facts’ series.",
+      "quote": null
+    }
+  ],
+  "context_findings": [
+    {
+      "summary": "Kaze moved from Germany to Canada in 2021; cites German bureaucracy as quality-of-life drain.",
+      "quote": "“I’m so glad I don’t live in Germany anymore – all the bureaucracy bullshit ruined my quality of life.”"
+    },
+    {
+      "summary": "Balancing full-time C++ job with hobby development; tries to stream during work breaks and has accumulated vacation to allow bonus streams.",
+      "quote": "“Maybe I can do half a workday, stream, then the other half.”"
+    },
+    {
+      "summary": "Personal life: plays Minecraft with spouse Zeina; references Thanksgiving obligations and live workouts during stream (weights, protein, jokes about mundane influencer content).",
+      "quote": null
+    },
+    {
+      "summary": "Frustration with YouTube algorithm and desire to broaden content beyond deep-tech videos to reach larger audience.",
+      "quote": "“I think that’s the kind of slop YouTube viewers love and I think we can get famous that way.”"
+    },
+    {
+      "summary": "Legal awareness: Nintendo takedown of ‘Missing Link’ video still influences release strategy; will consult lawyer before shipping RTYI.",
+      "quote": null
+    }
+  ],
+  "contributor_findings": {
+    "biobak": [
+      {
+        "summary": "Delivered major Course 1 rework (geometry, textures, skybox, performance); provided changelog and requested in-engine review.",
+        "quote": "“Quick facts – 220 fewer tris, 7 fewer materials – that is insane.”"
+      },
+      {
+        "summary": "Requests screenshots for Patreon post; ongoing support with exporting texture formats (Kaze often fixes format mismatches).",
+        "quote": null
+      }
+    ],
+    "badub": [
+      {
+        "summary": "Composed first draft of Course 14 theme; Kaze feels it evokes beach-sunset mood and lacks strong hummable melody – wants revisions.",
+        "quote": "“It doesn’t fit the vibe – feels more like a beach at sunset.”"
+      }
+    ],
+    "zeina": []
+  },
+  "key_stories": [
+    {
+      "title": "The Invisible Shine Bug",
+      "summary": "Kaze adds a moving light reflection to the thimble enemy’s helmet, but the texture refuses to scroll. After extensive emulator testing and assembly inspection he discovers the compiler shadowed his tile pointer variable, nullifying the command.",
+      "challenge": "Reflection decal not moving despite correct macro usage.",
+      "process": "Debug in Project64 & NEMU, inspect generated MIPS assembly, realise GCC variable shadowing overwrote pointer.",
+      "outcome": "Removed shadowing; shine now animates correctly.",
+      "key_quote": "“And this is why you don’t trust your compiler – look at the assembly and then you find it out.”",
+      "related_to": ["kaze"]
+    },
+    {
+      "title": "Course 1 Revamp Performance Check",
+      "summary": "Biobak overhauls Course 1 visuals, slashing geometry counts and adding richer scenery. Kaze loads it on real hardware to ensure 60 fps is maintained.",
+      "challenge": "Ensure visual upgrade doesn’t tank N64 framerate.",
+      "process": "Review changelog, inspect assets in Blender, export and test on console; toggle anti-aliasing for metrics.",
+      "outcome": "Performance unchanged with room for further optimisation; green-lit for demo screenshot.",
+      "key_quote": "“Considering it’s the same performance and there’s optimisation left, this is overall going to be better.”",
+      "related_to": ["kaze", "biobak"]
+    }
+  ],
+  "open_questions": [
+    {
+      "topic": "Final name for Course 14",
+      "context": "Several brainstormed names (Handmade Heights, Papercraft Peaks) but Kaze isn’t satisfied.",
+      "questions": [
+        "What criteria will decide the final level name?",
+        "Which naming options are currently favoured by the team?"
+      ],
+      "related_to": ["kaze", "biobak"],
+      "priority": "medium"
+    },
+    {
+      "topic": "Design of Burt-inspired egg enemy",
+      "context": "Visual style (paint vs papier-mâché) and crafting materials still undecided.",
+      "questions": [
+        "What final aesthetic will the egg enemy use to fit the handcrafted theme?",
+        "Will it have additional behaviours beyond bounce?",
+        "How will its collision and animation be finalised?"
+      ],
+      "related_to": ["kaze", "biobak"],
+      "priority": "high"
+    },
+    {
+      "topic": "Yoshi Star mission types",
+      "context": "Kaze mentions 11 special types but only gives example of A-press limitation.",
+      "questions": [
+        "What are the full set of Yoshi Star restrictions?",
+        "How do they integrate mechanically with base levels?"
+      ],
+      "related_to": ["kaze"],
+      "priority": "medium"
+    },
+    {
+      "topic": "Legal and distribution strategy",
+      "context": "Plans for OST cartridge and prior Nintendo takedowns raise legal questions.",
+      "questions": [
+        "What legal advice has been obtained regarding physical cartridge sales?",
+        "Is there a plan for handling potential Nintendo action on RTYI release?"
+      ],
+      "related_to": ["kaze"],
+      "priority": "high"
+    },
+    {
+      "topic": "Team workload and scheduling",
+      "context": "Kaze juggles full-time job, streams, and project deadlines.",
+      "questions": [
+        "How is task allocation managed across the team?",
+        "What milestones remain before demo release?"
+      ],
+      "related_to": ["kaze", "biobak", "badub", "zeina"],
+      "priority": "medium"
+    }
+  ]
+}

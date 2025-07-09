@@ -1,0 +1,180 @@
+{
+  "stream_context": {
+    "summary": "Primarily visual-design and optimization work on the new Bowser-themed oil-rig stage (internal nickname \"Bowser protest\"). Focus on coin placement, crane colors, switch model, massive water/sky background experiment, and real-N64 performance tests.",
+    "level": ["Bowser protest (oil-rig Bowser stage)"]
+  },
+  "development_findings": [
+    {
+      "summary": "Even without any culling, triangle sorting or collision pruning, the ~8 000-polygon stage runs ~22 FPS on real N64; back-face culling alone is expected to add 5-6 FPS and further optimizations will follow.",
+      "quote": "This is an 8 000 polygon level, no render areas, no back-face culling, and it's still 22. Once we enable culling it'll jump by about five or six."
+    },
+    {
+      "summary": "For weeks the entire map was exported as F3D instead of F3DZEX, doubling vertex loads; Kaze just noticed and will re-export, opening more headroom.",
+      "quote": "We were exporting it as an F3D model and not F3DZ2—twice the vertex loads and it still ran fine."
+    },
+    {
+      "summary": "Switching to Wiseguy’s Matrix Stack Fix enables true world-space lighting; necessary for directional lights in this level.",
+      "quote": "Use Wiseguy's Matrix Stack Fix—otherwise the light source gets transformed by the camera."
+    },
+    {
+      "summary": "New NEMU64 build (2024) now supports GDB, cache emulation, and real-time scene inspection, becoming Kaze’s main debug emulator.",
+      "quote": "NEMU from 2002 got updated—you can even open the GDB debugger right in the plug-in."
+    },
+    {
+      "summary": "Memory corruption appears when certain coin formations load; Kaze suspects the yellow-coin model gets unloaded and the camera’s render-focus fails, causing large geometry to disappear. Needs proper fix.",
+      "quote": null
+    },
+    {
+      "summary": "Crane cabins are now dark Bowser-green instead of black or orange; each crane type may get distinct colors for readability.",
+      "quote": "Maybe the demolishing one should be reddish… purple doesn’t look Bowser-y… darkest Bowser color then."
+    },
+    {
+      "summary": "Biobak’s replacement ‘floor switch’ model cut polygons from ~4 000 to 1 336 and packs the bevel into a tiny RGBA texture; Kaze adopted it immediately.",
+      "quote": "This actually just looks like an upgraded version of the Mario 64 one—much better and smaller."
+    },
+    {
+      "summary": "An extensive sky/water experiment concluded that an NF-BG won’t work because stage geometry touches the horizon. Final approach: giant curved water plane translated ~0.85× camera movement plus fog-matched gradient.",
+      "quote": "I think this is perfect… the water plane moves at 0.85 and the horizon color now blends with the fog."
+    },
+    {
+      "summary": "Planned additional optimization: triangle sorting, collision-map reduction, and back-face culling for every gate and pipe.",
+      "quote": null
+    },
+    {
+      "summary": "Merch idea: sell professionally printed N64 boxes & manuals (without ROM) plus an OST-only ROM to remain legal, possibly turning into a ‘full ROM-making company.’",
+      "quote": "I could just sell the box without the ROM and it'd be legal… maybe start hiring people."
+    }
+  ],
+  "context_findings": [
+    {
+      "summary": "Kaze prefers C; calls C++ ‘shitty C except for templates,’ reflecting his minimalist, performance-first philosophy.",
+      "quote": "C++ is just a shitty version of C—templates are tolerable, classes are an unnecessary abstraction."
+    },
+    {
+      "summary": "Maintains a full-time C-programming day job; progress on RTYI is limited to personal evenings/weekends.",
+      "quote": "I've been working on this a few months now but I have a full-time job on the side."
+    },
+    {
+      "summary": "Considers himself a ‘vampire’ indoors type, joking about dying in Florida sun—hinting at heavy workload and indoor life.",
+      "quote": "I'm the whitest man alive—I would die in the sun."
+    },
+    {
+      "summary": "Willing to pay contributors once the soundtrack or merch generates revenue, showing cooperative ethos.",
+      "quote": "I was offering to pay the musicians as well, for the rights to the music, once everything's done."
+    },
+    {
+      "summary": "Flirts with Twitter Blue monetisation but treats it humorously (‘post stupid bait to pay my bills’).",
+      "quote": "We're gonna be posting more stupid bait… get Twitter Blue and it's gonna pay my bills."
+    }
+  ],
+  "contributor_findings": {
+    "biobak": [
+      {
+        "summary": "Suggested color-coding cranes and supplied reference images for horizon gradient and sea illusion.",
+        "quote": null
+      },
+      {
+        "summary": "Modelled a new low-poly, texture-efficient Bowser-level switch that Kaze integrated the same session.",
+        "quote": "I've just changed the texture, reduced the triangles—1336 polygons only."
+      }
+    ],
+    "badub": [],
+    "zeina": [
+      {
+        "summary": "Absent this stream; otherwise would have finished an NPC animation Kaze is waiting on.",
+        "quote": "Unfortunately Zeina's gone today—otherwise she maybe would have finished the animation for the guy here."
+      }
+    ]
+  },
+  "key_stories": [
+    {
+      "title": "Unexpected Performance Headroom",
+      "summary": "During real-hardware tests Kaze realised the entire level was accidentally exported in an inefficient display-list format yet still hit 30 FPS, revealing unexpected optimisation headroom.",
+      "challenge": "Stage lag concerns on N64.",
+      "process": "Noticed smooth-shading flags were wrong, checked exporter, realised F3D was used instead of F3DZEX.",
+      "outcome": "Will re-export correctly, expecting further FPS gains and redesign freedom.",
+      "key_quote": "We were exporting as F3D, not F3DZEX—twice the vertex loads, and it still ran fine.",
+      "related_to": ["kaze"]
+    },
+    {
+      "title": "The Infinite Ocean Problem",
+      "summary": "Creating an oil-sea that feels endless proved tricky: NF-BGs clipped, fog looked claustrophobic, and skybox parallax was wrong. After many live experiments, Kaze and Biobak settled on a curved water plane that scrolls 0.85× the camera and blends into a custom fog gradient.",
+      "challenge": "Making the horizon look far without breaking N64 culling limits.",
+      "process": "Tried NF-BG, experimented with fog distances, vertex displacement, gradient colours, camera-linked translations, community image references.",
+      "outcome": "Achieved convincing illusion; final tweaks remain for steel-beam silhouettes.",
+      "key_quote": "I think this is perfect—the water plane moves at 0.85 and the horizon colour now blends with the fog.",
+      "related_to": ["kaze", "biobak"]
+    },
+    {
+      "title": "Switch Facelift",
+      "summary": "Original Bowser-stage floor switch looked off-centre and over-detailed. Biobak rebuilt it with cleaner UVs and quarter of the polygons, and Kaze replaced the asset live.",
+      "challenge": "Ugly, heavy floor-switch model.",
+      "process": "Chat noticed off-centre UVs; Biobak offered a new model; Kaze imported it, chose RGBA texture, adjusted colours.",
+      "outcome": "Visual upgrade and performance savings accepted into build.",
+      "key_quote": "This is so much better—an upgraded version of the Mario 64 one, and tiny.",
+      "related_to": ["biobak", "kaze"]
+    }
+  ],
+  "open_questions": [
+    {
+      "topic": "Coin-model memory corruption",
+      "context": "Adding certain coin formations unloads the yellow-coin model, leading to massive render glitches.",
+      "questions": [
+        "What is the exact cause of the coin-model unload?",
+        "How will you safeguard object memory budgets going forward?"
+      ],
+      "related_to": ["kaze"],
+      "priority": "high"
+    },
+    {
+      "topic": "Remaining performance roadmap",
+      "context": "Back-face culling, triangle sorting and collision reduction are planned but not detailed.",
+      "questions": [
+        "What concrete FPS target are you aiming for on real N64?",
+        "Which optimisation will be tackled next and by whom?"
+      ],
+      "related_to": ["kaze"],
+      "priority": "medium"
+    },
+    {
+      "topic": "Oil-Rig Background Finalisation",
+      "context": "Current solution works but still feels ‘painted on’ to some team members.",
+      "questions": [
+        "Will additional steel silhouettes be 2D cut-outs, NF-BG, or true geometry?",
+        "Who will design and implement them?"
+      ],
+      "related_to": ["kaze", "biobak"],
+      "priority": "medium"
+    },
+    {
+      "topic": "Zeina’s Animation Pipeline",
+      "context": "Her absence delayed an NPC animation.",
+      "questions": [
+        "What is the animation, and how does it fit the level’s mechanics?",
+        "How do Kaze and Zeina coordinate art-tech hand-offs given their personal relationship?"
+      ],
+      "related_to": ["zeina", "kaze"],
+      "priority": "medium"
+    },
+    {
+      "topic": "Soundtrack Rights & Payment",
+      "context": "Kaze intends to pay musicians once revenue exists.",
+      "questions": [
+        "What payment structure is envisioned for Badub?",
+        "Is the OST ROM idea legally vetted?"
+      ],
+      "related_to": ["badub", "kaze"],
+      "priority": "low"
+    },
+    {
+      "topic": "Merch & Legal Strategy",
+      "context": "Plan to sell N64 boxes without ROM to stay legal.",
+      "questions": [
+        "Has legal counsel confirmed this is safe from Nintendo action?",
+        "What scale of production and distribution is anticipated?"
+      ],
+      "related_to": ["kaze"],
+      "priority": "medium"
+    }
+  ]
+}

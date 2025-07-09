@@ -1,0 +1,160 @@
+{
+  "stream_context": {
+    "summary": "Kaze wrapped up functional work on Course 14 “Handmade Heights” (star names, Peach NPC logic) and began high-level design for Course 15, tentatively called “Astral Arcade.”  Discussion focused on mechanics (low-gravity volumes, black-hole warps, pinball and arcade mini-games), asset reuse, music integration, and keeping the ROM within a 64 MB N64-era limit.",
+    "level": ["Course 14 (Handmade Heights)", "Course 15 (Astral Arcade)"]
+  },
+  "development_findings": [
+    {
+      "summary": "Course 14 is declared finished except for a Peach cut-out animation that Zeina/Yuki agreed to create.",
+      "quote": "Course 14 is done. All that's missing is one asset, which I'm still waiting for from Yuki."
+    },
+    {
+      "summary": "New Peach NPC logic: after Mario defeats three Shy Guys, talking to Peach now gives a Yoshi coin instead of a star; a bug caused by an unset variable (listhead) was located and fixed.",
+      "quote": "Wait I never set listhead? No wonder it didn't work – that explains everything."
+    },
+    {
+      "summary": "Early star-name pass completed for Handmade Heights; final list exported through FAST64.",
+      "quote": null
+    },
+    {
+      "summary": "Course 15 design goals: a rocket-shaped central building, outside low-gravity zones marked by scrolling green lines, black-hole portals between areas, pinball bumpers/flippers as platforms, and arcade cabinets that teleport Mario into mini-games (e.g., Whack-a-Mole, Asteroids-style moon explosion).",
+      "quote": "What if there were game machines you find in the main area and you jump into them and then you get into the game like that?"
+    },
+    {
+      "summary": "Memory strategy: development uses the 8 MB Expansion Pak to avoid 4 MB optimisation, but final build must not exceed the original 64 MB cartridge size; current ROM sits at 58 MB after removing unused songs.",
+      "quote": "I want to stick to the 64 megabyte limit because that's what they worked with back in the day … the ROM is 58 megabytes now, easy."
+    },
+    {
+      "summary": "Music pipeline: Badub’s pre-rendered track “Funky Space Casino” was imported for Course 15; Kaze and community collaborators located an accurate loop point before embedding.",
+      "quote": "This is a Funky Space Casino.  Holly, where's the looping point?"
+    },
+    {
+      "summary": "Entire project codebase has been migrated to C; Kaze noted recent FAST64 inaccuracies and plans to report them.",
+      "quote": null
+    }
+  ],
+  "context_findings": [
+    {
+      "summary": "Kaze values creative freedom over corporate stability; he would only work at Nintendo for $110-120k+ and if modding/personal projects remained possible.",
+      "quote": "For working at Nintendo to be worth it … I would have to be like $110,000 or $120,000 … and I’d still want to make my own games."
+    },
+    {
+      "summary": "He vents frustration with Nintendo’s litigation against streamers, hoping the company loses to set a better industry precedent.",
+      "quote": "Honestly … I hope Nintendo loses because that would be a net positive for the entire video-gaming industry."
+    },
+    {
+      "summary": "Personal routine: maintains a written workout schedule (pull-ups, calf raises, dips) and mentions diminished eloquence after “four years not talking.”",
+      "quote": "I used to be a really eloquent speaker … after I spent four years not talking at all I became a lot worse at it."
+    },
+    {
+      "summary": "Excited about imminent Twitter monetisation and optimistic about a forthcoming video on the N64’s hidden half-megabyte of RAM.",
+      "quote": "Fellas, we are so close to getting monetized on Twitter … I think the hidden half-megabyte video is gonna be a banger."
+    }
+  ],
+  "contributor_findings": {
+    "biobak": [
+      {
+        "summary": "Joined stream discussion on Course 15 visuals; earlier ‘Gadabox’ slide assets (satellites, asteroids) that Biobak made will be reused.",
+        "quote": "The flying asteroids here – you're probably going to keep seeing in the hack … The satellites definitely."
+      }
+    ],
+    "badub": [
+      {
+        "summary": "Supplied multiple course tracks, notably “Funky Space Casino” for Course 15, already uploaded to SoundCloud; Kaze relies on Badub for exact loop-point data.",
+        "quote": "Did Badub ever send me a song for this? … Alright, this is the one."
+      }
+    ],
+    "zeina": [
+      {
+        "summary": "Under the handle Yuki, she volunteered to animate Peach’s happy/sad cut-out; Kaze is waiting on this asset to finalise Course 14.",
+        "quote": "Yuki wanted to do the drawing so I'm waiting for that. If she doesn't then we consider this done in a day’s stream."
+      }
+    ]
+  },
+  "key_stories": [
+    {
+      "title": "The Peach Coin Bug",
+      "summary": "While wiring Peach’s post-battle reward, Mario kept receiving nothing. Kaze traced the issue to an uninitialised pointer, fixed it live, and confirmed the Yoshi-coin spawn.",
+      "challenge": "Peach should grant a Yoshi coin after three Shy Guys are defeated, but no object met the condition.",
+      "process": "Debugged the object list, discovered ‘listhead’ was never set, added initialisation, re-compiled.",
+      "outcome": "Peach now reliably spawns a Yoshi coin, unlocking completion of Course 14 pending animation polish.",
+      "key_quote": "Wait I never set listhead? No wonder it didn't work – that explains everything.",
+      "related_to": ["kaze", "zeina"]
+    },
+    {
+      "title": "Fitting a Modern Hack into 64 MB",
+      "summary": "Kaze balances modern ambitions with historical authenticity: he dev-tests with 8 MB RAM but insists the final ROM stay below 64 MB. After deleting unused music he brought the build down to 58 MB.",
+      "challenge": "Avoid exceeding the largest commercial N64 cartridge size while adding high-quality music and assets.",
+      "process": "Uses Expansion Pak during dev, prunes assets, converts songs to pre-rendered form, monitors FAST64 size read-outs.",
+      "outcome": "Current build is under budget, giving headroom for remaining levels and assets.",
+      "key_quote": "We have so much space left … that means our actual game is like 30 megabytes, not even.",
+      "related_to": ["kaze", "badub", "biobak"]
+    },
+    {
+      "title": "Imagining the Astral Arcade",
+      "summary": "Initial brainstorming session for Course 15 produced a vision of a rocket-mounted space arcade on Rainbow Road, featuring low gravity, black-hole warps, pinball platforms, and arcade cabinets whose mini-games reshape the overworld.",
+      "challenge": "Create a final main-game course that feels fresh and large without devolving into gimmicky 2D mini-games.",
+      "process": "Live design debate with chat and Biobak; listed star ideas, cut weaker concepts, anchored design around three external zones plus a central tower.",
+      "outcome": "Working title ‘Astral Arcade,’ core mechanics logged; asset and music baselines chosen for future implementation.",
+      "key_quote": "I want a big rocket in the middle and then outside there’s slides, low-gravity sections, rainbows flying around and asteroids.",
+      "related_to": ["kaze", "biobak", "badub"]
+    }
+  ],
+  "open_questions": [
+    {
+      "topic": "Low-Gravity Volumes & Visual Language",
+      "context": "Kaze described marking low-gravity areas with ‘green lines scrolling up’ but hasn’t detailed how this will be technically or artistically realised.",
+      "questions": [
+        "What exact physics changes occur inside a low-gravity volume?",
+        "How will players recognise the boundary intuitively?",
+        "Have you prototyped performance impact on real hardware?"
+      ],
+      "related_to": ["kaze", "biobak"],
+      "priority": "high"
+    },
+    {
+      "topic": "Black-Hole Warp System",
+      "context": "Black holes will connect distant parts of Course 15, yet no specifics on placement, activation, or reuse of existing code were given.",
+      "questions": [
+        "Is the warp mechanic already coded in another level or is new tech needed?",
+        "Will players unlock warps permanently or per-visit?",
+        "How will the visual/ audio feedback differ from traditional warps?"
+      ],
+      "related_to": ["kaze"],
+      "priority": "medium"
+    },
+    {
+      "topic": "Peach Animation Timeline",
+      "context": "Course 14 is held up by Zeina’s Peach animations.",
+      "questions": [
+        "What is the expected workload and style reference for the Peach cut-out motions?",
+        "Does Zeina need additional tooling or guidance?",
+        "Is there a contingency plan if the asset is delayed?"
+      ],
+      "related_to": ["zeina", "kaze"],
+      "priority": "high"
+    },
+    {
+      "topic": "Music Storage vs ROM Budget",
+      "context": "Pre-rendered songs save CPU but cost ROM; current build is 58 MB with several courses left.",
+      "questions": [
+        "How many more pre-rendered tracks can the ROM sustain?",
+        "Will any existing songs need to be down-sampled or converted to sequence format?",
+        "What criteria decide when a track is worth the extra space?"
+      ],
+      "related_to": ["badub", "kaze"],
+      "priority": "medium"
+    },
+    {
+      "topic": "Hidden Half-Megabyte of RAM",
+      "context": "Kaze teased a video and implied the hack could exploit this memory, but gave no details.",
+      "questions": [
+        "What is the technical nature of this ‘hidden’ 512 KB?",
+        "Could Return to Yoshi’s Island practically utilise it on real hardware?",
+        "Would emulator inaccuracies block such an experiment?"
+      ],
+      "related_to": ["kaze"],
+      "priority": "low"
+    }
+  ]
+}

@@ -1,0 +1,179 @@
+{
+  "stream_context": {
+    "summary": "Nearly the whole session is devoted to importing and integrating a large batch of new models from Biobak (switches, enemies, props). Kaze also prototypes Bowser’s office, chases several Fast64 / combiner bugs, and keeps an eye on performance on real N64 hardware.",
+    "level": [
+      "bowser office (new)",
+      "various existing levels for asset tests",
+      "overworld / global assets"
+    ]
+  },
+  "development_findings": [
+    {
+      "summary": "Bowser’s office room has been roughed-in; Kaze settled on overall room size and a front-desk NPC concept ('guy in the wall').",
+      "quote": "Alright, this is going to be Bowser's office. I think that's a good size for it."
+    },
+    {
+      "summary": "Render-time optimisation continues: course 1 currently takes ~26 ms per frame; Kaze hopes to shave it to ~24.5 ms by micro-optimising the sign renderer and other hotspots.",
+      "quote": "In course one, it takes 26 milliseconds to render the whole frame. I think we can get it down to maybe 24.5."
+    },
+    {
+      "summary": "Recording real-hardware footage exposed floating-point exceptions in several levels (e.g., Goomba crush scaling to zero). Fixes are ‘annoying but not difficult’.",
+      "quote": "A lot of the levels have floating point exceptions when you enter them right now on N64... Probably because the scale goes to exactly zero."
+    },
+    {
+      "summary": "Steel-beam textures upgraded from CI4 (1-bit alpha) to RGBA16 + separate alpha mask, giving smoother edges and less ‘crust’.",
+      "quote": "Because we now have 8-bit alpha... we now have much, much smoother edges here."
+    },
+    {
+      "summary": "Blue-coin switch completely redesigned: new model, no separate down-animation (instant 5-frame change), scaled 1.5× larger; manual render-area boxing used until Fast64 auto-bounds exists.",
+      "quote": "A five-frame thing doesn’t need an animation... I think this looks really good."
+    },
+    {
+      "summary": "Cap switches overhauled: top and base fused into single model; three intermediate models used instead of bones; vertex-colour + world-light solution chosen so they sit naturally in each level; colours assigned (red, cyan for ice, dark blue for bomb/cloud).",
+      "quote": "We can have our cake and eat it too... it looks like it's actually in the level."
+    },
+    {
+      "summary": "Old ‘cap-switch test level’ code discovered and removed as unnecessary legacy.",
+      "quote": "There’s no reason for the check to exist, so I'm removing it."
+    },
+    {
+      "summary": "Fast64 limitations identified: shared textures can cause premature eviction; armature re-imports break pivot points (e.g., fish fin), and some GL-layout presets misrender.",
+      "quote": "If you re-import the armature, Fast64 will fuck it up."
+    },
+    {
+      "summary": "Combiner troubleshooting: ground-pound stars and blue flames rendered incorrectly until Kaze rebuilt the combiner manually, discovering a checkbox/clamp error.",
+      "quote": "There must be a combiner setting somewhere that fucked it up and I don't know what the setting was—now it works."
+    },
+    {
+      "summary": "Realised Nemu64 reproduces the same crash locations as real hardware, so it can be used for faster crash debugging.",
+      "quote": "NEMU crashes here just like N64 would... that is going to save me so much time."
+    },
+    {
+      "summary": "Decision: standard green pipes will eventually be baked directly into level geometry to save draw calls.",
+      "quote": "I also think we're gonna put all the normal pipes hard-coded into the level in the end... just for a tiny bit of performance."
+    }
+  ],
+  "context_findings": [
+    {
+      "summary": "Kaze regularly studies MrBeast videos to understand audience appeal for his own content.",
+      "quote": "I actually study MrBeast's videos like a fucking nerd. I look at them and be like, ‘Oh, why do people like this?’"
+    },
+    {
+      "summary": "He values micro-optimisation to near-meme levels (e.g., saving 50 ns) but frames it as part of the project’s identity.",
+      "quote": "At this point, I'm just doing it for the meme."
+    },
+    {
+      "summary": "Workout schedule shifted, causing chat to ‘gaslight’ him on what day it is; hints at juggling personal routine with dev streams.",
+      "quote": "I changed my workout routine this week... so the gaslight almost worked."
+    },
+    {
+      "summary": "Strong opinion on software design: opposes private variables; prefers transparency and hardware-level thinking.",
+      "quote": "Private variables are completely useless and should never exist... They mean nothing to the processor."
+    }
+  ],
+  "contributor_findings": {
+    "biobak": [
+      {
+        "summary": "Delivered a large asset drop: blue-coin switch, cap switches, fish remodel, Goomba remodel, new ground-pound stars, flame textures, quarter 8-bit pipe piece, and ‘sludge blarg’ boss block with scrolling eyes/teeth.",
+        "quote": "So we are going to import all of Biobak's remade models today."
+      },
+      {
+        "summary": "Actively iterated textures and colours live on stream (e.g., switch contrast, coin icon, star glow) based on Kaze & Lila feedback.",
+        "quote": null
+      }
+    ],
+    "badub": [],
+    "zeina": [
+      {
+        "summary": "Working on Wiggler walk/run animation; reported progress in chat and planned to show a preview.",
+        "quote": "I think I finally got Wiggler's walk or run looking right."
+      }
+    ]
+  },
+  "key_stories": [
+    {
+      "title": "Reinventing the Cap Switch",
+      "summary": "Kaze and Biobak retire the iconic Mario 64 cap switch in favour of a cleaner, lighting-aware model that still evokes the original.",
+      "challenge": "Vanilla cap switch had separate top/base parts, ugly textures, and ignored world lighting.",
+      "process": "Fused geometry, experimented with bones vs. multiple models, tweaked vertex colours and combiner maths, and matched colours to new cap types.",
+      "outcome": "New switches look consistent across levels and animate instantly without extra code overhead.",
+      "key_quote": "We can have our cake and eat it too—it looks like it's actually in the level.",
+      "related_to": ["kaze", "biobak"]
+    },
+    {
+      "title": "The Combiner Mystery",
+      "summary": "A subtle graphics-pipeline flag caused star and flame textures to degrade; Kaze hunted it down live.",
+      "challenge": "Ground-pound stars and blue flames appeared grainy or white-boxed in both emulator and hardware.",
+      "process": "Tested clamp/mirror flags, rebuilt the combiner from scratch, compared NEMU vs. Fast64 output.",
+      "outcome": "Single mis-set clamp option located; assets now render correctly; new debugging workflow validated.",
+      "key_quote": "There must be a combiner setting somewhere that fucked it up—and now it works.",
+      "related_to": ["kaze", "biobak"]
+    },
+    {
+      "title": "Steel Beams Get a 2024 Makeover",
+      "summary": "An everyday support texture became a mini tech breakthrough.",
+      "challenge": "Old CI4 steel texture produced jagged alpha edges on real N64.",
+      "process": "Swapped to RGBA16 plus higher-res alpha mask; demonstrated before-after in stream.",
+      "outcome": "Crisper yet softer beams; shows team’s willingness to spend effort on micro visual upgrades.",
+      "key_quote": "It is blurrier and crispier—because the detail texture has half the detail now but the edges are much crisper.",
+      "related_to": ["kaze", "biobak"]
+    }
+  ],
+  "open_questions": [
+    {
+      "topic": "Bowser’s Office Design",
+      "context": "Only basic room dimensions and a receptionist NPC concept were mentioned.",
+      "questions": [
+        "What narrative or gameplay purpose will Bowser's office serve?",
+        "How will the office visually reflect Bowser’s personality in this hack?",
+        "Are any special mechanics or cutscenes planned for this area?"
+      ],
+      "related_to": ["kaze", "biobak"],
+      "priority": "medium"
+    },
+    {
+      "topic": "Floating-Point Exceptions on Real Hardware",
+      "context": "Crushing Goombas and entering certain levels crash the N64 build; fixes are ‘annoying’ but unspecified.",
+      "questions": [
+        "What is the root cause of the current FP exceptions?",
+        "How widespread are they across enemy types and levels?",
+        "What is the planned timetable for a stable hardware build?"
+      ],
+      "related_to": ["kaze"],
+      "priority": "high"
+    },
+    {
+      "topic": "Water Ray-Cast / Swimming Collision Bug",
+      "context": "Kaze noted ‘something really weird’ with wall collisions underwater; immediate death on level entry in one test.",
+      "questions": [
+        "When did this regression appear and what commit introduced it?",
+        "Is the issue tied to recent Fast64 changes or custom collision code?",
+        "What debugging steps remain before a fix?"
+      ],
+      "related_to": ["kaze"],
+      "priority": "medium"
+    },
+    {
+      "topic": "Goomba Texture & Fast64 Memory Eviction",
+      "context": "Shared texture optimisation broke colour swaps and caused compiler errors.",
+      "questions": [
+        "How will the team reconcile Fast64’s limitations with the desire for shared textures?",
+        "Will the Goomba need a unique workflow compared to other enemies?",
+        "Could a custom exporter or script bypass Fast64’s eviction logic?"
+      ],
+      "related_to": ["kaze", "biobak"],
+      "priority": "medium"
+    },
+    {
+      "topic": "Sludge Blarg (‘Net Peanut’) Enemy",
+      "context": "New model delivered with scrolling textures but no behaviour yet.",
+      "questions": [
+        "What role will the sludge blarg play in gameplay terms (boss, hazard, puzzle)?",
+        "What technical approach will be used for its multi-texture scrolling and damage states?",
+        "Who will handle animation and AI coding for this enemy?"
+      ],
+      "related_to": ["kaze", "biobak", "zeina"],
+      "priority": "low"
+    }
+  ]
+}

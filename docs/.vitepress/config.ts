@@ -17,6 +17,7 @@ export default defineConfig({
       },
     ],
     ["meta", { name: "author", content: "Johann Schopplich" }],
+    ["meta", { name: "robots", content: "noindex, nofollow" }],
     ["meta", { property: "og:type", content: "website" }],
     ["meta", { property: "og:url", content: ogUrl }],
     ["meta", { property: "og:title", content: name }],

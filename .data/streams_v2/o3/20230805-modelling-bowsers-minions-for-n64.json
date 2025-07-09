@@ -1,0 +1,201 @@
+{
+  "stream_context": {
+    "summary": "Kaze works on the oil-rig course (internally Level 11) of Return to Yoshi’s Island, focusing on two new NPC systems: a dirt-sensitive Builder Koopa with a crying easter-egg and a WIP “Overseer Wiggler.”  He also refactors physics constants, tweaks collision, and outlines a complete warp-transition rewrite.  Throughout the session he chats with Biobak and Zeina about models/animations, discusses optimisation philosophy, and explains plans to use Only Up 64 feedback before RTYI’s release.",
+    "level": ["Course 11 “Oil Rig”"]
+  },
+  "development_findings": [
+    {
+      "summary": "Only Up 64 public play-test supplied valuable data; Kaze wants to create one or two smaller hacks on the RTYI engine to polish it before the main release.",
+      "quote": "Only Up 64 was really useful play-test data and I'm gonna use the play-test data to prove RTYI… we should make like one or two more hacks on the RTYI engine before RTYI is released."
+    },
+    {
+      "summary": "Physics tuning: reduced outer-rotate force, changed ceiling interaction so Mario bonks when diving into ceilings, removed mid-air ‘double-ceiling’ exploit, and adjusted slope handling.",
+      "quote": "I reduced the outer rotate force and I changed a lot of the physics… now you just bonk if you dive into a ceiling and there's no longer a way to get another ceiling."
+    },
+    {
+      "summary": "Camera and memory-leak fixes are in progress; excessive conditional triangles previously caused a leak.",
+      "quote": "What's leaking memory? Too many condition triangles — so I reduced [them]…"
+    },
+    {
+      "summary": "Warp rewrite plan: during warps Mario will keep his current action while the stick is auto-held toward the warp to avoid visual freeze at 60 fps.",
+      "quote": "Instead what's gonna happen is that Mario's normal action continues while the warp is happening so it won't look weird at all because of 60fps."
+    },
+    {
+      "summary": "Input-lag complaints traced to players switching between 60 fps (emu) and 30 fps (N64).  Full 60 fps rewrite of physics would help but is ‘not reasonable’.",
+      "quote": "Yes, we could improve input lag but I'd have to rewrite all of Mario's physics to be 60 fps — not a very reasonable thing to do."
+    },
+    {
+      "summary": "Builder Koopa ‘cement dirt’ mechanic implemented: texture sampling algorithm checks 93 of 16,384 texels to approximate dirtiness, cutting computation ~15× and safe for N64.",
+      "quote": "We just cut computation costs into like… basically a 15th."
+    },
+    {
+      "summary": "Threshold system: if dirtiness exceeds ~95 % (≈40 k sampled value) Koopa switches to a looping crying animation and new dialogue.",
+      "quote": "Do you want to make me cry?… if you basically make almost the entire area black, he's just gonna start crying."
+    },
+    {
+      "summary": "Magic numbers for physics and camera moved into a single header with #defines and comments for easier iteration.",
+      "quote": "I decided I will make all the magic numbers into defines in this file and I even added comments that follow some sort of code guidelines."
+    },
+    {
+      "summary": "Overseer Wiggler NPC concept: stands upright on oil-rig hub, reddens progressively as player sabotages four workers, then runs away; low-poly model (~693 tris) and rigs being built.",
+      "quote": "We have this oil rig… the Wiggler is gonna be right here… you mess with all four people… the Wiggler gets more red… then he runs along here and disappears."
+    },
+    {
+      "summary": "Performance strategy: backface culling on display-list reorder (DCR) and poly-budget checks keep new effects N64-safe; actual console tests reserved for performance-critical changes.",
+      "quote": "I don't test on N64 that often — only when I make performance changes."
+    }
+  ],
+  "context_findings": [
+    {
+      "summary": "Kaze moved to Canada and jokes that he is ‘rich now’, but complains about high domestic shipping costs for hobby items like Yu-Gi-Oh cards.",
+      "quote": "Now that I'm living in Canada and I'm rich and all, I wanna get some Yu-Gi-Oh cards… shipping to Canada is almost as expensive as buying the damn thing."
+    },
+    {
+      "summary": "He left Twitch due to excessive ads and now streams on YouTube, experimenting with Super Chat and considering Twitter Blue monetisation.",
+      "quote": "Twitch is just so many ads… so I decided it is time to leave."
+    },
+    {
+      "summary": "Optimization philosophy: prides himself on N64 optimisation over general N64 hacking; dismisses SM64 PC port for not emulating true RDP features.",
+      "quote": "If I wanted my game to work on PC exclusively, I would make it in Unreal Engine."
+    },
+    {
+      "summary": "Coding ethos: prefers self-documenting code; recently added comments but still rarely comments; sees heavy comments as unnecessary if code is clear.",
+      "quote": "They probably mean it's bad to write code in a way that comments are required — code should be self-commenting."
+    },
+    {
+      "summary": "Emotional tone: alternates between playful banter and serious technical focus; mild frustration with tooling (Fast64 bone ordering) but ends stream satisfied with progress.",
+      "quote": null
+    }
+  ],
+  "contributor_findings": {
+    "biobak": [
+      {
+        "summary": "Offers to help with models and gives aesthetic/UX feedback (e.g., increase dirt area, suggest service-vest for Wiggler).",
+        "quote": "Let me get some point I can help you with some models since I'm a little more confident in my skills now."
+      },
+      {
+        "summary": "Advocates sampling-rate tweak and lower threshold to balance cement easter-egg difficulty.",
+        "quote": null
+      }
+    ],
+    "badub": [],
+    "zeina": [
+      {
+        "summary": "Creates animations: tasked with Builder Koopa idle flap, crying loop, and future Wiggler animations.",
+        "quote": "All right, that works perfectly… So you should give him a sobbing animation for that.  Can you do that real quick? — Zeina: I can try, yeah."
+      },
+      {
+        "summary": "Coordinates asset updates (e.g., sends updated Koopa model) and flags Blender animation-loss bug.",
+        "quote": "Wait, I should send you the updated Koopa… Blender has this weird thing of getting rid of animations."
+      }
+    ]
+  },
+  "key_stories": [
+    {
+      "title": "Using Only Up 64 to Harden the RTYI Engine",
+      "summary": "Community play-tests of Only Up 64 exposed physics and camera issues.  Kaze now plans additional small hacks on the same engine to ensure robustness before the flagship hack ships.",
+      "challenge": "Mixed reception to new RTYI physics and camera behaviours.",
+      "process": "Collected play-test data, adjusted physics constants, converted magic numbers to #defines, and scheduled extra engine stress-tests via new hacks.",
+      "outcome": "Current build feels ‘a lot better’; roadmap now includes 1-2 interim hacks for further iteration.",
+      "key_quote": "Only Up 64 was really useful play-test data… we should make like one or two more hacks on the RTYI engine before RTYI is released.",
+      "related_to": ["kaze"]
+    },
+    {
+      "title": "Cement-Ruining Easter Egg",
+      "summary": "A builder Koopa’s fresh cement records foot-prints.  When dirtiness passes a threshold, Koopa shifts from annoyance to full sobbing, adding depth and humour.",
+      "challenge": "Detect large-area texture modification without overloading N64 CPU.",
+      "process": "Sampled 93 texels instead of all 16,384, used a running ‘dirt’ counter, set a 95 % threshold, and had Zeina animate new crying loop.",
+      "outcome": "Mechanic works in-game; performance acceptable; easter-egg likely discoverable but not accidental.",
+      "key_quote": "We just cut computation costs into like… basically a 15th.",
+      "related_to": ["kaze", "zeina"]
+    },
+    {
+      "title": "Warp Transition Overhaul",
+      "summary": "60 fps play causes warp entry to look frozen.  Kaze sketches a fix where Mario’s action and stick input continue during transition.",
+      "challenge": "Visual stutter and perceived input-lag at higher frame-rates.",
+      "process": "Plan to auto-hold stick toward warp and continue current action; input buffer maintained.",
+      "outcome": "Design finalised; implementation pending.",
+      "key_quote": "Instead what's gonna happen is that Mario's normal action continues while the warp is happening so it won't look weird at all because of 60 fps.",
+      "related_to": ["kaze"]
+    }
+  ],
+  "open_questions": [
+    {
+      "topic": "Additional ‘engine-test’ hacks",
+      "context": "Kaze wants 1–2 more hacks on RTYI engine before release but gave no details.",
+      "questions": [
+        "What scope and themes will these interim hacks have?",
+        "How will their feedback loop integrate into RTYI’s schedule?",
+        "Will they be public releases or private play-tests?"
+      ],
+      "related_to": ["kaze"],
+      "priority": "high"
+    },
+    {
+      "topic": "Camera overhaul specifics",
+      "context": "He mentioned camera adjustments but not the concrete changes or philosophy.",
+      "questions": [
+        "What are the main problems with the current camera?",
+        "Which classic or modern titles influence the new camera design?",
+        "How does the camera interact with 60 fps and N64 constraints?"
+      ],
+      "related_to": ["kaze"],
+      "priority": "medium"
+    },
+    {
+      "topic": "Memory-leak from conditional triangles",
+      "context": "Leak identified and ‘reduced’ but technical root cause unexplained.",
+      "questions": [
+        "What exactly causes the leak in conditional triangles?",
+        "How was it detected and profiled?",
+        "Could similar leaks exist elsewhere in the codebase?"
+      ],
+      "related_to": ["kaze"],
+      "priority": "medium"
+    },
+    {
+      "topic": "Overseer Wiggler final design",
+      "context": "Model, rig, and animation still undecided (arms, vest, size, hitboxes).",
+      "questions": [
+        "What final silhouette and animations are planned?",
+        "Will Wiggler be interactable or purely narrative?",
+        "How will redness progression be technically implemented?"
+      ],
+      "related_to": ["kaze", "biobak", "zeina"],
+      "priority": "high"
+    },
+    {
+      "topic": "Team workflow & asset pipeline",
+      "context": "Fast64 bone-ordering frustrations and Blender animation loss surfaced.",
+      "questions": [
+        "What toolchain do the team use for models and animations?",
+        "How are version control and backup handled to avoid the ‘deleted repo’ incident?",
+        "Could custom tools streamline bone ordering and export?"
+      ],
+      "related_to": ["kaze", "biobak", "zeina"],
+      "priority": "medium"
+    },
+    {
+      "topic": "Community feedback strategy",
+      "context": "Physics reception is ‘very mixed’.",
+      "questions": [
+        "How does Kaze triage community feedback?",
+        "Is there a structured play-testing program?",
+        "What metrics define ‘ready’ for public release?"
+      ],
+      "related_to": ["kaze"],
+      "priority": "medium"
+    },
+    {
+      "topic": "Composer Badub’s current work",
+      "context": "Badub was not present; Kaze teased unrevealed Oil-Rig OST.",
+      "questions": [
+        "What is the musical direction for Course 11 and overall hack?",
+        "How does Badub coordinate with level designers for mood/timing?",
+        "Any technical hurdles with N64 audio playback?"
+      ],
+      "related_to": ["badub"],
+      "priority": "low"
+    }
+  ]
+}

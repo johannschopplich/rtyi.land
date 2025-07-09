@@ -2,7 +2,7 @@ import * as fsp from "node:fs/promises";
 import * as path from "node:path";
 import { glob } from "tinyglobby";
 
-export interface FileProcessorParams {
+export interface FileHandlerOptions {
   filePath: string;
   fileContent: string;
   fileName: string;
@@ -11,7 +11,7 @@ export interface FileProcessorParams {
 export async function globAndProcessFiles<T>(
   pattern: string,
   baseDir: string,
-  processor: (params: FileProcessorParams) => T | Promise<T> | null | undefined,
+  processor: (params: FileHandlerOptions) => T | Promise<T> | null | undefined,
 ) {
   const files = await glob(pattern, {
     cwd: baseDir,
@@ -39,20 +39,15 @@ export function formatDateFromYYYYMMDD(dateString: string) {
   const month = dateString.substring(4, 6);
   const day = dateString.substring(6, 8);
 
-  const date = new Date(Number.parseInt(year), Number.parseInt(month) - 1, Number.parseInt(day));
+  const date = new Date(
+    Number.parseInt(year),
+    Number.parseInt(month) - 1,
+    Number.parseInt(day),
+  );
 
   return date.toLocaleDateString("en-US", {
     year: "numeric",
     month: "long",
     day: "numeric",
   });
-}
-
-export function extractContent(
-  text: string,
-  tagName = "extracted_information",
-) {
-  const regex = new RegExp(`<${tagName}>(.*?)</${tagName}>`, "s");
-  const match = text.match(regex);
-  return match?.[1].trim();
 }

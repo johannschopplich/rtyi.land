@@ -1,0 +1,183 @@
+{
+  "stream_context": {
+    "summary": "Kaze refactors Return to Yoshi’s Island’s code, optimises HUD rendering, and live-programs a new \"ice Raven\" enemy for the surreal ice-palace level, fixing crashes and Fast64 export issues along the way.",
+    "level": ["debug overworld", "Course 13 – ice palace"]
+  },
+  "development_findings": [
+    {
+      "summary": "Refactored large parts of the RTYI codebase; game now boots and runs stably on real N64 hardware again after previous crashes.",
+      "quote": "I spent some time this week refactoring some of the RTUI code base… fixed a lot of crashes. The game is a lot more stable now."
+    },
+    {
+      "summary": "Replaced the first overworld with a temporary debug overworld while development continues.",
+      "quote": null
+    },
+    {
+      "summary": "Implemented a new delegate system to render HUD elements on demand, saving roughly two microseconds in every level.",
+      "quote": "We save a few precious microseconds in every level – probably like two microseconds globally from that new system."
+    },
+    {
+      "summary": "Plans to move frame buffers into separate memory segments; estimates a 2–3 % performance gain (~1 FPS) on N64.",
+      "quote": "I’m gonna try that sometime soon… probably like another two to three percent which, you know, that’s like a full FPS."
+    },
+    {
+      "summary": "Initial design for Ravens (walk on geometry with ray-casts) proved complex; pivoted to Biobak’s idea: ice minions that pop out of ground/walls, walk a set path, then vanish – simpler and thematically stronger.",
+      "quote": "It’s cooler and easier to program."
+    },
+    {
+      "summary": "Finished basic Raven behaviour: spawn offset in wall, rise, walk forward, turn after set distance, disappear; added hitbox, shadow, damage/ bounce interactions, and mash-to-break-free ice effect.",
+      "quote": null
+    },
+    {
+      "summary": "Fast64 export bug caused wrong behaviour values; fixed by adding parentheses in exported B-param expressions.",
+      "quote": "This is a Fast 64 bug… I forgot the plus."
+    },
+    {
+      "summary": "Raven boss (Raphle the Raven) will return as a full boss fight with cosmic/moon elements; regular Ravens are smaller variants.",
+      "quote": null
+    },
+    {
+      "summary": "Next enemy planned: a snowman that rolls its head at Mario and regenerates segments like a Pokey.",
+      "quote": null
+    },
+    {
+      "summary": "Dan Salvato questioned the high-mobility dive-jump; Kaze is considering limiting mid-air angle change to stay closer to Mario 64’s ‘commitment’ philosophy and may release test builds with varying physics.",
+      "quote": "The thing is, this lets you change your angle in mid-air and nothing else in Mario 64 does… I’m thinking of limiting the use of the dive a little bit more."
+    },
+    {
+      "summary": "Project status: working on 13th main course; Bowser stages, two side levels, and major overworld areas still pending; expects at least 2–3 more years plus bug-testing.",
+      "quote": null
+    },
+    {
+      "summary": "Maintains design rule: game is a pure platformer; avoids puzzle mechanics that slow pacing.",
+      "quote": "Puzzle stuff kind of seems against the basic design of this game."
+    }
+  ],
+  "context_findings": [
+    {
+      "summary": "Kaze views large-scale N64 development as ‘scaling 50 Everests’ but remains motivated by hardware limitations and optimisation challenges.",
+      "quote": "Making this game is honestly like scaling 50 Everests."
+    },
+    {
+      "summary": "He prioritises real-hardware performance, aiming for ~60 FPS on an actual N64.",
+      "quote": null
+    },
+    {
+      "summary": "He streams once a week, sometimes bonus sessions, balancing coding with personal life (mentions post-workout fatigue, spouse upstairs).",
+      "quote": null
+    },
+    {
+      "summary": "Not ‘friends’ with Nintendo; aware of legal grey area but continues project.",
+      "quote": "Me and Nintendo are not friends."
+    },
+    {
+      "summary": "Openly engages community for design feedback (dive mechanics, enemy ideas) and integrates viewer-contributed code (e.g., Michi’s functions).",
+      "quote": null
+    }
+  ],
+  "contributor_findings": {
+    "biobak": [
+      {
+        "summary": "Suggested redesigning Ravens to pop out of ice, walk briefly, then disappear – accepted and implemented.",
+        "quote": "Pop out of ground, walk forwards, around the corner and then disappear… that would be so much easier."
+      }
+    ],
+    "badub": [],
+    "zeina": [
+      {
+        "summary": "Provided Raven model and animations; collaborated on colour/material tweaks during stream.",
+        "quote": null
+      },
+      {
+        "summary": "Handled humorous ‘cum shake’ redemption and general stream support; demonstrates informal spouse-collaborator dynamic.",
+        "quote": null
+      }
+    ]
+  },
+  "key_stories": [
+    {
+      "title": "Pivoting the Raven Enemy",
+      "summary": "Kaze initially planned complex geometry-walking Ravens. Biobak proposed making them ice creatures that simply emerge, walk, and vanish, fitting the theme and easing implementation.",
+      "challenge": "Ray-cast-based wall-walking logic was proving cumbersome.",
+      "process": "Discussed alternatives on stream; accepted Biobak’s suggestion; rewrote behaviour to spawn from walls/floor, saving time.",
+      "outcome": "Functional enemy completed during stream; can be placed widely without path-finding headaches.",
+      "key_quote": "It’s cooler and easier to program.",
+      "related_to": ["kaze", "biobak", "zeina"]
+    },
+    {
+      "title": "Microsecond HUD Breakthrough",
+      "summary": "A new delegate system now renders HUD elements only when needed, shaving a few microseconds per level.",
+      "challenge": "Legacy HUD code consumed precious CPU on N64.",
+      "process": "Refactored RTYI codebase and implemented delegate calls.",
+      "outcome": "~2 µs saved globally; contributes to 60 FPS goal.",
+      "key_quote": "We save a few precious microseconds in every level.",
+      "related_to": ["kaze"]
+    },
+    {
+      "title": "The Dive-Jump Debate",
+      "summary": "External feedback questioned whether RTYI’s powerful dive compromises Mario 64 design principles.",
+      "challenge": "Dive allows mid-air course correction unlike original game.",
+      "process": "Kaze weighs Dan Salvato’s critique; contemplates limiting angle adjustment and releasing physics test builds.",
+      "outcome": "Mechanic under review; potential future pivot.",
+      "key_quote": "You jump, you’re kind of committed… maybe we should tone this down.",
+      "related_to": ["kaze"]
+    }
+  ],
+  "open_questions": [
+    {
+      "topic": "Raven boss design",
+      "context": "Kaze confirmed Raphle the Raven will return with cosmic/moon mechanics but specifics are undecided.",
+      "questions": [
+        "What unique mechanics will differentiate the boss from regular Ravens?",
+        "How will cosmic elements manifest on N64 hardware?",
+        "How will size and colour changes affect performance and narrative?"
+      ],
+      "related_to": ["kaze", "zeina", "badub", "biobak"],
+      "priority": "medium"
+    },
+    {
+      "topic": "Snowman enemy behaviour",
+      "context": "Planned next enemy rolls its head and regenerates segments like Pokey; no technical plan shared.",
+      "questions": [
+        "How will the rolling-head mechanic be handled on collision?",
+        "Will the enemy freeze or damage Mario?",
+        "Any special visual tricks on N64 to convey rolling snow?"
+      ],
+      "related_to": ["kaze", "zeina"],
+      "priority": "low"
+    },
+    {
+      "topic": "Frame-buffer segmentation optimisation",
+      "context": "Kaze floated idea of storing frame buffers in separate memory segments for 2-3 % speed but hasn’t attempted it.",
+      "questions": [
+        "What concrete memory layout changes are required?",
+        "Any risk of RDRAM bank conflicts or DMA overhead?",
+        "Is the gain worth potential compatibility issues?"
+      ],
+      "related_to": ["kaze"],
+      "priority": "medium"
+    },
+    {
+      "topic": "Final decision on dive-jump mechanics",
+      "context": "Multiple solutions proposed; no resolution yet.",
+      "questions": [
+        "Which limitations (angle, velocity) are being prototyped?",
+        "Will demos be released for community play-testing?",
+        "How will level design adjust if dive is nerfed?"
+      ],
+      "related_to": ["kaze"],
+      "priority": "high"
+    },
+    {
+      "topic": "Release timeline and scope",
+      "context": "Kaze estimates 2–3 years but many levels remain.",
+      "questions": [
+        "What milestone schedule does the team follow?",
+        "How will beta-testing be organised?",
+        "Any contingency for legal or hardware manufacturing hurdles?"
+      ],
+      "related_to": ["kaze"],
+      "priority": "medium"
+    }
+  ]
+}

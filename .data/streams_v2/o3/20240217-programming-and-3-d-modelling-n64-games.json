@@ -1,0 +1,133 @@
+{
+  "stream_context": {
+    "summary": "Kaze focused almost the entire session on redesigning the mine section of Course 12.  He removed a whole sub-area, moved the train-station entrance, laid out a Goomba bandit hideout lit by new fireplaces, experimented with red-coin placement, and planned a momentum-based mine-cart sequence.  He also did light engine/tool work (compiler warnings, draw-distance flags) and talked about a new in-development Project64 ‘Legacy’ build he is using.",
+    "level": ["Course 12", "mine area"]
+  },
+  "development_findings": [
+    {
+      "summary": "Course 12 was ‘not very good’, so Kaze deleted one area and relocated the train station to the main hub.",
+      "quote": "I thought about it and I realized the course is not very good. And I think now it is good."
+    },
+    {
+      "summary": "A Boshi quick-draw cut-scene will replace the old Goombas-in-trenchcoat gag; the player must press B before Boshi shoots to earn a star.",
+      "quote": "We're gonna have a Boshi. There's gonna be a countdown and you have to press B before he does to kill him. Then he gives you a star."
+    },
+    {
+      "summary": "New mine subsection: Goomba gang hideout with cork-gun enemies, wobbly platforms and drivable mine-carts whose inertia can launch Mario to higher ledges.",
+      "quote": "Our mission is to work on this area here in the mines… the rest is kind of like crazy mine cart stuff."
+    },
+    {
+      "summary": "Red-coin logic: coins span multiple areas via B-parameters; red-coin star is bootless so Mario is not kicked out.",
+      "quote": "The red coin stars are bootless. I have to give them B-parameters so they can be across areas."
+    },
+    {
+      "summary": "Added a 200-triangle fireplace model; experimented with particle colour, per-area draw-distance overrides, and custom UVs to keep N64 performance.",
+      "quote": "Oh my god, this looks so good… a thousand firefly triangles, right? This is just a little more than a vanilla Mario 64 level."
+    },
+    {
+      "summary": "Talked through making collision data arrays at level-load time for faster look-ups— a possible future optimisation note.",
+      "quote": "Maybe there should just be arrays formed when the level boots… performance tweaks, make collision into arrays."
+    },
+    {
+      "summary": "Still chasing one stubborn compiler warning (fp register bound to multiple values across threads); tried pragma system_header to silence.",
+      "quote": "That warning cannot be ignored… on every thread, this register has a different value."
+    },
+    {
+      "summary": "Engine now tested on Project64 Legacy (1.6.2) — retains 1.6 UI but fixes audio crackle, crashes and instruction support.",
+      "quote": "Basically there is a project… using Project 64 1.6's UI but they're importing new emulation features."
+    }
+  ],
+  "context_findings": [
+    {
+      "summary": "Kaze is cutting weight aggressively (down 17 lbs, currently 210 lbs) and acknowledges injuring himself by rushing goals.",
+      "quote": "I set a goal and I want to reach all my goals immediately so I just work towards my goals with no exceptions."
+    },
+    {
+      "summary": "Displays rising frustration at repeated emulator recommendations from chat; says it makes him ‘start to hate emulators’.",
+      "quote": "I am a little bit on edge about people recommending me emulators… it's getting so annoying."
+    },
+    {
+      "summary": "Personal design philosophy: dislikes traditional boss fights that force waiting; prefers freeform bosses where you can always deal damage.",
+      "quote": "Most of the bosses are like freeform bosses… so you never have that situation where you just stand around awkwardly and wait."
+    }
+  ],
+  "contributor_findings": {
+    "biobak": [
+      {
+        "summary": "Biobak will later ‘rework’ Course 12 visuals; current placeholder assets may be replaced.",
+        "quote": "During the reworking, Biobak is just gonna remove this and put his own thing."
+      }
+    ],
+    "badub": [],
+    "zeina": [
+      {
+        "summary": "Only casual chat banter; no project work noted this session.",
+        "quote": null
+      }
+    ]
+  },
+  "key_stories": [
+    {
+      "title": "Course 12 Overhaul",
+      "summary": "Kaze realised the western-themed course felt weak.  He deleted a whole sub-area, moved the train station to the hub and conceived a Boshi quick-draw encounter to inject character.",
+      "challenge": "Level layout ‘was not very good’ and felt empty.",
+      "process": "Removed one region, relocated entrances, mapped new mine area, scripted Boshi cut-scene concept.",
+      "outcome": "Kaze feels the course ‘is good’ now; mine area development continues.",
+      "key_quote": "We removed one area and instead the train station is right here now.",
+      "related_to": ["kaze"]
+    },
+    {
+      "title": "Fireplace Asset Pipeline",
+      "summary": "Needed authentic lighting for Goomba camp.  Searched Model-Resource, imported an FBX, decimated to ~200 tris, rebuilt UVs and tested in-game, adjusting draw-distance and flame colour.",
+      "challenge": "Previous fireplace looked ugly and used wrong flame colour/draw distance.",
+      "process": "Imported, decimated, re-UV’d, created new material, extended draw distance flag.",
+      "outcome": "Visually satisfying campfires that also act as subtle navigation beacons.",
+      "key_quote": "Oh my god, this looks so good… that is the fire I was looking for.",
+      "related_to": ["kaze", "biobak"]
+    }
+  ],
+  "open_questions": [
+    {
+      "topic": "Mine-cart mechanic details",
+      "context": "Kaze plans rideable carts whose inertia can launch Mario to platforms but has not coded them yet.",
+      "questions": [
+        "How will the cart physics be implemented on N64 hardware?",
+        "Will momentum transfer be player-controlled or automatic?",
+        "Any precedent from previous hacks?"
+      ],
+      "related_to": ["kaze"],
+      "priority": "high"
+    },
+    {
+      "topic": "Boshi quick-draw cut-scene",
+      "context": "Concept described but no technical plan shared.",
+      "questions": [
+        "Who is animating Boshi and Mario for the cut-scene?",
+        "Will there be unique music or sound cues?",
+        "How is input timing handled to keep it fair but tense?"
+      ],
+      "related_to": ["kaze", "zeina", "badub"],
+      "priority": "medium"
+    },
+    {
+      "topic": "Collision-array optimisation",
+      "context": "Kaze noted idea to convert linked lists to arrays at level boot.",
+      "questions": [
+        "Has anyone started prototyping this optimisation?",
+        "What performance gains are expected on real hardware?"
+      ],
+      "related_to": ["kaze"],
+      "priority": "low"
+    },
+    {
+      "topic": "Persistent compiler warning",
+      "context": "GCC warns ‘fp register bound to multiple values’; workaround unclear.",
+      "questions": [
+        "What exact threading model causes the register conflict?",
+        "Could re-architecting tasks remove the need for fp across threads?"
+      ],
+      "related_to": ["kaze"],
+      "priority": "low"
+    }
+  ]
+}

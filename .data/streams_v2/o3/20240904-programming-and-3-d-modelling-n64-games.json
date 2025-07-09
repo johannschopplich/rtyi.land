@@ -1,0 +1,148 @@
+{
+  "stream_context": {
+    "summary": "Kaze spends the session modelling and coding the ice-castle interior of Course 3, with side trips into engine code to fix mirrors, lighting and memory. Conversation also covers performance gains from switching to the new X3 microcode and future release/porting plans.",
+    "level": ["Course 3"]
+  },
+  "development_findings": [
+    {
+      "summary": "A long-standing lighting bug makes Mario's colours turn dark whenever a second dynamic light (e.g. a Star) appears; Kaze still cannot trace the cause.",
+      "quote": "Ever since X2 we have one little bug… if a second light source appears, Mario’s colours just go dark. The ambient just resets to zero."
+    },
+    {
+      "summary": "Course 3 is built from sealed rooms connected by doors that block the camera when far away, guaranteeing 60 FPS on N64 despite expensive effects like appearing paths.",
+      "quote": "The thing about this level is that everything is in rooms… this is basically guaranteed 60 FPS."
+    },
+    {
+      "summary": "Profiling shows the RSP, not the RDP, is the primary bottleneck; moving from X2 to the new X3 microcode lifted Course 1 from ~46 FPS to near-full speed.",
+      "quote": "We found out that the bottleneck is actually the RSP… when we only improved the RSP performance in X3, that’s when it went up."
+    },
+    {
+      "summary": "Kaze rewrote the mirror object parameters (axis + two ranges) so new mirrors can be added quickly and with less CPU cost; after debugging, the system now works in-game.",
+      "quote": "Dude, this is gonna be the easiest system to add new mirrors ever."
+    },
+    {
+      "summary": "Collision pools overflow in large areas; Kaze plans per-level memory allocation tuning using his custom allocator to solve it.",
+      "quote": "I might have to change the allocation per level because this is unplayable. Yeah, I made my own memory allocator."
+    },
+    {
+      "summary": "Future optimisation may involve converting geometry to tri-strips/fans once GlideN64 or other accurate emulators support them.",
+      "quote": "If I can use tri-fans and tri-strips… oh my god, I would be so happy."
+    },
+    {
+      "summary": "Release plan: v1 patch (emulator & N64), v1.1 bug-fix patch, then possibly an N64-only build to exploit hardware-specific gains; only IPS/BPS patches will be distributed to avoid Nintendo litigation.",
+      "quote": "I will release a patch that will contain only my own changes… I can’t physically release this game, Nintendo would giga-sue me."
+    },
+    {
+      "summary": "Demo will include only Course 1; lights must be fixed before it ships.",
+      "quote": "We need to figure out the lights if we want to release the demo."
+    }
+  ],
+  "context_findings": [
+    {
+      "summary": "Kaze intends to stream more and work harder because he now has a child and needs additional income on top of a full-time job.",
+      "quote": "I have a child now and I need more money… I do have a full-time job on top of all of this."
+    },
+    {
+      "summary": "Programming-language agnosticism: he sees debate over C++ vs Rust vs Python as a ‘skill issue’ and believes competent programmers can use any reasonable language.",
+      "quote": "If you care at all about which programming language you use, that’s a very strong indicator you’re a terrible programmer."
+    },
+    {
+      "summary": "He almost fell for a sophisticated Web3 sponsorship scam but avoided infection by refusing to run unknown executables and verifying the contact via GitHub; he is now helping the real dev trace the attackers.",
+      "quote": "I’m not downloading an .exe file ever… right now they’re actually locating where the website belongs to."
+    }
+  ],
+  "contributor_findings": {
+    "biobak": [
+      {
+        "summary": "Kaze worries Biobak will complain about imperfect geometry (non-square tiles) and aims to tidy the level before handing assets over.",
+        "quote": "Why didn’t you make it perfect squares? Fix it now while you can, before the wrath of Biobak murders me."
+      },
+      {
+        "summary": "Biobak is preparing ‘a surprisingly high amount of changes’, implying ongoing substantial graphic work.",
+        "quote": "Changing a surprisingly high amount of things… that’s exciting."
+      }
+    ],
+    "badub": [],
+    "zeina": [
+      {
+        "summary": "Zeina appears in chat; light banter about Yoshi plushes and household items, but no direct development tasks discussed.",
+        "quote": null
+      }
+    ]
+  },
+  "key_stories": [
+    {
+      "title": "Lighting Bug Mystery",
+      "summary": "Since switching to microcode X2, adding a second light source zeros out ambient light on Mario. Despite code reviews, Kaze has not located the culprit.",
+      "challenge": "Character shading breaks when multiple dynamic lights exist.",
+      "process": "Checked light structs, compared X2 vs X3, tested on console and emulator, but could not reproduce cause.",
+      "outcome": "Bug remains; fixing it is a prerequisite for releasing the public demo.",
+      "key_quote": "Ever since X2 we have one little bug… I looked into this a lot and I can’t figure it out.",
+      "related_to": ["kaze"]
+    },
+    {
+      "title": "Mirror System Overhaul",
+      "summary": "Kaze rewrote the mirror object parameters, debugging axis mix-ups and shading until reflections finally worked, enabling easy placement of mirrors throughout the castle.",
+      "challenge": "Old mirror code was cumbersome and error-prone.",
+      "process": "Designed new 8-byte struct, corrected axis identifiers, removed scale bones, validated on N64.",
+      "outcome": "Mirrors now render correctly; adding new ones is ‘easiest ever’.",
+      "key_quote": "Dude, this is gonna be the easiest system to add new mirrors ever.",
+      "related_to": ["kaze"]
+    },
+    {
+      "title": "Dodging a Web3 Sponsorship Scam",
+      "summary": "A convincing ‘Web3 teaching platform’ offered a channel sponsorship; Kaze detected red flags (custom EXE, fake Zoom link), verified the impersonated developer, and is now helping trace the scammers.",
+      "challenge": "Potential spear-phishing attack disguised as legitimate sponsorship.",
+      "process": "Refused to run unknown EXE, checked URLs, contacted real dev on GitHub.",
+      "outcome": "Avoided compromise; anti-scam developer is investigating perpetrator.",
+      "key_quote": "I’m not downloading an exe file ever… then I contacted the person on GitHub they were pretending to be.",
+      "related_to": ["kaze"]
+    }
+  ],
+  "open_questions": [
+    {
+      "topic": "Unresolved lighting bug",
+      "context": "Ambient light resets to zero when a second light source appears; root cause unknown.",
+      "questions": [
+        "What diagnostic steps have been tried so far?",
+        "Could it be related to microcode or data alignment?",
+        "How confident is the team that it can be fixed before the demo?"
+      ],
+      "related_to": ["kaze"],
+      "priority": "high"
+    },
+    {
+      "topic": "Per-level memory allocator",
+      "context": "Kaze mentioned creating a custom allocator and wanting per-level collision pools.",
+      "questions": [
+        "How does the allocator work compared to vanilla SM64?",
+        "What metrics will guide per-level sizing?",
+        "Could this system benefit other modders?"
+      ],
+      "related_to": ["kaze"],
+      "priority": "medium"
+    },
+    {
+      "topic": "Role and workload of Biobak",
+      "context": "Kaze references large upcoming graphic changes and his concern over asset quality.",
+      "questions": [
+        "What exactly is Biobak currently producing or revising?",
+        "How do Kaze and Biobak coordinate asset hand-offs?",
+        "What is Biobak’s artistic vision for the ice castle?"
+      ],
+      "related_to": ["biobak", "kaze"],
+      "priority": "medium"
+    },
+    {
+      "topic": "Future emulator support",
+      "context": "Kaze may drop emulator compatibility after v1.1 unless accurate, high-performance plugins arrive.",
+      "questions": [
+        "What specific optimisations would require abandoning emulators?",
+        "Has the team engaged with emulator developers like GlideN64?",
+        "Could a parallel ‘emulator branch’ be maintained by the community?"
+      ],
+      "related_to": ["kaze"],
+      "priority": "low"
+    }
+  ]
+}

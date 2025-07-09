@@ -1,0 +1,164 @@
+{
+  "stream_context": {
+    "summary": "Kaze works on the western level \"Grand Sand Badland\": fixes saloon doors, tunes the Boshi quick-draw duel, adds hat-growth gag for the bartender Koopa, and rewrites part of the audio system while noting remaining tasks (train wheels/VFX, Chain Chomp, star names).",
+    "level": [
+      "Grand Sand Badland (Course 13 western level)",
+      "Course 11 graphics rework (Biobak, briefly)"
+    ]
+  },
+  "development_findings": [
+    {
+      "summary": "Short ‘to-do’ list for Grand Sand Badland: move Wiggler & Chain Chomp to object bank, add Chain Chomp enemy, animate train wheels, add train smoke/VFX/sound, finish swinging saloon doors, make bartender Koopa’s hat grow each act.",
+      "quote": "For one, these train tracks need to stop floating ... then we want to make the train wheels move ... then after that there's just one thing left and that is the bartender's hat here. We want it to grow every act."
+    },
+    {
+      "summary": "Level officially named \"Grand Sand Badland\" after team discussion.",
+      "quote": "Rent Center Badland, I think is what we decided on ... Yes, I said Grand Sand Badland. That is likely going to be the final name."
+    },
+    {
+      "summary": "Implemented countdown and timing tweaks for Boshi quick-draw; bug-fixed early ‘fire’ trigger.",
+      "quote": "You definitely need more time before the fire and some indicators ... Okay, that's better."
+    },
+    {
+      "summary": "Memory is tight in this level; extra characters or mini-games (e.g., horseshoe-throwing) likely cut.",
+      "quote": "We kind of have an issue with this level in that we're kind of out of memory. So I don't really want to add new characters if we can prevent that."
+    },
+    {
+      "summary": "Fixed complicated bug with saloon doors swinging the wrong way; required using angle-to-Mario instead of face-angle and clamping rotations.",
+      "quote": "It was all because I used face angle instead of angle to Mario. I think it was."
+    },
+    {
+      "summary": "Added per-dialogue sound-pitch parameter and used it to lower Boshi’s voice; refactored audio code to remove duplicate paths and save instructions.",
+      "quote": "We implemented this free of cost ... audio engine has a new feature where we can actually pitch individual sounds."
+    },
+    {
+      "summary": "Integrated ‘Save-State Yoshi’ anti-cheat raps from community contributor BTurk; edited for syllable counts.",
+      "quote": "Alright, now that we have BTurk's updated dialogues in here ..."
+    },
+    {
+      "summary": "Course is RSP-bottlenecked on real N64; Sauron is rewriting F3D microcode (F3DX3) to reduce load.",
+      "quote": "RTYI is actually RSP bottlenecked ... He's currently working on making F3DX less RSP intensive in the hopes that it'll work on RTYI."
+    },
+    {
+      "summary": "Future content: Course 14 planned as a ‘space arcade’; multiplayer idea uncertain; custom music planned for train area.",
+      "quote": "I know course 14 is going to be a space arcade ... I don't know how realistic the multiplayer thing still is."
+    }
+  ],
+  "context_findings": [
+    {
+      "summary": "Kaze’s philosophy: welcomes constructive criticism but may dismiss what he deems unhelpful.",
+      "quote": "Leaving a comment, critiquing whatever I made is always good ... Always look at criticism very objectively and unemotionally."
+    },
+    {
+      "summary": "Has zero tolerance for annoying pings; freely blocks users.",
+      "quote": "If you are going to be annoying, I will block you. It is as simple as that."
+    },
+    {
+      "summary": "Felt ill pre-stream but mood lifts when coding; notes pressure affects his health.",
+      "quote": "God, I felt like shit before the stream started but now I'm feeling fine."
+    },
+    {
+      "summary": "Works professionally in Unreal Engine; uses Git & VS Code for hobby project, avoids Visual Studio on stream due to NDA.",
+      "quote": "My job requires me to actually use Unreal Engine ... I don't want anything from my work to show up here because I'm on an NDA."
+    },
+    {
+      "summary": "Opposes self-insert characters; sees them as ‘cringe’.",
+      "quote": "I don't put myself in my games. I think self inserts is a little cringe."
+    }
+  ],
+  "contributor_findings": {
+    "biobak": [
+      {
+        "summary": "Reworking Course 11 visuals; dramatically improved container texture using multi-texturing/combiner tricks.",
+        "quote": "He just started reworking course 11 and this already looks insane."
+      }
+    ],
+    "badub": [
+      {
+        "summary": "Kaze plans completely custom music for the train segment; presumed task for Badub.",
+        "quote": null
+      }
+    ],
+    "zeina": [
+      {
+        "summary": "Creating new textures for signage; some signs still missing.",
+        "quote": "Yeah, not all the signs are there Bruno. Zeina's making the textures."
+      }
+    ]
+  },
+  "key_stories": [
+    {
+      "title": "Saloon Doors Nightmare",
+      "summary": "Swinging doors initially rotated unpredictably. Kaze diagnosed that using the object’s face-angle instead of angle-to-Mario caused sign errors.",
+      "challenge": "Doors opened in the wrong direction and pushed Mario back.",
+      "process": "Repeated in-game tests, angle math checks, clamped rotation, finally swapped to angle-to-Mario.",
+      "outcome": "Doors now behave correctly when pushed or kicked.",
+      "key_quote": "Maybe we should actually think about this ... It was all because I used face angle instead of angle to Mario.",
+      "related_to": ["kaze"]
+    },
+    {
+      "title": "Pitch Perfect Boshi",
+      "summary": "Wanted Boshi to sound deeper; existing sound-bank pitch system inefficient.",
+      "challenge": "Old code duplicated work and forced per-frame multiplications.",
+      "process": "Refactored audio engine, added per-dialogue pitch parameter, removed redundant code, tested with extreme pitch values.",
+      "outcome": "Individual sounds can be pitched cheaply; Boshi voice lowered.",
+      "key_quote": "We implemented this free of cost ... audio engine has a new feature where we can actually pitch individual sounds.",
+      "related_to": ["kaze"]
+    },
+    {
+      "title": "Save-State Yoshi Raps",
+      "summary": "Community member BTurk rewrote anti-cheat rap lyrics; Kaze curated them.",
+      "challenge": "Original lines had syllable/flow issues.",
+      "process": "Live editing in stream, keeping 8-line constraint, compiled to test formatting.",
+      "outcome": "New, sharper raps integrated; demonstrates community collaboration.",
+      "key_quote": "Integrated BTurk's updated dialogues in here and we finished pitching Boshi.",
+      "related_to": ["kaze", "biobak"]
+    }
+  ],
+  "open_questions": [
+    {
+      "topic": "F3DX3 microcode rewrite",
+      "context": "Kaze says Sauron is ‘currently working’ to cut RSP usage so RTYI runs better on real hardware.",
+      "questions": [
+        "What specific optimizations is Sauron implementing?",
+        "How much performance gain do you expect?",
+        "Will this allow more effects or higher framerate targets?"
+      ],
+      "related_to": ["kaze"],
+      "priority": "high"
+    },
+    {
+      "topic": "Custom train music",
+      "context": "Kaze wants ‘completely custom music’ for the train area but none exists yet.",
+      "questions": [
+        "What style/tempo are you aiming for?",
+        "What is Badub’s workflow for N64-quality music?",
+        "Any technical constraints (channels, sample rate)?"
+      ],
+      "related_to": ["badub"],
+      "priority": "medium"
+    },
+    {
+      "topic": "Level memory limits",
+      "context": "Grand Sand Badland is near memory cap, limiting new mini-games.",
+      "questions": [
+        "What memory-saving techniques are you using?",
+        "Could decompression or bank-switching open headroom?",
+        "Will this affect later levels’ scope?"
+      ],
+      "related_to": ["kaze", "biobak"],
+      "priority": "medium"
+    },
+    {
+      "topic": "Multiplayer mode",
+      "context": "Kaze says multiplayer ‘may still’ happen but is uncertain.",
+      "questions": [
+        "What design vision did you have for multiplayer?",
+        "What technical hurdles remain?",
+        "Is it tied to release timeline?"
+      ],
+      "related_to": ["kaze"],
+      "priority": "low"
+    }
+  ]
+}

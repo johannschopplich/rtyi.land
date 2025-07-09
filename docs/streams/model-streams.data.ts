@@ -1,8 +1,8 @@
 import * as path from "node:path";
+import { tryParseJSON } from "utilful";
 import { defineLoader } from "vitepress";
 import { STREAMS_DIR } from "../../src/constants";
 import {
-  extractContent,
   formatDateFromYYYYMMDD,
   globAndProcessFiles,
 } from "../.vitepress/utils";
@@ -18,27 +18,24 @@ export interface ModelStreamData {
 export default defineLoader({
   async load() {
     const streamData = await globAndProcessFiles(
-      "**/*.txt",
+      "**/*.json",
       STREAMS_DIR,
       ({ filePath, fileName, fileContent }) => {
         const modelDir = path.basename(path.dirname(filePath));
-        const content = extractContent(fileContent);
+        const streamData = tryParseJSON<Record<string, any>>(fileContent);
 
-        if (!content) return;
+        if (!streamData) return;
 
         const [rawDate] = fileName.split("-");
         const formattedDate = formatDateFromYYYYMMDD(rawDate);
-
-        // Extract first sentence as excerpt
-        const excerpt = content.split("\n")[1].slice(1).trim();
+        const excerpt = streamData.stream_context?.summary || "";
 
         const streamInfo: ModelStreamData = {
           id: `${modelDir}-${rawDate}`,
           date: formattedDate,
           rawDate,
           model: modelDir,
-          excerpt:
-            excerpt.length > 200 ? `${excerpt.substring(0, 200)  }…` : excerpt,
+          excerpt,
         };
 
         return streamInfo;

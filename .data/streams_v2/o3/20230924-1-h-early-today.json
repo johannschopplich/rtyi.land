@@ -1,0 +1,175 @@
+{
+  "stream_context": {
+    "summary": "Kaze live-codes the new oil-block boss (tentatively called “Morkmar”) for Return to Yoshi’s Island, tweaks its AI, animation and camera, while brainstorming larger design issues such as ROM size, performance, and how to handle player expectations about 100 % completion.",
+    "level": ["Oil-block boss arena (exact world unnamed)"]
+  },
+  "development_findings": [
+    {
+      "summary": "A new oil-block boss is being scripted: first attack is a straight rush toward Mario; a second ‘wave’ attack submerges, re-emerges and creates sine-wave motion; camera locks and distance-based pitch are being tuned so the player can see both the boss and platforms.",
+      "quote": "I think this is pretty playable… Maybe as soon as he attacks you, he should stop blocking you."
+    },
+    {
+      "summary": "Boss size, platform height and camera pitch are iterated so falling oil doesn’t obscure platforms and the player can read the eyes; possible smaller scale and lower placement chosen.",
+      "quote": null
+    },
+    {
+      "summary": "Penalty for falling into the oil will likely be water with damage-over-time instead of instant death to avoid frustration.",
+      "quote": "I don't want to make it too frustrating. Water with damage over time is perfect."
+    },
+    {
+      "summary": "Animation implementation hit a Fast64 bug where translation keyframes exported incorrectly; Kaze re-exports and discovers a bone offset issue, then writes custom sine-wave math in code.",
+      "quote": null
+    },
+    {
+      "summary": "Performance regression: Silas supplied a ‘faster’ 60 FPS build, but on hardware it dropped to 30 FPS; Kaze reverts to previous Git revision and will report back to Silas.",
+      "quote": "This is actually Silas' code… it does not seem to work, I'll let Silas know."
+    },
+    {
+      "summary": "Kaze critiques Quake’s fast inverse-square-root constant choices; considers alternative optimisation but first attempt fails.",
+      "quote": "They have three constants and they only optimized one… I became a hater of the inverse square root algorithm."
+    },
+    {
+      "summary": "Large dojo track exists only as a 5 MB WAV; they must convert it to MIDI to fit remaining ROM space.",
+      "quote": "That song is huge… We’d have to turn it into a midi and then it would work."
+    },
+    {
+      "summary": "Player expectation to 100 % ROM hacks limits level-design freedom; Kaze polls community and sees majority want full completion; considering an overworld ‘perk’ system (one selectable bonus like no-void-outs or faster speed) to accommodate varying skill levels without RPG-style badges.",
+      "quote": "This design space is just closed off to us because of this expectation… If anything, it's gonna be a single perk that you can pick."
+    },
+    {
+      "summary": "Yoshi coins replace 100-coin stars; each coin saves on pickup so players never feel forced to leave and re-enter a level.",
+      "quote": "I removed 100 coin stars because I don't want the player to find a star and be like, 'I should leave and come back later.'"
+    }
+  ],
+  "context_findings": [
+    {
+      "summary": "Kaze feels he is ‘evolving’ and getting better at multiple skills (programming, game design, weight-lifting).",
+      "quote": "Recently I feel like I have been evolving. I'm just getting so much better at everything for some reason."
+    },
+    {
+      "summary": "Expresses frustration with obligatory social events (wedding) and has limited stream time; eats on stream while coding.",
+      "quote": "I hate weddings. It's gonna be awful. I wish I could just bring my DS like a little child."
+    },
+    {
+      "summary": "Philosophy: players’ feelings are real even if reasoning is flawed; he wants to account for dissatisfaction rather than ignore it.",
+      "quote": "My philosophy is, what people feel, in a way, is real… you can never really ignore people's feeling."
+    },
+    {
+      "summary": "Shows self-deprecating humour about smell (‘chicken and rice’) and playful banter with spouse on stream.",
+      "quote": null
+    },
+    {
+      "summary": "Mentions financial/time planning: needs a house before having kids; balancing Banjo hack contract work means only one stream per week until done.",
+      "quote": "Unfortunately I can't stream any longer because I have to go to a wedding… I'm hoping that eventually I'm done with the Banjo hack and I can go back to streaming twice a week."
+    }
+  ],
+  "contributor_findings": {
+    "biobak": [
+      {
+        "summary": "Suggests adding metallic teeth objects with vertex alpha to the oil-block boss for visual interest.",
+        "quote": "The metal teeth… I think it looks very cool. That's a very good idea by Biobak."
+      },
+      {
+        "summary": "Provides feedback on boss movement (initial downward motion) and overall vertex displacement aesthetics.",
+        "quote": null
+      },
+      {
+        "summary": "Requests animations and reports finishing the ‘wedding cart’ graphic asset during stream.",
+        "quote": "The cart? Oh, the wedding cart… Biobak card is finished."
+      }
+    ],
+    "badub": [],
+    "zeina": [
+      {
+        "summary": "Engages in playful on-stream banter, tries to embarrass Kaze, highlights personal dynamic but offers no direct dev input in this session.",
+        "quote": "I can't believe she's trying to embarrass me live on stream in front of everyone."
+      }
+    ]
+  },
+  "key_stories": [
+    {
+      "title": "The 30 FPS Regression",
+      "summary": "Silas delivered new performance code expected to raise framerate, but testing revealed Mario locked at 30 FPS with animation glitches. Kaze methodically reverted the Git commit, restored previous files, and plans to report findings to Silas.",
+      "challenge": "New optimisation patch unexpectedly halved framerate.",
+      "process": "Locate commit in GitHub Desktop, restore old code, verify restored build at target framerate.",
+      "outcome": "Old version kept; issue forwarded to Silas for further work.",
+      "key_quote": "He definitely is 30 FPS again… This is actually Silas' code; it does not seem to work.",
+      "related_to": ["kaze"]
+    },
+    {
+      "title": "Design Space vs. 100 % Expectation",
+      "summary": "Kaze realises ROM-hack players assume they must 100 % every game, constraining secret placement. He polls the community live; results confirm the expectation. He brainstorms a single ‘perk’ system to let players customise difficulty without bloating mechanics.",
+      "challenge": "Player expectation eliminates hard-to-find secrets and optional challenges.",
+      "process": "Discuss issue on stream, launch YouTube poll, interpret results, ideate perk solution.",
+      "outcome": "Tentative plan for overworld perks replacing a full badge system.",
+      "key_quote": "The results so far are pretty devastating… that design space is just closed off to us.",
+      "related_to": ["kaze", "biobak"]
+    },
+    {
+      "title": "Animating the Oil-Block ‘Wave’ Attack",
+      "summary": "Kaze crafts a 83-frame sine-wave animation but Fast64 exports malformed data, causing the boss to jitter. He debugs bone offsets, rewrites math in code, and doubles vertical travel for better readability.",
+      "challenge": "Exported translation keyframes broke; animation length incorrect.",
+      "process": "Inspect Fast64 output, verify bone count, adjust operator precedence and sign, restructure code with pre-computed constants.",
+      "outcome": "Wave attack now dips twice as deep with smooth motion.",
+      "key_quote": "Why does my animation not work at all?… Ah, there we go. That is what I wanted.",
+      "related_to": ["kaze"]
+    }
+  ],
+  "open_questions": [
+    {
+      "topic": "Perk System Details",
+      "context": "Kaze proposes overworld-found perks (e.g., no void-out, 1 % speed boost) but hasn’t defined acquisition method, balancing, or UI.",
+      "questions": [
+        "How many perks are planned and what are they?",
+        "How will players discover and switch perks?",
+        "Will perks affect speed-running categories or save files?"
+      ],
+      "related_to": ["kaze", "biobak"],
+      "priority": "high"
+    },
+    {
+      "topic": "Dojo Final Challenge and Music",
+      "context": "An Asian-themed dojo area may serve as final challenge; concept involves a large 5 MB WAV track that must be converted to MIDI.",
+      "questions": [
+        "Is the dojo confirmed for the final game?",
+        "Who is responsible for arranging the MIDI?",
+        "Will the music still fit thematic constraints after conversion?"
+      ],
+      "related_to": ["kaze", "badub", "biobak"],
+      "priority": "medium"
+    },
+    {
+      "topic": "Overall Performance Strategy",
+      "context": "Kaze has ideas to raise FPS and critiques inverse-square-root code; Silas’ patch failed.",
+      "questions": [
+        "What optimisation pipeline is planned going forward?",
+        "Any hardware profiling being used?",
+        "Could modern compilers or lookup tables outperform hand-written assembly?"
+      ],
+      "related_to": ["kaze"],
+      "priority": "medium"
+    },
+    {
+      "topic": "ROM Size Management",
+      "context": "5 MB WAV exposes tight ROM limit.",
+      "questions": [
+        "Current ROM size and headroom?",
+        "Compression or bank-splitting strategies?",
+        "Guidelines for artists/composers on asset budgets?"
+      ],
+      "related_to": ["kaze", "badub", "biobak"],
+      "priority": "medium"
+    },
+    {
+      "topic": "Oil-Block Boss Visual Polish",
+      "context": "Discussion of metal teeth objects, vertex displacement, light sources.",
+      "questions": [
+        "Final colour and shader approach for boss?",
+        "Will dynamic lighting be feasible on N64 hardware?",
+        "Who implements and optimises the new assets?"
+      ],
+      "related_to": ["kaze", "biobak"],
+      "priority": "low"
+    }
+  ]
+}

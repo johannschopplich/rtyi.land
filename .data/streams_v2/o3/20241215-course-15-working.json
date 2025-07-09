@@ -1,0 +1,160 @@
+{
+  "stream_context": {
+    "summary": "Kaze spends most of the session importing and debugging Biobak’s brand-new Mario model, tweaking N64 combiner settings so it renders correctly (antialiasing, lighting, dynamic palette recolours) and brainstorming a new \"light-bridge\" set-piece triggered by an arcade button. He also riffs on aggressive cache-level optimisations for the N64 CPU/RCP.",
+    "level": ["Arcade hub", "General engine work"]
+  },
+  "development_findings": [
+    {
+      "summary": "Biobak’s replacement Mario model drops from 639 to 595 triangles and cuts TMEM usage by ~39 %, while adding improved shoes, sideburns, eyebrows, cap logo, smoother wings and optional butt-crease.",
+      "quote": "This model here is lower poly and lower resolution than the original Mario model … and it has smaller textures than the original Mario model."
+    },
+    {
+      "summary": "Kaze rewrites the model’s material setup: removes unnecessary vertex colours, converts head logo to I4 palette, and writes an HSV-shift routine so power-ups recolour all 16 palette entries instead of a single primitive colour.",
+      "quote": null
+    },
+    {
+      "summary": "To preserve antialiasing and proper lighting, Kaze experiments with two-cycle combiner chains; eventually settles on adding 32 bytes to the head texture so the cap ‘M’ can be done as colour data instead of alpha mask.",
+      "quote": null
+    },
+    {
+      "summary": "Light-bridge concept: a fully transparent walkway spawns when the player hits an arcade button, changes colour as a warning, then fades out. Kaze evaluates gradients, dithering and layer-4 overlays for readability.",
+      "quote": "There needs to be a button where if you press it, the light bridge comes out."
+    },
+    {
+      "summary": "Identified Fast64 collision export bug that caused arcade button not to update; fixed by deleting the duplicate object in the level.",
+      "quote": null
+    },
+    {
+      "summary": "Performance R&D ideas: (1) idle thread reads iCache history to pre-fetch next thread, (2) task submission uses targeted hit-invalidate instead of full index-invalidate, (3) OS functions run out of ‘dirty exclusive’ cache lines to avoid RAM traffic.",
+      "quote": "Most of the cool shit isn’t implemented yet. There are three ideas with the cache that I still need to try."
+    },
+    {
+      "summary": "Engine source code will be released only alongside the finished game, not beforehand.",
+      "quote": null
+    },
+    {
+      "summary": "Discovered that more than ~5 simultaneous dynamic lights on Mario produce colour artefacts; may cap active lights in hardware build.",
+      "quote": null
+    },
+    {
+      "summary": "Mario’s overall buttons now use a one-cycle reflective setup (texture × shade × shade-alpha) so they appear shiny instead of glowing.",
+      "quote": null
+    }
+  ],
+  "context_findings": [
+    {
+      "summary": "Kaze shows clear pride in squeezing high-end visuals out of 1996 hardware and jokes about ‘polygon budget’ like childhood allowance, reflecting a philosophy of creative constraint.",
+      "quote": "Game studios would never understand— they’d just use a 32×32. We’re doing this on an N64."
+    },
+    {
+      "summary": "Stream begins with frustration over Chrome crash and concern about ‘ruining stream stats’, then shifts to excitement when the new model finally looks right on real hardware.",
+      "quote": null
+    },
+    {
+      "summary": "He rejects a novelty dildo sponsorship but is lining up a Manscaped deal and has already drafted lines with Biobak.",
+      "quote": "So far I’ve said no; however, we are probably getting a Manscaped sponsorship. I can talk about my shaved balls on YouTube videos next."
+    },
+    {
+      "summary": "Ends early for an appointment at Zeina’s parents, showing a work–life balance boundary.",
+      "quote": null
+    }
+  ],
+  "contributor_findings": {
+    "biobak": [
+      {
+        "summary": "Delivered the upgraded Mario model, including detailed changelog (texture downsizing, new folds, CI8/I4 conversions) and offered technical notes on combiner choices.",
+        "quote": "39 % reduction TMEM time … makes the old Mario model look like a beta model."
+      },
+      {
+        "summary": "Supplied comedic ad lines for the pending Manscaped sponsorship.",
+        "quote": null
+      },
+      {
+        "summary": "Initially opposed adding a butt-crease but allowed Kaze to experiment.",
+        "quote": "Too bad for them [the players]— butt crease or not."
+      }
+    ],
+    "badub": [],
+    "zeina": [
+      {
+        "summary": "Not active in stream but Kaze signs off early for a visit to her family, indicating personal scheduling interplay with development.",
+        "quote": null
+      }
+    ]
+  },
+  "key_stories": [
+    {
+      "title": "The New Mario Model",
+      "summary": "Faced with an ageing player model, the team needed something prettier yet cheaper. Biobak rebuilt Mario with fewer triangles and smarter textures; Kaze spent the stream wrestling N64 combiners, palettes and real-hardware tests until the model finally looked ‘insane’.",
+      "challenge": "Improve visual quality without exceeding N64 memory and TMEM limits.",
+      "process": "Biobak optimised geometry/textures; Kaze imported, debugged shading, rewrote palette logic, and negotiated a small butt-crease.",
+      "outcome": "Model runs on real hardware with ~40 % less TMEM and better aesthetics; screenshots earmarked for Patreon.",
+      "key_quote": "This model is lower poly and lower resolution than the original Mario model … and it looks insane.",
+      "related_to": ["kaze", "biobak"]
+    },
+    {
+      "title": "Inventing the Light Bridge",
+      "summary": "Kaze prototypes a Portal-style light bridge activated by an arcade button. Visual clarity is paramount, so he debates gradients, dithering and colour-change warnings before disappearance.",
+      "challenge": "Create a readable, timed platform on limited render layers.",
+      "process": "Live-edits textures, tests transparency, and designs button trigger.",
+      "outcome": "Visual concept finalised; implementation deferred.",
+      "key_quote": "Just trust me that this is fully transparent right now … after you press the switch, it’s gonna change colour and then disappear.",
+      "related_to": ["kaze"]
+    },
+    {
+      "title": "Extreme Cache Optimisation",
+      "summary": "To squeeze more performance, Kaze sketches three experimental cache hacks—thread prediction, selective hit-invalidate, and RAM-free OS calls.",
+      "challenge": "Overcome N64’s limited bandwidth without redesigning engine logic.",
+      "process": "Outlines ideas during stream; not yet prototyped.",
+      "outcome": "Plans logged for future testing.",
+      "key_quote": "I’m gonna read the instruction cache and … prefetch instructions into iCache.",
+      "related_to": ["kaze"]
+    }
+  ],
+  "open_questions": [
+    {
+      "topic": "N64 cache-hack implementation",
+      "context": "Kaze listed three ambitious ideas but hasn’t started coding them.",
+      "questions": [
+        "Have you begun prototypes for the iCache prefetch or hit-invalidate methods?",
+        "What performance gains do you expect versus the current build?",
+        "Could these hacks risk compatibility on different N64 revisions?"
+      ],
+      "related_to": ["kaze"],
+      "priority": "high"
+    },
+    {
+      "topic": "Engine source release strategy",
+      "context": "He stated engine code will ship with the game but did not detail reasoning.",
+      "questions": [
+        "Why wait until full release to publish the engine?",
+        "Are there legal or competitive concerns at play?",
+        "Could early release help community debugging?"
+      ],
+      "related_to": ["kaze"],
+      "priority": "medium"
+    },
+    {
+      "topic": "Light-bridge final visuals",
+      "context": "Gradient, dithering and layer-4 solutions were debated but not settled.",
+      "questions": [
+        "Which visual approach did you finally adopt?",
+        "How will the fade-out warning be communicated to players?",
+        "Are there performance constraints on full-screen transparency?"
+      ],
+      "related_to": ["kaze", "biobak"],
+      "priority": "medium"
+    },
+    {
+      "topic": "Butt-crease debate",
+      "context": "Kaze added a subtle butt shading despite Biobak’s reservations.",
+      "questions": [
+        "What aesthetic or readability concerns drive the crease decision?",
+        "How do you resolve such micro-detail disagreements in the team?",
+        "Has player feedback influenced these small model choices?"
+      ],
+      "related_to": ["kaze", "biobak"],
+      "priority": "low"
+    }
+  ]
+}

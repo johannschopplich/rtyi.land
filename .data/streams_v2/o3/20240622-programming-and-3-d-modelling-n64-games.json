@@ -1,0 +1,178 @@
+{
+  "stream_context": {
+    "summary": "Kaze live-codes Course 11 \"Ice Castle,\" fixing visual bugs in the oil-factory sub-area and building the new Freezy enemy while discussing physics tweaks, star-count structure, and future difficulty modes.",
+    "level": ["Course 11 (Ice Castle)", "Oil Factory sub-area"]
+  },
+  "development_findings": [
+    {
+      "summary": "Course 11 (Ice Castle) is now the main focus; Courses 13–15 remain to be built, so the hack is roughly two-thirds finished.",
+      "quote": "We are working on course 11 of 13, the ice castle… I was really busy working on the oil level and the new video so not much progress has been made here."
+    },
+    {
+      "summary": "Implemented a ‘spline light’ system: dynamic lights follow moving platforms and cast colored glow, giving the N64 engine a modern feel.",
+      "quote": "I invented the spline light… you see how the dots move depending on how the platform moves—that was Biobak’s idea."
+    },
+    {
+      "summary": "Camera logic has been re-written for tight spaces; Kaze demos a secret tunnel where the camera “just works” without clipping.",
+      "quote": "Have you ever seen a camera like this in a Mario game? Unbelievable."
+    },
+    {
+      "summary": "Encountered a visual-effects regression in the oil factory: the room-darkening shader no longer triggers; Kaze flags it for off-stream debugging.",
+      "quote": "You were supposed to talk to him and then the whole room gets darker… The effect is missing. This really really sucks."
+    },
+    {
+      "summary": "Designing the Freezy enemy: suction phase pulls in snow, then fires ice shards that can freeze Mario; particle system prototyped on stream.",
+      "quote": "This thing blows and it should suck… Next we need to make some ice shards and an ice block. I need to freeze Mario’s animation."
+    },
+    {
+      "summary": "Considering nerfing the ground-pound dive: limit angle change (~30°) to stop advanced players trivialising jumps while preserving feel.",
+      "quote": "Maybe a better way … you can’t really change your angle with it anymore. I can change my angle slightly, maybe 30 degrees."
+    },
+    {
+      "summary": "Performance mindset: every conditional costs ≈0.1 µs; UI elements are dynamically disabled to keep frame budget; F3DX chosen over F3D for speed.",
+      "quote": "That’s why I can add UI elements with just 0.1 microseconds of performance loss while they’re inactive."
+    },
+    {
+      "summary": "Planned star structure: ~130 core stars plus Yoshi ‘comet’ missions and optional hunts, targeting ~180 total; only 3-4 100-coin stars.",
+      "quote": "Looks like it’s going to be 180 stars… 100-coin stars—there would be 3, actually 4 in the entire game."
+    },
+    {
+      "summary": "Difficulty/accessibility discussion: possible ‘sight-seeing mode’ lowering speed & gravity instead of changing HP; also option to respawn on last ground contact.",
+      "quote": "If we have a sightseeing mode… make Mario 20 % slower but also reduce gravity and jump velocity."
+    },
+    {
+      "summary": "Long-term schedule: with courses, extras and polishing, Kaze estimates another ~2 years of work.",
+      "quote": "We’re in course 13 out of 15, so we’re almost done already—well, almost done. It’s probably still going to be like two years."
+    }
+  ],
+  "context_findings": [
+    {
+      "summary": "Kaze and Zeina expect their daughter Reyna in four weeks; parental leave will temporarily increase stream frequency.",
+      "quote": "My daughter will be born in four weeks… I will likely stream a little more."
+    },
+    {
+      "summary": "Reyna is named after Zeina’s childhood friend who died at 12; the choice reflects personal tribute.",
+      "quote": "She’s named after a friend of mine that passed away when I was 12 years old."
+    },
+    {
+      "summary": "Kaze despises video editing; looking to hire an editor at $16 per minute to release more videos.",
+      "quote": "My YouTube output is so hard bottlenecked by my unwillingness to make videos."
+    },
+    {
+      "summary": "He worries about Nintendo takedowns—70 of his videos were removed—and would distrust any official invitation.",
+      "quote": "If Nintendo ever sent me a job offer… I would think it’s a ploy to get me arrested."
+    },
+    {
+      "summary": "Philosophy on level design: wants ‘choose your own difficulty’ where risky jumps reward skilled players but casuals have safe routes.",
+      "quote": "I want the game to be pick-your-own difficulty where you can go for risky jumps or you can do the easy thing whenever you want."
+    }
+  ],
+  "contributor_findings": {
+    "biobak": [
+      {
+        "summary": "Proposed moving light-particle dots with platforms, directly inspiring the new spline light effect.",
+        "quote": "You see how the dots move depending on how the platform moves—that was Biobak’s idea."
+      },
+      {
+        "summary": "Suggested adding speed-line UI effect cheaply using Kaze’s optimized overlay system.",
+        "quote": "Means you can add speed lines for free."
+      },
+      {
+        "summary": "Provided feedback on enemy spacing (amps) and general art style during level review.",
+        "quote": null
+      }
+    ],
+    "badub": [],
+    "zeina": [
+      {
+        "summary": "Joined voice chat briefly; shared personal story behind the baby’s name Reyna.",
+        "quote": "Reyna is named after a friend of mine that passed away when I was 12 years old."
+      },
+      {
+        "summary": "Agreed on merchandise idea: matching caps with ‘Z’ (Zeina) and ‘R’ (Reyna).",
+        "quote": null
+      }
+    ]
+  },
+  "key_stories": [
+    {
+      "title": "Bug in the Oil Factory",
+      "summary": "A secret generator room was meant to darken when the NPC speaks, but the shader vanished between builds. Kaze replicates the issue live, vows off-stream fix.",
+      "challenge": "Visual effect disappeared, breaking atmosphere.",
+      "process": "Traced through event scripts; confirmed callback never fires.",
+      "outcome": "Flagged for off-stream debugging; lighting system to be reviewed.",
+      "key_quote": "The effect is missing. This really really sucks.",
+      "related_to": ["kaze"]
+    },
+    {
+      "title": "Re-balancing the Dive Move",
+      "summary": "Another designer convinced Kaze the versatile ground-pound dive undermines level difficulty. He prototypes a nerfed version limiting mid-air steering.",
+      "challenge": "Advanced players trivialise jumps; casuals rarely use the move.",
+      "process": "Adjusted code to cap angle change at ~30°, tested in Ice Castle.",
+      "outcome": "New physics feel promising; community feedback pending.",
+      "key_quote": "Maybe a better way… you can’t really change your angle with it anymore.",
+      "related_to": ["kaze"]
+    },
+    {
+      "title": "Birth of the Freezy Enemy",
+      "summary": "Kaze creates a new foe that inhales snow, then exhales ice shards to freeze Mario. He iterates on particles, hitboxes and freezing animation in real time.",
+      "challenge": "Needed a unique ice enemy with clear telegraphing and feedback.",
+      "process": "Built custom particle emitter, experimented with cone vs cylinder shapes, tweaked suction logic and Mario’s frozen state.",
+      "outcome": "Prototype functions; visuals and damage tuning to continue off-stream.",
+      "key_quote": "This thing blows and it should suck… next we need to make some ice shards and an ice block.",
+      "related_to": ["kaze", "biobak"]
+    }
+  ],
+  "open_questions": [
+    {
+      "topic": "Final decision on dive physics",
+      "context": "Prototype nerf limits steering; Kaze asks chat for opinions.",
+      "questions": [
+        "Has play-testing shown the new dive preserves fun while reducing exploits?",
+        "Will any levels require redesign if dive is changed?"
+      ],
+      "related_to": ["kaze"],
+      "priority": "high"
+    },
+    {
+      "topic": "Yoshi ‘Comet’ Missions vs Emerald Hunts",
+      "context": "Kaze brainstorms extra 45 stars inspired by Galaxy comets and SA1 emerald hunts but is unsure how to integrate them.",
+      "questions": [
+        "Which special mission types have been locked in?",
+        "How will emerald hunts avoid inflating star value?"
+      ],
+      "related_to": ["kaze", "biobak"],
+      "priority": "medium"
+    },
+    {
+      "topic": "Difficulty & Accessibility Modes",
+      "context": "Sight-seeing mode (slower Mario, lower gravity) floated; alternative respawn system discussed.",
+      "questions": [
+        "What concrete accessibility options will ship?",
+        "How will they be surfaced to players on real hardware?"
+      ],
+      "related_to": ["kaze"],
+      "priority": "medium"
+    },
+    {
+      "topic": "T-Rex Level Remake",
+      "context": "Old T-Rex boss and level need a full remake; no timeline given.",
+      "questions": [
+        "Why was the T-Rex level shelved, and what’s the redesign plan?",
+        "Does the asset still fit the game’s tone?"
+      ],
+      "related_to": ["kaze", "biobak"],
+      "priority": "low"
+    },
+    {
+      "topic": "Nintendo Takedowns & Legal Strategy",
+      "context": "70 of Kaze’s videos removed; distrust of potential outreach.",
+      "questions": [
+        "What specific steps are being taken to mitigate future strikes?",
+        "Will the hack’s release strategy change to avoid legal heat?"
+      ],
+      "related_to": ["kaze"],
+      "priority": "high"
+    }
+  ]
+}

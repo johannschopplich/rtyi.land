@@ -1,0 +1,167 @@
+{
+  "stream_context": {
+    "summary": "Kaze live-tweaks the desert ‘train’ level’s visuals and performance: experimenting with quicksand textures, fog colors, distant cliff billboards and skybox math while testing real-hardware FPS and discussing forthcoming engine optimisations.",
+    "level": ["desert train level"]
+  },
+  "development_findings": [
+    {
+      "summary": "Quicksand effect rejected; switched to a static sand texture with edge fading and fog to signal non-playable area.",
+      "quote": "Quick sand is not it, definitely not."
+    },
+    {
+      "summary": "Introduced distant billboard cliffs placed in a separate render layer to create cheap parallax and hide the void without hitting the render distance limit.",
+      "quote": "We have a second layer. We get a little parallax effect."
+    },
+    {
+      "summary": "Skybox bottom now fades from sand colour into existing blue fog; requires precise fog-colour matching to avoid visible seams.",
+      "quote": "It would be very cool if we could somehow connect the sand on our floor with the skybox."
+    },
+    {
+      "summary": "Cannot animate huge sand texture cheaply; N64 fill-rate limits force static texture with shading hacks instead of scrolling layer.",
+      "quote": "The problem is, this texture is so big that it is not possible to make it slowly move, at least not cheaply."
+    },
+    {
+      "summary": "Shade-alpha combiner use is severely limited because same channel is needed for level fog; forces re-authoring materials.",
+      "quote": "Not being able to use shade alpha throughout the entire level is such a big limitation."
+    },
+    {
+      "summary": "Initial tests on real N64 show 25-30 FPS even before culling, occlusion planes or new microcode; optimisation headroom remains.",
+      "quote": "55 FPS when we're not looking at the level… 25-30 and we didn't even optimise or put F3DX3 in yet."
+    },
+    {
+      "summary": "Discovered large sections weren’t culled; enabling object-culling should yield further framerate gains.",
+      "quote": "Enable Culling isn't even on… How the fuck is it running?"
+    },
+    {
+      "summary": "Soren diagnosed RSP becoming bottleneck with F3DX3; preparing variant with reduced RSP cost to regain speed.",
+      "quote": "He thinks that in Return to Yoshi's Island the memory and RDP is so optimised that with F3dx3 the RSP becomes the bottleneck."
+    },
+    {
+      "summary": "Fixed train set-piece: corrected rotation, pitch tracking and speed to keep on rails visually.",
+      "quote": "Why is the rotation also fucked up?… This spins way too fast."
+    },
+    {
+      "summary": "Plan to ship dynamic lighting once F3DX3 + occlusion planes stabilise; expected ‘huge performance boost’.",
+      "quote": "Especially once we re-export the levels with the new vertex count and better material and lining. Things are looking pretty good."
+    }
+  ],
+  "context_findings": [
+    {
+      "summary": "Kaze’s iterative philosophy: rely on rapid in-engine trials rather than upfront theory.",
+      "quote": "These are the kind of things where you just have to try, see what happens, see how it turns out."
+    },
+    {
+      "summary": "Shows concern that visual cues must prevent players from thinking they can walk into the quicksand pit.",
+      "quote": "One thing I worry about is that players might think they have to go to the bottom here. I'd like to prevent that a lot."
+    },
+    {
+      "summary": "Frustration with pervasive ‘YouTube drama’; values the ‘power of not caring’.",
+      "quote": "I feel like almost every video I am recommended by YouTube is some meaningless drama… The power of not caring."
+    }
+  ],
+  "contributor_findings": {
+    "biobak": [
+      {
+        "summary": "Absent for an extended period; Kaze hopes he returns to help re-work levels.",
+        "quote": "Dude, has anyone seen Biobak recently? He wanted to help me rework a bunch of levels."
+      }
+    ],
+    "badub": [
+      {
+        "summary": "Badub intends to compose the entire soundtrack, limiting outside composers’ involvement.",
+        "quote": "The reason you are not the first person to ask to compose for RTYI is because Badub wants to make all of it."
+      }
+    ],
+    "zeina": [
+      {
+        "summary": "Zeina play-tests levels (e.g., April Fools demo) but otherwise not present in this stream.",
+        "quote": "I had my wife play it too on April Fools."
+      }
+    ]
+  },
+  "key_stories": [
+    {
+      "title": "Making the Desert Void Believable",
+      "summary": "Kaze wrestles with how to end the desert stage visually so players know it’s not walkable. Initial quicksand pit looked bad and still suggested depth. After experimenting with fog, colour matching, and parallax cliff billboards, he settles on fading sand into sky-coloured fog and cheap distant cliffs.",
+      "challenge": "Players might think they can drop into the endless sand; existing quicksand texture looked ugly and tiled poorly.",
+      "process": "Tested alternate sand textures, shade/prim combiner hacks, adjusted fog colour, added bill-boarded cliffs on a separate layer, re-exported repeatedly, verified on hardware.",
+      "outcome": "A visually coherent horizon that clearly reads as background while meeting N64 performance limits.",
+      "key_quote": "It would be very cool if we could somehow connect the sand on our floor with the skybox.",
+      "related_to": ["kaze", "biobak"]
+    },
+    {
+      "title": "Discovering the Real Bottleneck",
+      "summary": "Switching to F3DX3 microcode unexpectedly slowed the hack only on Kaze’s build. Soren analysed logs and concluded the RSP was now the bottleneck because other subsystems were so optimised. A new microcode revision is being prepared.",
+      "challenge": "Frame-rate drop unique to Kaze’s ROM when enabling F3DX3.",
+      "process": "Soren reviewed memory/RDP usage and theorised RSP saturation; plans to strip non-needed features for speed.",
+      "outcome": "Upcoming F3DX3 variant promises a ‘huge performance boost’, especially once occlusion planes are added.",
+      "key_quote": "He thinks that in Return to Yoshi's Island the memory and RDP is so optimised that with F3dx3 the RSP becomes the bottleneck.",
+      "related_to": ["kaze"]
+    },
+    {
+      "title": "Where’s Biobak?",
+      "summary": "The lead artist, crucial for level re-work, hasn’t been heard from. Kaze mentions his absence with growing concern.",
+      "challenge": "Need for updated art passes but the main artist is unresponsive.",
+      "process": "Kaze publicly wonders about his whereabouts on stream; no resolution yet.",
+      "outcome": "Task backlog for re-worked levels remains; team uncertain when Biobak will return.",
+      "key_quote": "He’s been gone for a while… I hope he's not gone. That'd be really unfortunate for the Kaze empire.",
+      "related_to": ["kaze", "biobak"]
+    }
+  ],
+  "open_questions": [
+    {
+      "topic": "Biobak’s status",
+      "context": "Kaze notes the artist’s unexplained absence.",
+      "questions": [
+        "Have you contacted Biobak privately?",
+        "What tasks are blocked until he returns?",
+        "Is there a contingency plan if he cannot continue?"
+      ],
+      "related_to": ["kaze", "biobak"],
+      "priority": "high"
+    },
+    {
+      "topic": "F3DX3 RSP-optimised build",
+      "context": "Soren is making a lighter microcode to relieve the new bottleneck.",
+      "questions": [
+        "What specific features will be removed or changed?",
+        "What performance gain do you anticipate?",
+        "Will it impact visual features like dynamic lighting?"
+      ],
+      "related_to": ["kaze"],
+      "priority": "medium"
+    },
+    {
+      "topic": "External N64 commercial project",
+      "context": "A company approached Kaze to create a 2024 N64 game; decision expected in June.",
+      "questions": [
+        "Can you share the studio’s name or background?",
+        "What role would the RTYI team play?",
+        "Could this affect RTYI’s schedule?"
+      ],
+      "related_to": ["kaze"],
+      "priority": "medium"
+    },
+    {
+      "topic": "Dynamic lighting implementation",
+      "context": "Planned after engine upgrades.",
+      "questions": [
+        "What artistic goals drive adding dynamic lighting?",
+        "How will it be balanced against performance on real hardware?"
+      ],
+      "related_to": ["kaze"],
+      "priority": "low"
+    },
+    {
+      "topic": "OST cartridge release",
+      "context": "Kaze hopes to ship RTYI with an N64 music cartridge.",
+      "questions": [
+        "Is this technically feasible within N64 audio RAM limits?",
+        "Who would manufacture the cartridges?",
+        "What tracks might be omitted or rearranged for ROM size?"
+      ],
+      "related_to": ["kaze", "badub"],
+      "priority": "low"
+    }
+  ]
+}

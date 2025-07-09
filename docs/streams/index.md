@@ -6,8 +6,10 @@ description: Overview of all stream analyses processed by different AI models.
 <script setup>
 import { data as modelStreams } from "./model-streams.data";
 
+/// keep-sorted
 const MODEL_LABELS = {
   "claude-opus-4-20250514": "Claude Opus 4",
+  o3: "o3",
   "gemini-2-5-pro": "Gemini 2.5 Pro",
 };
 
@@ -70,7 +72,7 @@ Most of [Kaze's development streams](https://www.youtube.com/@KazeClips/streams)
 
 These summaries save me hours of watching and allow me to prepare for the interviews and discussions with Kaze and the team.
 
-The [comprehensive prompt](/prompts/2.stream-extraction) I wrote guarantees the consistent extraction of key insights, collaborator information, game design decisions and challenges, and business aspects discussions from the stream content.
+The [prompt for stream analysis](/prompts/2.stream-analysis) guarantees the consistent extraction of key findings on development, context, and contributors. It also identifies key stories and open questions.
 
 ::: tip Summary
 **Total Streams:** {{ totalStreams }}
@@ -82,7 +84,7 @@ The [comprehensive prompt](/prompts/2.stream-extraction) I wrote guarantees the 
 
 ## Models Overview
 
-Google's Gemini provides more detailed summaries, while Claude Opus is more concise. I prefer Gemini for its depth, but Claude Opus is great for quick overviews.
+Google's Gemini model generates detailed summaries, while OpenAI's o3 model is notably more concise. My personal preference is o3 for its predictable clarity and brevity.
 
 <table>
   <thead>
@@ -115,10 +117,6 @@ Google's Gemini provides more detailed summaries, while Claude Opus is more conc
 </table>
 
 ## Stream Overview
-
-::: info Note
-Some names may be incorrect due to transcription errors. Furthermore, the summaries are not perfect and may contain inaccuracies.
-:::
 
 <table>
   <thead>

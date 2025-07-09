@@ -1,0 +1,175 @@
+{
+  "stream_context": {
+    "summary": "Kaze focuses almost the entire session on finishing the Raphael-the-Raven moon boss: fixing a broken hitbox caused by scaling, balancing difficulty, experimenting with cut-scenes, and deciding to spawn the star directly on the moon instead of building a return pipe.  Numerous technical tweaks (quaternions, matrices, camera paths) are made while graphics, animation, VFX and SFX are left for collaborators.  He also outlines hub-world ideas, mentions video editing outsourcing, and states the project is a little over 80 % complete.",
+    "level": ["Course 13", "Moon boss arena", "Overworld (Yoshi’s Island hub)"]
+  },
+  "development_findings": [
+    {
+      "summary": "Raphael the Raven fight now functions but still needs animations, background art, VFX/SFX and camera shakes.",
+      "quote": "We did it, boys. Raphael the Raven is no more. Next step… Zeina is currently working on all the animations; we need VFX, SFX and camera shakes."
+    },
+    {
+      "summary": "A scale bug shrank Raven’s hitbox to zero; fixing model scale restored damage detection.",
+      "quote": "The scale of Raphael Raven was too small. He was scaling down so far that his hitbox was 0."
+    },
+    {
+      "summary": "Boss grows larger each hit and slows down over time to guarantee eventual victory, a conscious difficulty-balancing choice based on player time, not health.",
+      "quote": "I think we do the pattern-to-increase trick… make it slower the longer the fight goes. That way, everyone is guaranteed to beat it eventually."
+    },
+    {
+      "summary": "Star now spawns in world-space above Mario on the moon; the original idea of a return pipe was abandoned due to complex quaternion rotation issues.",
+      "quote": "I think the pipe sucks… I’m just gonna spawn the star on top of the moon. That’s the easiest way to do it."
+    },
+    {
+      "summary": "Cut-scene logic uses quaternions and matrix animation: Raven eclipses the moon, changes gravity, and pulls Mario to the new arena.",
+      "quote": "We have the moon… he opens his eyes, jumps, and—voom—he changes the gravity, Mario flies to the moon."
+    },
+    {
+      "summary": "Hub world is a Yoshi’s Tropical Island where coins unlock overworld progression objects like bridges or climbable trees.",
+      "quote": "With the coins you can unlock progression in the overworld—pay someone to build a bridge, or a tree you can climb."
+    },
+    {
+      "summary": "Overall ROM is ~62 MB only because of streamed music; without it the build would be ~12 MB, showing memory headroom.",
+      "quote": "If I just did non-stream music my ROM would be like 12 MB—a fifth of the size."
+    },
+    {
+      "summary": "Project status: ‘just over 80 %’ complete.",
+      "quote": "What if the game is done? …just over 80 percent."
+    },
+    {
+      "summary": "Video editing has been outsourced to a paid editor (Okayo) for future dev-log content.",
+      "quote": "Okayo did. It’s someone I paid to edit the video and hopefully he can edit the next few videos for me."
+    }
+  ],
+  "context_findings": [
+    {
+      "summary": "Kaze is mentally stressed (pain level 8) by bureaucratic paperwork, not by development.",
+      "quote": "Rate your current pain… Eight. I’m in mental pain because of bureaucracy."
+    },
+    {
+      "summary": "He is frustrated by constant community harassment over release dates; plans to respond with lowercase ‘xd’.",
+      "quote": "You know the most messed-up part about being a famous ROM-maker is when people harass me about the release date… I’m thinking every time someone does that I will just respond with a lowercase xd."
+    },
+    {
+      "summary": "Conflicting community feedback on difficulty influences his design philosophy.",
+      "quote": "Comments on YouTube are either ‘this looks way too easy’ or ‘this looks way too hard’. No one ever says ‘Kaze, the difficulty looks perfect’."
+    },
+    {
+      "summary": "He intends to make more explanatory videos to earn additional income for his family.",
+      "quote": "I’ve been thinking I should make a lot more videos… I’m gonna make more money for my family."
+    },
+    {
+      "summary": "Expresses pride in staying physically fit and links body care to mental care.",
+      "quote": "You gotta take care of your body if you wanna take care of your mind."
+    }
+  ],
+  "contributor_findings": {
+    "biobak": [
+      {
+        "summary": "Suggested rotating background and color-shift effects during Raven fight and moon eclipse.",
+        "quote": "Biobak, you can make this fight look so cool with the background. Imagine the whole background here just rotating around."
+      },
+      {
+        "summary": "Proposed visual idea where Raven blocks the moon with his body before the battle.",
+        "quote": "Isn’t he supposed to block the moon with his body and make the whole thing go black?"
+      }
+    ],
+    "badub": [],
+    "zeina": [
+      {
+        "summary": "Created the initial Raven asset; Kaze modified minor aspects for compatibility.",
+        "quote": "I think Zeina made it. I just made some small changes to make sure it works better here."
+      },
+      {
+        "summary": "Currently producing all required boss animations and has delivered a first batch.",
+        "quote": "You sent the animations? …Zeina is currently working on all the animations."
+      }
+    ]
+  },
+  "key_stories": [
+    {
+      "title": "The Vanishing Hitbox",
+      "summary": "While demonstrating the fight Kaze notices Raven no longer takes damage. Investigation reveals that a recent scale change accidentally reduced the hitbox to zero. Restoring proper model scaling fixes the hurtbox entirely.",
+      "challenge": "Boss suddenly invulnerable during testing.",
+      "process": "Printed Y-positions, inspected scale values, discovered scale mismatch, updated scale constants, retested.",
+      "outcome": "Hitbox restored; Kaze decides Raven should visibly enlarge after each hit for clarity.",
+      "key_quote": "The scale of Raphael Raven was too small… his hitbox was 0.",
+      "related_to": ["kaze", "zeina"]
+    },
+    {
+      "title": "Pipe or No Pipe",
+      "summary": "Kaze originally wanted a pipe to appear on the moon to return Mario to the arena, but quaternion math for rotation proved error-prone and visually confusing. After repeated crashes and bad orientations he opts to spawn the Power Star directly above the player instead.",
+      "challenge": "Correctly rotating and positioning a pipe on a spherical surface.",
+      "process": "Tried deriving pitch/yaw from position, experimented with quaternion inversion, debug-printed values, confronted pointer bug, still disliked result.",
+      "outcome": "Design pivot: skip the pipe and have the egg hatch into a star on the moon.",
+      "key_quote": "I think the pipe sucks… I’m just gonna spawn the star on top of the moon.",
+      "related_to": ["kaze", "biobak"]
+    },
+    {
+      "title": "Making Difficulty Fair",
+      "summary": "Facing wildly mixed feedback, Kaze chooses a time-based difficulty curve: Raven moves fast at first but progressively slows after each shockwave so every player can eventually land hits.",
+      "challenge": "Balancing a boss that felt either trivial or impossible depending on velocity settings.",
+      "process": "Tested full stops vs constant speed, discussed health-based scaling, coded time-based slowdown via variable ‘bPerm’.",
+      "outcome": "Boss now guarantees eventual victory while keeping early tension.",
+      "key_quote": "Make it slower the longer the fight goes. That way, everyone is guaranteed to beat it eventually.",
+      "related_to": ["kaze"]
+    }
+  ],
+  "open_questions": [
+    {
+      "topic": "Final boss animations",
+      "context": "Zeina delivered initial animation set but they were not integrated in this session.",
+      "questions": [
+        "What specific animations are still missing for Raphael and when will they be ready?",
+        "How do you coordinate iteration loops between Zeina’s animation passes and Kaze’s code hooks?",
+        "Does the N64 impose constraints on keyframe counts or bone structures you have to work around?"
+      ],
+      "related_to": ["zeina", "kaze"],
+      "priority": "high"
+    },
+    {
+      "topic": "Background & eclipse effects",
+      "context": "Biobak is expected to create a rotating, possibly moon-blocking backdrop but details remain undecided.",
+      "questions": [
+        "What is the visual concept for the background rotation and eclipse moment?",
+        "Which technical techniques (skybox swap, layered billboards, texture scroll) will be used to achieve it on N64 hardware?",
+        "How will this effect synchronize with camera shakes and Raven’s animation timing?"
+      ],
+      "related_to": ["biobak", "kaze"],
+      "priority": "medium"
+    },
+    {
+      "topic": "Music implementation and cartridge limits",
+      "context": "Kaze notes streamed music inflates ROM size to 62 MB versus 12 MB without.",
+      "questions": [
+        "What is the final plan for music storage—streamed, sequenced, or hybrid?",
+        "How does this choice affect hardware compatibility and load times?",
+        "What is Badub’s workflow for composing under these constraints?"
+      ],
+      "related_to": ["badub", "kaze"],
+      "priority": "medium"
+    },
+    {
+      "topic": "Overworld coin-based progression",
+      "context": "Kaze describes paying characters to build bridges or trees in the Yoshi’s Island hub.",
+      "questions": [
+        "How many overworld upgrades are planned and what gameplay benefits do they unlock?",
+        "Is this mechanic optional or required for story progression?",
+        "Who is designing the NPCs and dialogue for these transactions?"
+      ],
+      "related_to": ["kaze", "biobak"],
+      "priority": "low"
+    },
+    {
+      "topic": "Release strategy & community expectations",
+      "context": "Project is ‘just over 80 %’ done; Kaze faces harassment over dates and legal ambiguity.",
+      "questions": [
+        "What internal milestone schedule remains before release?",
+        "How will you handle Nintendo’s potential legal response?",
+        "What channels and formats (patch, pre-patched ROM) will you use for distribution?"
+      ],
+      "related_to": ["kaze"],
+      "priority": "high"
+    }
+  ]
+}

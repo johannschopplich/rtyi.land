@@ -1,0 +1,156 @@
+{
+  "stream_context": {
+    "summary": "Kaze integrates a new low-level profiler, optimises Course 13 and imports Biobak’s updated Oily Boily Bay assets while chatting about technical bottlenecks, precision upgrades, and impending fatherhood.",
+    "level": ["Course 13", "Oily Boily Bay", "Overworld (early work)"]
+  },
+  "development_findings": [
+    {
+      "summary": "A new dual trace/profiler by Sauron reveals that ~76 % of each frame is spent in an idle loop, exposing memory-latency bottlenecks and an RSP bottleneck.",
+      "quote": "Funny thing about RTYI, 25 out of 33 ms are spent on a while 1 loop… around 76 % of the entire game is just the game doing nothing at all."
+    },
+    {
+      "summary": "Creating the large slide in Course 13 originally crashed the game because the collider crossed many spatial cells, exhausting surface-node memory; Kaze rewrote the allocator and gained ~400 µs CPU time.",
+      "quote": "When I first made this slide I ran out of memory… I did the whole memory allocation thing… and because of that we gained 400 microseconds of computing time."
+    },
+    {
+      "summary": "To speed up trigonometric math Kaze replaced Mario 64’s lookup tables with polynomials, which also raised directional precision from 4 096 to 65 536 angles.",
+      "quote": "I had to switch to a polynomial… it increased the accuracy a lot as well."
+    },
+    {
+      "summary": "Course 13 slide difficulty is reduced by scaling the geometry and adjusting camera considerations rather than tilting the camera programmatically.",
+      "quote": null
+    },
+    {
+      "summary": "Biobak’s new models/textures for Oily Boily Bay cut materials, bones and triangles, allowing the level to hit 30 FPS on console.",
+      "quote": "Dang, I think we can get Oily Boily Bay at 30 FPS now."
+    },
+    {
+      "summary": "Fast64 auto-chooses unsuitable texture formats; Kaze manually switches certain assets from CI to RGBA to avoid colour and fog issues.",
+      "quote": null
+    },
+    {
+      "summary": "Ongoing plan to transition assets to F3DEX3 means abandoning scaled normals tricks and further simplifying materials.",
+      "quote": null
+    },
+    {
+      "summary": "Discovery that the Wiggler path code skipped waypoints if coordinates exceeded a threshold; fixing a ‘>200’ logic error stabilised its movement.",
+      "quote": "Now we fixed it… that’s why the path was so buggy at first."
+    }
+  ],
+  "context_findings": [
+    {
+      "summary": "Kaze expects his first child, Raina, and is on a two-month paternity leave, yet plans to spend the time ‘optimising the operating system on my N64’.",
+      "quote": "Dude, I'm still on two months of paternity leave. I'm gonna spend that time trying to optimise the operating system on my N64."
+    },
+    {
+      "summary": "He recently moved out of Germany, criticises German bureaucracy and potential wealth tax, and praises Canada’s immigration process.",
+      "quote": "Living in Germany sucks. I'm so glad I moved out."
+    },
+    {
+      "summary": "Shows excitement and relief when profiler and asset optimisations work, but expresses frustration with texture combiner quirks and emulator load times.",
+      "quote": null
+    }
+  ],
+  "contributor_findings": {
+    "biobak": [
+      {
+        "summary": "Provides a large batch of revised assets (womps, tox boxes, wiggler faces, janitor/builder Koopas, glass, slopes) with fewer materials and bones, directly boosting performance.",
+        "quote": "Goal new design and one fewer material… ten fewer bones total across all of the womps."
+      },
+      {
+        "summary": "Suggests and oversees an online colour-guessing quiz mid-stream, illustrating informal but responsive collaboration.",
+        "quote": null
+      }
+    ],
+    "badub": [],
+    "zeina": [
+      {
+        "summary": "Working on new overworld entrance models; Kaze previews static images and mentions Zeina taking initiative.",
+        "quote": "Zeina is making a bunch of 3D models and stuff… saying ‘I wanted to give making the new overworld a try’."
+      }
+    ]
+  },
+  "key_stories": [
+    {
+      "title": "Profiler Revelation",
+      "summary": "Integrating Sauron’s new profiler immediately exposed that most frame time is wasted on idle loops and memory waits, re-orienting optimisation priorities.",
+      "challenge": "Previous tooling gave limited visibility into thread scheduling and hardware stalls.",
+      "process": "Kaze built the profiler into the ROM, limited FPS to read timelines, and analysed RDP/RSP/CPU graphs live.",
+      "outcome": "Identified memory latency and RSP as prime bottlenecks; opens path for scheduler and DMA tweaks.",
+      "key_quote": "This thing is actually amazing… the RDP runs just a little bit longer than the GFX right now, which shouldn’t be the case.",
+      "related_to": ["kaze", "sauron"]
+    },
+    {
+      "title": "The Slide That Broke Memory",
+      "summary": "A grand slide for Course 13 exceeded surface-node memory, crashing the game until Kaze rewrote the allocator.",
+      "challenge": "Slide collision crossed many 64×64 spatial cells, doubling node allocations.",
+      "process": "Implemented dynamic allocation scheme (documented in recent ‘Kaze Clips’ video).",
+      "outcome": "400 µs CPU saved, slide restored; later scaled geometry to lower difficulty.",
+      "key_quote": "I ran out of memory… we gained 400 microseconds of computing time.",
+      "related_to": ["kaze"]
+    },
+    {
+      "title": "Precision Upgrade via Polynomials",
+      "summary": "Switching sine/cos/atan from tables to polynomials delivered speed gains and 8× directional precision.",
+      "challenge": "Lookup tables were slow and coarse-grained.",
+      "process": "Derived polynomial approximations; replaced in engine.",
+      "outcome": "Controls now use 65 536 discrete angles; side-effect is older speedrun setups break.",
+      "key_quote": "I didn’t do it for accuracy, I did it for speed, but it increased the accuracy a lot as well.",
+      "related_to": ["kaze"]
+    }
+  ],
+  "open_questions": [
+    {
+      "topic": "Memory-latency mitigation",
+      "context": "Profiler shows 76 % idle waiting on RAM; Kaze notes RSP bottleneck but no concrete fixes yet.",
+      "questions": [
+        "What concrete strategies do you plan to pursue to hide or reduce Rambus latency?",
+        "Could task scheduling or DMA batching alleviate the stalls?",
+        "Is rewriting microcode on the table?"
+      ],
+      "related_to": ["kaze"],
+      "priority": "high"
+    },
+    {
+      "topic": "Course 13 design intent",
+      "context": "Slide difficulty adjusted ad-hoc by scaling geometry.",
+      "questions": [
+        "What experience do you want players to have on Course 13’s snowman slide?",
+        "How do you balance challenge vs frustration compared to Mario 64 originals?"
+      ],
+      "related_to": ["kaze", "biobak"],
+      "priority": "medium"
+    },
+    {
+      "topic": "F3DEX3 transition",
+      "context": "Kaze mentions abandoning scaled normals tricks to stay F3DEX3-compatible.",
+      "questions": [
+        "What benefits do you expect from F3DEX3?",
+        "What asset pipeline changes are required for the switch?"
+      ],
+      "related_to": ["kaze", "biobak"],
+      "priority": "medium"
+    },
+    {
+      "topic": "New overworld vision",
+      "context": "Zeina is modelling a new overworld entrance, little detail provided.",
+      "questions": [
+        "What thematic direction is the new overworld taking?",
+        "How do Zeina’s animation skills influence its design?",
+        "Timeline for showing it in-game?"
+      ],
+      "related_to": ["zeina", "kaze"],
+      "priority": "medium"
+    },
+    {
+      "topic": "Music progress",
+      "context": "Badub’s ice-castle track not yet uploaded; no composer updates in stream.",
+      "questions": [
+        "What is the current status of the soundtrack?",
+        "What guidance does the team give Badub for level themes?"
+      ],
+      "related_to": ["badub", "kaze"],
+      "priority": "low"
+    }
+  ]
+}

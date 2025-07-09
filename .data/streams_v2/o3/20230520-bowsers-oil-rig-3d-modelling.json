@@ -1,0 +1,184 @@
+{
+  "stream_context": {
+    "summary": "Asset-building and debugging session focused on Course 11, an oil-rig level inspired by Rico Harbor; Kaze models new moving platforms, experiments with lighting, colours and fog, fixes a collision bug that broke ziplines, and sketches future mechanics such as cannons and a thermal plant.",
+    "level": [
+      "Course 11 (Bowser oil-rig)",
+      "brief tests in Koopa Wave Cove (Course 5)"
+    ]
+  },
+  "development_findings": [
+    {
+      "summary": "Modelled a full set of modular platforms for Course 11: left-right movers, in-out sliders, shrinking platforms, rotating cranes, hooks, seesaws and future ziplines.",
+      "quote": "So this platform will move left and right… this one will shrink and grow… we’ve got quite a few."
+    },
+    {
+      "summary": "Level aesthetic draws from Mario Sunshine’s Rico Harbor; uses recoloured textures but aims not to look like a direct copy.",
+      "quote": "They are recoloured Rico Harbor textures… I was hoping it wouldn’t be obvious that I’m being inspired by that."
+    },
+    {
+      "summary": "Implemented ‘camera light’ (light aligned with the camera) after studying Mario Odyssey footage, making moving objects brighter and scenes easier to read.",
+      "quote": "I added the light coming from the camera back… makes the whole game look a lot brighter."
+    },
+    {
+      "summary": "Discovered and fixed a months-old optimisation bug that offset ceiling raycasts, breaking ziplines; fix required correcting misplaced brackets in collision code.",
+      "quote": "I messed up the code and I actually never tested it… took me like five minutes, but it would have taken longer to test it."
+    },
+    {
+      "summary": "Clip-ratio change gives 3–5 FPS on N64 but causes far-triangle ‘melting’; Kaze may revert if not worth debugging.",
+      "quote": "Clip ratio gives us a few more FPS, but it also causes all of this to happen."
+    },
+    {
+      "summary": "Planning cannons that shoot between buildings; rejects visual trajectory lines to preserve player freedom.",
+      "quote": "Games should be about experiencing freedom… giving a line takes away all the skill."
+    },
+    {
+      "summary": "Course 11 retro pipe will recreate Smash 64’s Break the Targets board.",
+      "quote": "The retro pipe will be Smash 64 board to platforms; it’s fitting because this is a very platformy course."
+    },
+    {
+      "summary": "Future milestone: add split-screen multiplayer during a two-week work vacation at end of June.",
+      "quote": "In those two weeks, I might add multiplayer with split-screen."
+    },
+    {
+      "summary": "Overall roadmap: Course 12 ‘Wild West Valley’, plus a comic-book world and a casino; Buzzer boss still awaiting animations.",
+      "quote": "We’re already in Course 11… next is Wild West Valley, a comic book world, a casino world."
+    },
+    {
+      "summary": "Kaze is rewriting an optimised replacement for libultra and considers open-sourcing and back-porting engine optimisations later.",
+      "quote": "We don’t use libultra anymore; I’m making my own optimised libultra… I might back-port all my optimisations to the vanilla game."
+    }
+  ],
+  "context_findings": [
+    {
+      "summary": "Kaze dislikes offering toggleable ‘fundamental’ mechanics (e.g., old vs improved swimming) preferring a single curated design.",
+      "quote": "I’m kind of against giving players options… I don’t think I want an option for that one."
+    },
+    {
+      "summary": "He rarely writes test cases; relies on assumed correctness to save time, accepting later bug-hunt sessions.",
+      "quote": "I never test my code. I just assume it works and it saves me a lot of time."
+    },
+    {
+      "summary": "Philosophy: gameplay should emphasise player freedom over explicit guidance (e.g., no aiming guides for cannons).",
+      "quote": null
+    },
+    {
+      "summary": "Moved streaming from Twitch to YouTube because forced ads made Twitch ‘unwatchable’, even for subscribers.",
+      "quote": "On YouTube at least I can decide whether there’s ads… Twitch was just not for me anymore."
+    },
+    {
+      "summary": "Works a day job whose ‘team-building’ hours let him play Fortnite on the clock; employer gives two-week vacation in June.",
+      "quote": "My company actually gives me a lot of money for this… two hours every week to play Fortnite… and two weeks vacation."
+    },
+    {
+      "summary": "Lighthearted domestic dynamic with spouse Zeina: OnlyFans jokes, shared streaming schedule, house ownership banter.",
+      "quote": "If I have an OnlyFans you’re gonna throw me out?  – Yes… The house is in my name."
+    }
+  ],
+  "contributor_findings": {
+    "biobak": [
+      {
+        "summary": "Suggested colour ideas (e.g., red/oil hues) and owns a distinctive ‘biobak pink’; Kaze adjusts textures based on this feedback.",
+        "quote": "That red makes it look like running red ash… that was Biobak’s idea."
+      }
+    ],
+    "badub": [
+      {
+        "summary": "Composed most of the custom soundtrack, allowing stream playback without copyright strikes.",
+        "quote": "All of the OST is custom made by Badub, so it actually is not copyrighted."
+      }
+    ],
+    "zeina": [
+      {
+        "summary": "Animating the Buzzer boss; presented an early walk-cycle during stream for feedback.",
+        "quote": "I duplicated the other animation and tried to do it from scratch… let me know if you have improvement suggestions."
+      },
+      {
+        "summary": "Acts as on-stream companion; her tolerance will affect potential week-long multiplayer dev streams.",
+        "quote": "There might be daily streams while I work on multiplayer, if Zeina can deal with that."
+      }
+    ]
+  },
+  "key_stories": [
+    {
+      "title": "Zipline Breakage & Collision Bug",
+      "summary": "Zipline mechanics suddenly stopped working. Kaze traced the issue to a months-old collision optimisation that mis-offset ceiling raycasts.",
+      "challenge": "Mario would pass through the zipline trigger and never grab it.",
+      "process": "Added debug prints, identified that the ceiling height was read 160 units too high, located misplaced brackets in find-ceiling optimisation.",
+      "outcome": "Fixed within minutes once located; ziplines restored.",
+      "key_quote": "I messed up the code and I actually never tested it… months later, a bug just occurs.",
+      "related_to": ["kaze"]
+    },
+    {
+      "title": "Lighting Overhaul Inspired by Odyssey",
+      "summary": "After watching Mario Odyssey footage, Kaze added a camera-aligned light source to brighten moving objects.",
+      "challenge": "Scenes looked too dark and Mario was hard to read.",
+      "process": "Re-enabled camera light, tweaked ambient and directional settings, tested in multiple levels and on N64.",
+      "outcome": "Significantly clearer visuals; new palette experimentation began.",
+      "key_quote": "Even dark cave levels now look not that grim – adding the camera light makes sense.",
+      "related_to": ["kaze"]
+    },
+    {
+      "title": "Clip-Ratio Performance Trade-off",
+      "summary": "Raising the clip ratio boosts FPS on N64 but causes far-triangle warping.",
+      "challenge": "Need performance without severe graphical glitches.",
+      "process": "Tested Koopa Wave Cove on hardware, observed ‘melting’ geometry, compared FPS, weighed reverting change.",
+      "outcome": "Decision pending; may revert if fix is too costly.",
+      "key_quote": "Clip ratio gives us a few more FPS, but it also causes all of this to happen.",
+      "related_to": ["kaze"]
+    }
+  ],
+  "open_questions": [
+    {
+      "topic": "Split-screen Multiplayer Implementation",
+      "context": "Kaze aims to add multiplayer during a two-week break but gave no design details.",
+      "questions": [
+        "What core design goals guide multiplayer?",
+        "Will levels be modified to support co-op challenges?",
+        "Technical hurdles on N64 hardware?"
+      ],
+      "related_to": ["kaze"],
+      "priority": "high"
+    },
+    {
+      "topic": "Course 11 Zipline Visual Design",
+      "context": "Functionality works but visual clarity is unsolved (players may not recognise ziplines).",
+      "questions": [
+        "What final visual cues will make ziplines distinguishable?",
+        "Will there be tutorial elements or enemy examples?"
+      ],
+      "related_to": ["kaze", "biobak", "zeina"],
+      "priority": "medium"
+    },
+    {
+      "topic": "Open-sourcing Engine Optimisations",
+      "context": "Kaze mentioned possibly releasing and back-porting his optimised libultra.",
+      "questions": [
+        "What licence and timeline are envisioned?",
+        "Which optimisations carry legal or performance risks for other ROM-hacks?"
+      ],
+      "related_to": ["kaze"],
+      "priority": "medium"
+    },
+    {
+      "topic": "Buzzer Boss Animation Pipeline",
+      "context": "Boss still pending walk cycle and other animations from Zeina.",
+      "questions": [
+        "What remaining animations are required?",
+        "How does the animator–programmer hand-off work?",
+        "Are quaternion rigs fully supported now?"
+      ],
+      "related_to": ["zeina", "kaze"],
+      "priority": "low"
+    },
+    {
+      "topic": "Colour Palette Finalisation for Oil Rig",
+      "context": "Multiple palette tests but no decision; concern about lava misinterpretation.",
+      "questions": [
+        "What criteria will decide the final palette?",
+        "Is user testing planned to avoid misreading as lava?"
+      ],
+      "related_to": ["kaze", "biobak"],
+      "priority": "low"
+    }
+  ]
+}

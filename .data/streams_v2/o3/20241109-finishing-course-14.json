@@ -1,0 +1,166 @@
+{
+  "stream_context": {
+    "summary": "Kaze focuses almost the entire stream on building the Mario-Paint-style mini-game that appears in Course 15’s retro sub-area. He finishes the paintable Mario texture, fixes scoring/reset bugs, models and scripts the Mario Paint Robot evaluator, and confirms the section still runs at 60 FPS. He also riffs on a newly-discovered ‘hidden’ 1 MB of 9-bit N64 memory and complains about Parallel-RDP crashes.",
+    "level": ["Course 15", "Mario Paint sub-area"]
+  },
+  "development_findings": [
+    {
+      "summary": "Implemented a ‘virtual texture’ that lets players freely draw over Mario. A button + rocket icon now clears the texture so Mario can be viewed unpainted.",
+      "quote": "\"I added the texture dynamically ... you can draw anything you want really ... if you press this button here, it’s all gonna clear with the rocket.\""
+    },
+    {
+      "summary": "Flood-fill is done iteratively with a custom RAM stack in ROM space because the N64 call stack would overflow with recursion.",
+      "quote": "\"The stack is not big enough ... so I had to invent something. I just allocated temporary memory in ROM space and use it as a stack for pixels to be checked.\""
+    },
+    {
+      "summary": "Score now resets properly when leaving or re-entering the area; Kaze moved the score variable to its own struct and wrote a helper function so he no longer has to patch it in multiple places.",
+      "quote": null
+    },
+    {
+      "summary": "An NPC checks your painting and awards a star once the pixel-difference score drops below 1 000 000. Speed-run testing shows you can be ‘pretty wrong’ and still pass.",
+      "quote": "\"If you draw Mario like this you don't really deserve the star ... but you can mess up a fair bit before it doesn't work anymore.\""
+    },
+    {
+      "summary": "Chose the Mario Paint ‘Save Robot’ as the evaluator NPC. Rejects Undo Dog because players would expect an undo feature that he refuses to add.",
+      "quote": "\"I will absolutely not add undo to this. It’s still a game, guys.\""
+    },
+    {
+      "summary": "Robot model recreated as a ~300-triangle, high-poly object because the sub-area is lightweight; texture ripped 1-for-1 from SNES sprites and point-filtered for crisp pixels.",
+      "quote": null
+    },
+    {
+      "summary": "Verified full clear of the 128 × 64 texture causes no frame-rate hit; entire sub-area stays at 60 FPS.",
+      "quote": "\"No lag at all.\""
+    },
+    {
+      "summary": "Discovered approx. 1 MB of ‘hidden’ N64 memory — the ninth bit of every byte used for RDP coverage. He can read/write it with CPU tricks and is considering a video on the topic.",
+      "quote": "\"All the bytes on the N64 are nine bits… you can read and access the ninth bit. It sounds crazy, but it's there.\""
+    },
+    {
+      "summary": "Parallel-RDP still crashes with RTYI; he spoke to developer Falco but hasn’t found a fix and will stick to Project64 for now.",
+      "quote": null
+    }
+  ],
+  "context_findings": [
+    {
+      "summary": "Kaze refuses to implement an undo feature, framing it as a deliberate game-design constraint: \"You f*** up, you lose your points.\"",
+      "quote": null
+    },
+    {
+      "summary": "He is married; casually mentions wife breaking his favorite water jug.",
+      "quote": null
+    },
+    {
+      "summary": "Personal taste: prefers Zelda’s overworld exploration over dungeons, dislikes most 2D platformers and boss fights; Yoshi’s Island loved mainly for Yoshi himself.",
+      "quote": null
+    },
+    {
+      "summary": "Considering turning RTYI into a commercial indie title by swapping all Nintendo assets once the hack is finished, but acknowledges he’d need legal advice.",
+      "quote": null
+    },
+    {
+      "summary": "Accepted a paid sponsorship to stream Roblox on Sunday, illustrating occasional external income sources.",
+      "quote": null
+    },
+    {
+      "summary": "Believes modern political climate makes another ‘President meme’ ROM-hack untenable compared to 2016.",
+      "quote": null
+    }
+  ],
+  "contributor_findings": {
+    "biobak": [],
+    "badub": [],
+    "zeina": [
+      {
+        "summary": "Kaze and Zeina are replaying Twilight Princess together; demonstrates shared gaming interests but no direct project involvement this stream.",
+        "quote": null
+      }
+    ]
+  },
+  "key_stories": [
+    {
+      "title": "Building the Mario Paint Evaluator",
+      "summary": "Kaze needs an NPC to judge the player’s painted Mario. He first considers Undo Dog but fears it implies an undo feature. He settles on the Mario Paint ‘Save Robot,’ rips the SNES sprite, remodels it in 3D, writes dialogue, and ties it to the scoring system.",
+      "challenge": "Find a thematically correct, recognizable judge without promising undo.",
+      "process": "Brainstorm → sprite ripping → high-poly 3D model → scripting ask-Mario dialogue and score check.",
+      "outcome": "Robot now appears, rates the drawing, and awards a star if the threshold is met.",
+      "key_quote": "Undo Dog would make people think they can undo, and I will absolutely not add undo.",
+      "related_to": ["kaze"]
+    },
+    {
+      "title": "Hidden 1 MB of Nine-Bit Memory",
+      "summary": "Kaze explains that every N64 byte secretly has a ninth ‘coverage’ bit, theoretically unlocking ~1 MB of extra RAM. He’s experimenting with CPU tricks to read/write it and might produce a tutorial video.",
+      "challenge": "N64’s severe memory limits.",
+      "process": "Research RDP coverage bits ➜ prototype CPU access methods ➜ live explanation to chat.",
+      "outcome": "Concept validated; future content planned.",
+      "key_quote": "You’re never going to guess where this megabyte is… it’s between the other bytes.",
+      "related_to": ["kaze"]
+    },
+    {
+      "title": "Parallel-RDP Crash Dead-End",
+      "summary": "Return to Yoshi’s Island crashes on Mupen’s Parallel-RDP plugin. Kaze consulted Falco but couldn’t isolate the cause.",
+      "challenge": "Ensure emulator compatibility.",
+      "process": "Debugging with Falco, testing builds.",
+      "outcome": "No solution; he will recommend Project64.",
+      "key_quote": "I tried to fix the RTYI crash, but we literally couldn't figure it out.",
+      "related_to": ["kaze"]
+    }
+  ],
+  "open_questions": [
+    {
+      "topic": "Scoring Algorithm Details",
+      "context": "We know threshold is 1 000 000 and differences are summed per pixel, but weighting and color-tolerance logic were not explained.",
+      "questions": [
+        "How is each pixel’s error calculated?",
+        "Why choose 1 000 000 as the pass threshold?",
+        "Were play-testers involved in tuning leniency?"
+      ],
+      "related_to": ["kaze"],
+      "priority": "high"
+    },
+    {
+      "topic": "Hidden Nine-Bit Memory Utilisation",
+      "context": "Kaze claims ~1 MB is available but only hinted at access methods and performance trade-offs.",
+      "questions": [
+        "Have you successfully stored game data in the ninth bit?",
+        "What practical data do you plan to keep there?",
+        "Could this technique ship in RTYI or only in future projects?"
+      ],
+      "related_to": ["kaze"],
+      "priority": "medium"
+    },
+    {
+      "topic": "Indie Asset-Swap Release",
+      "context": "He floated replacing all Nintendo assets post-release to sell RTYI commercially.",
+      "questions": [
+        "Is this a serious plan or a thought experiment?",
+        "What assets would need redesign first?",
+        "Have you sought legal counsel on ROM-hack-to-indie conversions?"
+      ],
+      "related_to": ["kaze"],
+      "priority": "medium"
+    },
+    {
+      "topic": "Team Member Roles in Mini-Game",
+      "context": "No mention of Biobak, Badub, or Zeina helping with the Mario Paint section.",
+      "questions": [
+        "Will Biobak handle textures for the robot or painting UI?",
+        "Is Badub composing Mario Paint-style music?",
+        "Does Zeina have input on animation for the robot?"
+      ],
+      "related_to": ["biobak", "badub", "zeina"],
+      "priority": "low"
+    },
+    {
+      "topic": "Undo Feature Philosophy",
+      "context": "Kaze adamantly rejects undo but didn’t fully justify it beyond difficulty.",
+      "questions": [
+        "Is the no-undo rule purely challenge-driven or technical?",
+        "Were alternative limited-undo designs considered?",
+        "How do testers respond to mistakes feeling ‘permanent’?"
+      ],
+      "related_to": ["kaze"],
+      "priority": "low"
+    }
+  ]
+}

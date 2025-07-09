@@ -1,0 +1,180 @@
+{
+  "stream_context": {
+    "summary": "Kaze concentrates on the newly-remade \"Oily Body Bay\" (Course 13) level: importing Biobak’s assets, debugging visual effects, adding lights, fixing sparkles along factory power-lines, correcting fuzzy-oil shaders, and installing a special elevator camera. He works through a to-do list that should finish this course so he can move on to the Ice Castle next week.",
+    "level": [
+      "Course 13 – Oily Body Bay",
+      "Underground section",
+      "Factory/office area",
+      "Bowser Tower interior",
+      "Elevator shaft"
+    ]
+  },
+  "development_findings": [
+    {
+      "summary": "Biobak’s full rebuild of the Oily Body Bay level has been imported; a few assets (e.g., Bowser’s chair animation, additional props) are still missing.",
+      "quote": "I imported all the assets and there's some assets Biobak still wants to make."
+    },
+    {
+      "summary": "A spline-based sparkle effect was created to travel along overhead wires; an error (missing square-root) sent particles to random coordinates until Kaze corrected the math.",
+      "quote": "Oh, I see what I did wrong … I forgot the SQR, okay now it works. I'm not even gonna test if it works, I just know it works."
+    },
+    {
+      "summary": "Lighting passes were added (window shafts, ceiling lamps), but a GlideN64 bug prevents individual bulbs on a rotating model from lighting correctly and overlaps the life bar.",
+      "quote": "We have a really unfortunate render bug here … Glideon has a bug here."
+    },
+    {
+      "summary": "Course memory is near the limit, so extra decorative objects (e.g., scale props) cannot be added.",
+      "quote": "I don't think I can add them to the course because this course is very low on memory."
+    },
+    {
+      "summary": "In Blender 4 the vertex-color picker workflow changed; Kaze, with Biobak’s guidance, learned to switch to Flat + Vertex mode and copy exact RGBs for shader work.",
+      "quote": "Wayback, have you ever figured out how to pick a colour in this new blender version? … Oh, that is exactly what I needed."
+    },
+    {
+      "summary": "The fuzzy-oil shader left an orange rim; Kaze fixed it by reading the vertex prim colour and forcing it to reset to the correct value.",
+      "quote": "If I did everything right, then the rim will now be the same color … There we go!"
+    },
+    {
+      "summary": "Mario’s safe-position logic can soft-lock when he grabs certain ledges; Kaze began debugging prints but has not reproduced the down-warp yet.",
+      "quote": null
+    },
+    {
+      "summary": "A dedicated elevator camera was scripted; collision was nudged 40 units so the camera no longer clips and players can’t wedge themselves.",
+      "quote": "What I'm gonna do is move the collision map in forty coordinates … this should keep the player from getting themselves into a pickle."
+    },
+    {
+      "summary": "Background seen through the tower window was added (ocean + opaque water) with correct vertex colours.",
+      "quote": null
+    },
+    {
+      "summary": "Crystals 14 & 15 are concepted: #14 Space Casino, #15 cardboard ‘Papercraft’ world.",
+      "quote": "Crystals 14 is going to be the Space Casino and Crystals 15 is going to be a Paper Craft level."
+    }
+  ],
+  "context_findings": [
+    {
+      "summary": "Kaze intensely dislikes Super Mario Sunshine because frequent cutscenes break player control.",
+      "quote": "Every single time the game takes control away from me, it just feels like a small kick to my balls."
+    },
+    {
+      "summary": "He identifies as a cat person and jokes about the impossibility of owning a real Yoshi.",
+      "quote": null
+    },
+    {
+      "summary": "German bureaucracy continues to drain his energy even though he hasn’t lived in Germany for almost three years.",
+      "quote": "I just turn into a sad cat when I have to deal with German bureaucracy."
+    },
+    {
+      "summary": "He avoids spending money; even wears clothes that are now tight rather than buy new ones.",
+      "quote": "I don't like spending money."
+    },
+    {
+      "summary": "Expressed exhaustion mid-stream after working beforehand but still satisfied with progress.",
+      "quote": "It's only 3:30, but I'm feeling so exhausted already … but we made some good progress."
+    }
+  ],
+  "contributor_findings": {
+    "biobak": [
+      {
+        "summary": "Provided the complete visual remake of Oily Body Bay, including underground, office, fans, and will supply remaining props.",
+        "quote": "This level here that Biobak remade … there's some assets Biobak still wants to make."
+      },
+      {
+        "summary": "Removed unused textures which slightly improved performance on real N64 hardware.",
+        "quote": "The performance is basically not moved at all. If anything, it's slightly better because Biobak removed a lot of textures."
+      },
+      {
+        "summary": "Guided Kaze on Blender 4’s vertex-colour workflow and flagged that elevator sparkle should be ‘electric’, not ‘star’.",
+        "quote": null
+      }
+    ],
+    "badub": [],
+    "zeina": [
+      {
+        "summary": "Present in chat briefly; left when her mother intervened. No project contribution discussed.",
+        "quote": "See you, Zeina. Zeina has to go because her mom said, Nope, you're done."
+      }
+    ]
+  },
+  "key_stories": [
+    {
+      "title": "The Rogue Sparkle Spline",
+      "summary": "While adding moving sparkles to factory wires, the particles flew to the origin. Debugging visualised their path with cloned Marios, revealing a math oversight.",
+      "challenge": "Sparkles moved to random positions instead of along the wire.",
+      "process": "Spawned debug models at calculated points, printed coordinates, realised distance math lacked a square-root.",
+      "outcome": "Math fixed; effect now travels smoothly along the wire.",
+      "key_quote": "I forgot the SQR, okay now it works.",
+      "related_to": ["kaze"]
+    },
+    {
+      "title": "Fixing the Fuzzy-Oil Rim",
+      "summary": "The psychedelic ‘touch fuzzy, get dizzy’ shader left an orange border. Kaze tracked the incorrect prim colour and aligned it with vertex data.",
+      "challenge": "Orange rim undermined the hallucination effect.",
+      "process": "Learned Blender 4’s new colour-picking, extracted exact RGB, and forced shader to reset after effect.",
+      "outcome": "Seamless colour transition; effect looks intentional.",
+      "key_quote": "There we go! The rim will now be the same color.",
+      "related_to": ["kaze", "biobak"]
+    },
+    {
+      "title": "Elevator Camera Overhaul",
+      "summary": "Players could glitch the camera by jumping inside the factory’s lift. Kaze added a locked perspective and shifted collision so the camera sits further inside the cab.",
+      "challenge": "Camera clipped through walls and behaved unpredictably when Mario jumped.",
+      "process": "Hard-coded camera node; moved collision 40 units inward; tested multiple jumps.",
+      "outcome": "Stable cinematic view; prevents softlocks and preserves immersion.",
+      "key_quote": "This should keep the player from getting themselves into a pickle.",
+      "related_to": ["kaze"]
+    }
+  ],
+  "open_questions": [
+    {
+      "topic": "GlideN64 lighting bug",
+      "context": "Rotating light balls should illuminate individually but the plugin merges them and overlaps the life bar.",
+      "questions": [
+        "What exactly triggers the GlideN64 bug?",
+        "Is there a fallback plan if the emulator fix never materialises?"
+      ],
+      "related_to": ["kaze", "biobak"],
+      "priority": "high"
+    },
+    {
+      "topic": "DMA/pointer corruption in underground area",
+      "context": "Entering the dark underground sometimes breaks music and animations; Kaze suspects ROM pointers.",
+      "questions": [
+        "Have you isolated which assets overflow DMA?",
+        "Could segment re-ordering or banking solve the issue?"
+      ],
+      "related_to": ["kaze"],
+      "priority": "medium"
+    },
+    {
+      "topic": "Factory platform light effects",
+      "context": "Platforms have been imported but their ‘shining’ shader is still missing.",
+      "questions": [
+        "What visual style is planned for the shine?",
+        "Will this require additional memory or custom microcode?"
+      ],
+      "related_to": ["kaze", "biobak"],
+      "priority": "medium"
+    },
+    {
+      "topic": "Elevator music",
+      "context": "Elevator lacks its intended background track.",
+      "questions": [
+        "Has Badub composed the piece yet?",
+        "Will the music transition seamlessly with area ambience?"
+      ],
+      "related_to": ["badub", "kaze"],
+      "priority": "low"
+    },
+    {
+      "topic": "Chaos Edition possibility",
+      "context": "Chat asked about an RTYI Chaos Edition; Kaze was non-committal.",
+      "questions": [
+        "What design challenges would a Chaos Edition introduce?",
+        "Would the team consider releasing it post-launch as bonus content?"
+      ],
+      "related_to": ["kaze"],
+      "priority": "low"
+    }
+  ]
+}

@@ -1,0 +1,170 @@
+{
+  "stream_context": {
+    "summary": "Kaze iterates on the first overworld of Return to Yoshi’s Island, mainly parts 2 and 3.  Work centers on coin placement, climb routes, and a new beach area that houses a fog-shrouded ghost-ship entrance tied to a lighthouse puzzle.  A large portion of the stream becomes a live coding session to prototype dynamic, distance-based fog on N64 hardware.",
+    "level": [
+      "Overworld – part 2 (cliff / coin area)",
+      "Overworld – part 3 (beach, ghost ship, zoo entrance)"
+    ]
+  },
+  "development_findings": [
+    {
+      "summary": "The overworld is split into 15 sub-areas; today Kaze blocked out parts 2 and 3 and confirmed traversal links to parts 4, 5, and 6.",
+      "quote": null
+    },
+    {
+      "summary": "Part 3 hosts a ghost ship that is initially unreachable due to dense fog; clearing a lighthouse later in the game removes the fog and unlocks the level entrance.",
+      "quote": "You go up the lighthouse, you turn the light, the fog disappears and now you can enter the level."
+    },
+    {
+      "summary": "Implemented a custom fog system that increases opacity based on (a) distance to the ship and (b) camera angle; entering the inner radius hard-fades to white and respawns Mario on shore.",
+      "quote": "When you get within the warp range of the ship, your screen is going to fade to white and you’re going to be washed ashore."
+    },
+    {
+      "summary": "Kaze’s personal engine now replaces nearly every vanilla SM64 subsystem: rendering coins as true models, quaternion animation, full camera, custom collision, water, walking physics, etc.; only some Mario action logic remains vanilla.",
+      "quote": "The only thing that’s still left from the vanilla 64 is Mario’s physics… even walking is custom code now."
+    },
+    {
+      "summary": "He is midway through writing a replacement operating system to remove Libultra for performance and legal reasons and is also planning a new sound engine.",
+      "quote": "I’m actually working on reworking the operating system right now… I would have to update the sound engine if I wanted this to be legally sellable."
+    },
+    {
+      "summary": "Considering embedding a minimal Python-like interpreter as a scripting language, claiming it could outperform hand-written assembly in some memory-bound cases.",
+      "quote": "I think about using [Python] as an interpreter language… you could save a lot of data throughput and potentially improve performance at the cost of CPU."
+    },
+    {
+      "summary": "Visual design notes: prefers natural barriers (rocks, banana-shaped cliffs, ruined castles) over endless cliff walls; part 8 will feature destroyed castles referencing Yoshi’s Island; giant fruit will gate some paths.",
+      "quote": null
+    },
+    {
+      "summary": "Biobak will later replace placeholder backgrounds; Kaze therefore imports simple skies for now to aid layout.",
+      "quote": null
+    },
+    {
+      "summary": "Target coin count for the first overworld is being raised; easier wall-kick alternatives (rock steps) added for accessibility.",
+      "quote": "I fear some people … will not even understand what a wallkick is."
+    }
+  ],
+  "context_findings": [
+    {
+      "summary": "Kaze sees contrast—levels players dislike—as crucial to good pacing.",
+      "quote": "Sometimes the part that people least like about the game are also the parts that are most necessary to make the game's design work."
+    },
+    {
+      "summary": "Expresses anxiety about aging cognition; says his neurons are now ‘optimized’ for game-design tasks instead of pure math.",
+      "quote": "Sometimes I feel like I’m getting older and my brain doesn’t work like it used to… maybe my neurons just got more optimized and less variable."
+    },
+    {
+      "summary": "RTYI is a passion project with no commission money; other hacks like Drug Boss Mario are paid work.",
+      "quote": "Anytime I make a ROM-hack that… isn’t RTY, then it’s a commission game; this one here is not any paid work at all."
+    },
+    {
+      "summary": "Frustration with third-party tools (NVIDIA Broadcast, OBS) repeatedly crashing mid-stream.",
+      "quote": null
+    },
+    {
+      "summary": "Cautious about leaks; first wave of beta testers for Drug Boss Mario limited to long-time community members.",
+      "quote": "During the first beta testing I'm only going to accept people that have been here for a long time because I want to minimize the chance of leaks."
+    }
+  ],
+  "contributor_findings": {
+    "biobak": [
+      {
+        "summary": "Has already reworked the Zoo area visually and is slated to overhaul all overworld backgrounds and skyboxes.",
+        "quote": "Biobak is going to rework all levels here… Zoo did get a rework already so that’s why it’s looking better."
+      }
+    ],
+    "badub": [],
+    "zeina": [
+      {
+        "summary": "Provided some brief feedback/approval in chat and shared art progress off-stream, but no direct technical input this session.",
+        "quote": null
+      }
+    ]
+  },
+  "key_stories": [
+    {
+      "title": "Cracking N64 Fog Limits for the Ghost Ship",
+      "summary": "Kaze needed convincing volumetric fog to gate access to a ghost-ship level. The N64’s fixed fog functions clipped at 1000 units, and naive billboard methods killed performance.",
+      "challenge": "Achieve localized, dense fog without tanking performance.",
+      "process": "Prototyped a custom GLSL-style macro: fog alpha scales with distance & camera yaw toward the ship, combines with a screen-fade quad, and respawns Mario if he penetrates the inner radius.",
+      "outcome": "Proof-of-concept works; further tweaks required for background skybox and always-on haze.",
+      "key_quote": "You enter this area and when you look at the ship there’s very strong fog… get too close and the screen fades to white and you’re washed ashore.",
+      "related_to": ["kaze"]
+    },
+    {
+      "title": "From ROM-hack to Custom Engine",
+      "summary": "Over years Kaze has stripped out most Nintendo code, replacing rendering, animation, physics, camera, and soon the OS and audio.",
+      "challenge": "Legal risk and technical limits of Libultra & vanilla SM64.",
+      "process": "Iteratively rewrote subsystems, e.g., replaced Euler with quaternion animation, recoded slope-aware walking, built 3-D skyboxes, and started a home-brew OS.",
+      "outcome": "Engine is now largely proprietary; only some Mario action functions and audio remain vanilla.",
+      "key_quote": "If I wanted this to be legally sellable, I would have to update the sound engine and change out Mario—almost everything else is already mine.",
+      "related_to": ["kaze"]
+    },
+    {
+      "title": "Passion vs. Commission",
+      "summary": "Kaze balances paid hacks (e.g., Drug Boss Mario) with RTYI, a labor-of-love project.",
+      "challenge": "Financial stability without compromising creativity.",
+      "process": "Takes commissions for unconventional hacks that fund living expenses, while dedicating unpaid hours to RTYI.",
+      "outcome": "RTYI stays free and uncompromised; commissions support continued work.",
+      "key_quote": "There’s a lot of money to be made in ROM-hacking, but this one here is just me working because of passion.",
+      "related_to": ["kaze"]
+    }
+  ],
+  "open_questions": [
+    {
+      "topic": "Python interpreter plan",
+      "context": "Kaze floated the idea of compiling minimal Python scripts for performance gains but gave no timeline or concrete use-cases.",
+      "questions": [
+        "What specific gameplay or toolchain tasks would the Python layer handle?",
+        "How would scripts interact with existing C/ASM code on N64?",
+        "Is there a prototype running on hardware?"
+      ],
+      "related_to": ["kaze"],
+      "priority": "medium"
+    },
+    {
+      "topic": "Libultra replacement timeline",
+      "context": "He is ‘halfway’ through writing a new OS to remove Libultra.",
+      "questions": [
+        "What core services remain tied to Libultra?",
+        "What hurdles are left before full independence?",
+        "Does this enable potential commercial release?"
+      ],
+      "related_to": ["kaze"],
+      "priority": "high"
+    },
+    {
+      "topic": "Biobak’s comprehensive overworld pass",
+      "context": "Many placeholders rely on a future ‘Biobak rework’.",
+      "questions": [
+        "What is the artistic vision for the final overworld?",
+        "How does Biobak coordinate with Kaze on performance budgets?",
+        "Estimated schedule for hand-off and revisions?"
+      ],
+      "related_to": ["biobak", "kaze"],
+      "priority": "medium"
+    },
+    {
+      "topic": "Ghost-Ship Lighthouse Narrative",
+      "context": "Mechanics prototyped, but story beats unclear.",
+      "questions": [
+        "Who or what motivates the player to light the lighthouse?",
+        "Will NPC dialogue or cut-scenes explain the fog?",
+        "Any ties to Yoshi’s Island lore?"
+      ],
+      "related_to": ["kaze", "badub"],
+      "priority": "low"
+    },
+    {
+      "topic": "Legal/Commercial ambitions",
+      "context": "Kaze mentioned selling the game if Mario & audio were replaced.",
+      "questions": [
+        "Is the team seriously pursuing a commercial release?",
+        "What replacement character or IP would be used?",
+        "What would Nintendo’s response mean for distribution?"
+      ],
+      "related_to": ["kaze"],
+      "priority": "high"
+    }
+  ]
+}

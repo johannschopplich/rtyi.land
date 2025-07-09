@@ -1,0 +1,133 @@
+{
+  "stream_context": {
+    "summary": "Kaze and guest developer Soren spend the session profiling and live-editing the new F3DEX3 microcode, trying to understand why it slows Return to Yoshi’s Island instead of accelerating it. After extensive A/B tests, new performance counters, and code edits, they narrow the mystery to an unexplained 8-9 ms of extra RSP time. The technical deep-dive happens while Kaze polishes “Calamari Desert,” a Mario Kart inspired retro course.",
+    "level": ["Engine/Microcode", "Course 12 (Calamari Desert retro stage)"]
+  },
+  "development_findings": [
+    {
+      "summary": "F3DEX3 was designed to add advanced graphics and cut RDP time, but in RTYI it raises RSP time, negating gains. Baseline tests show F3DEX2 ≈ 21.7 ms, old EX3 ≈ 25.5 ms, new EX3 ≈ 27 ms on RSP.",
+      "quote": "Increase features… and reduce RDP time… The cost is that our SP time goes up."
+    },
+    {
+      "summary": "Kaze’s levels are almost entirely vertex-coloured; only moving actors use up to seven directional lights and no point lights to maintain emulator compatibility.",
+      "quote": "No, absolutely not, because I want to make sure it runs fine on emulators."
+    },
+    {
+      "summary": "Lighting was disabled in microcode (one line commented) and saved just ~2 ms, proving lighting isn’t the main bottleneck; majority of vertices (≈ 4 300 of 6 600) are unlit.",
+      "quote": null
+    },
+    {
+      "summary": "Occlusion-plane math is executed for every vertex even though RTYI doesn’t use the feature; Soren plans to remove or gate this code to test impact.",
+      "quote": null
+    },
+    {
+      "summary": "Custom counters added show ~10 ms on vertex processing and ~8 ms on triangle setup, yet total RSP task is ~27 ms. About 8-9 ms remain unaccounted, implying another hidden cost or wait state.",
+      "quote": "That should make 18 ms, but we’re seeing 27 ms. Something else is taking a ton of time."
+    },
+    {
+      "summary": "Command counter reveals ~8 000 display-list commands for the test scene—comparable to OOT—so command flood is ruled out.",
+      "quote": null
+    },
+    {
+      "summary": "Soren considers a hybrid ‘F3DEX 2.5’ (EX3 features but EX2 vertex path) tailored to RTYI’s limited lighting needs.",
+      "quote": "I may need to make F3DEX 2.5 for Kaze… a mish-mash to suit your needs."
+    }
+  ],
+  "context_findings": [
+    {
+      "summary": "Kaze prioritises fast iteration: still uses Project64 1.6 and Everdrive X5 despite security warnings, because other tools are slower.",
+      "quote": "I have no reason to get Parallel… Project64 is just so convenient to use."
+    },
+    {
+      "summary": "Design view: gameplay should stay Mario-centric; he rejects a drivable kart in the retro level to avoid gimmicks.",
+      "quote": "We want the fun to be for Mario’s movement and not just random things like that."
+    },
+    {
+      "summary": "He avoids point lights and some new EX3 options to keep the hack performant on real N64 and emulators.",
+      "quote": null
+    },
+    {
+      "summary": "Acknowledges widespread resale of ROM-hack repro carts; uneasy but accepts it as part of the scene.",
+      "quote": "It was bizarre seeing Missing Link sold for $50… none of that money is going to Nintendo or us."
+    },
+    {
+      "summary": "Streaming set-up is fragile (OBS crashes if he touches settings), confirming limited bandwidth for polish during dev streams.",
+      "quote": null
+    }
+  ],
+  "contributor_findings": {
+    "biobak": [],
+    "badub": [],
+    "zeina": [
+      {
+        "summary": "Zeina briefly appears in chat and subscribes; no development details this stream.",
+        "quote": null
+      }
+    ]
+  },
+  "key_stories": [
+    {
+      "title": "The Missing Milliseconds",
+      "summary": "Kaze and Soren expected EX3 to speed RTYI up by 5–15 %, but real hardware tests show it slower than EX2. They embark on a live coding session to uncover why.",
+      "challenge": "EX3’s RSP time is ~27 ms vs EX2’s 21 ms, eliminating the anticipated performance win.",
+      "process": "They profile old/new EX3, strip out lighting, add custom cycle counters, and compare vertex/triangle timings, discovering an unexplained 8–9 ms gap.",
+      "outcome": "Root cause still unknown; Soren will create deeper profiling tools and may craft a hybrid EX 2.5 microcode.",
+      "key_quote": "This should be 18 ms, but it’s 27 ms—something else is going on.",
+      "related_to": ["kaze", "soren"]
+    },
+    {
+      "title": "Lighting vs. Compatibility",
+      "summary": "RTYI deliberately forgoes point lights to guarantee emulator parity, pushing visual flair into vertex colours instead.",
+      "challenge": "Advanced EX3 lighting features risk inconsistent performance across emulators.",
+      "process": "Kaze limits scenes to vertex colours and up to seven directional lights computed on CPU.",
+      "outcome": "Simpler lighting guides microcode decisions and may justify a leaner EX 2.5.",
+      "key_quote": "I stick to just directional lights because I want to make sure it runs fine on emulators.",
+      "related_to": ["kaze"]
+    }
+  ],
+  "open_questions": [
+    {
+      "topic": "Unexplained RSP Overhead",
+      "context": "Vertex (~10 ms) + triangle (~8 ms) time doesn’t explain the 27 ms total; extra 8–9 ms remain unidentified.",
+      "questions": [
+        "What exact microcode routines execute during the missing 8–9 ms?",
+        "Could overlay swaps or occlusion-plane code be stalling SP?",
+        "Does memory bandwidth or DMA contention throttle EX3 uniquely in RTYI?"
+      ],
+      "related_to": ["soren", "kaze"],
+      "priority": "high"
+    },
+    {
+      "topic": "Hybrid Microcode Plan",
+      "context": "Soren floated ‘F3DEX 2.5’ mixing EX2 vertex path with EX3 features.",
+      "questions": [
+        "What would the roadmap and effort be for a custom EX 2.5?",
+        "Which EX3 features (occlusion plane, cell shading) are non-negotiable for RTYI?",
+        "How will testing and maintenance be handled post-release?"
+      ],
+      "related_to": ["soren", "kaze"],
+      "priority": "medium"
+    },
+    {
+      "topic": "Occlusion-Plane Utility",
+      "context": "RTYI currently pays compute cost for an occlusion feature it doesn’t use.",
+      "questions": [
+        "Will you disable or repurpose occlusion planes in final build?",
+        "Could conditional compilation or runtime flags eliminate unused code?",
+        "Is there a future design reason to keep occlusion planes despite current cost?"
+      ],
+      "related_to": ["kaze", "soren"],
+      "priority": "medium"
+    },
+    {
+      "topic": "Hardware Workflow",
+      "context": "Kaze still swaps SD cards manually; Soren suggests USB-based SummerCart64.",
+      "questions": [
+        "Will Kaze adopt SummerCart64 to speed iteration?",
+        "What blockers prevent switching tools (driver issues, cost)?"
+      ],
+      "related_to": ["kaze"],
+      "priority": "low"
+    }
+  ]
+}

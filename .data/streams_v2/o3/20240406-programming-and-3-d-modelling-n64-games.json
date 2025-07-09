@@ -1,0 +1,172 @@
+{
+  "stream_context": {
+    "summary": "Kaze finishes the Western-themed desert course by coding and debugging a new \"bandit\" enemy that steals Mario’s coins, while also troubleshooting trains, particles, and compiler warnings.",
+    "level": ["Course 12 (Western desert / train level)"]
+  },
+  "development_findings": [
+    {
+      "summary": "Added a Bandit NPC that steals coins when the player looks away; if caught he drops the final Yoshi Coin and runs off along a scripted path.",
+      "quote": "This guy basically steals your coins and if you catch him stealing your coins, he basically says no and then he will run off. This is gonna be the last Yoshi coin in this level."
+    },
+    {
+      "summary": "If the player has zero coins, the Bandit shows pity dialogue and gifts a Yoshi Coin as an Easter egg.",
+      "quote": "At zero, he's like, dude, you have no money… Here's a Yoshi coin for you."
+    },
+    {
+      "summary": "Yoshi Coins replace 100-coin stars: five per level, star awarded for collecting all five; idea inspired by Sunshine’s environmental coin puzzles but without the ‘one-go’ requirement.",
+      "quote": "We have a lot of places where you can be creative with the environment… you get a star for every five you get."
+    },
+    {
+      "summary": "Fixed invisible-coin bug by adding the correct ‘isCoin’ render flag and tweaking spawn timing.",
+      "quote": "Oh, I know why. It's missing something… header.gfx.node.flex IsCoin. Yes, there is a flag for if you are a coin."
+    },
+    {
+      "summary": "Reduced Pokey enemy from ~31 ray-casts to 1 for major performance gain.",
+      "quote": "Turns out it's more like 31… I reduced it to one, I think that's a little more reasonable."
+    },
+    {
+      "summary": "Trains initially fell through the map; resolved by realigning spline path and adjusting spawn points so all carriages stay on track.",
+      "quote": "It just spawns over… nothing collision… Let’s move this a little bit… That’s much better. There we go."
+    },
+    {
+      "summary": "Fixed particle despawn timer so effects are removed on area transition.",
+      "quote": "Particles do not despawn when you area transition… bug was fixed so that's good."
+    },
+    {
+      "summary": "Stream concludes core work on Course 12; remaining tasks: Zeina’s animations, Biobak’s signage & polish, Badub’s Western duel music, final collision & ambient passes.",
+      "quote": "After this, we're done with the level… all that will be missing is some animations that Zeina's currently working on and the sign."
+    },
+    {
+      "summary": "Persistent GCC ‘different FP register’ notes emerge from multi-threaded N64 build; Kaze suppresses them with code changes after StackOverflow proved unhelpful.",
+      "quote": "Every time I compile the game I get like a hundred of these… The issue has been resolved by soft skills guys, soft skills."
+    }
+  ],
+  "context_findings": [
+    {
+      "summary": "Kaze is frustrated with StackOverflow’s demand for a minimal repro case for N64 multi-threaded GCC note, calling it unreasonable.",
+      "quote": "Do you want me to write you a code that starts two threads on the N64 and adds the register thing? That's a little bit unreasonable."
+    },
+    {
+      "summary": "Patreon payouts were blocked for 1.5 years but finally work; PayPal funds remain frozen, pushing Kaze toward alternatives like Ko-fi.",
+      "quote": "After one and a half years of being unable to get payments from Patreon, they finally made it so that my account works again… Paypal still doesn't work."
+    },
+    {
+      "summary": "Future project planning considers financial viability: another Ocarina of Time hack is appealing but not lucrative; an original Unreal Engine game is more likely.",
+      "quote": "Most likely it will be my own game made in Unreal Engine just 'cause I have to think about the financial aspects as well."
+    },
+    {
+      "summary": "Design philosophy: prioritises exploration and environmental interaction; avoids over-used mechanics (e.g., too many coin-stealing bandits).",
+      "quote": "I don't want to overdo it, you know… tying reward to that hopefully fuels that sense of exploration."
+    },
+    {
+      "summary": "Accepts sacrificing real-hardware compatibility to achieve technical goals such as multi-threading and advanced effects.",
+      "quote": "Nope, you will never get through the ages on real hardware… Usually when someone makes a hack, at the very beginning they decide whether they wanna target real hardware or not."
+    }
+  ],
+  "contributor_findings": {
+    "biobak": [
+      {
+        "summary": "Still needs to finish level signage and polish; discussed vertex colours and possibly converting Pokey from sprites to geometry.",
+        "quote": null
+      }
+    ],
+    "badub": [
+      {
+        "summary": "Composing the ‘Western duel’ track that will play in Course 12.",
+        "quote": null
+      }
+    ],
+    "zeina": [
+      {
+        "summary": "Currently animating the Bandit and other elements needed to finalise the level.",
+        "quote": null
+      }
+    ]
+  },
+  "key_stories": [
+    {
+      "title": "The Coin-Stealing Bandit",
+      "summary": "Kaze designs and debugs an enemy that steals coins behind Mario’s back, culminating in a working cut-scene and reward mechanic.",
+      "challenge": "Coin didn’t render and cut-scene froze; enemy pathing and coin flag issues.",
+      "process": "Identified missing ‘isCoin’ flag, corrected velocity and timing, added trip animation trigger, scripted escape path.",
+      "outcome": "Bandit now functions; spawns sparkles, drops Yoshi Coin, and completes the level’s collectible set.",
+      "key_quote": "This guy basically steals your coins and if you catch him… he will run off and spawn a Yoshi coin.",
+      "related_to": ["kaze", "zeina"]
+    },
+    {
+      "title": "StackOverflow vs. N64 GCC Note",
+      "summary": "Kaze battles a persistent compiler notice and an unhelpful StackOverflow thread.",
+      "challenge": "Multi-threaded build produced hundreds of FP-register notes; community demanded an impossible minimal example.",
+      "process": "Tried pragma directives, cast changes, and finally code restructure; vented frustration live.",
+      "outcome": "Notice suppressed; Kaze concludes ‘soft skills’ solved it and vows to avoid StackOverflow for niche N64 issues.",
+      "key_quote": "Thanks all of you for your very kind and helpful words… the issue has been resolved by soft skills.",
+      "related_to": ["kaze"]
+    },
+    {
+      "title": "Keeping the Trains on Track",
+      "summary": "Trains in the desert course were spawning off-track and falling.",
+      "challenge": "Spline mis-alignment and object spawn height caused carriages to clip through the ground.",
+      "process": "Inspected spline indices, adjusted start point, verified in-game while riding the train.",
+      "outcome": "Trains now follow tracks smoothly without extra lag.",
+      "key_quote": "Let’s move this a little bit… That’s much better. There we go.",
+      "related_to": ["kaze", "biobak"]
+    }
+  ],
+  "open_questions": [
+    {
+      "topic": "Final collision and ambient sound pass",
+      "context": "Kaze mentions planning to revisit every level to adjust ambient audio and collision but offers no specifics.",
+      "questions": [
+        "What tools or criteria do you use when fine-tuning ambient audio in each level?",
+        "How will collision pass prioritise gameplay vs. authenticity?",
+        "Who else is involved in this QA-style polish?"
+      ],
+      "related_to": ["kaze"],
+      "priority": "medium"
+    },
+    {
+      "topic": "Zeina’s upcoming animations",
+      "context": "Kaze states Zeina is working on animations for the bandit and other assets, but details are missing.",
+      "questions": [
+        "Which specific animations are still outstanding?",
+        "What is Zeina’s workflow for importing animations into the decomp engine?",
+        "How do the personal and professional dynamics with Kaze influence iteration speed?"
+      ],
+      "related_to": ["zeina"],
+      "priority": "high"
+    },
+    {
+      "topic": "Badub’s Western duel music",
+      "context": "Badub is composing a new theme ‘similar to cave music’ but no demo was shared.",
+      "questions": [
+        "What musical motifs define the duel scene?",
+        "How does Badub handle N64 audio limitations?",
+        "How is feedback exchanged between Kaze and Badub during composition?"
+      ],
+      "related_to": ["badub"],
+      "priority": "medium"
+    },
+    {
+      "topic": "Switching Pokey to full 3D model",
+      "context": "Biobak floated converting Pokey from a sprite to 3D geometry; decision pending.",
+      "questions": [
+        "What visual or performance trade-offs come with this change?",
+        "How does the art pipeline adapt for animated ‘hairs’ on a 3D Pokey?",
+        "Will this set a precedent for replacing other sprite enemies?"
+      ],
+      "related_to": ["biobak", "kaze"],
+      "priority": "low"
+    },
+    {
+      "topic": "Release & distribution strategy",
+      "context": "Kaze jokes about legal constraints and can’t sell N64 carts; no concrete plan discussed.",
+      "questions": [
+        "What is the planned distribution method (BPS, installer, etc.)?",
+        "How will you handle potential Nintendo takedowns?",
+        "Is there a roadmap for post-release patches or community contributions?"
+      ],
+      "related_to": ["kaze"],
+      "priority": "high"
+    }
+  ]
+}

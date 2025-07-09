@@ -1,0 +1,180 @@
+{
+  "stream_context": {
+    "summary": "Kaze UV-maps and textures Course 13’s ice-castle while testing Sauron’s new FBDX3 microcode; performance climbs toward 60 FPS but an RSP bottleneck, lighting bug, and collision-triangle limits still need solutions. Design tasks include an outside area, red-coin route, and refining per-area culling. A Course 1 demo and several optimisation videos are also planned.",
+    "level": ["Course 13"]
+  },
+  "development_findings": [
+    {
+      "summary": "Integrated FBDX3 microcode; Course 13 now reaches ~50 FPS and may hit 60 FPS on real hardware.",
+      "quote": "I’m pretty sure we can get this to stable 60 now."
+    },
+    {
+      "summary": "After memory traffic tuning, the game is now RSP-bound rather than RDP-bound; future optimisation work will target RSP performance.",
+      "quote": "At this point it absolutely is the RSP being the bottleneck."
+    },
+    {
+      "summary": "Course 13 platforming layout is essentially finished; current focus is UV mapping and texture pass for individual rooms.",
+      "quote": null
+    },
+    {
+      "summary": "Level currently exceeds collision-triangle memory; temporary fix is to mark some geometry untouchable until a trimmed collision map is built.",
+      "quote": "We are running out of memory for collision triangles… for now, we’re just gonna have to make stuff untouchable."
+    },
+    {
+      "summary": "Ambient light disappears near extra light sources under X2 microcode in emulator; works in X3 on hardware. Root cause unknown.",
+      "quote": "When I get close to an additional light source, the ambient light just disappears. I couldn’t figure it out at all."
+    },
+    {
+      "summary": "Per-area draw-distance and culling system exists but still renders distant objects like bunnies and birds, hurting FPS.",
+      "quote": null
+    },
+    {
+      "summary": "Outside area for Course 13 is being built; it will host eight red coins and a secret pipe to an 8-bit section, providing two stars.",
+      "quote": "Two stars are going to be related to the outside area… there’s going to be a hidden entrance for the 8-Bit from the outside area."
+    },
+    {
+      "summary": "Next public demo will feature only Course 1 so players can test the new camera and Mario controls.",
+      "quote": "The next demo will just be Course 1 so everyone can play with the new camera and the new Mario controls."
+    },
+    {
+      "summary": "Planned video schedule: optimisation deep-dive, Course 1 demo, Banjo-Kazooie tech demo, and findings about RSP vs memory bottlenecks.",
+      "quote": null
+    },
+    {
+      "summary": "Design philosophy prioritises emotional tone (cold, mysterious) over pure visual polish; colour choices serve that goal.",
+      "quote": "I want this to feel cold and mysterious, so blue is good."
+    }
+  ],
+  "context_findings": [
+    {
+      "summary": "Kaze values evoking player emotion over graphic fidelity in his visual decisions.",
+      "quote": null
+    },
+    {
+      "summary": "With a new child, Kaze intends to increase YouTube output and may “sell out” slightly to support his family financially.",
+      "quote": "Now that I have a child, I need to make more money, so that means a lot more YouTube content."
+    },
+    {
+      "summary": "Kaze has no traditional job; all income is from online work, streams, commissions and videos.",
+      "quote": "I don’t have an IRL job. All my jobs are online."
+    },
+    {
+      "summary": "He relies on Biobak to refine visuals, seeing his own texture work as a ‘suggestion’ stage.",
+      "quote": "Whatever I do is just kind of like a suggestion for Biobak and he’s gonna make it look a lot better."
+    },
+    {
+      "summary": "Shows excitement at performance gains and mild frustration with chat interface and bugs, illustrating typical dev-stream emotions.",
+      "quote": null
+    }
+  ],
+  "contributor_findings": {
+    "biobak": [
+      {
+        "summary": "Responsible for final texture polish and overall visual quality; will overhaul Kaze’s placeholder UV/texture work later.",
+        "quote": null
+      }
+    ],
+    "badub": [],
+    "zeina": [
+      {
+        "summary": "Currently modelling assets for Course 13’s outside area; Kaze depends on her work for two star objectives.",
+        "quote": "We are planning on the outside area and Zeina is making it right now."
+      },
+      {
+        "summary": "Handles personal tasks such as cutting Kaze’s hair, indicating relaxed spousal collaboration.",
+        "quote": "I’m not paying for a haircut. I’m making Zeina do it."
+      }
+    ]
+  },
+  "key_stories": [
+    {
+      "title": "Unlocking 60 FPS with FBDX3",
+      "summary": "Course 13’s frame-rate was stuck around 30 FPS until Kaze ported Sauron’s FBDX3 microcode and began disabling unnecessarily distant actors.",
+      "challenge": "Previous microcode (X2) and draw distance caused heavy lag.",
+      "process": "Implemented FBDX3, benchmarked on hardware, tested culling of grasshoppers and Goombas.",
+      "outcome": "Frame-rate rose to ~50 FPS; believes stable 60 FPS is achievable, though RSP now limits performance.",
+      "key_quote": "I finished this off-stream… we got FBDX3 working correctly. It’s basically like 50 FPS now.",
+      "related_to": ["kaze"]
+    },
+    {
+      "title": "Too Many Triangles",
+      "summary": "While building Course 13, the team hit N64 memory limits for collision geometry.",
+      "challenge": "Engine ran out of memory allocated for collision triangles.",
+      "process": "Identified overuse, made certain surfaces non-collidable as a stop-gap.",
+      "outcome": "Level is playable again; final collision map optimisation still pending.",
+      "key_quote": "We are running out of memory for collision triangles… for now, we’re just gonna have to make stuff untouchable.",
+      "related_to": ["kaze"]
+    },
+    {
+      "title": "Expanding the Castle Grounds",
+      "summary": "An exterior zone is being added to Course 13 to diversify gameplay and FPS load.",
+      "challenge": "Existing level lacked an outdoor section and red-coin objective.",
+      "process": "Zeina models assets; design calls for a small area housing 8 red coins and a hidden retro pipe.",
+      "outcome": "Two stars now planned around the new area, integrating exploration and nostalgia.",
+      "key_quote": "The outside area is small enough to be a separate 8 Red Coins area, and there’s going to be a hidden entrance for the 8-Bit.",
+      "related_to": ["kaze", "zeina"]
+    }
+  ],
+  "open_questions": [
+    {
+      "topic": "Ambient light bug near extra lights",
+      "context": "Ambient lighting disappears under X2 microcode in emulator but not on hardware with X3.",
+      "questions": [
+        "Have you isolated whether the bug is in the microcode, emulator, or level script?",
+        "What diagnostic steps are planned to reproduce it on hardware?"
+      ],
+      "related_to": ["kaze"],
+      "priority": "high"
+    },
+    {
+      "topic": "Final RSP optimisation strategy",
+      "context": "RSP is now the main bottleneck after FBDX3; Kaze mentioned future work but no concrete plan.",
+      "questions": [
+        "What specific RSP tasks are consuming the most cycles?",
+        "Are there planned microcode or geometry changes to alleviate RSP load?"
+      ],
+      "related_to": ["kaze"],
+      "priority": "medium"
+    },
+    {
+      "topic": "Collision-triangle memory overhaul",
+      "context": "Temporary workaround makes surfaces untouchable; true fix awaits new collision map.",
+      "questions": [
+        "How will the collision map be reduced without sacrificing gameplay fidelity?",
+        "Could dynamic loading of collision be implemented?"
+      ],
+      "related_to": ["kaze", "biobak"],
+      "priority": "medium"
+    },
+    {
+      "topic": "Outside area asset progress",
+      "context": "Zeina is creating assets, but timeline and scope remain vague.",
+      "questions": [
+        "What is the current asset list and completion status?",
+        "How will the outside area affect performance and culling?"
+      ],
+      "related_to": ["zeina", "kaze"],
+      "priority": "low"
+    },
+    {
+      "topic": "Boss fight revisions",
+      "context": "Kaze said he’s ‘not 100% happy’ and wants changes, without details.",
+      "questions": [
+        "What aspects of the current boss fight feel weak?",
+        "Are mechanic or visual overhauls planned?"
+      ],
+      "related_to": ["kaze"],
+      "priority": "medium"
+    },
+    {
+      "topic": "Yoshi gun implementation",
+      "context": "Only two of five planned Yoshi guns are functional.",
+      "questions": [
+        "What functionality do the remaining guns require?",
+        "Who is responsible for coding and animation of these weapons?"
+      ],
+      "related_to": ["kaze", "zeina"],
+      "priority": "low"
+    }
+  ]
+}

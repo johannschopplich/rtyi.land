@@ -4,7 +4,7 @@ I have transcribed and analyzed my favorite video game making-of documentaries t
 
 ::: tip Variations
 
-- [Second analysis iteration](/research/video-game-documentaries-2) applying the same analytical framework to validate findings.
+- [Analysis with o3](/research/video-game-documentaries-o3) running the same prompt on the same set of documentaries.
 
 :::
 

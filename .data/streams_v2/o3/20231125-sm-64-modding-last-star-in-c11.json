@@ -1,0 +1,188 @@
+{
+  "stream_context": {
+    "summary": "Kaze focuses on Course 11’s underground section (\"Oily Boily Bay – OBB Underground\"). He fixes recently-introduced bugs, refines geometry, adds new sliding entrance, hydraulic piston platforms, railings, an oil-hazard plan, and tweaks the Chomp enemy. Texture/memory optimisation and object behaviour coding dominate the session.",
+    "level": ["course 11", "obb underground"]
+  },
+  "development_findings": [
+    {
+      "summary": "Game now ~75-80 % complete: 11 of 15 courses are playable; much early engine work is already done.",
+      "quote": "It's only one fifth done. This is course 11 and there's 15 courses, so we are at least two thirds done."
+    },
+    {
+      "summary": "Kaze meets self-imposed daily deadlines (14 days straight); current sprint: bug fixes plus block-out of OBB underground.",
+      "quote": "I've done this for 14 days now and so far I hit every single deadline."
+    },
+    {
+      "summary": "OBB underground redesign: entrance becomes a short slide that dumps Mario into the machinery area.",
+      "quote": null
+    },
+    {
+      "summary": "Introduced hydraulic piston platforms with variable speed and asynchronous rhythms (Bparam system: pause, speed, duration).",
+      "quote": "I want variable speed here… I don't want the rhythm to sync up at all."
+    },
+    {
+      "summary": "Added railings, expanded climb routes, and relocated Yoshi Coin (#4) for clearer navigation and challenge balance.",
+      "quote": null
+    },
+    {
+      "summary": "Oil hazard planned: reflective black ‘boiling tar’ water that Mario can surf but is hard to exit; will include bubbling vertex animation and smoke particles.",
+      "quote": "Very reflective black tar… bubbles and some smoke. Mario goes ha-ha-ha-ha."
+    },
+    {
+      "summary": "New ‘oil puddle’ enemy concept inspired by 3D World ‘blot’ enemies; not yet coded.",
+      "quote": null
+    },
+    {
+      "summary": "Chompy enemy given HD model + two new action states; 1/16 chance to trigger; demo video likely for main channel.",
+      "quote": "He has a new model too—he looks so HD now."
+    },
+    {
+      "summary": "Warp objects in RTYI have two extra parameters (warp height hitbox and exit camera angle), requiring re-authoring imported levels.",
+      "quote": "Warps in RTYI have two additional parameters… if you don't have one of them you will [break things]."
+    },
+    {
+      "summary": "N64 texture limits (4 KB per segment) force unconventional sizes (e.g., 96 × 42 I4) and re-using textures; PC port deemed unrealistic, but full source will be published.",
+      "quote": "I seriously doubt anyone is gonna have the skill to make a PC port of this… but I will make a public source."
+    },
+    {
+      "summary": "Engine roadmap: 30 FPS ‘lag’ bug under investigation; plan to merge render & gameplay threads in 30 FPS mode.",
+      "quote": "If you are in 30 FPS mode… the gameplay thread becomes part of the rendering thread—that will allow us to increase the FPS."
+    },
+    {
+      "summary": "Open-sourcing engine expected to let other ROM-hackers switch to it after release.",
+      "quote": "I think a good bunch of them will switch to my engine."
+    }
+  ],
+  "context_findings": [
+    {
+      "summary": "Kaze dislikes modern ‘time-wasting’ game design; aims for meaningful, challenging experiences.",
+      "quote": "Modern game design is made for people that are depressed and just want to erase time—not for people that want to have an experience."
+    },
+    {
+      "summary": "He recently started full-time work at Gears for Breakfast; balances job, YouTube, and hack development.",
+      "quote": "Keep in mind… that I did get a full-time job, like, recently."
+    },
+    {
+      "summary": "Uses second YouTube channel (Kaze Clips) for low-effort uploads; main channel reserved for ‘important’ content to avoid viewer fatigue.",
+      "quote": "On the main channel I only want to post when I actually have something important."
+    },
+    {
+      "summary": "Financial note: Christmas ad-revenue and potential Honkai Star Rail sponsorship (~$3-4k) seen as funding sources for team.",
+      "quote": "Around Christmas… you just get a 50 % pay raise… Honkai Star Rail… I feel like $3,000, $4,000 is a possibility."
+    },
+    {
+      "summary": "Personal morale: proud of progress, annoyed by constant release-date questions; light-hearted but frustrated running joke that contributor Leela ‘died’.",
+      "quote": "Please don't spend the whole stream asking me for a release date again—that was miserable."
+    }
+  ],
+  "contributor_findings": {
+    "biobak": [
+      {
+        "summary": "Supplied high-res sail model/texture; collaborates with Kaze to compress it into 4 KB N64 limit (proposed 96 × 42 I4 workaround).",
+        "quote": "Does this work for you, Biobak? This is the most cursed texture resolution I've ever seen."
+      },
+      {
+        "summary": "Will send Blender file of sail; helps choose Yoshi Coin colours and general texturing advice.",
+        "quote": null
+      }
+    ],
+    "badub": [
+      {
+        "summary": "Music rights: Kaze plans to pay the composer to release soundtrack as a ROM-based album on N64 cartridge.",
+        "quote": "When RTYI releases, I want to pay the musician to have the rights to the music and then release an album."
+      }
+    ],
+    "zeina": [
+      {
+        "summary": "Active in chat; recalls lost ‘Hot Tub Mario’ mod and supports sponsorship gag ideas.",
+        "quote": null
+      }
+    ]
+  },
+  "key_stories": [
+    {
+      "title": "Hydraulic Platform Breakthrough",
+      "summary": "Kaze wanted the oil-rig interior to feel alive and improve vertical navigation. He devised piston-like platforms with variable speed and randomised timing.",
+      "challenge": "Static geometry felt dull and climbing was tedious.",
+      "process": "Parameterized an existing up-down platform behaviour (Bparam1 pause, Bparam2 duration/4, Bparam3 speed), ensured asynchronous movement, solved update-order and culling bugs.",
+      "outcome": "Visually dynamic machinery area; player can reach higher zones intuitively; Kaze satisfied with new ‘Pistonville’ vibe.",
+      "key_quote": "This is going to be Pistonville… it's going to make platforming a bit more fun.",
+      "related_to": ["kaze", "biobak"]
+    },
+    {
+      "title": "Fitting the Sail Texture",
+      "summary": "Biobak’s detailed sail exceeded N64 VRAM. Kaze and Biobak experimented with non-standard resolutions to squeeze it in.",
+      "challenge": "Sail texture plus other assets overflowed 4096-byte segment.",
+      "process": "Discussed I4 format, attempted combinating textures, calculated divisors, settled on 96 × 42 resolution; will N64-verify.",
+      "outcome": "Texture now tentatively fits; needs final hardware test.",
+      "key_quote": "Ah yes, my 96 by 42 texture.",
+      "related_to": ["kaze", "biobak"]
+    },
+    {
+      "title": "Oil Hazard Visual Concept",
+      "summary": "OBB underground needs a boiling oil pit that functions like water but looks dangerous.",
+      "challenge": "Unsure how ‘boiling oil’ should appear on N64 hardware.",
+      "process": "Researched boiling tar/chocolate references; decided on highly reflective black surface, vertex-animated bubbles, optional smoke; will allow surfing but tricky exit.",
+      "outcome": "Visual plan logged; to be implemented next stream.",
+      "key_quote": "Very reflective black tar… bubbles and some smoke.",
+      "related_to": ["kaze"]
+    }
+  ],
+  "open_questions": [
+    {
+      "topic": "Quaternion animation exporter",
+      "context": "Doors and other objects are broken until Lila finishes exporter; she was absent for a week.",
+      "questions": [
+        "What is the current progress and remaining tasks on the quaternion exporter?",
+        "How will it improve animation fidelity/performance?",
+        "Does the team have a fallback if delays continue?"
+      ],
+      "related_to": ["kaze", "zeina"],
+      "priority": "high"
+    },
+    {
+      "topic": "Unreal Engine platformer & Kickstarter",
+      "context": "Kaze intends to launch a new UE project demo alongside RTYI release and start a Kickstarter.",
+      "questions": [
+        "What gameplay vision differentiates it from RTYI?",
+        "Who will staff the project?",
+        "How will simultaneous commitments affect RTYI post-launch support?"
+      ],
+      "related_to": ["kaze"],
+      "priority": "medium"
+    },
+    {
+      "topic": "RTYI soundtrack cartridge release",
+      "context": "Kaze wants to license music and publish as an N64 ROM album.",
+      "questions": [
+        "What legal/technical steps are required?",
+        "Has Badub agreed to terms?",
+        "Will physical cartridges be manufactured or digital ROM only?"
+      ],
+      "related_to": ["kaze", "badub"],
+      "priority": "medium"
+    },
+    {
+      "topic": "30 FPS lag investigation",
+      "context": "Kaze notes speedrunners report lag; plans thread merge solution.",
+      "questions": [
+        "What measurements show current bottleneck?",
+        "How will proposed thread merge affect hardware and emulation accuracy?",
+        "Will 60 FPS remain optional?"
+      ],
+      "related_to": ["kaze"],
+      "priority": "low"
+    },
+    {
+      "topic": "Oil puddle enemy design",
+      "context": "Enemy concept mentioned but not designed.",
+      "questions": [
+        "What behaviour/mechanics are planned?",
+        "How will it interact with boiling oil surface?",
+        "Which contributor will model/animate it?"
+      ],
+      "related_to": ["kaze", "biobak", "zeina"],
+      "priority": "low"
+    }
+  ]
+}
