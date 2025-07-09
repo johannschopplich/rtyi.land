@@ -5,9 +5,7 @@ import * as clack from "@clack/prompts";
 import ansis from "ansis";
 import PQueue from "p-queue";
 import {
-  DEFAULT_ANTHROPIC_MODEL,
   DEFAULT_ANTHROPIC_PRO_MODEL,
-  DEFAULT_GOOGLE_MODEL,
   DEFAULT_GOOGLE_PRO_MODEL,
   DEFAULT_OPENAI_MODEL,
   DEFAULT_OPENAI_PRO_MODEL,
@@ -25,11 +23,9 @@ const modelName = await clack.select({
   message: "Enter AI model name:",
   options: [
     DEFAULT_GOOGLE_PRO_MODEL,
-    DEFAULT_GOOGLE_MODEL,
     DEFAULT_OPENAI_MODEL,
     DEFAULT_OPENAI_PRO_MODEL,
     DEFAULT_ANTHROPIC_PRO_MODEL,
-    DEFAULT_ANTHROPIC_MODEL,
   ].map((model) => ({ value: model, label: model })),
 });
 

@@ -16,7 +16,7 @@ export async function processTranscript(filePath: string, model: string) {
   const fileNameWithoutExt = basename(filePath, extname(filePath));
   const modelSlug = slugify(model);
   const modelDir = join(STREAMS_DIR, modelSlug);
-  const outputPath = join(modelDir, `${slugify(fileNameWithoutExt)}.json`);
+  const outputPath = join(modelDir, `${fileNameWithoutExt}.json`);
 
   await ensureDirectoryExists(modelDir);
 

@@ -28,14 +28,14 @@ These questions are generated along the [development streams analysis](/streams/
 **Total Streams with Questions:** {{ totalStreams }}
 :::
 
-The questions are organized by Kaze or contributors based on their involvement in the topics discussed:
+## Team Members and Questions
+
+The questions are organized by team member according to their level of involvement in the topics discussed:
 
 - **Kaze** - Lead developer and project creator
 - **Biobak** - Visual artist and designer
 - **Badub** - Composer and audio engineer
 - **Zeina** - Animator and character artist
-
-## Team Members and Questions
 
 <table>
   <thead>
