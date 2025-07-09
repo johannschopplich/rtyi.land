@@ -120,7 +120,7 @@ This is my favorite arc. It perfectly captures Kaze's creative process, the team
   - **Technical Problem:** Creating realistic Styrofoam shine on hardware that predates modern lighting techniques.
   - **Innovative Solution:** Kaze's "fake" lighting system (CPU-based normal mapping).
   - **Enemy Designs:** Brainstorming and discarding enemy ideas (like scissors) before settling on thematically appropriate ones like "Thimble Shy Guys."
-  - **Community Input:** Contributions from Leila, Danik, and others providing doodles, textures, and technical advice.
+  - **Community Input:** Contributions from Lilaa, Danik, and others providing doodles, textures, and technical advice.
 
 ### The Space Arcade: Killing Your Darlings
 
