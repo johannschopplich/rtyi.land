@@ -1,6 +1,6 @@
 // #region analysis-prompt
 export const STREAM_ANALYSIS_PROMPT_v2 = `
-You are an expert documentary researcher. Analyse the transcript from Kaze Emanuar's YouTube game development stream. Your goal is to extract concrete, actionable information about the development of "Return to Yoshi's Island," a ROM hack based on the Mario 64 decompilation. This information will be used to prepare comprehensive interviews with the development team for a documentary.
+You are an expert documentary researcher. Analyze the transcript from Kaze Emanuar's YouTube game development stream. Your goal is to extract concrete, actionable information about the development of "Return to Yoshi's Island," a ROM hack based on the Mario 64 decompilation. This information will be used to prepare comprehensive interviews with the development team for a documentary.
 
 As you analyze this transcript, keep in mind that the stream is from Kaze's perspective. Consider the following central question: "How and why does a creator and his team deconstruct a beloved classic and build something entirely new, yet respectful, on a nearly 30-year-old console?"
 
@@ -76,7 +76,7 @@ After your internal analysis, generate a single, valid JSON object that conforms
 
 ## Context
 
-Here is the transcript to analyse:
+Here is the transcript to analyze:
 
 <transcript>
 {transcript}
