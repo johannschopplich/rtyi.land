@@ -59,9 +59,8 @@ const modelStats = Object.entries(modelStreams)
   }))
   .sort((a, b) => a.label.localeCompare(b.label));
 
-const totalStreams = groupedStreams.length;
 const dateRange =
-  totalStreams > 0
+  groupedStreams.length > 0
     ? `${groupedStreams.at(-1).date} – ${groupedStreams[0].date}`
     : "No streams available";
 </script>
@@ -75,7 +74,7 @@ These summaries save me hours of watching and allow me to prepare for the interv
 The [prompt for stream analysis](/prompts/2.stream-analysis) guarantees the consistent extraction of key findings on development, context, and contributors. It also identifies key stories and open questions.
 
 ::: tip Summary
-**Total Streams:** {{ totalStreams }}
+**Total Streams:** {{ groupedStreams.length }}
 
 **Date Range:** {{ dateRange }}
 

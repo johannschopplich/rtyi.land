@@ -8,12 +8,11 @@ import { data as modelStreams } from "./model-streams.data.ts";
 
 const MODEL_NAME = "gemini-2-5-pro";
 const streams = modelStreams[MODEL_NAME] ?? [];
-const modelLabel = "Gemini 2.5 Pro";
 </script>
 
-# {{ modelLabel }} – Stream Analysis
+# Gemini 2.5 Pro – Stream Analysis
 
-This page presents a systematic analysis of [Kaze's development streams](https://www.youtube.com/@KazeClips/streams) processed by Google's **{{ modelLabel }}** model after they were transcribed with Whisper.
+This page presents a systematic analysis of [Kaze's development streams](https://www.youtube.com/@KazeClips/streams) processed by Google's **Gemini 2.5 Pro** model after they were transcribed with Whisper.
 
 Each analysis results page provides key findings regarding development, context, and contributors. It also identifies key stories and open questions.
 
