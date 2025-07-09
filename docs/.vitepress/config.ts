@@ -73,6 +73,10 @@ export default defineConfig({
             link: "/streams",
           },
           {
+            text: "Open Questions",
+            link: "/questions",
+          },
+          {
             text: "Video Game Documentaries",
             link: "/research/video-game-documentaries",
           },

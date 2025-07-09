@@ -1,60 +1,107 @@
 import * as path from "node:path";
+import { tryParseJSON } from "utilful";
 import { defineLoader } from "vitepress";
-import { KV_QUESTIONS_DIR } from "../../src/constants";
+import { STREAMS_DIR } from "../../src/constants";
 import {
   formatDateFromYYYYMMDD,
   globAndProcessFiles,
 } from "../.vitepress/utils";
 
+export interface OpenQuestion {
+  topic: string;
+  context: string;
+  questions: string[];
+  related_to: string[];
+  priority: string;
+}
+
 export interface QuestionStreamData {
   id: string;
   date: string;
   rawDate: string;
-  contributors: string[];
+  model: string;
+  openQuestions: OpenQuestion[];
+}
+
+export interface TeamMemberQuestions {
+  name: string;
+  streams: QuestionStreamData[];
   totalQuestions: number;
 }
 
 export default defineLoader({
   async load() {
-    const questionStreams = await globAndProcessFiles(
-      "**/*.txt",
-      KV_QUESTIONS_DIR,
+    const streamData = await globAndProcessFiles(
+      "**/*.json",
+      STREAMS_DIR,
       ({ filePath, fileName, fileContent }) => {
-        const fileNameWithoutExt = path.basename(fileName, ".txt");
+        const modelDir = path.basename(path.dirname(filePath));
+        const streamData = tryParseJSON<Record<string, any>>(fileContent);
 
-        let questionsData: Record<string, string[]>;
+        if (!streamData) return;
 
-        try {
-          questionsData = JSON.parse(fileContent);
-        } catch {
-          throw new Error(`Invalid JSON in ${filePath}`);
-        }
-
-        const [rawDate] = fileNameWithoutExt.split("-");
+        const [rawDate] = fileName.split("-");
         const formattedDate = formatDateFromYYYYMMDD(rawDate);
+        const openQuestions = streamData.open_questions ?? [];
 
-        // Filter out contributors with empty question arrays
-        const contributors = Object.keys(questionsData).filter(
-          (contributor) => questionsData[contributor].length > 0,
-        );
-        const totalQuestions = contributors.reduce(
-          (sum, contributor) => sum + questionsData[contributor].length,
-          0,
-        );
+        // Only include streams that have open questions
+        if (openQuestions.length === 0) return;
 
-        const streamData: QuestionStreamData = {
-          id: fileNameWithoutExt,
+        const streamInfo: QuestionStreamData = {
+          id: `${modelDir}-${rawDate}`,
           date: formattedDate,
           rawDate,
-          contributors,
-          totalQuestions,
+          model: modelDir,
+          openQuestions,
         };
 
-        return streamData;
+        return streamInfo;
       },
     );
 
-    // Sort by date (newest first)
-    return questionStreams.sort((a, b) => b.rawDate.localeCompare(a.rawDate));
+    // Group questions by team member
+    const teamMemberQuestions: Record<string, TeamMemberQuestions> = {};
+
+    for (const stream of streamData) {
+      for (const question of stream.openQuestions) {
+        for (const member of question.related_to) {
+          if (!teamMemberQuestions[member]) {
+            teamMemberQuestions[member] = {
+              name: member,
+              streams: [],
+              totalQuestions: 0,
+            };
+          }
+
+          // Check if this stream is already added for this member
+          const existingStream = teamMemberQuestions[member].streams.find(
+            (s) => s.id === stream.id,
+          );
+
+          if (!existingStream) {
+            // Filter questions for this specific member
+            const memberQuestions = stream.openQuestions.filter((q) =>
+              q.related_to.includes(member),
+            );
+
+            teamMemberQuestions[member].streams.push({
+              ...stream,
+              openQuestions: memberQuestions,
+            });
+          }
+
+          // Count questions for this member
+          teamMemberQuestions[member].totalQuestions +=
+            question.questions.length;
+        }
+      }
+    }
+
+    // Sort streams within each member by date (newest first)
+    for (const member of Object.values(teamMemberQuestions)) {
+      member.streams.sort((a, b) => b.rawDate.localeCompare(a.rawDate));
+    }
+
+    return teamMemberQuestions;
   },
 });

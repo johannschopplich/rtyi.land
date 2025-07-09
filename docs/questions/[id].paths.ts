@@ -1,91 +1,171 @@
 import * as path from "node:path";
-import { KV_QUESTIONS_DIR } from "../../src/constants";
+import { tryParseJSON } from "utilful";
+import { STREAMS_DIR } from "../../src/constants";
 import {
   formatDateFromYYYYMMDD,
   globAndProcessFiles,
 } from "../.vitepress/utils";
 
-export interface QuestionData {
+export interface OpenQuestion {
+  topic: string;
   context: string;
-  question: string;
+  questions: string[];
+  related_to: string[];
+  priority: string;
+}
+
+export interface QuestionStreamData {
+  id: string;
+  date: string;
+  rawDate: string;
+  model: string;
+  openQuestions: OpenQuestion[];
+}
+
+export interface TeamMemberQuestions {
+  name: string;
+  streams: QuestionStreamData[];
+  totalQuestions: number;
+}
+
+function formatMemberName(name: string): string {
+  return name.charAt(0).toUpperCase() + name.slice(1);
 }
 
 export default {
   async paths() {
-    const results = await globAndProcessFiles(
-      "*.txt",
-      KV_QUESTIONS_DIR,
+    const streamData = await globAndProcessFiles(
+      "**/*.json",
+      STREAMS_DIR,
       ({ filePath, fileName, fileContent }) => {
-        const fileNameWithoutExt = path.basename(filePath, ".txt");
+        const modelDir = path.basename(path.dirname(filePath));
+        const streamData = tryParseJSON<Record<string, any>>(fileContent);
 
-        let questionsData: Record<string, QuestionData[]>;
+        if (!streamData) return;
 
-        try {
-          questionsData = JSON.parse(fileContent);
-        } catch (error) {
-          throw new Error(`Invalid JSON in ${fileName}: ${error}`);
-        }
-
-        // Extract date from filename (format: YYYYMMDD-title)
-        const [rawDate] = fileNameWithoutExt.split("-");
+        const [rawDate] = fileName.split("-");
         const formattedDate = formatDateFromYYYYMMDD(rawDate);
+        const openQuestions = streamData.open_questions ?? [];
 
-        // Filter out contributors with empty question arrays
-        const contributors = Object.keys(questionsData).filter(
-          (contributor) => questionsData[contributor].length > 0,
-        );
-        const totalQuestions = contributors.reduce(
-          (sum, contributor) => sum + questionsData[contributor].length,
-          0,
-        );
+        // Only include streams that have open questions
+        if (openQuestions.length === 0) return;
 
-        const markdownContent = `# Stream Questions Analysis
+        const streamInfo: QuestionStreamData = {
+          id: `${modelDir}-${rawDate}`,
+          date: formattedDate,
+          rawDate,
+          model: modelDir,
+          openQuestions,
+        };
+
+        return streamInfo;
+      },
+    );
+
+    // Group questions by team member
+    const teamMemberQuestions: Record<string, TeamMemberQuestions> = {};
+
+    for (const stream of streamData) {
+      for (const question of stream.openQuestions) {
+        for (const member of question.related_to) {
+          if (!teamMemberQuestions[member]) {
+            teamMemberQuestions[member] = {
+              name: member,
+              streams: [],
+              totalQuestions: 0,
+            };
+          }
+
+          // Check if this stream is already added for this member
+          const existingStream = teamMemberQuestions[member].streams.find(
+            (s) => s.id === stream.id,
+          );
+
+          if (!existingStream) {
+            // Filter questions for this specific member
+            const memberQuestions = stream.openQuestions.filter((q) =>
+              q.related_to.includes(member),
+            );
+
+            teamMemberQuestions[member].streams.push({
+              ...stream,
+              openQuestions: memberQuestions,
+            });
+          }
+
+          // Count questions for this member
+          teamMemberQuestions[member].totalQuestions +=
+            question.questions.length;
+        }
+      }
+    }
+
+    // Sort streams within each member by date (newest first)
+    for (const member of Object.values(teamMemberQuestions)) {
+      member.streams.sort((a, b) => b.rawDate.localeCompare(a.rawDate));
+    }
+
+    // Generate paths for each team member
+    return Object.values(teamMemberQuestions).map((member) => {
+      const totalTopics = member.streams.reduce(
+        (sum, stream) => sum + stream.openQuestions.length,
+        0,
+      );
+
+      const markdownContent = `# Questions for ${formatMemberName(member.name)}
+
+This page contains all open questions related to ${formatMemberName(member.name)}'s work and contributions across development streams. Questions are organized by stream date and grouped by topic.
 
 ::: tip Summary
-**Date:** ${formattedDate}
+**Team Member:** ${formatMemberName(member.name)}
 
-**Contributors:** ${contributors.length}
+**Streams:** ${member.streams.length}
 
-**Total Questions:** ${totalQuestions}
+**Total Topics:** ${totalTopics}
+
+**Total Questions:** ${member.totalQuestions}
 :::
 
-${contributors
-  .map((contributor) => {
+${member.streams
+  .map((stream) => {
     return `
-## ${contributor.charAt(0).toUpperCase() + contributor.slice(1)}
+## ${stream.date}
 
-${questionsData[contributor]
-  .map(
-    (item, index) => `
-### Question ${index + 1}
+[Stream Analysis →](/streams/${`${stream.model}-${stream.rawDate}`})
 
-**Context:** ${item.context}
+${stream.openQuestions
+  .map((question) => {
+    return `
+### ${question.topic}
 
-**Question:** ${item.question}
+**Context:** ${question.context}
 
-`,
-  )
+${
+  question.related_to.length > 1
+    ? `**Also related to:** ${question.related_to
+        .filter((name) => name !== member.name)
+        .map(formatMemberName)
+        .join(", ")}`
+    : ""
+}
+
+**Questions:**
+
+${question.questions.map((q, index) => `${index + 1}. ${q}`).join("\n")}
+
+`;
+  })
   .join("")}`;
   })
   .join("")}
 `;
 
-        return {
-          params: {
-            id: fileNameWithoutExt,
-            date: formattedDate,
-            rawDate,
-            contributors: contributors.length,
-            totalQuestions,
-          },
-          content: markdownContent,
-        };
-      },
-    );
-
-    // Sort by date (newest first)
-    return results.sort((a, b) =>
-      b.params.rawDate.localeCompare(a.params.rawDate),
-    );
+      return {
+        params: {
+          id: member.name,
+        },
+        content: markdownContent,
+      };
+    });
   },
 };
