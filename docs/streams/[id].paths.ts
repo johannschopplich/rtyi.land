@@ -6,6 +6,10 @@ import {
   globAndProcessFiles,
 } from "../.vitepress/utils";
 
+function formatMemberName(name: string): string {
+  return name.charAt(0).toUpperCase() + name.slice(1);
+}
+
 export default {
   async paths() {
     const results = await globAndProcessFiles(
@@ -24,14 +28,108 @@ export default {
         const [rawDate] = fileName.split("-");
         const formattedDate = formatDateFromYYYYMMDD(rawDate);
 
+        // Generate markdown content
+        const markdownContent = `# Development Stream Analysis
+
+::: tip Summary
+**Date:** ${formattedDate}
+
+**Model:** ${modelDir}
+
+**Level(s):** ${streamData.stream_context?.level?.join(", ") || "Unknown"}
+:::
+
+## Stream Context
+
+${streamData.stream_context?.summary || "No summary available."}
+
+## Development Findings
+
+${streamData.development_findings
+  .map(
+    (finding: any) =>
+      `- ${finding.summary}${finding.quote ? `\n  > ${finding.quote}` : ""}`,
+  )
+  .join("\n\n")}
+
+## Context Findings
+
+${streamData.context_findings
+  .map(
+    (finding: any) =>
+      `- ${finding.summary}${finding.quote ? `\n  > ${finding.quote}` : ""}`,
+  )
+  .join("\n\n")}
+
+## Contributor Findings
+
+${Object.entries(streamData.contributor_findings)
+  .filter(([_, findings]: [string, any]) => findings.length > 0)
+  .map(
+    ([member, findings]: [string, any]) => `
+### ${formatMemberName(member)}
+
+${findings.map((finding: any) => `- ${finding.summary}${finding.quote ? `\n  > ${finding.quote}` : ""}`).join("\n\n")}
+`,
+  )
+  .join("")}
+
+## Key Stories
+
+${
+  streamData.key_stories?.length
+    ? streamData.key_stories
+        .map(
+          (story: any) => `
+::: info ${story.title}
+
+**Summary:** ${story.summary}
+
+**Challenge:** ${story.challenge}
+
+**Process:** ${story.process}
+
+**Outcome:** ${story.outcome}
+
+${story.key_quote ? `**Key Quote:**\n> ${story.key_quote}\n` : ""}
+${story.related_to?.length ? `**Related to:** ${story.related_to.map(formatMemberName).join(", ")}` : ""}
+
+:::
+`,
+        )
+        .join("")
+    : "No key stories available."
+}
+
+## Open Questions
+
+${
+  streamData.open_questions?.length
+    ? streamData.open_questions
+        .map(
+          (item: any) => `
+### ${item.topic}
+
+**Context:** ${item.context}
+
+**Relevant to:** ${item.related_to.map(formatMemberName).join(", ")}
+
+**Questions:**
+
+${item.questions.map((question: string, index: number) => `${index + 1}. ${question}`).join("\n")}
+`,
+        )
+        .join("")
+    : "No open questions available."
+}`;
+
         return {
           params: {
             id: `${modelDir}-${rawDate}`,
-            date: formattedDate,
             rawDate,
             model: modelDir,
-            streamData,
           },
+          content: markdownContent,
         };
       },
     );

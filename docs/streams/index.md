@@ -55,14 +55,14 @@ const modelStats = Object.entries(modelStreams)
     label: MODEL_LABELS[modelName],
     count: streams.length,
     latestDate: streams[0]?.date,
-    oldestDate: streams[streams.length - 1]?.date,
+    oldestDate: streams.at(-1)?.date,
   }))
   .sort((a, b) => a.label.localeCompare(b.label));
 
 const totalStreams = groupedStreams.length;
 const dateRange =
   totalStreams > 0
-    ? `${groupedStreams[groupedStreams.length - 1].date} – ${groupedStreams[0].date}`
+    ? `${groupedStreams.at(-1).date} – ${groupedStreams[0].date}`
     : "No streams available";
 </script>
 
