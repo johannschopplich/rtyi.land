@@ -1,0 +1,200 @@
+{
+  "stream_context": {
+    "summary": "The stream focused on importing and implementing 3D assets from artist Biobak into a new disco-themed level. Kaze spent the session programming functionality for these assets, solving complex technical challenges like a custom real-time lighting system, fixing a major memory shortage, and showcasing his redesigned character collision engine.",
+    "level": [
+      "Poochie's Area",
+      "Disco Level"
+    ]
+  },
+  "development_findings": [
+    {
+      "summary": "Kaze has developed a new, near-continuous collision system that makes Mario's movement on slopes consistent and predictable, eliminating the randomness of 'quarter frame' steps from the original game.",
+      "quote": "I want to remove quarter frame precision from the player's mind. Look, even this gigafucked geometry like that, you can just walk around in it. Nothing's bad gonna happen to you. It's literally perfect."
+    },
+    {
+      "summary": "Despite improvements to ground movement, Kaze identified that inconsistent movement speed based on landing subframes is a remaining problem that is too fundamental to the engine to fix without a complete overhaul.",
+      "quote": "This is unsolvable without introducing proper delta time physics in Mario 64, I believe. Or by rerunning Mario's behavior multiple times. Both of which would have pretty huge consequences."
+    },
+    {
+      "summary": "The project ran into the N64's RAM limit after importing new assets. Kaze resolved it by reallocating smaller assets to an 'emergency memory pool' to reduce fragmentation in the main memory pool.",
+      "quote": "I think this pushed us into out of memory range... The emergency memory pool is a small memory pool. So if you have a lot of small data you can just chuck it in there to prevent any fragmentation of the main pool."
+    },
+    {
+      "summary": "To preserve Biobak's vertex colors on a rotating apple model while still having it lit dynamically, Kaze implemented a system to calculate shading for each vertex on the CPU in real-time.",
+      "quote": null
+    },
+    {
+      "summary": "The project is approaching the 64-megabyte ROM limit of a standard N64 cartridge, forcing the team to consider optimizations and the final scope of the game.",
+      "quote": "We really are approaching the 64 megabytes. Crazy."
+    },
+    {
+      "summary": "A community suggestion for an in-game jukebox to play unlocked music tracks was well-received by Kaze, though he was hesitant about the development time required.",
+      "quote": null
+    }
+  ],
+  "context_findings": [
+    {
+      "summary": "Kaze's core design philosophy is to remove randomness and engine quirks like 'quarter frame precision' from the player's experience to make movement feel consistent and intuitive.",
+      "quote": "The average player has never even heard the term quarter frame precision. Exactly. They are just gonna see that and be like, why does it sometimes work and sometimes doesn't?"
+    },
+    {
+      "summary": "When discussing his proficiency with Blender, Kaze shared his philosophy on learning new skills: master the fundamentals and tools first before focusing on creative expression.",
+      "quote": "Learn your tools at first and then you get to have fun. That is my approach."
+    },
+    {
+      "summary": "Kaze views the N64's 64MB ROM size as a creative constraint he wants to respect, considering it 'cheating' to exceed it.",
+      "quote": "if you go beyond 64 megabytes you're going beyond what the original Nintendo 64 developers worked with and like that just feels like cheating."
+    },
+    {
+      "summary": "Kaze feels a pressure to maintain transparency with his community by developing on-stream, but acknowledges this significantly slows down progress compared to focused, off-stream work.",
+      "quote": "It's too bad I feel pressured to only work on this on stream so you can know exactly what I'm doing. Because otherwise I probably would have finished this by now."
+    },
+    {
+      "summary": "Kaze repeatedly jokes that his wife, Zeina, 'abuses' him by cutting his hair, indicating a playful and sarcastic personal dynamic that bleeds into his stream persona.",
+      "quote": "My wife took it off. I said something mean to her and she said fuck you, no more hair for you."
+    }
+  ],
+  "contributor_findings": {
+    "biobak": [
+      {
+        "summary": "Biobak provided numerous assets for the level, including a spinning apple with vertex colors, which created a technical challenge that Kaze solved with a complex custom lighting solution.",
+        "quote": "Because Biobak wants his vertex colors on the apple, and I want my shadows on the apple. So we compromise by computing the fucking shadows on the CPU in real time."
+      },
+      {
+        "summary": "Biobak's updated models, such as for Poochie, are more optimized and have helped reduce the game's RAM usage.",
+        "quote": null
+      },
+      {
+        "summary": "Kaze and Biobak appear to share a similar sense of humor, with Kaze noting they independently came up with the same joke.",
+        "quote": "You just have the same brain? Mm-hmm. You know what, I actually believe you."
+      }
+    ],
+    "badub": [
+      {
+        "summary": "No new information was revealed about Badub's contributions during this stream.",
+        "quote": null
+      }
+    ],
+    "zeina": [
+      {
+        "summary": "Zeina created a new thumbnail for a planned F3 (fan-game event) video.",
+        "quote": null
+      },
+      {
+        "summary": "She created the initial version of the 'flower shy guy' model, which was later reworked by Biobak, indicating an iterative and collaborative art pipeline.",
+        "quote": null
+      },
+      {
+        "summary": "Kaze identifies a potential animation issue with a model and jokingly defers it to 'the animator,' referencing Zeina's role in the project.",
+        "quote": "Why is the arm so far back? Whatever that's a problem for the animator."
+      }
+    ]
+  },
+  "key_stories": [
+    {
+      "title": "The Consistent Slope Collision",
+      "summary": "To eliminate a source of random-feeling behavior from the original game, Kaze completely rebuilt Mario's ground collision system. The new system removes the unpredictable effects of 'quarter frame precision' on slopes, resulting in a more reliable and intuitive control scheme that aligns with his design philosophy.",
+      "challenge": "In the original Mario 64, walking along the edge of a slope is unpredictable. Due to sub-frame timing ('quarter frames'), Mario might stick to the slope or randomly fly off, which feels unfair to the player.",
+      "process": "Kaze completely rewrote the collision routine. His new system effectively makes collision checks continuous for ground movement, ensuring Mario always sticks to walkable slopes regardless of the precise sub-frame timing of his movement.",
+      "outcome": "Kaze's new system provides a consistent and intuitive player experience for navigating slopes. This solved a major source of player frustration from the original engine, though he acknowledges a similar problem still exists when landing from a jump.",
+      "key_quote": "Look at this. You consistently stick here. I want to remove quarter frame precision from the player's mind. I don't want the player to think about their quarter frames when they play my game.",
+      "related_to": [
+        "Kaze Emanuar"
+      ]
+    },
+    {
+      "title": "The Compromise on the Apple",
+      "summary": "A conflict arose between an artist's model (using vertex colors) and a technical need (dynamic lighting). Kaze resolved it by undertaking a complex, on-stream programming task to calculate shadows on the CPU in real-time, demonstrating his commitment to realizing the team's artistic vision through advanced technical work.",
+      "challenge": "Biobak created a spinning apple model with detailed vertex colors, but this technique is incompatible with the N64's standard dynamic lighting. A rotating 3D model without lighting would look completely flat and unrealistic.",
+      "process": "Kaze decided to implement a custom, real-time lighting solution. He wrote code to calculate lighting values for each of the apple's vertices on the CPU. This involved retrieving the level's light vector, transforming it into the apple's rotating local space by inverting its transformation matrix, and applying the calculated shade value to each vertex.",
+      "outcome": "The apple now features both its detailed vertex colors and smooth, dynamic lighting that moves with the object. This compromise achieves a high-quality visual effect that satisfies both artistic vision and technical requirements.",
+      "key_quote": "Because Biobak wants his vertex colors on the apple, and I want my shadows on the apple. So we compromise by computing the fucking shadows on the CPU in real time.",
+      "related_to": [
+        "Kaze Emanuar",
+        "Biobak"
+      ]
+    },
+    {
+      "title": "Solving the Memory Crisis",
+      "summary": "Faced with an 'out of memory' error, Kaze had to find a way to optimize RAM usage to fit new assets. He solved the problem by strategically reallocating data between the N64's main and 'emergency' memory pools to reduce fragmentation, showcasing a practical workaround for strict hardware constraints.",
+      "challenge": "After importing new, complex assets for the level, the game began to run out of RAM, a hard physical limitation of the Nintendo 64 console that threatened to halt progress.",
+      "process": "Kaze diagnosed the issue as memory fragmentation in the main memory pool. His solution was to move numerous small assets into a separate, smaller 'emergency memory pool,' which is designed for this purpose. This consolidated the free space in the main pool, creating enough contiguous memory for the new, larger assets.",
+      "outcome": "The memory crisis was quickly resolved by reallocating data, freeing up enough space to continue adding assets to the level. The incident highlights the constant battle against hardware limitations in ROM hacking.",
+      "key_quote": "I think this pushed us into out of memory range... We were all over just a couple of kilobytes. So by just chucking some random other stuff into the emergency pool... we basically freed up enough memory. It was literally that easy.",
+      "related_to": [
+        "Kaze Emanuar"
+      ]
+    }
+  ],
+  "open_questions": [
+    {
+      "topic": "Engine Design Philosophy and Limitations",
+      "context": "Kaze explained that fixing the final 'quarter frame' landing issue would require a fundamental engine overhaul, like implementing delta-time physics, which he deemed too complex for the current project.",
+      "questions": [
+        "How do you decide when a vanilla SM64 engine quirk is 'bad' and needs to be fixed, versus when it's part of the 'feel' that should be preserved?",
+        "Was there a point early in development where you considered building a completely new physics engine from scratch instead of modifying the original?",
+        "What are the biggest engine limitations from the original game that you still have to contend with daily?"
+      ],
+      "related_to": [
+        "Kaze Emanuar"
+      ],
+      "priority": "high"
+    },
+    {
+      "topic": "Art and Technical Integration Workflow",
+      "context": "Kaze imported many of Biobak's assets, sometimes needing to make adjustments himself. The vertex-colored apple required a significant custom programming solution from Kaze to work as intended.",
+      "questions": [
+        "Biobak, can you walk us through your creative process? How much do you consider the N64's technical limits versus creating your ideal artistic vision?",
+        "How is the decision made for who tackles the technical implementation when an artistic choice, like the apple's vertex colors, conflicts with standard engine features?",
+        "What is the feedback process like between you two when an asset needs adjustments to work in-game?"
+      ],
+      "related_to": [
+        "Kaze Emanuar",
+        "Biobak"
+      ],
+      "priority": "high"
+    },
+    {
+      "topic": "Team Collaboration and Art Pipeline",
+      "context": "Kaze mentioned that a flower shy guy model was initially made by Zeina and later reworked by Biobak, hinting at a multi-stage, collaborative art pipeline.",
+      "questions": [
+        "Can you describe the typical workflow when a new art asset is needed? Who creates the initial concept?",
+        "How often do assets pass between different artists like Zeina and Biobak? How is creative direction maintained?",
+        "Zeina, what are your primary responsibilities on the project? Are you focused more on animation, or do you also contribute to modeling?"
+      ],
+      "related_to": [
+        "Zeina",
+        "Biobak",
+        "Kaze Emanuar"
+      ],
+      "priority": "medium"
+    },
+    {
+      "topic": "Personal and Professional Dynamics",
+      "context": "Kaze repeatedly and jokingly complained about his wife, Zeina, giving him a haircut, blending his personal life with his on-stream persona.",
+      "questions": [
+        "Zeina, how do you two navigate the balance between your professional collaboration on the game and your personal relationship?",
+        "Does working together on a creative project like this make collaboration easier, or does it add unique challenges?",
+        "Kaze, how much of your on-stream persona is an exaggeration for entertainment versus your actual off-stream personality?"
+      ],
+      "related_to": [
+        "Kaze Emanuar",
+        "Zeina"
+      ],
+      "priority": "low"
+    },
+    {
+      "topic": "Project Scope and Release Strategy",
+      "context": "Kaze noted that the project is approaching the 64MB ROM limit, which he considers a hard cap. He also mentioned a desire to participate in the F3 fan-game event.",
+      "questions": [
+        "Now that you're nearing the ROM limit, is the game's final scope locked in, or are you having to make difficult cuts?",
+        "What is your ideal release plan for the project? Is a major event like F3 a target for a demo or full release?",
+        "How do you prioritize what makes it into the final game when faced with a hard technical limit like ROM size?"
+      ],
+      "related_to": [
+        "Kaze Emanuar"
+      ],
+      "priority": "high"
+    }
+  ]
+}

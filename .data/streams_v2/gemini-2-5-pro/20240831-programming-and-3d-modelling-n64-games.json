@@ -1,0 +1,164 @@
+{
+  "stream_context": {
+    "summary": "Kaze worked on visual polish for a castle interior level before hosting a deep-dive technical session with Soren, the creator of the F3DX3 microcode. Together, they debugged, tested, and implemented major performance optimizations that are critical to the game's stability and technical ambition.",
+    "level": [
+      "Course 13 (Castle Interior)",
+      "Rabbit Test Scene"
+    ]
+  },
+  "development_findings": [
+    {
+      "summary": "The project is fundamentally 'RSP-bound' (CPU limited), a critical technical constraint that has driven the team to adopt advanced, custom-built solutions beyond standard N64 development practices.",
+      "quote": "It is also interesting to note that for like the last 28 years I was like well the reason the N64 is slow is because of fill rate and memory throughput and now we're at this point and actually it's the rsp."
+    },
+    {
+      "summary": "The project has officially transitioned to using F3DX3, a new N64 microcode developed by Soren, which provides massive performance gains crucial for the game's ambitious design.",
+      "quote": null
+    },
+    {
+      "summary": "A live debugging session fixed a text corruption bug, tracing it to unused 'rainbow text' code that was incompatible with the new F3DX3 microcode.",
+      "quote": null
+    },
+    {
+      "summary": "Soren's F3DX3 microcode includes an 'auto-batched rendering' feature that automatically skips redundant texture loads, saving over 3 milliseconds in a scene with inefficiently modeled rabbits.",
+      "quote": null
+    },
+    {
+      "summary": "The game's design demonstrates a 'tough but fair' philosophy, as seen in a difficult slide section that incorporates safety nets like coin paths and recovery platforms.",
+      "quote": null
+    },
+    {
+      "summary": "Kaze is considering an advanced optimization strategy of swapping microcodes between levels, using a version with an occlusion plane only in scenes where it would be most beneficial.",
+      "quote": null
+    },
+    {
+      "summary": "To manage performance in the castle interior, levels are broken into smaller chunks, with doorways acting as portals that only render the upcoming room when approached.",
+      "quote": null
+    },
+    {
+      "summary": "A unique visual effect where objects fade into view is achieved by combining threshold alpha with a clamped, patterned dither texture that is multiplied over the main texture.",
+      "quote": null
+    }
+  ],
+  "context_findings": [
+    {
+      "summary": "Kaze and his wife, Zeina, are new parents. The baby was with its grandparents during the stream, allowing both of them to focus on their work and community engagement.",
+      "quote": null
+    },
+    {
+      "summary": "Kaze has a strong critique of the developers of Conker's Bad Fur Day, believing they acted snobbishly about design principles (like characters reacting to walls) which their own game then failed to uphold.",
+      "quote": "Being such a snobby asshole. And then you don't even live up to your own standards. Fuck you."
+    },
+    {
+      "summary": "He holds a critical view of Rare's N64 optimization techniques, specifically citing their use of runtime data decompression as a significant performance flaw.",
+      "quote": "It was in 1990x. We couldn't have known that decompressing a fucking code segment was slow."
+    },
+    {
+      "summary": "Kaze expresses a strong dislike for the JRPG genre, using Final Fantasy VII as an example, due to the slow, passive nature of its turn-based combat.",
+      "quote": "But goddamn, I hate JRPGs. I'm playing the Switch version where you have the free time speed modifier and still, literally 50% of the gameplay time is just me sitting there like this. Just attack. Just kill the enemy."
+    },
+    {
+      "summary": "A public demo for the game is planned for release a few weeks after his next edited video, indicating a structured release timeline is in place.",
+      "quote": null
+    }
+  ],
+  "contributor_findings": {
+    "biobak": [
+      {
+        "summary": "Biobak was present in the stream chat, participating in the community conversation.",
+        "quote": null
+      }
+    ],
+    "badub": [],
+    "zeina": [
+      {
+        "summary": "Zeina is actively creating assets for the game; Kaze mentioned she is currently working on models for an upcoming outdoor area described as a 'little village with penguin huts'.",
+        "quote": null
+      }
+    ]
+  },
+  "key_stories": [
+    {
+      "title": "The F3DX3 Performance Breakthrough",
+      "summary": "The project was bottlenecked by the N64's CPU, a problem existing tools couldn't solve. Kaze collaborated with microcode expert Soren, who spent months performing deep, cycle-by-cycle optimization to create F3DX3, a new microcode that dramatically improved performance and is now central to the game's development.",
+      "challenge": "Kaze's game was severely limited by the N64's RSP (CPU), and existing microcodes like F3DX2 were not optimized for this bottleneck. Soren's initial F3DX3 versions were even slower.",
+      "process": "Soren undertook a multi-month effort, first porting F3DX2's vertex pipeline to F3DX3, then meticulously hand-counting assembly cycles to find and fix inefficiencies in both his new code and Nintendo's original. Kaze provided real-world testing and feedback during live streams.",
+      "outcome": "After months of optimization, Soren's F3DX3 is now significantly faster than F3DX2, fixing major slowdowns. Kaze officially adopted it, unlocking new performance potential for the project.",
+      "key_quote": "For the last 28 years I was like, 'Well, the reason the N64 is slow is because of fill rate and memory throughput,' and now we're at this point and actually it's the RSP.",
+      "related_to": [
+        "Kaze",
+        "Soren"
+      ]
+    },
+    {
+      "title": "The Rabbit Problem",
+      "summary": "A test of F3DX3's 'auto-batching' feature uncovered that the rabbit models were reloading their material 14 times each. This not only demonstrated the power of the new microcode, which fixed the issue automatically, but also exposed a flaw in the asset creation pipeline.",
+      "challenge": "While testing a new optimization, an unexpectedly massive performance gain revealed a hidden, severe inefficiency within the game's own assets.",
+      "process": "Soren and Kaze toggled the 'auto-batching' feature in F3DX3 and isolated a 3ms performance cost. Kaze then inspected the rabbit's model data and confirmed it was structured to reload the same material 14 times per rabbit, instead of batching the draw calls efficiently.",
+      "outcome": "The incident highlighted the power of the new microcode to paper over asset creation problems. Kaze now understands the inefficiency and can either rely on F3DX3's automatic fix or remodel the rabbits, leading to a deeper understanding of the interplay between engine tech and asset pipelines.",
+      "key_quote": "So you're loading the same material over and over. It's 14 times. 14 times. Okay, well, there you go.",
+      "related_to": [
+        "Kaze",
+        "Soren"
+      ]
+    }
+  ],
+  "open_questions": [
+    {
+      "topic": "F3DX3 Implementation and Future Potential",
+      "context": "Kaze and Soren successfully implemented the F3DX3 microcode, which provided major performance gains. They discussed future features like occlusion planes and the need for Kaze to implement logic for emulator compatibility.",
+      "questions": [
+        "How has the switch to F3DX3 changed your design philosophy? Can you build bigger or more complex levels now that you have more performance headroom?",
+        "You're considering swapping microcodes on a per-level basis. What creative possibilities does that open up, and what are the technical challenges of managing that?",
+        "Soren mentioned a future fix for Z-fighting with decals. What specific visual problems will that solve for you, and are there any designs you've put on hold because of that limitation?"
+      ],
+      "related_to": [
+        "Kaze",
+        "Soren"
+      ],
+      "priority": "high"
+    },
+    {
+      "topic": "Asset Creation Pipeline and Team Workflow",
+      "context": "The 'Rabbit Problem' revealed that models were created inefficiently, while it was also mentioned that Zeina is working on new assets for a village area.",
+      "questions": [
+        "How does the team coordinate on asset creation to ensure models are technically optimized? Is there a checklist for artists like Zeina?",
+        "What is your philosophy on fixing underlying asset issues, like the rabbits, versus letting advanced engine features automatically compensate for them?",
+        "Zeina, what is your creative process for designing new assets like the penguin huts? How do you balance Kaze's vision with your own artistic style?"
+      ],
+      "related_to": [
+        "Kaze",
+        "Zeina"
+      ],
+      "priority": "medium"
+    },
+    {
+      "topic": "Kaze's Game Development Philosophy",
+      "context": "Kaze went on a detailed rant about what he considers poor optimization in Rare's N64 games and perceived snobbery from the Conker developers.",
+      "questions": [
+        "You have strong principles about the 'right' way to develop for the N64. What are the core tenets you believe developers from that era, like Rare, got wrong?",
+        "You criticized the Conker developers for not living up to their own standards. What are the key standards you hold for your own work on this project that you will not compromise on?",
+        "How does this philosophy of 'doing it right' and not taking shortcuts impact your development timeline and the pressure you feel to deliver a polished game?"
+      ],
+      "related_to": [
+        "Kaze"
+      ],
+      "priority": "high"
+    },
+    {
+      "topic": "Art and Music Contribution Details",
+      "context": "Biobak was present in chat but their recent contributions weren't discussed. Badub, the composer, was not mentioned at all, despite music from the game playing.",
+      "questions": [
+        "Badub, what is your process for composing the soundtrack? How do you and Kaze collaborate on the musical direction for a new level?",
+        "Biobak, what have been your most recent artistic contributions? What are the biggest challenges you're facing in defining the game's visual identity?",
+        "The music for the castle level was featured. Badub, can you walk us through the creation of that specific track, from concept to final version?"
+      ],
+      "related_to": [
+        "Kaze",
+        "Badub",
+        "Biobak"
+      ],
+      "priority": "medium"
+    }
+  ]
+}

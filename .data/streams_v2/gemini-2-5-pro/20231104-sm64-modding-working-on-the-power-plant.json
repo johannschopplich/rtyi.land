@@ -1,0 +1,181 @@
+{
+  "stream_context": {
+    "summary": "Kaze worked on the Power Plant area within the game's oil-themed level. Key activities included programming and troubleshooting moving platforms (a treadmill and an elevator), designing and abandoning a puzzle with breakable blocks, and creating a new platforming puzzle to access a Yoshi Coin. The stream concluded with extensive creative and technical design for two new enemies: the 'Amp' and the 'Fuzzy', the latter involving complex visual and gameplay effects to replicate the 'dizzy' state from Yoshi's Island.",
+    "level": [
+      "Power Plant Area (Oil Level)"
+    ]
+  },
+  "development_findings": [
+    {
+      "summary": "Kaze and chat designed a complex 'Fuzzy' enemy effect inspired by Yoshi's Island, which will make controls slippery, distort the viewport, apply rainbow color effects to the level, slow the music, and exaggerate Mario's squash-and-stretch animations.",
+      "quote": "Touch fuzzy get dizzy... They should make Mario super slippery so you can't stop... The water is gonna be super rainbow the level is gonna glow in rainbow colors the whole viewport is gonna go... Mario's gonna be super squashy and stretchy. He's gonna slide all over the place."
+    },
+    {
+      "summary": "Kaze discusses the technical and aesthetic trade-offs of using polygonal cutouts versus traditional textures for transition effects, expressing skepticism about their look and feel.",
+      "quote": "The problem with using polygonal cutouts instead of textures is that you can't really get the smooth edges unless you also use like vertex alpha on them."
+    },
+    {
+      "summary": "When a collaborator suggests using SVGs to save ROM space, Kaze calculates the potential savings and concludes the benefit is too minimal to justify the complex implementation, though he doesn't forbid it.",
+      "quote": "SVG at load time is extremely over engineered. And it is going to save you just a few bytes of memory... I'm guessing you save 9 kilobytes of room space."
+    },
+    {
+      "summary": "Kaze plans to release smaller, topical hacks before Return to Yoshi's Island to publicly test and refine core mechanics like the camera and physics, ensuring they are perfected for the main release.",
+      "quote": "I do want to release one or two more demos where people can just playtest the physics and stuff... when I released only up 64 I noticed issues with the camera... I feel like I want to release at least one hack where it's like this is all perfect and then I put our tyi out."
+    },
+    {
+      "summary": "Kaze has recently implemented significant performance optimizations, resulting in a noticeable FPS increase in the level he's working on.",
+      "quote": "We went from 43 to 45 fps to the range of 45 to 49 fps."
+    },
+    {
+      "summary": "Kaze initially planned to hide a Yoshi coin under destructible crates, but after struggling to design a visually clear and thematically appropriate object, he pivoted to a different platforming puzzle.",
+      "quote": "We need boxes we can destroy so we can hide a Yoshi coin underneath it... What else can we put that's breakable?"
+    },
+    {
+      "summary": "Kaze plans to redesign the Amp enemies to be visually similar to those in Super Mario Odyssey and to incorporate dynamic lighting effects, where the enemies illuminate the surrounding level geometry as they move.",
+      "quote": "We're gonna make them look kind of like Mario Odyssey, I think... this whole area should have pretty dynamic lighting. I wanted to make it so that enemies that have lighting effects move through here and all the vertices around it light up."
+    }
+  ],
+  "context_findings": [
+    {
+      "summary": "Kaze states that he cannot justify working on large-scale, unpaid projects like an Ocarina of Time hack, highlighting the financial reality and responsibility that tempers his creative pursuits.",
+      "quote": "I would like to do OOT next but I need financial incentive. I can't just do it. It would be irresponsible honestly."
+    },
+    {
+      "summary": "Kaze affirms that his personal interest and enjoyment of a project idea are crucial factors in deciding what to work on, even when considering financial viability.",
+      "quote": "That's also one thing that I somewhat value, like the fact that I should be liking the idea I'm making at least somewhat."
+    },
+    {
+      "summary": "Kaze has recently moved into a new house with his spouse Zeina, where he now works from the basement while she is upstairs, marking a change in his personal and work environment.",
+      "quote": "I actually recently moved. I don't know if you know about this and now I'm in a new location... I'm a basement dweller now."
+    },
+    {
+      "summary": "Kaze believes his YouTube audience has shifted to be more technical and programmer-focused since an event he calls the 'source code revert'.",
+      "quote": "I feel like a lot of programmers watch my channel now and not so much the casual audience ever since the source code revert."
+    },
+    {
+      "summary": "Kaze reveals he uses a deliberate, multi-act storytelling structure for his technical video essays to make them more engaging, demonstrating a thoughtful approach to his content creation.",
+      "quote": "First, we hook in the viewer by saying some ridiculous out-of-pocket shit... Then second, we're gonna start building tension... and then at the height of tension... we're gonna be at the climax... And then we have our epilogue here."
+    }
+  ],
+  "contributor_findings": {
+    "biobak": [
+      {
+        "summary": "Kaze is waiting for Biobak to provide the final textures for the power plant level, indicating that his level design and object placement is provisional until the final art direction is established.",
+        "quote": "I guess this whole area is gonna be ugly until Biobak gets to it just because I can't really change many things right now without knowing the exact textures."
+      }
+    ],
+    "badub": [],
+    "zeina": [
+      {
+        "summary": "Kaze humorously mentions his new living arrangement with Zeina, his spouse, in their new home where they now have separate workspaces.",
+        "quote": "Yeah, Zeina is finally out of my hair. She is upstairs now and I'm downstairs, isn't that nice? We have an upstairs, unbelievable."
+      }
+    ]
+  },
+  "key_stories": [
+    {
+      "title": "The Overlapping Platform",
+      "summary": "While programming a new platform, Kaze was stumped when it refused to move. After verifying that his core engine code was not broken, he discovered the cause was a simple, classic gamedev mistake: two identical platforms were accidentally placed on top of each other, neutralizing their movement.",
+      "challenge": "A custom elevator platform in the power plant level was not moving, despite the code seeming correct, leading to fears of a major bug in the platform physics system.",
+      "process": "Kaze first confirmed that the global platform displacement code was working by testing other moving objects. After his custom code seemed correct, he speculated about unusual causes, eventually realizing he might have made a simple duplication mistake in the level editor.",
+      "outcome": "Kaze discovered that he had accidentally placed two identical platform objects in the exact same location. The overlapping collision and physics calculations cancelled each other out. Removing the duplicate fixed the problem immediately.",
+      "key_quote": "What if, right, there were two of the exact same platform in the exact same spot overlapping each other and that's why it didn't work?",
+      "related_to": [
+        "Kaze Emanuar"
+      ]
+    },
+    {
+      "title": "Designing the Fuzzy Effect",
+      "summary": "To bring the 'Fuzzy' enemy from Yoshi's Island into the game, Kaze embarked on a creative and technical design process. He experimented with manipulating the 3D camera matrix to create a 'dizzy' visual effect and combined it with ideas for slippery controls and audio distortion to create a multifaceted gameplay mechanic that pays homage to the original game.",
+      "challenge": "How to adapt the iconic 'Touch Fuzzy, Get Dizzy' effect from Yoshi's Island into the Super Mario 64 engine in a way that is both technically feasible and creatively interesting.",
+      "process": "Kaze began by brainstorming with chat what the effect should do. He then dove into technical experimentation, manipulating the game's perspective matrix to create a 'trippy' visual filter. He combined this technical proof-of-concept with the other gameplay ideas to form a complete design.",
+      "outcome": "A comprehensive plan was created for the 'Oil Fuzzy' enemy. When touched, it will trigger a wobbly screen effect, slippery controls, rainbow fog and textures, slowed-down music, and exaggerated squash-and-stretch on Mario, creating a disorienting and challenging state.",
+      "key_quote": "The water is gonna be super rainbow the level is gonna glow in rainbow colors the whole viewport is gonna go... Mario's gonna be super squashy and stretchy. He's gonna slide all over the place. It's gonna feel uncontrollable.",
+      "related_to": [
+        "Kaze Emanuar"
+      ]
+    },
+    {
+      "title": "The Breakable Block Pivot",
+      "summary": "While trying to design a puzzle around breakable blocks, Kaze became frustrated with finding a design that fit the level's theme. He pivoted entirely, conceiving a new platforming puzzle where the player must ground-pound a platform to lower it, creating a path to an otherwise inaccessible Yoshi Coin.",
+      "challenge": "Kaze needed to place a Yoshi Coin in the power plant that required a puzzle to solve. His initial idea was to hide it under a pile of breakable objects.",
+      "process": "Kaze and his chat brainstormed various types of breakable objects (crates, barrels, batteries) but struggled to find one that was thematically appropriate and clearly communicated its destructibility. Feeling stuck, he had a sudden inspiration and pivoted to an entirely different mechanic involving a moving platform.",
+      "outcome": "Kaze abandoned the breakable object idea and designed a new platforming puzzle. The player must find and ground-pound a specific platform, causing it to lower temporarily, which they can then use as a stepping stone to long-jump to the previously unreachable Yoshi coin.",
+      "key_quote": "Wait a second, wait a second. I have a really cool idea. So imagine a Yoshi coin like somewhere up here and there's no way to reach it... And the only way to get it would be to pull this platform down.",
+      "related_to": [
+        "Kaze Emanuar"
+      ]
+    }
+  ],
+  "open_questions": [
+    {
+      "topic": "Professional Work at 'Yeast for Breakfast'",
+      "context": "Kaze mentions he is 'still actively working there' at a company he calls 'Yeast for Breakfast' or 'GFB' and is not allowed to talk about what they are working on.",
+      "questions": [
+        "Without breaking your NDA, can you describe how your professional work influences your personal projects, or vice versa?",
+        "Does your day job affect the time and energy you have for projects like RTYI?",
+        "Has working in a professional studio environment changed your approach to game development?"
+      ],
+      "related_to": [
+        "Kaze Emanuar"
+      ],
+      "priority": "medium"
+    },
+    {
+      "topic": "Financial Realities of ROM Hacking",
+      "context": "Kaze repeatedly states that large projects require 'financial incentive' and that doing them for free would be 'irresponsible'.",
+      "questions": [
+        "What is the financial reality of being a full-time creator in the ROM hacking space?",
+        "How do you currently fund your work and your life?",
+        "How do you balance projects you are passionate about with projects that need to be financially successful?"
+      ],
+      "related_to": [
+        "Kaze Emanuar"
+      ],
+      "priority": "high"
+    },
+    {
+      "topic": "Team Collaboration Workflow",
+      "context": "Kaze's stream shows him working solo and reacting to chat, but he mentions team members like Biobak (art) and his spouse Zeina (animation). The actual collaborative workflow is not shown.",
+      "questions": [
+        "Can you walk us through the collaborative process with your team?",
+        "How do you communicate and iterate on ideas with Biobak for graphics or Badub for music?",
+        "What does the feedback loop look like when a team member delivers an asset?",
+        "How are creative differences or disagreements resolved within the team?"
+      ],
+      "related_to": [
+        "Kaze Emanuar",
+        "Biobak",
+        "Badub",
+        "Zeina"
+      ],
+      "priority": "high"
+    },
+    {
+      "topic": "Professional/Personal Dynamic with Zeina",
+      "context": "Kaze mentions his spouse Zeina is an animator and jokes about their new living situation where they have separate workspaces. Her direct professional involvement is not detailed.",
+      "questions": [
+        "How do you and Zeina collaborate on the project?",
+        "What is it like to work on a major creative project with your spouse?",
+        "How do you navigate the boundary between your personal and professional relationship when it comes to the game?"
+      ],
+      "related_to": [
+        "Kaze Emanuar",
+        "Zeina"
+      ],
+      "priority": "medium"
+    },
+    {
+      "topic": "The 'Source Code Revert' Event",
+      "context": "Kaze mentions that his YouTube audience has become more technical 'ever since the source code revert'.",
+      "questions": [
+        "What was the 'source code revert' you mentioned?",
+        "How did that event impact you, your projects, and your relationship with the community?"
+      ],
+      "related_to": [
+        "Kaze Emanuar"
+      ],
+      "priority": "low"
+    }
+  ]
+}

@@ -1,0 +1,171 @@
+{
+  "stream_context": {
+    "summary": "Kaze worked on a space/arcade-themed level for 'Return to Yoshi's Island', focusing on programming and designing key objects like dynamic bridges, low-gravity zones, and teleportation platforms. He spent significant time debugging visual glitches, testing performance on real N64 hardware, and discussing a potential strategy to release a version of the game as a commercial, original IP.",
+    "level": [
+      "Course 15 (Space/Arcade/Casino Level)",
+      "Delfino (Mentioned as secret demo level)"
+    ]
+  },
+  "development_findings": [
+    {
+      "summary": "To create a warp effect, Kaze decided against using Mario's transparency feature as it conflicted with custom rendering. He instead implemented a custom scaling animation combined with a dynamic light source for a unique and technically simpler solution.",
+      "quote": "I think actually my life would be easier if we disabled the ability of Mario to go transparent. Because the materials we have do not allow for it... So instead of this, I think we're going to use a scale animation where Mario just scales into the ground."
+    },
+    {
+      "summary": "Kaze described his level design process as programming a collection of desired objects and mechanics first, then experimenting with their placement in the level to discover fun interactions, keeping what works and discarding the rest.",
+      "quote": "First, I make an outline of the things I want in the level. Then I think about how I can make the level fun... And then I just start moving it around and see what's fun. And then we just keep whatever turned out to be fun."
+    },
+    {
+      "summary": "Kaze is actively testing and optimizing performance on real N64 hardware. While the level has significant frame drops (to ~20-25 FPS) in demanding scenes, he considers it acceptable and comparable to or better than some levels in the original game.",
+      "quote": "Did you think this could run on the N64? Okay, ignore that 20 FPS on that one camera or something... There are Mario 64 levels that are like worse than this."
+    },
+    {
+      "summary": "Kaze emphasized the necessity of low-level assembly programming for operating system tasks like cache management, which he argues cannot be accomplished with high-level C code alone.",
+      "quote": "You need these low level functions. How are you going to send a task off to the RCP without writeback and validate cache all? It's impossible."
+    },
+    {
+      "summary": "Kaze is intentionally staggering the release of the game's demo to avoid overlapping with another creator's release, showing consideration for the broader community.",
+      "quote": null
+    },
+    {
+      "summary": "Kaze mentioned that a previous creation or tool called the 'Slytech' was developed with the explicit foreknowledge that a level of this type would eventually be made.",
+      "quote": "The Slytech was made specifically because I knew that a level like in the Slytech was going to be in this game anyway. Otherwise I wouldn't have made the Slytech."
+    }
+  ],
+  "context_findings": [
+    {
+      "summary": "Kaze is hypothetically considering creating a parallel, original IP version of the game to be sold on Steam, which would require replacing all Nintendo assets and altering the core movement.",
+      "quote": "What if, along with RTYI, I also release a game that is 90% the same content, but we replace all the Nintendo IP with our own? That is the idea. And that way we would legally own it."
+    },
+    {
+      "summary": "Kaze is actively replacing portions of the original Super Mario 64 engine code, driven not just by legal concerns but by his belief that the original code is highly inefficient.",
+      "quote": "If you look at some of this code, this code here on Nintendo's code was literally twice as many cycles, basically. And it's like, why is there 50% inefficiency in not even 8 lines of code?"
+    },
+    {
+      "summary": "Kaze expressed a personal philosophy on social interactions, finding the common greeting 'how are you?' to be an invasive and disingenuous 'interrogation' that forces a specific, often untrue, response.",
+      "quote": "It's a question where you're not allowed to say the wrong answer. Because when someone asks you, 'hello, how are you?' You have to say, 'good, how are you?' You can't say, 'oh, actually, today was kind of a bad day.'"
+    },
+    {
+      "summary": "Kaze was surprised by the financial success of a Kickstarter for another N64-style game (involving team member Badub), viewing the high average pledge as important market data.",
+      "quote": "The average person is dropping $250 on this? This is like insane data. I need to keep this in mind."
+    },
+    {
+      "summary": "Kaze struggles with balancing his desire to include very difficult optional content against the risk of average players encountering it and having a negative experience.",
+      "quote": "I like putting super hard things in my games. That you can only get at the very end...The problem with that is that a lot of the time players do encounter it. And then they're like, this sucks, this is way too difficult."
+    }
+  ],
+  "contributor_findings": {
+    "biobak": [
+      {
+        "summary": "Biobak is responsible for creating the final art assets, reworking Kaze's placeholder textures and models.",
+        "quote": "Probably shouldn't spend so much time on textures and stuff. Considering Biobak is reworking all my stuff anyway. I should just leave it to him."
+      }
+    ],
+    "badub": [
+      {
+        "summary": "Kaze noted that Badub ('Brodude') is involved in a very successful Kickstarter for another N64-like game, which he is using as market research for his own potential projects.",
+        "quote": null
+      }
+    ],
+    "zeina": [
+      {
+        "summary": "Zeina created the arcade-style carpet texture used in the level being developed, which Kaze is very happy with.",
+        "quote": "What do you think of this carpenter that Zeina made? Pretty cool, eh?"
+      }
+    ]
+  },
+  "key_stories": [
+    {
+      "title": "The Buggy Bridge",
+      "summary": "Kaze encountered a persistent bug with a bridge that was both visually and functionally broken. Through a process of elimination, switching emulators, and diagnosing texture format issues, he was able to fix the bug and create a final visual effect he was proud of.",
+      "challenge": "A dynamic bridge in the level was rendering incorrectly; its collision was always solid, and later its transparency effect was not working in-game.",
+      "process": "Kaze first suspected an export error for the collision bug. For the visual bug, he suspected an emulator inaccuracy, then diagnosed the issue as the alpha value not being pulled correctly. He experimented with texture formats and found a solution.",
+      "outcome": "After debugging, Kaze resolved the issue by changing the texture format. The bridge now renders as intended with a materializing effect that he is very pleased with.",
+      "key_quote": "So it looks like texture 0 alpha is reported wrong. Why is texture 0 alpha reported wrong? Can we get a more accurate emulator here?",
+      "related_to": [
+        "Kaze"
+      ]
+    },
+    {
+      "title": "The Non-Transparent Warp",
+      "summary": "Faced with a technical limitation that prevented using a standard transparency effect for a warp, Kaze devised a creative workaround. He created a new animation of Mario scaling into the platform, combined with a custom lighting effect, to achieve his goal without breaking other systems.",
+      "challenge": "Kaze wanted to create a unique teleportation animation but enabling Mario's default transparency effect would interfere with other custom rendering features.",
+      "process": "Kaze identified the technical constraint (transparency breaking other effects) and pivoted to an alternative idea. He used the engine to manipulate the object's transformation matrix to create a scaling animation and added a custom collision type to trigger a lighting effect, creating a polished final product.",
+      "outcome": "Kaze successfully implemented a new warp effect where Mario scales down into the platform, enhanced by a dynamic light from below. This solution avoided technical conflicts and resulted in a unique visual he was happy with.",
+      "key_quote": "I think actually my life would be easier if we disabled the ability of Mario to go transparent... So instead of this, I think we're going to use a scale animation where Mario just scales into the ground.",
+      "related_to": [
+        "Kaze"
+      ]
+    },
+    {
+      "title": "The Hypothetical Indie Game",
+      "summary": "Kaze discussed a potential long-term strategy to overcome the legal limitations of a fan project. He outlined a plan to create a commercially viable, original IP by asset-swapping the entire game and altering its mechanics, turning the fan project into a foundation for a sellable indie title.",
+      "challenge": "The project is a fan game using Nintendo's IP, which is legally impossible to monetize or distribute commercially.",
+      "process": "Kaze brainstormed a strategy to create a parallel version of the game. This would involve swapping all Nintendo assets for original ones, redesigning the main character, and altering game mechanics enough to constitute a new, legally distinct IP that could be sold on platforms like Steam.",
+      "outcome": "The idea is currently a hypothetical concept. Kaze is gauging interest and looking at market data from other N64-style projects to determine its viability, but no decision has been made.",
+      "key_quote": "What if, along with RTYI, I also release a game that is 90% the same content, but we replace all the Nintendo IP with our own? That is the idea. And that way we would legally own it.",
+      "related_to": [
+        "Kaze",
+        "Biobak",
+        "Badub"
+      ]
+    }
+  ],
+  "open_questions": [
+    {
+      "topic": "Original IP Release Strategy",
+      "context": "Kaze proposed a hypothetical plan to release a parallel version of the game with all Nintendo IP replaced, allowing him to sell it as an original game on Steam.",
+      "questions": [
+        "How seriously are you considering this original IP version of the game?",
+        "What does the planned original main character look like, and how would they play differently from Mario?",
+        "What discussions have you had with Biobak and Badub about the significant work of creating an entire suite of original assets and music for this version?"
+      ],
+      "related_to": [
+        "Kaze",
+        "Biobak",
+        "Badub"
+      ],
+      "priority": "high"
+    },
+    {
+      "topic": "Artistic Collaboration Workflow",
+      "context": "Kaze stated that he doesn't need to spend too much time on placeholder art because 'Biobak is reworking all my stuff anyway.'",
+      "questions": [
+        "Can you describe the creative workflow between you and Biobak?",
+        "How much creative freedom does Biobak have in defining the game's final visual style based on your placeholders?",
+        "Is there an example of a level or asset where your initial concept was significantly changed or improved by Biobak's final design?"
+      ],
+      "related_to": [
+        "Kaze",
+        "Biobak"
+      ],
+      "priority": "medium"
+    },
+    {
+      "topic": "Rewriting the SM64 Engine",
+      "context": "Kaze passionately criticized Nintendo's original SM64 code as inefficient and mentioned he is replacing it.",
+      "questions": [
+        "Could you walk us through a significant piece of original Nintendo code you rewrote and explain why it was inefficient?",
+        "What tangible benefits, like improved performance or new features, did your replacement code enable?",
+        "Roughly what percentage of the original game engine do you anticipate will be your own code by the time the project is finished?"
+      ],
+      "related_to": [
+        "Kaze"
+      ],
+      "priority": "high"
+    },
+    {
+      "topic": "The 'Slytech' Influence",
+      "context": "Kaze briefly mentioned a past project or tool: 'The Slytech was made specifically because I knew that a level like in the Slytech was going to be in this game anyway.'",
+      "questions": [
+        "What exactly is the 'Slytech'?",
+        "Was it a tool, a proof-of-concept, or a full level?",
+        "How did the experience of creating it directly influence the design and mechanics of this new space/arcade level?"
+      ],
+      "related_to": [
+        "Kaze"
+      ],
+      "priority": "low"
+    }
+  ]
+}

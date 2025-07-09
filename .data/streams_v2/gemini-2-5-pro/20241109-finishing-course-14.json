@@ -1,0 +1,158 @@
+{
+  "stream_context": {
+    "summary": "Kaze worked on the final level, Course 15, implementing a retro section inspired by Mario Paint. This involved creating a system for players to draw on a 3D Mario model, programming a non-recursive flood fill algorithm, modeling an NPC from scratch to act as a judge, and wrestling with design decisions like the deliberate exclusion of an 'undo' feature.",
+    "level": [
+      "Course 15"
+    ]
+  },
+  "development_findings": [
+    {
+      "summary": "To implement a 'paint bucket' fill tool, Kaze had to create a custom non-recursive algorithm using a temporary memory buffer as a stack to avoid overflowing the N64's limited hardware stack.",
+      "quote": "The stack is not big enough for that. So I can't do that. It requires a function like that will just underflow the stack. So I had to invent something."
+    },
+    {
+      "summary": "Kaze revealed a deep technical detail about the N64 hardware, explaining that the system's memory has an accessible ninth bit per byte, which could theoretically be used for extra storage.",
+      "quote": "The Nintendo 64 has around one megabyte of hidden memory that you don't really use... secretly, all the bytes on the N64 are nine bits. And there are tricks to read and access the ninth bit."
+    },
+    {
+      "summary": "A conscious design choice was made for the Mario Paint section to include a full reset option but explicitly exclude an 'undo' feature to maintain a level of challenge.",
+      "quote": "You don't get undo, but you get reset. That should be good enough for you guys."
+    },
+    {
+      "summary": "Kaze chose the robot from Mario Paint/Maker as the judging NPC specifically to avoid using the 'Undo Dog' and creating a false player expectation that an undo feature exists.",
+      "quote": null
+    },
+    {
+      "summary": "Kaze is developing Course 15, which he confirms is the final course of the game.",
+      "quote": null
+    },
+    {
+      "summary": "Kaze dismissed a viewer's concern about T-junctions in his 3D model, explaining that due to the N64's fixed-point math and his world-aligned geometry, the typical rendering artifacts (seams) won't occur.",
+      "quote": "Because visible seams I think mean floating points. N64 is fixed points. And these are world axis aligned. Which means that the rounding error there will always be 0."
+    },
+    {
+      "summary": "He is actively considering speedrun strategies while developing mechanics, testing the minimum effort required to pass the painting challenge.",
+      "quote": null
+    },
+    {
+      "summary": "Based on viewer feedback, Kaze changed the texture filtering on the Mario drawing canvas from bilinear to point (nearest-neighbor), resulting in a much sharper, pixel-art look that he preferred.",
+      "quote": "Oh, yeah, that looks way more crisp. I don't know why I didn't try it."
+    }
+  ],
+  "context_findings": [
+    {
+      "summary": "Kaze is considering turning the project into a commercial indie game after release by swapping out Nintendo's assets, but acknowledges he would need to consult a lawyer.",
+      "quote": "There is this idea of maybe asset swapping Return to Yoshi's Island when it's done and releasing it under my own IP, because the only vanilla actor I use in this game is Mario himself."
+    },
+    {
+      "summary": "Kaze reflects on the changing internet culture, stating that he feels he can no longer create political meme hacks due to the current climate and the risk of severe backlash.",
+      "quote": "When I made Trump 64 in 2016, you could do anything on the internet... But if I do the same thing in 2024 with the Trump 64 ROM hack, people will murder me."
+    },
+    {
+      "summary": "Kaze's game design preference leans heavily towards exploration and open-world elements over linear, puzzle-focused sections like dungeons.",
+      "quote": "What I like in Zelda games is all the open world and exploration and not really the dungeons."
+    },
+    {
+      "summary": "Despite the project's name, Kaze professes a general dislike for 2D platformers, making an exception for the original Yoshi's Island primarily for aesthetic and audio reasons.",
+      "quote": "I don't like 2D platformers, like at all. I only like Yoshi's Island because it has Yoshi in it and he makes cute sounds in the game."
+    },
+    {
+      "summary": "Kaze has a sponsorship deal with Roblox and is planning to stream the game, indicating an external source of income related to his streaming career.",
+      "quote": null
+    },
+    {
+      "summary": "Kaze expresses a creative philosophy of needing to move on to new ideas rather than repeating past successes, even if they were popular.",
+      "quote": "You cannot redo a hundred times what you've done in the past. It's not because it works that you can do it."
+    }
+  ],
+  "contributor_findings": {
+    "biobak": [],
+    "badub": [],
+    "zeina": [
+      {
+        "summary": "Kaze mentions he is playing through the game 'Twilight Princess' with Zeina, offering a small glimpse into their shared personal life and interests.",
+        "quote": "Me and Zeina, we're currently playing through Twilight Princess."
+      }
+    ]
+  },
+  "key_stories": [
+    {
+      "title": "The Non-Recursive Flood Fill",
+      "summary": "Kaze needed to implement a 'paint bucket' tool for the Mario Paint section. Faced with the N64's limited stack size which made a standard recursive algorithm impossible, he engineered a custom, non-recursive solution using a temporary memory buffer as a makeshift stack, demonstrating a deep understanding of the hardware's limitations.",
+      "challenge": "A standard recursive flood fill algorithm, common for paint bucket tools, would cause a stack overflow error on the N64 due to its limited memory.",
+      "process": "Kaze identified the limitation of a recursive approach. He then allocated a temporary memory buffer in the ROM space to manually manage a stack of pixels to be checked and colored, bypassing the hardware stack limitations.",
+      "outcome": "Kaze successfully implemented a performant flood fill tool that works within the N64's constraints by creating an iterative algorithm that uses a dedicated block of memory as a custom stack.",
+      "key_quote": "The stack is not big enough for that. So I can't do that... I had to invent something.",
+      "related_to": [
+        "Kaze"
+      ]
+    },
+    {
+      "title": "Choosing the Judge",
+      "summary": "To find an NPC for the painting area, Kaze researched Mario Paint characters. He deliberately avoided the 'Undo Dog' to not mislead players into expecting an undo feature he refused to add. He ultimately chose the save/load robot, found a suitable reference sprite, and created a 3D model for the game.",
+      "challenge": "The Mario Paint section required an NPC to judge the player's artwork, but Kaze had never played Mario Paint and didn't know which character would be appropriate.",
+      "process": "Kaze researched potential NPCs online. He considered and then rejected the 'Undo Dog' because he was adamant about not including an undo feature. After settling on the robot, he had to find a high-quality GIF of its sprite to use as a reference for his 3D model.",
+      "outcome": "He selected the robot character from Mario Paint (popularized in Super Mario Maker), modeled it in 3D based on a sprite sheet, and implemented it as the judge. This choice fit the theme perfectly without creating misleading expectations about gameplay features.",
+      "key_quote": "I'm a little bit scared that the Undo Dog will make people think that they can undo. And I will absolutely not add undo to this.",
+      "related_to": [
+        "Kaze"
+      ]
+    }
+  ],
+  "open_questions": [
+    {
+      "topic": "Yoshikons",
+      "context": "Kaze mentioned that he still needs to add 'two characters for the Yoshikons' before Course 15 is complete, but did not elaborate on what they are.",
+      "questions": [
+        "What exactly are 'Yoshikons' in the context of the game?",
+        "What is their gameplay function or purpose in the level?",
+        "Who on the team is responsible for designing and creating them?"
+      ],
+      "related_to": [
+        "Kaze",
+        "Biobak"
+      ],
+      "priority": "medium"
+    },
+    {
+      "topic": "Asset Swap to Indie Game Strategy",
+      "context": "Kaze openly discussed the idea of swapping assets after the ROM hack is finished to release it as a commercial indie game on its own.",
+      "questions": [
+        "How seriously are you considering this 'asset swap' plan? Is it a long-term goal or a passing thought?",
+        "Beyond swapping the character model, would you need to redesign core physics and level design to detach it from the 'Mario' feel?",
+        "Have you had any preliminary discussions with a lawyer about the legal viability of this process?",
+        "What do you foresee as the biggest legal or creative challenges in transforming a ROM hack into a commercial IP?"
+      ],
+      "related_to": [
+        "Kaze"
+      ],
+      "priority": "high"
+    },
+    {
+      "topic": "Parallel RDP Crash",
+      "context": "A viewer mentioned a crash with the Parallel RDP plugin, and Kaze confirmed it was a known, unresolved issue he had discussed with someone named Falco.",
+      "questions": [
+        "Can you explain the technical nature of the crash with Parallel RDP?",
+        "Who is Falco and what role do they play in the tech or testing side of the community?",
+        "How does this incompatibility affect your development process or recommendations for how players should experience the game?"
+      ],
+      "related_to": [
+        "Kaze"
+      ],
+      "priority": "low"
+    },
+    {
+      "topic": "Game Design Philosophy",
+      "context": "Kaze stated he prefers open-world exploration in Zelda over dungeons and generally dislikes 2D platformers, with Yoshi's Island being a rare exception.",
+      "questions": [
+        "How has your preference for exploration over linearity influenced the level design philosophy of Return to Yoshi's Island?",
+        "How do you reconcile your personal dislike for the 2D platformer genre with the fan expectations that come with a title like 'Return to Yoshi's Island'?",
+        "Besides the 'cute sounds', what specific design elements from the original Yoshi's Island did you feel were most important to carry into this 3D interpretation?"
+      ],
+      "related_to": [
+        "Kaze"
+      ],
+      "priority": "medium"
+    }
+  ]
+}

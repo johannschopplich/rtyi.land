@@ -1,0 +1,202 @@
+{
+  "stream_context": {
+    "summary": "Kaze worked primarily on the final Bowser boss fight, implementing and debugging the core mechanic of grabbing and throwing Bowser. This involved extensive work on Bowser's AI, physics, and interactions. The stream also included implementing new tutorial sign models from Biobak and fixing a series of cascading bugs with held-object rendering and lighting on older models like Resnor.",
+    "level": [
+      "Bowser Boss Fight Stage",
+      "Course 6 (Resnor Level)"
+    ]
+  },
+  "development_findings": [
+    {
+      "summary": "Kaze implemented a significant optimization to fix 'floor clocking' (surfaces hiding each other). The solution involves culling high floors and then only loading the Y-coordinates of remaining floors into the dcache, which is much faster than previous solutions.",
+      "quote": "what if we just keep the sorting priority, and we kill all the floors that are too high, and then we can just only iterate 0x10 bytes of each floor?"
+    },
+    {
+      "summary": "Substantial changes have been made to levels like 'All-Alone Bubbledome' and the overworld since the public demo, to the point that the final game will be a completely new experience.",
+      "quote": "The actual final game is so unrecognizable from the demo right now it's actually crazy."
+    },
+    {
+      "summary": "The game's movement physics have been modified to allow for new techniques, such as jumping immediately out of long jump and triple jump landings, intentionally making the game feel different and geared towards speedrunning.",
+      "quote": "One thing that really changes feel is that you can long jump out of the long jump land like this. That's a huge change to game feel."
+    },
+    {
+      "summary": "The 64MB cartridge limit is a real constraint, with high-quality streamed music taking up the vast majority of the ROM size.",
+      "quote": "Currently, the ROM is 44.6 megabytes and 32.1 megabytes is music because we have a lot of stream to music."
+    },
+    {
+      "summary": "A bug that broke object interaction boxes was traced back to including a core engine header file inside the main Mario header file, causing cascading issues.",
+      "quote": null
+    },
+    {
+      "summary": "To optimize performance, Kaze uses a technique of modeling only half of a symmetrical object like a ship, then using negative scaling with adjusted face culling to render the other half, effectively halving the polygon count.",
+      "quote": null
+    },
+    {
+      "summary": "The Bowser boss fight is designed in phases. The final phase involves grabbing Bowser's tail on his ship and throwing him off, after which he jumps back to continue the fight, with increasing speed and difficulty.",
+      "quote": null
+    }
+  ],
+  "context_findings": [
+    {
+      "summary": "Kaze holds a strong design philosophy against including many player options, such as alternate music, believing it leads to confusion and a less curated, universal experience. He cites psychological studies about the paradox of choice to support his view.",
+      "quote": "I hate options. I think games should give you as few options as possible, as little as you can get away with."
+    },
+    {
+      "summary": "Kaze is confident in the legality of the project. However, he plans to delay open-sourcing the game for about two months after release to prevent an immediate takedown by Nintendo and to hide Easter eggs.",
+      "quote": "What I'm doing is perfectly legal. Like, they literally cannot ban me from doing this."
+    },
+    {
+      "summary": "The decision to stream on YouTube instead of Twitch was driven by a community poll and the more favorable 70/30 revenue split on YouTube, compared to Twitch's 50/50 split.",
+      "quote": null
+    },
+    {
+      "summary": "Kaze is financially prudent, saving money for major life goals like buying a house with Zeina, and forgoes smaller purchases like merchandise.",
+      "quote": "I don't really buy things. I gotta save up so we can eventually get a house."
+    },
+    {
+      "summary": "Kaze prioritizes engaging movement mechanics and skill expression in platformers, which is why he finds games like Banjo-Kazooie, which focus more on exploration, to be 'boring'.",
+      "quote": "For me, what's really important in a platformer is that I get that sense of freedom. That sense of skill expression."
+    },
+    {
+      "summary": "While Kaze has a professional job as an Unreal Engine developer, his income from Patreon provides a significant financial safety net.",
+      "quote": "My youtube learns like a slight bits my patron is like the biggest income. But like it's nice knowing that even if I lost my job I wouldn't just starve."
+    }
+  ],
+  "contributor_findings": {
+    "biobak": [
+      {
+        "summary": "Biobak created and sent Kaze the 3D models for the tutorial bunnies and their associated text boxes, which Kaze implemented during the stream.",
+        "quote": null
+      }
+    ],
+    "badub": [
+      {
+        "summary": "No specific contributions from Badub were discussed during this stream.",
+        "quote": null
+      }
+    ],
+    "zeina": [
+      {
+        "summary": "Zeina confirms her role involves creating animations and artwork for the project, and she plans to post monthly showcases of her work.",
+        "quote": "So if I may, Kaze, every month you'll see a new animation posted. It's just, well, mainly just a collection of animations. So look forward to seeing Bowser's showcase next."
+      },
+      {
+        "summary": "Zeina is developing a new animation format for Mario. Kaze notes this will require significant code changes but will ultimately improve the game.",
+        "quote": null
+      },
+      {
+        "summary": "Zeina is motivated to work on animations as she finds them fun, it serves as good practice, and it helps build her professional portfolio.",
+        "quote": "I mean, animations are fun for me. And if you saw the last animation I posted in the discord server. Bowser getting hit. That was a pretty good one."
+      },
+      {
+        "summary": "Zeina is present during the stream, providing snacks, correcting Kaze on personal details like their wedding anniversary, and engaging in the development conversation, showcasing a collaborative personal and professional dynamic.",
+        "quote": null
+      }
+    ]
+  },
+  "key_stories": [
+    {
+      "title": "The Floor Clocking Optimization",
+      "summary": "Kaze identified a performance bottleneck related to a long-standing bug in the SM64 engine's collision detection. He devised a clever optimization that not only fixed the bug but also significantly improved performance by minimizing the amount of data loaded for collision checks.",
+      "challenge": "In vanilla SM64, a bug called 'floor clocking' can cause Mario to fall through the world because one surface can computationally hide another. The obvious fix of removing surface sorting was inefficient.",
+      "process": "Kaze devised a new approach. Instead of removing the surface sorting, he kept it but added a step to discard any floors that are too far above Mario. For the remaining potential floors, the code now only loads the essential Y-coordinate data, not the entire surface struct, significantly reducing the amount of data processed per frame.",
+      "outcome": "The new method fixes the bug while being a major performance optimization. It avoids loading unnecessary surface data into the dcache, making collision detection faster and more reliable.",
+      "key_quote": "So since we need to fix floor clacking like this, we originally had to remove the sorting priority as well. But I had the idea, what if we just keep the sorting priority, and we kill all the floors that are too high, and then we can just only iterate 0x10 bytes of each floor?",
+      "related_to": [
+        "Kaze"
+      ]
+    },
+    {
+      "title": "Debugging the Bouncing Bunnies",
+      "summary": "When implementing new art assets from Biobak, Kaze encountered a strange visual bug causing static objects to bounce. He diagnosed it as a subtle frame rate-dependent issue caused by misusing a recently-refactored core engine function, and was able to fix it by removing the erroneous function call.",
+      "challenge": "After implementing new tutorial bunny models from Biobak, Kaze discovered they were erratically bouncing up and down, an issue that only appeared at 60 FPS.",
+      "process": "Kaze diagnosed the issue by observing its correlation with the frame rate. He theorized it was caused by a core function he'd modified that sets an object's interpolated position. He realized this function, intended for dynamic objects, was being incorrectly called on the static signs, causing them to offset their own position every frame.",
+      "outcome": "By identifying and removing the incorrect function call on the static bunny object, Kaze fixed the bouncing. The new tutorial signs now appear correctly in the game, ready for animation.",
+      "key_quote": "I have a theory. It's because of this function. It's because I changed how this works... That happened because the sign offsets itself every frame after this function has been called.",
+      "related_to": [
+        "Kaze",
+        "Biobak"
+      ]
+    },
+    {
+      "title": "Fixing Held Object Physics",
+      "summary": "Following a code cleanup, Kaze spent a significant portion of the stream debugging a complex issue with held-object physics. Through a systematic process of isolating code, he identified and fixed the bug, restoring core gameplay functionality and demonstrating the challenges of maintaining a complex, custom engine.",
+      "challenge": "A major code refactor caused a critical bug where objects held by Mario, like a Resnor, would have completely incorrect rotation and translation, making them unplayable.",
+      "process": "Kaze began a methodical process of elimination, commenting out blocks of code in the 'held object' logic until the bug disappeared, thereby isolating the fault. He discovered the issue was a complex interaction between how the object's angle was being copied from Mario's state and how its position was being offset, requiring multiple adjustments to fix.",
+      "outcome": "After a lengthy process, Kaze fixed the held object logic, ensuring that Resnors and other grabbable objects behave correctly. The process highlighted the fragility and interconnectedness of the game's core physics code.",
+      "key_quote": "The crazy part is that they seem to completely ignore what Mario is doing. Like entirely.",
+      "related_to": [
+        "Kaze"
+      ]
+    }
+  ],
+  "open_questions": [
+    {
+      "topic": "New Animation Format",
+      "context": "Kaze mentions that Zeina is creating a brand-new animation format for Mario that will 'fuck a lot of shit up' but ultimately make the game much better.",
+      "questions": [
+        "What specific limitations of the old animation system prompted the creation of a new one?",
+        "What new capabilities does this new animation format provide for animators and for the game itself?",
+        "What have been the biggest technical hurdles in implementing this new system into the SM64 engine?"
+      ],
+      "related_to": [
+        "Kaze",
+        "Zeina"
+      ],
+      "priority": "high"
+    },
+    {
+      "topic": "Evolution from Demo",
+      "context": "Kaze states that the game is now 'unrecognizable' from the public demo, specifically mentioning the 'All-Alone Bubbledome' level as being 'very very different'.",
+      "questions": [
+        "What was the feedback on the demo version of 'All-Alone Bubbledome'?",
+        "What specific design or visual changes were made to the level, and what problems were you trying to solve with those changes?",
+        "Can you walk us through the evolution of this level from the demo to its current state?"
+      ],
+      "related_to": [
+        "Kaze"
+      ],
+      "priority": "high"
+    },
+    {
+      "topic": "Release and Legal Strategy",
+      "context": "Kaze mentions he is confident in the legality of the project but will still delay making the source code public for about two months post-release.",
+      "questions": [
+        "What is the primary reason for delaying the open-sourcing: hiding Easter eggs or mitigating legal risks?",
+        "What specific legal advice or precedent gives you confidence in the project's legality?",
+        "How do you balance the desire to protect the project with the benefits of open-sourcing it for the community?"
+      ],
+      "related_to": [
+        "Kaze"
+      ],
+      "priority": "medium"
+    },
+    {
+      "topic": "The Zoo Level",
+      "context": "Kaze mentions a 'zoo' level as an example of a good, unique theme, but provides no further details.",
+      "questions": [
+        "Is the 'zoo' a level that is actually being developed for Return to Yoshi's Island?",
+        "If so, what is the core concept of the level?",
+        "What kind of unique mechanics or enemies can be found in the zoo level?"
+      ],
+      "related_to": [
+        "Kaze"
+      ],
+      "priority": "low"
+    },
+    {
+      "topic": "Music and Collaboration with Badub",
+      "context": "Badub is listed as the team's composer, but his work was not mentioned during the stream, where Kaze was listening to placeholder music from 'Breath of the Wild'.",
+      "questions": [
+        "What is the musical direction for the Bowser boss fight?",
+        "How does the collaboration process with Badub work? Does he get a build of the level first, or do you provide a creative brief?",
+        "To what extent does the placeholder music influence the final compositions?"
+      ],
+      "related_to": [
+        "Kaze",
+        "Badub"
+      ],
+      "priority": "medium"
+    }
+  ]
+}

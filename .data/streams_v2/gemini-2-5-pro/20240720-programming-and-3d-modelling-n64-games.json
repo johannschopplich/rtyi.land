@@ -1,0 +1,176 @@
+{
+  "stream_context": {
+    "summary": "Kaze showcased a new performance profiler, refined level geometry and camera behavior for a slide in Course 13, and spent the majority of the stream importing, implementing, and debugging a large batch of optimized character assets from Biobak for the 'Oily Boily Bay' level.",
+    "level": [
+      "Course 13",
+      "Oily Boily Bay"
+    ]
+  },
+  "development_findings": [
+    {
+      "summary": "A new profiling tool created by Sauron was implemented, providing detailed insight into the N64's task scheduling and revealing that the game spends ~76% of its time in an idle loop.",
+      "quote": "This is the new profiler. It is pretty good... 25 out of 33 milliseconds are spent on a while 1 loop. It's all idle."
+    },
+    {
+      "summary": "Building a large slide in Course 13 exceeded the engine's memory limits for collision, forcing an optimization to the memory allocation system that ultimately improved the entire game's performance.",
+      "quote": "When I first made this slide I ran out of memory... And because of that we gained 400 microseconds of computing time."
+    },
+    {
+      "summary": "The game's controls are significantly more precise than the original SM64. This was an unintentional but beneficial side effect of optimizing the sine/cosine functions for speed, which resulted in a more accurate polynomial-based calculation.",
+      "quote": "In Mario 64 you have 4096 angles. In this game you have 65336 angles. The controls are about 8 times more precise."
+    },
+    {
+      "summary": "Kaze implemented fog effects on new assets like the Tox Boxes, demonstrating a focus on ensuring new models are visually integrated into the level's atmosphere for a cohesive look.",
+      "quote": "Oh, that looks so good the way the fog is on them now... They really fit in the world now."
+    },
+    {
+      "summary": "Kaze debugged and fixed a complex pathfinding bug with the Wiggler character, which was caused by a single, incorrect line of code that made the character skip waypoints in its path.",
+      "quote": "I see what I did... that's why the path was so buggy at first because I was skipping waypoints."
+    },
+    {
+      "summary": "Integrating new models frequently requires Kaze to debug and rewrite shader-like material combiners to handle lighting, color, and transparency correctly, highlighting a recurring technical challenge.",
+      "quote": "Okay, we have to shade color alpha thing again here... always this one environment color thing. It's gonna drive me nuts."
+    }
+  ],
+  "context_findings": [
+    {
+      "summary": "Kaze expressed strong negative opinions about living in Germany, citing technological backwardness, poor customer service, and unfavorable tax policies as reasons he is happy to have emigrated to Canada.",
+      "quote": "I'm so glad I moved out. Living in Germany sucks."
+    },
+    {
+      "summary": "Kaze is on paternity leave and awaiting the birth of his child with Zeina, who was due two days before the stream.",
+      "quote": "The child is not born yet. It was supposed to be born two days ago. But it still takes a bit of it. I guess it's not fully cooked yet."
+    },
+    {
+      "summary": "Kaze explained that his popular catchphrase \"Rambus goes vroom vroom\" originated from his own boredom while writing a video script, where he substituted the repetitive technical explanation with the simpler, more memorable phrase.",
+      "quote": "I just wrote Rambus goes vroom vroom into my notes over and over because I just didn't care and then people loved it."
+    },
+    {
+      "summary": "When placing objects in the world, Kaze's design philosophy prioritizes contextual fit and purpose within the level's environment over standalone aesthetics.",
+      "quote": "I always think a lot about, does it work as a part of the area? Does it serve its purpose?"
+    }
+  ],
+  "contributor_findings": {
+    "biobak": [
+      {
+        "summary": "Biobak delivered a large batch of updated and optimized 3D models for the 'Oily Boily Bay' level, including Womps, Tox Boxes, a Wiggler, Koopas, and a Thwomp.",
+        "quote": "Oh my god, that is so many assets, holy fuck."
+      },
+      {
+        "summary": "Biobak's optimizations, such as reducing material counts and bone structures (e.g., saving 10 bones across the Womps), were critical for improving performance in graphically intensive areas.",
+        "quote": "Dang, I think we can get oily, boily bay at 30 FPS now."
+      },
+      {
+        "summary": "Biobak provided detailed notes on his optimizations, showing a methodical approach to improving game performance through specific modeling and texturing techniques.",
+        "quote": "Made both legs use the same bone, saves one bone. Baked helmet strap into the texture saves one material. Slightly updated geo and collision to match."
+      },
+      {
+        "summary": "Biobak designed a new Thwomp model that Kaze described as \"surreal,\" indicating Biobak's creative input extends to unique artistic interpretations of classic enemies.",
+        "quote": "Didn't think you'd go with something surreal like this."
+      }
+    ],
+    "badub": [],
+    "zeina": [
+      {
+        "summary": "Zeina is actively contributing models for the new overworld entrance, taking initiative on its design.",
+        "quote": "Zeina is making a bunch of 3D models and stuff. Zeina wanted to give making the new overworld a try."
+      },
+      {
+        "summary": "Kaze jokes about his and Zeina's personal life and their upcoming child, playfully tying it into video game naming conventions.",
+        "quote": "The child's gonna be called Reyna. You know how they called Mario's rival Wario? We're thinking that and then I'm gonna have Reyna and Zeina fight to the death."
+      }
+    ]
+  },
+  "key_stories": [
+    {
+      "title": "The Slide That Broke the Memory Bank",
+      "summary": "An ambitious level design element in Course 13 broke the game's memory limits, forcing Kaze to re-engineer a core system. This not only fixed the crash but also resulted in a significant performance optimization for the entire game.",
+      "challenge": "A large, complex slide model created for Course 13 used so many collision triangles that it exceeded the N64's memory capacity for 'surface nodes', causing the game to crash.",
+      "process": "Kaze identified that the crash was due to excessive memory allocations for collision data. He rewrote the memory allocation system to handle it more efficiently.",
+      "outcome": "The crash was resolved, and the new memory allocation system improved the game's overall performance by 400 microseconds, turning a major problem into a net benefit for the project.",
+      "key_quote": "You guys have no idea how much trouble making this slide gave me. When I first made this slide I ran out of memory.",
+      "related_to": [
+        "Kaze"
+      ]
+    },
+    {
+      "title": "Taming the Wiggler's Path",
+      "summary": "A bug in the Wiggler's pathfinding logic caused erratic movement, requiring a focused debugging session to fix. Kaze traced the problem to a single faulty line of code, and its removal restored the character's intended behavior and animation.",
+      "challenge": "The Wiggler character, using a new model from Biobak, would not follow its intended path. It turned at random intervals, breaking its animation sequence.",
+      "process": "After initial frustration, Kaze systematically debugged the pathfinding logic by printing the character's state. He discovered an erroneous conditional statement was causing the code to skip waypoints, and by removing it, he fixed the behavior.",
+      "outcome": "The Wiggler now follows its path perfectly, and its facial animations trigger correctly when it gets angry, making the character fully functional.",
+      "key_quote": "So and then he just turns around and he just keeps going he keeps going random directions. You see that? What the fuck?",
+      "related_to": [
+        "Kaze",
+        "Biobak"
+      ]
+    },
+    {
+      "title": "The Origin of 'Rambus Goes Vroom Vroom'",
+      "summary": "Kaze revealed the origin of his famous \"Rambus goes vroom vroom\" catchphrase. It was born from his frustration with repetitive technical jargon while scripting a video, and the spontaneous, simplified phrase unexpectedly resonated with his audience.",
+      "challenge": "Kaze needed to repeatedly explain a technical concept ('optimizes memory throughput') in a YouTube video script, which he found monotonous and boring to write.",
+      "process": "In a moment of creative frustration, Kaze replaced the technical jargon in his personal notes with the playful phrase \"Rambus goes vroom vroom.\" He ended up using it in the final video.",
+      "outcome": "The phrase became a beloved catchphrase among his audience, demonstrating that authentic, simplified expressions can be more effective and engaging than dry, technical explanations.",
+      "key_quote": "I was writing the video and... I noticed I kept saying 'this optimizes memory throughput' and I just got sick of it... I just wrote 'Rambus goes vroom vroom' into my notes over and over because I just didn't care and then people loved it.",
+      "related_to": [
+        "Kaze"
+      ]
+    }
+  ],
+  "open_questions": [
+    {
+      "topic": "Zeina's Overworld Design",
+      "context": "Kaze mentioned that Zeina is creating 3D models for the new overworld and wanted to take the lead on its design.",
+      "questions": [
+        "What is the overall vision for the new overworld, and how does it differ from the original game's hub?",
+        "How does the creative collaboration between you and Zeina work when designing a central area like the overworld?",
+        "What artistic or gameplay goals is Zeina bringing to the overworld's design?"
+      ],
+      "related_to": [
+        "Kaze",
+        "Zeina"
+      ],
+      "priority": "high"
+    },
+    {
+      "topic": "Impact of Increased Control Precision",
+      "context": "Kaze explained that the game's controls are 8 times more precise than the original SM64, which will change how precise maneuvers are performed.",
+      "questions": [
+        "How do you balance making the game feel fresh with higher precision while still feeling faithful to SM64?",
+        "Has this new precision enabled any new types of movement or tricks that weren't possible in the original?",
+        "What has been the reaction from expert players or speedrunners to this fundamental change in the game's controls?"
+      ],
+      "related_to": [
+        "Kaze"
+      ],
+      "priority": "high"
+    },
+    {
+      "topic": "Secret Janitor Koopa Idea",
+      "context": "While reviewing the janitor Koopa model, Kaze and chat alluded to a \"really funny idea\" for the character that they decided to keep secret, stating only highly invested players would understand it.",
+      "questions": [
+        "What is your philosophy on including deep-cut secrets that only a small fraction of players might discover or understand?",
+        "How do these kinds of secrets reward player investment and build community?",
+        "Can you describe the nature of the joke without spoiling it entirely?"
+      ],
+      "related_to": [
+        "Kaze",
+        "Biobak"
+      ],
+      "priority": "medium"
+    },
+    {
+      "topic": "Sauron's Profiler Tool and Optimization",
+      "context": "Kaze just integrated a new, powerful profiler tool from collaborator Sauron that provides a detailed visual trace of the game's performance.",
+      "questions": [
+        "How has this new profiler changed your approach to optimization compared to older methods?",
+        "What is the most surprising or impactful discovery you've made about the engine's performance using this tool?",
+        "Can you describe the importance of community collaboration in creating essential development tools like this profiler?"
+      ],
+      "related_to": [
+        "Kaze"
+      ],
+      "priority": "medium"
+    }
+  ]
+}

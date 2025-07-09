@@ -36,6 +36,8 @@ export default defineLoader({
       STREAMS_DIR,
       ({ filePath, fileName, fileContent }) => {
         const modelDir = path.basename(path.dirname(filePath));
+        if (modelDir !== "o3") return;
+
         const streamData = tryParseJSON<Record<string, any>>(fileContent);
 
         if (!streamData) return;

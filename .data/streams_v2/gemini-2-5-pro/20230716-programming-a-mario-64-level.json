@@ -1,0 +1,187 @@
+{
+  "stream_context": {
+    "summary": "Kaze focused on developing an industrial-themed level, implementing a seesaw-Goomba interaction and designing a new Whomp model. A significant portion of the stream was dedicated to diagnosing and solving a severe performance issue on N64 hardware, which involved debugging a compiler-specific bug and implementing hardware-specific optimizations like backface culling.",
+    "level": [
+      "Fleet Factory / Industrial Level"
+    ]
+  },
+  "development_findings": [
+    {
+      "summary": "Kaze has implemented significant improvements to the game's collision code, resulting in much more stable interactions with complex geometry compared to the original SM64 engine.",
+      "quote": "You see how stable that is? Mario 64 would never be able to handle this. Like a surface like this in Mario 64 is deadly and would never work correctly. I love this."
+    },
+    {
+      "summary": "After identifying a major performance bottleneck on N64 hardware, Kaze implemented backface culling for specific materials as an N64-only feature, successfully raising the minimum framerate from 19 to a more playable 25 FPS.",
+      "quote": "This was 19. 25. Dude, I predicted this exact number. That's a lot better."
+    },
+    {
+      "summary": "The theme of the level being developed has evolved from a factory for Bowser's fleet to more of a refueling and maintenance depot.",
+      "quote": "It was supposed to be like Bozo's Fleet Factory at first, but it slowly became just like the place where they tank up, I guess."
+    },
+    {
+      "summary": "Kaze diagnosed and fixed a critical N64-specific crash caused by a compiler optimization (pipelining) that bypassed his safety check for a division-by-zero error, a bug that emulators did not catch.",
+      "quote": "Basically, the compiler decided that right here, where I want to avoid the division by 0, it is going to pipeline the division into the delay slot of my branch. So that no matter what happens, I always divide by 0."
+    },
+    {
+      "summary": "Kaze designed a new construction-worker Whomp model. He plans to subvert player expectations by giving it a helmet worn on its back, making the back invulnerable and the front the weak point.",
+      "quote": "With bombs the vulnerable spot is their back. So it would be really funny if we made that work."
+    },
+    {
+      "summary": "Kaze's design philosophy for Red Coin stars requires a visible marker to show where the star will spawn, as this predictability is a core part of some levels' design.",
+      "quote": "I want the player to be able to tell beforehand when the star is going to appear. There are some levels that are already designed with that in mind, so we do need a marker."
+    }
+  ],
+  "context_findings": [
+    {
+      "summary": "Kaze's primary motivation for streaming his development work is to advance the project, with audience entertainment being a secondary benefit.",
+      "quote": "My streams here and they are like all about the game if you get entertained that's a side effect I just care about making a good game."
+    },
+    {
+      "summary": "Kaze streams on his secondary 'Kaze Clips' channel to avoid damaging the algorithm of his main channel and to maintain creative freedom without pressure.",
+      "quote": "I can just upload whatever the fuck I want and I don't really care if that fucks my algorithm or not. I just do what I want and I like that."
+    },
+    {
+      "summary": "Kaze is balancing his day job, a presentation for a tech conference, the main 'Return to Yoshi's Island' project, and a side project ('Only Up 64').",
+      "quote": "Man i'm so busy actually I will never have my freedom."
+    },
+    {
+      "summary": "Kaze expresses frustration with moving his stream from Twitch to YouTube, citing lower viewership and significant technical issues with stream delay.",
+      "quote": "The transition to YouTube is a bit rough. I've been streaming here for a few months and we still don't even have the viewers that we did on Twitch, which is very sad."
+    },
+    {
+      "summary": "Kaze reveals that his YouTube channel is not a significant source of income, particularly after a major sponsorship deal ended, reinforcing that the project is a passion project funded by his day job.",
+      "quote": "My youtube channel is barely profitable, especially now that brilliant doesn't sponsor me anymore kind of back to square zero."
+    },
+    {
+      "summary": "Kaze believes that code should be self-explanatory and that excessive commenting is a poor practice.",
+      "quote": "The code itself is better documentation than your documentation so you should remove your documentation."
+    }
+  ],
+  "contributor_findings": {
+    "biobak": [
+      {
+        "summary": "Biobak is active in the chat and shows a clear understanding of Kaze's development and content creation process, indicating a strong rapport between them.",
+        "quote": null
+      }
+    ],
+    "badub": [
+      {
+        "summary": "Kaze notes that composer Badub has been absent recently, leaving the status of a requested song uncertain.",
+        "quote": "I thought Badub was gonna make him song but Badub's been missing in attendance for a bit so I'm not really sure what to expect there."
+      }
+    ],
+    "zeina": [
+      {
+        "summary": "Zeina has completed most of the animations for the 'cement pit guy' character, but animations for other characters are still needed.",
+        "quote": null
+      },
+      {
+        "summary": "Kaze makes a lighthearted, personal joke about his wife Zeina, suggesting a close and playful dynamic that intertwines with the game's subject matter.",
+        "quote": "I touched her right in the Yoshi. She would not let anyone else touch the Yoshi."
+      }
+    ]
+  },
+  "key_stories": [
+    {
+      "title": "The N64 Performance Puzzle",
+      "summary": "Kaze diagnosed a severe performance issue on N64 hardware and solved it by implementing conditional, hardware-specific backface culling. This creative solution fixed the framerate for console players while preserving the intended aesthetic for those on more powerful emulators.",
+      "challenge": "A large, visually complex level in the game was running at an unacceptably low framerate (as low as 19 FPS) on original N64 hardware, jeopardizing the level's design.",
+      "process": "Kaze tested the level on an N64 to identify the worst-performing camera angles. He then experimented with backface culling on the metal scaffolding textures, which were causing significant overdraw. After confirming a massive performance boost, he implemented a system to enable this optimization only when the game is running on N64 hardware.",
+      "outcome": "The framerate was successfully boosted to a much more playable 25-26 FPS. Kaze decided to implement the optimization as an N64-only feature, allowing emulator users to see the level with his preferred visual style while ensuring console players have a smooth experience.",
+      "key_quote": "I actually prefer the without backface calling version on emulator, but on N64 I can see how this looks better. I think the backface visibility is gonna be an emulator only thing here.",
+      "related_to": [
+        "Kaze"
+      ]
+    },
+    {
+      "title": "The Ghost in the Compiler",
+      "summary": "Kaze encountered a hardware-specific crash that his emulator couldn't detect. Through deep technical analysis of the compiled code, he identified the cause as an aggressive compiler optimization and re-engineered his code to work around it, showcasing his advanced understanding of the N64 development toolchain.",
+      "challenge": "The game was consistently crashing on N64 with a division-by-zero error, but the bug was undetectable on the less-accurate Project64 emulator. Kaze's code already contained a safety check to prevent this exact error.",
+      "process": "After the crash, Kaze examined the compiled assembly code. He discovered that the GCC compiler was using a technique called 'branch delay slot pipelining,' which executed the division operation *before* the safety check was resolved. Recognizing this was a compiler issue and not a logic error, he manually reorganized his C code to force the compiler to generate safer assembly.",
+      "outcome": "By reordering the assembly instructions, Kaze was able to work around the compiler's aggressive optimization, preventing the crash on N64 hardware. The fix was then ported to his other active project, 'Only Up 64,' which shared the same codebase.",
+      "key_quote": "That's not a bug in the code. That is not my fault. So I need to move some of these computations into new slots like this. And then hopefully, by doing it this way around, I can avoid that happening.",
+      "related_to": [
+        "Kaze"
+      ]
+    },
+    {
+      "title": "Animating the Goomba Squish",
+      "summary": "Through an iterative process of coding, testing, and tweaking, Kaze designed a small, physics-based environmental puzzle. The goal was to create a humorous moment, and he fine-tuned the 'fake' physics animation until it resulted in a satisfyingly comedic outcome for the player.",
+      "challenge": "Kaze wanted to create a humorous and satisfying scripted sequence where the player can trigger a seesaw to fall and flatten a Goomba.",
+      "process": "Kaze iteratively coded the behavior, starting with the plank's physics. He tweaked variables for rotation, speed, and bounce to get the right feel. He then added logic for the Goomba to detach from the plank and become trapped underneath, testing repeatedly to ensure the final pose was stable and looked intentionally comical.",
+      "outcome": "Kaze successfully created a polished and funny interaction where the Goomba gets comically squished by the falling seesaw plank, resulting in a distinct and rewarding moment for the player.",
+      "key_quote": "The final image is beautiful. Like it ending like this is the best thing ever. I love this.",
+      "related_to": [
+        "Kaze"
+      ]
+    }
+  ],
+  "open_questions": [
+    {
+      "topic": "Team Collaboration and Communication",
+      "context": "Kaze mentioned he was expecting a song from Badub, the composer, but noted Badub had been 'missing in attendance for a bit' and he was unsure of the status.",
+      "questions": [
+        "Kaze mentioned you'd been a bit absent recently. How do you and the team manage communication and project timelines when life gets in the way?",
+        "What is the collaborative process like for creating music? Does Kaze provide a detailed brief, or do you have creative freedom based on the level's theme?"
+      ],
+      "related_to": [
+        "Kaze",
+        "Badub"
+      ],
+      "priority": "medium"
+    },
+    {
+      "topic": "Level Design Philosophy",
+      "context": "Kaze expressed a core design goal for the level is to let the player 'mess with' various characters. He implemented this for a Goomba but was still brainstorming ideas for others.",
+      "questions": [
+        "You've said a key idea for this level is letting Mario 'mess with' the workers. Where did that concept come from, and how does it fit into the broader vision for the game?",
+        "What are the challenges in designing these cause-and-effect interactions to be intuitive and discoverable for players?",
+        "How do you plan to apply this 'mess with them' philosophy to the other characters, like the new construction worker Whomp?"
+      ],
+      "related_to": [
+        "Kaze"
+      ],
+      "priority": "high"
+    },
+    {
+      "topic": "Work-Life Balance and Project Management",
+      "context": "Kaze is simultaneously working on 'Return to Yoshi's Island' and a large side project, 'Only Up 64,' for a competition, all while holding down a day job.",
+      "questions": [
+        "How do you balance a massive commitment like RTYI with other creative endeavors like 'Only Up 64'?",
+        "Do these side projects act as a testing ground for new ideas that might make it into RTYI, or are they purely a separate creative outlet?",
+        "You fixed a bug that existed in both projects. How do you manage the codebase between two active projects to ensure stability?"
+      ],
+      "related_to": [
+        "Kaze"
+      ],
+      "priority": "medium"
+    },
+    {
+      "topic": "N64 vs. Emulator Development Strategy",
+      "context": "Kaze has implemented N64-specific optimizations (backface culling) to improve performance, creating a difference in visuals between emulator and console.",
+      "questions": [
+        "You've made the decision to have the game look different on N64 versus emulators to ensure performance. How do you approach the trade-off between performance and visual fidelity?",
+        "Does designing for the N64's limitations feel like a constraint, or does it inspire creative technical solutions like the conditional backface culling?",
+        "What is your philosophy on the 'definitive' version of the game? Is it the emulator version with all visuals enabled, or the authentic N64 experience?"
+      ],
+      "related_to": [
+        "Kaze"
+      ],
+      "priority": "high"
+    },
+    {
+      "topic": "Animation and Character Design Workflow",
+      "context": "Animations for some characters are complete (done by Zeina), while others are still needed. Kaze mentioned needing animations for an 'overseer' and a 'glass curry'.",
+      "questions": [
+        "What is the workflow between you and Zeina for creating new animated characters?",
+        "Can you tell us more about the characters you mentioned needing animations for, like the 'overseer' and the 'glass curry'?",
+        "How much does a character's animation influence its gameplay mechanics and the player's interaction with it?"
+      ],
+      "related_to": [
+        "Kaze",
+        "Zeina"
+      ],
+      "priority": "low"
+    }
+  ]
+}

@@ -1,19 +1,19 @@
 ---
-title: o3 – Stream Analysis
-description: Comprehensive analysis of all streams processed by o3.
+title: Gemini 2.5 Pro – Stream Analysis
+description: Comprehensive analysis of all streams processed by Gemini 2.5 Pro.
 ---
 
 <script setup>
 import { data as modelStreams } from "./model-streams.data.ts";
 
-const MODEL_NAME = "o3";
+const MODEL_NAME = "gemini-2-5-pro";
 const streams = modelStreams[MODEL_NAME] ?? [];
-const modelLabel = "o3";
+const modelLabel = "Gemini 2.5 Pro";
 </script>
 
 # {{ modelLabel }} – Stream Analysis
 
-This page presents a systematic analysis of [Kaze's development streams](https://www.youtube.com/@KazeClips/streams) processed by OpenAI's **{{ modelLabel }}** model after they were transcribed with Whisper.
+This page presents a systematic analysis of [Kaze's development streams](https://www.youtube.com/@KazeClips/streams) processed by Google's **{{ modelLabel }}** model after they were transcribed with Whisper.
 
 Each analysis results page provides key findings regarding development, context, and contributors. It also identifies key stories and open questions.
 
