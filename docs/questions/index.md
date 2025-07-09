@@ -18,7 +18,7 @@ function formatMemberName(name) {
 
 # Open Questions Overview
 
-These questions are generated along the [development streams analysis](/streams), focusing on insights that would be valuable for documentary purposes. Each stream analysis identifies key contributors and generates thoughtful questions based on the context of their work and contributions to the project.
+These questions are generated along the [development streams analysis](/streams/), focusing on insights that would be valuable for documentary purposes. Each stream analysis identifies key contributors and generates thoughtful questions based on the context of their work and contributions to the project.
 
 ::: tip Summary
 **Total Contributors with Questions:** {{ teamMembers.length }}
