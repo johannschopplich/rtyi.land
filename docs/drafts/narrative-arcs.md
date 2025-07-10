@@ -22,24 +22,122 @@ This outline serves only as a roadmap for filming, while allowing the actual sto
   - **Background:** Kaze's history with both _Super Mario 64_ and _Yoshi's Island_. Which specific elements (aesthetic, mechanics, "vibe") from _Yoshi's Island_ did he want to fuse with SM64's 3D platforming?
   - **Core Motivation:** Explore his straightforward starting point: "I like Yoshi. That's kind of where the thought process ended." What does this mean to him personally (nostalgia, art, and feeling)?
   - **Technical Foundation:** How the SM64 decompilation project opened up possibilities that weren't available in traditional ROM hacking.
-  - **The Catalyst:** The poor performance of an early level, "The Zoo," was a major catalyst for Kaze to begin his massive engine optimization project.
   - **The Reality:** Acknowledging this as a fan project in a legally uncertain space that will never be sold commercially. Kaze's history with Nintendo takedowns (over 70 videos) and his "calculated risk" approach.
 
 - **B-Roll:**
   - RTYI gameplay juxtaposed with classic SM64 and SNES Yoshi's Island footage.
   - Archival footage of the N64 console and era.
-  - Side-by-side of the old "Zoo" level lagging vs. smooth gameplay in the new engine.
+
+### The Zoo Catalyst: The Real Origin Story
+
+- **Narrative Goal:** The actual inciting incident that transformed a simple ROM hack into an engine rewrite project. This is THE missing origin story.
+- **Topics to Cover:**
+  - **The Breaking Point:** "The zoo is actually the reason I even started optimizing Mario 64. The zoo ran so poorly that I just could not take that." The specific moment when acceptable became unacceptable.
+  - **Technical Awakening:** How this single level's poor performance opened Kaze's eyes to fundamental problems with the SM64 engine - the "fucked" sound system, "unusable" collision detection, and optimization issues.
+  - **The Decision:** The moment Kaze decided to stop working around the engine's limitations and start rewriting them entirely.
+  - **Scope Realization:** How fixing one level's lag led to rebuilding collision systems, sound engines, graphics pipelines, and more.
+- **B-Roll:**
+  - Side-by-side of the original "Zoo" level lagging vs. smooth gameplay in the new engine.
+  - Performance profiler data showing before/after optimization.
+  - Kaze's early technical streams documenting the engine rewrite process.
 
 ### Kaze's Philosophy
 
 - **Narrative Goal:** Understanding Kaze's principles of game design and creative mindset.
 - **Topics to Cover:**
   - **Core Principles:** His key philosophies: "excitement over difficulty," creating a "feeling" and "placeness," intrinsic motivation, and his critique of "safe" AAA games or those that feel like a "chore."
-  - **Growth as a Designer:** Comparing RTYI with his earlier work "Last Impact." Using his reflection: "Back when I was making Last Impact, like whenever I had an idea, I would just put it in almost unfiltered." How has his approach matured to focus more on planning and quality control?
-  - **The Creative Mindset:** His belief that one must be "mentally unwell" to succeed in game development. What does he actually mean by this – is it about obsession, persistence, or thinking differently? Connect this to his disciplined work ethic ("I'm not motivated at all... I just do it").
+  - **Quality Standards:** "If they weren't even good enough for Mario 64, why would they be good enough for my game?" Using Nintendo's classic as the quality benchmark.
+  - **Show Don't Tell:** "Exclamation mark is basically telling... It's like admitting oh, I can't make a good game." His deep philosophy against hand-holding and explicit instruction.
+  - **Growth as a Designer:** Design time evolution from 5% (Last Impact) to 20% (RTYI). "Back when I was making Last Impact, like whenever I had an idea, I would just put it in almost unfiltered." How his approach matured through planning and quality control.
+  - **The Creative Mindset:** His belief that one must be "mentally unwell" to succeed in game development vs. his disciplined reality: "I'm not motivated at all... I just do it. It's really that easy."
 - **B-Roll:**
-  - Kaze working at his computer, possibly showing his MS Paint sketches.
+  - Kaze working at his computer, showing his MS Paint sketches and "shit phase" blockouts.
   - Examples from different courses showing his design philosophy in action (player freedom, no hand-holding).
+
+## Community-Driven Design: The Democratization of Game Development
+
+**Main Focus:** How live streaming enables real-time collaborative design between creator and audience, representing a new model of game development.
+
+### The Whomp Tower Moment
+
+- **Narrative Goal:** Documenting how a single viewer suggestion becomes a major gameplay feature, showing the power of collaborative creativity.
+- **Topics to Cover:**
+  - **The Problem:** Kaze had Whomp characters but no clear gameplay purpose: "What do the womps even do?"
+  - **The Suggestion:** A viewer's spontaneous idea: "You could be waiting to be used as a building material, oh, okay. Yeah. That's a funny idea."
+  - **Live Implementation:** Watching Kaze immediately prototype the domino tower concept on stream, from idea to functional puzzle.
+  - **Community Integration:** How stream chat becomes an active design partner rather than passive audience.
+- **B-Roll:**
+  - Stream footage of the original suggestion and Kaze's reaction.
+  - Time-lapse of the Whomp Tower being built and programmed.
+  - Final gameplay of the domino chain reaction puzzle.
+
+### The Tutorial Revolution
+
+- **Narrative Goal:** Showing how the team collaboratively solved an "unsolvable" design problem through live iteration.
+- **Topics to Cover:**
+  - **The Challenge:** Teaching advanced moves without intrusive text tutorials on N64's low resolution.
+  - **Community Problem-Solving:** Multiple suggestions, refinements, and Biobak's breakthrough ring concept.
+  - **Real-Time Iteration:** Zeina creating animations, Kaze coding mechanics, Biobak refining visuals - all happening live.
+- **B-Roll:**
+  - Stream footage showing the evolution from broken tutorial to elegant solution.
+  - Team members contributing in real-time during development.
+
+## AI as Creative Partner: Modern Tools in Retro Development  
+
+**Main Focus:** The intersection of cutting-edge AI with retro game development, showing how modern creators integrate new tools while maintaining human creativity.
+
+### The Writers' Room: Man vs. Machine
+
+- **Narrative Goal:** Exploring AI's role as creative collaborator rather than replacement, and the importance of human curation.
+- **Topics to Cover:**
+  - **The Brainstorming Process:** Kaze using ChatGPT to generate dialogue for protesting minions: "Give me five short dialogues that the worker wants to say."
+  - **AI Limitations:** Where ChatGPT's ideas felt generic or limited.
+  - **Human Enhancement:** Biobak's superior puns and context-aware humor. Kaze's reaction: "They're gonna replace all the writers with Biobak. They're all gonna be jobless."
+  - **The Synthesis:** Final dialogue combining AI brainstorming with human creativity and quality control.
+- **B-Roll:**
+  - Screen capture of ChatGPT brainstorming sessions.
+  - Final in-game dialogue scenes showing the collaborative result.
+
+### Enemy Design Innovation
+
+- **Narrative Goal:** Showing how AI can break creative blocks and inspire new directions.
+- **Topics to Cover:**
+  - **The Creative Block:** Struggling to adapt classic Tox Box enemy to oil rig theme.
+  - **AI Inspiration:** ChatGPT's suggestion: "They might look like large shipping containers or mechanical cubes."
+  - **Human Implementation:** Kaze immediately adopting the idea and finding 3D models to implement it.
+- **B-Roll:**
+  - Before/after comparison of enemy concepts.
+  - Stream footage of the AI consultation and immediate implementation.
+
+## Accidental Breakthroughs: The Role of Serendipity in Technical Innovation
+
+**Main Focus:** How major technical discoveries happen by accident, challenging narratives about methodical engineering and showing that innovation often comes from mistakes and happy accidents.
+
+### The Export Format Discovery
+
+- **Narrative Goal:** Documenting how a simple mistake led to doubling the game's performance, showing the unexpected nature of optimization.
+- **Topics to Cover:**
+  - **The Accident:** "I was exporting it as an F3D model and not F3DX2. So we had twice the vertex loads, twice the triangle comments... and it still ran fine."
+  - **The Realization:** Testing on N64 hardware and discovering the level performed much better than expected.
+  - **The Impact:** Instantly doubling performance with a single setting change, turning a potential optimization nightmare into a validating win.
+  - **The Philosophy:** How accidents can be more valuable than months of planned optimization.
+- **B-Roll:**
+  - Performance profiler showing before/after numbers.
+  - Kaze's reaction to discovering the performance boost.
+  - Side-by-side gameplay showing the dramatic improvement.
+
+### The Compiler Bug Hunt
+
+- **Narrative Goal:** Showing the detective work required when dealing with assembly-level bugs that only manifest on real hardware.
+- **Topics to Cover:**
+  - **The Mystery:** Game crashing on N64 with division-by-zero error despite safety checks in the code.
+  - **The Investigation:** Examining compiled assembly code to discover compiler optimization bypassing safety checks.
+  - **The Solution:** "That is not a bug in the code. That is not my fault" - working around aggressive compiler optimizations.
+  - **The Expertise:** Demonstrating the deep technical knowledge required for N64 development.
+- **B-Roll:**
+  - Assembly code analysis on screen.
+  - N64 hardware debugging setup.
+  - The moment of discovery and solution implementation.
 
 ## The Core Team
 
@@ -157,17 +255,35 @@ This is my favorite arc. It perfectly captures Kaze's creative process, the team
 
 **Main Focus:** Building a seamless, dynamic, secret-filled world rather than just a level selection. The game's most ambitious feature.
 
+### The Island with a Secret
+
 - **Narrative Goal:** Understanding the design philosophy behind making the hub world the game's true "main character."
 - **Topics to Cover:**
   - Kaze's belief that the overworld is the "final stretch" and "most important part."
-  - **Design Philosophy:** "If you can see it, you can go there." Visualizing this with sketches and mockups of the Yoshi-head-shaped island.
-  - **The Long Game:** Showing players distant landmarks (like the lighthouse) they won't reach until much later, creating a sense of anticipation.
-  - **Living World:** Dynamic events that permanently alter the island, such as the "Sad Rain Flower" quest where rescued Yoshis stop the rain, or the "Chained Dory" who is freed to provide transport.
-  - **Story Integration:** Evolution from simple coin payments to narrative events where rescued Yoshis actively help you progress.
+  - **Design Philosophy:** "If you can see it, you can go there." Total exploration of every inch of Yoshi's Island.
+  - **Hidden Identity:** "What if we made the island the shape of a Yoshi? Yes or no? The island needs to be the shape of a Yoshi." The secret that players will only discover from above.
+  - **Scale Ambition:** Planning an overworld "around four times the size of Super Mario 64" broken into 14 interconnected areas.
+
+### Creative Environmental Puzzles
+
+- **Narrative Goal:** Showing how world design integrates story, gameplay, and visual spectacle.
+- **Topics to Cover:**
+  - **The Lighthouse and Ghost Ship:** "What if the ship is here, but it's like a shadowy fix, and you have to go into the lighthouse... And in the lighthouse, you point the light at the ship. And that makes the ship visible and breaks through the fog." A puzzle that's both mechanically satisfying and visually spectacular.
+  - **The Interconnected River:** Course 2's river flowing through the entire overworld, creating "placeness" and connection between levels.
+  - **Living World Events:** Dynamic changes like rescued Yoshis stopping the rain, freed Dory providing transport, creating a world that evolves with player actions.
+
+### Story Integration and Economy
+
+- **Narrative Goal:** Moving beyond simple level gates to create meaningful progression tied to the world's narrative.
+- **Topics to Cover:**
+  - **Evolution from Coins to Story:** Moving from simple coin payments to narrative events where rescued characters help progression.
+  - **Global Economy:** Coins as actual currency to transform the world, making them "feel more valuable than Mario Odyssey."
+  - **Magic Barriers:** Using Kamek's barriers as clear progression gates that reinforce the villain's presence rather than feeling arbitrary.
 - **B-Roll:**
-  - Aerial tours of the overworld layout.
-  - Kaze's MS Paint maps.
+  - Aerial tours showing the Yoshi-head island shape.
+  - Kaze's MS Paint planning maps and Photoshop sketches.
   - Before-and-after comparisons of world-changing events.
+  - The lighthouse puzzle in action with dramatic lighting effects.
 
 ## The "Shit Phase" & Iteration
 
@@ -175,13 +291,16 @@ This is my favorite arc. It perfectly captures Kaze's creative process, the team
 
 - **Narrative Goal:** Making the creative process relatable by showing that even experts start with rough drafts.
 - **Topics to Cover:**
-  - **Core Philosophy:** Kaze's acceptance that levels always "look like shit at the beginning."
-  - **Example 1: Paper Plane Physics.** From "volatile, chaotic" early attempts to smooth, controlled flight after a long, frustrating stream of tweaking variables.
-  - **Example 2: The Styrofoam Saga.** An entire stream dedicated to creating a single material, fighting with Blender, shaders, and N64 limitations before landing on a complex CPU-based solution.
-  - **Example 3: Boss Evolution.** The Yoshi boss's "tumors" becoming "mushrooms" after feedback that the original concept was too grotesque, and Raphael the Raven changing from a simple walker to dramatically erupting from the ground.
+  - **Core Philosophy:** Kaze's acceptance that levels always "look like shit at the beginning." The creative cycle: "It always starts like really fun and eventually it turns into pure torture. That's just the cycle of making games."
+  - **Design Evolution:** From 5% design time (Last Impact) to 20% (RTYI): "Back when I was making Last Impact, like whenever I had an idea, I would just put it in almost unfiltered."
+  - **Example 1: The Iridescent Oil Saga.** Creating the rainbow oil effect through trial and error: "Wow this looks terrible, oh my god this looks so bad. I absolutely hate this" → eventually becoming a signature level feature.
+  - **Example 2: The Wet Cement Nightmare.** An entire stream debugging a texture effect, exploring complex theories before discovering a simple copy-paste error: "That part was missing everywhere. No wonder this didn't work."
+  - **Example 3: Course 11 Improvisation.** "Yeah, this level is a bit improvised compared to my normal levels. We're kind of making a lot of shit up on the fly" - showing that even expert developers embrace controlled chaos.
+  - **Example 4: The Space Arcade Scrapping.** Killing darlings: "The idea we had for this level is terrible" - completely reimagining a level from scratch when the original concept fails.
 - **B-Roll:**
-  - Montage of Kaze's roughest placeholder models and layouts.
+  - Montage of Kaze's roughest placeholder models and early "shit phase" layouts.
   - Stream moments of frustration ("this sucks") followed by breakthrough moments and polished results.
+  - Before-and-after comparisons showing dramatic transformations through iteration.
 
 ## Rethinking Rewards
 

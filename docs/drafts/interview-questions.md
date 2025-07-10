@@ -17,9 +17,10 @@ These central questions are for Kaze, Biobak, Badub, and Zeina individually. Thi
     - Initial excitement or skepticism
     - What was Kaze's pitch like?
     - Personal nostalgia for Super Mario 64 or Yoshi's Island
-    - Role of the SM64 decompilation project
-    - Kaze: "I like Yoshi. That's kind of where the thought process ended." – What does that mean to you on a deeper level?
-    - Kaze: The poor performance of "The Zoo" level was a major catalyst for the engine rewrite. Were you aware of how ambitious the technical side of the project would become from the start?
+    - Role of the SM64 decompilation project opening up possibilities
+    - **Kaze**: "I like Yoshi. That's kind of where the thought process ended." – What does that mean to you on a deeper level? What is it about Yoshi specifically that made this project worth years of your life?
+    - **The Real Catalyst**: "The zoo is actually the reason I even started optimizing Mario 64. The zoo ran so poorly that I just could not take that." Can you walk me through that specific moment when unacceptable performance became the spark for rebuilding an entire engine?
+    - **Scope Realization**: Did you understand from the start that fixing one laggy level would lead to rewriting collision systems, sound engines, and graphics pipelines? Or did the scope creep surprise you?
 
     :::
 
@@ -27,13 +28,12 @@ These central questions are for Kaze, Biobak, Badub, and Zeina individually. Thi
 
     ::: info Follow-ups
 
-    - The joy of creation vs. the "pure torture" moments
+    - **The Creative Cycle**: "It always starts like really fun and eventually it turns into pure torture. That's just the cycle of making games." How do you navigate this emotional rollercoaster?
     - How do you push through burnout or creative blocks?
-    - The desire to push the N64 to its limits
-    - Proving what's possible on 30-year-old hardware
-    - The passion for creation vs. financial realities
-    - Kaze: "If you want to be successful making video games you need to be mentally unwell" – what's the story behind that feeling?
-    - Kaze: You've also said you're driven by discipline, not motivation ("If you need motivation, you're already fucked up"). How do you reconcile those two ideas?
+    - The desire to push the N64 to its limits and prove what's possible on 30-year-old hardware
+    - **Financial Reality**: The "tens of thousands" in opportunity cost and reliance on community donations. How do you balance passion with practical concerns?
+    - **Mental State**: "If you want to finish a Mario 64 major hack you need to be mentally ill" vs. "I'm not motivated at all... I just do it. It's really that easy." How do you reconcile the obsession required with the disciplined, workmanlike approach?
+    - **Quality Standards**: "If they weren't even good enough for Mario 64, why would they be good enough for my game?" How does using Nintendo's classic as your quality benchmark drive you forward?
 
     :::
 
@@ -54,12 +54,12 @@ These central questions are for Kaze, Biobak, Badub, and Zeina individually. Thi
 
     ::: info Follow-ups
 
-    - MS Paint maps and first rough drafts
-    - Discord DMs and discussions vs. live stream feedback
-    - The back-and-forth between technical needs and artistic vision
-    - The "shit phase" philosophy – the feeling that everything looks terrible at first
-    - Real-time iteration during streams
-    - How feedback flows between team members
+    - **The "Shit Phase" Philosophy**: "It always looks like shit at the beginning." How do you push through the ugly early stages to reach the polished result?
+    - **Design Evolution**: From 5% design time (Last Impact) to 20% (RTYI): "Back when I was making Last Impact, whenever I had an idea, I would just put it in almost unfiltered." How has your creative process matured?
+    - **Real-Time Collaboration**: Team members contributing live during streams (Zeina creating textures "in under 10 minutes," Biobak offering color palette suggestions)
+    - **Discord vs. Streams**: Creative "arguments in Discord DMs" then reaching agreements vs. live public feedback
+    - **MS Paint to 3D**: The journey from rough sketches to final implementations
+    - **Iteration Examples**: Course 11 being "improvised" and "making stuff up on the fly" - how do you balance planning vs. spontaneous creativity?
 
     :::
 
@@ -67,13 +67,13 @@ These central questions are for Kaze, Biobak, Badub, and Zeina individually. Thi
 
     ::: info Follow-ups
 
-    - Specific bugs that only show on real N64 hardware (e.g., the S8 register crash, the Bowser drop bug)
-    - Creative dead ends like the initial Space Arcade or Volcano concepts
-    - The multi-stream "Styrofoam" texture challenge to create a single material
-    - The Wiggler's difficult animation rigging
-    - The paper plane physics going "volatile and chaotic"
-    - Kaze: "This building style is just not exciting me"
-    - Times when ideas had to be completely scrapped
+    - **Hardware-Only Bugs**: The compiler generating faulty division-by-zero code that only manifested on real N64 hardware. "That is not a bug in the code. That is not my fault." How do you debug something that complex?
+    - **Creative Dead Ends**: "The idea we had for this level is terrible." The Space Arcade concept being completely scrapped for the Shy Guy Space Station. How do you know when to kill your darlings?
+    - **The Cowboy Crisis**: "This building style is just not exciting me" - the level struggling to find its identity until Badub's music arrived and transformed everything
+    - **Biobak's Bomb Cap Crash**: A major level rework introducing a persistent crash that required systematic debugging to isolate actor overflow issues
+    - **The Iridescent Oil Nightmare**: "Wow this looks terrible, oh my god this looks so bad. I absolutely hate this" - working through multiple streams to create the rainbow effect
+    - **The Wet Cement Debug**: An entire stream debugging a texture effect only to discover a simple copy-paste error: "That part was missing everywhere. No wonder this didn't work."
+    - **Wiggler Animation Hell**: "The most difficult one to animate yet" - technical and creative challenges converging
 
     :::
 
@@ -103,6 +103,53 @@ These central questions are for Kaze, Biobak, Badub, and Zeina individually. Thi
 
     :::
 
+### The Missing Stories: Major Documentary Themes
+
+These questions explore the major narrative themes discovered through stream analysis that aren't fully covered in the existing outline.
+
+#### The Zoo Catalyst: The Real Origin Story
+
+**For Kaze:** You've said "The zoo is actually the reason I even started optimizing Mario 64. The zoo ran so poorly that I just could not take that." This seems to be THE actual origin story of RTYI's technical ambition. Can you take me back to that specific moment?
+
+::: info Follow-ups
+
+- What was it about the Zoo's performance that crossed the line from "acceptable" to "unacceptable"?
+- How did fixing one laggy level reveal fundamental problems with SM64's engine - the "fucked" sound system, "unusable" collision detection?
+- Can you walk me through the mental shift from "I'll work around these limitations" to "I need to rewrite the engine"?
+- Looking back, do you realize this was the moment RTYI transformed from a simple ROM hack into something much more ambitious?
+
+:::
+
+#### Community-Driven Design: The Democratization of Game Development
+
+**For All Team Members:** Your streams show viewers directly shaping major gameplay features through suggestions. This represents a new model of collaborative development.
+
+**The Whomp Tower Story:** A viewer's spontaneous suggestion ("You could be waiting to be used as a building material, oh, okay. Yeah. That's a funny idea.") became a major puzzle element. Can you walk me through how that happened?
+
+::: info Follow-ups
+
+- **Kaze**: How do you filter hundreds of chat suggestions to find the gems?
+- **Biobak**: The tutorial ring solution that prevents "cheesing" - how did that collaborative problem-solving work?
+- **Team**: Other examples of viewer ideas that made it into the game (Mirror Wall, growing flower vine)
+- How does live streaming change the creative process compared to traditional game development?
+- What's the difference between useful creative input and unhelpful technical advice from viewers?
+
+#### Accidental Breakthroughs: The Role of Serendipity in Technical Innovation
+
+**For Kaze:** Some of your biggest technical breakthroughs happened by accident. How important is serendipity in innovation?
+
+**The Export Format Discovery:** "I was exporting it as an F3D model and not F3DX2. So we had twice the vertex loads, twice the triangle comments... and it still ran fine." This mistake doubled your performance. How did that feel?
+
+::: info Follow-ups
+
+- How do you create conditions where "happy accidents" can happen?
+- The compiler bug hunt where assembly-level debugging revealed compiler optimizations bypassing your safety checks
+- Other unexpected discoveries that exceeded your performance expectations
+- How do you balance methodical engineering with room for experimentation and mistakes?
+- What's the most valuable thing you've learned from an accident vs. planned optimization?
+
+:::
+
 ### Individual Interviews
 
 These questions are tailored to each team member's specific role and contributions, allowing for deeper dives into their unique perspectives and expertise.
@@ -121,11 +168,12 @@ These questions are tailored to each team member's specific role and contributio
 
     ::: info Follow-ups
 
-    - The Space Arcade being "terrible" and needing a full rework
-    - Critiquing AAA games as a "chore" – what specifically bothers you?
-    - "Cowboyaboo" philosophy of over-the-top and goofy
-    - The decision to remove 100-coin stars and "boot out" mechanics
-    - The maturation from "Last Impact" to RTYI: "Back when I was making Last Impact, I would just put ideas in almost unfiltered"
+    - **Show Don't Tell Philosophy**: "Exclamation mark is basically telling... It's like admitting oh, I can't make a good game." Your deep philosophy against hand-holding and explicit instruction
+    - **Quality Over Familiarity**: "If they weren't even good enough for Mario 64, why would they be good enough for my game?" Using Nintendo's classic as your benchmark
+    - **The Space Arcade Pivot**: "The idea we had for this level is terrible." Completely reimagining it as the Shy Guy Space Station when the original concept failed
+    - **AAA Game Critique**: What specifically makes modern games feel like a "chore" to you? How does RTYI avoid that trap?
+    - **Design Maturation**: The evolution from 5% design time (Last Impact) to 20% (RTYI) and learning to filter ideas
+    - **Boot Out Removal**: The decision to remove "boot out" stars to maintain flow and respect player time
 
     :::
 
@@ -133,12 +181,13 @@ These questions are tailored to each team member's specific role and contributio
 
     ::: info Follow-ups
 
-    - Teasing distant landmarks like the lighthouse or volcano
-    - Permanent world changes like the Sad Rain Flower quest or the Chained Dory rescue
-    - The seamlessly transitioning music tracks by Badub
-    - The decision to make the overworld a single, seamless map and the technical challenges that creates
-    - The evolution from simple coin payment to story-driven events
-    - The coin system and making coins "feel more valuable than Mario Odyssey"
+    - **The Secret Identity**: "What if we made the island the shape of a Yoshi? Yes or no? The island needs to be the shape of a Yoshi." The hidden Yoshi head shape that players will discover
+    - **Scale Ambition**: "I'm thinking the overworld will be around four times the size of Super Mario 64" broken into 14 interconnected areas
+    - **The Lighthouse Puzzle**: "What if the ship is here, but it's like a shadowy fix, and you have to go into the lighthouse... And in the lighthouse, you point the light at the ship. And that makes the ship visible and breaks through the fog." Creative environmental puzzles
+    - **Living World Events**: Rescued Yoshis stopping the rain, freed Dory providing transport - how the world evolves with player actions
+    - **The Interconnected River**: Course 2's river flowing through the entire overworld, creating "placeness" and connection
+    - **Story-Driven Progression**: Evolution from coin payments to narrative events, making coins "feel more valuable than Mario Odyssey"
+    - **Badub's Dynamic Music**: Nearly 20 tracks that transition seamlessly as players explore
 
     :::
 
@@ -148,12 +197,14 @@ These questions are tailored to each team member's specific role and contributio
 
     ::: info Follow-ups
 
-    - Why was the vanilla collision "unusable"?
-    - What exactly was "fucked" about the original audio engine?
-    - Collaboration with Sauraen on the F3DEX3 microcode to solve the RSP bottleneck
-    - Enabling 60 FPS gameplay
-    - Supporting Badub's dynamic music and Zeina's complex animations
-    - The story of the "S8 Register Crash" and how it exemplifies the need for custom code
+    - **The Zoo Catalyst**: How fixing one laggy level revealed fundamental engine problems
+    - **Collision System Overhaul**: Why vanilla collision was "unusable" and how floor clocking bugs were fixed
+    - **Sound Engine Rewrite**: What exactly was "fucked" about the original audio engine? How does your custom engine enable Badub's seamless dynamic music?
+    - **F3DEX3 Collaboration**: Working with Sauraen on custom microcode to overcome the N64's RSP bottleneck
+    - **Complete libultra Replacement**: Rewriting the entire operating system for better performance
+    - **60 FPS Achievement**: Enabling smooth gameplay that vanilla SM64 "would never be able to handle"
+    - **Performance Pride**: "This is an N64 game. How crazy is that?" - the satisfaction of pushing 30-year-old hardware to modern standards
+    - **Cache Optimization**: "Mario's behavior loop never gets thrown out of cache which is fucking crazy" - your optimization achievements
 
     :::
 
@@ -178,13 +229,13 @@ These questions are tailored to each team member's specific role and contributio
 
     ::: info Follow-ups
 
-    - Biobak's complete rework of the Ghost Ship level ("Holy shit, everything is different")
-    - Badub's cowboy music arriving mid-stream and changing the whole "vibe"
-    - Zeina's "mutant Yoshi" boss concept
-    - Tutorial Bunnies as a collaborative solution
-    - Biobak's suggestion to change the Course 15 boss arena from a factory to a destructible planet
-    - The "Feelings are real, reasoning is stupid" philosophy for feedback
-    - How do you manage tasks and feedback in a remote, informal team?
+    - **Biobak's Transformative Reworks**: "Holy shit, everything is different" - his complete overhauls of Course 1, Oily Boily Bay, and the Ghost Ship
+    - **The Cowboy Music Moment**: Badub's track arriving mid-stream and instantly inspiring Kaze to add fog and skybox, solidifying the level's "vibe"
+    - **Zeina's Creative Contributions**: The "mutant Yoshi" boss concept, zoo entrance drawings, and bunny footprint textures
+    - **Tutorial Innovation**: How the team collaboratively solved the "unteachable tutorial" problem with Biobak's ring concept and Zeina's demonstration animations
+    - **Feedback Philosophy**: "Feelings are real, reasoning is stupid" - how you separate emotional reactions from technical suggestions
+    - **Creative Disputes**: "Arguments in Discord DMs" with Biobak that lead to better solutions
+    - **Quality Concerns**: "I do not want to reach out to people and ask for help. Because... I feel like I'm gonna say 'oh this actually isn't up to the quality standards I expect'" - managing collaborative standards
 
     :::
 
@@ -192,11 +243,14 @@ These questions are tailored to each team member's specific role and contributio
 
     ::: info Follow-ups
 
-    - Specific chat ideas being implemented, like the "growing flower" vine or "Mirror Wall" section
-    - The story of the "Whomp Tower" puzzle, which came directly from a viewer
-    - How streaming helps vs. hinders focus and creativity
-    - Managing the pressure of working in public
-    - Beta tester feedback vs. real-time stream feedback
+    - **The Whomp Tower Breakthrough**: "You could be waiting to be used as a building material, oh, okay. Yeah. That's a funny idea." A viewer's spontaneous suggestion becoming a major puzzle element
+    - **Mirror Wall Mechanic**: Chat suggestion that became a core gameplay feature
+    - **Growing Flower Vine**: Another community idea that made it into the game
+    - **Filtering Input**: How you separate useful creative suggestions from unhelpful technical advice
+    - **Real-Time Iteration**: Biobak offering live color palette feedback during streams
+    - **The Pressure**: "They don't want to see code, they want to see the funny Wahoo man jump" - managing YouTube algorithm vs. technical development
+    - **Community Testing**: Using the Course 1 demo to gather real player data via questionnaires
+    - **Feelings vs. Reasoning**: How emotional reactions to gameplay often reveal more than analytical explanations
 
     :::
 
@@ -230,13 +284,14 @@ These questions are tailored to each team member's specific role and contributio
 
     ::: info Follow-ups
 
-    - Kaze's reaction to the Oily Boily Bay rework: "Holy shit. This actually looks insane."
-    - What does a level look like when you receive it? (MS Paint maps, simple geometry?)
-    - Your detailed changelogs explaining every decision
-    - How do you add "placeness" and story through visual details?
-    - The story behind the "sexy brutalist architecture" for the Bowser Tower.
-    - Evolving quality standards over time
-    - Balancing Kaze's gameplay needs with your artistic vision
+    - **Kaze's Reactions**: "Holy shit, everything is different" (Ghost Ship) and "Holy shit. This actually looks insane" (Oily Boily Bay) - how does it feel to surprise him?
+    - **Starting Point**: What does a level look like when you receive it? MS Paint maps, basic geometry blocks?
+    - **Detailed Communication**: Your comprehensive changelogs explaining every decision - how important is that documentation?
+    - **Thematic Cohesion**: The Bomb Cap redesign as a "bomb manufacturing process" - how do you find the narrative thread?
+    - **Lighting Solutions**: "The year's lighting now matching with the light from the windows was pissing me off, so I thought, what if the ceiling was the light source?" Your problem-solving process
+    - **Practical Constraints**: "Fuck cranes. I hate modeling them" - how modeling limitations influence design decisions
+    - **Quality Evolution**: How your standards and capabilities have evolved over the project's timeline
+    - **Technical Challenges**: Sending high-poly models to Kaze for N64 optimization
 
     :::
 
@@ -307,11 +362,14 @@ These questions are tailored to each team member's specific role and contributio
 
     ::: info Follow-ups
 
-    - Kaze's reaction to hearing the track for the first time: "Oh, this is so good"
-    - How the music inspired Kaze to add the skybox and fog
-    - Translating Kaze's "vibe" descriptions into a composition
-    - Creating music for a specific theme or level
-    - Composing for a level before vs. after its design is established
+    - **The Magic Moment**: Kaze's reaction: "Oh, this is so good... that's so perfect" and immediately adding atmospheric elements
+    - **Instant Inspiration**: How the music instantly solved Kaze's creative block ("This building style is just not exciting me")
+    - **Vibe Translation**: Taking Kaze's description ("evil, bowser, construction, goofy") and creating a musical identity
+    - **The New Yet Familiar Goal**: "It sounds like a completely new soundtrack with like a similar vibe to me. That's what I want anyway"
+    - **Dynamic Overworld Challenge**: Creating nearly 20 tracks that transition seamlessly across the island
+    - **ROM Space Constraints**: The OST taking up significant cartridge space and brainstorming hybrid track solutions
+    - **Custom Engine Benefits**: How Kaze's rewritten sound engine enables your musical vision
+    - **Music-Driven Design**: "I love working with a song already made for the level because it gives me so many ideas for the vibe"
 
     :::
 
@@ -353,12 +411,14 @@ These questions are tailored to each team member's specific role and contributio
 
     ::: info Follow-ups
 
-    - The challenges of the old "geo bone" system
-    - The benefits of the new quaternion-based animation system
-    - Conveying personality through movement, not polygon count
-    - The story of animating the Wiggler, which you said was the "most difficult one to animate yet"
-    - Making enemies feel alive and reactive
-    - The animation pipeline with Kaze's programming
+    - **The Wiggler Challenge**: "The most difficult one to animate yet" - what made this character so technically demanding?
+    - **System Evolution**: Benefits of Kaze's new quaternion-based animation system vs. the old "geo bone" limitations
+    - **Personality Through Movement**: Conveying character with limited polygons - the Piano Guy's charisma, Dry Bones personality
+    - **Real-Time Creation**: Creating eye textures "in under 10 minutes" during live streams
+    - **Critical Self-Evaluation**: Your professional assessment of your own Bowser animation shows high standards
+    - **Animation Pipeline**: The workflow with Kaze - "All we're waiting for now is animations"
+    - **Technical Constraints**: Working within N64's animation limitations while maintaining character appeal
+    - **Rapid Iteration**: Creating sobbing animations for Koopa characters live during streams
 
     :::
 
@@ -368,11 +428,14 @@ These questions are tailored to each team member's specific role and contributio
 
     ::: info Follow-ups
 
-    - Collaborating with Kaze and Biobak on cohesive style
-    - Creating models like Peach and Toad
-    - Contributing textures like the bunny footprints or level signs
-    - Seeing your initial sketches become key game elements
-    - Your artistic influence on the project's overall direction and style
+    - **Concept to Reality**: The "mutant Yoshi" boss concept and zoo entrance drawings becoming key game elements
+    - **Model Creation**: Working on characters like Peach and Toad within N64 constraints
+    - **Texture Contributions**: Bunny footprints, signs, and other environmental details that add charm
+    - **Style Collaboration**: How you coordinate with Biobak to maintain visual consistency
+    - **Sketching Process**: "Zeina already has a lot of sketches about how Mario goes through the levels" - your planning role
+    - **Level Entrance Concepts**: Your beautiful concept art for Bunny Brushwoods, Koopa Wave Cove, and other areas
+    - **Artistic Direction**: How your ideas influence the project's overall visual identity
+    - **Multi-Role Versatility**: "Helping out with anything else that he needs" - the scope of your contributions
 
     :::
 
@@ -380,11 +443,14 @@ These questions are tailored to each team member's specific role and contributio
 
     ::: info Follow-ups
 
-    - The "painful to watch" story from your perspective
-    - How does the feel of the gameplay influence your animation choices?
-    - Catching visual or flow issues that a technical developer might overlook
-    - Unique perspective as both an artist and a player
-    - Other specific changes made based on your feedback
+    - **The "Painful to Watch" Moment**: Your perspective on struggling with a difficult section and seeing Kaze's immediate response
+    - **Fresh Eyes Advantage**: What issues do you catch that someone who programmed the level might miss?
+    - **Animation-Gameplay Connection**: How does experiencing the gameplay feel influence your animation decisions?
+    - **Artist-Player Perspective**: The unique viewpoint of both creating art for the game and being its first audience
+    - **Flow and Polish**: Catching visual inconsistencies, pacing issues, or unclear player guidance
+    - **Real Player Reactions**: How your genuine first-time responses help refine the game
+    - **Other Design Changes**: Specific examples of levels or mechanics adjusted based on your playtesting
+    - **Quality Assurance Role**: Being the filter between developer vision and player experience
 
     :::
 
@@ -432,10 +498,14 @@ These questions are for Kaze and Zeina together, focusing on their unique dynami
 
     ::: info Follow-ups
 
-    - Balancing development with life events (moving, terrariums, haircuts)
-    - How expecting a child changed the project's stakes
-    - Reflecting on the "human cost" of such a massive undertaking
-    - What does this project mean to you as a legacy you're creating together?
+    - **Life Integration**: Balancing development with life events (moving homes, making terrariums together, the infamous haircut streams)
+    - **Financial Partnership**: Kaze's transparency about opportunity costs ("tens of thousands") and saving for a house together
+    - **Work-Life Boundaries**: Zeina "banishing" Kaze to the basement vs. working in the same space
+    - **Anniversary Moments**: Forgetting your third wedding anniversary until Kaze's father called during a stream
+    - **Parenthood Perspective**: How becoming parents during the final phase changed the project's meaning
+    - **Legacy Creation**: What does RTYI represent as something you've built together?
+    - **Personal Moments**: The playful banter about cooking skills, hot dog definitions, and daily life bleeding into streams
+    - **Support System**: Zeina meal prepping for Kaze's streaming schedule, managing life logistics around development
 
     :::
 
