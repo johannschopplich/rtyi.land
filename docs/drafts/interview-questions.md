@@ -6,25 +6,40 @@ outline: deep
 
 The questions are open-ended to establish core themes and encourage storytelling. I will actively listen for interesting stories to follow up on and dive into specific, role-oriented topics.
 
+::: tip Global Audience Focus
+This documentary targets an audience who may never have heard of ROM hacking, N64 development, or the Mario 64 modding scene. I want to encourage interviewees to naturally explain technical concepts, define jargon, and provide context that makes their work accessible to everyone.
+:::
+
 ### For All Team Members
 
 These central questions are for Kaze, Biobak, Badub, and Zeina individually. This will hopefully allow me to weave together their different perspectives on the same key topics, creating a multi-faceted narrative for the documentary.
 
-1.  **The Genesis:** I'd love to hear how you first got involved with "Return to Yoshi's Island." A massive Yoshi's Island-themed adventure built on top of the Mario 64 engine. What aspects of this specific idea resonated with you? What made you decide to commit to such a huge project?
+1.  **The Project:** Tell me about "Return to Yoshi's Island" - what is this project you've spent years of your life creating? What does it mean to take a beloved classic like Super Mario 64 and transform it into something entirely new?
 
     ::: info Follow-ups
 
-    - Initial excitement or skepticism
-    - What was Kaze's pitch like?
-    - Personal nostalgia for Super Mario 64 or Yoshi's Island
-    - Role of the SM64 decompilation project opening up possibilities
-    - **Kaze**: "I like Yoshi. That's kind of where the thought process ended." – What does that mean to you on a deeper level? What is it about Yoshi specifically that made this project worth years of your life?
-    - **The Real Catalyst**: "The zoo is actually the reason I even started optimizing Mario 64. The zoo ran so poorly that I just could not take that." Can you walk me through that specific moment when unacceptable performance became the spark for rebuilding an entire engine?
-    - **Scope Realization**: Did you understand from the start that fixing one laggy level would lead to rewriting collision systems, sound engines, and graphics pipelines? Or did the scope creep surprise you?
+    - Help viewers understand: What is ROM hacking? What makes this different from typical game mods?
+    - The SM64 decompilation project - how did this change what was possible?
+    - Why Yoshi's Island specifically? What about that game captured your imagination?
+    - For people who've never heard of this scene - what drives someone to rebuild a 30-year-old game from the ground up?
 
     :::
 
-2.  **The Drive:** This is years of work, all released for free. Kaze has described it as requiring an obsessive level of dedication, costing him "tens of thousands" personally. What keeps you going? What's the personal drive that makes you pour so much time and talent into this?
+2.  **The Genesis:** I'd love to hear how you first got involved with this project. What aspects of this specific idea resonated with you? What made you decide to commit to such a huge undertaking?
+
+    ::: info Follow-ups
+
+    - Initial excitement or skepticism when you first heard about the project
+    - What was Kaze's pitch like to get you involved?
+    - Personal nostalgia for Super Mario 64 or Yoshi's Island
+    - **Kaze - The Real Origin Story**: "The zoo is actually the reason I even started optimizing Mario 64. The zoo ran so poorly that I just could not take that." Can you take me back to that specific moment when you decided enough was enough? For people unfamiliar with game development, help us understand what "lag" means and why fixing it required such extreme measures.
+    - **Kaze - The Yoshi Connection**: "I like Yoshi. That's kind of where the thought process ended." What does that mean to you on a deeper level? What is it about Yoshi specifically that made this project worth years of your life?
+    - **Kaze - Scope Realization**: Did you understand from the start that fixing one laggy level would lead to rewriting collision systems, sound engines, and graphics pipelines? How did fixing one problem reveal that the entire engine needed rebuilding?
+    - **Team Members**: How did you realize this wasn't going to be a typical ROM hack but something much more ambitious?
+
+    :::
+
+3.  **The Drive:** This is years of work, all released for free. Kaze has described it as requiring an obsessive level of dedication, costing him "tens of thousands" personally. What keeps you going? What's the personal drive that makes you pour so much time and talent into this?
 
     ::: info Follow-ups
 
@@ -37,7 +52,7 @@ These central questions are for Kaze, Biobak, Badub, and Zeina individually. Thi
 
     :::
 
-3.  **The Soul of RTYI:** From your role on the team, what do you think is the heart and soul of this game? What feeling or experience are you trying to create that makes it different from any other Mario 64 hack or even official Nintendo games?
+4.  **The Soul of RTYI:** From your role on the team, what do you think is the heart and soul of this game? What feeling or experience are you trying to create that makes it different from any other Mario 64 hack or even official Nintendo games?
 
     ::: info Follow-ups
 
@@ -50,7 +65,7 @@ These central questions are for Kaze, Biobak, Badub, and Zeina individually. Thi
 
     :::
 
-4.  **The Creative Process:** Could you walk me through the typical creative process? How does an idea become a finished piece, whether that's a level, a song, a model, or an animation? What is the collaboration like day-to-day?
+5.  **The Creative Process:** Could you walk me through the typical creative process? How does an idea become a finished piece, whether that's a level, a song, a model, or an animation? What is the collaboration like day-to-day?
 
     ::: info Follow-ups
 
@@ -61,10 +76,12 @@ These central questions are for Kaze, Biobak, Badub, and Zeina individually. Thi
     - **MS Paint to 3D**: The journey from rough sketches to final implementations
     - **Iteration Examples**: Course 11 being "improvised" and "making stuff up on the fly" - how do you balance planning vs. spontaneous creativity?
     - **Mathematical Precision**: The paper airplane development where you folded a real paper airplane to understand the physics, then applied trigonometry to create realistic flight mechanics. How do you balance mathematical accuracy with playable game feel?
+    - **Community Collaboration**: Your development streams show viewers directly shaping major gameplay features. Can you walk me through how a viewer's suggestion like the Whomp Tower ("You could be waiting to be used as a building material, oh, okay. Yeah. That's a funny idea.") becomes a core puzzle element?
+    - **Live Creative Process**: How does developing live on stream change the creative process compared to traditional game development? What's the difference between useful creative input and unhelpful technical advice from viewers?
 
     :::
 
-5.  **A Story of a Challenge:** I'd love to hear about a time when things got really tough. Maybe a technical nightmare, a creative block, or even a disagreement. What happened, and how did you push through to that breakthrough moment?
+6.  **A Story of a Challenge:** I'd love to hear about a time when things got really tough. Maybe a technical nightmare, a creative block, or even a disagreement. What happened, and how did you push through to that breakthrough moment?
 
     ::: info Follow-ups
 
@@ -76,23 +93,26 @@ These central questions are for Kaze, Biobak, Badub, and Zeina individually. Thi
     - **The Wet Cement Debug**: An entire stream debugging a texture effect only to discover a simple copy-paste error: "That part was missing everywhere. No wonder this didn't work."
     - **The Paper Airplane Physics Experiment**: Folding a real paper airplane to understand the mathematics ("I'm making a paper airplane to look at it. I got a piece of graph paper"), then spending an entire stream tweaking variables as physics went "volatile and chaotic." How do you balance real-world physics with playable game mechanics?
     - **Wiggler Animation Hell**: "The most difficult one to animate yet" - technical and creative challenges converging
+    - **Happy Accidents**: How do you create conditions where "happy accidents" can happen? What's the most valuable thing you've learned from a mistake vs. planned optimization?
 
     :::
 
-6.  **The N64 Spirit:** You're developing for hardware from 1996. How do those famous N64 limitations (low-poly models, texture memory, RAM limits) actually force you to be more creative? Can you share an example where a limitation led to something unique?
+7.  **The N64 Spirit:** You're developing for hardware from 1996. How do those famous N64 limitations (low-poly models, texture memory, RAM limits) actually force you to be more creative? Can you share an example where a limitation led to something unique?
 
     ::: info Follow-ups
 
+    - **For Global Audience**: Help explain what these N64 limitations mean in practical terms - like how 64MB is tiny compared to modern games
     - Working within a 64MB ROM and 4KB texture memory budget
     - The "fucked" vanilla audio engine requiring a complete rewrite
     - The vanilla collision system being "unusable"
     - Inventing CPU-based normal mapping for fake lighting on the styrofoam
     - The Oily Boily Bay rework pushing the game 1KB over the RAM limit
     - The freedom and challenges of the SM64 decompilation project
+    - **Context for Viewers**: What makes pushing 30-year-old hardware impressive? Why not just use modern engines?
 
     :::
 
-7.  **The Legacy:** When players finally experience the full game, what do you hope they take away from it? What do you want the lasting impact of "Return to Yoshi's Island" to be?
+8.  **The Legacy:** When players finally experience the full game, what do you hope they take away from it? What do you want the lasting impact of "Return to Yoshi's Island" to be?
 
     ::: info Follow-ups
 
@@ -105,62 +125,15 @@ These central questions are for Kaze, Biobak, Badub, and Zeina individually. Thi
 
     :::
 
-### The Missing Stories: Major Documentary Themes
-
-These questions explore the major narrative themes discovered through stream analysis that aren't fully covered in the existing outline.
-
-#### The Zoo Catalyst: The Real Origin Story
-
-**For Kaze:** You've said "The zoo is actually the reason I even started optimizing Mario 64. The zoo ran so poorly that I just could not take that." This seems to be THE actual origin story of RTYI's technical ambition. Can you take me back to that specific moment?
-
-::: info Follow-ups
-
-- What was it about the Zoo's performance that crossed the line from "acceptable" to "unacceptable"?
-- How did fixing one laggy level reveal fundamental problems with SM64's engine - the "fucked" sound system, "unusable" collision detection?
-- Can you walk me through the mental shift from "I'll work around these limitations" to "I need to rewrite the engine"?
-- Looking back, do you realize this was the moment RTYI transformed from a simple ROM hack into something much more ambitious?
-
-:::
-
-#### Community-Driven Design: The Democratization of Game Development
-
-**For All Team Members:** Your streams show viewers directly shaping major gameplay features through suggestions. This represents a new model of collaborative development.
-
-**The Whomp Tower Story:** A viewer's spontaneous suggestion ("You could be waiting to be used as a building material, oh, okay. Yeah. That's a funny idea.") became a major puzzle element. Can you walk me through how that happened?
-
-::: info Follow-ups
-
-- **Kaze**: How do you filter hundreds of chat suggestions to find the gems?
-- **Biobak**: The tutorial ring solution that prevents "cheesing" - how did that collaborative problem-solving work?
-- **Team**: Other examples of viewer ideas that made it into the game (Mirror Wall, growing flower vine)
-- How does live streaming change the creative process compared to traditional game development?
-- What's the difference between useful creative input and unhelpful technical advice from viewers?
-
-#### Accidental Breakthroughs: The Role of Serendipity in Technical Innovation
-
-**For Kaze:** Some of your biggest technical breakthroughs happened by accident. How important is serendipity in innovation?
-
-**The Export Format Discovery:** "I was exporting it as an F3D model and not F3DX2. So we had twice the vertex loads, twice the triangle comments... and it still ran fine." This mistake doubled your performance. How did that feel?
-
-::: info Follow-ups
-
-- How do you create conditions where "happy accidents" can happen?
-- The compiler bug hunt where assembly-level debugging revealed compiler optimizations bypassing your safety checks
-- Other unexpected discoveries that exceeded your performance expectations
-- How do you balance methodical engineering with room for experimentation and mistakes?
-- What's the most valuable thing you've learned from an accident vs. planned optimization?
-
-:::
-
 ### Individual Interviews
 
 These questions are tailored to each team member's specific role and contributions, allowing for deeper dives into their unique perspectives and expertise.
 
 #### Kaze Emanuar (Lead Developer)
 
-::: tip Introduction Reminder
+::: tip Introduction
 
-- For the narrative, can you please state your name and your role on the project?
+Tell me about your role in creating RTYI - you're not just modding Mario 64, you're essentially rebuilding it from the ground up. How did you become the person crazy enough to take on that challenge?
 
 :::
 
@@ -275,9 +248,9 @@ These questions are tailored to each team member's specific role and contributio
 
 #### Biobak (Graphics Artist & Designer)
 
-::: tip Introduction Reminder
+::: tip Introduction
 
-- For the narrative, can you please state your name and your role on the project?
+You're the visual wizard behind RTYI - when people see those stunning, modern-looking environments running on N64 hardware, that's your work. Tell me about your role and what drives you to create such detailed worlds for 30-year-old hardware.
 
 :::
 
@@ -341,9 +314,9 @@ These questions are tailored to each team member's specific role and contributio
 
 #### Badub (Composer)
 
-::: tip Introduction Reminder
+::: tip Introduction
 
-- For the narrative, can you please state your name and your role on the project?
+Music is the soul of any game, and your compositions for RTYI have this incredible ability to instantly transport players into each world. Tell me about your role as the composer and how you create that perfect musical identity for the project.
 
 :::
 
@@ -402,9 +375,9 @@ These questions are tailored to each team member's specific role and contributio
 
 #### Zeina (Animator & Artist)
 
-::: tip Introduction Reminder
+::: tip Introduction
 
-- For the narrative, can you please state your name and your role on the project?
+You bring RTYI's characters to life through animation and art, but you're also Kaze's creative partner in life. Tell me about wearing both hats - being both an artist on the team and the person who sees this project's impact on your family every day.
 
 :::
 
@@ -509,6 +482,7 @@ These questions are for Kaze and Zeina together, focusing on their unique dynami
     - **Legacy Creation**: What does RTYI represent as something you've built together?
     - **Personal Moments**: The playful banter about cooking skills, hot dog definitions, and daily life bleeding into streams
     - **Support System**: Zeina meal prepping for Kaze's streaming schedule, managing life logistics around development
+    - **For Global Audience**: Help viewers understand what it means to build something this ambitious as a family, and why someone would choose to work on "old games" instead of creating something new
 
     :::
 
