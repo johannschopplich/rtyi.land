@@ -60,6 +60,7 @@ These central questions are for Kaze, Biobak, Badub, and Zeina individually. Thi
     - **Discord vs. Streams**: Creative "arguments in Discord DMs" then reaching agreements vs. live public feedback
     - **MS Paint to 3D**: The journey from rough sketches to final implementations
     - **Iteration Examples**: Course 11 being "improvised" and "making stuff up on the fly" - how do you balance planning vs. spontaneous creativity?
+    - **Mathematical Precision**: The paper airplane development where you folded a real paper airplane to understand the physics, then applied trigonometry to create realistic flight mechanics. How do you balance mathematical accuracy with playable game feel?
 
     :::
 
@@ -73,6 +74,7 @@ These central questions are for Kaze, Biobak, Badub, and Zeina individually. Thi
     - **Biobak's Bomb Cap Crash**: A major level rework introducing a persistent crash that required systematic debugging to isolate actor overflow issues
     - **The Iridescent Oil Nightmare**: "Wow this looks terrible, oh my god this looks so bad. I absolutely hate this" - working through multiple streams to create the rainbow effect
     - **The Wet Cement Debug**: An entire stream debugging a texture effect only to discover a simple copy-paste error: "That part was missing everywhere. No wonder this didn't work."
+    - **The Paper Airplane Physics Experiment**: Folding a real paper airplane to understand the mathematics ("I'm making a paper airplane to look at it. I got a piece of graph paper"), then spending an entire stream tweaking variables as physics went "volatile and chaotic." How do you balance real-world physics with playable game mechanics?
     - **Wiggler Animation Hell**: "The most difficult one to animate yet" - technical and creative challenges converging
 
     :::
@@ -205,6 +207,7 @@ These questions are tailored to each team member's specific role and contributio
     - **60 FPS Achievement**: Enabling smooth gameplay that vanilla SM64 "would never be able to handle"
     - **Performance Pride**: "This is an N64 game. How crazy is that?" - the satisfaction of pushing 30-year-old hardware to modern standards
     - **Cache Optimization**: "Mario's behavior loop never gets thrown out of cache which is fucking crazy" - your optimization achievements
+    - **Mathematical Modeling**: The paper airplane physics where you folded a real paper airplane to understand the mathematics, then applied trigonometry and physics equations to create realistic flight mechanics. How do you approach translating real-world physics into N64-compatible game mechanics?
 
     :::
 

@@ -297,10 +297,13 @@ This is my favorite arc. It perfectly captures Kaze's creative process, the team
   - **Example 2: The Wet Cement Nightmare.** An entire stream debugging a texture effect, exploring complex theories before discovering a simple copy-paste error: "That part was missing everywhere. No wonder this didn't work."
   - **Example 3: Course 11 Improvisation.** "Yeah, this level is a bit improvised compared to my normal levels. We're kind of making a lot of shit up on the fly" - showing that even expert developers embrace controlled chaos.
   - **Example 4: The Space Arcade Scrapping.** Killing darlings: "The idea we had for this level is terrible" - completely reimagining a level from scratch when the original concept fails.
+  - **Example 5: The Paper Airplane Physics Experiment.** Kaze's mathematical approach to game physics: folding a real paper airplane to understand the mathematics ("I'm making a paper airplane to look at it. I got a piece of graph paper"), then spending an entire stream tweaking variables as physics went "volatile and chaotic." The iterative process from falling through floors to smooth, rideable flight mechanics demonstrates the messy reality behind polished gameplay.
 - **B-Roll:**
   - Montage of Kaze's roughest placeholder models and early "shit phase" layouts.
   - Stream moments of frustration ("this sucks") followed by breakthrough moments and polished results.
   - Before-and-after comparisons showing dramatic transformations through iteration.
+  - Paper airplane physics debugging: split screen of Kaze folding real paper vs. in-game physics tweaking.
+  - Mathematical calculations on screen during the paper airplane development process.
 
 ## Rethinking Rewards
 
