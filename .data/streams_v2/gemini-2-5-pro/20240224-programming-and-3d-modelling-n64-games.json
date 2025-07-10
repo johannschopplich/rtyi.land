@@ -1,69 +1,57 @@
 {
   "stream_context": {
-    "summary": "Kaze Emanuar, joined by guest developer Sauraen, conducted a live, deep-dive debugging session to diagnose and solve a major performance regression with the new F3DEX3 microcode in 'Return to Yoshi's Island'. The stream involved extensive technical discussion, live assembly coding, and systematic testing, which ultimately uncovered a new, unresolved performance mystery. Kaze also worked on modeling assets for a Mario Kart 64-themed retro level.",
+    "summary": "Kaze collaborates with Sauraen, the creator of the F3DEX3 microcode, to diagnose and debug a significant performance regression in \"Return to Yoshi's Island\". They use custom performance counters to investigate why the new microcode is slower than expected, ultimately discovering an unexplained 9ms of processing time. Kaze also works on modeling assets for a Mario Kart 64-themed retro level.",
     "level": [
-      "Course 12 (Mario Kart 64 Retro Stage)",
-      "Unspecified test level"
+      "Course 12",
+      "Mario Kart 64 Retro Pipe"
     ]
   },
   "development_findings": [
     {
-      "summary": "The core technical problem is that the new F3DEX3 microcode, while speeding up the RDP (graphics processor), slows down the RSP (co-processor) more than anticipated. This trade-off is failing because Kaze's game is already highly optimized, making the RSP the new bottleneck.",
-      "quote": "There's not a lot of headroom to make the RSP go slower and make the RDP go faster."
+      "summary": "The team is attempting to integrate the F3DEX3 microcode with the expectation of significant performance gains and new graphical features like occlusion planes.",
+      "quote": "We want to make sure this microcode actually works here and makes the game run faster. We're expecting this to be a huge improvement."
     },
     {
-      "summary": "Kaze is not using point lights, a key feature F3DEX3 was optimized for. He fakes the effect with vertex colors computed on the CPU to ensure broad compatibility, especially with emulators.",
-      "quote": "Are you ever planning to use point lights in RTYI? No, absolutely not because I want to make sure it runs fine on emulators."
+      "summary": "A critical performance regression was discovered where F3DEX3 runs slower (~27ms) than older microcodes (~21-25ms). The issue is more pronounced in this game due to highly optimized RDP performance, which exposes RSP inefficiencies.",
+      "quote": "In my game, the memory transfer speed is just optimized so much already that the RDP is less of a bottleneck and that's why it's more evident in like other people's text than in mine."
     },
     {
-      "summary": "Sauraen explains that F3DEX3's architecture is more straightforward but requires more matrix multiplications per vertex for lighting compared to F3DEX2, which should make it slower for Kaze's use case (many directional lights, no point lights).",
-      "quote": "The vertex processing takes like way longer in EX2 in RSP time... wait, EX3. No, EX2... what the hell."
+      "summary": "Microcode developer Sauraen explained that F3DEX3's architecture requires more matrix multiplications per vertex for lighting compared to F3DEX2, a trade-off made to improve other areas which is now causing a bottleneck.",
+      "quote": "In F3DX2, it pre-transforms the normals for the light directions... it only transforms directly from model space to clip space. So it's one matrix multiply and no normalizations in the RSP for each vertex if you're not doing point lights."
     },
     {
-      "summary": "An early profiling bug in Kaze's setup reported the RSP task time as 8ms when it was actually 16ms, which led Sauraen to incorrectly believe there was plenty of performance headroom.",
+      "summary": "The game does not use hardware point lights. Instead, Kaze fakes the effect using vertex colors calculated on the CPU and uses up to seven simultaneous directional lights for dynamic objects.",
+      "quote": "I have a few places where I use point lights, but I just fake them via vertex colors. So I just run them on a CPU."
+    },
+    {
+      "summary": "After implementing custom performance counters, the team discovered that vertex and triangle processing account for ~18ms of the 27ms total RSP task time, isolating the problem to an unexplained ~9ms of processing.",
+      "quote": "You have 10 milliseconds for vertices, 8 milliseconds for triangles and 27 milliseconds... that mysterious now extra what is this extra like eight or nine milliseconds... that would just like solve all of your problems."
+    },
+    {
+      "summary": "Kaze worked on 3D modeling for a Mario Kart 64 retro-themed level, including the start/finish line, and planned to add a moving train and cactus obstacles.",
       "quote": null
-    },
-    {
-      "summary": "Live debugging with custom counters revealed that vertex and triangle processing account for ~18ms of the 27ms RSP task time. There is a mysterious 9ms of unexplained processing time that is the source of the performance issue.",
-      "quote": "So this should be you know 9.8 milliseconds plus 8.2 milliseconds is like 18.1 milliseconds... but it's actually like another 9 milliseconds. Yeah, something's up."
-    },
-    {
-      "summary": "Kaze is implementing 'retro pipes' in each level that reference classic games from the N64 era. The stream showed work on a Kalamari Desert (from Mario Kart 64) area.",
-      "quote": null
-    },
-    {
-      "summary": "Kaze demonstrates how he fakes the effect of point lights, such as one inside a fire, by dynamically creating a directional light source aimed from the fire's position.",
-      "quote": "We just use a directional light like that."
-    },
-    {
-      "summary": "Switching to F3DEX3 broke Mario's lighting because it uses a new GBI (graphics binary interface) that requires code changes to be compatible.",
-      "quote": "I need to update the way I do lighting before they will work."
     }
   ],
   "context_findings": [
     {
-      "summary": "Kaze expresses a design philosophy focused on preserving the core gameplay of Mario 64, avoiding features like a drivable kart that would fundamentally change the experience.",
-      "quote": "It kind of feels like, oh, you like Mario 64. Well, fuck you. Here's Mario Kart. I don't want that."
+      "summary": "Kaze uses the outdated and insecure Project 64 1.6 emulator for development convenience, acknowledging the risks but mitigating them by not running external ROMs.",
+      "quote": "You shouldn't use it if you're gonna play someone else's romhack because they can just put malware in there, but I'm not gonna play any."
     },
     {
-      "summary": "Kaze is aware that his romhacks are sold on physical cartridges by third parties without his consent or financial benefit, and he views it as an unavoidable part of the scene.",
-      "quote": "you gotta have some tolerance for that in order to be in this"
+      "summary": "Kaze's design philosophy prioritizes preserving the core Mario 64 movement and gameplay, avoiding the addition of mechanics (like a drivable kart) that would detract from that focus.",
+      "quote": "We want the fun to be for Mario's movement and not just random things like that. It kind of feels like, oh, you like Mario 64. Well, fuck you. Here's Mario Kart. I don't want that."
     },
     {
-      "summary": "Kaze states a preference for developing directly for original hardware, but acknowledges that emulator performance is a practical constraint he must consider.",
-      "quote": "I just want to make my N64 game. Ideally, I wouldn't have to deal with emulators at all."
+      "summary": "Kaze expresses a pragmatic acceptance of unauthorized reproductions of his work being sold by third parties, viewing it as an unavoidable part of the romhacking scene.",
+      "quote": "You gotta have some tolerance for that in order to be in this."
     },
     {
-      "summary": "Kaze acknowledges the security risks of using the outdated Project 64 1.6 emulator but continues to use it for his own development due to convenience and familiarity.",
-      "quote": "You shouldn't use it if you're gonna play someone else's romhack because they can just put malware in there, but I have no reason to get parallel because I'm not gonna play anyone else's."
+      "summary": "Kaze believes game ratings should follow a normal distribution to be objective, rather than being skewed towards higher scores.",
+      "quote": "I think you should rate it on a normal distribution. So you should give almost every hack a rating between 4 and 6."
     },
     {
-      "summary": "Kaze's partner, Zeina, is present and watching the stream, as indicated by her message in the chat.",
-      "quote": null
-    },
-    {
-      "summary": "Kaze reveals that development on a 'Bowser magician' character has been stalled for years due to an unreliable community collaborator, souring him on open calls for help.",
-      "quote": "Someone offered to do the animations in 2021 and they kept saying I'll do it, I'll do it, I'll do it and then they didn't do it. And that's why you don't do call-ups."
+      "summary": "Kaze's streaming philosophy is to begin working immediately rather than waiting for an audience to assemble.",
+      "quote": "No, I just start working and if people show up then they're there."
     }
   ],
   "contributor_findings": {
@@ -71,45 +59,47 @@
     "badub": [],
     "zeina": [
       {
-        "summary": "Zeina was present in the stream chat, showing support.",
-        "quote": "Yo, we got a sup from Zeina."
+        "summary": "Zeina was present and supportive in the stream chat during the technical debugging session.",
+        "quote": null
       }
     ]
   },
   "key_stories": [
     {
-      "title": "The F3DEX3 Performance Mystery",
-      "summary": "Kaze and guest developer Sauraen conducted a deep-dive technical investigation to solve a critical performance regression caused by the new F3DEX3 microcode. Through a methodical process of elimination and live-coding new diagnostic tools, they debunked their initial hypothesis and uncovered a deeper, more mysterious performance bug that is now the primary focus.",
-      "challenge": "The new F3DEX3 microcode, intended to be a performance upgrade, was making 'Return to Yoshi's Island' run significantly slower, threatening a key technical advancement for the project.",
-      "process": "Kaze and F3DEX3 developer Sauraen collaborated on a live debugging session. They compared performance against older microcode versions, tested hypotheses by disabling the entire lighting system, and ultimately live-coded new performance counters into the microcode itself to isolate the time spent on vertex vs. triangle processing.",
-      "outcome": "The initial theories were disproven. Custom performance counters revealed that while vertex processing was slower, an additional, unexplained 9 milliseconds of RSP time was the true culprit. The issue remains unsolved, with Sauraen taking the new data to investigate further offline.",
-      "key_quote": "The vertex processing is slower but like that's not all that's happening here, something else is taking a ton of time.",
+      "title": "F3DEX3 Performance Regression Debugging",
+      "summary": "Kaze and microcode developer Sauraen teamed up to solve a critical performance issue where the new F3DEX3 microcode was making the game significantly slower. Through a live collaborative debugging session, they implemented custom performance counters, successfully narrowing the problem down to a mysterious, unexplained 9-millisecond slowdown in the RSP task.",
+      "challenge": "The new F3DEX3 microcode, which was expected to improve performance, was instead causing a significant slowdown, increasing frame processing time from ~21ms to 27ms and threatening the project's viability.",
+      "process": "Kaze collaborated live with Sauraen, the microcode's creator. They established performance baselines against older microcodes, discussed architectural differences, and systematically disabled code sections (like lighting) to test hypotheses. The key step was when Sauraen created a custom build of the microcode with new performance counters to measure vertex and triangle processing time independently.",
+      "outcome": "The issue remains unresolved, but the problem has been successfully isolated. The custom counters proved that a mysterious, unknown process is consuming ~9ms of RSP time. Microcode developer Sauraen will investigate this 'mystery time' offline, with plans to reconvene with Kaze later.",
+      "key_quote": "You have 10 milliseconds for vertices, 8 milliseconds for triangles and 27 milliseconds... that mysterious now extra what is this extra like eight or nine milliseconds... that would just like solve all of your problems.",
       "related_to": [
-        "Kaze Emanuar"
+        "Kaze Emanuar",
+        "Sauraen"
       ]
     }
   ],
   "open_questions": [
     {
-      "topic": "Unexplained F3DEX3 Performance Gap",
-      "context": "The live debugging session with Sauraen concluded that there's a ~9ms performance gap in the RSP task time that isn't explained by vertex or triangle processing.",
+      "topic": "Unexplained RSP Performance Loss",
+      "context": "Custom performance counters revealed that vertex and triangle processing takes ~18ms, but the total RSP task time is ~27ms. An unknown process is consuming ~9ms of processing time.",
       "questions": [
-        "What are your current theories for the source of this 9ms gap?",
-        "What's your plan for diagnosing it further?",
-        "Is there a 'plan B' if F3DEX3 can't be made to work efficiently for RTYI, or is solving this essential for the project's goals?"
+        "What are the leading theories for the source of the unexplained 9ms of RSP time?",
+        "What are the next steps in profiling the microcode to identify this unknown workload?",
+        "Sauraen mentioned a potential 'F3DEX2.5' as a fallback. How seriously is this being considered as an alternative path?"
       ],
       "related_to": [
-        "Kaze Emanuar"
+        "Kaze Emanuar",
+        "Sauraen"
       ],
       "priority": "high"
     },
     {
-      "topic": "Stalled 'Bowser Magician' Animations",
-      "context": "Kaze mentioned that a 'Bowser magician' character is on hold because a community collaborator who promised to do animations in 2021 never delivered them.",
+      "topic": "Bowser Magician Boss",
+      "context": "Kaze mentioned a 'Bowser magician' boss is planned but is stalled because he is waiting on animations. An animator from 2021 did not deliver.",
       "questions": [
-        "How has that experience with the collaborator changed your approach to working with volunteers?",
-        "What is the current plan for the Bowser magician concept?",
-        "Are there other parts of the project that are dependent on outside help?"
+        "What is the concept for the Bowser Magician boss?",
+        "How does a key dependency like animations falling through affect project planning and morale?",
+        "What is the new plan for getting these animations made?"
       ],
       "related_to": [
         "Kaze Emanuar"
@@ -117,30 +107,30 @@
       "priority": "medium"
     },
     {
-      "topic": "Boshi Cowboy Level Details",
-      "context": "Kaze briefly mentioned a cowboy-themed level where the player will have a 'shootout' with the character Boshi.",
+      "topic": "Lighting Techniques",
+      "context": "Kaze stated he fakes point lights using vertex colors calculated on the CPU, and also uses up to seven directional lights simultaneously in some levels.",
       "questions": [
-        "Could you describe the concept for the Boshi shootout level?",
-        "What kind of 'cowboy shenanigans' are you planning for the gameplay?",
-        "What is Boshi's role in the story of RTYI?"
+        "Can you explain the process of faking point lights with CPU-calculated vertex colors?",
+        "What are the performance and visual trade-offs of this technique compared to using actual hardware point lights?",
+        "How do you manage seven simultaneous directional lights, and what technical challenges does that present?"
+      ],
+      "related_to": [
+        "Kaze Emanuar"
+      ],
+      "priority": "medium"
+    },
+    {
+      "topic": "Mario's Lighting Bug with F3DEX3",
+      "context": "Kaze mentioned that Mario's model appears uncolored because of changes in the F3DEX3 GBI and that he needs to 'update the way I do lighting' to fix it. He called the fix 'trivial.'",
+      "questions": [
+        "Can you walk us through what 'updating the way I do lighting' for Mario's model entails?",
+        "Why does the new GBI in F3DEX3 break the previous lighting method for Mario specifically?",
+        "Is this a common issue when migrating projects to F3DEX3?"
       ],
       "related_to": [
         "Kaze Emanuar"
       ],
       "priority": "low"
-    },
-    {
-      "topic": "Faking Point Lights",
-      "context": "Kaze stated he avoids real point lights due to emulator performance and instead 'fakes' them with vertex colors computed on the CPU.",
-      "questions": [
-        "Can you walk us through the technical implementation of your 'fake' point lights?",
-        "Why is emulator performance such a high priority for you, even over developing for real hardware?",
-        "How do you balance artistic goals with the technical constraints of N64 and its emulation?"
-      ],
-      "related_to": [
-        "Kaze Emanuar"
-      ],
-      "priority": "medium"
     }
   ]
 }

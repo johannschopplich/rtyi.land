@@ -1,191 +1,176 @@
 {
   "stream_context": {
-    "summary": "Kaze works on implementing a new 'piano guy' NPC, modeled and animated by Zeina, into the Wild West themed level. The stream focuses on coding the NPC's behavior, including interactive dialogue and music, which leads to debugging a critical memory overflow issue, discovering other bugs, and implementing several engine optimizations. He also fleshes out the saloon scene by making other NPCs react to the player's actions.",
+    "summary": "Kaze worked on Course 12, a Wild West level, focusing on implementing a piano-playing Shy Guy character created by Zeina. The process involved extensive debugging of a critical RAM overflow and a null pointer crash. Key features added during the stream include directional audio for the piano and a dynamic NPC reaction where the entire saloon stares at Mario if he interrupts the music.",
     "level": [
-      "Course 12 (Wild West Saloon)"
+      "Course 12",
+      "Wild West Saloon"
     ]
   },
   "development_findings": [
     {
-      "summary": "Adding the new piano guy NPC pushed the level over the N64's RAM limits, forcing Kaze to immediately begin optimizing the level's collision geometry to free up memory.",
-      "quote": "Oh shit it is Mario day it's a ram overflow we're out of memory cool cool all right we have to optimize the fucking level."
+      "summary": "Adding a new character model caused a critical RAM overflow, forcing Kaze to immediately optimize the level's collision mesh to free up memory, highlighting the N64's strict hardware limitations.",
+      "quote": "oh shit it is Mario day it's a ram overflow we're out of memory cool cool all right we have to optimize the fucking level damn"
     },
     {
-      "summary": "Kaze implemented a dynamic scene where if the player interrupts the piano player, the music stops and all other NPCs in the saloon turn to stare at Mario, an idea that originated from a viewer's suggestion.",
+      "summary": "Kaze debugged and solved a crash by identifying a null pointer dereference in C, where the code was checking an animation's state before it was initialized.",
+      "quote": "What if because we check if the animation is at the end before we initialize animation, it's reading a zero pointer? Wait, that's definitely it."
+    },
+    {
+      "summary": "Based on a viewer suggestion, Kaze spontaneously designed and implemented a feature where all NPCs in the saloon turn to stare at Mario if he interrupts the piano player, enhancing the level's atmosphere.",
       "quote": "When the piano guy stops the music, the entire bar should look at you. Yeah, exactly. They'd be like, what the fuck, bro? Why'd you stop my jam?"
     },
     {
-      "summary": "Kaze shared a significant performance optimization he discovered for the N64, involving a specific cache instruction to halve memory bandwidth in his rendering thread.",
-      "quote": "What you can do to prevent that is use the CACHE INVALIDATE DIRTY something something instruction... it just marks that byte of memory to already be in cache. And then you can write to it in cache without ever reading from RAM. That saves you one RAM write every time you write 16 bytes in a row."
-    },
-    {
-      "summary": "Kaze implemented directional audio for the piano music, making the sound pan between the left and right channels based on the camera's position relative to the NPC.",
-      "quote": "I'm going to pan the music so that it sounds like the guy is playing it."
-    },
-    {
-      "summary": "After a lengthy debug session for a mysterious crash, Kaze realized the cause was forgetting to remove temporary helper objects from the level export file, a mistake he had made and solved before.",
-      "quote": "Wait, it's because I have the temporary objects still exported. The ones that shouldn't even exist. God fucking damn it. How did I forget about that?"
-    },
-    {
-      "summary": "The project is currently using the Fast3DX2 graphics microcode, with plans to upgrade to Fast3DX3, but it is currently delayed due to performance issues with the newer version.",
-      "quote": "We're using Fast3DX2, but we want to use Fast3DX3 in the end. Right now, it just doesn't really work as optimal as it should."
-    },
-    {
-      "summary": "A future gameplay sequence will be a 'High Noon' duel against Boshi, which will require modeling a card gun from Mario Party 2 and creating a 3D countdown timer.",
+      "summary": "Kaze implemented directional audio for the piano music, panning the sound in stereo based on the camera's position relative to the musician to increase immersion.",
       "quote": null
     },
     {
-      "summary": "Kaze identified and fixed a null pointer bug where the code would check if an animation was finished before the animation was initialized, causing a crash.",
-      "quote": "Wait, that's definitely it."
+      "summary": "Kaze explained a low-level N64 performance optimization he uses in his rendering thread to halve memory bandwidth by invalidating cache lines before writing, avoiding an unnecessary RAM read.",
+      "quote": "When you write 4 bytes, what you really do is you read 16 bytes, and then you write 4 bytes in cache. What you can do to prevent that is use the CACHE INVALIDATE DIRTY something something instruction."
+    },
+    {
+      "summary": "The project is on Course 12 out of a planned 15, indicating it is in a late stage of development.",
+      "quote": null
+    },
+    {
+      "summary": "Kaze plans to implement a 'High Noon' dueling minigame against Boshi, which will require modeling a card gun asset from Mario Party 2.",
+      "quote": null
+    },
+    {
+      "summary": "Kaze is currently using the Fast3DX2 graphics microcode but wants to upgrade to Fast3DX3, which is currently unusable due to a bug that causes a 20% FPS drop.",
+      "quote": null
     }
   ],
   "context_findings": [
     {
-      "summary": "Kaze recently learned the definition of 'soft skills' (social skills) and had a revelation about their importance in his professional life, which he had previously dismissed.",
-      "quote": "Guys something insane has happened recently and it's changed my entire view of what I should do in my job and that is um someone explained to me what soft skills are... I thought soft skills was like knowledge as opposed to hard skills... but no soft skills is how you talk to people. That changes everything. I thought that didn't matter."
+      "summary": "Kaze recently learned about the concept of 'soft skills' (interpersonal communication) and expressed that this new understanding has fundamentally changed his perspective on his job and what is important for success.",
+      "quote": "Guys something insane has happened recently and it's changed my entire view of what I should do in my job and that is um someone explained to me what soft skills are. I thought soft skills was like knowledge as opposed to hard skills which is just like the brain cpu you're born with but no soft skills is how you talk to people. That changes everything."
     },
     {
-      "summary": "Kaze finds he can no longer enjoy competitive fighting games because his deep understanding of game mechanics makes him deconstruct them into mathematical formulas, removing the fun.",
-      "quote": "I can't enjoy fighting games because anything that's a competitive I just turn it into a spreadsheet simulator... They're no longer games to me they're just math formulas in a permanent loop."
+      "summary": "Kaze feels he has become too good at analyzing game mechanics, which prevents him from enjoying competitive fighting games as he sees them as mathematical formulas rather than games.",
+      "quote": "I can't enjoy fighting games because anything that's a competitive I just turn it into a spreadsheet simulator... they're no longer games to me they're just math formulas in a permanent loop."
     },
     {
-      "summary": "Regarding the Yuzu emulator shutdown, Kaze expressed a nuanced view on emulation and piracy, framing the choice to buy or pirate a game as a 'prisoner's dilemma' for both consumers and companies.",
-      "quote": "In the end, playing games is a prisoner's dilemma. You as the purchaser have the options of like, I cooperate by buying the game or I don't cooperate by pirating the game. So you gotta choose which side of the prisoner's dilemma you pick, I guess."
+      "summary": "Kaze clarified that ROM hacking is a 'hobby' he works on full-time, alongside a separate full-time job as a programmer on Unreal Engine 5 games.",
+      "quote": "I am a programmer I work on games that we make in Unreal Engine 5 that is my actual full-time job... romhacks are technically just a hobby but I do work on them full-time so make of that what you will."
     },
     {
-      "summary": "Kaze believes Shigeru Miyamoto's public acceptance of blame for controversial decisions (like in Paper Mario) is a cultural expression of honor rather than a literal admission of sole responsibility.",
-      "quote": "I don't believe the Miyamoto is at fault thing. I feel like he's just a Japanese man and he's like, yes, I have to say it's my fault because it's my honor and then he said it's his fault."
+      "summary": "Kaze shared his nuanced opinion on the Yuzu emulator shutdown, arguing that enabling a crime is not a sufficient reason to ban a tool and that the legal case was not clear-cut.",
+      "quote": "The thing about Yuzo and Chihiro's shutdown, I think they could have contested it and they would have had a good shot at winning... knives enable murder and knives are legal. I feel like in enabling you to do a crime, isn't really a good enough argument."
     },
     {
-      "summary": "Kaze states a design principle for the project is to maintain a 1990s aesthetic, rejecting ideas that feel too modern.",
-      "quote": "We want this to fit into like the 1990 era of the world of video games."
+      "summary": "When explaining his dislike for a particular song, Kaze stated his philosophy that art is defined by the feelings it evokes, and his negative association with the song is tied to a past monotonous gaming experience.",
+      "quote": "art is about what it makes you feel and it makes me feel miserable. That's why. Because that is what I associate with it."
     }
   ],
   "contributor_findings": {
     "biobak": [],
-    "badub": [
-      {
-        "summary": "Badub's music is the centerpiece of the new scene, as the NPC's entire purpose is to be playing one of his songs on the piano.",
-        "quote": null
-      }
-    ],
+    "badub": [],
     "zeina": [
       {
-        "summary": "Zeina modeled and animated the new 'piano guy' NPC and the piano itself, including vertex coloring which Kaze praised.",
-        "quote": "I think she did a good job vertex coloring this."
+        "summary": "Zeina created the model and animations for the piano-playing Shy Guy and his piano, which was the central focus of the stream's implementation work.",
+        "quote": "Look what I made out of your Shy Guy. You're gonna love this."
       },
       {
-        "summary": "Kaze had to fix an issue with Zeina's animation file, suggesting a workflow where he performs technical integration and fixes on assets she creates.",
-        "quote": "Wait What did she do She broke it again after I fixed it for her One second did I just overwrite the good version of it Do I need to fix it again... I think I fixed it and didn't send it back to her."
+        "summary": "Kaze praised Zeina's vertex coloring on the piano guy model, noting she did a 'good job'.",
+        "quote": null
       },
       {
-        "summary": "Kaze excitedly showed Zeina the implemented piano guy during the stream, indicating he values her opinion and enjoys surprising her with the final result of her work.",
-        "quote": "Dude, Zeina, you missed the Shy Guy. Are you on your PC? Can you watch this, Zeina? Look what I made out of your Shy Guy. You're gonna love this."
+        "summary": "Kaze actively showed his progress implementing her work to Zeina during the stream, indicating a close, collaborative, and personal working dynamic.",
+        "quote": null
       }
     ]
   },
   "key_stories": [
     {
-      "title": "The Memory Overflow Crisis",
-      "summary": "The team's ambition met hardware reality when adding Zeina's detailed piano guy NPC caused a critical memory overflow. Kaze had to immediately pivot to optimization, creating a simplified collision mesh for the piano to free up precious RAM, showcasing the technical problem-solving required to develop on original N64 hardware.",
-      "challenge": "A new, complex NPC asset (the 'piano guy') caused the game to crash upon loading the level, indicating the N64's limited RAM had been exceeded.",
-      "process": "Kaze imported the piano guy model and animation. Upon testing, the level crashed. He correctly hypothesized a RAM overflow. To solve it, he opened the piano model in Blender, created a much simpler version of it to be used only for collision detection (reducing triangle count from 2,000 to 1,200), and re-exported the level.",
-      "outcome": "Kaze successfully reduced the memory footprint by creating a simplified collision mesh for the piano, allowing the level to load correctly with the new NPC. This highlights the constant battle against hardware limitations.",
-      "key_quote": "Oh shit it is Mario day it's a ram overflow we're out of memory cool cool all right we have to optimize the fucking level.",
+      "title": "Debugging the RAM Overflow",
+      "summary": "A mysterious crash after adding a new asset was diagnosed as a critical RAM overflow. Kaze had to immediately pause development to perform a low-level optimization on the level's collision geometry to free up enough memory to continue, demonstrating the technical constraints of N64 development.",
+      "challenge": "After importing a new character model and animations, the game began crashing upon entering the level, with no obvious cause.",
+      "process": "Kaze first suspected a different bug. After his initial theories failed, he hypothesized a RAM overflow. He confirmed this by temporarily removing the new asset. To solve it, he identified a large background object with thousands of collision triangles and created a much simpler, non-rendered mesh to serve as its collision, reducing memory usage.",
+      "outcome": "Kaze successfully identified the RAM overflow and optimized a large mesh by creating a simplified collision map. This freed up enough memory to allow the level to load with the new character, showcasing the constant battle against N64 hardware limits.",
+      "key_quote": "oh shit it is Mario day it's a ram overflow we're out of memory cool cool all right we have to optimize the fucking level damn",
       "related_to": [
-        "Kaze",
-        "Zeina"
+        "Kaze Emanuar"
       ]
     },
     {
-      "title": "The Saloon's Record Scratch",
-      "summary": "To make the new piano guy NPC more dynamic, Kaze implemented a system where interrupting the music causes the entire saloon to react. Inspired by chat, he coded all nearby NPCs to stop and stare at Mario, creating a memorable 'record scratch' moment that brings the environment to life.",
-      "challenge": "Making the interaction with the piano-playing NPC feel meaningful and integrated into the world, rather than just being a static character.",
-      "process": "Kaze first coded the piano guy to stop playing and deliver dialogue when spoken to. Acting on a viewer's suggestion, he then iterated on this by programming all other NPCs in the area to stop their animations and turn their heads to stare at Mario during this interruption. He debugged an issue where some NPCs wouldn't turn due to being paused by a 'time stop' flag.",
-      "outcome": "The implemented feature creates a highly atmospheric 'record scratch' moment that makes the saloon feel alive and reactive to the player's actions, turning a simple NPC interaction into a memorable scene.",
-      "key_quote": "When the piano guy stops the music, the entire bar should look at you. Yeah, exactly. They'd be like, what the fuck, bro? Why'd you stop my jam?",
+      "title": "The Saloon Staredown",
+      "summary": "Inspired by a viewer's suggestion, Kaze decided to make all NPCs in the saloon turn and stare at Mario if he interrupts the piano player. He coded and debugged this feature live, turning a simple interaction into a dynamic and humorous moment that brings the level to life.",
+      "challenge": "The piano-playing Shy Guy was a static element. A viewer suggested making the scene more dynamic and interactive.",
+      "process": "Kaze immediately embraced the idea. He wrote code to trigger when Mario talks to the pianist, which then iterates through other NPCs in the area and changes their head rotation to look at Mario. He then had to debug a secondary issue where some NPCs didn't turn because they were paused by a 'time stop' flag during dialogue.",
+      "outcome": "The feature was implemented successfully, creating a memorable 'record scratch' moment that adds personality and reactivity to the world. This illustrates how Kaze incorporates community feedback to enhance the game's design on the fly.",
+      "key_quote": "When the piano guy stops the music, the entire bar should look at you. Yeah, exactly. They'd be like, what the fuck, bro? Why'd you stop my jam? I was vibing.",
       "related_to": [
-        "Kaze"
-      ]
-    },
-    {
-      "title": "The Phantom Crash",
-      "summary": "A frustrating, recurring bug caused the game to crash mysteriously. After investigating several complex causes, Kaze realized he had simply forgotten to remove temporary placeholder objects from the level before exporting it. This incident highlights the meticulous, and sometimes frustratingly simple, nature of debugging in game development.",
-      "challenge": "After solving the initial memory overflow, the game began crashing again for a different, unclear reason, threatening to derail progress on the new scene.",
-      "process": "The level started crashing again. Kaze suspected the memory issue had returned. He tried re-exporting the level, which didn't work. After a moment of frustration, he remembered a past mistake and checked his source file, discovering he had left temporary objects in the scene that were being included in the level export, causing the engine to fail.",
-      "outcome": "Kaze realized he had made a simple but critical error by forgetting to delete temporary marker objects from his Blender scene before exporting the level data. Removing them fixed the crash instantly.",
-      "key_quote": "Wait, it's because I have the temporary objects still exported. The ones that shouldn't even exist. God fucking damn it. How did I forget about that?",
-      "related_to": [
-        "Kaze"
+        "Kaze Emanuar"
       ]
     }
   ],
   "open_questions": [
     {
-      "topic": "Team Collaboration Workflow (Kaze & Zeina)",
-      "context": "Kaze mentioned fixing an animation bug in a file from Zeina and realizing he hadn't sent the fixed version back to her. He later shows her the final implemented version on stream.",
+      "topic": "Balancing a Day Job and Full-Time Hobby",
+      "context": "Kaze stated that ROM hacking is a 'hobby' he works on 'full-time', in addition to his actual full-time job as a programmer using Unreal Engine 5.",
       "questions": [
-        "Can you describe your typical collaborative workflow with Zeina? How does an asset go from her concept to being finalized in the game?",
-        "How do you handle feedback and revisions between animation/modeling and programming? Is there a lot of back-and-forth?",
-        "What tools or platforms do you use to share files and communicate about changes?"
+        "How do you balance the demands of a professional programming career with the equally intensive work you pour into your 'hobby' projects?",
+        "Does your experience with a modern tool like Unreal Engine 5 influence how you approach problem-solving on the N64, or do the two skill sets remain separate?",
+        "What is the psychological or philosophical distinction for you between your 'job' and your 'hobby' when both seem to command full-time dedication?"
       ],
       "related_to": [
-        "Kaze",
-        "Zeina"
-      ],
-      "priority": "medium"
-    },
-    {
-      "topic": "Boshi's Redemption Arc",
-      "context": "A viewer mentioned Boshi getting a redemption arc. Kaze dismissed one specific idea (a kangaroo costume) but confirmed a redemption arc is planned and that a 'high noon' duel is part of the level.",
-      "questions": [
-        "Without spoiling too much, what is the narrative vision for Boshi's redemption arc in this game?",
-        "How does the Wild West level and the 'high noon' duel sequence fit into his character development?",
-        "What made you decide to give a traditionally antagonistic character like Boshi a redemption story?"
-      ],
-      "related_to": [
-        "Kaze"
+        "Kaze Emanuar"
       ],
       "priority": "high"
     },
     {
-      "topic": "Influence of Professional Work on Hobby Development",
-      "context": "Kaze mentions his full-time job is as an Unreal Engine 5 programmer, but he's under an NDA and can't discuss the specifics of the project.",
+      "topic": "The Revelation of Soft Skills",
+      "context": "Kaze mentioned a recent, profound realization about the importance of 'soft skills' (interpersonal communication) in his professional life, a concept he previously dismissed.",
       "questions": [
-        "How does your professional work with modern tools like Unreal Engine 5 influence your approach to N64 development?",
-        "Does working within the tight constraints of the N64 give you a different appreciation or perspective for the power of modern engines?",
-        "Are there any concepts or techniques from modern game development that you've tried to adapt or translate to the N64?"
+        "What specific event or conversation led to this 'insane' revelation about the value of soft skills?",
+        "How has this new perspective changed the way you collaborate and communicate with your creative team, like Zeina, Badub, and Biobak?",
+        "Is developing your soft skills now a conscious goal, and if so, how are you approaching it?"
       ],
       "related_to": [
-        "Kaze"
+        "Kaze Emanuar"
+      ],
+      "priority": "medium"
+    },
+    {
+      "topic": "Team Collaboration Workflow",
+      "context": "The stream focused heavily on implementing an asset from Zeina. The other core team members, Badub (composer) and Biobak (artist), were not mentioned.",
+      "questions": [
+        "We saw your direct collaboration with Zeina's work today. Could you walk us through the typical creative and technical workflow with Badub and Biobak?",
+        "How is feedback exchanged between the team? Is it through scheduled meetings, or a more asynchronous process?",
+        "How are creative differences or technical limitations navigated between vision, art, and music?"
+      ],
+      "related_to": [
+        "Kaze Emanuar",
+        "Badub",
+        "Biobak"
+      ],
+      "priority": "high"
+    },
+    {
+      "topic": "Design of the 'High Noon' Duel",
+      "context": "Kaze outlined his plan for a 'High Noon' duel minigame with Boshi, which will require a new card gun model and will likely cause more memory issues.",
+      "questions": [
+        "What is the gameplay goal for the 'High Noon' duel? What feeling or challenge are you trying to create for the player?",
+        "You mentioned needing to rip a gun from Mario Party 2. What's your philosophy on borrowing assets from other games to maintain a consistent, retro aesthetic?",
+        "You seem to anticipate more memory problems. Do you see this constant battle with N64 memory as a frustrating obstacle or an enjoyable creative challenge?"
+      ],
+      "related_to": [
+        "Kaze Emanuar"
+      ],
+      "priority": "medium"
+    },
+    {
+      "topic": "Fast3DX3 Graphics Engine Upgrade",
+      "context": "Kaze mentioned he wants to upgrade the game's graphics microcode from Fast3DX2 to Fast3DX3, but the newer version currently has a significant performance bug.",
+      "questions": [
+        "What specific graphical or performance benefits does Fast3DX3 offer that make the upgrade desirable?",
+        "Is fixing the 20% FPS drop in Fast3DX3 a task you're tackling, or is it reliant on others in the wider SM64 decompilation community?",
+        "What new possibilities for the game would this upgrade unlock if it were working optimally?"
+      ],
+      "related_to": [
+        "Kaze Emanuar"
       ],
       "priority": "low"
-    },
-    {
-      "topic": "Fast3DX3 Renderer Upgrade",
-      "context": "Kaze states the team wants to eventually use the Fast3DX3 renderer, but it's not being used yet because it has a 'pretty significant bug' that causes a 20% FPS drop compared to the older F3DX2.",
-      "questions": [
-        "What are the main advantages of Fast3DX3 that make you want to switch to it despite the current issues?",
-        "Can you elaborate on the technical nature of the bug that's causing the performance drop?",
-        "Is there a plan or timeline for fixing these issues and migrating the project to the new renderer?"
-      ],
-      "related_to": [
-        "Kaze"
-      ],
-      "priority": "medium"
-    },
-    {
-      "topic": "Beta Testing and Leak Prevention Strategy",
-      "context": "Kaze refuses to let a random viewer be a beta tester, citing the risk of the ROM being leaked. He jokes about requiring $100,000 as collateral.",
-      "questions": [
-        "How do you select beta testers for the project?",
-        "What is your strategy for handling closed testing to get feedback while protecting the project from leaks?",
-        "Have you had issues with leaks in the past that have informed this cautious approach?"
-      ],
-      "related_to": [
-        "Kaze"
-      ],
-      "priority": "medium"
     }
   ]
 }

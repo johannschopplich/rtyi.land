@@ -1,208 +1,188 @@
 {
   "stream_context": {
-    "summary": "The stream focused on Kaze implementing a large number of new 3D models and assets created by artist Biobak. This involved a deep dive into the N64's technical limitations, including texture formats, lighting 'combiners', and performance workarounds. Kaze debugged numerous graphical bugs and toolchain issues live, showcasing the iterative and highly technical collaboration between programmer and artist.",
+    "summary": "Kaze integrates and refines a large number of new 3D models provided by graphics artist Biobak, including switches, enemies, and effects. The stream is a deep dive into the iterative process of asset implementation, debugging rendering and collision issues, and collaborative design refinement with the team via live chat.",
     "level": [
-      "Bozo's Office",
-      "Cap Switch Levels",
-      "Yanagi Comedy Club"
+      "Bozo's office",
+      "Test Levels"
     ]
   },
   "development_findings": [
     {
-      "summary": "Kaze explicitly chooses to swap entire models for animations instead of using armatures with 'switch bones', prioritizing faster, more reliable implementation over minor memory optimization due to toolchain limitations.",
-      "quote": "It doesn't matter. You're wasting minutes of my life having me implement a switch bone when they basically don't really work at all. It sucks. It doesn't work. Ever."
+      "summary": "Kaze deliberately avoids using bone-based animations for simple objects like switches, opting instead to use multiple distinct models for each animation state. He considers the bone implementation in the toolchain 'jank' and unreliable.",
+      "quote": "You're wasting minutes of my life having me implement a switch bone when they basically don't really work at all. Have you ever actually tried to do something like this with switch bones? It sucks. It doesn't work. Ever."
     },
     {
-      "summary": "The team must carefully manage texture usage on models that appear frequently, like fish, to enable performance-critical techniques like batch rendering on the N64.",
-      "quote": "If it's just one texture, we can batch render them."
+      "summary": "The team is using a new technique for textures requiring transparency, combining a standard color texture with a separate, higher-resolution alpha mask to achieve smooth, anti-aliased edges on the N64.",
+      "quote": "We now have much, much smoother edges here. And it looks so much better. It doesn't look crusty."
     },
     {
-      "summary": "Development involves deep, low-level manipulation of the N64 graphics pipeline, including debugging obscure 'combiner' settings and texture properties (like clamping) that can cause major visual bugs.",
-      "quote": "I think the fact that these were clamped was the issue."
+      "summary": "Performance is a constant concern. Kaze must carefully manage how textures are applied to models to ensure they can be batch rendered efficiently, as improper setup can lead to significant lag from redundant texture loading.",
+      "quote": "The problem with this is, if we have the feet like this, it's gonna load the top texture, load this texture and then load these textures separately. So if we do that, then we would have a lot more lag."
     },
     {
-      "summary": "A recurring challenge is balancing baked lighting (for detail) with dynamic world lighting to ensure new models feel naturally integrated into the game world, not just pasted in.",
-      "quote": "If you don't have level world lighting, it's going to look good in Blender, but it's not going to look good in game, I find."
+      "summary": "A major breakthrough occurred when Kaze discovered the NEMU emulator accurately replicates hardware crashes found on the N64, which will dramatically speed up the process of debugging low-level floating-point exceptions.",
+      "quote": "Wait, NEMU crashes here just like N64 would? That's crazy. I could probably debug a lot of N64 crashes in NEMU then. Oh my god, that is going to save me so much time."
     },
     {
-      "summary": "The project is suffering from N64 hardware-specific bugs, such as floating point exceptions on level load or when crushing a Goomba, which are annoying to fix but necessary for stability.",
-      "quote": "For the new sign video, I needed to record a lot of N64 footage. And unfortunately, I found out that a lot of the levels have floating point exceptions when you enter them right now on N64."
-    },
-    {
-      "summary": "Kaze identified and worked around several bugs in the Fast64 toolchain, including issues with armature importing that dislocated a fish's fin and incorrect assumptions about graphical layouts.",
-      "quote": null
-    },
-    {
-      "summary": "The team is designing new cap abilities, such as a bomb cap, which requires creating new visual language like colored switches that are distinct from existing ones.",
-      "quote": "Our last one is the bomb cap. What color would the bomb cap be? Like a dark blue? It's a bit weird to have two blue switches, right?"
-    },
-    {
-      "summary": "Kaze discovered evidence of a 'cap switch test level' in the original game's code while investigating how to implement the new switches.",
+      "summary": "There is a significant, unresolved bug affecting underwater physics, causing raycasting issues and instant death in some levels, as well as strange wall collision behavior.",
       "quote": null
     }
   ],
   "context_findings": [
     {
-      "summary": "Kaze holds a strong philosophical belief in programming languages that are closer to the hardware (like C), expressing disdain for higher-level abstractions like private variables in C++.",
-      "quote": "Private variables don't exist in C. That's like a delusion that C++ programmers dreamed up. Private variables don't exist on the processor. Why is it a thing in your code?"
+      "summary": "Kaze holds strong opinions on software development, believing concepts like private variables are useless abstractions that have no basis in how a processor actually functions.",
+      "quote": "Private variables don't exist in C. That's like a delusion that C++ programmer streamed up. Private variables don't exist on the processor. Why is it a thing in your code?"
     },
     {
-      "summary": "Kaze actively studies popular online content, like MrBeast's videos, to understand audience engagement and apply those principles to his own work.",
+      "summary": "Kaze analyzes popular content creators like MrBeast to understand principles of audience engagement, indicating a desire to grow his platform and apply those learnings.",
       "quote": "I actually study MrBeast's videos like a fucking nerd. I look at them and be like, Oh, why do people like this? How can I implement this?"
     },
     {
-      "summary": "Kaze has a strong opinion that the original Mario 64 models are aesthetically poor, which is a primary motivation for the game's visual overhaul.",
-      "quote": "All the vanilla models are awful."
+      "summary": "Kaze has a strong disdain for the original Mario 64 assets, which is the driving philosophy behind the team's effort to replace nearly every model in the game with custom creations.",
+      "quote": "Why you didn't use vanilla blue switch? Because it looks like dog shit? What? All the vanilla models are awful."
     },
     {
-      "summary": "Kaze discovered that the NEMU emulator accurately replicates a hardware crash he was experiencing, providing him with a much faster method for debugging N64-specific issues in the future.",
-      "quote": "Oh my god, that is going to save me so much time."
+      "summary": "Kaze is aware of significant, annoying-to-fix bugs related to floating point exceptions that cause crashes on original N64 hardware, a key challenge for ensuring the game is stable.",
+      "quote": "I found out that a lot of the levels have floating point exceptions when you enter them right now on N64. Which is not going to be difficult to fix, but it's going to be annoying as fuck."
     }
   ],
   "contributor_findings": {
     "biobak": [
       {
-        "summary": "Provided a large batch of updated models for Kaze to implement, including switches, a fish, a Goomba, fire effects, a pipe, and a new boss nicknamed 'Net Peanut'.",
+        "summary": "Biobak is the primary contributor for this development session, having provided a large batch of updated 3D models for Kaze to implement, including switches, enemies, and effects.",
+        "quote": "Oh my god, so many files. Alright. So we are going to import all of Biobak's remade models today."
+      },
+      {
+        "summary": "Biobak designed a new boss character, nicknamed 'Net Peanut', which Kaze praised as a 'genius' concept for its creative use of existing game textures like steel beams for its teeth.",
+        "quote": "But the beams and teeth is genius. Biobak deserves a medal for that."
+      },
+      {
+        "summary": "Biobak actively participates in the stream chat, providing real-time feedback, technical explanations for his models, and offering to make immediate revisions based on in-game testing.",
         "quote": null
       },
       {
-        "summary": "Designed a new boss model ('Net Peanut' / 'Sludge Blarg') that Kaze highly praised for its creative use of beams for teeth, demonstrating Biobak's significant impact on the game's unique enemy design.",
-        "quote": "The beams and teeth is genius. Biobak deserves a medal for that."
-      },
-      {
-        "summary": "Actively participated in the stream chat, providing feedback and context on his models as Kaze worked to implement them.",
-        "quote": null
-      },
-      {
-        "summary": "His models often require technical adjustments by Kaze to work within N64 limitations, such as tweaking texture formats, lighting, and complex material properties like 'combiners'.",
-        "quote": "It's a shame it's prim color. Wait, prim color? Oh. Oh, what the fuck?"
-      },
-      {
-        "summary": "Created a new blue coin switch model by combining two different concepts, which Kaze then refined and implemented.",
+        "summary": "Biobak's new Goomba model, while visually an improvement, introduced technical challenges related to texture sharing and color-changing variants that require significant code changes to implement correctly.",
         "quote": null
       }
     ],
     "badub": [],
-    "zeina": []
+    "zeina": [
+      {
+        "summary": "Zeina is actively working on character animations, having recently completed a new walk/run cycle for the Wiggler enemy.",
+        "quote": "I think I finally got Wiggler's walk or run looking right."
+      }
+    ]
   },
   "key_stories": [
     {
-      "title": "The Cap Switch Saga",
-      "summary": "To replace the original cap switch, Kaze rejected the standard but 'jank' animation methods in his tools. He instead created a more complex but reliable system of swapping between multiple distinct models, requiring a deep dive into the N64's lighting and color systems to get the final effect right.",
-      "challenge": "The original vanilla cap switches looked 'awful' and needed to be replaced with a new, more dynamic model from Biobak, including a satisfying press animation.",
-      "process": "Kaze rejected using a scaling animation or 'jank' switch bones. He opted to create and swap between four distinct models to create the animation. This led to a deep dive into fixing vertex colors, world lighting, and crashes. He also had to implement logic to assign the correct color (red, cyan, etc.) to each switch instance.",
-      "outcome": "Kaze successfully implemented the new switch. It uses a sequence of different models for its animation and has custom vertex lighting, making it look visually appealing and well-integrated into the game world. He also fixed a bug that made it appear too dark.",
-      "key_quote": "You're wasting minutes of my life having me implement a switch bone when they basically don't really work at all. It sucks.",
+      "title": "The Cap Switch Redesign",
+      "summary": "The team redesigned the classic cap switch, leading to a debate about the best way to animate it. Kaze's pragmatic decision to use multiple models instead of a complex but unreliable bone system resulted in a better, more stable feature and showcased his development priorities.",
+      "challenge": "The vanilla cap switches were considered ugly and needed a replacement that fit the game's new art style and had a satisfying press animation.",
+      "process": "Biobak provided a new model. Kaze and the team iterated on its lighting in real-time. For the animation, Kaze vehemently rejected using the toolchain's 'jank' bone system and instead created several distinct in-between models. After implementing them and adding color variants, community member Lilaa pointed out a placement error, which Kaze immediately fixed.",
+      "outcome": "A new, visually superior cap switch was implemented using multiple models for its animation states. The final result is more reliable and faster to implement than a bone-based solution, reflecting Kaze's pragmatic development philosophy.",
+      "key_quote": "You're wasting minutes of my life having me implement a switch bone when they basically don't really work at all... It sucks. It doesn't work. Ever.",
       "related_to": [
-        "Kaze",
-        "Biobak"
+        "Kaze Emanuar",
+        "Biobak",
+        "Lilaa"
       ]
     },
     {
-      "title": "The Ghost of Anim-State 5",
-      "summary": "Kaze was stumped by a bug where deleting a model's graphics data from the code didn't remove it from the game. After much frustration, he discovered the model was part of a multi-state animation, and he was only deleting the first, unused state. The incident highlights the confusing, non-obvious architecture of the original SM64 code he has to work with.",
-      "challenge": "While trying to replace the ground-pound star effect, Kaze couldn't understand why deleting the model's display list from the code didn't make the stars disappear from the game.",
-      "process": "Kaze expressed significant confusion and frustration, systematically commenting out different parts of the code to isolate the problem. He demonstrated that deleting the high-level GeoLayout pointer worked, but deleting the lower-level Display List did not, which seemed logically impossible until he found the hidden animation state logic.",
-      "outcome": "Kaze discovered the issue was that the stars were controlled by an animation state. He was deleting the model for state 0, but the game was showing the model for state 5. This realization solved the mystery and allowed him to proceed.",
-      "key_quote": "Am I losing my mind? What is going on? No, seriously, if I delete the pointer to it, it is still there.",
+      "title": "The Accidental Debugging Breakthrough",
+      "summary": "A frustrating visual bug on a new effect led to a tedious debugging session. While fixing the bug, Kaze made a major breakthrough discovery: he could use a specific emulator to replicate and debug low-level hardware crashes, a finding that will save him immense time and effort.",
+      "challenge": "A new ground pound star effect, designed by Biobak, was rendering as a corrupted white circle in-game instead of the intended blue starburst, and the cause was unknown.",
+      "process": "Kaze suspected a bug in the renderer or a graphics plugin setting. He tested the effect on a different emulator (NEMU) to isolate the problem. While the bug persisted, he realized NEMU was accurately replicating hardware crashes. After failing to find the specific setting causing the issue, Kaze deleted the graphics combiner and recreated it, which solved the problem.",
+      "outcome": "The visual glitch was fixed by rebuilding the graphics combiner from scratch. More importantly, the debugging process led Kaze to discover that the NEMU emulator could replicate low-level hardware crashes, providing a powerful new tool that will significantly accelerate future debugging.",
+      "key_quote": "Wait, NEMU crashes here just like N64 would? That's crazy. I could probably debug a lot of N64 crashes in NEMU then. Oh my god, that is going to save me so much time.",
       "related_to": [
-        "Kaze"
-      ]
-    },
-    {
-      "title": "The Goomba's Technical Debt",
-      "summary": "A seemingly simple model update for the Goomba revealed deep-seated technical challenges. The new model's texture setup was incompatible with N64 performance optimizations and broke existing game features, forcing Kaze to postpone the update until significant code could be rewritten.",
-      "challenge": "Biobak provided a new, visually improved Goomba model, but implementing it was not straightforward.",
-      "process": "Kaze imported the new model and immediately ran into compiler errors. He realized that the new model's use of a shared texture for the body and feet conflicted with engine performance needs (preventing batch rendering). Furthermore, it broke existing game logic where Goombas change color in a specific level.",
-      "outcome": "The new Goomba model was put on hold. Kaze made a note of the issue and moved on, as fixing it requires a significant rewrite of Goomba-related features that he was not prepared to do during the stream.",
-      "key_quote": "It is not a find and replace now. We need to remake a lot of features here for this to work correctly.",
-      "related_to": [
-        "Kaze",
+        "Kaze Emanuar",
         "Biobak"
       ]
     }
   ],
   "open_questions": [
     {
-      "topic": "Goomba Feature Remake",
-      "context": "Kaze stated that implementing Biobak's new Goomba model would require him to 'remake a lot of features' because of issues with shared textures and color-changing variants.",
+      "topic": "Sign Video Purpose",
+      "context": "Kaze mentioned he was working on a 'sign video' and that it was about 'saving 50 nanoseconds,' for which he was recording N64 footage.",
       "questions": [
-        "Can you walk me through the specific features that broke when you tried to implement the new Goomba?",
-        "What is the technical challenge with shared textures and batch rendering on the N64?",
-        "How does this kind of unexpected roadblock affect team morale and project timelines?"
+        "What is the purpose of this 'sign video'?",
+        "Is it a promotional video for the game, a technical deep-dive for the modding community, or something else?",
+        "What specific optimization is it showcasing?"
       ],
       "related_to": [
-        "Kaze",
-        "Biobak"
-      ],
-      "priority": "high"
-    },
-    {
-      "topic": "The 'Quidditch' Bug",
-      "context": "Kaze briefly mentioned, 'There's a really weird Quidditch bug going on right now apparently.'",
-      "questions": [
-        "What feature or level in the game are you referring to as 'Quidditch'?",
-        "What is the nature of the bug you were seeing?",
-        "Where did the name 'Quidditch' come from for this mechanic?"
-      ],
-      "related_to": [
-        "Kaze"
+        "Kaze Emanuar"
       ],
       "priority": "medium"
     },
     {
-      "topic": "Core Physics Bugs (Swimming/Collision)",
-      "context": "Kaze mentioned working around serious bugs with swimming, wall collisions, and an instant-death water bug in one level.",
+      "topic": "Quaternion Animation System",
+      "context": "Kaze stated he is waiting to work on doors until 'Quatrainian animations are in,' implying a significant change to the animation system is pending.",
       "questions": [
-        "What is causing the major issues with the game's core physics like wall collision and swimming?",
-        "Are these bugs inherited from the original SM64 code, a result of the decompilation project, or from your new code?",
-        "How do you approach fixing such fundamental systems in a game built on a legacy engine?"
+        "What are 'Quaternion animations' and what advantages do they offer over the current system?",
+        "Who is implementing this feature and what is the timeline?",
+        "How will this new system impact the development workflow for both coding and animation?"
       ],
       "related_to": [
-        "Kaze"
-      ],
-      "priority": "high"
-    },
-    {
-      "topic": "Art and Animation Collaboration",
-      "context": "Kaze talked about implementing Thwomp animations and giving feedback to Biobak about one being too repetitive.",
-      "questions": [
-        "What does the collaborative process for animations look like between you and Biobak?",
-        "How do you communicate the technical limitations of N64 animation to an artist?",
-        "Can you give an example of an animation idea that seemed great but was too difficult or impossible to implement on the hardware?"
-      ],
-      "related_to": [
-        "Kaze",
-        "Biobak"
-      ],
-      "priority": "medium"
-    },
-    {
-      "topic": "Zeina's Role and Team Dynamics",
-      "context": "Zeina, an animator and Kaze's spouse, was not mentioned at all during this highly technical and art-focused stream.",
-      "questions": [
-        "What is Zeina's role in the project, particularly regarding animation?",
-        "How do you and Zeina collaborate and manage the dynamic of being both partners and creative collaborators?",
-        "How are animation tasks divided between Zeina, Biobak, and yourself?"
-      ],
-      "related_to": [
-        "Kaze",
+        "Kaze Emanuar",
         "Zeina"
       ],
       "priority": "high"
     },
     {
-      "topic": "Hard-coding Level Assets",
-      "context": "Kaze mentioned he might hard-code all the normal pipes into the level geometry for a 'tiny bit of performance'.",
+      "topic": "Net Peanut Boss Mechanics",
+      "context": "Biobak designed a new boss, 'Net Peanut,' which Kaze praised as 'genius.' Kaze noted its animation would be 'very technical' and that he would likely handle it himself.",
       "questions": [
-        "Why is such a small performance gain important enough to consider this change?",
-        "What are the trade-offs of hard-coding objects into the level versus placing them as separate objects?",
-        "Does this reflect a broader philosophy about optimization for the project?"
+        "What are the design plans for this boss's mechanics and behavior?",
+        "What makes its animation 'very technical' compared to other models?",
+        "How will the fight be designed to leverage its unique visual features, like the scrolling textures and potential damage states?"
       ],
       "related_to": [
-        "Kaze"
+        "Kaze Emanuar",
+        "Biobak"
       ],
-      "priority": "low"
+      "priority": "high"
+    },
+    {
+      "topic": "Zeina's Animation Process",
+      "context": "Zeina was identified as the animator for Wiggler's new run/walk cycle.",
+      "questions": [
+        "What is your creative process for creating animations that fit the game's aesthetic while respecting N64 limitations?",
+        "How do you and Kaze collaborate to integrate and test new animations?",
+        "What are the biggest challenges you face when animating for this specific engine?"
+      ],
+      "related_to": [
+        "Zeina",
+        "Kaze Emanuar"
+      ],
+      "priority": "high"
+    },
+    {
+      "topic": "Music and Composition",
+      "context": "Badub, the team's composer, was not mentioned at all during this heavily art-focused stream.",
+      "questions": [
+        "What is the current status of the game's soundtrack?",
+        "How do you collaborate with the team to ensure the music fits the levels and overall aesthetic?",
+        "What is your process for composing music that works within the N64's technical constraints?"
+      ],
+      "related_to": [
+        "Badub",
+        "Kaze Emanuar"
+      ],
+      "priority": "high"
+    },
+    {
+      "topic": "Goomba Redesign Challenges",
+      "context": "The new Goomba model from Biobak, while visually superior, created complex technical issues with its color-changing variants and texture setup, forcing Kaze to defer its implementation.",
+      "questions": [
+        "What specific game features need to be remade to accommodate the new Goomba model?",
+        "How do you as a team decide when an artistic improvement is worth the significant technical cost to implement?",
+        "What is the plan to resolve the texture and performance issues this model introduced?"
+      ],
+      "related_to": [
+        "Kaze Emanuar",
+        "Biobak"
+      ],
+      "priority": "medium"
     }
   ]
 }

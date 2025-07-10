@@ -1,52 +1,51 @@
 {
   "stream_context": {
-    "summary": "The stream was an exhaustive, deep-dive into creating a single, convincing styrofoam material for the N64. Kaze wrestled with the console's technical limitations, cycling through various failed techniques before formulating a complex plan to fake dynamic, per-pixel lighting by performing calculations on the CPU.",
+    "summary": "The stream was almost entirely dedicated to solving a single, complex problem: creating a realistic, dynamically-lit styrofoam material for a mountain area. Kaze went through a long process of trial-and-error, exploring texturing, 3D modeling, AI generation, and complex Blender workflows with help from his community, ultimately landing on a plan to implement a CPU-based fake normal mapping technique.",
     "level": [
-      "Unspecified Mountain Course",
-      "Arts and Craft Themed Level"
+      "Unspecified Course (Mountain Area)"
     ]
   },
   "development_findings": [
     {
-      "summary": "The stream focused on creating a styrofoam material for a mountain, driven by both aesthetic goals and a desire for performance optimization (fewer polygons).",
-      "quote": "I think it would look better if it was made out of styrofoam and we could do this in less polygons and it would be another interesting material to have for this course."
+      "summary": "To create a dynamic styrofoam material, the team will implement a CPU-based faux normal mapping system. This involves pre-rotating a normal map for a limited set of angles and calculating the lighting into the texture's palette each frame.",
+      "quote": "We have to compute the output of the normal map before we pass this to the renderer on the CPU... We have to implement normal maps without a shader."
     },
     {
-      "summary": "Kaze's design goal for the styrofoam was highly specific: to simulate specular highlights that dynamically appear on the material's bumps as the viewing angle changes relative to the light source.",
-      "quote": "I want it to look as close to real styrofoam as I can... as soon as he turns it, highlights start to appear. That's what I want."
+      "summary": "A code optimization from community member Lilaa was implemented game-wide, saving significant instructions at the cost of code readability, highlighting the project's prioritization of performance.",
+      "quote": "I applied your idea in the entire game it saved like 30 instructions or so... Unfortunately, that means we have very cursed code like this."
     },
     {
-      "summary": "Kaze settled on a complex technical solution to fake per-pixel lighting on the N64. The plan involves using a normal map texture and pre-calculating the lighting effect for its limited color palette on the CPU each frame, a workaround for the console's lack of native shader support.",
-      "quote": "The N64 also can't do normal maps. We have to compute the output of the normal map before we pass this to the renderer on the CPU."
-    },
-    {
-      "summary": "The project is planned to have 15 courses in total. The styrofoam material is being developed for a level with an 'arts and crafts' theme.",
+      "summary": "Kaze experimented with using DALL-E to generate a seamless styrofoam texture but found the results unusable, concluding the AI failed to follow the prompt's constraints.",
       "quote": null
     },
     {
-      "summary": "Kaze's development process is highly iterative and involves significant community interaction, trying suggestions from chat members (Lila, x-links) for using Blender and incorporating textures they provided.",
+      "summary": "Kaze's desired visual effect for the styrofoam material is based on observing real-world videos, specifically how specular highlights appear and disappear on the material's bumps as it rotates relative to a light source.",
+      "quote": "So you can see one side is lit up and then look, you can see how in the dark lights there's like no highlights now, but then as soon as he turns it, highlights start to appear. That's what I want."
+    },
+    {
+      "summary": "The game is planned to have a total of 15 courses.",
       "quote": null
     },
     {
-      "summary": "Kaze articulated a key limitation of the N64: a single material can't easily react to light differently based on its orientation in the world. This constraint forced him to devise a solution involving multiple, pre-rotated versions of the material for different surface angles.",
-      "quote": "So we have to compute the highlights from now on in real time on N64. Well, you can't actually do that unless you know the normal of the circles you're working on. And then you need one material per normal that you want to use in your level, which would be really bad."
+      "summary": "The decision to use a styrofoam material for a mountain was driven by a desire to reduce polygon count while also introducing a new, visually interesting material to the game.",
+      "quote": null
     }
   ],
   "context_findings": [
     {
-      "summary": "Kaze expressed significant frustration with off-topic questions from viewers, stating that he finds social engagement exhausting while trying to focus on development.",
-      "quote": "You know what my least favorite thing about streaming is? People asking me stuff that doesn't relate to what I'm doing right now. I really don't want to talk about things. I want to just talk about making my game. That's all I want."
+      "summary": "Kaze expresses a strong desire to maintain focus on development during his streams, finding off-topic questions and social engagement exhausting when he is in a working mindset.",
+      "quote": "I really don't want to talk about things. I want to just talk about making my game. That's all I want."
     },
     {
-      "summary": "Kaze demonstrated his process of learning new, complex tools (Blender's shading and displacement nodes) live on stream, openly showing his frustration and struggles with unfamiliar technology.",
+      "summary": "Kaze shows transparent frustration when learning new tools (Blender's shading nodes) but persists through the difficulty, demonstrating his commitment to achieving a specific visual goal.",
       "quote": "Learning new tech is always so goddamn annoying."
     },
     {
-      "summary": "Kaze revealed he experimented with using ChatGPT for Mario 64 optimization, finding it largely ineffective but noting it did provide one useful idea. He remains skeptical of AI's current capabilities for this kind of work.",
-      "quote": "It was mostly producing garbage, but it actually came up with a few good things."
+      "summary": "The development process is highly collaborative with his community, with Kaze actively soliciting and implementing suggestions, textures, and technical guidance from chat members in real-time.",
+      "quote": null
     },
     {
-      "summary": "Kaze demonstrated a perfectionist-level commitment to his artistic vision, spending an entire stream working on a single material (styrofoam) and rejecting numerous 'good enough' solutions because they didn't match his specific goal.",
+      "summary": "Despite struggling for hours on a single problem, Kaze maintains a clear and high-quality vision for the final product, refusing to settle for simpler, less effective solutions.",
       "quote": "What I have in mind is gonna look way better than what we are having right now."
     }
   ],
@@ -57,73 +56,71 @@
   },
   "key_stories": [
     {
-      "title": "The Styrofoam Saga",
-      "summary": "Kaze spent an entire stream trying to create a single, convincing material, demonstrating extreme persistence and creative problem-solving. He navigated technical dead-ends, community suggestions, and his own lack of familiarity with tools before landing on a complex but viable plan to simulate modern lighting on 30-year-old hardware.",
-      "challenge": "How to create a realistic, dynamically lit styrofoam material on the N64, a console with no native support for per-pixel lighting effects like specular highlights or bump mapping.",
-      "process": "Kaze first tried simple textures, then a two-texture 'fake bump map', both of which failed. He then struggled to implement a community suggestion using Blender's displacement mapping, as he was unfamiliar with the tool. After dismissing an attempt with AI, he adapted a technique from another developer ('Daryl') to perform the lighting calculations on the CPU before rendering.",
-      "outcome": "After hours of failed attempts, Kaze devised a concrete plan: limit styrofoam objects to a few fixed rotations and use a pre-rotated normal map for each. Every frame, the CPU will calculate the lighting for each of the normal map's 16 palette entries and update them, faking a dynamic lighting effect that the N64 can render.",
-      "key_quote": "The N64 also can't do normal maps. We have to compute the output of the normal map before we pass this to the renderer on the CPU, which fortunately is cheap, which is why we used 16 directions.",
+      "title": "The Quest for Styrofoam",
+      "summary": "Kaze needed a dynamic styrofoam material but was blocked by the N64's technical limitations. After hours of failed experiments with textures, Blender, and AI, he landed on an ingenious workaround: faking a modern normal map by using the CPU to calculate lighting for a limited set of object rotations and updating the texture's color palette every frame.",
+      "challenge": "How to create a convincing, dynamically-lit styrofoam material on the N64, a console with no hardware support for the shaders required for such an effect.",
+      "process": "Kaze spent over two hours experimenting with various failed methods, including simple textures, AI generation, manual drawing, and complex Blender displacement maps suggested by his community. The breakthrough came from recalling a technique used by another developer (Daryl) and adapting it to his needs, which involves using the CPU to calculate lighting for a normal map and baking the result into the texture palette in real-time.",
+      "outcome": "Kaze devised a plan to implement a CPU-driven, palette-swapping normal map effect. This technique achieves the desired dynamic highlights but constrains the styrofoam objects to a limited number of pre-defined rotations in the game world.",
+      "key_quote": "We have to implement normal maps without a shader. We have to compute the output of the normal map before we pass this to the renderer on the CPU.",
       "related_to": [
-        "Kaze Emanuar",
-        "Lila",
-        "x-links",
-        "Danik"
+        "Kaze",
+        "Lilaa",
+        "Xlinks"
       ]
     }
   ],
   "open_questions": [
     {
-      "topic": "The 'Daryl' CPU Normal Map Technique",
-      "context": "Kaze ultimately decided to adapt a complex normal mapping technique he credited to another developer, 'Daryl'. The method involves pre-calculating lighting on the CPU for a limited-palette normal map.",
+      "topic": "CPU-Based Fake Normal Mapping",
+      "context": "Kaze decided to use a CPU-based technique to simulate normal mapping for the styrofoam, inspired by another developer, Daryl. This involves limiting objects to a few fixed rotations and updating a texture palette in real-time.",
       "questions": [
-        "Can you walk us through the 'Daryl' technique in more detail? Who is Daryl and what was the original project it was created for?",
-        "What were the key adaptations you had to make to Daryl's original method to get it to work for your specific needs with the styrofoam?",
-        "What are the precise performance costs of this technique? How many CPU cycles does this 'real-time' calculation take per frame, and how does that impact the overall performance budget?"
+        "Can you walk us through the 'Daryl trick' in more detail? What was the original implementation you saw, and how did you adapt it for your specific needs?",
+        "You mentioned limiting the styrofoam to six or eight rotations. How does this design constraint affect level design? Do you have to build areas specifically around this limitation?",
+        "What are the performance trade-offs of this CPU-intensive technique compared to other visual effects in the game?"
       ],
       "related_to": [
-        "Kaze Emanuar"
+        "Kaze"
       ],
       "priority": "high"
     },
     {
-      "topic": "Arts & Crafts Level Theme",
-      "context": "The styrofoam material is for a mountain in a level Kaze described as having an 'arts and crafts' theme.",
+      "topic": "Core Team Collaboration Workflow",
+      "context": "The stream showed intense, real-time collaboration with community members like Lilaa and Xlinks, but no interaction with core team members like Biobak or Badub was shown.",
       "questions": [
-        "What was the inspiration for an 'arts and crafts' theme? What other materials like styrofoam, felt, or cardboard are you incorporating?",
-        "How does this aesthetic theme influence the level's design and gameplay mechanics beyond just the visuals?",
-        "How does the team ensure these craft-like visuals feel cohesive with the established Mario universe and the game's overall style?"
+        "This stream showed a lot of real-time collaboration with your community. How does this compare to your workflow with the core team like Biobak and Badub? Is it more asynchronous?",
+        "Can you describe the feedback loop for assets like music from Badub or graphics from Biobak? How do you integrate their work into the game?"
       ],
       "related_to": [
-        "Kaze Emanuar",
-        "Biobak"
+        "Kaze",
+        "Biobak",
+        "Badub"
+      ],
+      "priority": "high"
+    },
+    {
+      "topic": "Code Optimization Philosophy",
+      "context": "Kaze mentioned that a code optimization from community member Lilaa saved about 30 instructions but resulted in 'very cursed code'.",
+      "questions": [
+        "You mentioned an optimization from Lilaa created 'cursed code'. Can you give an example of what that means?",
+        "What's the trade-off you're willing to make between code readability and performance on the N64, and how often do these 'hacky' but effective optimizations come up?"
+      ],
+      "related_to": [
+        "Kaze",
+        "Lilaa"
       ],
       "priority": "medium"
     },
     {
-      "topic": "Experimenting with AI for Code Optimization",
-      "context": "Kaze mentioned he used ChatGPT for MIPS assembly optimization and that while it was 'mostly garbage,' it produced 'one good optimization idea'.",
+      "topic": "Experience with AI for Code Optimization",
+      "context": "Kaze mentioned a separate, off-stream experiment where he used ChatGPT for Mario 64 code optimization, noting it produced 'mostly garbage' but had 'a few good things'.",
       "questions": [
-        "What was the specific 'one good optimization' that ChatGPT suggested? How did it work?",
-        "Based on that experiment, what is your perspective on the potential for AI as a tool in the highly specialized field of N64 development or ROM hacking?",
-        "Can you give an example of a suggestion from ChatGPT that was particularly wrong or nonsensical? What are the biggest pitfalls of using it for this kind of work?"
+        "You mentioned an interesting experience with ChatGPT for optimizations. What was the one good idea it came up with, and what kind of 'garbage' did it produce?",
+        "How do you see the role of AI tools evolving for retro game development and ROM hacking?"
       ],
       "related_to": [
-        "Kaze Emanuar"
+        "Kaze"
       ],
       "priority": "low"
-    },
-    {
-      "topic": "Development Philosophy: Perfectionism vs. Progress",
-      "context": "Kaze spent the entire multi-hour stream focused on perfecting a single material, rejecting many attempts along the way.",
-      "questions": [
-        "This deep dive into one material shows incredible attention to detail. Is this level of effort typical for many assets in the game, or was the styrofoam a special case?",
-        "How do you balance this desire for perfection on a micro level with the macro-level goal of completing a 15-course game?",
-        "Does spending so much time on one element ever cause bottlenecks for other team members waiting on assets or code?"
-      ],
-      "related_to": [
-        "Kaze Emanuar"
-      ],
-      "priority": "medium"
     }
   ]
 }

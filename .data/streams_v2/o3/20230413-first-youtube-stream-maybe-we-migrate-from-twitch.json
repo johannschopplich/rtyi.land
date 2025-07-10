@@ -1,150 +1,199 @@
 {
   "stream_context": {
-    "summary": "Kaze uses a one-off YouTube stream (normally on Twitch) to build Course 1 “tutorial bunnies.”  He tweaks shading, writes code, designs textures, and prototypes a rotating particle ring that appears after the bunny’s dialog to teach new movement mechanics.",
-    "level": ["Course 1", "Overworld (debug build)"]
+    "summary": "Kaze works on Course 1 of Return to Yoshi’s Island, replacing the first-overworld ‘playground’ with interactive tutorial bunnies. He programs their behaviour, creates temporary billboard textures that show control prompts, and prototypes a rotating sparkle ring that awards a coin when the required move is performed. Visual polish (shading, wood textures, Mario lighting) and low-level optimisations (trig functions, cache blocks) are also discussed while testing a YouTube stream as an alternative to Twitch.",
+    "level": [
+      "Course 1",
+      "Overworld (debug build)"
+    ]
   },
   "development_findings": [
     {
-      "summary": "Added three “tutorial bunnies” in Course 1; each teaches a specific move (dive jump, wall-kick, spin jump) and rewards a coin after the player performs the move through a rotating ring that appears only after speaking to the bunny.",
-      "quote": "The tutorials need to be the most understandable way possible… This one’s going to teach you the dive jump… then a ring spawns and you have to dive through it."
+      "summary": "Course 1 received new wood for the windmill, added mushroom shadows, and overall darker/softer shading tweaks.",
+      "quote": null
     },
     {
-      "summary": "Implemented a concentric particle-based ring (two counter-rotating sprite circles) to mark the target for each tutorial move, tuning speed and lifetime for readability.",
-      "quote": "Oh, that looks pretty… very nice.  We’ll use this as the ring you have to go through."
+      "summary": "Three ‘tutorial bunnies’ will be added to Course 1, each teaching one move: mid-air dive, wall-kick, and spin-jump.",
+      "quote": "Basically, we're going to add these tutorial bunnies to Course 1 that are going to teach you the movements."
     },
     {
-      "summary": "Created 64×64 indexed-color billboard textures showing ‘Z→A’, ‘A→A’, ‘Z→B’ button diagrams; discussed readability, anti-aliasing limits, and plan to rebuild them as separate textures for memory efficiency.",
-      "quote": "This texture should be illegal… but from this image, would you understand what to do?  I hope you would."
+      "summary": "Design revision: Coin is only granted after the player performs the move through a particle ring triggered by talking to the bunny, preventing accidental skips.",
+      "quote": "We don't want players to miss the move… so let's make rings for players to go through with the specified move to get the coin."
     },
     {
-      "summary": "Optimised sine/cosine functions and arranged render code in 0x400-byte ‘I-cache blocks’; also performed D-cache tuning to keep N64 performance near 60 FPS in Course 1.",
-      "quote": "I have a block of code that’s always 0x400 bytes so all the rendering functions fit in the same I-cache."
+      "summary": "Tutorial UI will use billboarded 64×64 textures above each bunny showing ‘Z→A’, ‘A→A’, ‘Z→B’, etc.; textures must stay within 16-colour indexed limits of N64.",
+      "quote": null
     },
     {
-      "summary": "Adjusted Course 1 geometry (climbable wall, easier gaps) and global shading; identified wrong light source when entering via debug warp and plans ray-cast lighting for Mario and lens flares.",
-      "quote": "Mario’s too dark in the ROM-hack… that’s because the debug warp adds the Bowser level light.  I might ray-cast toward the light direction."
+      "summary": "Kaze prototyped rotating double sparkle rings spawned via a custom particle routine; uses two clockwise/counter-clockwise rings for readability and taught chat how he optimises the draw code.",
+      "quote": null
     },
     {
-      "summary": "Project is ~70 % complete; major engine upgrades are ‘mostly done’; code will be open-sourced on release.",
+      "summary": "Camera is never forced to rotate during gameplay; any cut-scene motion must keep player control predictable—hence manual camera parameters were hard-coded for the bunny demo.",
+      "quote": "If you make the camera rotate without the player being able to predict it, you're always going to have the player hold a direction they don't intend."
+    },
+    {
+      "summary": "Engine status: ~70 % complete; most core upgrades done; project in development ~3 years; intends to release source once game ships.",
+      "quote": null
+    },
+    {
+      "summary": "Recent low-level work: faster sine/cosine functions and grouping render routines into 0x400-byte I-cache blocks; has d-cache optimisations as well.",
+      "quote": null
+    },
+    {
+      "summary": "Original SM64 object-shadow system is labelled ‘terrible’; RTYI bakes static shadows and allows per-level lighting tweaks (direction, colour).",
+      "quote": null
+    },
+    {
+      "summary": "Considering adding multiplayer; would be unlocked from the start if implemented.",
+      "quote": null
+    },
+    {
+      "summary": "Plans to port his Banjo-Kazooie hack into the RTYI engine as a bonus.",
       "quote": null
     }
   ],
   "context_findings": [
     {
-      "summary": "Kaze insists tutorials be short and optional because free ROM-hack players have low patience budgets.",
-      "quote": "Players start with some amount of patience… because no one paid for your game, you can’t go over your patience budget."
+      "summary": "Kaze is testing YouTube because Twitch’s forced ads frustrate him; platform switch undecided.",
+      "quote": "Twitch forces you to run an ad every 30 minutes… let's test out YouTube."
     },
     {
-      "summary": "Frustrated with Twitch’s mandatory ads; testing YouTube as an alternative but undecided about permanent move.",
-      "quote": "Twitch forces you to run an ad every 30 minutes… Let’s test out YouTube and see if chat is comfy."
-    },
-    {
-      "summary": "Week-long Easter break from day job allows extra Thursday stream; mentions work–life balance.",
+      "summary": "Week off work (Easter) lets him stream on a Thursday; he normally maintains a rigid Twitch schedule.",
       "quote": null
     },
     {
-      "summary": "Belief that game dev starts fun and turns into ‘pure torture,’ yet completion rate under 4 % motivates disciplined scope.",
-      "quote": "That’s the cycle of making games… that’s why I always tell people to start with a small project."
+      "summary": "He lives in Canada, keeps workout equipment beside his desk, and jokes about constant exercising during coding.",
+      "quote": null
     },
     {
-      "summary": "Acknowledges past Nintendo takedowns (tutorial videos, Climate-Change 64) and will open-source only at release.",
+      "summary": "Views long projects as ‘pure torture’ after initial fun; estimates <4 % of large ROM-hack projects finish; advises newcomers to start small.",
+      "quote": "That's why I always tell people to start with a small project… otherwise they are just going to not get anything done at all."
+    },
+    {
+      "summary": "Legal awareness: past tutorials and a climate-change ROM hack were DMCA’d by Nintendo; RTYI will be open-sourced post-release.",
       "quote": null
     }
   ],
   "contributor_findings": {
     "biobak": [
       {
-        "summary": "Provides real-time art critique (shading on grass edges, wood texture), suggests ring visuals, and volunteers to rebuild billboard textures to save memory.",
-        "quote": "You get to make the billboards—you can make them even more understandable."
+        "summary": "Provided feedback on shading hardness around grass edges and will redo billboard textures into a single material to save memory.",
+        "quote": "Biobak is right about the tutorial though… You get to make the billboards."
       },
       {
-        "summary": "Responsible for graphic revamps that ‘make Course 1 look prettier.’",
+        "summary": "Performed ‘a lot of revamping’ of Course 1 art to make it prettier; earlier wood and overall visuals credited to him.",
         "quote": null
       }
     ],
     "badub": [],
     "zeina": [
       {
-        "summary": "Shows a WIP Bowser-hit animation; Kaze notes pivot issue (rotating around wrong origin) and likes the bounce.",
-        "quote": "It looks like he’s not rotating around his actual middle… everything except that point is good."
+        "summary": "Supplied a work-in-progress animation clip (possibly for a flying enemy or object); Kaze notes pivot issues and bounce quality.",
+        "quote": "It looks a little like he's not rotating around his actual middle… but I like the bounce."
       }
     ]
   },
   "key_stories": [
     {
-      "title": "Inventing the Tutorial Bunny System",
-      "summary": "Kaze wants newcomers to learn advanced moves organically.  He designs talking bunnies that spawn a visual prompt and a particle ring the player must traverse with the demonstrated move.",
-      "challenge": "Teach complex movement without intrusive text or manuals.",
-      "process": "Created bunny objects, wrote cut-scenes, built button-diagram textures, coded ring spawn logic, tuned particle effects, adjusted camera and collision.",
-      "outcome": "System works in-engine; animations and final textures scheduled for Saturday.",
-      "key_quote": "The tutorials need to be the most understandable way possible, but also non-intrusive.",
-      "related_to": ["kaze", "biobak"]
+      "title": "Building the Tutorial Bunny System",
+      "summary": "Kaze wants beginners to learn advanced moves without text-heavy pop-ups. He codes rabbits that demonstrate the move, display a control prompt, spawn a sparkling ring, and award a coin only if the move is executed correctly.",
+      "challenge": "Teach dive, wall-kick, and spin-jump in a way novices cannot miss yet veterans can ignore.",
+      "process": "Iterated with chat on prompt clarity, rewrote particle code for a readable ring, moved bunny positions, forced cut-scene camera, and refined collision heights.",
+      "outcome": "Working prototype in Course 1; art and animations to be finalised by Biobak and Kaze on Saturday.",
+      "key_quote": "We don't want players to miss the move, so let's make rings for players to go through with the specified move to get the coin.",
+      "related_to": [
+        "kaze",
+        "biobak",
+        "zeina"
+      ]
     },
     {
-      "title": "Streaming Platform Dilemma",
-      "summary": "Kaze tests YouTube because Twitch’s increasing ad load hurts viewer experience.",
-      "challenge": "Mandatory ads every 30 minutes on Twitch diminish his and viewers’ enjoyment.",
-      "process": "Unannounced Thursday YouTube stream to gauge retention, chat comfort, and moderation options.",
-      "outcome": "Positive turnout but decision deferred; acknowledges risk of dual-streaming bans.",
-      "key_quote": "Twitch forces you to run an ad every 30 minutes… If YouTube chat is comfy we might migrate.",
-      "related_to": ["kaze"]
+      "title": "Testing a Platform Migration",
+      "summary": "Twitch’s invasive ads push Kaze to try streaming on YouTube during his Easter break. He gauges viewer turnout, chat readability, and monetisation options (donations, mod tools).",
+      "challenge": "Maintain audience engagement without Twitch’s existing follower base while avoiding platform bans on dual-streaming.",
+      "process": "Announces unplanned Thursday YouTube stream, mods regulars, disables non-skippable ads, discusses policy differences.",
+      "outcome": "Positive viewership and donations but decision remains open; acknowledges biases when asking each platform’s audience.",
+      "key_quote": "If you only ask YouTube viewers whether they want you to stay on YouTube… they're all going to say stay on YouTube.",
+      "related_to": [
+        "kaze"
+      ]
+    },
+    {
+      "title": "Clarifying Control-Prompt Graphics",
+      "summary": "First billboard texture (‘Z→A’) was misconstrued by chat; Kaze and Biobak debate readability and 16-colour constraints.",
+      "challenge": "Create N64-legal 64×64 textures that unambiguously convey sequential button presses.",
+      "process": "Kaze experiments in Photoshop/GIMP, fights indexing artefacts, enlarges ‘Z’, adds outlines; Biobak volunteers to rebuild as a single material.",
+      "outcome": "Temporary placeholders implemented; final assets delegated to Biobak.",
+      "key_quote": "No way someone misunderstood this to mean press A first—there’s an actual arrow.",
+      "related_to": [
+        "kaze",
+        "biobak"
+      ]
     }
   ],
   "open_questions": [
     {
-      "topic": "Final tutorial ring visuals and integration",
-      "context": "Particle prototype works but textures and memory layout are temporary; Biobak offered to rebuild.",
+      "topic": "Final streaming platform",
+      "context": "Kaze is frustrated with Twitch ads but hasn’t committed to YouTube.",
       "questions": [
-        "What final art style did you settle on for the rings?",
-        "Did you keep the dual-particle approach or switch to a model?",
-        "How did you optimise memory for multiple rings on N64?"
+        "What metrics or community feedback will decide the permanent move?",
+        "How would a platform switch affect project visibility and funding?"
       ],
-      "related_to": ["kaze", "biobak"],
-      "priority": "high"
-    },
-    {
-      "topic": "Multiplayer plans",
-      "context": "Kaze mused about adding multiplayer unlocked from the start.",
-      "questions": [
-        "Is multiplayer confirmed?",
-        "Split-screen or controller-swap?",
-        "Technical challenges on original hardware?"
+      "related_to": [
+        "kaze"
       ],
-      "related_to": ["kaze"],
       "priority": "medium"
     },
     {
-      "topic": "Lighting overhaul",
-      "context": "Considering ray-cast lighting for Mario and lens flares.",
+      "topic": "Multiplayer implementation",
+      "context": "He mentioned considering multiplayer, unlocked from the start.",
       "questions": [
-        "Have you implemented dynamic ray-cast lighting yet?",
-        "How expensive is it on actual N64 hardware?",
-        "Will it be global or per-level?"
+        "What gameplay changes are required to support co-op or versus?",
+        "Is the N64 hardware budget sufficient for split-screen or shared camera?",
+        "Timeline relative to core single-player release?"
       ],
-      "related_to": ["kaze"],
+      "related_to": [
+        "kaze"
+      ],
       "priority": "medium"
     },
     {
-      "topic": "Open-source timing and licensing",
-      "context": "Kaze states the project will be open source upon release.",
+      "topic": "Engine performance optimisations",
+      "context": "Spoke of I-cache blocks, d-cache, and faster trig.",
       "questions": [
-        "Which license will you choose?",
-        "Will tools and engine be included?",
-        "How will you manage Nintendo takedown risks?"
+        "Can you detail the measurable FPS gains from each optimisation?",
+        "Any remaining bottlenecks on real N64 hardware?"
       ],
-      "related_to": ["kaze"],
-      "priority": "medium"
-    },
-    {
-      "topic": "Bowser fight redesign",
-      "context": "Chat asked about Bowser landing animation; Zeina is animating new behaviour.",
-      "questions": [
-        "What mechanical changes differentiate Bowser battles from SM64?",
-        "How do Zeina’s new animations support those changes?",
-        "Any technical hurdles animating large bosses?"
+      "related_to": [
+        "kaze"
       ],
-      "related_to": ["kaze", "zeina"],
       "priority": "low"
+    },
+    {
+      "topic": "Final bunny animations",
+      "context": "Zeina’s clip still needs pivot fixes; Kaze will animate more on Saturday.",
+      "questions": [
+        "What is the desired animation style and length?",
+        "How are you ensuring consistency across all tutorial bunnies?"
+      ],
+      "related_to": [
+        "zeina",
+        "kaze"
+      ],
+      "priority": "low"
+    },
+    {
+      "topic": "Open-sourcing plan",
+      "context": "He will open source ‘once it releases’.",
+      "questions": [
+        "Under what license?",
+        "Will you provide documentation/tutorials despite past takedowns?",
+        "How will you handle Nintendo legal risk post-release?"
+      ],
+      "related_to": [
+        "kaze"
+      ],
+      "priority": "high"
     }
   ]
 }

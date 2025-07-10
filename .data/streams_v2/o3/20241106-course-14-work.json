@@ -1,194 +1,186 @@
 {
   "stream_context": {
-    "summary": "Kaze works on Course 14, tweaking layout, enemies, and planning its 8-bit/retro subsection. He finalizes UV-mapped geometry to hand off to Biobak, debates design options (rollable bridge, spikes, retro game theme), and sketches the logic for a Mario Paint-inspired drawing minigame. He also reviews overall project progress and course re-works.",
-    "level": ["Course 14", "Course 15 (naming & outside area planning)"]
+    "summary": "Kaze blocks-out and debugs several sub-areas of Course 14, talks through enemy behaviour, object parameters and retro-pipe placement, then launches a long brainstorming session to pick the Course 14 retro section concept (ultimately settling on a Mario Paint ‘draw-Mario’ mini-game) and to name the ice-castle level. He also tweaks object code, discusses memory-pack optimisation and outlines the remaining production schedule.",
+    "level": [
+      "Course 14",
+      "Course 11 (ice castle)",
+      "brief mention of Course 15",
+      "Overworld/retro-pipe planning"
+    ]
   },
   "development_findings": [
     {
-      "summary": "Finished UV-mapping the new Course 14 interior area; increased its size to improve camera behavior and removed a ground-pound/triple-jump skip.",
-      "quote": "The area needed to be bigger for the sake of the camera."
+      "summary": "Course 14 geometry is largely UV-mapped; the area was enlarged to avoid camera problems and an unintended triple-jump skip was removed.",
+      "quote": "The area needed to be bigger for the sake of the camera… you can no longer do the triple jump thing here."
     },
     {
-      "summary": "Will send the grey-boxed Course 14 geometry to Biobak for final texturing and color work.",
-      "quote": "This is what we're gonna send off to Biobak—he's gonna make the colors pretty."
+      "summary": "Current “grey” placeholder textures will be sent to Biobak for colour pass once block-out is approved.",
+      "quote": "This is what we're gonna send off to Biobak and he is gonna make the colors pretty and everything."
     },
     {
-      "summary": "Introduced a new pencil-shaving enemy (‘Bump’/‘Cut Bump’) and is play-testing its push-back behavior.",
-      "quote": "What do you guys think of the bump? He'll of course be a little more visible once the colors are in."
+      "summary": "Instant warps will be added only after the full collision map exists; doing it earlier would waste time.",
+      "quote": "I’m not gonna make the area fully playable until the rework is done."
     },
     {
-      "summary": "Plans to add pencil-or-crayon spike obstacles in specific maze sections to increase difficulty.",
-      "quote": "We also gotta add spikes to this area here—I want this to be like spikes that you jump over."
+      "summary": "A new enemy, tentatively named ‘cut bump’, is being placed; Kaze is fixing its snap-back movement bug and evaluating its push-back strength.",
+      "quote": "What do you guys think of the bump? He’ll of course be a little more visible once the colors are in."
     },
     {
-      "summary": "Clarified that ROM hacks never truly needed the N64 Expansion Pak; earlier tools just used it for convenience. Optimized code now lets hacks run on real hardware without it.",
-      "quote": "You don't even need my optimized source codes to make a ROM hack run without the expansion pack."
+      "summary": "Spikes will be stylised as large pencil tips or crayons to fit the stationery theme and are being positioned in two main zones.",
+      "quote": "Ah, little crayon spikes… that could look nice, or pencil rather."
     },
     {
-      "summary": "Retro section placement debate: pipe originally near wing-cap area; considering moving it to pyramid/bridge zones and using exclamation boxes or rollable bridges for gating.",
-      "quote": "Anything we do with a rollable bridge is weird because you unlock the wing cap anyway."
+      "summary": "Older ROM hacks only required the Expansion Pak out of convenience; Kaze’s optimiser and proper memory management mean RTYI will run on stock hardware.",
+      "quote": "You could absolutely make Star Road work on the N64 without an expansion pack."
     },
     {
-      "summary": "Wants greater use of breakable/exclamation boxes throughout the game for variety and secrets.",
-      "quote": "I think we very much under-utilized exclamation boxes in this game."
+      "summary": "Exclamation boxes are ‘under-utilised’ and will be used more often; one will appear atop the pyramid to reveal the retro pipe/Yoshi coin path.",
+      "quote": "I kind of like exclamation boxes; we should be using them more across the whole game."
     },
     {
-      "summary": "Course 14 is almost complete; Course 15 is halfway; after that only three side levels and three overworld parts remain. Target: main content done in 2025, then polish.",
-      "quote": "We're almost done with Course 14 and Course 15 is also already halfway done… we’re definitely gonna finish all the main content in 2025."
+      "summary": "Retro pipe will now sit on the pyramid ledge; players see it early but need the Wing Cap or a rollable bridge to reach it.",
+      "quote": "I think the 8-bit pipe would be perfect on here. This is an easily visible location that’s kind of hard to get to."
     },
     {
-      "summary": "Re-worked courses so far: 1, 3, 4, 5, 6? (typo), and 11; ice castle (Course 15) still needs exterior pass.",
-      "quote": "What's gotten reworked is course one, course three, course four, course five… course 11 for sure."
+      "summary": "The Course 14 retro section will be Mario Paint themed: a white canvas floor with colour pools where Mario ‘paints’ by walking. Players trace a dotted outline of Mario’s face; ground-pound fills areas and accuracy is scored algorithmically.",
+      "quote": "Outline of Mario and the sign on it says ‘Draw Mario’. When Mario walks he leaves this splotch trail on the floor… once it’s close enough you’ll get a star."
     },
     {
-      "summary": "Renamed the ice-castle level to 'Forgotten Fortress' after a brainstorming session on mood-appropriate wording.",
-      "quote": "Forgotten Fortress—that’s what we went with."
+      "summary": "Detection will compare the player’s painted pixels against a 124×124 RGBA32 template; a threshold score grants the star.",
+      "quote": null
     },
     {
-      "summary": "Abandoned initial idea of a Mario Paint music-staff platformer; instead outlined a Mario Paint canvas minigame where players walk into paint pools, trace an outlined Mario face, ground-pound to fill areas, and are scored via pixel comparison.",
-      "quote": "Outline of Mario… when Mario walks he leaves this paint… once you’ve drawn Mario close enough you’ll get a new star."
+      "summary": "Kaze adds a new saw-platform parameter: beepParam3 controls alpha/opacity, expanding object versatility.",
+      "quote": "We could easily do something like… opacity = beepParam3 & 0xFC; there you go, it's implemented."
     },
     {
-      "summary": "Technical plan: 124×124 RGBA32 canvas, dotted outline texture, pixel-matching algorithm to evaluate accuracy, color pools (red, black, white, blue, beige, plus green/yellow/purple).",
-      "quote": "124x124 canvas RGBA32… The further away from matching they are, the higher your score."
+      "summary": "Level-naming session ended with ‘Forgotten Fortress’ for the ice-castle level after chat brainstorming.",
+      "quote": "Alright, we're just going with Forgotten Fortress for now."
     },
     {
-      "summary": "Extended generic saw object params to include opacity (alpha) via bparam3 bitmask.",
-      "quote": "We could easily do something like… opacity = bparam3 & 0xFC; there you go, it's implemented."
+      "summary": "Project timeline: all main content targeted for 2025 completion, followed by extended polishing phase.",
+      "quote": "We’re definitely gonna finish all the main content in 2025 and then we have a lot of time to polish the game."
     }
   ],
   "context_findings": [
     {
-      "summary": "Moved from Germany to Canada in 2021; left because he felt German politics were corrupt and unfixable.",
-      "quote": "I moved to Canada because I needed to flee Germany—Germany fucking sucks."
+      "summary": "Kaze emigrated from Germany to Canada in 2021, citing frustration with German politics and corruption.",
+      "quote": "I moved to Canada because I needed to flee Germany. Germany fucking sucks."
     },
     {
-      "summary": "Does not vote and shows apathy toward elections, preferring entertainment-style coverage over civic engagement.",
-      "quote": "I have no idea about German politics and I don't care… I want the WWE excitement experience."
+      "summary": "He accepted a sponsored Roblox stream for $135, showing willingness to take small gigs to fund development.",
+      "quote": "That’s like almost $70 an hour to play Roblox, so… yes, I will absolutely be playing Roblox with you guys."
     },
     {
-      "summary": "Received a sponsored offer to stream Roblox for $135; plans a two-hour Roblox session (likely Sunday).",
-      "quote": "$135 for two hours… that’s like almost $70 an hour to play Roblox."
+      "summary": "A pushy ISP installer swapped his home router without a signed contract; Kaze plans to revert after stream.",
+      "quote": "Now we have the router that, by their own admittance, is dogshit… after the stream we're just gonna set the internet back."
     },
     {
-      "summary": "Frustrated by an ISP sales scheme: cheaper plan, no contract presented, installer admits service is 'dogshit', causing Zeina’s PC to lose internet.",
-      "quote": "Now we have the router that by their own admittance is dogshit."
-    },
-    {
-      "summary": "Recalls discovering pro-wrestling was scripted at a young age; liked Eddie Guerrero.",
-      "quote": "I stopped watching wrestling when I found out it's fake."
+      "summary": "Expresses a design philosophy: hardware limits (stick aiming, memory) must steer design rather than be ignored.",
+      "quote": "When you make a game you need to be aware of the restrictions you have, and aiming with a stick fucking sucks."
     }
   ],
   "contributor_findings": {
     "biobak": [
       {
-        "summary": "Responsible for final coloring/texturing of the newly UV-mapped Course 14 area.",
-        "quote": "He’s gonna make the colors pretty and everything."
+        "summary": "Will handle colour pass for the newly UV-mapped Course 14 area.",
+        "quote": null
       },
       {
-        "summary": "Interactively chats in French, leading Kaze to joke he 'involuntarily learned French'.",
+        "summary": "Kaze jokes Biobak ‘made him involuntarily learn French’ via Discord messages.",
         "quote": "You just made me involuntarily learn French."
       }
     ],
     "badub": [],
     "zeina": [
       {
-        "summary": "Working on the outside area for the ice castle (Course 15).",
-        "quote": "There's still the outside area that Zeina wanted to work on."
+        "summary": "Responsible for outside section of the ice castle; that part is still pending.",
+        "quote": "There’s still the outside area that Zeina wanted to work on."
       },
       {
-        "summary": "Suggested adding a rollable bridge and engages in light-hearted banter with Kaze.",
-        "quote": "He really, really wants the rollable bridge at this point—I'm almost willing to add it just for him."
-      },
-      {
-        "summary": "Lost PC internet because installer botched new router setup; Kaze plans to revert after stream.",
-        "quote": "You have no internet in your PC—the guy fucked it up."
+        "summary": "Lost internet because the new router was mis-installed; will fix after stream.",
+        "quote": "You have no internet in your PC, the guy fucked it up. …Well, after the stream we're just gonna set the internet back."
       }
     ]
   },
   "key_stories": [
     {
-      "title": "Routers & Regrets",
-      "summary": "Kaze accepted what seemed like a cheaper internet deal without signing anything. Within 12 hours, a technician installed a new router but admitted the service was poor, leaving Zeina offline.",
-      "challenge": "Attractive price for new ISP with no clear contract.",
-      "process": "Technician installed router; immediately disclosed quality issues.",
-      "outcome": "Kaze plans to remove the router and restore previous connection after stream.",
-      "key_quote": "Our internet is dogshit—I don't use it, I just work for this company.",
-      "related_to": ["kaze", "zeina"]
+      "title": "Choosing the retro section concept",
+      "summary": "Kaze struggled to adapt Mario Paint into a playable 3-D segment. After discarding Dr. Mario, Paper Mario and other ideas, he designed a ‘draw-Mario’ canvas minigame that fits both theme and mechanics.",
+      "challenge": "Mario Paint offers few obvious platforming hooks.",
+      "process": "Brainstormed alternative franchises and mechanics with chat, weighed pros/cons, then sketched a walking-paint system with colour pools and pixel scoring.",
+      "outcome": "Mario Paint concept locked; technical notes and pixel dimensions written for implementation.",
+      "key_quote": "Outline of Mario and the sign on it says ‘Draw Mario’… once we’ve drawn Mario close enough you’ll get a new star.",
+      "related_to": [
+        "kaze"
+      ]
     },
     {
-      "title": "Expansion Pak Myth-busting",
-      "summary": "Viewers questioned why some hacks need the N64 Expansion Pak. Kaze explained it was historical laziness and confirmed his optimized code removes the requirement.",
-      "challenge": "Community belief that advanced hacks must use extra RAM.",
-      "process": "Explained memory management history and optimization work.",
-      "outcome": "Clarified Return to Yoshi's Island will run on stock hardware.",
-      "key_quote": "Hacks never needed the expansion pack; the tools were just programmed lazily.",
-      "related_to": ["kaze"]
-    },
-    {
-      "title": "Mario Paint or Dr. Mario?",
-      "summary": "Kaze struggled to find engaging platforming for Course 14's retro pipe. After brainstorming, he pivoted from Mario Paint's music staff to a canvas-drawing minigame.",
-      "challenge": "Mario Paint lacks obvious 3-D platforming mechanics.",
-      "process": "Considered Dr. Mario pill-fall idea, then devised interactive drawing with paint pools and accuracy scoring.",
-      "outcome": "Settled on Mario Paint canvas minigame with pixel-match evaluation.",
-      "key_quote": "Maybe Mario Paint just sucks as a retro section… Outline of Mario, draw him, score by how close you get.",
-      "related_to": ["kaze"]
+      "title": "Naming the ice-castle level",
+      "summary": "Course 11 lacked a title. Kaze and chat cycled through icy alliterations before settling on ‘Forgotten Fortress’, which evokes cold and mystery without clichéd ‘frost’ wording.",
+      "challenge": "Need a memorable, fitting name that avoids generic ‘Ice Castle’.",
+      "process": "Live word association, synonym searches, colour-emotion talk, and polling chat.",
+      "outcome": "Level officially named Forgotten Fortress.",
+      "key_quote": "Forgotten as a word is like dark blue, transparent… especially when you put fortress behind it.",
+      "related_to": [
+        "kaze",
+        "zeina"
+      ]
     }
   ],
   "open_questions": [
     {
       "topic": "Mario Paint canvas implementation",
-      "context": "Kaze outlined a 124×124 pixel canvas, color pools, and accuracy scoring but hasn’t detailed algorithmic approach or player feedback mechanisms.",
+      "context": "Kaze outlined pixel-matching, colour pools and ground-pound fill but has not specified fill-algorithm details or performance impact.",
       "questions": [
-        "How will the game communicate progress or scoring to the player while drawing?",
-        "What tolerance threshold will determine ‘close enough’ for awarding the star?",
-        "Will there be time limits or hazards to keep the section engaging?"
+        "How will the flood-fill or area-fill logic be implemented within N64 limits?",
+        "What scoring threshold will define ‘close enough’?",
+        "Will there be partial rewards or just pass/fail?"
       ],
-      "related_to": ["kaze"],
+      "related_to": [
+        "kaze"
+      ],
       "priority": "high"
     },
     {
-      "topic": "Course 14 handoff to Biobak",
-      "context": "Geometry is being sent to Biobak for coloring; timeline and workflow not specified.",
+      "topic": "Course 14 colour pass",
+      "context": "Area geometry is ready and ‘grey’, awaiting Biobak’s textures.",
       "questions": [
-        "What is the expected turnaround time for Biobak’s texturing pass?",
-        "How do Kaze and Biobak iterate on color palettes and thematic cohesion?",
-        "Are there performance constraints Biobak must consider while texturing?"
+        "What art style or palette is Biobak planning?",
+        "Is there a pipeline or deadline for this colour pass?",
+        "How does feedback loop work between Kaze and Biobak?"
       ],
-      "related_to": ["kaze", "biobak"],
+      "related_to": [
+        "biobak",
+        "kaze"
+      ],
       "priority": "medium"
     },
     {
-      "topic": "Outside area of Ice Castle",
-      "context": "Zeina is responsible but no details on scope or artistic direction were provided.",
+      "topic": "Zeina’s exterior ice-castle work",
+      "context": "Outside section is pending; no progress shown.",
       "questions": [
-        "What visual and gameplay goals does Zeina have for the ice-castle exterior?",
-        "How does her animation expertise influence level geometry?",
-        "What’s the current schedule for completing Course 15’s exterior?"
+        "What is the design vision for the exterior?",
+        "How has the recent internet issue affected her workflow?",
+        "How do Kaze and Zeina coordinate personal vs professional boundaries?"
       ],
-      "related_to": ["zeina"],
+      "related_to": [
+        "zeina",
+        "kaze"
+      ],
       "priority": "medium"
     },
     {
-      "topic": "Music & SFX memory constraints",
-      "context": "Kaze noted audio quality is maxed out and streamed music eats ROM space.",
+      "topic": "Expansion-pack optimisation",
+      "context": "Kaze claims RTYI will run on stock N64; multiplayer co-op may or may not need extra RAM.",
       "questions": [
-        "What techniques are being used to balance high-quality streamed music with limited cartridge space?",
-        "Could Badub compose adaptive or shorter loops to save memory?",
-        "Will the final build require compromises in soundtrack variety?"
+        "What specific memory tools or practices replace the Expansion Pak?",
+        "Does co-op ultimately require it?",
+        "Any performance trade-offs observed on real hardware?"
       ],
-      "related_to": ["kaze", "badub"],
-      "priority": "low"
-    },
-    {
-      "topic": "Cardboard character models from Yuki",
-      "context": "Kaze is waiting for cardboard Donkey Kong and Peach models but status unknown.",
-      "questions": [
-        "What role will the cardboard DK and Peach play in the game?",
-        "Has Yuki provided any timeline or design drafts?",
-        "Are there fallback plans if these assets are delayed?"
+      "related_to": [
+        "kaze"
       ],
-      "related_to": ["kaze"],
       "priority": "low"
     }
   ]

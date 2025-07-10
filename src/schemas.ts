@@ -24,9 +24,7 @@ const FindingSchema = z.object({
 const StorySchema = z.object({
   title: z
     .string()
-    .describe(
-      "A brief, descriptive, non-catchy title for this story or incident",
-    ),
+    .describe("A short, non-catchy title for this story or incident"),
   summary: z.string().describe("A 2-3 sentence overview of the story"),
   challenge: z
     .string()
@@ -109,7 +107,7 @@ export const StreamAnalysisSchema = z.object({
 
   key_stories: z
     .array(StorySchema)
-    .max(3)
+    .max(5)
     .describe("Self-contained narrative arcs to reference in interviews"),
 
   open_questions: z

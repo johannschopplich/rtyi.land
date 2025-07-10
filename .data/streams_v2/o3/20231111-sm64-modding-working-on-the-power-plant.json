@@ -1,204 +1,207 @@
 {
   "stream_context": {
-    "summary": "Kaze imports and tests new assets (amps, shop shy-guy, speed ring, airplane parts) from Biobak, fixes animation/export problems, and designs a collapsing-platform section in the Course 11 factory. General bug-hunting, texture/combiner tuning, and discussion of remaining tasks and future plans.",
+    "summary": "Kaze imports and integrates several new assets supplied by Biobak (seller-shy-guy, speed rings, airplane, factory platforms), debugs multiple issues (missing floor, warp size, broken propeller, texture combiners, sound distance bug), fine-tunes gameplay in a factory level—most visibly a plane mini-game and a collapsing-platform hallway—and reviews pending animation work from Zeina.",
     "level": [
-      "Course 11 (factory)",
-      "Arctic airplane minigame",
-      "Overworld planning"
+      "Course 11 (factory / airplane mini-game)",
+      "General bug-pass on Courses 1-4"
     ]
   },
   "development_findings": [
     {
-      "summary": "Project is in late stage; roughly nine levels still need to be finished and many earlier levels require regression bug-fix passes.",
-      "quote": "Holly we are but we are getting pretty close to finished… We need to finish like nine levels."
-    },
-    {
-      "summary": "Old Nintendo exporter duplicated animated bones; Kaze replaced the ‘geo bone’ workaround with a proper fix, saving one matrix multiplication per actor.",
+      "summary": "Old Nintendo exporter duplicated animated bones; Kaze removed the GeoBone workaround and properly fixes it, eliminating one matrix multiplication per actor.",
       "quote": "Instead you should fix it properly to save on a whole matrix multiplication per actor."
     },
     {
-      "summary": "Sound engine bug: if an actor is far from the camera its position sometimes isn’t updated, causing sounds to play as if directly on the camera.",
-      "quote": "One actor can be so far away from the camera that it doesn’t update its position… then the sound plays as though it was right on top of the camera."
-    },
-    {
-      "summary": "Airplane minigame trail uses combiner math with primitive color controlling alpha; Kaze located an underflow bug and restored previous system.",
-      "quote": "That was a bug—good thing we found this… I think I prefer this [old system]."
-    },
-    {
-      "summary": "Texture format choices: IA8 preferred over IA4/CI4 for grayscale accuracy despite bigger size; trade-offs measured in microseconds.",
-      "quote": "IA8’s really good… with IA4 on a 64×64 you save 15 µs but only get 16 grayscales."
-    },
-    {
-      "summary": "Implemented factory falling-grate platforms using object animation; platforms now shake and collapse faster if player is running to add spectacle without extra difficulty.",
-      "quote": "It makes the section feel a lot more intense without actually making it more difficult."
-    },
-    {
-      "summary": "Blender exporter plug-in for object animations broke in new Blender version; Kaze manually copied animation frames as a workaround.",
-      "quote": "There’s only one solution and that solution fucking sucks but I can do it… manually copying the animation frame."
-    },
-    {
-      "summary": "Sound and particle issues noted on several levels; warps temporarily shrunk due to custom camera parameter system.",
+      "summary": "Warp objects now carry extra parameters for camera settings; a recent change shrank all their hitboxes, so Kaze must manually enlarge them.",
       "quote": "The warps are all too small right now because I had to change something about the warps."
     },
     {
-      "summary": "Overworld shortcuts between courses are being considered but not yet designed; third hub intended for ‘really weird levels’.",
-      "quote": "We haven’t really decided on it yet… having shortcuts in the overworld is really, really cool."
+      "summary": "Actors far from the camera occasionally report a zero position, causing their sounds to play at full volume; Kaze flags this as a systemic audio bug.",
+      "quote": "One actor can be so far away from the camera that it doesn't update its position … the sound plays as though it was right on top of the camera."
+    },
+    {
+      "summary": "The airplane’s propeller texture was missing; Kaze rebuilt it, chose IA8 over IA4 for finer grayscale, and re-clamped the texture to stop wrapping artifacts.",
+      "quote": "IA8’s really good … you get more detail when you use IA8."
+    },
+    {
+      "summary": "New dust-trail texture for the plane mini-game broke the length-by-speed effect; after testing a Biobak revision Kaze reverted to the previous combiner that works.",
+      "quote": "Honestly I think I might just bring the old system back just because this actually works for me right now."
+    },
+    {
+      "summary": "Collapsing platforms now detect Mario’s speed; if he is sprinting they drop instantly, creating spectacle without increasing failure rate.",
+      "quote": "It makes the section feel a lot more intense without actually making it more difficult."
+    },
+    {
+      "summary": "Random-rock spawner in the plane course only shows one model; Kaze discovers the definitions for four variants are broken and notes it for later repair.",
+      "quote": "Apparently there were four variations actually … this was broken."
+    },
+    {
+      "summary": "Zeina’s penguin and Dory animations are required before Course 4 testing can continue; legacy actors still rely on the outdated GeoBone system.",
+      "quote": "All the actors in this model are fucked up animation-wise because they still use the old geo bones system."
+    },
+    {
+      "summary": "Mini N64 Object Exporter plug-in stopped exporting animation frames in the latest Blender build; Kaze falls back to copying data manually.",
+      "quote": "I think it’s the new Blender version that broke it … there’s only one solution and that solution fucking sucks but I can do it."
+    },
+    {
+      "summary": "Kaze plans to fill factory corridors with pipes and metal walls, then cull overdraw; UV-mapped placeholder geometry is already in place.",
+      "quote": "I want pipes everywhere … I will still kill the overdraw."
     }
   ],
   "context_findings": [
     {
-      "summary": "Kaze values ‘excitement over difficulty’; tries to make set-pieces impressive yet forgiving.",
-      "quote": "I don’t want difficulty. I want excitement."
+      "summary": "Kaze prioritises efficiency in life and design (cuts his own hair; reduces difficulty if it doesn’t add purpose).",
+      "quote": "I want excitement, not difficulty."
     },
     {
-      "summary": "Marketing plan: announce a Kickstarter for an original PC game a few months before RTYI releases to leverage hype and hire additional staff.",
-      "quote": "We’re gonna announce our own game project… then when RTYI launches we also launch the Kickstarter."
-    },
-    {
-      "summary": "Kaze acquired a new mouse with 40 ms less input lag, realizing hardware affected his gaming ability.",
+      "summary": "He recently upgraded to a G502 mouse, discovering 40 ms less input lag and blaming old hardware for poor shooter performance.",
       "quote": "My mouse was the reason I was completely unable to play shooter games."
     },
     {
-      "summary": "Work-life: avoids showing NDA work on stream; uses Twitter mainly for thumbnail testing despite 32k followers.",
-      "quote": "I can’t open Unreal Engine on stream… I use [Twitter] to beta test YouTube thumbnails."
+      "summary": "Marketing plan: use RTYI’s launch to kick-start a new original IP via Kickstarter and hire additional staff.",
+      "quote": "Half a year before Return to Yoshi's Island releases we are gonna announce our own game project … and then I can hire a bunch of people."
     },
     {
-      "summary": "Zeina (spouse) influences personal choices (haircut) and occasionally appears during stream, reflecting domestic overlap with work.",
-      "quote": "Buzz cut? Zaina said no… Never mind, it’s Zeina and her brother."
+      "summary": "Kaze sees Twitter mainly as a preview/marketing tool; surprised to have 32 k followers and intends to leverage it for release.",
+      "quote": "I don’t think I deserve my Twitter followers … maybe I should start ramping up Twitter advertisement when the game gets closer to release."
+    },
+    {
+      "summary": "Open to multiple language localisations; mentions Biobak and Rionno as professional translators.",
+      "quote": "We’ll probably also have like a French version and a Spanish version because … are professionally educated game translators."
+    },
+    {
+      "summary": "Avoids showing NDA content on stream, indicating legal awareness.",
+      "quote": "Uh-oh, I can’t be opening Unreal Engine on stream … almost broke NDA."
     }
   ],
   "contributor_findings": {
     "biobak": [
       {
-        "summary": "Delivered multiple new models/textures: amps variants, ‘cell guy’ merchant shy-guy, speed rings, airplane texture set, falling-platform aesthetics.",
-        "quote": null
+        "summary": "Provided several new assets: Seller Shy Guy model, speed rings, airplane remodel with updated textures, random rock variations, factory platform textures.",
+        "quote": "Considering we have to import a bunch of shit for Biobak let's do that."
       },
       {
-        "summary": "Provided gameplay feedback, suggesting instant collapse of platforms when Mario runs fast for dramatic effect.",
-        "quote": "It would feel cool to see them fall behind you."
-      },
-      {
-        "summary": "Is professionally educated in game translation and will help localize RTYI.",
-        "quote": "Biobak and Rionno… are professionally educated game translators."
+        "summary": "Gives gameplay feedback, suggesting instant platform collapse and visual tweaks to plane trail.",
+        "quote": "It would feel cool to see them fall behind them."
       }
     ],
     "badub": [],
     "zeina": [
       {
-        "summary": "Currently animating all penguins and Dory; completion needed before Arctic airplane mission can be fully tested.",
-        "quote": "All the penguins need animations Zeina and Dory like you saw what happened to Dory."
+        "summary": "Responsible for new penguin animations (and Dory); progress blocks some course testing.",
+        "quote": "All the penguins need animations Zeina and Dory."
       },
       {
-        "summary": "Personal interaction: cut Kaze’s hair and vetoed a buzz cut.",
-        "quote": "Bus cut dude, I was gonna go for a bus cut, but Zeina said no."
+        "summary": "Personal note: cut Kaze’s hair and visited the house mid-stream with her brother.",
+        "quote": "Zaina cut my hair … never mind, it's Zaina and her brother."
       }
     ]
   },
   "key_stories": [
     {
-      "title": "Geo-bone Optimization",
-      "summary": "Legacy exporter duplicated bones; Kaze removed the workaround and implemented a clean fix.",
-      "challenge": "Extra matrix multiplication per actor due to duplicated static bones.",
-      "process": "Analyzed exporter bug, removed ‘geo bone’ placeholder, rewrote handling.",
-      "outcome": "Lower CPU cost for every animated actor.",
+      "title": "Killing GeoBone",
+      "summary": "Legacy Nintendo exporter duplicated bones, wasting processing time. Kaze decides to remove the GeoBone workaround and implement a proper fix.",
+      "challenge": "Extra matrices per actor due to duplicated animated bones.",
+      "process": "Explained the historical bug, removed GeoBone references, and rebuilt actors.",
+      "outcome": "Saves one matrix multiplication for every animated model, improving performance.",
       "key_quote": "Instead you should fix it properly to save on a whole matrix multiplication per actor.",
-      "related_to": ["kaze"]
+      "related_to": [
+        "kaze"
+      ]
     },
     {
-      "title": "Factory Falling Platforms",
-      "summary": "Designing a dramatic yet fair collapsing-platform set-piece in Course 11.",
-      "challenge": "Wanted spectacle without punishing difficulty or camera issues.",
-      "process": "Created object-animated grates, added shake and conditional instant collapse when player moves fast.",
-      "outcome": "Section feels intense; retains accessibility.",
+      "title": "Plane Mini-game Texture Debacle",
+      "summary": "New dust-trail texture from Biobak didn’t scale with speed, looking broken. Kaze compared combiners, tried edits, and ultimately reverted.",
+      "challenge": "Dust trail no longer lengthened with plane speed after asset swap.",
+      "process": "Tested Biobak’s IA-8 texture, experimented with combiner maths, identified underflow, restored previous setup.",
+      "outcome": "Mini-game visuals back to intended behaviour; old combiner retained.",
+      "key_quote": "I think I prefer this … I might just bring the old system back.",
+      "related_to": [
+        "kaze",
+        "biobak"
+      ]
+    },
+    {
+      "title": "Designing Exciting but Easy Collapsing Platforms",
+      "summary": "Factory corridor needed flair without punishing players. Kaze adjusts behaviour so platforms collapse instantly only when Mario sprints.",
+      "challenge": "Make set-piece thrilling without raising difficulty in late-section hallway.",
+      "process": "Added speed check in code; tuned timing and layout; moved some platforms lower and added boxes for readability.",
+      "outcome": "Sequence now feels dramatic while remaining accessible.",
       "key_quote": "It makes the section feel a lot more intense without actually making it more difficult.",
-      "related_to": ["kaze", "biobak"]
-    },
-    {
-      "title": "Broken Blender Exporter",
-      "summary": "Tool update halted animation export workflow.",
-      "challenge": "New Blender version broke mini-object exporter, preventing multi-frame exports.",
-      "process": "Troubleshot plugin, ultimately copied frames manually from older export.",
-      "outcome": "Animation imported, but long-term tool fix still required.",
-      "key_quote": "There’s only one solution and that solution fucking sucks but I can do it.",
-      "related_to": ["kaze", "biobak"]
+      "related_to": [
+        "kaze",
+        "biobak"
+      ]
     }
   ],
   "open_questions": [
     {
-      "topic": "Sound engine position bug",
-      "context": "Kaze observed actors occasionally fail to update distance, causing loud sounds.",
+      "topic": "Persistent sound-distance bug",
+      "context": "Kaze notices some actors report zero distance and play at full volume.",
       "questions": [
-        "What is the root cause of the position update failure?",
+        "What is causing the position update to fail?",
         "How widespread is the issue across levels?",
-        "What debugging steps are planned?"
+        "What solutions are being tested?"
       ],
-      "related_to": ["kaze"],
+      "related_to": [
+        "kaze"
+      ],
       "priority": "high"
     },
     {
-      "topic": "Airplane propeller redesign",
-      "context": "New airplane model lacks working propeller; placeholder missing.",
-      "questions": [
-        "Who is responsible for modelling the new propeller?",
-        "Any technical limits on triangle count or animation?",
-        "Timeline for integration and testing?"
-      ],
-      "related_to": ["biobak", "kaze"],
-      "priority": "medium"
-    },
-    {
-      "topic": "Remaining nine levels",
-      "context": "Kaze mentions nine unfinished levels but gives few specifics.",
-      "questions": [
-        "Which exact levels remain?",
-        "What major assets or mechanics are pending for each?",
-        "Estimated completion schedule?"
-      ],
-      "related_to": ["kaze", "biobak", "zeina", "badub"],
-      "priority": "high"
-    },
-    {
-      "topic": "Overworld shortcuts design",
-      "context": "Kaze likes the idea but has no concrete plan.",
-      "questions": [
-        "Will courses interconnect via overworld shortcuts?",
-        "What technical or design constraints exist?",
-        "Examples of planned shortcut locations?"
-      ],
-      "related_to": ["kaze", "biobak"],
-      "priority": "medium"
-    },
-    {
-      "topic": "Blender exporter fix",
-      "context": "Current plugin incompatible with latest Blender; manual workaround used.",
-      "questions": [
-        "Will the team patch the exporter or pin to older Blender?",
-        "Could Fast64 integrate native object-animation export to avoid plugin dependence?"
-      ],
-      "related_to": ["kaze", "biobak", "zeina"],
-      "priority": "low"
-    },
-    {
-      "topic": "Localization pipeline",
-      "context": "Multiple translators available but no system described.",
-      "questions": [
-        "What is the planned text system and workflow for multiple languages?",
-        "How will ROM size limits affect localization?",
-        "Who oversees QA for each language?"
-      ],
-      "related_to": ["kaze", "biobak"],
-      "priority": "medium"
-    },
-    {
-      "topic": "Kickstarter original IP",
-      "context": "Plan to launch alongside RTYI release.",
+      "topic": "Kickstarter and Original IP",
+      "context": "Kaze plans a Kickstarter tied to RTYI’s release but shared no specifics.",
       "questions": [
         "What genre and scope is the new IP?",
-        "How will RTYI assets/tech inform the new project?",
-        "Financial targets and team size intentions?"
+        "How will the team transition from ROM-hack to commercial game?",
+        "What roles does Kaze want to hire for?"
       ],
-      "related_to": ["kaze"],
+      "related_to": [
+        "kaze"
+      ],
       "priority": "medium"
+    },
+    {
+      "topic": "Overworld shortcuts & course interconnection",
+      "context": "Kaze is unsure whether to add Banjo-Tooie–style in-world links.",
+      "questions": [
+        "Has a final decision been made?",
+        "If yes, what technical approach will be used?",
+        "How will this affect pacing and level design?"
+      ],
+      "related_to": [
+        "kaze",
+        "biobak"
+      ],
+      "priority": "medium"
+    },
+    {
+      "topic": "Missing Dory & Penguin animations",
+      "context": "Testing of Course 4 and other areas is blocked until Zeina finishes animations.",
+      "questions": [
+        "What is the current animation pipeline?",
+        "Estimated timeline for completion?",
+        "Will old GeoBone actors be fully converted?"
+      ],
+      "related_to": [
+        "zeina",
+        "kaze"
+      ],
+      "priority": "medium"
+    },
+    {
+      "topic": "Random Rock variations bug",
+      "context": "Spawner shows only one model despite definitions for four.",
+      "questions": [
+        "What broke in the object definition?",
+        "Is this linked to recent optimization work?",
+        "Who will repair and test the variations?"
+      ],
+      "related_to": [
+        "kaze",
+        "biobak"
+      ],
+      "priority": "low"
     }
   ]
 }

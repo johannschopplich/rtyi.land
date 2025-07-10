@@ -1,174 +1,186 @@
 {
   "stream_context": {
-    "summary": "Kaze spent most of the stream building and debugging several \"star-select\" menus. The main focus was a mine-cart themed screen for the Crystal Cave area; he fine-tuned fog, scrolling textures, spline movement and ensured the whole set-piece stayed inside the N64’s ±32 768 world-space limit to avoid crashes. He also reviewed new backgrounds from Biobak (Koopa Wave Cove/Carnival, Mouse Cave, Bubble Dome), talked about ROM-size optimisation for streamed music, and mentioned personal updates (moving house, new 3-D modelling job).",
+    "summary": "Kaze’s stream focused almost entirely on implementing and polishing new ‘Star-Select’ background scenes (animated title-card screens) for Return to Yoshi’s Island. He imported Biobak’s new graphics for Koopa Wave Cove, Mouse Cave, and Bubble Dome, wrote C code to move a minecart model along a spline, battled depth-range and fog issues, and tweaked scrolling textures and animation speeds.",
     "level": [
-      "Koopa Wave Cove",
-      "Koopa Carnival",
-      "Mouse Cave",
-      "Bubble Dome",
-      "Crystal Cave star-select"
+      "Koopa Wave Cove (E12)",
+      "Mouse Cave (Crystal Cave sub-area)",
+      "Bubble Dome hub",
+      "Global Star-Select UI"
     ]
   },
   "development_findings": [
     {
-      "summary": "Arctic’s ‘strm64’ tool cut 1.7 MB of unused audio data (music that continued past loop points), freeing space for more streamed tracks.",
-      "quote": "Arctic realised his tool has some cool properties that allow us to save 1.7 megabytes of ROM space"
+      "summary": "Depth values beyond ±33,000 crash real N64 hardware, so Kaze halved the background scale and re-positioned the camera to keep all vertices inside safe bounds.",
+      "quote": "If you render any object out of this range your N64 is just gonna crash."
     },
     {
-      "summary": "Star-select backgrounds are static models plus one animated object (e.g. mine-cart) driven by spline math coded in C; Kaze uses fog and a grey plane to hide clipping and keep draw-calls low.",
+      "summary": "Switching star-select backgrounds to the ‘F3D’ microcode bloats display lists and slows render; Kaze opts for the lighter variant and trims hidden triangles to keep 60 FPS.",
+      "quote": "If you use regular F3D then the display list is a lot bigger and just renders a lot slower."
+    },
+    {
+      "summary": "Arctic’s STRM64 tool let them trim unused tail sections of streamed songs, freeing ~1.7 MB of ROM space, so the team can now include more streamed music than planned.",
+      "quote": "Arctic realised yesterday that his tool saves 1.7 MB of ROM space… we are allowed to have more streamed music than we thought."
+    },
+    {
+      "summary": "Minecart title card: Kaze abandoned blender-exported keyframes and instead drives the cart along hard-coded spline points, incrementing distance by 80 units per tick for smoother, cheaper animation.",
       "quote": null
     },
     {
-      "summary": "Objects positioned outside ±33 k coordinates crash real hardware; the mine-cart track had to be shortened and the camera/fog re-tuned to stay within the safe range.",
-      "quote": "If you render any object out of this range your N64 is just gonna crash"
+      "summary": "Wheel-scrolling was first done through Fast64 but considered ‘unoptimised’; Kaze replaced it with manual texture-tile offset per frame in code.",
+      "quote": null
     },
     {
-      "summary": "Switching the display-list microcode from plain F3D to F3DEX2 keeps displacement smaller and renders faster.",
-      "quote": "If you use regular F3D then the display list is a lot bigger than it should be and just renders a lot slower"
+      "summary": "Global fog is ‘basically free’ but can hide Z-sorting issues; he adjusted fog distance and added a grey plane attached to the camera to mask pop-in.",
+      "quote": null
     },
     {
-      "summary": "Removed back-faces and hidden geometry on Koopa Carnival assets, saving ~80 triangles.",
-      "quote": "I'm just gonna remove these to save some... that saves 80 triangles"
+      "summary": "He removed unused back-faces and subdivided floor quads in several star-select meshes to save ~80 triangles per screen.",
+      "quote": null
     },
     {
-      "summary": "Disabled ‘nth color’ material flag on certain models because it makes them randomly vanish in some emulators.",
-      "quote": "The problem with having nth color set on emulator is sometimes they will just go invisible"
-    },
-    {
-      "summary": "Kaze prefers using s32 instead of bool in functions; on the R4300i it avoids masking operations and is ‘always better’.",
-      "quote": "A bool is typically just a single bit... an s32 is just always better and has all the same features"
-    },
-    {
-      "summary": "Long-term plan to move to ‘Katerinian’ per-object animations to cut down repeated coefficient loads.",
-      "quote": "As soon as we switch to Katerinian animations it's gonna be a lot less relevant"
+      "summary": "Planned to scroll minecart wheels and tilt the cart based on spline slope; linear interpolation caused perpetual left tilt, so he inverted pitch calculation and tuned speed.",
+      "quote": null
     }
   ],
   "context_findings": [
     {
-      "summary": "Kaze and Zeina move into a new house next week; Kaze also started a new government-related 3-D modelling job.",
-      "quote": "We're moving into our new house next week and I got a new job as a 3-D modeller for the government"
+      "summary": "Kaze and Zeina are moving into a new house next week; Kaze also started a new job as a 3-D modeler ‘for the government (kind of)’.",
+      "quote": null
     },
     {
-      "summary": "Project funding is minimal: YouTube paid $6.90 last month; Patreon helps but he can’t offer a real salary to collaborators.",
-      "quote": "My YouTube channel last month, $6.90 and a little bit on Patreon. I definitely cannot pay him enough to buy all his groceries"
+      "summary": "YouTube revenue is extremely low (US$6.90 last month) and Patreon only ‘a little’, making the hack effectively non-profitable.",
+      "quote": "My YouTube as it is, is already barely even profitable."
     },
     {
-      "summary": "Coding philosophy: variable casing is irrelevant because syntax highlighting already distinguishes functions/variables; strong opinions against style ‘rules’.",
-      "quote": "If anyone tells you you should do it a certain way they are 100 percent guaranteed a fucking idiot"
-    },
-    {
-      "summary": "Emotional self-portrait: ‘easily irritated’ on stream but quickly calms down.",
-      "quote": "I seem angrier than I am, I'm just very easily irritated, but I also like instantly just don't care anymore"
+      "summary": "Kaze is frustrated by repeated suggestions to use Parallel Launcher/console debug tools, calling them ‘useless’ and refusing to add that dependency.",
+      "quote": "I’m so tired of people trying to tell me to use the weird parallel launcher console debug shit."
     }
   ],
   "contributor_findings": {
     "biobak": [
       {
-        "summary": "Delivered multiple star-select background models (Koopa Wave Cove/Carnival, Bubble Dome, Mouse Cave) and a mine-cart track with bird animation.",
+        "summary": "Delivered multiple star-select background models (carnival wave, crystal cave, bubble dome), complete with sketches and animation ideas, and live-fed corrections during stream.",
         "quote": null
       },
       {
-        "summary": "Flagged centring issues and requested minor layout tweaks (text alignment, fog, lighting).",
-        "quote": "Move the text down a little, it's not centered"
+        "summary": "Wants to create Yoshi ‘sticker pack’ art featuring famous Kaze quotes; is also tracking Kaze’s memorable lines.",
+        "quote": null
       },
       {
-        "summary": "Provides Yoshi sticker art and keeps a log of memorable Kaze quotes for merchandise.",
-        "quote": "Every time you say dumb shit, Biobak has us covered"
+        "summary": "Half-jokingly quoted ‘$5 per vertex’ payment rate; later mentioned ‘starving’, prompting pay discussion.",
+        "quote": null
       }
     ],
     "badub": [],
     "zeina": [
       {
-        "summary": "Joined voice chat; brainstormed a Yoshi sticker pack and suggested using Kaze catch-phrases (‘I hate video games’).",
+        "summary": "Joined voice chat, brainstormed Yoshi sticker concepts and joked about ‘happy happy cat’ meme; provided informal feedback on star-select aesthetics.",
         "quote": null
-      },
-      {
-        "summary": "Mentions social-media fatigue (Instagram feed now dominated by cat memes).",
-        "quote": "My Instagram algorithm is ruined thanks to cats"
       }
     ]
   },
   "key_stories": [
     {
-      "title": "Audio-Space Breakthrough",
-      "summary": "ROM size was tight due to streamed music. Arctic discovered unused tail data after loop points and trimmed it, freeing 1.7 MB.",
-      "challenge": "Limited ROM space restricted how many high-quality streamed tracks could fit.",
-      "process": "Arctic inspected STRM files with his custom tool and cut everything past the loop marker.",
-      "outcome": "Extra memory headroom; team can now include more streamed music.",
-      "key_quote": "That saves a few megabytes here and there, which means we are allowed to have more streamed music than we thought.",
-      "related_to": ["kaze", "arctic"]
+      "title": "Minecart Star-Select Challenge",
+      "summary": "Biobak provided a huge minecart model meant to roll behind the menu. Kaze discovered the model exceeded N64’s ±33 k coordinate range, causing potential hardware crashes.",
+      "challenge": "Keep the cinematic minecart idea without exceeding hardware depth limits or tanking FPS.",
+      "process": "Rescaled background by 50 %, repositioned camera, rewrote animation to follow a spline in C, added fog plane, optimised textures and wheel scroll.",
+      "outcome": "Stable 60 FPS star-select screen with scrolling wheels and subtle tilt; further polish (leaves, extra birds) deferred to next stream.",
+      "key_quote": "There’s a very tempting force to just add more and more shit until it’s a cluster-fuck; it kinda ruins the elegance.",
+      "related_to": [
+        "kaze",
+        "biobak"
+      ]
     },
     {
-      "title": "Mine-Cart Menu Crash",
-      "summary": "Initial mine-cart star-select prototype exceeded the N64’s coordinate range, causing potential hardware crashes. Kaze re-scaled and fog-masked the scene.",
-      "challenge": "The track was ~30 000+ units away, beyond hardware limits.",
-      "process": "Shrunk geometry, pulled camera back, inserted fog and a grey plane, recalculated spline math.",
-      "outcome": "Stable menu that still retains the cinematic mine-cart effect.",
-      "key_quote": "If you render any object out of this range your N64 is just gonna crash.",
-      "related_to": ["kaze", "biobak"]
+      "title": "ROM Space Breakthrough",
+      "summary": "Arctic noticed many streamed songs contained unused data after loop points.",
+      "challenge": "Running out of ROM space limited how many high-quality tracks could ship.",
+      "process": "Used STRM64 to trim tails, saving 1.7 MB.",
+      "outcome": "Green-light to include more streamed music; Kaze praises Arctic’s discovery.",
+      "key_quote": "There were a few songs that kept going after the loop… we didn’t need that at all.",
+      "related_to": [
+        "kaze"
+      ]
     },
     {
-      "title": "Paying the Artist",
-      "summary": "Kaze realises Biobak’s workload deserves compensation but revenue is low.",
-      "challenge": "No formal budget for art despite extensive contributions.",
-      "process": "Kaze raises the topic on stream; promises to discuss payment privately.",
-      "outcome": "Open issue; compensation model still undecided.",
-      "key_quote": "We can talk about pay after the stream… you should be compensated somewhat.",
-      "related_to": ["kaze", "biobak"]
+      "title": "Payment Conversation",
+      "summary": "Biobak jokes about ‘$5 per vertex’ and ‘starving’.",
+      "challenge": "Artwork workload increasing while project generates little income.",
+      "process": "Kaze admits limited funds but offers to discuss compensation post-stream.",
+      "outcome": "No agreement yet; illustrates indie-hack financial strain.",
+      "key_quote": "I definitely can’t pay you like a real job, but you should be compensated somewhat.",
+      "related_to": [
+        "kaze",
+        "biobak"
+      ]
     }
   ],
   "open_questions": [
     {
-      "topic": "Contributor Compensation",
-      "context": "Kaze admits YouTube/Patreon income is tiny but wants to pay Biobak ‘somewhat’.",
+      "topic": "Compensation & Budget",
+      "context": "Kaze’s revenue is minimal; Biobak hinted at needing payment.",
       "questions": [
-        "Have you set a formal budget or revenue-sharing plan?",
-        "What tasks are considered paid vs voluntary?",
-        "How will payments scale if the game earns money post-release?"
+        "Have you formalised any payment structure for contributors?",
+        "How do you prioritise spending (music licensing, art, hardware)?",
+        "Would you consider crowdfunding or revenue-share at release?"
       ],
-      "related_to": ["kaze", "biobak"],
+      "related_to": [
+        "kaze",
+        "biobak"
+      ],
       "priority": "high"
     },
     {
-      "topic": "Lighting Strategy",
-      "context": "Glowing crystals and lantern ideas were postponed due to lighting conflicts and performance.",
+      "topic": "STRM64 Tool Details",
+      "context": "Arctic saved 1.7 MB by trimming song tails.",
       "questions": [
-        "Will RTYI use true point lights, fake vertex lights, or a hybrid?",
-        "What is the plan to keep performance while achieving the desired look?"
+        "Exactly how does STRM64 detect and cut unused data?",
+        "Could similar optimisation apply to graphics or voice clips?",
+        "Will this change future audio workflow for Badub?"
       ],
-      "related_to": ["kaze", "biobak"],
+      "related_to": [
+        "kaze"
+      ],
       "priority": "medium"
     },
     {
-      "topic": "Katerinian Animation System",
-      "context": "Kaze said switching to this system will reduce coefficient loads.",
+      "topic": "Lighting & Crystal Cave",
+      "context": "Biobak suggested glowing crystals; Kaze fears lighting complications.",
       "questions": [
-        "What is ‘Katerinian’ animation in concrete terms?",
-        "How far along is implementation and what tools will animators use?"
+        "What technical limitations make dynamic lights problematic?",
+        "Could pre-baked vertex colours solve it?",
+        "Is the team using any global lighting pipeline across levels?"
       ],
-      "related_to": ["kaze", "zeina"],
+      "related_to": [
+        "kaze",
+        "biobak"
+      ],
       "priority": "medium"
     },
     {
-      "topic": "Streamed vs MIDI Music Balance",
-      "context": "Extra 1.7 MB freed up ROM; possibility of more streamed tracks.",
+      "topic": "Legal/Nintendo Risk",
+      "context": "No direct mention this stream.",
       "questions": [
-        "Which levels will now get streamed music?",
-        "How do you decide between streamed audio and MIDI?",
-        "Does this affect Badub’s composition workload?"
+        "Given the streamed music and Yoshi IP, how do you evaluate takedown risk?",
+        "Has Nintendo’s history with hacks influenced release strategy?"
       ],
-      "related_to": ["kaze", "badub"],
+      "related_to": [
+        "kaze"
+      ],
       "priority": "low"
     },
     {
-      "topic": "Final Design of Star-Select Screens",
-      "context": "Several placeholders remain (e.g. falling leaves, cart wheel speed, bird counts).",
+      "topic": "Parallel Launcher Debug Tools",
+      "context": "Kaze rejects these tools as ‘useless’.",
       "questions": [
-        "What criteria determine when a star-select screen is ‘final’?",
-        "How do you test on real hardware for performance?",
-        "Will additional elements (leaves, extra birds) be added?"
+        "What specific shortcomings make them unviable?",
+        "Would custom debugging benefit other team members?",
+        "Could community maintainers address his concerns?"
       ],
-      "related_to": ["kaze", "biobak"],
+      "related_to": [
+        "kaze"
+      ],
       "priority": "low"
     }
   ]

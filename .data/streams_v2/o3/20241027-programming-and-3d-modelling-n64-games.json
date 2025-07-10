@@ -1,167 +1,181 @@
 {
   "stream_context": {
-    "summary": "Kaze spends most of the stream debugging a crash in Course 15’s snowflake particle system, optimising memory/vertex allocation, and re-evaluating the level’s ‘styrofoam snow’ visual. He also prototypes new platform layouts (tilt bridges, zipper to a hidden hell area) and discusses broad performance work (overdraw cuts, anti-aliasing, mip-maps).",
-    "level": ["Course 15"]
+    "summary": "Debugging a crash in Course 15’s snowflake particle system, followed by performance-oriented level edits and a design pivot away from a styrofoam ground effect. Kaze alternates between low-level assembly debugging and broad art/level layout tweaks while chatting about emulation woes, release questions, and monetisation.",
+    "level": [
+      "Course 15"
+    ]
   },
   "development_findings": [
     {
-      "summary": "Course 15 is now the main blocker; a snowflake particle bug caused emulator crashes and revealed a missing ‘×4’ in vertex-buffer allocation that corrupted memory.",
-      "quote": "It’s like it’s missing the multiply by four here. Okay, so that mystery is solved."
+      "summary": "Course 15 is “getting close to completion,” but a crash tied to its snowflake particle effect blocks progress. The bug appears only on certain emulators; real N64 hardware runs fine.",
+      "quote": "It works on N64 as well… this is just a mess."
     },
     {
-      "summary": "Project 64 crashed when an inline function handled snow allocation; moving the code into a separate function prevented the crash, indicating an emulator quirk rather than game bug.",
-      "quote": "How does changing the function from an inline to not an inline make it work? This garbage emulator, man."
+      "summary": "Root cause investigation revealed a missing ×4 in the vertex-buffer size calculation, leading to memory corruption; fixing that stopped degenerate vertices but Project64 still crashed, implying an emulator quirk.",
+      "quote": "It’s like it’s missing the multiply by 4 here… that mystery is solved, but that wouldn’t have caused the crash though."
     },
     {
-      "summary": "Real N64 hardware and most emulators run fine; only Parallel Launcher and some PJ64 builds fail. Kaze considers officially recommending Project 64 1.6 or real hardware for release.",
+      "summary": "Inlining vs. non-inlining one function changes codegen enough to stop the Project64 crash, confirming an emulator-specific bug rather than bad game code.",
+      "quote": "How does changing the function from an inline to not an inline make it work? This garbage emulator man, I swear."
+    },
+    {
+      "summary": "While examining the bug, Kaze implemented an optimisation that pre-caches vertex comments, lowering CPU time to ~12 ms; RDP overdraw (≈40 ms) is now the main bottleneck.",
       "quote": null
     },
     {
-      "summary": "Styrofoam ‘normal-mapped’ snow both crashes and looks wrong; Kaze and Biobak decide to scrap it. New plan: snow becomes flat cardboard with stapled white paper edges; normal-map effect may stay only on grass.",
-      "quote": "Do we even want the normal map styrofoam? I don't think it does look good."
+      "summary": "Styrofoam normal-mapped ground causes visual issues and adds overdraw; decision made to scrap it in favour of flat cardboard with stapled paper, suggested by Biobak.",
+      "quote": "Do we even want the normal-map styrofoam? I don’t think it does [look good]… Replace styrofoam with cardboard and paper staple."
     },
     {
-      "summary": "Shell texturing is used but only on small actors due to heavy performance cost.",
-      "quote": "Shell texturing is extremely expensive… we’ve used it in some places, but only on small actors."
-    },
-    {
-      "summary": "Tilt-bridge platforms implemented; Kaze tunes speed and width for difficulty and tests with input latency.",
+      "summary": "Additional micro-design tasks completed: added zipper portal to “hell,” balanced two tilting bridges, placed a safety spring, and flagged missing assets (Peach doodle, Bowser noodle, two walls).",
       "quote": null
     },
     {
-      "summary": "‘Zipper to hell’ secret entrance positioned; additional spring platform added for accessibility.",
+      "summary": "Implemented googly-eye physics on cardboard Luigi; eye movement parameters (gravity, damping) exposed for polish.",
       "quote": null
     },
     {
-      "summary": "Planned geometry culling: cut holes under overhanging cardboard and give mountains their own material to reduce RDP time (currently ~40 ms).",
+      "summary": "Field-of-view system includes a 16:9 toggle that widens view while cropping sides; anti-aliasing toggle costs ~15 % performance.",
       "quote": null
     },
     {
-      "summary": "Anti-aliasing toggle gives ~3 fps gain (23→26); mip-maps added selectively but limit combiners.",
-      "quote": null
-    },
-    {
-      "summary": "ROM is targeted to fit exactly 64 MB; final build teased as the “first quadruple-A N64 game.”",
+      "summary": "Target ROM size is 64 MB; current build uses RGBA32 textures with optional mip-maps (only where the combiner can afford them).",
       "quote": null
     }
   ],
   "context_findings": [
     {
-      "summary": "Kaze is frustrated by power outages, stream view losses, and emulator instability.",
-      "quote": "I'm so pissed, you guys have no idea… whenever that happens, your view count just drops back to zero."
+      "summary": "Kaze’s main paid job is corporate programming; ROM-hack work is a monetised hobby relying on streams, videos, and ad revenue.",
+      "quote": "If it was up to me I just wouldn’t make videos at all, but then I can’t do my thing as a hobby that makes money."
     },
     {
-      "summary": "He refuses to give release dates; repeated questions irritate him.",
-      "quote": "It’s all RTYI and it’s getting close to completion. Please stop asking me for release dates. I will literally lose my mind."
+      "summary": "Power flickers and poor local infrastructure repeatedly disrupt streams, causing frustration about lost viewers.",
+      "quote": "I’m so pissed… Whenever that happens, your view count just drops back to zero."
     },
     {
-      "summary": "Main employment is external programming job; ROM-hack is hobby that requires monetised videos and streams.",
-      "quote": "It was up to me, I just wouldn't make videos at all, but then I can't do my thing as a hobby that makes money."
+      "summary": "Philosophy on performance vs. visuals: willing to cut side-pixels or fancy effects for +10 FPS; prefers bigger FOV over perfect widescreen.",
+      "quote": "I think I’m allowed to cut off a little bit on the side if it means you go from 20 FPS to 30 FPS."
     },
     {
-      "summary": "Explores Twitter ad-share and YouTube revenue; jokes about earning ‘50 cents’ per viral reply.",
+      "summary": "Marketing self-image: calls RTYI the “first quadruple-A N64 game.”",
+      "quote": "That’s going to be the marketing—first quadruple A N64 game ever."
+    },
+    {
+      "summary": "Tentative price point is $10–20; will do market research before deciding.",
       "quote": null
-    },
-    {
-      "summary": "Philosophy: prioritises hardware accuracy; would rather change recommended emulator than alter valid code.",
-      "quote": "What if we force people to stop using Parallel? What if we just say Parallel is too inaccurate – use Project 64 1.6 or real N64."
-    },
-    {
-      "summary": "Marketing line: intends to brand RTYI as “the first quadruple A N64 game ever.”",
-      "quote": null
-    },
-    {
-      "summary": "Legal awareness: would need to strip Mario IP for a commercial Steam release; acknowledges Nintendo risk.",
-      "quote": "If I were to release this game on Steam, obviously I would have to remove all the Mario assets though."
     }
   ],
   "contributor_findings": {
     "biobak": [
       {
-        "summary": "Proposed replacing styrofoam snow with cardboard sheets stapled with white paper edging; Kaze accepts and adds to task list.",
-        "quote": null
+        "summary": "Proposed replacing costly styrofoam normal-map ground with simpler cardboard + paper stapled surface and adding rim shading gradient; Kaze accepted.",
+        "quote": "I like the idea you posted… Replace styrofoam with cardboard and paper staple."
       },
       {
-        "summary": "Suggested bubble-wrap area where popping nine bubbles yields a Yoshi coin; Kaze adds to to-do.",
-        "quote": null
-      },
-      {
-        "summary": "Recommends trimming hidden geometry / adding darker rim around void to save RDP time; Kaze begins implementing.",
+        "summary": "Suggested bubble-wrap mini-puzzle (pop nine bubbles for Yoshi coin).",
         "quote": null
       }
     ],
     "badub": [],
     "zeina": [
       {
-        "summary": "A friend of Zeina installed the HDMI ‘N64 Digital’ mod in Kaze’s console; Zeina otherwise not involved this session.",
+        "summary": "A friend of Zeina installed the N64-Digital HDMI mod on Kaze’s console; Zeina otherwise not present in this stream.",
         "quote": null
       }
     ]
   },
   "key_stories": [
     {
-      "title": "The Snowflake Crash Mystery",
-      "summary": "Snow particle effects in Course 15 repeatedly crashed Project 64, halting progress.",
-      "challenge": "Unknown crashes during snow rendering made level unplayable in main dev emulator.",
-      "process": "Kaze inspected assembly, found vertex-buffer mis-allocation (missing ×4) and tried moving an inline function out to isolate emulator issues.",
-      "outcome": "Bug is fixed on real hardware; Project 64 works when function is non-inline; memory corruption resolved.",
-      "key_quote": "This garbage emulator man, I swear.",
-      "related_to": ["kaze"]
+      "title": "Snowflake Crash Saga",
+      "summary": "Particle snowflakes in Course 15 crash Project64 but not real hardware. Kaze traces vertex-buffer math, fixes a ×4 error, and discovers the emulator still crashes unless a function is non-inlined, revealing an emulator quirk.",
+      "challenge": "Unreliable crashes tied to snowflakes on some emulators.",
+      "process": "Debugged assembly, inspected memory, adjusted buffer maths, toggled inlining.",
+      "outcome": "Game stable on hardware; partial emulator workaround in place, long-term fix deferred.",
+      "key_quote": "It works on N64; this garbage emulator just hates my inline function.",
+      "related_to": [
+        "kaze"
+      ]
     },
     {
-      "title": "Styrofoam Snow Redesign",
-      "summary": "The stylish normal-mapped styrofoam snow caused visual issues and performance hits.",
-      "challenge": "Effect looked bad and sometimes crashed due to complex shaders and overdraw.",
-      "process": "Kaze debated merits, Biobak suggested replacing with simpler cardboard + stapled paper aesthetic.",
-      "outcome": "Decision made to scrap styrofoam effect, restrict normal-maps to grass, and implement new visual with performance savings.",
-      "key_quote": "Do we even want the styrofoam before I spent years on fixing the styrofoam?",
-      "related_to": ["kaze", "biobak"]
+      "title": "Styrofoam Ground Pivot",
+      "summary": "Original plan used a normal-mapped styrofoam surface for the craft world, but it looked off and caused performance issues. Biobak suggested a cardboard floor with stapled paper and smooth rim gradient.",
+      "challenge": "Unattractive visuals and RDP cost from styrofoam effect.",
+      "process": "On-stream discussion; tested grass-only normal-map; evaluated alternatives.",
+      "outcome": "Team will scrap styrofoam and implement cardboard/paper solution.",
+      "key_quote": "Do we even want the normal-map styrofoam? I don’t think it does.",
+      "related_to": [
+        "kaze",
+        "biobak"
+      ]
+    },
+    {
+      "title": "Balancing the Tilting Bridges",
+      "summary": "Two narrow, tilting paper bridges felt too hard. Kaze slowed their motion and tested them with latency, ensuring casual players can cross while skilled players can still shortcut.",
+      "challenge": "Platform felt unfairly difficult.",
+      "process": "Adjusted speed variables, live-tested, added optional spring safety.",
+      "outcome": "Final parameters ‘feel good’; both bridges marked finished.",
+      "key_quote": "That does feel good—I like it.",
+      "related_to": [
+        "kaze"
+      ]
     }
   ],
   "open_questions": [
     {
-      "topic": "Shell texturing guidelines",
-      "context": "Kaze says technique is ‘extremely expensive’ and used sparingly, but did not specify where or how.",
+      "topic": "Final ground treatment for craft sky area",
+      "context": "Three options debated: white void, ocean texture, or table surface. No decision reached, only agreement to remove styrofoam.",
       "questions": [
-        "Which specific objects currently use shell texturing?",
-        "What criteria determine when it’s worth the performance cost?",
-        "Any plans to optimise or replace these spots?"
+        "Have you chosen the definitive background treatment?",
+        "What visual cues will tell players falling is lethal?",
+        "How will this choice affect performance budgets?"
       ],
-      "related_to": ["kaze"],
-      "priority": "medium"
-    },
-    {
-      "topic": "Final release platforms & legality",
-      "context": "Kaze mentions possibly releasing on Steam without Mario assets but gives no concrete plan.",
-      "questions": [
-        "What is the current release strategy (ROM only, PC port, both)?",
-        "Has the team begun asset replacement to avoid Nintendo IP?",
-        "How will emulator compatibility be handled at launch?"
+      "related_to": [
+        "kaze",
+        "biobak"
       ],
-      "related_to": ["kaze"],
       "priority": "high"
     },
     {
-      "topic": "Audio & SFX capacity",
-      "context": "Kaze notes that unique zipper sounds may require ‘unused sound effects’, unsure if any are left.",
+      "topic": "Emulator compatibility strategy",
+      "context": "Project64 and Parallel have issues; Kaze floated forcing players onto specific versions.",
       "questions": [
-        "What is the current sound-bank memory budget?",
-        "How many new effects are still feasible?",
-        "Can Badub confirm availability or propose compression strategies?"
+        "Will you ship a recommended emulator bundle?",
+        "Any plan to patch Parallel or upstream fixes?",
+        "How will you message this to less tech-savvy users?"
       ],
-      "related_to": ["badub", "kaze"],
-      "priority": "low"
+      "related_to": [
+        "kaze"
+      ],
+      "priority": "medium"
     },
     {
-      "topic": "Peach & Bowser doodle assets",
-      "context": "Kaze lists missing ‘peach doodle’ and ‘bowser doodle that shoots flame’ but no follow-up.",
+      "topic": "Sound-effect budget",
+      "context": "Kaze unsure if any SFX slots remain for zipper/bridge/bubble-wrap ideas.",
       "questions": [
-        "What is the design brief for these doodles?",
-        "Who is responsible and what’s the timeline?",
-        "Are there technical constraints on the flame effect?"
+        "What is the remaining N64 sound-RAM budget?",
+        "Which new effects are highest priority?",
+        "Is external help needed for sound compression?"
       ],
-      "related_to": ["biobak", "zeina"],
+      "related_to": [
+        "badub",
+        "kaze"
+      ],
       "priority": "medium"
+    },
+    {
+      "topic": "Release & legal path",
+      "context": "Talk of Steam release minus Mario assets; price point undecided.",
+      "questions": [
+        "Is a Steam ‘de-Nintendo-fied’ version realistically on the roadmap?",
+        "How will you handle re-branding characters and art?",
+        "What’s the internal deadline philosophy if Nintendo C&D arrives?"
+      ],
+      "related_to": [
+        "kaze",
+        "biobak",
+        "zeina"
+      ],
+      "priority": "low"
     }
   ]
 }

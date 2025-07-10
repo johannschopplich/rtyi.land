@@ -1,57 +1,68 @@
 {
   "stream_context": {
-    "summary": "Kaze and guest developer Sauraen spend the session profiling and live-editing the new F3DEX3 microcode, trying to understand why it slows Return to Yoshi’s Island instead of accelerating it. After extensive A/B tests, new performance counters, and code edits, they narrow the mystery to an unexplained 8-9 ms of extra RSP time. The technical deep-dive happens while Kaze polishes “Calamari Desert,” a Mario Kart inspired retro course.",
-    "level": ["Engine/Microcode", "Course 12 (Calamari Desert retro stage)"]
+    "summary": "Kaze spends the session live-debugging F3DEX3 microcode with Sauraen to understand why the new build is 20 % slower than F3DEX2 in Return to Yoshi’s Island; they profile RSP vs. RDP time, disable lighting, add custom performance counters and test on real N64 hardware while also touching up the new Calamari Desert ‘retro pipe’ (Course 12).",
+    "level": [
+      "Course 12 (Calamari Desert retro pipe)",
+      "Tooling/engine code"
+    ]
   },
   "development_findings": [
     {
-      "summary": "F3DEX3 was designed to add advanced graphics and cut RDP time, but in RTYI it raises RSP time, negating gains. Baseline tests show F3DEX2 ≈ 21.7 ms, old EX3 ≈ 25.5 ms, new EX3 ≈ 27 ms on RSP.",
-      "quote": "Increase features… and reduce RDP time… The cost is that our SP time goes up."
+      "summary": "Primary goals of F3DEX3 are (1) new graphic features (cel-shading, occlusion plane, octahedral normals, point lights) and (2) lower RDP time; trade-off is higher RSP load.",
+      "quote": "With F3 to EX3, there were two goals: increase features… and reduce RDP time, and I think I was relatively successful at those two. The cost is that our SP time goes up."
     },
     {
-      "summary": "Kaze’s levels are almost entirely vertex-coloured; only moving actors use up to seven directional lights and no point lights to maintain emulator compatibility.",
-      "quote": "No, absolutely not, because I want to make sure it runs fine on emulators."
+      "summary": "Return to Yoshi’s Island levels are vertex-coloured; only actors use up to seven directional lights computed on CPU; Kaze avoids point lights to stay emulator-friendly.",
+      "quote": "I want to make sure it runs fine on emulators, so I stick to just my F3DEX2 lighting… Some levels have up to like seven light sources active at the same time because there’s stuff in the environment and I make it a directional light that I compute at runtime."
     },
     {
-      "summary": "Lighting was disabled in microcode (one line commented) and saved just ~2 ms, proving lighting isn’t the main bottleneck; majority of vertices (≈ 4 300 of 6 600) are unlit.",
+      "summary": "Old (2022) F3DEX3 build is ~0.2 ms faster than F3DEX2, but current F3DEX3 is ~20 % slower (27 ms vs 22 ms); slowdown is unexpected.",
       "quote": null
     },
     {
-      "summary": "Occlusion-plane math is executed for every vertex even though RTYI doesn’t use the feature; Sauraen plans to remove or gate this code to test impact.",
+      "summary": "Disabling all lighting cut only ~2 ms, proving lighting isn’t the main bottleneck.",
+      "quote": "That definitely looks like we have no lighting—already saved two milliseconds… so that doesn’t explain it."
+    },
+    {
+      "summary": "Occlusion-plane maths runs for every vertex even when unused; they considered commenting it out but first attempt broke rendering.",
       "quote": null
     },
     {
-      "summary": "Custom counters added show ~10 ms on vertex processing and ~8 ms on triangle setup, yet total RSP task is ~27 ms. About 8-9 ms remain unaccounted, implying another hidden cost or wait state.",
-      "quote": "That should make 18 ms, but we’re seeing 27 ms. Something else is taking a ton of time."
-    },
-    {
-      "summary": "Command counter reveals ~8 000 display-list commands for the test scene—comparable to OOT—so command flood is ruled out.",
+      "summary": "Added new microcode performance counters to time vertex and triangle processing separately; results: ~10 ms vertices, ~8 ms triangles, yet total RSP time is 27 ms—leaving ~9 ms unexplained.",
       "quote": null
     },
     {
-      "summary": "Sauraen considers a hybrid ‘F3DEX 2.5’ (EX3 features but EX2 vertex path) tailored to RTYI’s limited lighting needs.",
-      "quote": "I may need to make F3DEX 2.5 for Kaze… a mish-mash to suit your needs."
+      "summary": "Extra RDP efficiency: RDP works >50 % of the time (better than OOT’s ~33 %), confirming memory-bound scenes are improved.",
+      "quote": null
+    },
+    {
+      "summary": "Kaze builds and tests on Everdrive X5 and Project64 1.6 for speed of iteration; Sauraen recommends SummerCart 64 for faster USB upload.",
+      "quote": null
+    },
+    {
+      "summary": "Level design: Calamari Desert retro pipe will be a 40–45 s race with a moving train, cacti obstacles, baked vertex lighting and directional firelight; Kaze uses shear-matrix animated fire.",
+      "quote": null
     }
   ],
   "context_findings": [
     {
-      "summary": "Kaze prioritises fast iteration: still uses Project64 1.6 and Everdrive X5 despite security warnings, because other tools are slower.",
-      "quote": "I have no reason to get Parallel… Project64 is just so convenient to use."
-    },
-    {
-      "summary": "Design view: gameplay should stay Mario-centric; he rejects a drivable kart in the retro level to avoid gimmicks.",
+      "summary": "Kaze values keeping core Mario movement central—rejects drivable karts to avoid diluting gameplay.",
       "quote": "We want the fun to be for Mario’s movement and not just random things like that."
     },
     {
-      "summary": "He avoids point lights and some new EX3 options to keep the hack performant on real N64 and emulators.",
+      "summary": "Emulator compatibility heavily influences technical choices (no point lights, sticks to Project64 for quick testing despite malware concerns).",
       "quote": null
     },
     {
-      "summary": "Acknowledges widespread resale of ROM-hack repro carts; uneasy but accepts it as part of the scene.",
-      "quote": "It was bizarre seeing Missing Link sold for $50… none of that money is going to Nintendo or us."
+      "summary": "Shows mild frustration and humour about tooling: OBS crashes, Git hassles, ‘coding too fast’ breaking rendering.",
+      "quote": null
     },
     {
-      "summary": "Streaming set-up is fragile (OBS crashes if he touches settings), confirming limited bandwidth for polish during dev streams.",
+      "summary": "Mentions past collaboration delays (Bowser magician animations) as reason to avoid uncertain partnerships.",
+      "quote": null
+    },
+    {
+      "summary": "Acknowledges repro-cart sellers profiting from fan work; accepts some tolerance as part of the scene.",
       "quote": null
     }
   ],
@@ -60,73 +71,113 @@
     "badub": [],
     "zeina": [
       {
-        "summary": "Zeina briefly appears in chat and subscribes; no development details this stream.",
+        "summary": "Zeina appeared briefly in chat, subscribing; no project details given.",
         "quote": null
       }
     ]
   },
   "key_stories": [
     {
-      "title": "The Missing Milliseconds",
-      "summary": "Kaze and Sauraen expected EX3 to speed RTYI up by 5–15 %, but real hardware tests show it slower than EX2. They embark on a live coding session to uncover why.",
-      "challenge": "EX3’s RSP time is ~27 ms vs EX2’s 21 ms, eliminating the anticipated performance win.",
-      "process": "They profile old/new EX3, strip out lighting, add custom cycle counters, and compare vertex/triangle timings, discovering an unexplained 8–9 ms gap.",
-      "outcome": "Root cause still unknown; Sauraen will create deeper profiling tools and may craft a hybrid EX 2.5 microcode.",
-      "key_quote": "This should be 18 ms, but it’s 27 ms—something else is going on.",
-      "related_to": ["kaze", "sauraen"]
+      "title": "F3DEX3 Slowdown Mystery",
+      "summary": "An upgraded microcode intended to speed up RTYI instead runs 20 % slower. Kaze and Sauraen live-profile the build, disable lighting, add timers, and still find an unexplained 9 ms gap between measured vertex/triangle work and total RSP time.",
+      "challenge": "Current F3DEX3 build is significantly slower than both F3DEX2 and an older EX3 version.",
+      "process": "Test with older EX3, compare to EX2, comment out lighting branch, attempt to strip occlusion code, add custom perf counters.",
+      "outcome": "Identified that vertex+triangle work only accounts for 18 ms of 27 ms total; unknown overhead will be investigated offline.",
+      "key_quote": "These are ten milliseconds for vertices, eight milliseconds for triangles, and twenty-seven overall—something else is taking a ton of time.",
+      "related_to": [
+        "kaze",
+        "sauraen"
+      ]
     },
     {
-      "title": "Lighting vs. Compatibility",
-      "summary": "RTYI deliberately forgoes point lights to guarantee emulator parity, pushing visual flair into vertex colours instead.",
-      "challenge": "Advanced EX3 lighting features risk inconsistent performance across emulators.",
-      "process": "Kaze limits scenes to vertex colours and up to seven directional lights computed on CPU.",
-      "outcome": "Simpler lighting guides microcode decisions and may justify a leaner EX 2.5.",
-      "key_quote": "I stick to just directional lights because I want to make sure it runs fine on emulators.",
-      "related_to": ["kaze"]
+      "title": "Lighting Philosophy Pivot",
+      "summary": "Although F3DEX3 supports fancy point lights, Kaze rejects them. Instead he pre-bakes vertex colours for worlds and uses simple CPU-driven directional lights for actors to guarantee emulator performance.",
+      "challenge": "Need appealing lighting that still runs on emulators and real hardware.",
+      "process": "Assess point-light cost and compatibility; decide to fake lights via vertex colours and directional light vectors.",
+      "outcome": "Microcode’s point-light advantages unused; simplifies art workflow and keeps frame-rate stable.",
+      "key_quote": "No, absolutely not because I want to make sure it runs fine on emulators, so I stick to just my F3DEX2 lighting.",
+      "related_to": [
+        "kaze"
+      ]
+    },
+    {
+      "title": "Calamari Desert Retro Pipe",
+      "summary": "Kaze builds a Mario Kart-inspired bonus stage with a train obstacle, start/finish line and 45-second timer while live-tweaking materials and vertex-coloured lighting.",
+      "challenge": "Recreate nostalgic track within RTYI’s mechanics and performance limits.",
+      "process": "Model terrain, add shear-matrix animated fire, plan cacti obstacles and moving train, adjust textures and render layers.",
+      "outcome": "Level geometry and lighting largely finished; train scripting and timer still pending.",
+      "key_quote": "I think this area is basically done; we still got to add the train driving in a circle and add the timer.",
+      "related_to": [
+        "kaze"
+      ]
     }
   ],
   "open_questions": [
     {
-      "topic": "Unexplained RSP Overhead",
-      "context": "Vertex (~10 ms) + triangle (~8 ms) time doesn’t explain the 27 ms total; extra 8–9 ms remain unidentified.",
+      "topic": "Unexplained 9 ms RSP overhead",
+      "context": "Vertex+triangle processing measured at ~18 ms but total RSP time is 27 ms in F3DEX3.",
       "questions": [
-        "What exact microcode routines execute during the missing 8–9 ms?",
-        "Could overlay swaps or occlusion-plane code be stalling SP?",
-        "Does memory bandwidth or DMA contention throttle EX3 uniquely in RTYI?"
+        "What routines run during the missing 9 ms?",
+        "Could overlay-swap, small GBI commands or cache stalls be measured separately?",
+        "Will a hybrid ‘EX2.5’ microcode fix this?"
       ],
-      "related_to": ["sauraen", "kaze"],
+      "related_to": [
+        "sauraen",
+        "kaze"
+      ],
       "priority": "high"
     },
     {
-      "topic": "Hybrid Microcode Plan",
-      "context": "Sauraen floated ‘F3DEX 2.5’ mixing EX2 vertex path with EX3 features.",
+      "topic": "Future of F3DEX ‘EX2.5’",
+      "context": "Sauraen proposes a custom build combining EX3 features with EX2’s faster vertex path for RTYI.",
       "questions": [
-        "What would the roadmap and effort be for a custom EX 2.5?",
-        "Which EX3 features (occlusion plane, cell shading) are non-negotiable for RTYI?",
-        "How will testing and maintenance be handled post-release?"
+        "Is Sauraen actively developing this variant?",
+        "Which EX3 features would be kept or dropped?",
+        "Timeline for integrating into RTYI build?"
       ],
-      "related_to": ["sauraen", "kaze"],
+      "related_to": [
+        "sauraen"
+      ],
       "priority": "medium"
     },
     {
-      "topic": "Occlusion-Plane Utility",
-      "context": "RTYI currently pays compute cost for an occlusion feature it doesn’t use.",
+      "topic": "GBI Lighting Fix",
+      "context": "New GBI broke Mario’s vertex colours; Kaze needs to update lighting calls.",
       "questions": [
-        "Will you disable or repurpose occlusion planes in final build?",
-        "Could conditional compilation or runtime flags eliminate unused code?",
-        "Is there a future design reason to keep occlusion planes despite current cost?"
+        "What specific GBI changes are required?",
+        "Who will handle migration across all models?",
+        "Any performance impact after fix?"
       ],
-      "related_to": ["kaze", "sauraen"],
+      "related_to": [
+        "kaze"
+      ],
       "priority": "medium"
     },
     {
-      "topic": "Hardware Workflow",
-      "context": "Kaze still swaps SD cards manually; Sauraen suggests USB-based SummerCart64.",
+      "topic": "Train Obstacle Implementation",
+      "context": "Calamari Desert level needs a looping train affecting race timing.",
       "questions": [
-        "Will Kaze adopt SummerCart64 to speed iteration?",
-        "What blockers prevent switching tools (driver issues, cost)?"
+        "How will the train’s path and collision be scripted?",
+        "Will it influence speedrun routes?",
+        "Any memory/performance constraints?"
       ],
-      "related_to": ["kaze"],
+      "related_to": [
+        "kaze"
+      ],
+      "priority": "low"
+    },
+    {
+      "topic": "Contributor Workflows & Tooling",
+      "context": "Kaze still uses Project64 and EverDrive; Sauraen suggests SummerCart64 for faster iteration.",
+      "questions": [
+        "Will the team standardise on faster hardware upload?",
+        "Could automated build-deploy scripts save time?",
+        "Impact on multi-member collaboration?"
+      ],
+      "related_to": [
+        "kaze",
+        "sauraen"
+      ],
       "priority": "low"
     }
   ]

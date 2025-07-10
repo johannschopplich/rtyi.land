@@ -1,178 +1,223 @@
 {
   "stream_context": {
-    "summary": "Kaze focused almost the entire stream on prototyping the new Bowser flagship boss fight: getting Bowser to walk, step up slopes, be grabbed by the tail, be thrown off the ship, return, and increase speed each cycle.  Along the way he fixed a Resnor lighting/rig issue, imported Biobak’s new tutorial-bunny model, and tested pop-in, collision and performance optimisations.",
+    "summary": "Kaze codes and debugs the new Bowser boss fight that takes place on flying Yoshi-balloon ships, fixes a Resnor lighting bug, and discusses recent engine optimisations, asset updates, ROM size and release strategy while streaming from his new home platform, YouTube.",
     "level": [
-      "Bowser airship boss fight / flagship",
-      "general engine & optimisation work"
+      "Bowser boss arena (late-game ship fight)",
+      "Course 6 – Resnor area (briefly)"
     ]
   },
   "development_findings": [
     {
-      "summary": "Bowser boss fight core loop defined: Bowser slowly walks toward Mario, can be grabbed by the tail, spun and thrown off the airship; after each throw he jumps (or is pulled by a Lakitu) back to his castle and the cycle speeds up.",
-      "quote": "The idea here is gonna be that you have to grab Bowser's tail and throw him off the ship … the first time has to be very easy and then it has to get faster and faster."
+      "summary": "First implementation pass of the Bowser boss: Bowser now walks toward Mario, can step up slopes, has a provisional tail-grab hitbox, can be spun and thrown off the ship, then will eventually jump / be lifted back for the next phase which will speed up each cycle.",
+      "quote": "\"The idea here is gonna be that you have to grab Bowser's tail and throw him off the ship and he's gonna jump back to his castle. The first time has to be very easy and then it has to get faster and faster.\""
     },
     {
-      "summary": "Implemented Bowser walk cycle placeholder, slope step-up logic (20→50 units) and run-cycle speed scaling with damage; still needs proper animation and a Lakitu return sequence.",
+      "summary": "Bowser walk cycle and step-up: Kaze set 20-unit step height but decided to slope the deck so Bowser can climb without custom physics.",
       "quote": null
     },
     {
-      "summary": "Fixed a long-standing collision optimisation: kept surface sorting but culls floors that are too high, allowing the engine to iterate only 0x10 bytes per surface and halve D-cache loads; uses imaginary-number GCC trick for faster sin/cos.",
-      "quote": "Since we need to fix floor clacking … what if we keep the sorting priority and kill all the floors that are too high, then we only load the upper Y and lower Y; that’s very good."
-    },
-    {
-      "summary": "Daily micro-optimisations continue; Kaze postpones a standalone SM64 build until RTYI is complete to avoid duplicating work.",
-      "quote": "It makes no sense to try and make a Mario 64 version now and then have to apply all the optimisations I find to two things at once."
-    },
-    {
-      "summary": "ROM currently 44.6 MB, of which 32.1 MB is streamed music; streamed tracks sound better but dominate size budget under 64 MB limit.",
+      "summary": "Turning speed scales with damage; Bowser should lose speed quickly when leaving the running state.",
       "quote": null
     },
     {
-      "summary": "Pop-in on background airships mitigated by scaling-in objects, negative scaling with front-face culling, and optional stylised ‘rise from ground’ effect for distant actors.",
+      "summary": "Resnor update: lighting looked wrong because of outdated unshaded faces and 30 FPS interpolation bug; Kaze rewired held-object rendering and removed delta-curr-rot misuse.",
+      "quote": "\"I can’t stand its unshaded face… With all the refactors you have to expect stuff to break.\""
+    },
+    {
+      "summary": "New Bowser model: higher-res textures, new rig, ~70 fewer triangles, two-cycle shading; darker look still tweaked.",
       "quote": null
     },
     {
-      "summary": "Resnor mini-boss overhauled: new rig, higher-res textures, world shading; fixed 30 FPS animation bug caused by DeltaCurrentRot misuse.",
+      "summary": "Daily engine optimisations continue; latest fix eliminates ‘floor cocking’ by culling too-high floors and using only upper/lower Y, paired with correct sine/cos via imaginary numbers.",
+      "quote": "\"Since we need to fix floor clacking, we kill all the floors that are too high and only load 0x10 bytes of each floor – it’s very good.\""
+    },
+    {
+      "summary": "Movement improvements: long-jump can now be chained out of land, triple-jump land can re-jump, aerial kicks adjusted – made for speedrunning.",
       "quote": null
     },
     {
-      "summary": "Imported Biobak’s new tutorial-bunny sign models; initial matrix issue (signs bounced each frame) traced to improper interpolation call and corrected.",
+      "summary": "ROM weight check: build is 44.6 MB; 32.1 MB are streamed music; 64 MB N64 ceiling noted.",
       "quote": null
     },
     {
-      "summary": "New Mario movement refinements (long-jump chaining, triple-jump land cancel, aerial kicks) demonstrated; requires a forthcoming “new animation format” Zeina is building.",
+      "summary": "Stylised pop-in: distant animated actors rise from below ground; ships now use scale-in spawn plus negative scale + front-face culling to halve geometry.",
+      "quote": null
+    },
+    {
+      "summary": "Open-sourcing will be delayed ‘a couple months’ after release to reduce Nintendo takedown risk and hide Easter eggs.",
       "quote": null
     }
   ],
   "context_findings": [
     {
-      "summary": "Kaze moved streaming permanently to YouTube after polls showed strong preference and because YouTube’s 70/30 revenue split beats Twitch’s 50/50 and eliminates intrusive ads.",
-      "quote": "If you donate on Twitch, Jeff Bezos gets 50 % of that money … YouTube is 70-30, that’s another good reason to switch."
+      "summary": "Kaze officially abandons Twitch for YouTube after polls; cites ad fatigue and better 70-30 revenue split.",
+      "quote": "\"Twitch actually only gives you a 50-50 cut… people prefer YouTube so we are permanently on YouTube now.\""
     },
     {
-      "summary": "Design philosophy: minimise player options; believes too many settings reduce satisfaction and fragment the experience.",
-      "quote": "Options are bad.  You don't want to give your players too much choice."
+      "summary": "Belief that fewer player options improve experience; cites psychological study on choice overload; therefore minimal settings planned (e.g., no music picker, color-blind mode only if trivial).",
+      "quote": "\"I hate options. Games should give you as few options as possible.\""
     },
     {
-      "summary": "Programming background: began on a calculator at age 12, claims 15 years experience and a ‘born ability’ for coding.",
-      "quote": "I literally was just born with the ability to code … coding skill and coding knowledge are two very different things."
-    },
-    {
-      "summary": "Currently has a paid Unreal Engine day job; RTYI is part-time alongside Patreon/YouTube income; saving toward a house.",
+      "summary": "Started coding on a calculator at 12; 15 years experience; claims coding skill felt innate.",
       "quote": null
     },
     {
-      "summary": "Personal life glimpses: German living in Canada; parents mailed favourite German cereal and chocolate; values work–life-stream balance.",
+      "summary": "Works part-time as a professional Unreal Engine developer (since ~6 months); RTYI is now spare-time project.",
       "quote": null
     },
     {
-      "summary": "Strong opinions on industry code quality: ‘good code’ often sacrificed so average programmers can contribute in commercial studios.",
-      "quote": "Bad programmers are not gonna be able to work with good code, so the industry discourages writing good code."
+      "summary": "Income mix: Patreon is largest, YouTube ads/memberships secondary; sees project as hobby that also funds future house.",
+      "quote": null
     },
     {
-      "summary": "Openly dismisses adding extensive accessibility modes (e.g., blind support) given platform constraints.",
-      "quote": "If you're blind, you shouldn't be playing Mario 64, a platformer game."
+      "summary": "German living in Canada; parents send German chocolate & cereal; collects plushies; spouse Zeina appears on stream bringing snacks.",
+      "quote": null
+    },
+    {
+      "summary": "Philosophy on industry: production code quality kept mediocre so ‘bad programmers’ can work on it; dislikes trend.",
+      "quote": null
+    },
+    {
+      "summary": "Emotional stance: will openly call out disruptive chatters because personal enjoyment is vital for a good stream.",
+      "quote": null
     }
   ],
   "contributor_findings": {
     "biobak": [
       {
-        "summary": "Delivered new tutorial-bunny model using dual 48×48 textures plus 80×84 sheet; Kaze imported and debugged it.",
+        "summary": "Delivered new tutorial bunny sign models (two 48×48 + one 80×84 texture); Kaze integrated and debugged vertical translation issue.",
+        "quote": null
+      },
+      {
+        "summary": "Suggested darker spikes and lighting tweaks on Bowser ship assets.",
         "quote": null
       }
     ],
     "badub": [],
     "zeina": [
       {
-        "summary": "Primary animator; produced updated Bowser model with new rig, textures, and ~70 fewer triangles; will build the new universal animation format.",
-        "quote": "Yes, I have a YouTube channel.  You'll see Bowser's showcase next."
+        "summary": "Primary animator; currently producing Bowser walk, held-tail and hit animations; posts monthly compilations on her own YouTube.",
+        "quote": null
+      },
+      {
+        "summary": "Modeled and re-rigged the new Bowser model with higher-res textures alongside Kaze.",
+        "quote": null
+      },
+      {
+        "summary": "Developing a new animation format for Mario; Kaze notes it will ‘break a lot of stuff’ but is worth it long-term.",
+        "quote": null
+      },
+      {
+        "summary": "Personal dynamic: appears on stream, brings snacks, corrects Kaze (‘I’m your wife, not sister-in-law’); supportive collaboration.",
+        "quote": null
       }
     ]
   },
   "key_stories": [
     {
-      "title": "Bowser Boss Fight Prototype",
-      "summary": "Kaze spent the stream turning a ‘Roomba’ placeholder into a functional boss: walk cycle, slope climbing, tail-grab hitbox, throw physics, dust effects and speed scaling.",
-      "challenge": "Bowser previously floated aimlessly and couldn’t navigate ramps or be grabbed.",
-      "process": "Added step-up physics, tail hitbox, release logic, debugged rotation & translation bugs, and planned Lakitu return animation.",
-      "outcome": "First full loop playable (though animations placeholder); fight feels promising and sets direction for final polish.",
-      "key_quote": "The idea is you grab Bowser's tail, throw him off the ship, and each phase gets faster.",
-      "related_to": ["kaze", "zeina"]
+      "title": "The Floor-Cocking Optimisation",
+      "summary": "Kaze discovered Mario 64’s floor-finding function stopped after one surface, causing floors to hide each other. He re-enabled height-based sorting, discarded overly-high floors and trimmed surface data to 0x10 bytes, paired with an accurate sine/cos routine.",
+      "challenge": "Incorrect collisions and cache misses from original engine bug.",
+      "process": "Analyzed add_surface and find_floor_from_list; experimented with sorting and data stripping; used GCC imaginary numbers trick for math.",
+      "outcome": "More accurate physics and measurable speed gain; another daily optimisation found.",
+      "key_quote": "We kill all the floors that are too high and only load the upper and lower Y – that’s very good.",
+      "related_to": [
+        "kaze"
+      ]
     },
     {
-      "title": "Surface-sorting Optimisation Breakthrough",
-      "summary": "Kaze realised he could restore Mario 64’s original surface-priority sort, then cull unseen floors, cutting cache misses.",
-      "challenge": "Mario 64’s hacky sort caused ‘floor cocking’; Kaze’s earlier fix removed sorting but slowed look-ups.",
-      "process": "Re-enabled sorting, killed too-high floors, packed struct to 0x10 bytes, used imaginary-number GCC trick.",
-      "outcome": "Faster collision lookup and the ‘most correct sine & cosine function’ implemented.",
-      "key_quote": "We only load the upper Y and lower Y; we prevent loading the rest, which is very good.",
-      "related_to": ["kaze"]
+      "title": "Resnor’s Lighting Meltdown",
+      "summary": "While showing the Bowser level, Kaze noticed Resnor models jittering and appearing unlit. The bug stemmed from using a spawn helper that offset objects every frame after interpolation changes.",
+      "challenge": "Resnor flickered, animated at 30 FPS and had unshaded faces after recent refactors.",
+      "process": "Traced to geo_held_object call; removed errant code, added world shading and two-cycle render mode, rebuilt model.",
+      "outcome": "Resnor now renders correctly and at 60 FPS; Kaze vows more lighting passes.",
+      "key_quote": "If you refactor a lot of code you have to expect stuff to break – it doesn’t take long to fix.",
+      "related_to": [
+        "kaze",
+        "zeina"
+      ]
     },
     {
-      "title": "Tutorial Bunny Model Bug",
-      "summary": "Biobak’s new sign model bounced wildly in-game.",
-      "challenge": "Matrix offset caused signs to hop every frame.",
-      "process": "Traced to spawned objects’ interpolated position not being set when using a supposedly safe helper; refactored spawn logic.",
-      "outcome": "Signs now render correctly and await animation pass.",
-      "key_quote": "It was using this function, which I thought was safe— it wasn’t.",
-      "related_to": ["kaze", "biobak"]
+      "title": "From Twitch to YouTube",
+      "summary": "Kaze ran polls and confirmed most of his audience prefers YouTube streams. Combined with Twitch’s 50-50 revenue split and heavy ads, he switched platforms permanently.",
+      "challenge": "Balancing audience reach, revenue and personal comfort while streaming development.",
+      "process": "Test YouTube stream two weeks prior, polled community, compared monetisation policies.",
+      "outcome": "Declared YouTube the new home; began integrating Streamlabs and YouTube memberships (‘egg’ icons).",
+      "key_quote": "People prefer YouTube so we are permanently on YouTube now.",
+      "related_to": [
+        "kaze"
+      ]
     }
   ],
   "open_questions": [
     {
-      "topic": "Final Bowser fight choreography",
-      "context": "Kaze mentioned possibly using a Lakitu to pull Bowser back after being thrown but hasn’t decided.",
+      "topic": "Bowser boss final structure",
+      "context": "Only first throw, speed scaling and basic behaviour outlined; unsure how many phases, attacks, Lakitu retrieval etc.",
       "questions": [
-        "Will Lakitu definitely retrieve Bowser?",
-        "How many throw cycles and difficulty escalations are planned?",
-        "Any unique mechanics in later phases?"
+        "How many phases will the Bowser fight have and what changes in each?",
+        "Will Lakitu pull Bowser back or will he jump – how will that look mechanically?",
+        "Are there fail-states or soft-locks if Mario falls?",
+        "Any unique mechanics besides tail grab to differentiate from SM64?"
       ],
-      "related_to": ["kaze", "zeina"],
+      "related_to": [
+        "kaze",
+        "zeina"
+      ],
       "priority": "high"
     },
     {
       "topic": "New Mario animation format",
-      "context": "Zeina is developing a new format that will ‘break a lot of things’ but allow better movement.",
+      "context": "Zeina is developing a ‘new animation format’ that will ‘break a lot of stuff’.",
       "questions": [
-        "What technical changes does the new format introduce?",
-        "How will it improve performance or workflow?",
-        "Timeline for integration?"
+        "What technical improvements does the new format enable?",
+        "How will legacy animations be migrated?",
+        "Timeline for integration and testing impact on performance?"
       ],
-      "related_to": ["zeina", "kaze"],
+      "related_to": [
+        "zeina",
+        "kaze"
+      ],
       "priority": "medium"
     },
     {
-      "topic": "Release schedule & open-source plan",
-      "context": "Game said to be ‘at least another year’; open-sourcing will be delayed ~2 months post-release to dodge Nintendo.",
+      "topic": "Audio & ROM size management",
+      "context": "Current build is 44.6 MB, of which 32.1 MB are streamed music; 64 MB ceiling looms.",
       "questions": [
-        "Target release quarter?",
-        "Criteria for first public build?",
-        "What safeguards are planned against takedowns?"
+        "What compression or streaming solutions will be used to keep under 64 MB?",
+        "Will any music be converted from streamed to sequenced?",
+        "Is the 60 FPS target affected by audio streaming load?"
       ],
-      "related_to": ["kaze"],
-      "priority": "high"
-    },
-    {
-      "topic": "Music size & compression",
-      "context": "Streamed tracks use 32 MB of the ROM.",
-      "questions": [
-        "Will any music be resampled or sequenced to save space?",
-        "Could a mixed approach be used?",
-        "Is 64 MB still the hard ceiling?"
+      "related_to": [
+        "badub",
+        "kaze"
       ],
-      "related_to": ["badub", "kaze"],
       "priority": "medium"
     },
     {
-      "topic": "Level redesigns since demo",
-      "context": "Kaze claims the final game is ‘unrecognisable’, citing Bubble Dome, cave and cloud cap levels.",
+      "topic": "Delayed open-source strategy",
+      "context": "Plan to delay code release ‘a couple months’ to avoid Nintendo takedown and hide secrets.",
       "questions": [
-        "What drove the drastic redesigns?",
-        "Which design principles changed?",
-        "Any lessons from player feedback on the demo?"
+        "What concrete criteria will trigger the public release?",
+        "What legal counsel or precedent informs the 2-month delay?",
+        "How will community modding be supported post-release?"
       ],
-      "related_to": ["kaze", "biobak"],
-      "priority": "medium"
+      "related_to": [
+        "kaze"
+      ],
+      "priority": "low"
+    },
+    {
+      "topic": "Team workload and roles beyond core four",
+      "context": "Mentions of Lilaa, Sauraen, Arthur but unclear duties.",
+      "questions": [
+        "What are Lilaa, Sauraen and Arthur currently responsible for?",
+        "How is task allocation and communication managed across contributors?",
+        "Are there additional unannounced collaborators?"
+      ],
+      "related_to": [
+        "kaze"
+      ],
+      "priority": "low"
     }
   ]
 }

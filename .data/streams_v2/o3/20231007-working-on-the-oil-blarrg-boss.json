@@ -1,181 +1,216 @@
 {
   "stream_context": {
-    "summary": "Kaze iterates on the \"block boss\" for Return to Yoshi’s Island: refining AI, animations, damage feedback, arena layout and environmental art while juggling ROM-size limits and streamed music issues.",
-    "level": ["block boss arena (factory/junk-yard stage, roughly course 11)"]
+    "summary": "Kaze spends most of the stream refining the new “block boss” fight: coding its flee-from-Mario behavior, panic/damage animations, soap-based attack logic, and brainstorming a complete arena redesign while juggling N64 memory limits.",
+    "level": [
+      "Block Boss (industrial/oil arena)"
+    ]
   },
   "development_findings": [
     {
-      "summary": "11 of 15 courses are complete; current ROM is 45.9 MB (≈70 % music). 64 MB hard-limit forces future space savings.",
-      "quote": "Our ROM is 45.9 MB… two-thirds of the ROM is just music."
+      "summary": "The block boss now flees along a circular path, always choosing the direction furthest from Mario; its speed and turn rate scale with remaining health.",
+      "quote": "He should be running away in the circle here to the direction that is further away from Mario… we’re gonna make it so the block goes faster the more damage he has."
     },
     {
-      "summary": "Block boss fight core loop: boss circles oil pool, fires waves, soap drops let Mario mount & damage him; three cycles to win.",
-      "quote": "Basically, he runs around… every now and then a piece of soap drops and you can use the soap to attack him."
+      "summary": "When Mario rides a soap bar the boss takes damage; soap gradually shrinks, needs stronger particle/visual cues, and will eventually spawn faster.",
+      "quote": "You should see the soap run out because it gets thinner… we definitely have to make the soap get used up much quicker than this."
     },
     {
-      "summary": "Boss now flees from Mario when mounted; speed, turn rate and wave speed scale with remaining size/health.",
-      "quote": "We're gonna make it so the block goes faster the more damage he has."
+      "summary": "A bright prim-color flash (shift to orange) is being added as a per-hit damage indicator, controlled in the combiner rather than a new GeoASM.",
+      "quote": "Still haven’t used the cool prim color flashing effect—oh, right, let’s add that right now."
     },
     {
-      "summary": "Damage feedback: primitive-color flash, faster mouth animation, full-body shake while Mario on top.",
-      "quote": "I need to add that flashing effect right now… when he's taking damage it should be orange, not blue."
-    },
-    {
-      "summary": "Environment pivot: oil barrel idea scrapped for a tilted warehouse-in-cave junk-yard surrounded by cages and metal grills.",
-      "quote": "Maybe this should just be differently gated off… a warehouse built into a cave."
-    },
-    {
-      "summary": "Soap delivery mechanism still undecided; likely janitor Koopa in side cages lobbing sparkling soap that bounces across arena.",
-      "quote": "We should have a bunch of jail cells… the janitor throws soap bars at you."
-    },
-    {
-      "summary": "Grills (platforms) will raise/lower; staying off soap during grill phase will damage Mario.",
-      "quote": "We need to make it so that if you don't get back on the soap under the grills then you take some damage."
-    },
-    {
-      "summary": "Performance & memory discipline: reuses existing object variables (e.g., health) to avoid expanding struct; avoids dynamic allocation.",
-      "quote": "That would expand the object struct… I'd lose four bytes for every object."
-    },
-    {
-      "summary": "Explained custom combiner math for color LERP and Fast64 quirks; still fighting GEO ASM child-node limitations.",
+      "summary": "Grill platforms around the oil pool will rise and fall; remaining on oil or missing the grills will inflict continuous damage, tightening the risk-reward loop.",
       "quote": null
     },
     {
-      "summary": "Game must run on real N64/Everdrive; 60 FPS rejected as infeasible for hardware.",
-      "quote": "This hack is gonna run perfectly on Everdrive… 60 FPS? That’s kind of difficult."
+      "summary": "Soap bars will be thrown in by a janitor Koopa NPC located in a side cage; path will bounce across the whole arena so players always see it.",
+      "quote": "He’s the only guy that you help in this level—the janitor with his bucket who just throws soap bars at you."
+    },
+    {
+      "summary": "Arena concept pivoted from a cylindrical oil barrel to a tilted, half-sunken warehouse/cave hybrid with metal walls and cages for ‘strike workers’.",
+      "quote": "Maybe this should just be differently gated off… a warehouse built into a cave. That’s a very cool idea, I like it."
+    },
+    {
+      "summary": "Off-stream performance optimisations and mat-stack fixes have ‘sick’ impact on the fight’s framerate.",
+      "quote": null
+    },
+    {
+      "summary": "ROM size is already 45.9 MB (≈70 % music) against a 64 MB hard limit; options include converting some streamed tracks to sequenced/mono and skipping a streamed song for Course 12.",
+      "quote": "Two-thirds of the ROM is just music… we can probably free about 1 MB right now with no drop in quality, maybe even 2."
+    },
+    {
+      "summary": "Memory discipline: Kaze re-uses the global ‘health’ field as a custom per-object counter to avoid expanding the object struct by four bytes across every instance.",
+      "quote": "Because that would expand the object struct and we would lose four bytes for every object in the entire world."
+    },
+    {
+      "summary": "Fast64 bugs (animation resetting, switch bones) continue to slow level work; Kaze flags these for Lilaa to fix.",
+      "quote": null
     }
   ],
   "context_findings": [
     {
-      "summary": "YouTube ad-block crackdown doubled his revenue; he’s happy about it.",
-      "quote": "This month I made so much more money… honestly, if it means I make more money I support this ad block thing."
+      "summary": "YouTube’s ad-block crackdown nearly doubled Kaze’s monthly revenue, giving unexpected financial breathing room.",
+      "quote": "For some reason on YouTube I made so much more money… honestly, if it means I make more money I support this ad-block thing."
     },
     {
-      "summary": "Lives in Canada, German origin; bought a house, moving Oct 23; next devlog planned Oct 21.",
-      "quote": "We bought a house… I have a day off on Monday so we’re gonna get a lot of shit done."
+      "summary": "Kaze grew up in Germany, now lives in Canada, and has just bought a house—moving on the 23rd.",
+      "quote": "Yes, well I live in Canada right now but I used to live in Germany… we bought a house, we’re moving on 23rd."
     },
     {
-      "summary": "Holds strong opinions on philosophy (anti-Kant), swearing (sees taboo as American), and game design (hates chores, values freedom).",
-      "quote": "Swears being a bad thing is such an American concept."
+      "summary": "He dismisses concerns over profanity, calling them an ‘American concept’, and rails against games that feel like chores or gate progress behind keys.",
+      "quote": "Video games are not supposed to be chores! That’s my rant for the day."
     },
     {
-      "summary": "Balances project with full-time job; no release date commitment.",
-      "quote": "I have a full-time job… might be any number of things coming in between this and the release date."
+      "summary": "Rants about Immanuel Kant reflect a playful but firm philosophical stance: separating ‘wanting’ something from believing it ‘ought’ to be that way.",
+      "quote": "There’s a difference between me saying I want something this way and me saying I think it’d be good if something was this way—Immanuel Kant is a fucking asshole."
     },
     {
-      "summary": "If he had Mr Beast money he'd scale up team and \"just make games forever\".",
-      "quote": null
+      "summary": "Prefers doing complex coding off-stream and keeps streams for repetitive or visual polish tasks.",
+      "quote": "When I work on actually complex things… I probably work faster off stream."
     }
   ],
   "contributor_findings": {
     "biobak": [
       {
-        "summary": "Provided eyebrow/animation suggestions, combiner math queries, lighting advice, texture feedback.",
-        "quote": "Do you have an idea of communicating the player into them attacking the block yet?"
+        "summary": "Provided shader/combiner guidance, questioning color math and suggesting alternate primitive settings.",
+        "quote": "My second question is, why can’t I do tex0,0,0,shadeColor to add instead of multiply? But it turns out you can."
+      },
+      {
+        "summary": "Gave artistic feedback on the boss’s facial expressions, eyebrow ideas, and overall arena textures/light.",
+        "quote": null
+      },
+      {
+        "summary": "Flagged model/texture alignment issues and helped adjust text positioning for consistency across levels.",
+        "quote": null
       }
     ],
     "badub": [
       {
-        "summary": "Delivered a new track for Boombox Koopa enemies, praised by Kaze.",
-        "quote": "We have a new song for the boombox koopas that Badub made. It's really good."
+        "summary": "Composed a new track for the ‘boombox Koopas’, which Kaze praises as ‘really good’.",
+        "quote": "We have a new song for the boombox Koopas that Badub made, it’s really good."
       }
     ],
     "zeina": []
   },
   "key_stories": [
     {
-      "title": "Boss Behavior Breakthrough",
-      "summary": "Kaze needed the block boss to look frightened and flee when Mario stands on soap. By tweaking AI angles, speed curves, and adding shake/flashing, the fight now conveys panic and scales difficulty.",
-      "challenge": "Original boss just sat still; lacked visual and mechanical feedback.",
-      "process": "Calculated Mario angle, set flee vector, tied speed to damage, layered faster mouth animation and color flash.",
-      "outcome": "Boss convincingly darts away and looks scared; remaining tasks are soap delivery and grill phases.",
-      "key_quote": "He should be running away in a circle… now he's so panicky, I like it.",
-      "related_to": ["kaze", "biobak"]
+      "title": "Building the Soap Block Boss",
+      "summary": "Kaze’s goal is a skill-inclusive, visually comedic boss that leverages a soap-surf mechanic. Early issues included one-directional fleeing and no feedback when damaged.",
+      "challenge": "The boss felt static and easy after initial implementation.",
+      "process": "Implemented angle-based flee logic, added panic animations, prim-color flashes, and scaled speed; brainstormed soap spawn via a janitor NPC.",
+      "outcome": "Core loop now feels dynamic; remaining tasks include grill hazards, oil damage, and final particles.",
+      "key_quote": "I think this is like the base animation and then we add more animation on top—now he’s panicky, I like it.",
+      "related_to": [
+        "kaze",
+        "biobak",
+        "badub"
+      ]
     },
     {
-      "title": "ROM Size Crisis",
-      "summary": "Realised the game is already 45.9 MB, with streamed music consuming 70 %. Must avoid exceeding 64 MB.",
-      "challenge": "Limited N64 cartridge space vs high-quality streamed tracks.",
-      "process": "Inspected sound table, discussed converting some songs to sequenced or mono and cutting one streamed track.",
-      "outcome": "Plan to free 1–2 MB now and restrict future streamed songs; decision postponed.",
-      "key_quote": "We have an issue of just not having any more space for music soon.",
-      "related_to": ["kaze", "badub"]
+      "title": "The 64 MB Wall",
+      "summary": "With the ROM already at 45.9 MB and 11 of 15 courses done, Kaze confronts the N64’s hard cartridge limit.",
+      "challenge": "70 % of current size is streamed music, leaving little space for remaining levels.",
+      "process": "Audited sound bank; discussed converting certain tracks to sequenced/mono and foregoing a streamed song for Course 12.",
+      "outcome": "Believes 1-2 MB can be saved immediately; long-term plan still open.",
+      "key_quote": "The ROM is 45.9 MB—that’s almost three-quarters of the 64. We have an issue of just not having any more space for music soon.",
+      "related_to": [
+        "kaze",
+        "badub"
+      ]
     },
     {
-      "title": "YouTube Adblock Windfall",
-      "summary": "Kaze noticed revenue nearly doubled after YouTube blocked ad-blockers.",
-      "challenge": "Income fluctuations from platform policies.",
-      "process": "Checked analytics; discussed watch-time vs revenue increase; accepted policy.",
-      "outcome": "Financial boost aids development; supports crackdown.",
-      "key_quote": "If it means I make more money I support this ad block thing.",
-      "related_to": ["kaze"]
+      "title": "Surprise YouTube Pay-Raise",
+      "summary": "YouTube’s anti-ad-block measures doubled Kaze’s channel income in one month.",
+      "challenge": "Previous ad revenue was modest; he rarely paid attention.",
+      "process": "Noted higher views and watch time but a disproportionate spike in revenue; speculated crackdown as cause.",
+      "outcome": "Extra ~$400/month eases costs (e.g., could cover YouTube Premium) and reinforces support for the policy.",
+      "key_quote": "If it means I make more money, I support this ad block thing—I don’t give a fuck.",
+      "related_to": [
+        "kaze"
+      ]
     }
   ],
   "open_questions": [
     {
-      "topic": "Soap-spawn mechanic",
-      "context": "Kaze wants janitor Koopa in side cages to throw soap but hasn’t chosen exact implementation or telegraphing.",
+      "topic": "Final soap-spawn communication",
+      "context": "Kaze wants janitor Koopa to throw soap bars but hasn’t decided exact bounce path or visual/audio cues.",
       "questions": [
-        "How will the soap’s spawn timing and trajectory be communicated to players?",
-        "Will the janitor be animated or voiced to reinforce the cue?",
-        "Any fallback if soap lands in oil or is missed?"
+        "How will the player be alerted to incoming soap?",
+        "Will the soap always land on a safe grill or can it fall into oil?",
+        "What animations will the janitor use?"
       ],
-      "related_to": ["kaze", "biobak"],
+      "related_to": [
+        "kaze",
+        "biobak",
+        "badub"
+      ],
       "priority": "high"
     },
     {
-      "topic": "Block-boss arena visuals",
-      "context": "Debating between oil barrel, warehouse-cave hybrid, or junk-yard; needs final art direction.",
+      "topic": "Arena visual identity",
+      "context": "The oil-barrel idea was abandoned mid-stream; options include warehouse, cave, junkyard, or mixed metal-rock design.",
       "questions": [
-        "Which setting best fits narrative and readability?",
-        "What reference material or concept art is guiding the choice?",
-        "How will lighting and skybox be handled to avoid dull coloration?"
+        "Which concept has been chosen since the stream?",
+        "What assets and skybox will be required?",
+        "How will this affect camera and lighting?"
       ],
-      "related_to": ["kaze", "biobak"],
+      "related_to": [
+        "kaze",
+        "biobak"
+      ],
       "priority": "medium"
     },
     {
-      "topic": "Grill/platform punishment phase",
-      "context": "Idea: grills sink if Mario off soap, dealing damage, but exact timing and clarity unresolved.",
+      "topic": "Grill platform mechanics",
+      "context": "Grills need to move independently, rise/fall, and punish players not on soap.",
       "questions": [
-        "What visual/audio cues will warn the player?",
-        "Will grill speed scale with boss health?",
-        "How is fairness ensured for new players?"
+        "What exact timing and patterns will the grills follow?",
+        "Will there be visual warnings before they drop?",
+        "How will this scale with boss phases?"
       ],
-      "related_to": ["kaze"],
+      "related_to": [
+        "kaze"
+      ],
       "priority": "medium"
     },
     {
-      "topic": "Music space optimisation",
-      "context": "Need to cut or convert streamed tracks to stay under 64 MB.",
+      "topic": "Oil damage system",
+      "context": "Currently undecided whether oil deals instant or gradual damage when Mario touches it.",
       "questions": [
-        "Which specific tracks are candidates for sequenced conversion?",
-        "Any plan to use hybrid streamed-loop plus sequenced layers?",
-        "Deadline for locking soundtrack size?"
+        "What damage model best balances challenge and clarity?",
+        "Will the oil slow Mario or alter controls?",
+        "Any visual feedback planned (splash, stain)?"
       ],
-      "related_to": ["kaze", "badub"],
+      "related_to": [
+        "kaze"
+      ],
+      "priority": "medium"
+    },
+    {
+      "topic": "ROM-size mitigation roadmap",
+      "context": "Kaze identified music as the main culprit and floated several fixes, but no final plan.",
+      "questions": [
+        "Which specific tracks will be converted or cut?",
+        "Could compression algorithms or bank sharing help?",
+        "What is the contingency if size still exceeds 64 MB?"
+      ],
+      "related_to": [
+        "kaze",
+        "badub"
+      ],
       "priority": "high"
     },
     {
-      "topic": "Project timeline after house move",
-      "context": "Kaze purchasing home; balancing full-time job.",
+      "topic": "Zeina’s role in current phase",
+      "context": "Zeina (animator) is not mentioned in this stream.",
       "questions": [
-        "What is the updated milestone schedule post-move?",
-        "Will team expand or delegate tasks during relocation?",
-        "Impact on planned 2023/2024 release window?"
+        "Is Zeina contributing to the boss animations or upcoming levels?",
+        "How is task distribution balanced among the team lately?"
       ],
-      "related_to": ["kaze"],
-      "priority": "low"
-    },
-    {
-      "topic": "Zeina’s current contributions",
-      "context": "Animator not mentioned this stream.",
-      "questions": [
-        "What animation tasks is Zeina handling now?",
-        "How does she coordinate with Biobak and Kaze on boss animations?",
-        "Any impact from personal relationship on workflow?"
+      "related_to": [
+        "zeina",
+        "kaze"
       ],
-      "related_to": ["zeina", "kaze"],
       "priority": "low"
     }
   ]

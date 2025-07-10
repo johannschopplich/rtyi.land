@@ -1,147 +1,179 @@
 {
   "stream_context": {
-    "summary": "Kaze worked on 3D modeling and layout for an ice castle level in Blender. Key activities included refactoring the game's mirror system to be more flexible, implementing a per-level memory allocation system to fix a collision bug, and diagnosing (but not solving) a persistent lighting issue. He also discussed his project release strategy and shared a story about a recent phishing attempt.",
-    "level": ["Ice Castle", "Course 3"]
+    "summary": "Kaze works on a new ice/crystal-themed castle level, focusing on 3D modeling, bug fixing, and system refactoring. Key activities include resolving a critical collision bug by implementing per-level memory allocation, overhauling the in-game mirror system to be more flexible, and struggling with a persistent, emulator-only lighting bug. He also discusses his future release strategy, which involves eventually dropping emulator support to pursue hardware-specific optimizations.",
+    "level": [
+      "Unamed Ice/Crystal Castle Level"
+    ]
   },
   "development_findings": [
     {
-      "summary": "Kaze encountered a crash due to exceeding the memory limit for collision surfaces in a complex area. He solved it by modifying his custom memory allocator to support per-level memory limits, giving more resources to demanding levels.",
-      "quote": "The problem here is that because the triangles are so big... there need to be a lot of pool nodes... I might have to change the allocation per level because this is unplayable."
+      "summary": "Kaze plans a phased release: v1.0 for emulators and N64, followed by a v1.1 bug-fix patch. Subsequently, he intends to drop official emulator support to pursue N64-specific optimizations (like tri-strips) that are incompatible with current emulators, aiming for maximum performance on original hardware.",
+      "quote": "I will ditch emulator support entirely... Because supporting emulators makes the entire game run slower."
     },
     {
-      "summary": "Kaze completely refactored the hardcoded mirror functionality into a flexible, data-driven system using a custom struct. This new system allows him to easily define a mirror's axis and boundaries, simplifying future level design.",
+      "summary": "A persistent and difficult-to-diagnose bug causes ambient lighting to fail on emulators when a second light source is present. The issue does not occur on real N64 hardware, and Kaze is struggling to find the root cause.",
+      "quote": "ever since x3 we have one little bug in the game... if a second light source appears like the star over there, Mario's colors just go dark, the ambient just resets to zero."
+    },
+    {
+      "summary": "Kaze refactored the hardcoded mirror system into a more flexible, data-driven one. The new system uses a struct to define the mirror's axis and range, significantly simplifying the process of adding new mirrors to levels.",
       "quote": "Dude, this is gonna be the easiest system to add new murals ever."
     },
     {
-      "summary": "The project's performance is bottlenecked by the Reality Signal Processor (RSP), not the renderer (RDP). This discovery led to the decision to move to F3DEX3, which offers significant RSP performance improvements.",
-      "quote": "We found out that the bottleneck is actually the RSP and not the RDP... that's the entire reason my course one was like stuck at 46 fps."
+      "summary": "Kaze encountered a critical collision bug due to an excessive number of triangles in a level. He resolved this by creating a per-level memory allocation system for collision surfaces, allowing different levels to have different memory limits.",
+      "quote": "I might have to change the allocation per level because this is unplayable."
     },
     {
-      "summary": "The game is incompatible with the popular SM64 PC Port due to its reliance on custom F3DEX2 features (combiners) that the port does not support.",
-      "quote": "The PC port doesn't support any of the special combiners I do. So on the PC port you will not be able to play this game, unless someone does a lot of work into fixing it."
+      "summary": "Performance analysis reveals the primary bottleneck is the RSP (Reality Signal Processor), not the RDP. This finding, discovered with Sauraen, informs Kaze's strategy to focus on RSP-specific optimizations for performance gains.",
+      "quote": "The bottleneck is actually the rsp and not the rdp."
     },
     {
-      "summary": "A persistent and difficult bug exists in the emulator-specific ('x2') build where the presence of a second light source incorrectly causes the ambient lighting on Mario to turn off.",
-      "quote": "Something with the shading is really broken right now. I'm still trying to figure out why... The ambient seems to completely disappear."
+      "summary": "The game is incompatible with the well-known Mario 64 PC port due to its reliance on custom F3DEX3 microcode features and complex color combiners that the port does not support.",
+      "quote": null
     },
     {
-      "summary": "Kaze is designing levels using a 'room' system to aggressively cull unseen geometry, with the goal of achieving a consistent 60 FPS on final hardware.",
-      "quote": "The entire castle is either gonna run 60 fps in the end, I'm pretty sure."
+      "summary": "Kaze demonstrates an iterative level design process, getting a sudden 'vision' for a room to become a 'sea of monsters' and immediately beginning to modify the geometry to match the new creative direction.",
+      "quote": "I have a vision now."
     }
   ],
   "context_findings": [
     {
-      "summary": "Kaze believes that competent programmers shouldn't be dogmatic about programming languages, as most are functionally similar for general tasks. He views language tribalism as a sign of a 'skill issue'.",
-      "quote": "If you care at all, like even just a little bit about which programming language you use, that is a very strong indicator that you're a terrible programmer. So if anyone tells you to use Rust, just answer skill issue."
+      "summary": "Kaze believes that for most applications, the choice of programming language (among reasonable options like C++, Rust, Java) is irrelevant, and that obsessing over the language choice is a 'skill issue' and a sign of a poor programmer.",
+      "quote": "if you care at all, like even just a little bit about which programming language you use, that is a very strong indicator that you're a terrible programmer."
     },
     {
-      "summary": "Kaze is trying to stream and work more on the project to earn more money to support his new child, but struggles with time management due to also having a full-time job.",
-      "quote": "I have a child now and I need more money. So hopefully there will be more streams, but I don't know how I'm going to manage the time wise since I do have a full-time job on top of being all of this."
+      "summary": "Kaze's motivation to work harder and stream more frequently is directly tied to his new role as a father and the financial responsibility that comes with it.",
+      "quote": "I have a child now and I need more money. So hopefully there will be more streams."
     },
     {
-      "summary": "Kaze recounted a recent, sophisticated phishing attempt by a fake advertiser. His strict personal security policy prevented him from installing malware, and he collaborated with an anti-scam professional to investigate the attackers.",
+      "summary": "Kaze detailed a sophisticated spear-phishing attempt where scammers, posing as advertisers, tried to trick him into running a malicious executable. His strict policy against running unknown executables prevented the attack.",
       "quote": "I'm not downloading and running an exe file ever no matter how legit this looks."
     },
     {
-      "summary": "To avoid legal action from Nintendo, Kaze's release strategy is to distribute a patch file rather than a full ROM. He acknowledges that this will likely lead to unauthorized physical cartridges being sold on sites like Etsy.",
-      "quote": "I will release a patch that will contain only my own changes. And then you will be able to patch this patch onto an N64 ROM... but that is not officially encouraged."
+      "summary": "Kaze confirms the game will be released as a patch file to be applied to a user-provided ROM, avoiding direct distribution of Nintendo's intellectual property. He acknowledges but does not endorse the inevitable creation of unauthorized physical cartridges sold by third parties.",
+      "quote": "I will release a patch that will contain only my own changes. And then you will be able to patch this patch onto an N64 ROM."
     },
     {
-      "summary": "Kaze plans a multi-stage release: v1.0 and v1.1 will support emulators, but later versions may drop this support to implement N64-specific optimizations (like tri-strips) that current emulators cannot handle, aiming for the best possible performance on original hardware.",
-      "quote": "I will ditch emulator support entirely... Because supporting emulators makes the entire game run slower."
+      "summary": "Kaze mentions his mother picking up his medication, followed by a brief chat discussion about bipolar meds and caffeine's effect on his anxiety, indicating personal health topics he is managing alongside development.",
+      "quote": null
     }
   ],
   "contributor_findings": {
     "biobak": [
       {
-        "summary": "Kaze adjusted the dimensions of a room to be perfect squares, implying Biobak has high standards for geometric precision and visual quality.",
+        "summary": "Kaze humorously mentions the 'wrath of Biobak' as a motivation to fix misaligned textures, highlighting Biobak's high standards for visual precision and quality.",
         "quote": "Fix it now while you can. Before the wrath of Biobak murders me."
       },
       {
-        "summary": "Kaze feels a responsibility to meet a certain level of quality in his 3D modeling and layout work before handing it over to Biobak for his graphics work.",
-        "quote": "Really, it's just kind of getting these rooms to look a little nicer. So it's not insulting to Biobak when I pass this over."
+        "summary": "Kaze states he needs to clean up his 3D level blockouts before handing them over to Biobak, indicating a workflow where Biobak is responsible for the final art and texturing pass.",
+        "quote": "it's not insulting to Biobak when I pass this over."
       }
     ],
-    "badub": [],
+    "badub": [
+      {
+        "summary": "Badub was not mentioned in this stream.",
+        "quote": null
+      }
+    ],
     "zeina": [
       {
-        "summary": "Zeina was present at the beginning of the stream. Kaze made personal, lighthearted comments involving her, such as joking about working to support his wife and imaginary children.",
+        "summary": "Kaze links his increased motivation to work and stream more directly to his new responsibilities as a father, stating he needs more money now that he has a child with Zeina.",
+        "quote": null
+      },
+      {
+        "summary": "Zeina was present in the stream chat, engaging in lighthearted conversation with Kaze, including a request for a 'fat Yoshi plush'.",
         "quote": null
       }
     ]
   },
   "key_stories": [
     {
-      "title": "The Flexible Mirror System Refactor",
-      "summary": "Kaze became frustrated with the rigid, hardcoded mirror system. He decided to refactor it entirely, creating a new data-driven system that allows him to easily add and configure mirrors anywhere in the game by simply defining their properties in a struct.",
-      "challenge": "The in-game mirror system was hardcoded and inflexible, making it difficult to create new mirrors with different properties for new level areas.",
-      "process": "Kaze identified the limitations of the old system. He designed a new C struct to hold all mirror parameters. He then rewrote the logic to interpret this struct, tested it, discovered a bug in the player's reflected yaw, and corrected the code to fix it.",
-      "outcome": "A new, flexible mirror system was created that is data-driven. This allows Kaze to define mirror properties (axis, position, range) via a simple struct in the code, greatly simplifying the process of adding mirrors and making the system scalable for the rest of the game.",
-      "key_quote": "Dude, this is gonna be the easiest system to add new murals ever.",
-      "related_to": ["Kaze"]
-    },
-    {
-      "title": "The Near-Miss Phishing Scam",
-      "summary": "Kaze detailed a sophisticated phishing attempt where scammers impersonated an advertiser to trick him into running malware. His strict security policy and quick thinking not only protected him but also turned the tables, as he ended up providing intelligence to an anti-scam professional.",
-      "challenge": "A very convincing scammer, posing as an advertiser, tried to get Kaze to download and run a malicious executable file under the guise of a special video conferencing app.",
-      "process": "The scammer sent an email that seemed legitimate, referencing Kaze's videos. When they requested a call using a custom app, Kaze refused to download the .exe file. The scammers then provided a suspicious Zoom link, confirming Kaze's suspicions. He investigated their fake GitHub link and contacted the legitimate owner.",
-      "outcome": "Kaze avoided the scam and did not compromise his system. He then contacted the real person whose identity was stolen, who happened to work for an anti-scam software company, and provided them with information to help track the scammers.",
+      "title": "The Spear-Phishing Attempt",
+      "summary": "Kaze recounted a sophisticated spear-phishing attempt by scammers posing as advertisers. His strict personal security rule of never running unknown executables allowed him to avoid the trap and subsequently collaborate with an anti-scam expert to pursue the perpetrators.",
+      "challenge": "A highly convincing scammer, posing as a legitimate advertiser for a 'web-free teaching school', attempted to get Kaze to run a malicious executable file under the guise of using a special video call app.",
+      "process": "Kaze became suspicious when asked to download an .exe file. He refused and insisted on Zoom. The scammers then sent a link to a fake Zoom website, confirming his suspicions and prompting him to investigate the identity they were using.",
+      "outcome": "Kaze's strict security policy prevented the attack. He then contacted the real person whose identity was stolen, who happened to be an anti-scam expert, and they are now working together to track the scammers.",
       "key_quote": "I'm not downloading and running an exe file ever no matter how legit this looks.",
-      "related_to": ["Kaze"]
+      "related_to": [
+        "Kaze Emanuar"
+      ]
     },
     {
-      "title": "Solving Collision with Per-Level Memory",
-      "summary": "A complex level kept crashing due to memory limits on collision data. Instead of a simple fix, Kaze modified his engine's custom memory allocator to support variable allocations on a per-level basis, creating a sophisticated solution that benefits the entire project.",
-      "challenge": "The game was unplayable in a new, complex area because it was exceeding the global memory allocation for collision surfaces.",
-      "process": "Kaze first diagnosed the problem as insufficient memory for the surface pool. He reasoned that a global increase was inefficient. He then dove into his custom memory allocator code and added logic to check the current level ID and assign a larger memory pool if it matched a level on his new 'exception list'.",
-      "outcome": "Kaze successfully implemented a system for per-level memory allocation. This allows him to give more resources to specific, complex levels as needed without wasting memory on simpler ones, solving the crash and making the system more robust for future levels.",
-      "key_quote": "I might have to change the allocation per level because this is unplayable.",
-      "related_to": ["Kaze"]
+      "title": "The Mirror System Refactor",
+      "summary": "To improve his workflow, Kaze completely refactored the game's mirror functionality. He replaced a rigid, hardcoded implementation with a flexible, data-driven system, making it vastly simpler to create and configure mirrors throughout the game.",
+      "challenge": "The original system for creating in-game mirrors was inflexible and likely required hardcoding for each instance, making it difficult and time-consuming to add new ones.",
+      "process": "Kaze designed a new data structure to hold mirror parameters like axis and position. He then rewrote the game's code to read from this struct, creating a universal, data-driven mirror object that he tested across multiple levels.",
+      "outcome": "The new system is far more flexible and computationally efficient. Adding new mirrors is now a simple matter of placing an object and setting its parameters, a significant improvement Kaze celebrated on stream.",
+      "key_quote": "Dude, this is gonna be the easiest system to add new murals ever.",
+      "related_to": [
+        "Kaze Emanuar"
+      ]
+    },
+    {
+      "title": "The Per-Level Collision Fix",
+      "summary": "When a complex new level kept crashing the game, Kaze diagnosed the issue as an overflow of the global collision memory pool. He solved the problem by engineering a new system for per-level memory allocation, allowing him to set custom limits for more demanding levels.",
+      "challenge": "A new, large level was unplayable because its geometry exceeded the game's global limit for collision data, causing the game to crash.",
+      "process": "Kaze identified that a single, game-wide memory pool for collision was insufficient. He modified the memory allocation code to create level-specific pools, allowing him to define a larger collision budget for this specific level without impacting others.",
+      "outcome": "The fix resolved the crash, making the level playable again. This architectural change provides more flexibility for designing future levels that may have varying complexity and resource needs.",
+      "key_quote": "I really have to think about a solution... I might have to change the allocation per level because this is unplayable.",
+      "related_to": [
+        "Kaze Emanuar"
+      ]
     }
   ],
   "open_questions": [
     {
-      "topic": "F3DEX3 implementation and collaboration with Sauraen",
-      "context": "Kaze mentions the critical importance of moving to F3DEX3 ('x3') for performance, crediting a collaborator named Sauraen for their work on it. He states the team discovered the RSP, not the RDP, was the main performance bottleneck.",
+      "topic": "Emulator-Specific Lighting Bug",
+      "context": "Kaze is struggling with a persistent lighting bug that only appears on emulators. When a second light source is active, ambient light disappears. He knows it's related to his emulator-specific 'x2' code but is unsure of the exact cause.",
       "questions": [
-        "Can you describe the 'aha' moment when you and Sauraen realized the RSP was the bottleneck?",
-        "In simple terms, what does moving to F3DEX3 unlock for Return to Yoshi's Island that wasn't possible before?",
-        "How does the collaboration with Sauraen work on such a low-level, technical part of the engine?"
+        "What is the fundamental difference between your 'x2' (emulator) and 'x3' (console) lighting setup that causes this bug?",
+        "What are the next steps you'll take to debug this? Is it a blocker for the demo release?",
+        "Have you considered this might be an emulator inaccuracy you're fighting against, rather than a bug purely in your code?"
       ],
-      "related_to": ["Kaze", "Sauraen"],
+      "related_to": [
+        "Kaze Emanuar"
+      ],
       "priority": "high"
     },
     {
-      "topic": "Creative workflow and quality control with Biobak",
-      "context": "Kaze mentions needing to clean up his 3D models so they aren't 'insulting to Biobak' and jokes about the 'wrath of Biobak' regarding geometric imperfection.",
+      "topic": "Microcode Optimizations and Dropping Emulator Support",
+      "context": "Kaze plans to drop emulator support after version 1.1 to implement N64-specific optimizations like tri-strips. He states he needs to learn a lot about RSP microcode first and is waiting on work being done by Sauraen.",
       "questions": [
-        "Can you describe the creative workflow and handoff process between your level design in Blender and Biobak's graphics work?",
-        "How does Biobak's feedback influence your modeling and design? Can you give an example of a time his input led to a significant change?",
-        "What role does Biobak play in defining the final visual identity and quality bar for the project?"
+        "What specific performance gains do you realistically expect from using tri-strips and other RSP optimizations?",
+        "Can you describe the learning curve for RSP microcode programming? What resources exist?",
+        "What is Sauraen's specific role in developing the F3DEX3 microcode, and how does your work depend on his progress?"
       ],
-      "related_to": ["Kaze", "Biobak"],
+      "related_to": [
+        "Kaze Emanuar",
+        "Sauraen"
+      ],
       "priority": "high"
     },
     {
-      "topic": "Release strategy and Emulator vs. Console optimization",
-      "context": "Kaze has a detailed release plan that involves an initial version supporting emulators, followed by a potential N64-only version that would use advanced optimizations (like tri-strips) that break current emulators.",
+      "topic": "Collaborative Workflow with Biobak",
+      "context": "Kaze mentions needing to clean up his level 'blockouts' so they aren't 'insulting to Biobak' and fears the 'wrath of Biobak' over misaligned textures.",
       "questions": [
-        "What are the specific N64 optimizations you're excited to implement, and what performance gains do you expect from them?",
-        "How do you weigh the desire for ultimate performance on console against the community's desire for accessibility on emulators?",
-        "You mentioned hope that GlideN64 might support your new techniques. What would that entail, and is it a realistic possibility?"
+        "Can you walk us through the collaborative workflow between you and Biobak? At what stage of completion does he typically take over a level?",
+        "What kind of feedback does Biobak provide? Can you share an example of how his input significantly changed a level's final look?",
+        "How do you two resolve creative differences when your vision for a level might differ from his artistic direction?"
       ],
-      "related_to": ["Kaze"],
-      "priority": "high"
+      "related_to": [
+        "Kaze Emanuar",
+        "Biobak"
+      ],
+      "priority": "medium"
     },
     {
-      "topic": "The persistent F3DEX2 lighting bug",
-      "context": "Kaze is struggling with a persistent lighting bug in his emulator-specific ('x2') build, where Mario's ambient light disappears when a second light source appears. He has looked into it extensively but hasn't found the cause.",
+      "topic": "Intersection of Personal Life and Development",
+      "context": "Kaze mentioned his motivation to work more is now tied to providing for his new child with Zeina.",
       "questions": [
-        "What makes this specific lighting bug so difficult to diagnose and fix?",
-        "Is this bug a direct consequence of pushing the SM64 engine in ways it was never intended to be used?",
-        "How does a bug like this impact the timeline for releasing the public demo?"
+        "How has becoming a father changed your perspective on game development, time management, and the legacy of the projects you work on?",
+        "How do you and Zeina navigate the dynamic of being both partners in life and collaborators on a creative project?",
+        "You mentioned needing more money. How does the financial reality of being an independent creator influence the creative decisions you make for the project?"
       ],
-      "related_to": ["Kaze"],
+      "related_to": [
+        "Kaze Emanuar",
+        "Zeina"
+      ],
       "priority": "medium"
     }
   ]

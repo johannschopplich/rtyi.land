@@ -1,207 +1,212 @@
 {
   "stream_context": {
-    "summary": "Kaze codes and tests multiple elements for Return to Yoshi’s Island, focusing on an oil-themed factory area in Course 2: new \"seesaw\" set-piece that squashes a Goomba, updated tox boxes, collision and performance tweaks, plus early design of a construction-worker Womp. He also demos the gigantic “Only Up 64” competition level and stress-tests everything on real N64 hardware.",
+    "summary": "Kaze streams from his PC while working on two parallel tasks: polishing a large Bowser-factory level for Return to Yoshi’s Island (course still untitled, internally described as an oil/fuel \"Fleet Factory\") and prototyping a huge vertical \"Only Up 64\" stage for a SimpleFlips competition.  The session focuses on designing a seesaw set-piece that squashes a safety-helmet Goomba, testing performance on real N64 hardware, and roughing-out a new construction-worker Womp enemy.",
     "level": [
-      "Course 2 – Oily Boily Bay / Bowser Fleet Factory",
-      "Only Up 64 (competition mod)"
+      "Bowser fleet factory (oil/air-ship fueling yard)",
+      "Only Up 64 competition level"
     ]
   },
   "development_findings": [
     {
-      "summary": "Created higher-resolution tox boxes; still needs a method to keep Mario from clipping through their walls.",
+      "summary": "Created a 60 %-complete vertical challenge map named “Only Up 64,” intended to be the biggest Mario 64 level ever (≈25 min climb) and to remain N64-compatible.",
+      "quote": "This will be the biggest level ever made on Mario 64… It’s gonna take like 25 minutes just to get to the top."
+    },
+    {
+      "summary": "Redesigned Tox Boxes with higher-resolution textures and more expressive faces; still needs wall-collision fix to stop Mario clipping through them.",
+      "quote": "I still have to think of a way to make it so that Mario can't move through the walls like this—it's a bit difficult."
+    },
+    {
+      "summary": "Implemented new global collision routines that give noticeably more stable ceiling/slope interaction.",
+      "quote": "You guys probably can't really tell the difference but it’s very noticeable when you're walking into ceilings—it’s a lot more stable now."
+    },
+    {
+      "summary": "Prototyped a seesaw gimmick: Mario breaks a rear crate, plank pivots forward, flattens a Goomba, then settles; built custom sine-driven animation, added bounce tuning, and tested on console.",
+      "quote": "I want the player to be able to stop it while Mario is still on there and, once past a point, it just spins out of control and squishes him."
+    },
+    {
+      "summary": "Diagnosed and fixed an N64 crash caused by GCC inserting a divide-by-zero in a branch delay slot; added ε (0.01f) safeguard and patched both main and Only Up repos.",
+      "quote": "The compiler pipelined the division into the delay slot so I always divide by zero—that’s not my fault."
+    },
+    {
+      "summary": "Performance pass on the factory level: 13k tris raw, 6k without text; worst-case 19 FPS → 25–29 FPS by enabling back-face culling for metal scaffolds only on hardware; plans include collision maps, triangle trimming, and optional area splits.",
+      "quote": "Backface culling is insane—going from 22 to 29 FPS just by flipping that flag."
+    },
+    {
+      "summary": "Designed construction-worker Womp: flat-shaded body, safety belt across face, helmet strapped to back; will carry steel beams and be toppled by Mario; animation scheduled next stream.",
       "quote": null
     },
     {
-      "summary": "Implemented new collision routines that greatly stabilise head-bonk and ceiling behaviour.",
-      "quote": "You guys probably can’t really tell the difference but it’s very noticeable when you’re walking into ceilings like this – it’s a lot more stable now."
+      "summary": "Sound system has five unused footstep surface slots; metal step SFX may be replaced and general sound-design postponed until end of development.",
+      "quote": "We still have space for, I think, five sound-step games… I want to see the hat right now."
     },
     {
-      "summary": "Designed and partially coded a seesaw plank with a Goomba at one end and a breakable box at the other; smashing the box tips the plank and squashes the Goomba.",
-      "quote": "I want the player to be able to stop it from falling while Mario is still on there…and then it slowly squish him down."
-    },
-    {
-      "summary": "Seesaw motion is an authored animation, not real physics, to stay within console limits; bounce and speed values tuned during stream.",
-      "quote": null
-    },
-    {
-      "summary": "Performance on N64 improved from ~19 FPS to ~25 FPS by enabling back-face culling on metal materials and pruning unseen triangles.",
-      "quote": "Backface culling is insane – that was the entire performance difference."
-    },
-    {
-      "summary": "Level polycount currently ~6k (geometry) / 13k (with text); further gains planned via collision maps and deleting underside faces.",
-      "quote": null
-    },
-    {
-      "summary": "Testing revealed a division-by-zero crash; root cause was compiler reordering the divide into a delay slot. Fixed by separating the calculations.",
-      "quote": "That’s not a bug in the code – the compiler pipelined the division so I always divide by zero."
-    },
-    {
-      "summary": "Added system so only specific areas use the new clip ratio to reduce lag on N64.",
-      "quote": null
-    },
-    {
-      "summary": "Game requires Expansion Pak; fitting into 4 MB would need per-area loading and isn’t worth the effort right now.",
-      "quote": null
-    },
-    {
-      "summary": "Five footstep sound slots remain; considering new material sounds like glass.",
-      "quote": null
-    },
-    {
-      "summary": "Debated design of transparent (collected) stars and red-coin spawn markers; wants clear player signalling.",
-      "quote": null
-    },
-    {
-      "summary": "Initial design for a construction-worker Womp: carries steel beam, helmet strapped to back (vulnerable spot), tipped by a kick.",
-      "quote": null
-    },
-    {
-      "summary": "Zeina has finished animations for “cement pit guy” enemy; still missing animations for the “glass curry” and Overseer boss.",
-      "quote": null
-    },
-    {
-      "summary": "Music for this area undecided; Badub was expected to compose but has been absent.",
-      "quote": null
-    },
-    {
-      "summary": "Only Up 64 level ~60 % complete; target 25-minute vertical climb; N64 compatibility untested yet.",
+      "summary": "Memory strategy: game currently requires Expansion Pak; technically could be squeezed into 4 MB by loading areas and codes separately, but “a lot of extra work for very little gain.”",
       "quote": null
     }
   ],
   "context_findings": [
     {
-      "summary": "Kaze is juggling stream work, Only Up 64, a tech-conference presentation, and his day job, leaving him feeling overloaded.",
-      "quote": "Man I’m so busy actually – I will never have my freedom."
+      "summary": "Kaze lost his Brilliant sponsorship; YouTube channel is now only “barely profitable,” limiting ability to pay collaborators.",
+      "quote": "My YouTube channel is barely profitable, especially now that Brilliant doesn't sponsor me anymore—kind of back to square zero."
     },
     {
-      "summary": "YouTube revenue is low; Brilliant sponsorship ended; channel is only barely profitable.",
-      "quote": "My YouTube channel is barely profitable, especially now that Brilliant doesn’t sponsor me anymore."
+      "summary": "Maintains separate ‘Kaze Clips’ stream channel to avoid hurting main-channel algorithm and to filter viewers to people who actually care about the game.",
+      "quote": "I stream on Kaze Clips because we have 10,000 subs here… I don't want to ruin my algorithm on the main channel."
     },
     {
-      "summary": "He avoids streaming on main channel to protect algorithm and prefers smaller engaged audience focused on game development.",
-      "quote": "I just care about making a good game. My streams here – if you get entertained that’s a side effect."
+      "summary": "Expresses philosophy that code should be self-documenting and comments are often redundant.",
+      "quote": "The code itself is better documentation than your documentation, so you should remove your documentation."
     },
     {
-      "summary": "Expresses coding philosophy: prefers minimal comments, believing clean code is better documentation.",
-      "quote": "The code itself is better documentation than your documentation so you should remove your documentation."
-    },
-    {
-      "summary": "Frustration with YouTube latency and with Parallel Launcher; relies on Project64 for reliable tests.",
+      "summary": "Struggling with YouTube latency; discovered but couldn’t fully fix ‘low-latency’ toggle—30 s lag persists.",
       "quote": null
     },
     {
-      "summary": "Heatwave during stream; occasional humour about dying from heat.",
+      "summary": "Mentions heavy workload: building Only Up 64, preparing a tech-conference presentation, and core game tasks—\"I will never have my freedom.\"",
       "quote": null
     },
     {
-      "summary": "Won’t disclose exact salary out of respect for employer; works for Danish company with remote colleagues.",
+      "summary": "Personal: heat wave (‘literally gonna die from this heat’), occasional humor about age and online slang, and casual interaction with chat for song requests.",
       "quote": null
     }
   ],
   "contributor_findings": {
     "biobak": [
       {
-        "summary": "Provided feedback on textures, performance, and trailer submissions for F3; active in chat.",
-        "quote": null
+        "summary": "Actively provides texture/visual feedback in chat; Kaze credits him for trailer submissions for F3 event; lighthearted banter about subscriber counts.",
+        "quote": "Oh shit, that's… actually, is that sad or neat, Biobak? It's neat for me, sad for you."
       }
     ],
     "badub": [
       {
-        "summary": "Expected to compose new track but has been absent from recent sessions, leaving music undecided.",
-        "quote": null
+        "summary": "Expected to compose track for current level but has been ‘missing in attendance,’ leaving OST plan uncertain.",
+        "quote": "I thought Badub was gonna make a song but Badub's been missing for a bit, so I'm not really sure what to expect."
       }
     ],
     "zeina": [
       {
-        "summary": "Delivered animations for the “cement pit guy”; not present in stream because out with friends.",
-        "quote": null
+        "summary": "Supplied new enemy animations (“this guy already or most of them”) but is absent this stream; Kaze mentions she is out with friends.",
+        "quote": "Zeina made the animations for this guy already—or most of them."
       }
     ]
   },
   "key_stories": [
     {
+      "title": "Back-face Culling Boosts FPS",
+      "summary": "The factory level dipped to 19 FPS on real hardware.  By toggling back-face culling for two metal materials exclusively on N64 builds, Kaze raised worst-case performance to ~25-29 FPS without visible loss on console.",
+      "challenge": "Severe frame-rate drops in a 13k-triangle area.",
+      "process": "Profiled angles, counted triangles, selectively enabled back-face culling, retested on console.",
+      "outcome": "Performance is now considered acceptable; further gains will come from collision maps and triangle pruning.",
+      "key_quote": "Backface culling is insane—going from 22 to 29 FPS just by flipping that flag.",
+      "related_to": [
+        "kaze"
+      ]
+    },
+    {
+      "title": "Divide-by-Zero Crash on Console",
+      "summary": "Return to Yoshi’s Island and Only Up builds crashed on boot due to a floating-point exception.  Investigation showed GCC had pipelined a mandatory divide into a branch delay slot, forcing a ÷0 on every run.",
+      "challenge": "Game crashed on real N64 with floating-point exception at ClipMario.",
+      "process": "Traced to compiler output, added ε check (0.01f) and rearranged calculations; duplicated fix in both repositories.",
+      "outcome": "Boot crash resolved; highlighted risks of maintaining two codebases.",
+      "key_quote": "The compiler decided to pipeline the division so I always divide by zero—that’s not my fault.",
+      "related_to": [
+        "kaze"
+      ]
+    },
+    {
       "title": "Seesaw Goomba Set-Piece",
-      "summary": "Kaze prototypes a plank with a Goomba on one end and a breakable box on the other. After multiple tweaks to speed, bounce, and collision, the plank convincingly tips forward and pins the Goomba.",
-      "challenge": "Create an interactive environmental gag that feels physical yet runs on real N64 hardware.",
-      "process": "Scripted the motion as ‘fake physics’, adjusted angular velocity, added conditionals to stop Mario being carried through walls, and iterated live on stream.",
-      "outcome": "Stable, comedic sequence ready for polish (sound effect, final Goomba behaviour).",
-      "key_quote": "That ending pose is beautiful – I love this.",
-      "related_to": ["kaze"]
+      "summary": "Kaze built a dynamic seesaw platform: Mario smashes a rear crate, the plank pivots, bounces, and flattens a helmeted Goomba.",
+      "challenge": "Designing an interactive gag that feels physical yet runs on N64 limits.",
+      "process": "Modelled plank, programmed sine-based rotation, tuned bounce and speed, ensured predictable collision, tested on console.",
+      "outcome": "Animation is ‘beautiful’; next tasks are detaching Goomba and fine-tuning sound/physics.",
+      "key_quote": "The final image is beautiful—ending like this is the best thing ever.",
+      "related_to": [
+        "kaze",
+        "zeina"
+      ]
     },
     {
-      "title": "FPS Rescue via Back-Face Culling",
-      "summary": "Factory level dipped to 19 FPS when looking across geometry. By enabling back-face culling on metal materials and trimming unseen faces, performance rose to 25 FPS without noticeable visual loss on hardware.",
-      "challenge": "Maintain acceptable framerate in the project’s largest, most detailed area.",
-      "process": "Profiled triangle counts, toggled material flags, compiled for N64, measured FPS, and compared emulator visuals.",
-      "outcome": "Console-specific culling will ship; further collision-map and triangle pruning planned.",
-      "key_quote": "I predicted 25 and we hit 25 – backface culling is insane.",
-      "related_to": ["kaze", "biobak"]
-    },
-    {
-      "title": "Compiler Betrayal Crash",
-      "summary": "An N64 crash led to discovery that the GCC toolchain had rearranged a divide instruction into a branch delay slot, forcing a divide-by-zero.",
-      "challenge": "Random floating-point exception during console boot.",
-      "process": "Read disassembly, identified pipelined divide, moved calculations out of delay slot and recompiled in two repos.",
-      "outcome": "Build boots reliably; same fix ported to Only Up 64 codebase.",
-      "key_quote": "This isn’t my bug – the compiler unconditionally pipelined the division.",
-      "related_to": ["kaze"]
+      "title": "Missing Music from Composer",
+      "summary": "Current level lacks a dedicated track because composer Badub hasn’t checked in recently.",
+      "challenge": "Need original OST but composer absent.",
+      "process": "Kaze waits, considers stop-gap ideas, and invites chat OST suggestions.",
+      "outcome": "Music gap remains unresolved.",
+      "key_quote": "I thought Badub was gonna make a song but Badub's been missing for a bit.",
+      "related_to": [
+        "kaze",
+        "badub"
+      ]
     }
   ],
   "open_questions": [
     {
-      "topic": "Player Communication for Sabotage Mechanics",
-      "context": "Kaze has five ‘workers’ (e.g., Goomba on seesaw, construction Womp) to mess with but hasn’t decided how players learn these interactions.",
+      "topic": "Music pipeline and Badub’s availability",
+      "context": "Badub was expected to supply a song for the level but hasn’t appeared for ‘a bit.’ No contingency stated.",
       "questions": [
-        "What teaching methods or visual cues will show players they can sabotage each worker?",
-        "Will there be a common mechanic across all five or unique hints per enemy?",
-        "How does this fit into overall mission structure and star objectives?"
+        "Is Badub still the primary composer?",
+        "What backup plans exist if he remains unavailable?",
+        "How will musical direction be communicated to him?"
       ],
-      "related_to": ["kaze", "biobak", "zeina"],
+      "related_to": [
+        "badub",
+        "kaze"
+      ],
       "priority": "high"
     },
     {
-      "topic": "Music Production Status",
-      "context": "Badub was expected to compose the area’s theme but has been absent; no replacement plan discussed.",
+      "topic": "Player telegraphing of enemy gimmicks",
+      "context": "Kaze worries players may not realize how to sabotage construction Goombas, Womps, cement pit workers, etc.",
       "questions": [
-        "Has Badub started any tracks for Oily Boily Bay?",
-        "Is there a contingency composer if schedules don’t align?",
-        "What musical direction (genre, instrumentation) suits the factory theme?"
+        "What visual/audio cues will teach players each sabotage method?",
+        "Has any play-testing been done on readability?",
+        "Will tutorials or NPC hints exist?"
       ],
-      "related_to": ["badub", "kaze"],
+      "related_to": [
+        "kaze",
+        "zeina",
+        "biobak"
+      ],
       "priority": "medium"
     },
     {
-      "topic": "Remaining Animations (Glass Curry & Overseer)",
-      "context": "Zeina finished cement pit guy but glass curry and Overseer animations are pending.",
+      "topic": "Final performance target & toolchain",
+      "context": "Level currently acceptable after culling but still pushes console; collision maps and culling still pending.",
       "questions": [
-        "What is the animation scope for these characters?",
-        "Are there technical constraints Zeina must consider?",
-        "How does timeline align with planned demo or release?"
+        "What concrete FPS threshold is acceptable for release?",
+        "Will automatic tools generate collision maps/lods?",
+        "Any plan to unify the two code repositories to avoid duplicate bug fixes?"
       ],
-      "related_to": ["zeina", "kaze"],
+      "related_to": [
+        "kaze"
+      ],
       "priority": "medium"
     },
     {
-      "topic": "Only Up 64 N64 Compatibility",
-      "context": "Level is 60 % done and untested on hardware; Kaze hopes it will run on console.",
+      "topic": "Legal & release strategy",
+      "context": "Kaze says ‘Nope, just wait’ regarding release date; no mention of Nintendo/legal considerations.",
       "questions": [
-        "What is the current polygon budget and performance expectation?",
-        "What fallback plans exist if hardware can’t handle it?",
-        "Will learnings from RtYI optimisations transfer to Only Up 64?"
+        "What is the projected release window?",
+        "Will the team issue a pre-release demo?",
+        "Any mitigation plan for potential takedown notices?"
       ],
-      "related_to": ["kaze"],
+      "related_to": [
+        "kaze"
+      ],
       "priority": "low"
     },
     {
-      "topic": "Release Timeline & Strategy",
-      "context": "Kaze refuses to predict release dates and has no visible plan.",
+      "topic": "Zeina’s animation workload",
+      "context": "Zeina delivered some enemy animations but is juggling personal life; unclear pipeline.",
       "questions": [
-        "What internal milestones exist for Return to Yoshi’s Island?",
-        "Is a demo or episodic release considered?",
-        "How will legal risks with Nintendo be mitigated?"
+        "How are animation tasks queued and reviewed?",
+        "What tools/workflow does Zeina use?",
+        "How does the personal relationship with Kaze affect creative feedback loops?"
       ],
-      "related_to": ["kaze"],
-      "priority": "high"
+      "related_to": [
+        "zeina",
+        "kaze"
+      ],
+      "priority": "low"
     }
   ]
 }
