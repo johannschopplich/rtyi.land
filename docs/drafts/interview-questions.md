@@ -19,6 +19,7 @@ These central questions are for Kaze, Biobak, Badub, and Zeina individually. Thi
     - Personal nostalgia for Super Mario 64 or Yoshi's Island
     - Role of the SM64 decompilation project
     - Kaze: "I like Yoshi. That's kind of where the thought process ended." – What does that mean to you on a deeper level?
+    - Kaze: The poor performance of "The Zoo" level was a major catalyst for the engine rewrite. Were you aware of how ambitious the technical side of the project would become from the start?
 
     :::
 
@@ -32,6 +33,7 @@ These central questions are for Kaze, Biobak, Badub, and Zeina individually. Thi
     - Proving what's possible on 30-year-old hardware
     - The passion for creation vs. financial realities
     - Kaze: "If you want to be successful making video games you need to be mentally unwell" – what's the story behind that feeling?
+    - Kaze: You've also said you're driven by discipline, not motivation ("If you need motivation, you're already fucked up"). How do you reconcile those two ideas?
 
     :::
 
@@ -65,9 +67,9 @@ These central questions are for Kaze, Biobak, Badub, and Zeina individually. Thi
 
     ::: info Follow-ups
 
-    - Specific bugs that only show on real N64 hardware
+    - Specific bugs that only show on real N64 hardware (e.g., the S8 register crash, the Bowser drop bug)
     - Creative dead ends like the initial Space Arcade or Volcano concepts
-    - The Styrofoam texture lighting challenge
+    - The multi-stream "Styrofoam" texture challenge to create a single material
     - The Wiggler's difficult animation rigging
     - The paper plane physics going "volatile and chaotic"
     - Kaze: "This building style is just not exciting me"
@@ -83,7 +85,7 @@ These central questions are for Kaze, Biobak, Badub, and Zeina individually. Thi
     - The "fucked" vanilla audio engine requiring a complete rewrite
     - The vanilla collision system being "unusable"
     - Inventing CPU-based normal mapping for fake lighting on the styrofoam
-    - Performance profilers showing red bars and forcing optimization
+    - The Oily Boily Bay rework pushing the game 1KB over the RAM limit
     - The freedom and challenges of the SM64 decompilation project
 
     :::
@@ -132,9 +134,9 @@ These questions are tailored to each team member's specific role and contributio
     ::: info Follow-ups
 
     - Teasing distant landmarks like the lighthouse or volcano
-    - Permanent world changes like the Rain Flower quest or Dory rescue
+    - Permanent world changes like the Sad Rain Flower quest or the Chained Dory rescue
     - The seamlessly transitioning music tracks by Badub
-    - Dynamic overworld events like the pirate invasion
+    - The decision to make the overworld a single, seamless map and the technical challenges that creates
     - The evolution from simple coin payment to story-driven events
     - The coin system and making coins "feel more valuable than Mario Odyssey"
 
@@ -148,11 +150,10 @@ These questions are tailored to each team member's specific role and contributio
 
     - Why was the vanilla collision "unusable"?
     - What exactly was "fucked" about the original audio engine?
-    - Collaboration with Sauraen on the F3DEX3 microcode
+    - Collaboration with Sauraen on the F3DEX3 microcode to solve the RSP bottleneck
     - Enabling 60 FPS gameplay
     - Supporting Badub's dynamic music and Zeina's complex animations
-    - Complex platforming in the Ice Castle
-    - The new quaternion-based animation system
+    - The story of the "S8 Register Crash" and how it exemplifies the need for custom code
 
     :::
 
@@ -160,11 +161,14 @@ These questions are tailored to each team member's specific role and contributio
 
     ::: info Follow-ups
 
-    - Performance profiler and trace tools from Sauraen
     - Crashes that "just work" on certain emulators
-    - N64 hardware stability and floating point exception issues
     - The challenge of testing on multiple emulator types
     - Why you can't trust emulators for final performance testing
+    - N64 hardware stability and floating point exception issues
+    - The "Phantom Bowser Bug" that only happened on Project64
+    - The EverDrive X7 boot failure
+    - The story of the compiler generating faulty code for the Thimble Guy's shine effect
+    - How critical are tools like Sauraen's profiler or the NEMU64 emulator for this process?
 
     :::
 
@@ -174,10 +178,11 @@ These questions are tailored to each team member's specific role and contributio
 
     ::: info Follow-ups
 
-    - Biobak's complete rework of the Pirate Ship level ("Holy shit, everything is different")
+    - Biobak's complete rework of the Ghost Ship level ("Holy shit, everything is different")
     - Badub's cowboy music arriving mid-stream and changing the whole "vibe"
     - Zeina's "mutant Yoshi" boss concept
     - Tutorial Bunnies as a collaborative solution
+    - Biobak's suggestion to change the Course 15 boss arena from a factory to a destructible planet
     - The "Feelings are real, reasoning is stupid" philosophy for feedback
     - How do you manage tasks and feedback in a remote, informal team?
 
@@ -187,7 +192,8 @@ These questions are tailored to each team member's specific role and contributio
 
     ::: info Follow-ups
 
-    - Specific chat ideas being implemented, like the "growing flower" vine or "Mirror Mario" wall-kick mechanic
+    - Specific chat ideas being implemented, like the "growing flower" vine or "Mirror Wall" section
+    - The story of the "Whomp Tower" puzzle, which came directly from a viewer
     - How streaming helps vs. hinders focus and creativity
     - Managing the pressure of working in public
     - Beta tester feedback vs. real-time stream feedback
@@ -200,12 +206,13 @@ These questions are tailored to each team member's specific role and contributio
 
     ::: info Follow-ups
 
-    - Strategic release timing to avoid major Nintendo launches
-    - Using copyright-free trailers for protection
-    - The "legally distinct" asset-swap contingency plan
-    - Aspirations for commercial game development
-    - Open-sourcing the engine and code to preserve the work
     - The "calculated risk" mindset: Why you do this despite the risks?
+    - Your "win-win" philosophy about a takedown being a PR opportunity
+    - The strategy of having a copyright-free trailer ready to go
+    - The "legally distinct" asset-swap contingency plan
+    - Your aspirations for a commercial game on Godot, funded via Kickstarter
+    - Open-sourcing the engine and code to preserve the work
+    - The story of your profane reply to a 2019 DMCA notice
 
     :::
 
@@ -219,14 +226,15 @@ These questions are tailored to each team member's specific role and contributio
 
 **On Visuals & World-Building**
 
-1.  We often see Kaze build a functional "blockout" version of a level to get the platforming right. Then later, we see your rework that completely transforms the levels. Can you walk me through your process? How do you take that basic layout and breathe life into it? The Course 1, Pirate Ship, or Oily Boily Bay reworks are my favorite examples.
+1.  We often see Kaze build a functional "blockout" version of a level to get the platforming right. Then later, we see your rework that completely transforms it. Can you walk me through your process? How do you take that basic layout and breathe life into it? Course 1, the Ghost Ship or Oily Boily Bay reworks are my favorite examples.
 
     ::: info Follow-ups
 
-    - Kaze's reaction to the Pirate Ship rework: "Holy shit, everything is different"
+    - Kaze's reaction to the Oily Boily Bay rework: "Holy shit. This actually looks insane."
     - What does a level look like when you receive it? (MS Paint maps, simple geometry?)
-    - Detailed changelogs explaining every decision
+    - Your detailed changelogs explaining every decision
     - How do you add "placeness" and story through visual details?
+    - The story behind the "sexy brutalist architecture" for the Bowser Tower.
     - Evolving quality standards over time
     - Balancing Kaze's gameplay needs with your artistic vision
 
@@ -236,10 +244,10 @@ These questions are tailored to each team member's specific role and contributio
 
     ::: info Follow-ups
 
-    - The process of sending high-poly models to Kaze
+    - The process of sending high-poly models to Kaze for optimization
     - Creative solutions for N64's limited color palette
-    - Vertex colors and N64-specific shader "combiners"
     - Optimizing geometry and textures without losing the artistic vision
+    - The story of the "Cursed Texture" and the 96x42 resolution workaround
     - An example of an idea that was just too ambitious for the hardware
     - An example of an idea that surprisingly _did_ work after some optimization
 
@@ -255,7 +263,7 @@ These questions are tailored to each team member's specific role and contributio
     - Translating a feeling or "vibe" into a concrete visual identity
     - Your role as an idea contributor beyond just visuals
     - Suggesting level flow or gameplay improvements
-    - The back-and-forth on technical feasibility for your ideas
+    - The story of suggesting the destructible planet for the Course 15 boss fight
     - A time Kaze's initial idea was vague and you had to define the look
     - A time your artistic choice fundamentally changed Kaze's initial gameplay idea
 
@@ -315,7 +323,7 @@ These questions are tailored to each team member's specific role and contributio
 
     - The OST taking up a significant ROM space (64MB limit)
     - Working with Kaze's rewritten sound engine
-    - Creative workarounds for instrument limitations
+    - Creative workarounds for instrument limitations, like your idea for hybrid tracks
     - The process of making dynamic music within these constraints
 
     :::
@@ -341,13 +349,14 @@ These questions are tailored to each team member's specific role and contributio
 
 **On Animation & Character**
 
-1.  You bring the game's characters to life through animation. What's your approach to giving personality and emotion to characters within the N64's technical limits? The Piano Guy is favorite character with so much charisma.
+1.  You bring the game's characters to life through animation. What's your approach to giving personality and emotion to characters within the N64's technical limits? The Piano Guy is a favorite character with so much charisma.
 
     ::: info Follow-ups
 
     - The challenges of the old "geo bone" system
     - The benefits of the new quaternion-based animation system
     - Conveying personality through movement, not polygon count
+    - The story of animating the Wiggler, which you said was the "most difficult one to animate yet"
     - Making enemies feel alive and reactive
     - The animation pipeline with Kaze's programming
 
@@ -389,7 +398,7 @@ These questions are for Kaze and Zeina together, focusing on their unique dynami
 
     - Design decisions made casually over dinner or at home
     - Switching off from "developer mode"
-    - The dynamic of working in the same physical space
+    - The dynamic of working in the same physical space, and how that changed when you moved and got separate rooms
     - How the project weaves into daily life
     - Balancing the creative work with personal life
 
@@ -424,7 +433,7 @@ These questions are for Kaze and Zeina together, focusing on their unique dynami
     ::: info Follow-ups
 
     - Balancing development with life events (moving, terrariums, haircuts)
-    - How expecting a child changes the project's stakes
+    - How expecting a child changed the project's stakes
     - Reflecting on the "human cost" of such a massive undertaking
     - What does this project mean to you as a legacy you're creating together?
 
