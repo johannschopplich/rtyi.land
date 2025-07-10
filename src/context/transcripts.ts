@@ -31,7 +31,7 @@ export async function processTranscript(filePath: string, model: string) {
 
     const { object } = await generateObject({
       model: languageModel,
-      temperature: model.startsWith("gemini") ? 1 : 0.5,
+      temperature: 0.5,
       schema: StreamAnalysisSchema,
       output: "object",
       prompt: template(STREAM_ANALYSIS_PROMPT_v2, {

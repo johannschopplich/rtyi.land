@@ -22,7 +22,11 @@ const FindingSchema = z.object({
 });
 
 const StorySchema = z.object({
-  title: z.string().describe("A short title for this story or incident"),
+  title: z
+    .string()
+    .describe(
+      "A brief, descriptive, non-catchy title for this story or incident",
+    ),
   summary: z.string().describe("A 2-3 sentence overview of the story"),
   challenge: z
     .string()

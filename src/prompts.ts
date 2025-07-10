@@ -59,7 +59,8 @@ For each of the following categories, carefully examine the transcript and extra
 
 - Include quotes that illustrate key points only if they are particularly impactful or revealing
 - Focus on information that generates meaningful interview questions
-- It's okay if some categories have no findings – do not force any information where it doesn't exist
+- Focus on key team members, but note other contributors who make valuable contributions, such as Lilaa, Sauraen, and Arthur
+- It's okay if some categories have little or no findings – do not force any information where it doesn't exist
 
 ## Exclusions
 
