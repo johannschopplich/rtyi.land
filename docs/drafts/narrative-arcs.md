@@ -33,7 +33,7 @@ This outline serves only as a roadmap for filming, while allowing the actual sto
 - **Narrative Goal:** The actual inciting incident that transformed a simple ROM hack into an engine rewrite project. This is THE missing origin story.
 - **Topics to Cover:**
   - **The Breaking Point:** "The zoo is actually the reason I even started optimizing Mario 64. The zoo ran so poorly that I just could not take that." The specific moment when acceptable became unacceptable.
-  - **Technical Awakening:** How this single level's poor performance opened Kaze's eyes to fundamental problems with the SM64 engine - the "fucked" sound system, "unusable" collision detection, and optimization issues.
+  - **Technical Awakening:** How this single level's poor performance opened Kaze's eyes to fundamental problems with the SM64 engine – the "fucked" sound system, "unusable" collision detection, and optimization issues.
   - **The Decision:** The moment Kaze decided to stop working around the engine's limitations and start rewriting them entirely.
   - **Scope Realization:** How fixing one level's lag led to rebuilding collision systems, sound engines, graphics pipelines, and more.
 - **B-Roll:**
@@ -77,37 +77,10 @@ This outline serves only as a roadmap for filming, while allowing the actual sto
 - **Topics to Cover:**
   - **The Challenge:** Teaching advanced moves without intrusive text tutorials on N64's low resolution.
   - **Community Problem-Solving:** Multiple suggestions, refinements, and Biobak's breakthrough ring concept.
-  - **Real-Time Iteration:** Zeina creating animations, Kaze coding mechanics, Biobak refining visuals - all happening live.
+  - **Real-Time Iteration:** Zeina creating animations, Kaze coding mechanics, Biobak refining visuals – all happening live.
 - **B-Roll:**
   - Stream footage showing the evolution from broken tutorial to elegant solution.
   - Team members contributing in real-time during development.
-
-## AI as Creative Partner: Modern Tools in Retro Development  
-
-**Main Focus:** The intersection of cutting-edge AI with retro game development, showing how modern creators integrate new tools while maintaining human creativity.
-
-### The Writers' Room: Man vs. Machine
-
-- **Narrative Goal:** Exploring AI's role as creative collaborator rather than replacement, and the importance of human curation.
-- **Topics to Cover:**
-  - **The Brainstorming Process:** Kaze using ChatGPT to generate dialogue for protesting minions: "Give me five short dialogues that the worker wants to say."
-  - **AI Limitations:** Where ChatGPT's ideas felt generic or limited.
-  - **Human Enhancement:** Biobak's superior puns and context-aware humor. Kaze's reaction: "They're gonna replace all the writers with Biobak. They're all gonna be jobless."
-  - **The Synthesis:** Final dialogue combining AI brainstorming with human creativity and quality control.
-- **B-Roll:**
-  - Screen capture of ChatGPT brainstorming sessions.
-  - Final in-game dialogue scenes showing the collaborative result.
-
-### Enemy Design Innovation
-
-- **Narrative Goal:** Showing how AI can break creative blocks and inspire new directions.
-- **Topics to Cover:**
-  - **The Creative Block:** Struggling to adapt classic Tox Box enemy to oil rig theme.
-  - **AI Inspiration:** ChatGPT's suggestion: "They might look like large shipping containers or mechanical cubes."
-  - **Human Implementation:** Kaze immediately adopting the idea and finding 3D models to implement it.
-- **B-Roll:**
-  - Before/after comparison of enemy concepts.
-  - Stream footage of the AI consultation and immediate implementation.
 
 ## Accidental Breakthroughs: The Role of Serendipity in Technical Innovation
 
@@ -132,7 +105,7 @@ This outline serves only as a roadmap for filming, while allowing the actual sto
 - **Topics to Cover:**
   - **The Mystery:** Game crashing on N64 with division-by-zero error despite safety checks in the code.
   - **The Investigation:** Examining compiled assembly code to discover compiler optimization bypassing safety checks.
-  - **The Solution:** "That is not a bug in the code. That is not my fault" - working around aggressive compiler optimizations.
+  - **The Solution:** "That is not a bug in the code. That is not my fault" – working around aggressive compiler optimizations.
   - **The Expertise:** Demonstrating the deep technical knowledge required for N64 development.
 - **B-Roll:**
   - Assembly code analysis on screen.
@@ -295,8 +268,8 @@ This is my favorite arc. It perfectly captures Kaze's creative process, the team
   - **Design Evolution:** From 5% design time (Last Impact) to 20% (RTYI): "Back when I was making Last Impact, like whenever I had an idea, I would just put it in almost unfiltered."
   - **Example 1: The Iridescent Oil Saga.** Creating the rainbow oil effect through trial and error: "Wow this looks terrible, oh my god this looks so bad. I absolutely hate this" → eventually becoming a signature level feature.
   - **Example 2: The Wet Cement Nightmare.** An entire stream debugging a texture effect, exploring complex theories before discovering a simple copy-paste error: "That part was missing everywhere. No wonder this didn't work."
-  - **Example 3: Course 11 Improvisation.** "Yeah, this level is a bit improvised compared to my normal levels. We're kind of making a lot of shit up on the fly" - showing that even expert developers embrace controlled chaos.
-  - **Example 4: The Space Arcade Scrapping.** Killing darlings: "The idea we had for this level is terrible" - completely reimagining a level from scratch when the original concept fails.
+  - **Example 3: Course 11 Improvisation.** "Yeah, this level is a bit improvised compared to my normal levels. We're kind of making a lot of shit up on the fly" – showing that even expert developers embrace controlled chaos.
+  - **Example 4: The Space Arcade Scrapping.** Killing darlings: "The idea we had for this level is terrible" – completely reimagining a level from scratch when the original concept fails.
   - **Example 5: The Paper Airplane Physics Experiment.** Kaze's mathematical approach to game physics: folding a real paper airplane to understand the mathematics ("I'm making a paper airplane to look at it. I got a piece of graph paper"), then spending an entire stream tweaking variables as physics went "volatile and chaotic." The iterative process from falling through floors to smooth, rideable flight mechanics demonstrates the messy reality behind polished gameplay.
 - **B-Roll:**
   - Montage of Kaze's roughest placeholder models and early "shit phase" layouts.

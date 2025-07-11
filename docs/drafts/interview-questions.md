@@ -14,14 +14,14 @@ This documentary targets an audience who may never have heard of ROM hacking, N6
 
 These central questions are for Kaze, Biobak, Badub, and Zeina individually. This will hopefully allow me to weave together their different perspectives on the same key topics, creating a multi-faceted narrative for the documentary.
 
-1.  **The Project:** Tell me about "Return to Yoshi's Island" - what is this project you've spent years of your life creating? What does it mean to take a beloved classic like Super Mario 64 and transform it into something entirely new?
+1.  **The Project:** Tell me about "Return to Yoshi's Island" – what is this project you've spent years of your life creating? What does it mean to take a beloved classic like Super Mario 64 and transform it into something entirely new?
 
     ::: info Follow-ups
 
     - Help viewers understand: What is ROM hacking? What makes this different from typical game mods?
-    - The SM64 decompilation project - how did this change what was possible?
+    - The SM64 decompilation project – how did this change what was possible?
     - Why Yoshi's Island specifically? What about that game captured your imagination?
-    - For people who've never heard of this scene - what drives someone to rebuild a 30-year-old game from the ground up?
+    - For people who've never heard of this scene – what drives someone to rebuild a 30-year-old game from the ground up?
 
     :::
 
@@ -32,9 +32,9 @@ These central questions are for Kaze, Biobak, Badub, and Zeina individually. Thi
     - Initial excitement or skepticism when you first heard about the project
     - What was Kaze's pitch like to get you involved?
     - Personal nostalgia for Super Mario 64 or Yoshi's Island
-    - **Kaze - The Real Origin Story**: "The zoo is actually the reason I even started optimizing Mario 64. The zoo ran so poorly that I just could not take that." Can you take me back to that specific moment when you decided enough was enough? For people unfamiliar with game development, help us understand what "lag" means and why fixing it required such extreme measures.
-    - **Kaze - The Yoshi Connection**: "I like Yoshi. That's kind of where the thought process ended." What does that mean to you on a deeper level? What is it about Yoshi specifically that made this project worth years of your life?
-    - **Kaze - Scope Realization**: Did you understand from the start that fixing one laggy level would lead to rewriting collision systems, sound engines, and graphics pipelines? How did fixing one problem reveal that the entire engine needed rebuilding?
+    - **Kaze – The Real Origin Story**: "The zoo is actually the reason I even started optimizing Mario 64. The zoo ran so poorly that I just could not take that." Can you take me back to that specific moment when you decided enough was enough? For people unfamiliar with game development, help us understand what "lag" means and why fixing it required such extreme measures.
+    - **Kaze – The Yoshi Connection**: "I like Yoshi. That's kind of where the thought process ended." What does that mean to you on a deeper level? What is it about Yoshi specifically that made this project worth years of your life?
+    - **Kaze – Scope Realization**: Did you understand from the start that fixing one laggy level would lead to rewriting collision systems, sound engines, and graphics pipelines? How did fixing one problem reveal that the entire engine needed rebuilding?
     - **Team Members**: How did you realize this wasn't going to be a typical ROM hack but something much more ambitious?
 
     :::
@@ -87,12 +87,12 @@ These central questions are for Kaze, Biobak, Badub, and Zeina individually. Thi
 
     - **Hardware-Only Bugs**: The compiler generating faulty division-by-zero code that only manifested on real N64 hardware. "That is not a bug in the code. That is not my fault." How do you debug something that complex?
     - **Creative Dead Ends**: "The idea we had for this level is terrible." The Space Arcade concept being completely scrapped for the Shy Guy Space Station. How do you know when to kill your darlings?
-    - **The Cowboy Crisis**: "This building style is just not exciting me" - the level struggling to find its identity until Badub's music arrived and transformed everything
+    - **The Cowboy Crisis**: "This building style is just not exciting me" – the level struggling to find its identity until Badub's music arrived and transformed everything
     - **Biobak's Bomb Cap Crash**: A major level rework introducing a persistent crash that required systematic debugging to isolate actor overflow issues
-    - **The Iridescent Oil Nightmare**: "Wow this looks terrible, oh my god this looks so bad. I absolutely hate this" - working through multiple streams to create the rainbow effect
+    - **The Iridescent Oil Nightmare**: "Wow this looks terrible, oh my god this looks so bad. I absolutely hate this" – working through multiple streams to create the rainbow effect
     - **The Wet Cement Debug**: An entire stream debugging a texture effect only to discover a simple copy-paste error: "That part was missing everywhere. No wonder this didn't work."
     - **The Paper Airplane Physics Experiment**: Folding a real paper airplane to understand the mathematics ("I'm making a paper airplane to look at it. I got a piece of graph paper"), then spending an entire stream tweaking variables as physics went "volatile and chaotic." How do you balance real-world physics with playable game mechanics?
-    - **Wiggler Animation Hell**: "The most difficult one to animate yet" - technical and creative challenges converging
+    - **Wiggler Animation Hell**: "The most difficult one to animate yet" – technical and creative challenges converging
     - **Happy Accidents**: How do you create conditions where "happy accidents" can happen? What's the most valuable thing you've learned from a mistake vs. planned optimization?
 
     :::
@@ -101,7 +101,7 @@ These central questions are for Kaze, Biobak, Badub, and Zeina individually. Thi
 
     ::: info Follow-ups
 
-    - **For Global Audience**: Help explain what these N64 limitations mean in practical terms - like how 64MB is tiny compared to modern games
+    - **For Global Audience**: Help explain what these N64 limitations mean in practical terms – like how 64MB is tiny compared to modern games
     - Working within a 64MB ROM and 4KB texture memory budget
     - The "fucked" vanilla audio engine requiring a complete rewrite
     - The vanilla collision system being "unusable"
@@ -133,7 +133,7 @@ These questions are tailored to each team member's specific role and contributio
 
 ::: tip Introduction
 
-Tell me about your role in creating RTYI - you're not just modding Mario 64, you're essentially rebuilding it from the ground up. How did you become the person crazy enough to take on that challenge?
+Tell me about your role in creating RTYI – you're not just modding Mario 64, you're essentially rebuilding it from the ground up. How did you become the person crazy enough to take on that challenge?
 
 :::
 
@@ -159,7 +159,7 @@ Tell me about your role in creating RTYI - you're not just modding Mario 64, you
     - **The Secret Identity**: "What if we made the island the shape of a Yoshi? Yes or no? The island needs to be the shape of a Yoshi." The hidden Yoshi head shape that players will discover
     - **Scale Ambition**: "I'm thinking the overworld will be around four times the size of Super Mario 64" broken into 14 interconnected areas
     - **The Lighthouse Puzzle**: "What if the ship is here, but it's like a shadowy fix, and you have to go into the lighthouse... And in the lighthouse, you point the light at the ship. And that makes the ship visible and breaks through the fog." Creative environmental puzzles
-    - **Living World Events**: Rescued Yoshis stopping the rain, freed Dory providing transport - how the world evolves with player actions
+    - **Living World Events**: Rescued Yoshis stopping the rain, freed Dory providing transport – how the world evolves with player actions
     - **The Interconnected River**: Course 2's river flowing through the entire overworld, creating "placeness" and connection
     - **Story-Driven Progression**: Evolution from coin payments to narrative events, making coins "feel more valuable than Mario Odyssey"
     - **Badub's Dynamic Music**: Nearly 20 tracks that transition seamlessly as players explore
@@ -178,8 +178,8 @@ Tell me about your role in creating RTYI - you're not just modding Mario 64, you
     - **F3DEX3 Collaboration**: Working with Sauraen on custom microcode to overcome the N64's RSP bottleneck
     - **Complete libultra Replacement**: Rewriting the entire operating system for better performance
     - **60 FPS Achievement**: Enabling smooth gameplay that vanilla SM64 "would never be able to handle"
-    - **Performance Pride**: "This is an N64 game. How crazy is that?" - the satisfaction of pushing 30-year-old hardware to modern standards
-    - **Cache Optimization**: "Mario's behavior loop never gets thrown out of cache which is fucking crazy" - your optimization achievements
+    - **Performance Pride**: "This is an N64 game. How crazy is that?" – the satisfaction of pushing 30-year-old hardware to modern standards
+    - **Cache Optimization**: "Mario's behavior loop never gets thrown out of cache which is fucking crazy" – your optimization achievements
     - **Mathematical Modeling**: The paper airplane physics where you folded a real paper airplane to understand the mathematics, then applied trigonometry and physics equations to create realistic flight mechanics. How do you approach translating real-world physics into N64-compatible game mechanics?
 
     :::
@@ -211,7 +211,7 @@ Tell me about your role in creating RTYI - you're not just modding Mario 64, you
     - **Tutorial Innovation**: How the team collaboratively solved the "unteachable tutorial" problem with Biobak's ring concept and Zeina's demonstration animations
     - **Feedback Philosophy**: "Feelings are real, reasoning is stupid" - how you separate emotional reactions from technical suggestions
     - **Creative Disputes**: "Arguments in Discord DMs" with Biobak that lead to better solutions
-    - **Quality Concerns**: "I do not want to reach out to people and ask for help. Because... I feel like I'm gonna say 'oh this actually isn't up to the quality standards I expect'" - managing collaborative standards
+    - **Quality Concerns**: "I do not want to reach out to people and ask for help. Because... I feel like I'm gonna say 'oh this actually isn't up to the quality standards I expect'" – managing collaborative standards
 
     :::
 
@@ -250,7 +250,7 @@ Tell me about your role in creating RTYI - you're not just modding Mario 64, you
 
 ::: tip Introduction
 
-You're the visual wizard behind RTYI - when people see those stunning, modern-looking environments running on N64 hardware, that's your work. Tell me about your role and what drives you to create such detailed worlds for 30-year-old hardware.
+You're the visual wizard behind RTYI – when people see those stunning, modern-looking environments running on N64 hardware, that's your work. Tell me about your role and what drives you to create such detailed worlds for 30-year-old hardware.
 
 :::
 
@@ -260,12 +260,12 @@ You're the visual wizard behind RTYI - when people see those stunning, modern-lo
 
     ::: info Follow-ups
 
-    - **Kaze's Reactions**: "Holy shit, everything is different" (Ghost Ship) and "Holy shit. This actually looks insane" (Oily Boily Bay) - how does it feel to surprise him?
+    - **Kaze's Reactions**: "Holy shit, everything is different" (Ghost Ship) and "Holy shit. This actually looks insane" (Oily Boily Bay) – how does it feel to surprise him?
     - **Starting Point**: What does a level look like when you receive it? MS Paint maps, basic geometry blocks?
     - **Detailed Communication**: Your comprehensive changelogs explaining every decision - how important is that documentation?
-    - **Thematic Cohesion**: The Bomb Cap redesign as a "bomb manufacturing process" - how do you find the narrative thread?
+    - **Thematic Cohesion**: The Bomb Cap redesign as a "bomb manufacturing process" – how do you find the narrative thread?
     - **Lighting Solutions**: "The year's lighting now matching with the light from the windows was pissing me off, so I thought, what if the ceiling was the light source?" Your problem-solving process
-    - **Practical Constraints**: "Fuck cranes. I hate modeling them" - how modeling limitations influence design decisions
+    - **Practical Constraints**: "Fuck cranes. I hate modeling them" – how modeling limitations influence design decisions
     - **Quality Evolution**: How your standards and capabilities have evolved over the project's timeline
     - **Technical Challenges**: Sending high-poly models to Kaze for N64 optimization
 
@@ -377,7 +377,7 @@ Music is the soul of any game, and your compositions for RTYI have this incredib
 
 ::: tip Introduction
 
-You bring RTYI's characters to life through animation and art, but you're also Kaze's creative partner in life. Tell me about wearing both hats - being both an artist on the team and the person who sees this project's impact on your family every day.
+You bring RTYI's characters to life through animation and art, but you're also Kaze's creative partner in life. Tell me about wearing both hats – being both an artist on the team and the person who sees this project's impact on your family every day.
 
 :::
 
@@ -387,12 +387,12 @@ You bring RTYI's characters to life through animation and art, but you're also K
 
     ::: info Follow-ups
 
-    - **The Wiggler Challenge**: "The most difficult one to animate yet" - what made this character so technically demanding?
+    - **The Wiggler Challenge**: "The most difficult one to animate yet" – what made this character so technically demanding?
     - **System Evolution**: Benefits of Kaze's new quaternion-based animation system vs. the old "geo bone" limitations
-    - **Personality Through Movement**: Conveying character with limited polygons - the Piano Guy's charisma, Dry Bones personality
+    - **Personality Through Movement**: Conveying character with limited polygons – the Piano Guy's charisma, Dry Bones personality
     - **Real-Time Creation**: Creating eye textures "in under 10 minutes" during live streams
     - **Critical Self-Evaluation**: Your professional assessment of your own Bowser animation shows high standards
-    - **Animation Pipeline**: The workflow with Kaze - "All we're waiting for now is animations"
+    - **Animation Pipeline**: The workflow with Kaze – "All we're waiting for now is animations"
     - **Technical Constraints**: Working within N64's animation limitations while maintaining character appeal
     - **Rapid Iteration**: Creating sobbing animations for Koopa characters live during streams
 
@@ -408,10 +408,10 @@ You bring RTYI's characters to life through animation and art, but you're also K
     - **Model Creation**: Working on characters like Peach and Toad within N64 constraints
     - **Texture Contributions**: Bunny footprints, signs, and other environmental details that add charm
     - **Style Collaboration**: How you coordinate with Biobak to maintain visual consistency
-    - **Sketching Process**: "Zeina already has a lot of sketches about how Mario goes through the levels" - your planning role
+    - **Sketching Process**: "Zeina already has a lot of sketches about how Mario goes through the levels" – your planning role
     - **Level Entrance Concepts**: Your beautiful concept art for Bunny Brushwoods, Koopa Wave Cove, and other areas
     - **Artistic Direction**: How your ideas influence the project's overall visual identity
-    - **Multi-Role Versatility**: "Helping out with anything else that he needs" - the scope of your contributions
+    - **Multi-Role Versatility**: "Helping out with anything else that he needs" – the scope of your contributions
 
     :::
 
