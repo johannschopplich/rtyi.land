@@ -1,68 +1,44 @@
 {
   "stream_context": {
-    "summary": "Kaze spends nearly the whole session trying to create a convincing “styrofoam” material for a new mountain stage, investigating how to fake bump-mapping and reflections on N64 hardware while keeping polygon count low.",
+    "summary": "Entire session devoted to inventing a faux-bump-mapped “styrofoam” material for a new mountain stage; Kaze experiments with Blender, texture searches, AI prompts and N64-era shader tricks before settling on a plan to pre-compute multiple rotated normal maps and update them at runtime.",
     "level": [
-      "mountain course (unnumbered)"
+      "Mountain course (unnamed)"
     ]
   },
   "development_findings": [
     {
-      "summary": "The hack will feature 15 courses in total.",
+      "summary": "Game will ultimately contain 15 courses in total.",
       "quote": "There’s going to be 15 courses in total."
     },
     {
-      "summary": "Kaze wants the mountain surface built from a low-poly ‘styrofoam’ block, believing it will save polygons and add visual variety.",
-      "quote": "This mountain here … I think it would look better if it was made out of styrofoam and we could do this in less polygons."
+      "summary": "Mountain stage might use a styrofoam-looking rock surface; goal is lower polygon count and a fresh material variety.",
+      "quote": "Making this mountain I had the idea that maybe making a styrofoam thing with better beach ... we could do this in less polygons and would be another interesting material to add."
     },
     {
-      "summary": "Chosen approach: two textures—one base color, one highlight mask—whose blend is driven by view angle to fake bump-mapped reflection.",
-      "quote": "My idea for it is we have one texture that’s nearly white and a second texture that will be subtracted depending on the view angle so we can get some fake bump mapping."
+      "summary": "Lilaa’s code idea was integrated, saving roughly 30 CPU instructions, though Kaze calls resulting math routine \"cursed.\"",
+      "quote": "Your idea worked ... it saved like 30 instructions or so."
     },
     {
-      "summary": "Explored multiple texture-creation paths: sea-sponge photographs, stock photos, AI generation, hand-drawing, Blender displacement, and 3-D modelling bubbles.",
-      "quote": null
+      "summary": "Kaze decides on a custom faux-bump approach: export a seamless normal map, generate 5-8 rotated versions, and each frame multiply vertex normals with light & camera vectors to derive per-pixel brightness stored in the texture palette.",
+      "quote": "We’ll pre-compute eight normal maps ... overwrite the normal maps every frame with the percentage of light it should reflect into the camera."
     },
     {
-      "summary": "Settled on pre-computing 8 normal-map variants (rotated) and updating the CI4 palette each frame; expects about 128 dot-products per frame, acceptable on N64.",
-      "quote": "Every extra one is a lot more data cost … but 128 vector multiplications should be relatively cheap."
+      "summary": "He dismisses using N64’s traditional lighting or high-overdraw hacks because they either sacrifice performance or can’t handle variable orientations.",
+      "quote": "Why don’t we just use lights? ... It only works on one normal so that doesn’t work."
     },
     {
-      "summary": "Will limit styrofoam faces to specific rotations (≈6–8) so the palette trick remains feasible.",
-      "quote": null
-    },
-    {
-      "summary": "Vertex normals may need to be exported in a separate pass; Kaze weighs duplicating geometry vs. losing vertex colors.",
-      "quote": null
-    },
-    {
-      "summary": "Lilaa’s earlier optimisation idea (applied project-wide) saved ~30 instructions but produced “very cursed” code.",
-      "quote": "Your idea worked … it saved like 30 instructions … Unfortunately, that means we have very cursed code."
-    },
-    {
-      "summary": "Breakthrough came when community member X-Links supplied a usable seamless styrofoam normal map; Kaze will implement shader logic next stream.",
-      "quote": null
-    },
-    {
-      "summary": "Alternative of true per-pixel lighting discarded because N64 cannot compute normals in real time; solution relies on palette manipulation instead.",
-      "quote": null
+      "summary": "Multiple tools tested (Blender displacement, Voronoi noise, AI image generation) but none produced a convincing seamless texture; ends stream after recruiting X-Linx to photograph real styrofoam.",
+      "quote": "At this point it would have been faster to 3D-model this texture. I did not think making styrofoam would turn into this much of a disaster."
     }
   ],
   "context_findings": [
     {
-      "summary": "Kaze is frustrated by chat asking off-topic questions; wishes to ‘just work on my game’.",
-      "quote": "I really don't want to talk about things — I want to just talk about making my game … I can’t do it anymore, man."
+      "summary": "Kaze is visibly frustrated by off-topic chat questions and social demands during development streams.",
+      "quote": "My least favorite thing about streaming is people asking me stuff that doesn’t relate to what I’m doing right now. I just want to work on my game."
     },
     {
-      "summary": "Admits steep learning curve with Blender materials and shaders, calling it ‘so goddamn annoying’.",
+      "summary": "He feels learning new tools (Blender materials, shader nodes) is draining but necessary.",
       "quote": "Learning new tech is always so goddamn annoying."
-    },
-    {
-      "summary": "Shows willingness to buy physical styrofoam and photograph it if digital methods fail, illustrating commitment.",
-      "quote": "Dude, I'm about to actually just buy styrofoam."
-    },
-    {
-      "summary": "Ends stream after two hours of failed tests, fatigued but optimistic about new plan.",
-      "quote": "I did not think making styrofoam would turn into this much of a disaster."
     }
   ],
   "contributor_findings": {
@@ -72,12 +48,12 @@
   },
   "key_stories": [
     {
-      "title": "The Styrofoam Texture Odyssey",
-      "summary": "Kaze spends the entire stream hunting for a convincing styrofoam material. He cycles through stock photos, AI tools, Blender displacement, and even considers hand-painting before a community member provides a usable texture.",
-      "challenge": "Create a low-poly mountain surface that still looks like realistic styrofoam on N64 hardware.",
-      "process": "Tried multiple texture sources, experimented with shader nodes and displacement in Blender, discussed palette-based bump-mapping trick, consulted chat for ideas.",
-      "outcome": "Adopts plan to pre-compute eight rotated normal maps and drive highlight intensity with vertex alpha; coding to begin next session, armed with X-Links’ texture.",
-      "key_quote": "We’re going to spend the entire stream working on styrofoam, aren’t we?",
+      "title": "The Styrofoam Texture Saga",
+      "summary": "Kaze spends an entire session trying—and failing—to craft a believable styrofoam material for a mountain level. After exhausting online textures, AI tools, and Blender displacement tricks, he invents a plan to fake bump-mapping on N64 by swapping rotated normal maps each frame.",
+      "challenge": "Need a low-poly yet visually rich mountain surface material.",
+      "process": "Tried JPEG textures, sponge and cobblestone substitutes, Blender displacement, AI generation; consulted chat; reviewed N64 bump-mapping articles; designed custom normal-map swapping technique.",
+      "outcome": "No final texture yet, but clear technical roadmap and community member (X-Linx) tasked with photographing real styrofoam.",
+      "key_quote": "We’re going to export a normal map and overwrite it every frame with the percentage of light it should reflect—this will look really good.",
       "related_to": [
         "kaze"
       ]
@@ -85,43 +61,67 @@
   ],
   "open_questions": [
     {
-      "topic": "Palette-based normal-map system",
-      "context": "Kaze outlined generating eight normal-map orientations and updating the palette each frame but did not detail memory footprint or exact implementation.",
+      "topic": "Final implementation of faux-bump styrofoam",
+      "context": "Kaze outlined using 5-8 rotated normal maps but hasn’t coded it yet.",
       "questions": [
-        "How much ROM/RAM will the eight normal maps consume?",
-        "What is the exact routine for computing the 128 dot-products each frame?",
-        "Any fallbacks for hardware slow-down on real N64?",
-        "Could more than eight orientations be supported later?"
+        "How exactly will the runtime normal-map swapping be implemented on N64 hardware?",
+        "What memory and performance costs has he budgeted?",
+        "Does he expect visual artifacts from limited orientation set?"
       ],
       "related_to": [
         "kaze"
-      ],
-      "priority": "high"
+      ]
     },
     {
-      "topic": "Styrofoam thematic fit",
-      "context": "Styrofoam chosen mainly for tech reasons; no explanation of narrative or aesthetic relevance to Yoshi’s Island.",
+      "topic": "Level design rationale for a ‘styrofoam’ mountain",
+      "context": "He wants a mountain made of styrofoam to save polygons and add novelty.",
       "questions": [
-        "Why styrofoam specifically for a mountain course in a Yoshi-centric game?",
-        "Is there a gameplay or story justification?"
+        "Is the material purely aesthetic or tied to gameplay?",
+        "How does this fit thematically within Yoshi’s Island?",
+        "Were other materials considered?"
       ],
       "related_to": [
         "kaze"
-      ],
-      "priority": "medium"
+      ]
     },
     {
-      "topic": "Lilaa’s optimisation",
-      "context": "Kaze mentions Lilaa’s idea saved ~30 instructions but became ‘cursed code’, without details.",
+      "topic": "Lilaa’s optimization idea",
+      "context": "Saved ~30 instructions but described as \"cursed code.\"",
       "questions": [
-        "What exactly was Lilaa’s optimisation?",
-        "Why did it require such unconventional code?",
-        "Any plans to refactor it later?"
+        "What was Lilaa’s specific optimization?",
+        "How does it integrate with the broader engine?",
+        "Are similar community contributions common?"
       ],
       "related_to": [
         "kaze"
+      ]
+    },
+    {
+      "topic": "Course count and project scope",
+      "context": "Kaze casually states there will be 15 courses total.",
+      "questions": [
+        "Has the team locked in the full course list?",
+        "What criteria decide inclusion or scope of each course?",
+        "How does this compare to original SM64 structure?"
       ],
-      "priority": "low"
+      "related_to": [
+        "kaze"
+      ]
+    },
+    {
+      "topic": "Team collaboration dynamics",
+      "context": "Only chat members (Lilaa, X-Linx) contributed in this stream; core team absent.",
+      "questions": [
+        "How do off-stream collaborations with Biobak, Badub, and Zeina function?",
+        "Does Kaze prefer solo problem-solving or delegated tasks?",
+        "How are art, animation, and music integrated when technical constraints shift?"
+      ],
+      "related_to": [
+        "kaze",
+        "biobak",
+        "badub",
+        "zeina"
+      ]
     }
   ]
 }

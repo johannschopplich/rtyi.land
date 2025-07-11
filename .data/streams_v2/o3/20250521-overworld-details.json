@@ -1,60 +1,52 @@
 {
   "stream_context": {
-    "summary": "Kaze focused on visual polish for the main overworld: adding the first pass of shaders, creating a dynamic fog system that makes the far side fade to white, and introducing new bouncing \"grape\" actors. The stream was largely about iterative tweaking, bug-fixing, and small asset creation.",
+    "summary": "Kaze spends most of the stream working on the main overworld: tweaking the fog/shader system so the scene fades to white as Mario crosses a bridge toward a ship, and prototyping new ‘grape’ bounce objects.  He mentions recent engine breakages, outlines a plan to re-shader every area, and briefly previews other team members’ tasks.",
     "level": [
       "Overworld"
     ]
   },
   "development_findings": [
     {
-      "summary": "Old levels have broken since recent engine updates, so the team is now revisiting and fixing them to restore playability.",
+      "summary": "Primary task of the session is the “first round of adding shaders” to the overworld, focusing on fog that gradually turns the scene white when Mario reaches the ship.",
+      "quote": "I think we also need to do something with that so that it properly fades into white… I like how everything goes white though as you get to the ship."
+    },
+    {
+      "summary": "Modified the fog controller: default near value changed from 970 to 1000; for the bridge section he sets fog to begin around 13 000 units and squares the alpha to bias far values.",
+      "quote": "We still have the issue that there is no fog at all here now… The fog should start around 12 000.  Let’s start the fog around 13 000 and see if this works."
+    },
+    {
+      "summary": "Old levels became unplayable after recent engine updates; a dedicated bug-fixing pass is underway to restore them.",
       "quote": "These old levels are going to become a lot more playable soon because we broke them over time with engine updates."
     },
     {
-      "summary": "The immediate milestone is finishing the first round of shaders in the overworld.",
-      "quote": "The goal of today's stream [is to] finish the first round of adding shaders to this."
+      "summary": "Intends to make repository builds one-button: “execute a script to export every [level] … break the whole repository.”",
+      "quote": "I want to get my repository into a state where I can execute a script to export every… break the whole repository."
     },
     {
-      "summary": "Kaze built a position-based fog controller so the overworld fades to white only after the player crosses the bridge, preventing unwanted fog in nearby areas.",
-      "quote": "Clearly the fog can't start here because if it did then this would be white when the rest of the stage has no fog."
+      "summary": "Experimenting with world presentation: considers removing textures and NPCs entirely and even auto-moving Mario in the big overworld.",
+      "quote": "I was thinking the entire world should just be dead… I think Mario should move automatically so you don’t even have to play the game here."
     },
     {
-      "summary": "Decal rendering has recently become unreliable; identifying and correcting this regression is on the task list.",
-      "quote": "We have a lot of issues with decals now for some reason; we didn't used to have those issues."
+      "summary": "Built a new ‘grape’ actor: individual collision objects that bounce Mario, using shape color × prim + tex0 and a squishy sound.",
+      "quote": "I think shape color multiplied by prim plus text zero is going to look great… I like the grapes. They’re good grapes."
     },
     {
-      "summary": "He intends to strip textures, remove NPCs, and possibly auto-move Mario in the overworld to convey a desolate atmosphere.",
-      "quote": "I'm thinking the entire world should just be dead… I think Mario should move automatically so you don't even have to play the game here."
-    },
-    {
-      "summary": "A new \"grape\" actor was modeled with prim-color shading, collision, bounce physics and a squishy sound, to serve as individual platform objects.",
-      "quote": "I like the grapes. They're good grapes."
-    },
-    {
-      "summary": "All engine 'loops' are being rewritten as 'ticks' for cleaner frame-based updates.",
-      "quote": "We're removing all loops, by the way—turning all of them into ticks."
-    },
-    {
-      "summary": "Kaze wants a one-click export script that can package the entire repository automatically.",
-      "quote": "I want to get my repository into a state where I can execute a script to export every[thing]."
+      "summary": "Plans to convert remaining engine ‘loops’ into ‘ticks’, eliminating looping audio assets.",
+      "quote": "We’re removing all loops, by the way. Turning all of them into ticks."
     }
   ],
   "context_findings": [
     {
-      "summary": "Kaze works an external job, limiting streams to days off.",
+      "summary": "Kaze holds a day job; weekday streams are limited.",
       "quote": "Tomorrow I definitely will not be able to stream because I have my job."
     },
     {
-      "summary": "He expresses strong opinions on design: dislikes forced complexity (e.g., analog dead-zones, Pokémon combat) and favors clean, intuitive mechanics.",
-      "quote": "If you think about it, competitive Pokémon… at its core is a math optimization problem, and who enjoys those?"
+      "summary": "Shows excitement and satisfaction when fog finally works and grapes compile.",
+      "quote": null
     },
     {
-      "summary": "He rejects cannabis use and jokes about mind-control conspiracy theories, revealing a playful but opinionated personality.",
-      "quote": "Oh you definitely should stop smoking pot. Pot is no good."
-    },
-    {
-      "summary": "Kaze’s worldview is materialistic; he explicitly states he doesn't believe in consciousness as a distinct phenomenon.",
-      "quote": "I don't believe in consciousness, so that question makes no sense."
+      "summary": "Philosophical stance: sees consciousness as a feeling, not a thing, and dislikes competitive Pokémon math-optimization.",
+      "quote": "I don’t believe in consciousness… it’s a feeling and people confuse it with a thing."
     }
   ],
   "contributor_findings": {
@@ -62,30 +54,30 @@
     "badub": [],
     "zeina": [
       {
-        "summary": "Zeina is currently producing assets for \"Penguin Town,\" Course 13.",
-        "quote": "She's currently still working on the Penguin Town for course 13."
+        "summary": "Zeina is currently modelling ‘Penguin Town’ (Course 13) and will show progress in an upcoming stream.",
+        "quote": "She’s currently still working on the Penguin Town for course 13."
       }
     ]
   },
   "key_stories": [
     {
-      "title": "Overworld Fog Fade",
-      "summary": "Kaze needed the beach area to stay clear while the distant ship faded into white. Initial fog settings blanketed everything, so he wrote a custom fog controller tied to player position and tuned the start distance (≈13 000 units) until the effect felt natural.",
-      "challenge": "Create a localized white-out effect without covering the near beach in fog.",
-      "process": "Implemented a scriptable fog controller, experimented with start distances and alpha bias, and repeatedly recompiled and tested.",
-      "outcome": "The fade now looks \"kind of cool\" and will be refined further with matching fog on distant geometry.",
-      "key_quote": "I think we could program the fog controller to make no fog at all appear while you're on this side and then when you're on the other side fog appears.",
+      "title": "Getting the Bridge Fog Right",
+      "summary": "Kaze struggles to make the overworld fog fade perfectly as Mario walks from the beach to the ship.  Initial parameters leave parts of the stage fog-free; he rewrites the fog controller and repeatedly recompiles until the transition feels natural.",
+      "challenge": "Fog did not appear on the bridge side, breaking visual continuity.",
+      "process": "Adjusted fog near/far values, added conditional fog enabling in the controller, squared alpha for distant bias, tested in-engine.",
+      "outcome": "Smooth white fade now occurs, and Kaze declares the effect ‘kind of cool’.",
+      "key_quote": "Okay, yeah, we got some fog here… I think I like it.",
       "related_to": [
         "kaze"
       ]
     },
     {
-      "title": "Building the Grapes",
-      "summary": "Wanting interactive scenery, Kaze modeled individual grapes that Mario can bounce on. He defined their shape, prim-color shading, collision, and added a squishy grass-cut sound.",
-      "challenge": "Design a small, reusable platform object that feels playful and visually consistent.",
-      "process": "Modeled a spherical mesh, set prim-color multiply shading, added collision and a new actor definition, then tested sound and bounce.",
-      "outcome": "Grapes are in-game and Kaze is satisfied with their look and feel.",
-      "key_quote": "I like the grapes. They're good grapes.",
+      "title": "Inventing the Grape Platform",
+      "summary": "Kaze designs a new bouncing ‘grape’ object for the Casino area, deciding on individual actors, testing collision, colour math and sound.",
+      "challenge": "Needed a whimsical platform that fits the casino fruit motif.",
+      "process": "Sketched mesh in-stream, chose shader formula, added collision and squishy SFX, hot-reloaded into level.",
+      "outcome": "Functional, visually pleasing grapes are committed to the repository.",
+      "key_quote": "I like the grapes.  They’re good grapes.",
       "related_to": [
         "kaze"
       ]
@@ -93,82 +85,66 @@
   ],
   "open_questions": [
     {
-      "topic": "Saren’s undisclosed retro-section feature",
-      "context": "Kaze praised Saren for doing \"the coolest thing ever\" in the final level’s retro area but refused to show it.",
+      "topic": "Saren’s “retro section” contribution",
+      "context": "Kaze praises an unseen feature Saren implemented for the final level.",
       "questions": [
-        "What exactly did Saren implement?",
-        "Why keep it secret?",
-        "How does it fit into the level’s design goals?"
+        "What exactly did Saren build for the retro section?",
+        "Why was it significant enough for Kaze to call it ‘the coolest thing ever’?",
+        "How was it technically achieved?"
       ],
       "related_to": [
         "kaze"
-      ],
-      "priority": "medium"
+      ]
     },
     {
-      "topic": "Penguin Town (Course 13) status",
-      "context": "Zeina is still working on this area but no design details were shared.",
+      "topic": "Shader pass roadmap",
+      "context": "Stream covers only the first round of overworld shaders.",
       "questions": [
-        "What is the visual and gameplay concept?",
-        "What challenges has Zeina faced?",
-        "How close is it to completion?"
+        "What are the remaining shader tasks across other worlds?",
+        "How are performance budgets set for real N64 hardware?",
+        "Who is responsible for creating and approving each pass?"
+      ],
+      "related_to": [
+        "kaze"
+      ]
+    },
+    {
+      "topic": "Engine breakages and restoration",
+      "context": "Old levels were broken by recent engine updates.",
+      "questions": [
+        "What specific engine changes caused the regressions?",
+        "What is the plan and timeline to make every legacy level playable again?",
+        "How does the team manage version control to prevent future breakage?"
+      ],
+      "related_to": [
+        "kaze"
+      ]
+    },
+    {
+      "topic": "Removing textures/NPCs and auto-moving Mario",
+      "context": "Kaze floats the idea of a minimalist overworld experience.",
+      "questions": [
+        "Is this a serious design direction or just brainstorming?",
+        "What emotions or themes is he aiming to evoke?",
+        "How do other team members feel about stripping interactivity?"
+      ],
+      "related_to": [
+        "kaze",
+        "zeina",
+        "biobak"
+      ]
+    },
+    {
+      "topic": "Zeina’s Penguin Town",
+      "context": "Zeina is modelling Course 13 but details are sparse.",
+      "questions": [
+        "What is the artistic vision for Penguin Town?",
+        "What technical constraints does she face?",
+        "How does her work integrate with Kaze’s engine features (e.g., shaders, collisions)?"
       ],
       "related_to": [
         "zeina"
-      ],
-      "priority": "medium"
-    },
-    {
-      "topic": "Overworld minimalism decision",
-      "context": "Kaze proposed a texture-less, NPC-less overworld where Mario auto-moves.",
-      "questions": [
-        "Is this concept final or experimental?",
-        "What artistic message is intended?",
-        "How will players interact or regain control?"
-      ],
-      "related_to": [
-        "kaze"
-      ],
-      "priority": "high"
-    },
-    {
-      "topic": "Loop-to-tick refactor",
-      "context": "Kaze is replacing all loops with ticks.",
-      "questions": [
-        "What prompted this change?",
-        "What performance or maintainability gains are expected?",
-        "How extensive is the refactor?"
-      ],
-      "related_to": [
-        "kaze"
-      ],
-      "priority": "low"
-    },
-    {
-      "topic": "Decal rendering regression",
-      "context": "Decals now pop in/out or fail; cause unknown.",
-      "questions": [
-        "What caused the regression?",
-        "Is it shader-related?",
-        "Could asset modifications help?"
-      ],
-      "related_to": [
-        "kaze"
-      ],
-      "priority": "medium"
-    },
-    {
-      "topic": "Guaranteed N64 performance",
-      "context": "Kaze claims the game will run well on real hardware.",
-      "questions": [
-        "What optimisation techniques are being used?",
-        "Have there been performance benchmarks?",
-        "Any compromises in visual fidelity?"
-      ],
-      "related_to": [
-        "kaze"
-      ],
-      "priority": "medium"
+      ]
     }
   ]
 }

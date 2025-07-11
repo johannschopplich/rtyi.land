@@ -1,220 +1,242 @@
 {
   "stream_context": {
-    "summary": "Kaze integrates Biobak’s huge visual overhaul of “Wario’s Wildlife World,” re-imports and fixes new object/animation assets, and hunts down engine bugs while outlining plans for multiplayer, monthly public testing, and an animation-streaming system.",
+    "summary": "Kaze reviews and integrates Biobak’s large graphic/level update for “Wario’s Wildlife World” (the zoo) while hunting down engine bugs, tweaking Antarctic plane-mini-game, and discussing upcoming multiplayer and testing plans.",
     "level": [
-      "Wario’s Wildlife World (Course 5 zoo)",
-      "Aquarium sub-area",
-      "Antarctic plane minigame",
-      "Mario’s Prison",
-      "Wario’s Castle",
-      "Engine-wide features"
+      "Wario’s Wildlife World (Zoo)",
+      "Aquarium & Prison sub-areas",
+      "Antarctic Plane Mini-game",
+      "General engine/overworld"
     ]
   },
   "development_findings": [
     {
-      "summary": "Multiplayer groundwork finished this week (net-code prep, stability and performance tweaks) and will be built into the main ROM, not a separate build.",
-      "quote": null
+      "summary": "Kaze finished ‘a lot of stuff’ needed for the future multiplayer build and insists it be inside the main ROM, not a separate one.",
+      "quote": "I have prepared a lot of stuff that we need to do in order to get multiplayer in … making it a separate ROM kind of feels like cheating to me."
     },
     {
-      "summary": "Screen transitions now use Lilaa’s radius-scaling code for a side-wipe effect instead of instant pop-in.",
-      "quote": "Oh, yeah, I didn’t mention that, but we have smoother transitions now – it pops in from the side all the way instead of instantly being there."
+      "summary": "Scene-transition system now uses radius-scaling for smoother wipes, borrowed from Zeina’s code.",
+      "quote": "Oh, yeah, I didn’t mention that, but we have smoother transitions now. Look at that."
     },
     {
-      "summary": "Monthly course testing is returning: each month one standalone-ROM level will be sent to a single external tester to validate gameplay.",
+      "summary": "Monthly single-course testing will return: each month one isolated level ROM will be sent to a player for gameplay feedback.",
       "quote": "I think we’re gonna bring back monthly course testing, where a player will just get to test one course at a time."
     },
     {
-      "summary": "Massive zoo remodel by Biobak: new textures, benches, bushes, teddy bear, signage, lighting, zip-lines, chain-chomp pen, aquarium décor, etc. Kaze fixes UV maps, fog, and culling.",
+      "summary": "Large zoo re-work from Biobak integrated: new textures, benches, bushes, aquarium decorations, broken car, chain-chomp gate, tire swing, prison overhaul, etc.",
       "quote": null
     },
     {
-      "summary": "New animation-streaming system loads individual frames at runtime, removing length limits (used for Mario shuffle dance).",
-      "quote": "We’re basically using a new technique where instead of loading the entire animation at once, we’re loading individual frames into memory – as long as there’s cart space, you can just keep going."
+      "summary": "Kaze fixes UV-mapping seams, mis-named textures and disables Fast64 ‘culling’ on many models because it breaks render on N64 hardware.",
+      "quote": "Culling kind of just loads 0x80 vertices for no reason. It doesn’t do anything."
     },
     {
-      "summary": "Several objects re-authored: tire swing, chain-chomp gate, wooden boat, blooper, cheep-cheep, broken table. Texture counts reduced, culling disabled, shading added, random scaling code updated.",
+      "summary": "New ‘butt-print’ texture (12×12 transparent dot) added for ground-pound and sliding traces.",
+      "quote": "Alright, I’m making a butt print … It needs to be a transparent dot like this."
+    },
+    {
+      "summary": "Aquarium glass now needs reflective/tinted material; Cheep-Cheep and Unagi models updated; manta splines may need adjustment.",
       "quote": null
     },
     {
-      "summary": "Bug fix: behaviour scripts were zeroing a pointer after object-field layout change (0x3D → 0x40), preventing NPC dialogue and causing crashes; Kaze patched field and stack handling.",
-      "quote": "The current behavior comment is being set to zero... setting that value might cause the behavior script pointer to become invalid – that explains the crash."
+      "summary": "Antarctic plane mini-game tuning: water scroll/fog mismatch fixed; fish wave offset, timer, neutral-zone size under review.",
+      "quote": "I always end with 15 seconds in the end! The fact that you get stuck … is what makes it harder."
     },
     {
-      "summary": "Performance/compatibility notes: avoid ENV-color-alpha and culling flags in Fast64; combine textures only when it doesn’t force larger atlas; shade-color now preferred for world lighting.",
+      "summary": "Behaviour-script interaction bug (NPCs couldn’t talk) traced to object-field overlap (0x3E vs 0x40) after recent refactor; fixed live.",
+      "quote": "The current behavior comment is being set to zero. … I guess I have to keep this at 0x40."
+    },
+    {
+      "summary": "Fast64 update broke armature bones in Dory and other models; Kaze patches by removing extra bones and adjusting offsets.",
       "quote": null
     },
     {
-      "summary": "Aquarium glass and water need reflective material or fingerprint decal; water fog/scrolling fixed; manta splines may need adjustment.",
+      "summary": "Engine and full hack will be open-sourced; Kaze mentions need for a better random() implementation.",
+      "quote": "The entire hack here will be open source."
+    },
+    {
+      "summary": "Performance/size optimisations: consolidate textures into CI8, avoid multiple materials on armatures; discussion about using ‘const’.",
       "quote": null
-    },
-    {
-      "summary": "Antarctic plane minigame feedback logged: consider obstacle explosions, neutral zone widen, but timer increase resisted pending tester data.",
-      "quote": null
-    },
-    {
-      "summary": "RTYI engine and hack will be fully open source.",
-      "quote": "Yeah, the engine will be completely open source. The entire hack here will be open source."
-    },
-    {
-      "summary": "Design philosophy: keep risk and possible frustration; avoid modern ‘frustration-minimised’ design.",
-      "quote": "I think modern video games are just frustration minimised... I try not to do that."
     }
   ],
   "context_findings": [
     {
-      "summary": "Kaze refuses exhaustive regression testing after every change; prefers quick fixes based on memory to save time.",
-      "quote": "Checking the entire game would have taken longer than just fixing it."
+      "summary": "Kaze’s design philosophy opposes modern ‘frustration-minimised’ games; he prefers risk and player struggle.",
+      "quote": "I think modern video games are just frustration-minimized … I try not to do that."
     },
     {
-      "summary": "He values authenticity over PR: declines charity-video trends and calls fans ‘people,’ rejecting heavy parasocial framing.",
-      "quote": "I don’t really care about charity, so I’m not even going to make a video pretending about it."
+      "summary": "He values direct negative feedback over empty praise for improving level design.",
+      "quote": "If your level is shit and people tell you it’s shit … That’s the most useful thing you can get."
     },
     {
-      "summary": "Work environment: extreme heat, Canada Day; replaced failing mouse mid-stream (‘pipelining mice’ spare-mouse strategy).",
-      "quote": "I always have one in store, so when one breaks I instantly have a new one – I call this pipelining mice."
+      "summary": "Debug style: fix specific change quickly instead of full regression tests; says exhaustive checking is unreasonable.",
+      "quote": "Checking the entire game would have taken longer than just fixing it. I know exactly what I changed."
     },
     {
-      "summary": "Philosophy on game difficulty: welcomes players getting stuck; sees honest feedback (‘your level is shit’) as valuable.",
-      "quote": "If your level is shit and people tell you it’s shit, you should still be happy – that’s the most useful thing you can get."
+      "summary": "Shows pragmatic attitude toward hardware: keeps cheap spare mice in ‘pipeline’ to avoid downtime.",
+      "quote": "I always have one in store … I call this pipelining mice."
+    },
+    {
+      "summary": "Open about not engaging with charity trends; values authenticity over public image.",
+      "quote": "I don’t really care about charity … I don’t like pretending to care when I don’t."
     }
   ],
   "contributor_findings": {
     "biobak": [
       {
-        "summary": "Delivered large redo of Wario’s Wildlife World: new textures, lighting, benches, bushes, aquarium props, signs, trophy room, Wario’s office décor.",
+        "summary": "Delivered massive rework package for zoo, aquarium, prison, Antarctic plane course, chain-chomp gate, tire swing, etc.",
         "quote": null
       },
       {
-        "summary": "Optimised models by merging materials, lowering vertex counts, updating collision, but sometimes used ENV-color-alpha causing fog mismatch.",
+        "summary": "Reduced polycounts and merged textures (e.g., chain-chomp teeth/body) to save performance.",
+        "quote": null
+      },
+      {
+        "summary": "Adds humorous environmental storytelling (signs, trophy statues, garlic plate in Wario’s office).",
         "quote": null
       }
     ],
     "badub": [],
     "zeina": [
       {
-        "summary": "Created new 12×12 transparent butt-print texture for ground-pound marks; mirrored correctly.",
-        "quote": null
+        "summary": "Created new butt-print texture and ensured symmetry.",
+        "quote": "Just sent you a new butt print … it’s all symmetrical this time."
       },
       {
-        "summary": "Animating Mario shuffle dance; using Yoshi Milkman + Zeina IK rig; learned foot-shuffle.",
-        "quote": "I spent half the day yesterday learning how to foot shuffle and I almost got it right."
+        "summary": "Animating Mario shuffle dance using new per-frame streaming system; also making Wario run cycle; credits Yoshi Milkman IK rig.",
+        "quote": "We’re basically using a new technique where instead of loading the entire animation at once, we’re loading individual frames … so you can make it as long as you want."
       }
     ]
   },
   "key_stories": [
     {
-      "title": "Zoo Overhaul Day",
-      "summary": "Biobak ships a huge visual rework of the zoo level; Kaze live-reviews, fixes UV seams, fog, and snapping, then recompiles to see the level come alive.",
-      "challenge": "Existing zoo looked flat and dated; needed cohesive theme and performance-friendly textures.",
-      "process": "Biobak remodelled assets; Kaze imported, spotted UV and fog issues, adjusted walls, disabled culling, re-exported.",
-      "outcome": "Level now ‘looks so much more alive’; collision and glass reflections still on task list.",
+      "title": "The Great Zoo Overhaul",
+      "summary": "Biobak ships a huge visual update for the zoo. On stream Kaze reviews every asset, fixes UV seams, adjusts shading and collision, and marvels at the new humor and life the level now has.",
+      "challenge": "Original zoo looked flat and inconsistent.",
+      "process": "Biobak rebuilt textures and models; Kaze live-debugged UVs, fog, culling, and collision; discussed interactions like Chain-Chomp pillow bounce.",
+      "outcome": "Level feels ‘so much more alive’; only collision and a few materials remain before it’s final.",
       "key_quote": "The level looks so much more alive now.",
       "related_to": [
         "kaze",
-        "biobak"
-      ]
-    },
-    {
-      "title": "Dialogue Crash Hunt",
-      "summary": "A sudden inability to talk to zoo penguins crashes the game. Kaze debugs MIPS assembly live to trace a field-offset regression.",
-      "challenge": "Behaviour script pointer became zero, crashing on interaction.",
-      "process": "Single-step through clear_object_condition, identify object field 0x3D overwrite, move ‘damage’ field to 0x40.",
-      "outcome": "Fix restores NPC interaction and prevents further crashes.",
-      "key_quote": "We have found the issue – setting that value might cause the behavior script pointer to become invalid.",
-      "related_to": [
-        "kaze"
-      ]
-    },
-    {
-      "title": "Animation Streaming Breakthrough",
-      "summary": "Desire for longer, memory-heavy animations (Mario dance) prompts a new engine feature.",
-      "challenge": "Traditional SM64 loads entire animation into RAM, limiting length.",
-      "process": "Implement per-frame streaming into memory; inform Zeina that dances can now be arbitrarily long.",
-      "outcome": "Team free to create lengthy, high-quality cut-scene animations without memory wall.",
-      "key_quote": "You can make it as long as you want – we’re loading individual frames of the animation.",
-      "related_to": [
-        "kaze",
+        "biobak",
         "zeina"
       ]
     },
     {
-      "title": "Mouse Pipeline",
-      "summary": "Kaze’s mouse fails mid-stream; he hot-swaps to a $10 spare, illustrating his ‘pipelining mice’ habit.",
-      "challenge": "Input device randomly stops right-clicking, stalling Blender fixes.",
-      "process": "Diagnose mouse vs. Blender, retrieve packaged spare, plug in, resume work.",
-      "outcome": "Stream continues; Kaze orders another cheap backup.",
-      "key_quote": "I always have one in store… I call this pipelining mice.",
+      "title": "The Vanishing NPC Bug",
+      "summary": "NPC dialogue suddenly stopped working. Live, Kaze isolates the cause to an object-field overlap that zeroed the behavior-script pointer.",
+      "challenge": "Player couldn’t talk to penguins, blocking prison entrance.",
+      "process": "Used debugger to inspect object memory; found damage/current value field collided with behavior script pointer; changed offset from 0x3E to 0x40.",
+      "outcome": "Interaction restored; highlights dangers of inline changes.",
+      "key_quote": "The current behavior comment is being set to zero … That explains the crash.",
       "related_to": [
         "kaze"
+      ]
+    },
+    {
+      "title": "Pipeline Mice",
+      "summary": "Kaze’s mouse fails mid-stream; he reveals his ‘pipelining mice’ strategy: always keep a $10 spare.",
+      "challenge": "Broken hardware would slow development on-air.",
+      "process": "Unplugs defective mouse, plugs spare, orders new one immediately.",
+      "outcome": "Stream continues smoothly; shows pragmatic, low-budget workflow.",
+      "key_quote": "Imagine if they did that on the submarine—they could have survived.",
+      "related_to": [
+        "kaze",
+        "zeina"
       ]
     }
   ],
   "open_questions": [
     {
-      "topic": "Monthly Course Testing Logistics",
-      "context": "Kaze plans to ship one-course ROMs to ‘one person’ each month but hasn’t chosen testers or workflow.",
+      "topic": "Multiplayer Implementation",
+      "context": "Kaze has prepared groundwork and insists it live in the same ROM.",
       "questions": [
-        "How will testers be selected and instructed?",
-        "What data or metrics will you collect from them?",
-        "Will feedback alter level order or difficulty curves?"
+        "How many players and what modes are planned?",
+        "What technical hurdles remain before it’s playable?",
+        "Why is having it in one ROM philosophically important to you?"
       ],
       "related_to": [
         "kaze"
-      ],
-      "priority": "high"
+      ]
     },
     {
-      "topic": "Multiplayer Implementation Details",
-      "context": "Groundwork finished; aims for built-in multiplayer before Worms Fortress HD demo.",
+      "topic": "Monthly Course Testing",
+      "context": "Plan to send one-level ROMs to testers each month.",
       "questions": [
-        "What gameplay modes will multiplayer support?",
-        "How will camera and performance be handled on N64 hardware?",
-        "Any desync mitigation strategies?"
-      ],
-      "related_to": [
-        "kaze"
-      ],
-      "priority": "high"
-    },
-    {
-      "topic": "Plane Minigame Balancing",
-      "context": "Community suggests exploding obstacles, larger neutral zone, timer tweaks; Kaze undecided.",
-      "questions": [
-        "What metrics define success/failure in the minigame?",
-        "Will physical feedback (rumble) or visual cues change?",
-        "How will future testers’ feedback influence final tuning?"
+        "What criteria will you use to pick testers?",
+        "How will feedback be measured and acted upon?",
+        "Any lessons from previous testing rounds?"
       ],
       "related_to": [
         "kaze",
         "biobak"
-      ],
-      "priority": "medium"
+      ]
     },
     {
-      "topic": "Aquarium Glass & Water Visuals",
-      "context": "Glass nearly invisible; Kaze proposes reflective primitive color or fingerprint decals.",
+      "topic": "Open-Source Release",
+      "context": "Kaze states the engine and hack will be open-sourced.",
       "questions": [
-        "Which material approach will be used for N64 constraints?",
-        "Who will author the new textures?",
-        "Will reflections impact performance on real hardware?"
-      ],
-      "related_to": [
-        "biobak"
-      ],
-      "priority": "medium"
-    },
-    {
-      "topic": "Open Source Release Scope",
-      "context": "Engine and hack will be open source but no timeline or license discussed.",
-      "questions": [
-        "When will the repository be made public?",
-        "Which license will govern code and assets?",
-        "How will community contributions be managed?"
+        "What license and timeline are you considering?",
+        "Are you worried about Nintendo takedowns?",
+        "How do you hope the community will use the code?"
       ],
       "related_to": [
         "kaze"
+      ]
+    },
+    {
+      "topic": "Risk-Friendly Design Philosophy",
+      "context": "Kaze criticises modern games as ‘frustration-minimised’.",
+      "questions": [
+        "Can you elaborate on a specific design risk you took in RTYI?",
+        "How do you balance challenge with accessibility?",
+        "How does the team react to your stance?"
       ],
-      "priority": "low"
+      "related_to": [
+        "kaze",
+        "biobak",
+        "badub",
+        "zeina"
+      ]
+    },
+    {
+      "topic": "Team Workflow & Tools",
+      "context": "Stream shows rapid Fast64/Blender iterations and live code fixes.",
+      "questions": [
+        "What is the asset hand-off pipeline among team members?",
+        "How do you track and resolve Fast64 regressions?",
+        "What communication channels keep everyone synced across time zones?"
+      ],
+      "related_to": [
+        "kaze",
+        "biobak",
+        "zeina"
+      ]
+    },
+    {
+      "topic": "Humor and Environmental Storytelling",
+      "context": "Zoo level packed with funny signs, garlic plate, trophies.",
+      "questions": [
+        "Who decides these jokes and how do they fit the overall tone?",
+        "Are there limits to parody when working within Mario IP?",
+        "Any examples where a joke was cut for design or legal reasons?"
+      ],
+      "related_to": [
+        "biobak",
+        "kaze"
+      ]
+    },
+    {
+      "topic": "Animation Streaming Technique",
+      "context": "Zeina can now create unlimited-length dances by streaming frames.",
+      "questions": [
+        "How was this system engineered?",
+        "Does it open possibilities for cut-scenes or cinematics?",
+        "Any memory or performance trade-offs?"
+      ],
+      "related_to": [
+        "zeina",
+        "kaze"
+      ]
     }
   ]
 }

@@ -1,126 +1,110 @@
 {
   "stream_context": {
-    "summary": "Stream focuses on live level-building and, chiefly, a deep technical session with micro-code engineer Sauraen to port and benchmark the new F3DEX3 microcode, chasing extra performance for the hack.",
+    "summary": "Kaze reviews recent level-building progress (mainly the interior of Course 13) and spends most of the stream live-profiling Return to Yoshi’s Island with Sauraen to integrate the new F3DEX3 microcode, achieving large performance gains on real hardware while retaining emulator compatibility.",
     "level": [
-      "Course 13 (ice castle interior)",
-      "Engine/Overworld performance sandbox"
+      "Course 13 (Ice Castle interior)",
+      "Engine/Global technical work"
     ]
   },
   "development_findings": [
     {
-      "summary": "All interior platforming for the Course 13 ice-castle is complete; remaining work is mainly aesthetic polishing and enemy placement.",
+      "summary": "Interior platforming for Course 13 is function-complete; visual polish and enemy placement still pending.",
       "quote": null
     },
     {
-      "summary": "A door-based room system is used so geometry behind a closed door is not rendered, aiding performance.",
+      "summary": "Doors are used as hard scene boundaries so the geometry behind them can be culled until needed, improving performance.",
       "quote": "By having a door like this, I can make it so that the room behind here doesn't render right now."
     },
     {
-      "summary": "Transparent rendering order was re-worked: Layer 6 now holds transparent decals rendered before general transparencies (Layer 5) to keep proper Z-ordering.",
+      "summary": "Layer 5 and Layer 6 draw orders were inverted so transparent decals render before other transparent geometry, fixing depth issues.",
+      "quote": "You have to render transparent stuff in Z order, and decals are much more likely to be behind non-decals, so we want to render the decals first."
+    },
+    {
+      "summary": "New mechanics in Course 13 include toxic ice floors, narrowing ice paths, a far jump, a wall-kick mirror section, and slide fail-safes with healing coin lines.",
       "quote": null
     },
     {
-      "summary": "New mirror section planned where players wall-kick against their mirror image; requires a mirror surface that also acts as a wall.",
+      "summary": "Sauraen’s F3DEX3 build (LVP-NOC) replaced F3DEX2, giving ~0.8-1 ms RSP and >1 ms RDP savings per frame in Kaze’s test scene.",
+      "quote": "RDP almost a full millisecond over a full millisecond [faster]."
+    },
+    {
+      "summary": "Switching microcodes at load zones is possible; occlusion-plane variants may be used in later stages with heavy overdraw.",
+      "quote": "What you want to do is use the occlusion-plane version in a scene where overdraw is a problem… you can load a different microcode per area."
+    },
+    {
+      "summary": "Vertex-buffer size increased from 32 to 56 vertices in EX3, avoiding redundant DMA loads and saving about 150 µs in some meshes.",
       "quote": null
     },
     {
-      "summary": "Fail-safe coin lines and recovery platforms added on the ice slide so most falls are survivable, calibrating difficulty for Course 13.",
-      "quote": "I think it's fair."
-    },
-    {
-      "summary": "Outside hub will be a penguin-hut village; Zeina is producing the assets.",
-      "quote": "It will be a little village with penguin huts. Zeina is actually working on some assets for it right now."
-    },
-    {
-      "summary": "Game will feature ~12 main levels × 7 stars each (≈84) plus extras, targeting 90–100 total stars.",
+      "summary": "Auto-batched material logic in EX3 skips redundant texture loads, cutting ~3 ms of texture time in Kaze’s ‘bunny’ stress test.",
       "quote": null
     },
     {
-      "summary": "Demo release is planned \"in a few more weeks\" after an upcoming video; an editor is already cutting footage.",
-      "quote": "After that, it's going to be the demo. So we have a few more weeks."
+      "summary": "Lighting commands differ between EX2 and EX3; game code will detect emulator vs console and emit the appropriate command to stay compatible.",
+      "quote": "You need to have your game code actually send the EX2 lighting command or the EX3 lighting command based on whether this is an emulator."
     },
     {
-      "summary": "Sauraen’s F3DEX3 microcode was integrated, giving ~1 ms RDP savings and ~0.3 ms RSP savings on Kaze’s heavy test scene without any visual loss.",
-      "quote": "RDP almost a full millisecond… are you satisfied? –Oh yeah that's much better."
-    },
-    {
-      "summary": "Future microcode work: add occlusion-plane version to cut over-drawn triangles and automatic Z-fighting decal fix; will swap microcode per area.",
-      "quote": "I want to get the occlusion plane version available for you so that if you use it… it can help you."
-    },
-    {
-      "summary": "Lighting commands must branch between EX2 and EX3 at runtime so emulators still function; Kaze will add self-modifying code later today.",
+      "summary": "Upcoming tasks: finish EX3 lighting fallback, merge custom GBI changes, implement decal Z-fighting fix, and possibly redesign armature/material workflow to reduce duplicates.",
       "quote": null
     },
     {
-      "summary": "Plan to remove per-limb material duplication on enemies (rabbits) by merging meshes into single-texture materials, reducing draw-calls.",
-      "quote": null
-    },
-    {
-      "summary": "Kaze disabled anti-aliasing via custom GBI define to gain speed; also temporarily no-ops some lighting commands that Fast64 over-writes.",
-      "quote": null
+      "summary": "A public demo is planned ‘in a few weeks’ after Kaze’s editor finishes the next video.",
+      "quote": "My editor has been on it for a week, and after that, it's going to be the demo."
     }
   ],
   "context_findings": [
     {
-      "summary": "Kaze and Zeina recently became parents; baby is staying with grandparents during streams.",
+      "summary": "Kaze and Zeina recently became parents; their baby is currently with grandparents, freeing stream time.",
       "quote": "The baby is currently hanging out with her grandparents."
     },
     {
-      "summary": "Kaze maintains bodybuilding regimen; plans to start a cutting phase after Christmas for long-term health.",
+      "summary": "Kaze maintains a long-term bodybuilding routine, cutting once a year; plans next cut after Christmas.",
       "quote": "I'm kind of just in it for the long term… I usually cut like once a year."
     },
     {
-      "summary": "Displays playful disdain for Rare’s N64 optimisation, calling Banjo’s runtime decompression \"really bad\".",
+      "summary": "He expresses open disdain for poorly optimized N64 games, specifically Rare titles, reflecting his performance-first design ethos.",
       "quote": "I'm about to fail a QuickTime event and go on a full rant about how terrible Banjo-Kazooie optimizes."
     },
     {
-      "summary": "Expresses dislike for traditional JRPG battle pacing despite enjoying Final Fantasy VII’s atmosphere.",
+      "summary": "Kaze dislikes turn-based JRPG pacing despite appreciating Final Fantasy VII’s atmosphere, hinting at his preference for responsive gameplay.",
       "quote": "Goddamn, I hate JRPGs… literally 50 % of the gameplay time is just me sitting there like this."
     }
   ],
   "contributor_findings": {
     "biobak": [
       {
-        "summary": "Acknowledged missing a week but editing a promotional \"video bench\" that should be ready soon.",
-        "quote": "That's OK, Biobak. I have a video bench for soon anyway. My editor has been on it for a week."
-      },
-      {
-        "summary": "Provides aesthetic feedback, e.g., praising texture fades and spike charm.",
+        "summary": "Present in chat; plans video ‘bench’ soon and notes room still feels barren; no major new art tasks mentioned this stream.",
         "quote": null
       }
     ],
     "badub": [],
     "zeina": [
       {
-        "summary": "Creating outdoor penguin-hut assets for the hub area.",
-        "quote": "Zeina is actually working on some assets for it right now."
-      },
-      {
-        "summary": "Enjoying time with the new baby; personal and professional roles overlap smoothly.",
-        "quote": "Yeah, Zeina is having a lot of fun with the baby."
+        "summary": "Currently modeling assets for an outdoor penguin-hut village that will serve as the game’s outside hub.",
+        "quote": "It will be a little village with penguin huts. Zeina is actually working on some assets for it right now."
       }
     ]
   },
   "key_stories": [
     {
-      "title": "Microcode Overhaul",
-      "summary": "Kaze’s levels started to be RSP-bound, so he invited Sauraen on-stream to integrate the brand-new F3DEX3 microcode. Live benchmarking showed up to 1 ms total frame-time savings.",
-      "challenge": "Heavy scenes were limited by outdated F3DEX2 microcode, making further visual upgrades risky.",
-      "process": "Sauraen explained register allocation and command-dispatch rewrites; Kaze rebuilt the ROM repeatedly, compared counters, and tweaked GBI hints.",
-      "outcome": "EX3 now runs faster than their custom EX2 even with anti-aliasing on; Kaze commits to shipping with EX3 and will add emulator-compat lighting code.",
-      "key_quote": "Oh yeah, that's much better – I'm definitely switching to EX3.",
+      "title": "Microcode Breakthrough",
+      "summary": "Kaze invites Sauraen on stream to integrate the new F3DEX3 microcode. Through live profiling and code edits they shave over a millisecond off both RSP and RDP times, paving the way for smoother 30 FPS gameplay on real hardware.",
+      "challenge": "Return to Yoshi’s Island had become RSP-bound after extensive RDP optimizations, causing framerate drops in complex scenes.",
+      "process": "Sauraen provided a fresh EX3 branch, explained vertex-processing rewrites, command-dispatch tables, and material auto-batching; Kaze re-compiled, measured, and adjusted GBI sinks on stream.",
+      "outcome": "Performance rose enough that a formerly 28 FPS room now sustains 30 FPS; Kaze commits to EX3 for the final game.",
+      "key_quote": "With these findings I could make a banger video going ‘Everyone was wrong about the RDP, it was the RSP all along!’",
       "related_to": [
         "kaze",
-        "sauren"
+        "zeina"
       ]
     },
     {
-      "title": "Designing a Forgiving Ice-Slide",
-      "summary": "Course 13’s slide includes multiple safety nets: coin healing lines and recovery platforms ensure casual players survive most misses.",
-      "challenge": "Balancing difficulty while preventing frustration from long fall deaths.",
-      "process": "Kaze tested falls live, showing where coins or ledges rescue the player.",
-      "outcome": "Deemed \"fair\" difficulty; slide section considered done.",
-      "key_quote": "First of all, if you fall down here, you can still save yourself like this.",
+      "title": "Designing Fair Difficulty in Course 13",
+      "summary": "Kaze shows new ice-castle sections, demonstrating safety nets like coin trails and recoverable falls to balance challenge.",
+      "challenge": "Provide late-game difficulty without punishing players unfairly.",
+      "process": "Built slide sections with healing coins, narrow paths with gradual difficulty, and mirrored wall-kick puzzles; tested live to show recovery routes.",
+      "outcome": "Stream chat agrees difficulty feels appropriate for Course 13; visuals still need polish.",
+      "key_quote": "I think the difficulty here is appropriate for CoS 13.",
       "related_to": [
         "kaze"
       ]
@@ -128,63 +112,72 @@
   ],
   "open_questions": [
     {
-      "topic": "Outside Penguin Village",
-      "context": "Only brief mention that Zeina is modelling assets for an exterior hub with penguin huts.",
+      "topic": "EX3 Lighting Compatibility Layer",
+      "context": "Kaze still needs to implement runtime switching between EX2 and EX3 lighting commands for emulator support.",
       "questions": [
-        "What gameplay purpose will the penguin village serve?",
-        "How large is the area and what technical tricks will be used outdoors?",
-        "Any unique music or NPC behaviour planned?"
+        "How exactly will the game detect emulator vs real hardware?",
+        "Could this layer introduce maintenance risks post-release?",
+        "Why not ship an EX3-specific emulator build with the game?"
       ],
       "related_to": [
         "kaze",
-        "zeina",
-        "badub",
-        "biobak"
-      ],
-      "priority": "medium"
+        "zeina"
+      ]
     },
     {
-      "topic": "Demo scope & feedback plan",
-      "context": "Kaze said a demo will release \"in a few more weeks\" after a video.",
+      "topic": "Occlusion-Plane Strategy",
+      "context": "Discussion of using EX3’s occlusion-plane variant only in overdraw-heavy areas.",
       "questions": [
-        "What content will be in the public demo?",
-        "What metrics or feedback does the team want from players?",
-        "How will demo feedback influence final release timeline?"
-      ],
-      "related_to": [
-        "kaze"
-      ],
-      "priority": "high"
-    },
-    {
-      "topic": "Microcode Occlusion-Plane Version",
-      "context": "Sauraen intends to deliver an occlusion-plane variant that Kaze can swap in heavy scenes.",
-      "questions": [
-        "When will this version be ready?",
-        "How will level designers decide where to place occlusion planes?",
-        "Could dynamic swapping cause loading hitches?"
+        "Which specific courses are likely to need occlusion planes?",
+        "What measurable gain does Kaze expect once re-optimized vertex code is finished?",
+        "Will microcode swapping ever happen dynamically during gameplay?"
       ],
       "related_to": [
         "kaze",
-        "sauren",
         "biobak"
-      ],
-      "priority": "medium"
+      ]
     },
     {
-      "topic": "Material Duplication on Animated Models",
-      "context": "Current armature export duplicates textures per limb (e.g., rabbits), hurting batching.",
+      "topic": "Material & Armature Workflow",
+      "context": "Current Fast64 export duplic­ates materials per bone, causing unnecessary texture loads.",
       "questions": [
-        "Will Fast64 exporter be updated or will manual mesh merging be standard?",
-        "How will this impact artists’ workflow and UV limits?",
-        "Could EX3 support smarter material hashing to auto-batch across limbs?"
+        "Is the team planning a new toolchain or changes to Fast64 to avoid per-bone duplicates?",
+        "How might this affect artists like Biobak and Zeina?",
+        "Could adopting the Ocarina-of-Time-style shared matrix pool simplify workflow?"
       ],
       "related_to": [
         "kaze",
         "biobak",
-        "sauren"
+        "zeina"
+      ]
+    },
+    {
+      "topic": "Penguin-Village Hub",
+      "context": "Zeina is modeling an outdoor hub with penguin huts.",
+      "questions": [
+        "What gameplay purpose will this village serve?",
+        "How does its art style tie into Yoshi’s Island themes?",
+        "Any new technical challenges (weather, day-night) expected outdoors?"
       ],
-      "priority": "low"
+      "related_to": [
+        "zeina",
+        "biobak"
+      ]
+    },
+    {
+      "topic": "Release Timeline & Demo Scope",
+      "context": "Kaze mentions a demo ‘in a few weeks’ after a video edit.",
+      "questions": [
+        "What content will the demo include (levels, star count)?",
+        "Is the demo targeting real N64 hardware, EverDrive, or emulator?",
+        "What feedback does the team hope to gather from the demo to shape the final release?"
+      ],
+      "related_to": [
+        "kaze",
+        "badub",
+        "biobak",
+        "zeina"
+      ]
     }
   ]
 }

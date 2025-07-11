@@ -11,7 +11,6 @@ export interface OpenQuestion {
   context: string;
   questions: string[];
   related_to: string[];
-  priority: string;
 }
 
 export interface QuestionStreamData {

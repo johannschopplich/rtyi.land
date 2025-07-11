@@ -1,102 +1,114 @@
 {
   "stream_context": {
-    "summary": "Kaze live-reviews and debugs the large re-work of Course 5 (the Ghost-Ship) while briefly showing the new western saloon hub. He fixes N64-specific rendering/engine issues, plans puzzle tweaks, and coordinates art and music updates.",
+    "summary": "Kaze live-tests a large Blender update from Biobak, integrating a complete visual and structural overhaul of Course 5 (the Ghost Ship) while briefly showing the western saloon level.  Most of the session is spent reading Biobak’s in-file changelog, tweaking textures, combiners, render layers, and collision, and hunting down a crash caused by outdated texture-animation code after the level geometry was shifted upward.",
     "level": [
-      "Course 5",
-      "West hub saloon"
+      "Course 5 – Ghost Ship",
+      "West/Saloon area"
     ]
   },
   "development_findings": [
     {
-      "summary": "The ghost-ship exterior was completely rebuilt (≈1 700 tris) by Biobak; Kaze must convert several textures (alpha → CI4/RGBA16) and move window meshes to layer 4 to avoid Z-sorting issues.",
-      "quote": "First of all, dude, this is sick looking… but these need to be moved to layer 6 or this is going to be a rendering issue."
+      "summary": "Biobak’s Ghost Ship rework (≈1,700 triangles) adds new textures, lighting, railings, anchor, shredded sails, cannon ports, seaweed, treasure room, captain’s quarters, and many structural tweaks; Kaze must update collisions, cut-scene splines, doors, and texture animations to match.",
+      "quote": "First of all, dude, this is fucking sick looking... Updated geo all around the ship; collision mostly the same."
     },
     {
-      "summary": "Clear-color fill is disabled to gain ~3 ms per frame (≈10 % of N64 render budget).",
-      "quote": "This game on purpose doesn't have a clear color because applying the clear color takes around three milliseconds which is like ten percent of the render time."
+      "summary": "Plank at the ship’s prow will become a bouncy ‘diving board’ that can launch Mario to a rope shortcut and may hide a Yoshi coin.",
+      "quote": "Add a bouncy diving board—maybe it has a Yoshi coin if you ground-pound on it and jump very high."
     },
     {
-      "summary": "Lightning effect relies on subtracting environment colour; geometry changes broke it and Kaze restores two-cycle combiner with shade subtraction.",
-      "quote": "You need lighting to do nth mapping… we can’t have lighting and vertex colours at the same time."
+      "summary": "Western town jail cell will gradually fill with outlaws as the player collects stars, providing visual progress feedback.",
+      "quote": "Every time you catch an outlaw the outlaw will be in here, so this jail cell slowly fills up as you collect stars."
     },
     {
-      "summary": "New pushable bookshelf puzzle: red-scratched shelf must slide to reveal path; Kaze will make it protrude slightly and add visual scratches to improve readability.",
+      "summary": "NPC count in the saloon is intentionally low to avoid N64 lag and because writing unique, relevant text for many characters is difficult.",
+      "quote": "Who wants to talk to this many NPCs… more importantly, it's gonna suck."
+    },
+    {
+      "summary": "Clear-color fill is disabled to save ~3 ms (≈10 % of frame budget). Performance decisions frequently trump visual niceties.",
+      "quote": "Applying the clear color takes around three milliseconds… so doing a clear color is gonna be very very expensive on N64."
+    },
+    {
+      "summary": "Kaze explains texture-format rules: CI textures can’t be mixed in multi-cycle combiners; transparent sails need two-cycle; lightning requires subtracting environment color.  He rewrites several material settings during stream.",
       "quote": null
     },
     {
-      "summary": "Timed switch that used to spawn blocks will now open a relocated door to the Shy-Guy mini-game; cut-scene camera will show the door and possibly re-close on a timer.",
+      "summary": "A crash after import traced to outdated ‘detect channels’ texture-animation code that referenced moved geometry; removing the animations stopped the matrix-underflow error.",
+      "quote": "It was detect channels… we need to remake the texture animations."
+    },
+    {
+      "summary": "Engine and full source will be made public when the hack releases; not before, to avoid leaks.",
+      "quote": "When I release this hack my engine will be public—I'll make the hack open source… at the same time."
+    },
+    {
+      "summary": "Skybox/sea transition plan: fade skybox bottom into a color, fade outer sea ring into same color, and render skybox in view space for the ghost-ship level.",
       "quote": null
     },
     {
-      "summary": "Front plank will become a springy diving board that can launch Mario to the upper rope and hide a Yoshi coin; Kaze adds it to his to-do list.",
+      "summary": "Library room puzzle revised: red, scratched bookshelf (with coin marker & floor scuffs) must be pushed; Kaze plans to make it protrude slightly for clearer hint.",
       "quote": null
     },
     {
-      "summary": "Skybox and water will be blended: skybox fades to a colour in view-space, sea geometry fades into same colour for seamless horizon.",
-      "quote": "Make skybox fade into colour at bottom; make sea fade into same colour."
-    },
-    {
-      "summary": "Coin texture looked out of style; Kaze converts to IA4/IA8 and adjusts brightness to match ship palette.",
+      "summary": "Switch that formerly spawned timed blocks will instead open exterior door; Kaze debates timed vs. untimed and considers camera cut to show door or a peephole window.",
       "quote": null
     },
     {
-      "summary": "Crash traced to obsolete texture-animation channels after geometry shift; removing or remapping those channels fixes a ‘matrix underflow’.",
-      "quote": "It was detect channels. We need to remake the texture animations, that’s what’s going on here."
+      "summary": "Coins rendered incorrectly and caused additional crashes; Kaze converts texture to IA8 and fixes combiner, noting vertex-color vs. lighting limitations.",
+      "quote": null
     },
     {
-      "summary": "Engine and full source will be released open-source when the hack ships; withheld for now to avoid accidental leak.",
-      "quote": "When I release this hack my engine will be public. I’ll make the hack open source at the same time."
+      "summary": "ChatGPT use is minimal—only to look up API names; no use in Mario project.",
+      "quote": null
     }
   ],
   "context_findings": [
     {
-      "summary": "Kaze views difficulty as optional: he prefers clear ideas over hard puzzles, calling extra challenge ‘unnecessary’.",
-      "quote": "This is good because we are showing a cool idea… Difficulty here is unnecessary."
+      "summary": "Kaze distrusts captchas and Windows 11 (\"spyware\"), would still use Windows 7 if viable.",
+      "quote": "I don't need even more spyware—I would still be using Windows 7 if it was a viable option."
     },
     {
-      "summary": "He is performance-obsessed, repeatedly trading visuals for N64 frame-time savings (clear colour removal, layer choices).",
+      "summary": "Design philosophy: every NPC line should matter; avoids filler and respects player time.",
       "quote": null
     },
     {
-      "summary": "Frustration with CAPTCHA and crashes; excitement and praise for Biobak’s art; playful antagonism toward chat.",
-      "quote": "How can we have 170 viewers? I didn’t do anything!"
-    },
-    {
-      "summary": "Philosophy on programming labour: believes many industry programmers are over-paid and under-worked.",
-      "quote": "Programmers are the laziest people on the planet… they just scroll Reddit all day."
-    },
-    {
-      "summary": "Will open-source tools but only after release to prevent leaks; shows protective attitude toward project.",
+      "summary": "Performance-first mindset: willingly drops effects (clear color, extra NPCs) if they cost frames on real hardware.",
       "quote": null
+    },
+    {
+      "summary": "Open-source ethos balanced with fear of premature leaks; intends simultaneous engine & game release.",
+      "quote": null
+    },
+    {
+      "summary": "Humorous cynicism about programmer productivity: claims many salaried programmers do very little actual work.",
+      "quote": "I think programmers in a 35-hour work week, they just work 10 hours… programmers are the laziest people on the planet."
     }
   ],
   "contributor_findings": {
     "biobak": [
       {
-        "summary": "Delivered full exterior and interior overhaul of Course 5, including new cannon holes, anchors, sails, treasure room, captain’s quarters, and lighting passes.",
-        "quote": "All the actors and shit are visible in the modelling tab… Shipping updated textures and lighting and vibe."
+        "summary": "Delivered exhaustive Ghost Ship overhaul with embedded changelog; actively discusses texture formats, skybox ideas, coin placement, and visual polish with Kaze.",
+        "quote": null
       },
       {
-        "summary": "Inserted detailed change-log inside Blender file; coordinated live with Kaze on texture formats and UV tweaks.",
+        "summary": "Requests feedback on UV issues and material settings; accepts Kaze’s on-stream combiners fixes.",
         "quote": null
       }
     ],
     "badub": [
       {
-        "summary": "Sent first draft of saloon music; Kaze judged it ‘too upbeat’ and too similar to previous zoo track; composer agreed to revise.",
-        "quote": "The beginning of it is kind of like the zoo level… It’s a nice song but it doesn’t quite have the vibe I’m looking for."
+        "summary": "Submitted a saloon theme that Kaze found too upbeat and similar to the earlier zoo track; Badub agreed and is rewriting it.",
+        "quote": "He says he's changing it."
       }
     ],
     "zeina": []
   },
   "key_stories": [
     {
-      "title": "Geometry Overhaul Causes Hard Crash",
-      "summary": "After importing Biobak’s rebuilt ship, the game crashed on load. Kaze used a custom debugging emulator and iterative object removal to isolate the fault.",
-      "challenge": "Matrix underflow crash when level loaded.",
-      "process": "Removed objects in batches, suspected coin formations, then texture animations; confirmed ‘detect channels’ referencing deleted vertices.",
-      "outcome": "Crash fixed by remaking texture-animation lists; level now loads.",
-      "key_quote": "It was detect channels. We need to remake the texture animations.",
+      "title": "The Ghost Ship Makeover",
+      "summary": "A three-year-old level is visually outdated.  Biobak delivers a massive Blender update; Kaze must reconcile the art with N64 limits, fix crashes, and keep original gameplay intact.",
+      "challenge": "Integrate a 1,700-triangle rework without breaking performance or existing scripts.",
+      "process": "Read embedded changelog live, adjust layers, convert textures, rewrite combiners, update collisions, and debug a matrix-underflow crash caused by old texture-animation code.",
+      "outcome": "Level now compiles and runs; list of follow-up tasks (lighting, skybox fade, Yoshi coins, cut-scenes) created for the coming week.",
+      "key_quote": "First of all, dude, this is fucking sick looking—but I never import right away anyway.",
       "related_to": [
         "kaze",
         "biobak"
@@ -104,95 +116,131 @@
     },
     {
       "title": "Saloon Music Mismatch",
-      "summary": "Badub delivered a saloon theme that felt cheerful and recycled. Kaze compared it to Paper Mario’s pirate town track and provided reference music.",
-      "challenge": "Music mood didn’t fit dark, dusty saloon vibe.",
-      "process": "Live feedback; played reference; composer acknowledged issue.",
-      "outcome": "Badub is rewriting the track.",
-      "key_quote": "Too upbeat and happy… he says he’s changing it.",
+      "summary": "Badub turned in a western saloon track, but its cheerful tone clashes with the bar’s dark, dusty vibe.  The two quickly realign on mood.",
+      "challenge": "Find a musical identity for the saloon that fits the level’s atmosphere.",
+      "process": "Kaze plays the draft, compares it to an older zoo tune, and requests something moodier; Badub agrees to revise.",
+      "outcome": "Track sent back for revision; Kaze supplies reference to nail the intended feel.",
+      "key_quote": "Too upbeat and happy, I find too… he says he's changing it.",
       "related_to": [
         "kaze",
         "badub"
       ]
     },
     {
-      "title": "Pushable Bookshelf Puzzle Redesign",
-      "summary": "New library room puzzle risked being too opaque for players.",
-      "challenge": "Visual hinting insufficient for sliding shelf mechanic.",
-      "process": "Added scratch marks, coin marker, and plans to make shelf protrude slightly.",
-      "outcome": "Improved readability while keeping concept.",
-      "key_quote": "This is not good because this is a hard puzzle to figure out… we should make this come out a little bit.",
+      "title": "Hunting the Matrix-Underflow Crash",
+      "summary": "After import the game hard-crashes.  Kaze methodically removes object types until the culprit—out-of-date texture-animation channels—is revealed.",
+      "challenge": "Mysterious crash on level load with no obvious cause.",
+      "process": "Binary-style removal of object categories, use of debugging emulator, identification of ‘detect channels’ relying on moved vertices.",
+      "outcome": "Crash fixed by disabling obsolete animations; new animations will be rebuilt.",
+      "key_quote": "It was detect channels… we need to remake the texture animations.",
       "related_to": [
-        "kaze",
-        "biobak"
+        "kaze"
       ]
     }
   ],
   "open_questions": [
     {
-      "topic": "Boss-fight coin balance",
-      "context": "Biobak felt shark boss area was hard and asked for coins; Kaze unsure.",
+      "topic": "Final look & mechanics of the bouncy plank",
+      "context": "Plank will bounce Mario up and may hide a Yoshi coin and shortcut.",
       "questions": [
-        "Will coins trivialise the encounter?",
-        "Could alternative healing (e.g., milk bottles) be more thematic?"
+        "What exact physics and animation are planned for the plank?",
+        "Will it be a risk-reward mechanic or pure convenience?",
+        "How was the idea born?"
       ],
       "related_to": [
         "kaze",
         "biobak"
-      ],
-      "priority": "medium"
+      ]
     },
     {
-      "topic": "Easter-egg treasure map",
-      "context": "Idea to link ship’s treasure map to Ice-Cap entrance was noted but not planned.",
+      "topic": "Jail-cell progression in the western town",
+      "context": "Kaze wants captured outlaws to appear in cells as stars are collected.",
       "questions": [
-        "How concretely will the map hint at Ice-Cap?",
-        "Will it affect gameplay or be purely lore?",
-        "Who will implement skybox/background link?"
+        "How will the outlaw NPCs be selected and modeled?",
+        "Is there gameplay tied to freeing or interacting with them?",
+        "Who writes the incremental dialogue?"
       ],
       "related_to": [
         "kaze",
-        "biobak"
-      ],
-      "priority": "low"
+        "zeina"
+      ]
     },
     {
-      "topic": "Skybox Lighting in Captain’s Quarters",
-      "context": "Kaze undecided on adding exterior skybox light bleed into new room.",
+      "topic": "Saloon soundtrack direction",
+      "context": "Badub is rewriting the saloon theme after feedback.",
       "questions": [
-        "Will adding skybox light improve mood without hurting performance?",
-        "Do we need in-room light sources if skybox used?"
+        "What emotional palette are they aiming for now?",
+        "How do they avoid overlap with earlier tracks (e.g., zoo)?",
+        "What references are guiding the new draft?"
       ],
       "related_to": [
-        "kaze",
-        "biobak"
-      ],
-      "priority": "low"
+        "badub",
+        "kaze"
+      ]
     },
     {
-      "topic": "Switch Cut-scene Timing",
-      "context": "Timed switch now opens door instead of spawning blocks; cut-scene timing unclear.",
+      "topic": "Open-source release strategy & legal concerns",
+      "context": "Engine to be public at game launch.",
       "questions": [
-        "Will the door re-close?",
-        "What camera framing best teaches player the link?"
+        "Under what license will the engine and assets be released?",
+        "Have any steps been taken to mitigate Nintendo takedown risks?",
+        "Will external contributors be credited and how?"
       ],
       "related_to": [
         "kaze"
-      ],
-      "priority": "high"
+      ]
     },
     {
-      "topic": "Diving-board Plank Mechanics",
-      "context": "Plank will bounce Mario upward and may hide Yoshi coin.",
+      "topic": "Skybox & lighting integration",
+      "context": "Plans to fade skybox into sea color and restore lightning effect.",
       "questions": [
-        "Exact physics values for fun but reliable height?",
-        "Should it serve as alternate path speedrunners can exploit?"
+        "What technical method will implement the view-space skybox on N64?",
+        "How will dynamic lightning interact with new transparent sails?",
+        "Is there a performance budget for these effects?"
       ],
       "related_to": [
         "kaze",
-        "biobak",
-        "zeina"
+        "biobak"
+      ]
+    },
+    {
+      "topic": "NPC writing workflow",
+      "context": "Kaze limits NPC count due to dialogue burden.",
+      "questions": [
+        "Who writes the final dialogue?",
+        "Is there a style guide to keep tone consistent?",
+        "Could community members contribute text safely?"
       ],
-      "priority": "medium"
+      "related_to": [
+        "kaze",
+        "zeina"
+      ]
+    },
+    {
+      "topic": "Captain’s Quarters Easter-egg map",
+      "context": "Idea to link pirate map to Ice Cap entrance later in game.",
+      "questions": [
+        "Has the hint system been designed?",
+        "Will players need to revisit earlier levels?",
+        "What other long-range foreshadowing is planned?"
+      ],
+      "related_to": [
+        "kaze",
+        "biobak"
+      ]
+    },
+    {
+      "topic": "Library push-bookshelf puzzle difficulty",
+      "context": "Kaze considers making the shelf protrude for clarity.",
+      "questions": [
+        "How is play-testing informing puzzle readability?",
+        "Any metrics for acceptable player failure rate?",
+        "Could visual language (scratches, coin cue) be standardized across puzzles?"
+      ],
+      "related_to": [
+        "kaze",
+        "biobak"
+      ]
     }
   ]
 }

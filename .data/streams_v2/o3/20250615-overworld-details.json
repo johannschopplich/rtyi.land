@@ -1,124 +1,116 @@
 {
   "stream_context": {
-    "summary": "Kaze spends the stream hunting two critical bugs (a frame-perfect landing crash and a memory-overflow on level load) while waiting for Biobak’s new \"Dino Dino Domain\" assets, then imports and cleans up the reworked level, fixes visual/render-mode issues, and brainstorms design tweaks (save block, disco-ball star, tutorials).",
+    "summary": "Kaze live-debugs two critical crashes and walks through Biobak’s huge \"Dino Dino Domain\" overhaul, measuring performance, hunting RAM limits, and planning new gameplay moments.",
     "level": [
       "Course 2 – Dino Dino Domain"
     ]
   },
   "development_findings": [
     {
-      "summary": "Pressing A one frame before landing (especially after a long-jump) crashes on real hardware and Project64; disabling Mario’s animation updates prevents the crash, implying a bad animation pointer or double switch in a single frame.",
-      "quote": "\"Why does my game not crash anymore? There is no way it was the animations, right? It was the animations!\""
+      "summary": "Pressing A one frame before landing crashes the game; disabling Mario’s animation updates stops the crash, indicating an animation pointer/one-frame input buffer issue.",
+      "quote": "There is no way it was the animations, right? It was the animations? Yes! What is happening?"
     },
     {
-      "summary": "The new Dino Dino Domain import exceeded RAM by ~1 KB; Kaze traced the failure to pool allocation, removed an unused leaf-boat object and a duplicate Luigi texture, and enabled Bleed/Inline export to reclaim memory.",
-      "quote": "\"We were using literally one kilobyte of memory too much. One not even full texture.\""
+      "summary": "Importing the new Dino Dino Domain build exceeded RAM by about 1 KB; removing an unused ‘leaf boat’ texture and enabling “bleed & inline” freed enough space for the level to load.",
+      "quote": "We were using literally one kilobyte of memory too much in this level."
     },
     {
-      "summary": "Plan to place the star inside the nightclub disco ball: Mario grabs the pole, ball falls, shatters, lights and music die, Shy Guys stop dancing, giving immediate feedback that the player ‘stole the party’.",
-      "quote": "\"Imagine the star is inside the disco ball and as soon as you steal it, the entire room goes dark.\""
-    },
-    {
-      "summary": "Added a visible ‘save block’ near level exits even though the game autosaves; purely psychological, so players feel secure before quitting.",
-      "quote": "\"The game saves automatically. This is about psychology.\""
-    },
-    {
-      "summary": "Implemented a new vine‐jump helper: Mario auto-rotates toward the next vine and a single A-press always latches, reducing camera alignment frustration.",
+      "summary": "Kaze now compiles with extremely strict warning flags and has driven the codebase to \"zero warnings.\"",
       "quote": null
     },
     {
-      "summary": "Will restore the Act 1 wall-kick tutorial (bunnies + Yoshi coin) and consider adding multiple cues so absolute newcomers learn the move.",
+      "summary": "New vine-jump system automatically rotates Mario toward the next vine and auto-catches on A-press, simplifying control for newcomers.",
       "quote": null
     },
     {
-      "summary": "Fast64’s built-in texture scroll runs at 30 FPS; Kaze will code a custom scroll routine to keep it 60 FPS.",
+      "summary": "Added an overworld save-block that appears after exiting a level; intended as psychological reinforcement even though the game already auto-saves.",
+      "quote": "This is about psychology. I already know people will hit the save block three times before turning the game off."
+    },
+    {
+      "summary": "Plans to replace Fast64’s 30 FPS texture scroll with an engine-level 60 FPS version for smoother waterfalls and nightclub lights.",
       "quote": null
     },
     {
-      "summary": "Strict compile flags now yield zero warnings; any new warnings will be treated as bugs.",
-      "quote": "\"I fixed every single compile warning in my game. Zero warnings, look at this.\""
-    },
-    {
-      "summary": "Dual-texture brick material needed two-cycle mode; Kaze fixed render mode and environment alpha issues that caused flicker on hardware.",
+      "summary": "Measured Dino Dino Domain performance at ~22.5 FPS worst-case with AA; Biobak’s visual pass costs ~1.5–2 FPS; occlusion planes are considered to claw frames back.",
       "quote": null
     },
     {
-      "summary": "Performance snapshot: worst-case camera in the new layout is ~22.5 FPS with AA; Kaze expects occlusion planes and engine upgrades to bring it back to 30 FPS.",
+      "summary": "Uses an unreleased Nemu64 build plus Project64 and C/assembly mix for low-level debugging.",
       "quote": null
+    },
+    {
+      "summary": "Concept approved: Star sits inside the nightclub disco ball; when Mario grabs the pole, the ball snaps, falls, shatters, and the room goes dark—Shy Guy stops dancing.",
+      "quote": "You would really feel the impact of your actions."
     }
   ],
   "context_findings": [
     {
-      "summary": "Kaze shows visible frustration and amusement while single-stepping MIPS assembly; enjoys the detective work despite calling it \"schizo-rambling\".",
+      "summary": "Upgraded to Windows 11 last week for security reasons; reinstalling toolchain and dealing with VS Code quirks.",
       "quote": null
     },
     {
-      "summary": "He reinstalled Windows 11 recently, rebuilding his toolchain, and lost time to GIMP freezes and NVIDIA/ShadowPlay issues.",
-      "quote": "\"Somehow I can't do anything except talk. Task manager. CPU 100%.\""
+      "summary": "Frustrated by viewers claiming an AI voice was used in his latest video; clarifies it’s just Joshua’s British accent.",
+      "quote": "People keep complaining that there is an AI voice in my video when it’s just how Joshua sounds."
     },
     {
-      "summary": "Annoyed by viewers insisting his collaborator’s narration is an AI voice, he rails against ‘AI investigations’.",
-      "quote": "\"It's literally not even an AI voice, that is just Joshua's voice.\""
-    },
-    {
-      "summary": "Mentions pet pleco babies hatching—brief personal aside showing life outside dev.",
+      "summary": "Design philosophy: multiple, obvious tutorials (e.g., wall-kick) and visible feedback loops to help players new to Mario 64 mechanics.",
       "quote": null
     },
     {
-      "summary": "Design philosophy: players claim they want to think, but actually prefer clear guidance (yellow paint/sidebar tutorials).",
-      "quote": "\"People don't want to think. People want to think that they want to think.\""
+      "summary": "Emotional arc: visible excitement over Biobak’s art improvements, relief after memory crash fix, and annoyance with GIMP, ShadowPlay and long debug sessions.",
+      "quote": null
     }
   ],
   "contributor_findings": {
     "biobak": [
       {
-        "summary": "Delivered a massive Dino Dino Domain rework: lower-poly water, new mountains, mossy bricks, disco redesign, Yoshi stomach remodel, vegetation, decorative pillars, lighting passes, and a detailed changelog.",
-        "quote": "\"Alright, we're gonna get a big DinoDino domain rework today.\""
+        "summary": "Delivered a major Dino Dino Domain art/level pass: new transparent water, rounded pillars, moss overlays, redesigned bridges, nightclub set dressing, Yoshi-statue hieroglyphs and reduced polygon counts.",
+        "quote": "Alright, we’re gonna get a big DinoDino Domain rework today."
       },
       {
-        "summary": "Some changes pushed memory over the limit and introduced triple-overdraw hotspots; Kaze will add occlusion planes and optimise.",
+        "summary": "Detailed changelog helped Kaze systematically review and flag technical issues (overdraw, triple-layered waterfalls, decal order).",
         "quote": null
       }
     ],
     "badub": [],
     "zeina": [
       {
-        "summary": "Currently creating neon sign assets for Course 15’s retro section, using the same combiner tricks planned for Dino Dino Domain’s nightclub.",
-        "quote": null
+        "summary": "Creating neon sign assets for the retro section of Course 15; Kaze plans to reuse the nightclub combiner techniques.",
+        "quote": "Zeina’s making a lot of these for the retro section of Course 15, so that’s gonna be sweet."
       }
     ]
   },
   "key_stories": [
     {
-      "title": "The Frame-Perfect Landing Crash",
-      "summary": "A mysterious crash occurs when A is pressed the frame before Mario lands. Kaze debugs live in MIPS assembly, discovering the crash vanishes if animations are disabled.",
-      "challenge": "Game hard-crashes from a single frame input, jeopardising BLJs and general stability.",
-      "process": "Used Nemu64 debugger, inspected registers, traced through landing and animation code, toggled animation pointer writes.",
-      "outcome": "Isolated to animation switching; root cause still pending but direction set.",
-      "key_quote": "\"It is very easy to fix by just removing the one frame input buffer, which is concerning.\"",
+      "title": "The One-Frame Input Crash",
+      "summary": "A mysterious crash occurs when players press A the frame before landing. Live on stream, Kaze traces it through assembly registers and discovers that disabling animations removes the bug.",
+      "challenge": "Game crashes on specific frame-perfect input.",
+      "process": "Used Nemu64 debugger to follow register changes, compared emulator behaviors, and toggled subsystems until the crash disappeared.",
+      "outcome": "Identified animation system as the trigger; root cause still to be coded.",
+      "key_quote": "There is no way it was the animations, right? It was the animations? Yes!",
       "related_to": [
         "kaze"
       ]
     },
     {
-      "title": "One-Kilobyte Memory Overflow",
-      "summary": "Importing Biobak’s new level crashes on load. Kaze traces it to the memory pool being short by ~1 KB.",
-      "challenge": "Level would not load on real hardware; allocator returned NULL.",
-      "process": "Stepped through pool allocation, compared free space, removed unused assets (leaf boat, duplicate texture) and rebuilt with Bleed/Inline.",
-      "outcome": "Level boots successfully; highlights razor-thin RAM margins on N64.",
-      "key_quote": "\"All of that for one texture.\"",
+      "title": "1 KB From Disaster",
+      "summary": "Biobak’s upgraded Course 2 wouldn’t load; Kaze dug into memory pools and found the ROM was over budget by a single kilobyte.",
+      "challenge": "Level import crashed at load-area terrain stage.",
+      "process": "Stepped through segment loading code, confirmed out-of-memory assert, freed space by deleting an unused texture and enabling inline/bleed packing.",
+      "outcome": "Level now boots, highlighting razor-thin N64 limits.",
+      "key_quote": "We were using literally one kilobyte of memory too much in this level.",
       "related_to": [
         "kaze",
         "biobak"
       ]
     },
     {
-      "title": "Stealing the Disco Star",
-      "summary": "Kaze envisions a set-piece where the player literally turns off the party.",
-      "challenge": "Create memorable feedback for collecting the star in the nightclub.",
-      "process": "Conceptual brainstorm: place star inside disco ball, have pole snap, ball shatter, room darken, Shy Guys stop.",
-      "outcome": "Design note added to to-do list; will be prototyped.",
-      "key_quote": "\"We are spreading suffering and misery across our enemies.\"",
+      "title": "Stealing the Beat",
+      "summary": "While reviewing the nightclub area, chat and Kaze craft a moment where the star powers the disco ball. When stolen, the club shuts down, leaving Shy Guys in silence.",
+      "challenge": "Make star collection in the nightclub memorable.",
+      "process": "Brainstormed live, mapped required animation, lighting and AI state changes.",
+      "outcome": "New scripted sequence slated for implementation.",
+      "key_quote": "Imagine the star is inside the disco ball and as soon as you steal it, the entire room goes dark.",
       "related_to": [
         "kaze",
         "biobak",
@@ -128,61 +120,68 @@
   ],
   "open_questions": [
     {
-      "topic": "Final fix for animation-related crash",
-      "context": "Crash disappears when animations disabled, but root cause and permanent solution not implemented.",
+      "topic": "Animation-related crash",
+      "context": "Disabling animation updates stops the one-frame input crash, but the underlying pointer mismatch is unsolved.",
       "questions": [
-        "What exact animation pointer or state causes the bad jump?",
-        "Could restructuring animation state machine or input buffer remove the issue without side-effects?",
-        "Does the bug occur on real N64 after recent fixes?"
+        "What exactly causes the animation system to write bad memory?",
+        "Is removing the one-frame input buffer an acceptable long-term fix?",
+        "How will this impact BLJ stability mentioned on stream?"
       ],
       "related_to": [
-        "kaze",
-        "zeina"
-      ],
-      "priority": "high"
+        "kaze"
+      ]
     },
     {
-      "topic": "Long-term memory budget",
-      "context": "Level barely fits after quick asset removals; future additions risk new overflows.",
+      "topic": "Memory budgeting moving forward",
+      "context": "Course 2 now fits only after deleting assets; future areas may face the same issue.",
       "questions": [
-        "What is the per-course memory target going forward?",
-        "Can shared assets be consolidated or streamed per area?",
-        "Will occlusion planes or model segmentation be mandatory?"
+        "Will you adopt formal memory budgets per level?",
+        "Any plans for dynamic unloading or segment streaming?",
+        "How do art priorities balance with N64 hardware limits?"
       ],
       "related_to": [
         "kaze",
         "biobak"
-      ],
-      "priority": "medium"
+      ]
     },
     {
-      "topic": "Nightclub disco-ball sequence implementation",
-      "context": "Concept sounded feasible but details (physics, particle shards, music stop cue) undefined.",
+      "topic": "Disco-ball star sequence implementation",
+      "context": "Kaze outlined an impact-heavy cutscene involving physics, lighting and AI states.",
       "questions": [
-        "Who will script the pole break and ball physics?",
-        "Can N64 handle dynamic lighting shut-off without frame drops?",
-        "Will Badub compose a special ‘party dies’ sting?"
+        "Who will script the pole snap, fall, and shatter animations?",
+        "Will Badub compose a music sting for the blackout?",
+        "How will Zeina’s animation pipeline integrate with the existing engine?"
       ],
       "related_to": [
         "kaze",
         "biobak",
-        "badub",
-        "zeina"
-      ],
-      "priority": "medium"
+        "zeina",
+        "badub"
+      ]
     },
     {
-      "topic": "Teaching advanced moves",
-      "context": "Wall-kick tutorial being restored, vine helper added, but plan for consistent skill onboarding is unclear.",
+      "topic": "Tutorialization strategy",
+      "context": "Wall-kick tutorial was removed then reconsidered; Kaze debates multiple placements.",
       "questions": [
-        "Where else will tutorials or NPC cues reinforce wall-kick, spin-jump, vine-jump?",
-        "How will players who skip Act 1 learn?",
-        "Will optional HUD prompts be considered?"
+        "What is the final plan for teaching core moves like wall-kick and vine jump?",
+        "How do you test if new players actually learn them?",
+        "Will NPCs or environmental cues carry that load?"
       ],
       "related_to": [
         "kaze"
+      ]
+    },
+    {
+      "topic": "60 FPS texture scroll system",
+      "context": "Kaze wants to replace Fast64’s 30 FPS scroll for smoother effects.",
+      "questions": [
+        "What technical approach will you use to achieve 60 FPS scrolls?",
+        "Any risk of additional overdraw or CPU cost on real hardware?",
+        "How soon will this be retrofitted into existing levels?"
       ],
-      "priority": "low"
+      "related_to": [
+        "kaze"
+      ]
     }
   ]
 }

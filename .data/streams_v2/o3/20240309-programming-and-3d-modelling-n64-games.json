@@ -1,61 +1,64 @@
 {
   "stream_context": {
-    "summary": "Kaze spends the entire session building and debugging the Wild-West ‘Saloon’ section of Course 12. Main tasks: importing Zeina’s piano-playing Shy Guy, fixing crashes caused by RAM overflow, adding crowd reactions, directional audio panning and a cinematic “high-noon” camera for a future card-gun duel.",
+    "summary": "Kaze focuses on Course 12’s Wild-West saloon, importing and programming a piano-playing Shy Guy, debugging a sudden RAM overflow crash, and sketching the upcoming ‘high-noon’ duel sequence with Boshi using Mario Party 2’s card gun model.",
     "level": [
-      "Course 12",
-      "Wild-West saloon"
+      "Course 12 (Wild-West saloon)"
     ]
   },
   "development_findings": [
     {
-      "summary": "Zeina’s piano-playing Shy Guy model and animation were successfully imported; Kaze adjusted vertex colours and lighting to match the scene.",
-      "quote": "The lighting on this looks pretty good actually. I kind of like it. I think she did a good job vertex coloring this."
+      "summary": "Zeina’s piano-playing Shy Guy and piano were imported; Kaze added vertex-color lighting tweaks, dialog, looping animation, and panned audio so music feels spatial.",
+      "quote": "The piano needs to be solid... I’m going to pan the music so that it sounds like the guy is playing it."
     },
     {
-      "summary": "Directional audio was implemented so the piano music pans from the Shy Guy’s position.",
-      "quote": "We have one more thing to add here and that is directional audio… I’m going to pan the music so that it sounds like the guy is playing it."
-    },
-    {
-      "summary": "NPC crowd logic added: all saloon patrons turn to stare at Mario when he interrupts the pianist.",
+      "summary": "When Mario talks to the Shy Guy, music stops and all NPCs turn to face Mario for comedic effect; implemented via Western NPC behavior update.",
       "quote": "When the piano guy stops the music, the entire bar should look at you."
     },
     {
-      "summary": "Discovered a crash caused by RAM overflow; merging large collision meshes reduced ~800 triangles and fixed it temporarily.",
-      "quote": "It’s a RAM overflow… If I just make a mesh out of it that just removed 800 triangles so it should be fine now."
+      "summary": "Initial import triggered mysterious crashes traced to RAM overflow; merging collision meshes and removing duplicate geo layouts freed memory.",
+      "quote": "It’s a RAM overflow – we’re out of memory… if I just make a mesh out of it that removed 800 triangles, it should be fine now."
     },
     {
-      "summary": "Refined use of object lists (e.g., ‘spawner list’ vs. ‘surface list’) to skip unnecessary interaction checks and save performance.",
-      "quote": "You can skip a whole interaction check for every object, which is huge."
+      "summary": "Discovered optimisation opportunity: correct use of object-interaction lists to skip unnecessary checks, plus inlining a sound-thread function saved ~0.2 µs per frame.",
+      "quote": "We just gained around 0.2 microseconds of performance in Act Idle. Isn’t that amazing?"
     },
     {
-      "summary": "Micro-optimisations: inlined a sound-thread function and reclaimed ~0.2 µs per frame; also described using cache-invalidate instructions to halve memory bandwidth in the renderer.",
-      "quote": "He just live watched me gain 0.2 microseconds of performance."
+      "summary": "Explained low-level write optimisation: invalidating cache lines before 16-byte stores halves memory bandwidth in render thread.",
+      "quote": "When you write 4 bytes, you actually read 16… Use CACHE INVALIDATE so you never read from RAM first."
     },
     {
-      "summary": "Set up a locked, letter-boxed ‘high-noon’ camera shot; bars flicker but basic framing complete.",
-      "quote": "This is the vision we were looking for… It’s high noon."
+      "summary": "Fast3DX2 is currently used; Fast3DX3 planned but suffers a 20 % FPS drop due to a discovered bug.",
+      "quote": "Fast3DX3… has a pretty significant mark we found where it slows the game down 20 %."
     },
     {
-      "summary": "Planned next steps: model a 3-2-1 countdown prop, import the Mario Party 2 card-gun, script duel logic, further optimise memory, migrate to Fast3DX3.",
-      "quote": null
+      "summary": "High-noon duel concept: 3-2-1 countdown model, ominous music, Mario pulls the card gun; requires modelling countdown and ripping Mario Party 2 gun via QED.",
+      "quote": "We’re going to have the camera be here, the countdown goes 3-2-1-go, Mario pulls out his card gun and whoever shoots first wins."
+    },
+    {
+      "summary": "Created Yoshi Coin #4 earned by ‘listening to the piano’; placeholder in code.",
+      "quote": "Yoshi coins – listening to the piano – it’s coin 4."
+    },
+    {
+      "summary": "VS Code auto-format broke mid-stream, causing manual indentation; flagged as tech-debt issue.",
+      "quote": "Dude, the not having the auto-indenting work is so annoying."
     }
   ],
   "context_findings": [
     {
-      "summary": "Kaze learned the importance of ‘soft skills’ and joked about previously dismissing them.",
-      "quote": "Someone explained to me what soft skills are… I thought that didn’t matter."
+      "summary": "Kaze only recently learned the importance of ‘soft skills’ and says it changes his outlook on collaborating.",
+      "quote": "Someone explained to me what soft skills are… That changes everything."
     },
     {
-      "summary": "He holds a full-time Unreal Engine 5 programming job (under NDA); ROM hacking is technically a hobby he still works on full-time.",
-      "quote": "Yes I am a programmer… that is my actual full-time job. Romhacks are technically just a hobby but I do work on them full-time."
+      "summary": "ROM hacks are officially a ‘hobby’, but he still works on them full-time alongside an NDA-bound Unreal Engine 5 day job.",
+      "quote": "ROM hacks are technically just a hobby but I do work on them full-time."
     },
     {
-      "summary": "Frustration with VS Code auto-formatting breaking mid-stream; affects productivity and mood.",
-      "quote": "Dude, the fucking not having the auto-indenting work is so annoying."
+      "summary": "Shows excitement when the Shy Guy loop works smoothly and frustration when VS Code formatting or crashes occur.",
+      "quote": null
     },
     {
-      "summary": "Cautious about sharing builds; worries about leaks; jokes about holding $100k as collateral.",
-      "quote": "Anyone can say ‘I won’t leak it, trust me bro’… You have to send me $100,000 and then I’ll send you the ROM."
+      "summary": "Protective about leaks; will not send builds to strangers despite requests.",
+      "quote": "Anyone can say ‘I won’t leak it’. I have no idea who you are."
     }
   ],
   "contributor_findings": {
@@ -63,108 +66,141 @@
     "badub": [],
     "zeina": [
       {
-        "summary": "Created and rigged the piano-playing Shy Guy including dialog animations.",
-        "quote": "Which Zeina has animated and modeled and he’s given him a piano too."
+        "summary": "Provided the model and animations for the piano-playing Shy Guy and piano, praised for good vertex colouring.",
+        "quote": "Zeina has animated and modeled [him] and she’s given him a piano too."
       },
       {
-        "summary": "Joined chat post-hike; Kaze showcased her work and sought her feedback.",
-        "quote": "Look what I made out of your Shy Guy. You’re gonna love this."
+        "summary": "Watched later in stream; Kaze demonstrated finished implementation to get her feedback.",
+        "quote": "Zeina, you missed the Shy Guy… Look what I made out of your Shy Guy."
       }
     ]
   },
   "key_stories": [
     {
-      "title": "The Saloon Pianist Crash",
-      "summary": "Importing Zeina’s Shy Guy initially looked perfect until the level began crashing on load. Investigation revealed RAM overflow from excessive collision triangles. Kaze merged meshes to cut 800 triangles and restored stability.",
-      "challenge": "Level crashed immediately after adding the new enemy.",
-      "process": "Used debugger, isolated memory overflow, optimised collision geometry.",
-      "outcome": "Level runs again on real hardware; reminder that Course 12 is near memory limits.",
-      "key_quote": "Didn’t think it would happen so soon… we have to optimise the level.",
+      "title": "Piano Shy Guy Import",
+      "summary": "Adding Zeina’s piano-playing Shy Guy caused crashes and lighting mismatches. Kaze corrected vertex colours, implemented directional audio, wrote dialog triggers, and solved an out-of-memory crash by merging collision meshes.",
+      "challenge": "Level crashed on load after new asset; lighting also felt off.",
+      "process": "Tweaked lighting in Blender; identified duplicate geo layouts; used debugger, found RAM overflow; merged 800+ collision triangles; rewrote animation/pointer logic.",
+      "outcome": "Level loads; music plays from right speaker; dialog stops music; crowd reacts.",
+      "key_quote": "It’s a RAM overflow – we’re out of memory… merging that mesh removed 800 triangles.",
       "related_to": [
         "kaze",
         "zeina"
       ]
     },
     {
-      "title": "Making the Music Feel Local",
-      "summary": "Kaze wanted the saloon’s piano to feel diegetic. He added stereo panning tied to the Shy Guy’s position and scripted NPCs to glare at Mario if he interrupts.",
-      "challenge": "Standard background music felt disconnected from on-screen action.",
-      "process": "Implemented per-channel panning & crowd AI triggers.",
-      "outcome": "Immersive audio cue and comedic payoff; sets tone for Wild West atmosphere.",
-      "key_quote": "When the piano guy stops the music, the entire bar should look at you.",
-      "related_to": [
-        "kaze",
-        "zeina"
-      ]
-    },
-    {
-      "title": "High-Noon Duel Setup",
-      "summary": "Plans for a cinematic showdown: Mario and Boshi face off with a card-gun, framed by a static, letter-boxed camera and 3-2-1 countdown.",
-      "challenge": "Need Wild-West climax using N64 hardware limits.",
-      "process": "Prototyped camera lock, discussed importing Mario Party 2 gun, will model numeric countdown.",
-      "outcome": "Camera prototype done; assets & logic scheduled for next stream.",
-      "key_quote": "We’re going to have a countdown here… Whoever shoots first wins.",
+      "title": "Micro-optimisation Hunt",
+      "summary": "Kaze continually shaved microseconds: inline sound-thread function, better object lists, cache-invalidate trick; shares philosophy of squeezing 60 FPS on real hardware.",
+      "challenge": "Maintain 60 FPS as Course 12 nears memory/CPU limits.",
+      "process": "Audited Act Idle path, inlined function, reassigned objects to correct lists, explained cache-line invalidation.",
+      "outcome": "Saved ~0.2 µs per frame; confidence level still hits 60 FPS on console.",
+      "key_quote": "You just live watched me gain 0.2 microseconds of performance.",
       "related_to": [
         "kaze"
+      ]
+    },
+    {
+      "title": "High-Noon Duel Planning",
+      "summary": "Designing finale of Wild-West level: cinematic letterbox view, 3-2-1 countdown, Mario vs Boshi with Mario Party 2 card gun.",
+      "challenge": "Need new assets (gun, countdown) and camera choreography without blowing memory.",
+      "process": "Framed camera, experimented with letterbox bars, planned to rip gun model via QED and 3D-model countdown.",
+      "outcome": "Concept locked; implementation postponed until assets sourced.",
+      "key_quote": "We’re going to model a countdown and then Mario will pull out his card gun; whoever shoots first wins.",
+      "related_to": [
+        "kaze",
+        "zeina"
       ]
     }
   ],
   "open_questions": [
     {
-      "topic": "Card-gun asset licensing",
-      "context": "Kaze wants to rip the Mario Party 2 card-gun and asked QED for help.",
+      "topic": "Memory budget strategy",
+      "context": "Course 12 already hit RAM overflow; Kaze merged meshes ad-hoc.",
       "questions": [
-        "Has Nintendo’s legal position on direct asset ripping been considered?",
-        "If reuse is blocked, will Biobak recreate the gun from scratch?",
-        "How will the gun be animated and coded within engine memory limits?"
+        "How are you budgeting memory across 15 courses?",
+        "What tools or metrics alert you before crashes?",
+        "Any contingency if later levels exceed limits?"
+      ],
+      "related_to": [
+        "kaze"
+      ]
+    },
+    {
+      "topic": "Directional audio on N64",
+      "context": "Implemented panning for piano music.",
+      "questions": [
+        "What technical method do you use for positional audio on actual hardware?",
+        "Any limitations (channels, CPU) you must work around?",
+        "Will other levels use similar audio tricks?"
+      ],
+      "related_to": [
+        "kaze",
+        "badub"
+      ]
+    },
+    {
+      "topic": "Fast3DX3 Migration",
+      "context": "Fast3DX3 currently 20 % slower.",
+      "questions": [
+        "What advantages will Fast3DX3 provide once fixed?",
+        "What’s causing the slowdown mark and how will you tackle it?",
+        "Timeline to switch engine versions?"
+      ],
+      "related_to": [
+        "kaze"
+      ]
+    },
+    {
+      "topic": "Boshi Duel Narrative",
+      "context": "Boshi appears as foe in Wild-West ‘high-noon’ scene; chat joked about redemption arc.",
+      "questions": [
+        "Why choose Boshi for this duel?",
+        "Will he get a redemption arc or recurring role?",
+        "How does this encounter fit Return to Yoshi’s Island’s broader story?"
+      ],
+      "related_to": [
+        "kaze",
+        "zeina"
+      ]
+    },
+    {
+      "topic": "Team Collaboration & Soft Skills",
+      "context": "Kaze joked about just learning what ‘soft skills’ are.",
+      "questions": [
+        "How has this revelation changed day-to-day collaboration?",
+        "Can team members share examples where communication style impacted development?",
+        "What tools/processes facilitate remote teamwork?",
+        "How do marital dynamics with Zeina influence creative decisions?"
+      ],
+      "related_to": [
+        "kaze",
+        "zeina"
+      ]
+    },
+    {
+      "topic": "Asset Licensing & Legal Risk",
+      "context": "Plan to rip Mario Party 2 card gun; Kaze jokes ‘not breaking the law’.",
+      "questions": [
+        "What criteria determine when it’s okay to reuse Nintendo assets?",
+        "Any legal precautions for public release?",
+        "How do you balance homage with originality?"
       ],
       "related_to": [
         "kaze",
         "biobak"
-      ],
-      "priority": "high"
+      ]
     },
     {
-      "topic": "Fast3DX3 migration",
-      "context": "Current build uses Fast3DX2; Fast3DX3 offers performance but has bugs.",
+      "topic": "Yoshi Coin Design Philosophy",
+      "context": "Coin #4 awarded for listening to piano; few coins defined yet.",
       "questions": [
-        "What specific issues prevent adopting Fast3DX3?",
-        "Who is responsible for fixing them?",
-        "Is there a deadline to switch before content lock?"
+        "What are the thematic goals of Yoshi Coins?",
+        "How many per level and how to encourage exploration?",
+        "Any unique rewards for collecting them all?"
       ],
       "related_to": [
         "kaze"
-      ],
-      "priority": "medium"
-    },
-    {
-      "topic": "Memory budget for Course 12",
-      "context": "Course 12 nearly maxes RAM; future countdown model and duel effects may overflow.",
-      "questions": [
-        "What is the remaining memory headroom?",
-        "Are more global optimisations planned (e.g., shared textures)?",
-        "Could splitting the saloon into sub-areas solve overflow?"
-      ],
-      "related_to": [
-        "kaze",
-        "biobak",
-        "zeina"
-      ],
-      "priority": "medium"
-    },
-    {
-      "topic": "Rideable Yoshi mechanics",
-      "context": "Kaze said ‘probably’ when asked about rideable Yoshi.",
-      "questions": [
-        "Is a rideable Yoshi confirmed for gameplay?",
-        "What technical hurdles exist (collision, animation)?",
-        "Would Zeina or another animator handle new Yoshi moves?"
-      ],
-      "related_to": [
-        "kaze",
-        "zeina"
-      ],
-      "priority": "low"
+      ]
     }
   ]
 }

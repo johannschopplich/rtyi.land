@@ -1,201 +1,175 @@
 {
   "stream_context": {
-    "summary": "Kaze worked on Course 15, spending most of the stream on a frustrating, deep-dive debugging session to fix an emulator-specific crash related to a snow effect. He also implemented and balanced tilting platforms, discussed performance optimizations, and collaborated with artist Biobak on redesigning the level's problematic background and 'styrofoam' ground texture.",
+    "summary": "Kaze worked on Course 15, dedicating most of the stream to debugging a persistent, emulator-specific crash related to a 'styrofoam' visual effect. This led to a design discussion with Biobak and the decision to replace the effect. Kaze also implemented and tuned tilting platforms and briefly showed off a highly-optimized port of Isle Delfino running on N64 hardware.",
     "level": [
       "Course 15"
     ]
   },
   "development_findings": [
     {
-      "summary": "A significant portion of the stream was dedicated to debugging a crash that only occurred on the Project64 emulator, not on other emulators or real N64 hardware, highlighting the challenges of developing for inconsistent emulation environments.",
+      "summary": "A major development challenge is a persistent crash in the Project64 emulator that does not occur on real N64 hardware, making it extremely difficult to debug. The issue is suspected to be a memory corruption bug related to a normal mapping effect.",
       "quote": "The worst problem is that on real n64 it legit just works."
     },
     {
-      "summary": "Kaze eventually fixed the persistent emulator crash by changing a function from inline to non-inline, a workaround that points to a likely bug within the emulator's handling of compiled code rather than an error in the game's logic.",
+      "summary": "Kaze discovered that changing a function from 'inline' to a standard function call fixed a crash, leading him to believe the root cause is a bug within the Project64 emulator itself rather than his own code.",
       "quote": "How does changing the function from an inline to not an inline make it work? This garbage emulator man I swear."
     },
     {
-      "summary": "Course 15 suffers from major performance issues, primarily high RDP (Reality Display Processor) time caused by overdraw. Kaze plans to optimize it by cutting holes in the level geometry beneath other objects.",
-      "quote": "This is the worst performing level by far right now... My game thread is like twelve milliseconds, but then rendering takes forty. It's all RDP."
+      "summary": "Kaze has made significant performance optimizations to the game engine, claiming it's up to 7-10 times faster than vanilla SM64. He demonstrated this by showing a port of Super Mario Sunshine's Isle Delfino running at a stable 30 FPS on N64 hardware.",
+      "quote": "I just ported this to my current engine... Look at that. Easy 30 fps on N64."
     },
     {
-      "summary": "Kaze demonstrated the power of his custom engine optimizations by porting Super Mario Sunshine's Isle Delfino map, which ran at a stable 30 FPS on N64 hardware, a significant performance feat.",
-      "quote": "I just ported this to my current engine... Easy 30 fps on N64. Since then I made the game like twice as fast again."
+      "summary": "The team decided to replace a technically problematic and aesthetically unappealing 'styrofoam' snow effect. The new plan is to use a 'stapled paper on cardboard' theme, and potentially add a pop-able bubble wrap sheet as a gameplay mechanic for a coin.",
+      "quote": "We can't let you just put a bubble wrap there... yeah okay but we need a different solution for the styrofoam then."
     },
     {
-      "summary": "Kaze notes that the game's new, more consistent physics engine makes platforming challenges inherently easier than in the original Super Mario 64, a factor he must consider when designing level difficulty.",
-      "quote": "With return to Yoshi's Island, the physics are so much more consistent that everything is easier in that sense."
+      "summary": "Kaze is actively working on Course 15, implementing and tuning platforming elements like tilting bridges and planning the layout for a secret 'hell' area accessed via a zipper.",
+      "quote": null
     },
     {
-      "summary": "Following feedback from Biobak and his own dissatisfaction, Kaze decided to replace the complex and buggy normal-mapped 'styrofoam' ground texture with a new concept: sheets of paper stapled to cardboard.",
-      "quote": "We need a different solution for the styrofoam then. What do we do if not styrofoam?"
+      "summary": "The game is being developed to fit on a 64 MB ROM, the largest standard size for the N64.",
+      "quote": "The final game will take up pretty much exactly 64 megabytes."
     },
     {
-      "summary": "The game includes a built-in widescreen mode that properly increases the horizontal field of view rather than stretching the 4:3 image, offering a modern feature on original hardware.",
-      "quote": "If you're on a white screen tv you can just turn this on and you actually get a bigger field of view."
-    },
-    {
-      "summary": "Kaze is using advanced, custom techniques to simulate normal mapping on the N64 by using two different texture formats and performing lighting calculations manually to store in a palette.",
-      "quote": "I made a ci4 texture with a grayscale palette and then I also made a ci4 texture with an RGBA16 palette to read it as a normal map and then I multiply them with the camera and like that and the light direction."
+      "summary": "The game features a widescreen toggle that increases the horizontal field of view, which Kaze prefers over stretching a 4:3 image, even if it means cutting off a few vertical pixels.",
+      "quote": null
     }
   ],
   "context_findings": [
     {
-      "summary": "Kaze views making YouTube videos as a necessary chore to fund his passion for game development, which is his primary motivation.",
+      "summary": "Kaze views making YouTube videos as a necessary chore to financially support his true passion, which is game development. He creates content for the viewers to enable his hobby, not because he enjoys the process of video creation itself.",
       "quote": "I just want to make games, man."
     },
     {
-      "summary": "Kaze is aware of the legal issues with Nintendo and acknowledges that any commercial release would require replacing all proprietary assets, making the game an original IP.",
+      "summary": "Kaze has considered a potential commercial PC release on Steam, and is aware that this would require transforming the project into an original IP by replacing all Nintendo assets to avoid legal issues.",
       "quote": "If I were to release this game on Steam, obviously I would have to remove all the Mario assets though."
     },
     {
-      "summary": "Kaze jokes about marketing the game as a 'quadruple A' title, reflecting his pride in the significant technical and creative effort invested.",
+      "summary": "Kaze jokingly frames the game as a 'quadruple A' title, reflecting his ambition to push the N64's technical and design boundaries far beyond typical ROM hacks.",
       "quote": "I'm going to say this is the first quadruple A N64 game ever. That's going to be the marketing."
     },
     {
-      "summary": "Kaze often works at the absolute limit of the N64's hardware and his custom toolchain, where pushing visuals further can cause compilers to break or values to overflow.",
-      "quote": "The problem is I can't make it more shiny without the breaking. Like that's literally the most shiny I can make it before my compiler breaks down and the values overflow into weird colors that make no sense."
+      "summary": "Kaze's development philosophy prioritizes compatibility and performance on original N64 hardware above all else. He considers emulator-specific bugs and crashes to be the fault of the emulator, not his code.",
+      "quote": "The game boots on N64. And if it boots on N64, then everything's fine, right? And anything after that, the emulator just falls."
     },
     {
-      "summary": "Kaze operates with a 'last impact mindset,' justifying the implementation of complex features he finds personally interesting, provided they don't negatively affect gameplay.",
-      "quote": "It is cool and I think as long as it's a gameplay it's fine for me to make things just because I want to."
+      "summary": "Kaze expresses significant frustration with the instability of emulators, particularly Project64, which suffers from random crashes and performance degradation that complicates the debugging process.",
+      "quote": null
     },
     {
-      "summary": "Kaze expresses frustration with repeated questions about the game's release date, indicating pressure from the community.",
-      "quote": "I will literally lose my mind. Please stop asking me for release dates."
+      "summary": "Kaze confirms that the game development and YouTube content creation are a hobby, as he has a full-time job as a programmer.",
+      "quote": "My main job is not this my main job is programming for a company."
     }
   ],
   "contributor_findings": {
     "biobak": [
       {
-        "summary": "Biobak provided critical design feedback, questioning the aesthetic value of the complex 'styrofoam' normal map effect, which prompted Kaze to consider alternatives.",
-        "quote": "Do we even want the normal map styrofoam? Do we think it looks good? I don't think it does."
+        "summary": "Biobak's opinion was sought by Kaze regarding the problematic 'styrofoam' visual effect. His apparent agreement that it wasn't working led to the decision to replace it.",
+        "quote": "Biobak do we even want the normal map styrofoam do we think it looks good i don't think it does"
       },
       {
-        "summary": "Biobak proposed a new visual concept for the level's background void, suggesting a gradient of darkening blue layers to create a death plane. Kaze received the idea positively and planned to implement it.",
-        "quote": null
+        "summary": "Biobak proposed a new visual concept for the level's background void, involving layered shades of blue. Kaze immediately approved of the idea and planned to implement it.",
+        "quote": "I think I like that idea by a bike that looks very good."
       }
     ],
-    "badub": [
-      {
-        "summary": "Badub, the composer, was not mentioned or involved in the activities of this stream.",
-        "quote": null
-      }
-    ],
+    "badub": [],
     "zeina": [
       {
-        "summary": "Zeina's friend, who is skilled with hardware, installed the N64 Digital HDMI mod on Kaze's console.",
-        "quote": null
+        "summary": "Zeina has friends with technical skills who assisted Kaze by installing the N64 Digital HDMI mod on his console.",
+        "quote": "I wasn't the one that installed it. One of Zeina's friends installed it."
       },
       {
-        "summary": "Zeina was mentioned briefly in a personal context, with Kaze joking about a potential Halloween costume involving them.",
-        "quote": null
+        "summary": "Kaze mentions playing games (like Twilight Princess) with Zeina, indicating a shared hobby.",
+        "quote": "I've recently been playing Twilight Princess with my wife."
       }
     ]
   },
   "key_stories": [
     {
-      "title": "The Emulator-Specific Crash",
-      "summary": "Kaze spent a large portion of the stream hunting a frustrating bug that only crashed the game on the Project64 emulator. After a long and arduous process of elimination that involved checking memory, assembly, and running on real hardware, he found a strange workaround, blaming the 'garbage emulator' for the issue.",
-      "challenge": "A persistent, elusive crash occurred in Course 15, but only on the Project64 emulator, making it extremely difficult to debug as it worked perfectly on real N64 hardware.",
-      "process": "Kaze systematically investigated the crash, suspecting memory corruption from the 'styrofoam' effect. He used a debugger, examined the assembly code, tried different emulators, and ran the game on a real N64 to confirm the issue was emulator-specific. His frustration grew as his code seemed logically correct.",
-      "outcome": "After hours of debugging, Kaze discovered a bizarre workaround: changing a single function from 'inline' to a standard function call fixed the issue. He concluded the problem was a bug within Project64 itself, not his code, and was able to move on.",
-      "key_quote": "The whole time my code worked. The whole time I tried to fix my code it worked. It's just something else randomly started breaking again. That sucks.",
+      "title": "The Emulator Ghost Crash",
+      "summary": "Kaze hunted down a mysterious emulator-specific crash that didn't occur on real hardware. After a long and frustrating process of elimination, he found a bizarre workaround, ultimately blaming the 'garbage emulator' for the issue.",
+      "challenge": "A persistent and seemingly random crash was plaguing Course 15 in the Project64 emulator, but the game worked perfectly on real N64 hardware, making the bug incredibly difficult to diagnose.",
+      "process": "Kaze spent a significant portion of the stream trying to isolate the crash. He checked memory allocation, analyzed assembly code, tested on different emulators, and suspected memory corruption from a visual effect. The final fix was discovered through trial and error.",
+      "outcome": "After extensive debugging, Kaze found a workaround by changing a specific function from 'inline' to a regular function. He concluded the issue was an obscure bug within Project64 itself, highlighting the frustrations of developing for imperfect emulators.",
+      "key_quote": "How does changing the function from an inline to not an inline make it work? This garbage emulator man I swear.",
       "related_to": [
-        "Kaze"
+        "kaze"
       ]
     },
     {
       "title": "Replacing the Styrofoam",
-      "summary": "The team re-evaluated a complex 'styrofoam' ground effect that was buggy and aesthetically questionable. After a direct consultation with Biobak on stream, Kaze decided to scrap the effect in favor of a new concept of paper stapled to cardboard, better fitting the game's arts-and-crafts theme.",
-      "challenge": "The ground texture in Course 15, a complex normal-mapped 'styrofoam,' was causing bugs, didn't look good, and its value was questioned by the team.",
-      "process": "Kaze was struggling with bugs related to the styrofoam effect. He paused to ask his artist, Biobak, for an opinion. Biobak agreed it didn't look good, which validated Kaze's own feelings and led to a collaborative decision to replace it with a simpler, more creative 'crafts' solution.",
-      "outcome": "Kaze decided to discard the styrofoam effect. The team settled on a new, more theme-appropriate idea: replacing the styrofoam with sheets of white paper stapled onto the cardboard ground.",
-      "key_quote": "Biobak, do we even want the normal map styrofoam? Do we think it looks good? I don't think it does.",
+      "summary": "A complex visual effect for snow was causing crashes and didn't look good. Kaze consulted with artist Biobak on stream, and they collaboratively decided to scrap the feature in favor of a simpler, more creative 'stapled paper' solution.",
+      "challenge": "The 'styrofoam' snow effect in Course 15, which used normal mapping, was not only aesthetically unconvincing but was also the prime suspect for a major memory corruption crash.",
+      "process": "While struggling to fix the crash, Kaze paused to question the effect's artistic merit. He consulted Biobak on stream, who seemed to agree it wasn't worth the trouble. This led to a collaborative decision to pivot to a new 'crafts' based idea.",
+      "outcome": "The team decided to scrap the styrofoam effect entirely. They replaced it with a more thematically appropriate and technically simpler concept of white paper stapled to cardboard, resolving both the visual and technical problems.",
+      "key_quote": "Biobak do we even want the normal map styrofoam do we think it looks good i don't think it does",
       "related_to": [
-        "Kaze",
-        "Biobak"
+        "kaze",
+        "biobak"
       ]
     },
     {
-      "title": "Redesigning the Level's Background",
-      "summary": "The main outdoor level had a poorly performing and ugly background. After dismissing his own ideas, Kaze received a concept from Biobak for a layered blue void. Kaze approved of the idea and planned to implement it while also doing major performance optimizations.",
-      "challenge": "The background of Course 15, an 'ocean' texture, performed poorly and was thematically confusing to players.",
-      "process": "Kaze identified the level's poor performance and ugly background as key issues. He considered several alternatives like a white void or a table but found them lacking. Artist Biobak then provided a visual mock-up of a layered blue void, which Kaze immediately liked and adopted as the new direction.",
-      "outcome": "Kaze decided to implement Biobak's suggestion for a new background: a layered void that transitions from bright to dark blue, creating a clear death plane. He also planned to aggressively optimize the level by cutting holes in the geometry.",
-      "key_quote": "I also really want to prevent the player thinking that they can jump down and see something down there. That's one of my big worries, right?",
+      "title": "The Isle Delfino Demonstration",
+      "summary": "In a moment of pride, Kaze demonstrated the power of his custom engine by showing Super Mario Sunshine's Isle Delfino ported and running at a smooth 30 FPS on an actual N64. This served as a testament to the years of optimization work he has put into the project.",
+      "challenge": "Demonstrating the true power and efficiency of the custom game engine built for the project.",
+      "process": "During the stream, Kaze took a detour to open a separate project file. He loaded a 12,000-triangle model of Isle Delfino and ran it on his N64, explaining that his engine optimizations made this possible.",
+      "outcome": "Kaze successfully showed that the heavily optimized engine could run a complex level from a GameCube game (Isle Delfino) at a stable 30 FPS on N64 hardware, a major technical feat that highlights the project's ambition.",
+      "key_quote": "I just ported this to my current engine, just because I wanted to see how well it runs. Look at that. Easy 30 fps on N64.",
       "related_to": [
-        "Kaze",
-        "Biobak"
+        "kaze"
       ]
     }
   ],
   "open_questions": [
     {
-      "topic": "Zipper to Hell feature",
-      "context": "Kaze mentions a 'zipper to hell' that will be added to Course 15, but provides no further details on what this entails.",
+      "topic": "Emulator Compatibility Strategy",
+      "context": "Kaze is adamant that if the game works on a real N64, emulator issues are not his fault. However, he acknowledges a large portion of his audience will use emulators like Parallel, which currently has issues with the game.",
       "questions": [
-        "What is the 'zipper to hell'?",
-        "What was the design process behind this feature?",
-        "What gameplay function does it serve in the level?"
+        "What is your official strategy for emulator support at launch? Will you recommend a specific emulator and configuration?",
+        "How do you balance the principle of 'hardware accuracy' with the reality that most players will use imperfect emulators?",
+        "Have you considered collaborating with emulator developers to resolve these compatibility issues?"
       ],
       "related_to": [
-        "Kaze"
-      ],
-      "priority": "medium"
+        "kaze"
+      ]
     },
     {
-      "topic": "Art vs. Performance Collaboration",
-      "context": "Kaze states that Biobak is there to make maps 'prettier' and sometimes finds optimizations, but that his changes can also make things 'more expensive'.",
+      "topic": "Potential for an Original IP",
+      "context": "Kaze briefly mentioned the possibility of releasing the game on Steam, which would require removing all of Nintendo's IP and making it an original game.",
       "questions": [
-        "Can you describe the typical workflow between you and Biobak when it comes to level art and optimization?",
-        "How do you balance Biobak's artistic enhancements with the N64's strict performance limitations?",
-        "Can you give an example of a time Biobak's change made a level more expensive, and how you two worked to solve it?"
+        "How seriously are you considering a commercial PC release?",
+        "What are the biggest challenges in transforming this from a fan project into a standalone, original IP?",
+        "Can you describe what 'Red Dude with White Mask' would look like if he weren't a Shy Guy? What core elements of the game would you keep?"
       ],
       "related_to": [
-        "Kaze",
-        "Biobak"
-      ],
-      "priority": "high"
+        "kaze"
+      ]
     },
     {
-      "topic": "Emulator Compatibility and Release Strategy",
-      "context": "Kaze spent hours debugging an issue specific to the Project64 emulator, and mentioned other emulators like Parallel Launcher are also problematic. The game is confirmed to work on real hardware.",
+      "topic": "The Philosophy of Optimization",
+      "context": "Kaze mentioned his engine is 7-10x faster than the original SM64 engine and that he plans to make an hour-long video detailing the optimizations.",
       "questions": [
-        "Given the severe emulator compatibility issues, what is your strategy for release and player support?",
-        "Will you officially recommend a specific emulator and configuration?",
-        "How much of a concern is it that a large portion of the potential audience uses these buggy emulators?"
+        "Could you walk us through the single most impactful optimization you made? What was the problem and what was the 'aha' moment that led to the solution?",
+        "You jokingly call this a 'quadruple A' N64 game. Beyond performance, what does that aspirational label mean to you in terms of design, polish, and scope?",
+        "How has this intense focus on optimization influenced your game design decisions?"
       ],
       "related_to": [
-        "Kaze"
-      ],
-      "priority": "high"
+        "kaze"
+      ]
     },
     {
-      "topic": "Potential Commercial Release",
-      "context": "Kaze mentions that he could release the game on PC/Steam if he removed all the Mario assets.",
+      "topic": "Team Creative Dynamics",
+      "context": "We saw a great example of Kaze and Biobak collaborating on design decisions live on stream, leading to the removal of the styrofoam and the new background concept.",
       "questions": [
-        "How seriously have you considered an original IP release on PC?",
-        "What would be the biggest challenges in transforming the game from a fan project into a commercial one, beyond swapping assets?",
-        "How much of the original design is tied to the Mario IP versus your own original ideas?"
+        "Can you describe your typical creative process with Biobak, Badub, and Zeina? How often do you have formal discussions versus spontaneous chats?",
+        "How are creative disagreements handled within the team?",
+        "Biobak, what's it like providing art direction for a project with such strict technical limitations? How do you and Kaze find a balance between artistic vision and performance?"
       ],
       "related_to": [
-        "Kaze"
-      ],
-      "priority": "medium"
-    },
-    {
-      "topic": "Engine Optimization Breakthroughs",
-      "context": "Kaze showed off his impressive engine optimizations by running an imported Isle Delfino map at 30 FPS, mentioning it's the result of 3 years of work and makes the game '10 times the performance of normal vanilla Mario 64'.",
-      "questions": [
-        "You mentioned a potential hour-long video on all your source code optimizations. Could you walk us through the top 3 most impactful optimizations you've developed?",
-        "What was the single biggest 'breakthrough' moment in optimizing the engine?",
-        "How has this highly optimized engine changed what you thought was possible on the N64?"
-      ],
-      "related_to": [
-        "Kaze"
-      ],
-      "priority": "high"
+        "kaze",
+        "biobak",
+        "zeina"
+      ]
     }
   ]
 }

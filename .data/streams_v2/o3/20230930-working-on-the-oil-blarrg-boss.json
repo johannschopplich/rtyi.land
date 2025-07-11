@@ -1,81 +1,84 @@
 {
   "stream_context": {
-    "summary": "Kaze works on two parallel tasks: a new Star-Select screen (menu) with Biobak’s art and a hazardous oil-wave block for the Dino Dino Domain course. He also reports a 5 % global render-time gain after rewriting culling and shadow handling in his custom engine.",
+    "summary": "Kaze focused on three tasks: (1) squeezing out a 5 % render-time gain by fixing Mario 64’s culling math and moving culling/shadow data into each object, (2) collaborating with Biobak on a complete rebuild of the Star-Select menu (new background model, scrolling animation, kerning, 60 FPS), and (3) prototyping an oil-wave hazard that fades Mario out and respawns him using a new safe-position algorithm generated with ChatGPT.",
     "level": [
-      "Star-Select menu",
-      "Dino Dino Domain",
-      "general engine/overworld"
+      "Star-Select Menu",
+      "Oil Course (oil wave hazard prototype)"
     ]
   },
   "development_findings": [
     {
-      "summary": "Fixed Mario 64’s faulty culling math (hard-coded 45° FOV) and moved both culling radius and shadow data into the object itself, saving two RAM iterations and roughly 600 µs per frame (~5 % FPS gain).",
-      "quote": "I went from like 44 FPS to 46 and I put the culling into the object itself, not the geo layout… that saved like 600 microseconds."
+      "summary": "Corrected the original Mario 64 culling logic (45° FOV instead of 60°) and embedded culling & shadow data in the object struct, saving ~600 µs per frame (~5 % FPS gain, 44→46 FPS).",
+      "quote": "I fixed the culling so now everything that's off-screen is actually getting culled and that saved like 600 microseconds out of like 22,000."
     },
     {
-      "summary": "The new engine now makes it trivial to give every object shadows; enemies have never had shadows before because Fast64 made it hard.",
+      "summary": "New engine now lets shadows and culling radiuses be added to enemies easily, something Fast64 made ‘really annoying’.",
       "quote": "With my new engine it will be very easy to add them everywhere."
     },
     {
-      "summary": "Star-Select menu is being rebuilt: scrolling sky backdrop, separate render function per course, 60 FPS, larger text with new kerning routine, and animated entrance for logo/stars.",
-      "quote": "Maybe, instead of one geolayout per thing, we'll have one render function per thing and the render function is what decides the geolayout."
+      "summary": "Star-Select overhaul: Biobak supplied new layered background; Kaze built a code-driven scrolling system (three tiled models, fly-in animation) at 60 FPS with per-course render functions instead of per-course geolayouts.",
+      "quote": "Maybe instead of having one geolayout per thing, we'll have one render function per thing and the render function is what decides the geolayout."
     },
     {
-      "summary": "Biobak’s Blender mock-ups are imported; Kaze writes code to tile the background and keep text / stars centred, fixing kerning offsets and widescreen issues.",
-      "quote": null
+      "summary": "Implemented dynamic kerning and 1.5× mission-text scaling; fixed centering inaccuracies caused by legacy code.",
+      "quote": "Basically I invented better kerning, and this is not used here."
     },
     {
-      "summary": "Implemented a generic fade-out & respawn system for falling into oil: stores last ‘safe’ triangle whose edge distance exceeds a threshold, resets Mario and camera without disorienting snap.",
-      "quote": "This is the least disorienting way… it always shows exactly where you just died."
+      "summary": "Solved visible seam in scrolling background by de-syncing scroll speed from tile size (speed 10 → 9).",
+      "quote": "The seam came from this because it was exactly 10, which means one update was delayed by a tick."
     },
     {
-      "summary": "ChatGPT was used to generate the edge-distance algorithm, drastically speeding implementation.",
-      "quote": "You guys have no idea how hard that would have been to program by myself, and this is why I like ChatGPT."
+      "summary": "Oil-wave death mechanic: wrote fade-out then respawn system that stores the last ‘safe’ triangle if distance from edges exceeds a threshold; avoids checkpoints and moving-platform issues.",
+      "quote": "We find the triangle Mario’s on, see if his distance from the edge is bigger than a threshold; if it is, that's a valid respawn point."
     },
     {
-      "summary": "Planned oil-wave (Blargg) hazard will physically push and damage Mario; visual wave mesh being prototyped in Blender.",
-      "quote": null
+      "summary": "Used ChatGPT to generate edge-distance algorithm, drastically speeding implementation.",
+      "quote": "That is so insane. You guys have no idea how hard that would have been to program by myself, and this is why I like ChatGPT."
     },
     {
-      "summary": "Overall project status: about 70 % complete; 4½ courses remain.",
-      "quote": "We're missing like four and a half courses, so we're like over 70 % done at this point."
+      "summary": "Camera now maintains angle on death, looks at spot of failure, and is prevented from dipping below the oil surface for clarity.",
+      "quote": "I don’t want the camera to go under the oil. I want it to just point down at the oil and have it be like, look, there goes Mario."
     },
     {
-      "summary": "Consideration of overlay ‘decal Mario’ model to show temporary effects (e.g., oil stains) without touching main rig.",
-      "quote": null
+      "summary": "Project status: ~70 % complete; 4½ courses remain.",
+      "quote": "We're missing like four and a half courses so we're like over 70 % done at this point."
     },
     {
-      "summary": "Not supporting N64 Rumble Pak; performance benchmarks temporarily remove certain effects for accuracy.",
-      "quote": null
+      "summary": "Considering decal-based ‘oil on Mario’ effect rendered as a second model; deferred to polish phase.",
+      "quote": "Add a decal Mario object that can render in the exact same place as normal Mario … You can fade this decal in or out to render effects over Mario."
     }
   ],
   "context_findings": [
     {
-      "summary": "Kaze values single-button, immediate controls and dislikes exposing camera’s 8-direction grid unless level design requires it.",
-      "quote": "I want to stick to the one button one output philosophy."
+      "summary": "Accidentally scheduled multiple shorts on same day, hurting views; expresses frustration with YouTube scheduling mishap.",
+      "quote": "I'm really sad that I messed up today and accidentally scheduled two videos on the shorts channel … that's why it's getting less views than it should."
     },
     {
-      "summary": "Shows excitement over technical wins and frustration when videos were mis-scheduled, reducing views.",
-      "quote": "I accidentally scheduled two videos… that's why it's getting less views than it should."
+      "summary": "Philosophy: avoids engaging haters because escalation is easy in modern world; stresses respect for safety.",
+      "quote": "If you have someone who really hates you, you should not engage with them, because … they might actually just murder you."
     },
     {
-      "summary": "Philosophy on internet haters: do not engage because retaliation is easier than protection; a reflection on personal safety.",
-      "quote": "If you have someone who really hates you, you should not engage with them, because it is so easy to just destroy someone."
+      "summary": "Design principle: keep controls simple (one button = one output); refuses extra camera buttons to avoid ‘tool-feel’.",
+      "quote": "I think I want to stick to the one-button, one-output philosophy."
     },
     {
-      "summary": "Strong stance that Blueprints are for asset tweaks, not real programming; advocates C++ for performance and maintainability.",
-      "quote": "Programming in Blueprints… is gonna be slower, less performant, take longer, be more limited."
+      "summary": "Technical stance: prefers C++ over Unreal Blueprints, calling Blueprints unsuitable for serious programming.",
+      "quote": "Blueprints are not for programming … it's gonna be slower, less performant, and you’ll get a spaghetti salad."
     },
     {
-      "summary": "Mentions living by the sea for 25 years and taking Zeina to a seal rescue; brief personal anecdote.",
-      "quote": null
+      "summary": "Personal life: grew up by the sea in Germany for ~25 years, now lives in Canada; took Zeina to a seal rescue station during visit.",
+      "quote": "Yeah, the city I live in is right at the sea; when Zeina was over here I took her to see the seals."
     }
   ],
   "contributor_findings": {
     "biobak": [
       {
-        "summary": "Provides new Star-Select backgrounds, combiner settings, and layout ideas; collaborates live on placement, tiling, and animation.",
-        "quote": "Look at this—how cool is that… this would be really cool, I think."
+        "summary": "Delivered new Star-Select background models/textures and pushed for visual tweaks (clouds, texture alignment, mission-text placement).",
+        "quote": "I said the Star Select we have is boring as shit, so look at this—how cool is that?"
+      },
+      {
+        "summary": "Requested specific layout (logo high, mission text lower); ongoing back-and-forth with Kaze on centering and scaling.",
+        "quote": null
       }
     ],
     "badub": [],
@@ -83,35 +86,35 @@
   },
   "key_stories": [
     {
-      "title": "Culling Breakthrough",
-      "summary": "While profiling, Kaze discovers Mario 64’s original culling assumed a 45° FOV and applied arbitrary offsets. By rewriting it and embedding culling and shadow data inside each object, he shaves ~600 µs per frame, gaining 2–5 FPS.",
-      "challenge": "Framerate hovered around 44 FPS and enemies still lacked shadows.",
-      "process": "Analyzed Nintendo’s maths, rewrote FOV test, relocated data to object struct, removed two RAM passes.",
-      "outcome": "Engine now runs ~46 FPS and is easier to add universal shadows.",
-      "key_quote": "Culling in Mario 64 was fucked… fixing it saved like 600 microseconds.",
+      "title": "A 5 % Performance Breakthrough",
+      "summary": "While profiling render time, Kaze discovered Mario 64’s original culling maths were wrong. By correcting the FOV assumption and embedding culling/shadow data inside each object, he shaved ~600 µs per frame, raising the engine from 44 to 46 FPS.",
+      "challenge": "Frame rate stuck around mid-40s despite prior optimisations.",
+      "process": "Analysed Nintendo’s culling code, found 45° vs 60° mistake; moved culling & shadow checks into object struct to cut RAM iterations.",
+      "outcome": "Stable 5 % speed gain; groundwork for universal enemy shadows.",
+      "key_quote": "I fixed the culling so now everything that's off-screen is actually getting culled and that saved like 600 microseconds.",
       "related_to": [
         "kaze"
       ]
     },
     {
-      "title": "Star-Select Reinvention",
-      "summary": "Biobak’s updated art inspires Kaze to scrap the old ‘boring’ Star-Select. Together they import new assets, write scrolling tiling code, correct kerning, and keep it 60 FPS.",
-      "challenge": "Original menu looked static and mis-centred.",
-      "process": "Iterative Blender exports, geolayout refactor into render functions, background tiling, text scaling, and camera tests.",
-      "outcome": "Dynamic, widescreen-friendly menu nearly finished; one more course version pending.",
-      "key_quote": "I really like it… imagine entering this level for the first time and you see this.",
+      "title": "Reinventing Star-Select with Biobak",
+      "summary": "The original menu felt bland, so Biobak produced a vibrant background. Kaze built a 60 FPS scrolling system, fought alignment, kerning, and seams, ultimately achieving a polished, fly-in animation that sets the game’s mood.",
+      "challenge": "Old Star-Select looked ‘boring as shit’ and wasn’t performant.",
+      "process": "Imported Biobak’s models, switched to code-driven render function, tiled three backgrounds, corrected kerning, and adjusted text/star placement through iterative testing.",
+      "outcome": "A visually rich, smooth 60 FPS menu ready for per-course variants.",
+      "key_quote": "Imagine entering this level for the first time … and then you see this and the cut-in plays—it's gonna be so impressive.",
       "related_to": [
         "kaze",
         "biobak"
       ]
     },
     {
-      "title": "Safe Respawn in Oil Waves",
-      "summary": "Designing Dino Dino Domain’s oil sea required a fair, non-random respawn. Kaze uses ChatGPT to code a triangle-edge distance test, stores last safe position, and resets Mario with minimal camera jank.",
-      "challenge": "Avoid spawning Mario inside geometry or letting players sequence-break by falling.",
-      "process": "Generated maths via ChatGPT, integrated into update loop, tuned camera behaviour and damage timing.",
-      "outcome": "Reliable fade-out and respawn that shows the exact death spot; still tweaking damage delay and sound.",
-      "key_quote": "This is the least disorienting way… it always shows exactly where you just died.",
+      "title": "ChatGPT Saves the Oil Wave",
+      "summary": "Designing an oil pit that fades Mario out required a robust ‘last safe spot’ algorithm. Instead of writing edge-distance math from scratch, Kaze asked ChatGPT, integrated the code, and had a working prototype within minutes.",
+      "challenge": "Need to respawn Mario logically without traditional checkpoints, avoiding tiny triangles and moving platforms.",
+      "process": "Defined requirement, prompted ChatGPT for edge-distance calculation, integrated, tested, and fine-tuned camera and animations.",
+      "outcome": "Reliable fade-out/respawn system; proof that AI tools can accelerate low-level tasks.",
+      "key_quote": "That is so insane—you guys have no idea how hard that would have been to program by myself, and this is why I like ChatGPT.",
       "related_to": [
         "kaze"
       ]
@@ -119,61 +122,111 @@
   ],
   "open_questions": [
     {
-      "topic": "Universal enemy shadows",
-      "context": "Kaze says the new engine makes it easy but has not shown an example.",
+      "topic": "New Engine vs. Fast64",
+      "context": "Kaze mentions his ‘new engine’ allows easy shadows and culling radiuses, unlike Fast64.",
       "questions": [
-        "Have you implemented shadows for any enemy yet?",
-        "Are there performance limits for large enemy counts?",
-        "What artistic style will the shadows use?"
+        "What motivated building a new engine instead of extending Fast64?",
+        "How is the new engine architected to allow these optimisations?",
+        "What other Fast64 pain points did it aim to solve?",
+        "Will it be open-sourced or shared with the community?"
+      ],
+      "related_to": [
+        "kaze"
+      ]
+    },
+    {
+      "topic": "Enemy Shadows Rollout",
+      "context": "Engine now supports enemy shadows but none are implemented yet.",
+      "questions": [
+        "What is the timeline to add shadows to all enemies?",
+        "Any creative uses beyond simple circular shadows?",
+        "Performance impact expectations?"
       ],
       "related_to": [
         "kaze",
         "biobak"
-      ],
-      "priority": "medium"
+      ]
     },
     {
-      "topic": "Oil-wave visual & Blargg behaviour",
-      "context": "Kaze modelled a rough wave mesh and discussed damage/fade logic, but exact mechanics and look are undecided.",
+      "topic": "Star-Select Visual Direction",
+      "context": "Several iterations with Biobak; still debating mission-text size, clouds, gradients.",
       "questions": [
-        "Will the Blargg be a visible creature or purely a wave?",
-        "How will the wave’s motion and translucency be animated within N64 limits?",
-        "Is there a plan for oil-stain decals on Mario?"
-      ],
-      "related_to": [
-        "kaze",
-        "biobak",
-        "zeina"
-      ],
-      "priority": "high"
-    },
-    {
-      "topic": "Star-Select final polish",
-      "context": "Menu works but centring, text size, and additional clouds/gradient are still debated.",
-      "questions": [
-        "What is the final layout spec for all aspect ratios?",
-        "Will additional foreground animations (e.g., flying logo) be added?",
-        "When will Badub’s music loop be integrated?"
+        "What final aesthetic are you aiming for—nostalgic or modern?",
+        "How do art and code constrain each other in this menu?",
+        "Will music or SFX be customised per course?"
       ],
       "related_to": [
         "kaze",
         "biobak",
         "badub"
-      ],
-      "priority": "medium"
+      ]
     },
     {
-      "topic": "Performance Benchmark Tool",
-      "context": "Kaze mentions returning to a benchmark build tomorrow but gave no details.",
+      "topic": "Oil Wave Hazard & Decal Effect",
+      "context": "Current prototype lacks texture and optional ‘oily Mario’ decal.",
       "questions": [
-        "What metrics will the benchmark collect?",
-        "How will results influence level design quotas?",
-        "Will the tool be released to external testers?"
+        "What texture style will the oil wave use?",
+        "Will Mario carry visual ‘oil’ after respawn?",
+        "How does the hazard integrate with level pacing and difficulty?"
+      ],
+      "related_to": [
+        "kaze",
+        "zeina"
+      ]
+    },
+    {
+      "topic": "Remaining 4½ Courses",
+      "context": "Kaze states 70 % complete.",
+      "questions": [
+        "Which specific courses remain?",
+        "What design challenges are anticipated?",
+        "How is workload divided among team members for these?"
+      ],
+      "related_to": [
+        "kaze",
+        "biobak",
+        "badub",
+        "zeina"
+      ]
+    },
+    {
+      "topic": "Performance Ambitions (e.g., Sunshine on N64)",
+      "context": "Kaze mused about running Delfino Plaza at 30 FPS with custom microcode.",
+      "questions": [
+        "Is this purely hypothetical or part of the roadmap?",
+        "What microcode tricks are planned for Return to Yoshi’s Island?",
+        "What is the target framerate for main gameplay?"
       ],
       "related_to": [
         "kaze"
+      ]
+    },
+    {
+      "topic": "Team Workflow & Communication",
+      "context": "Stream shows live iteration with Biobak; limited on-stream mention of Badub and Zeina.",
+      "questions": [
+        "How does the team coordinate across time zones and disciplines?",
+        "What tools and pipelines are in place for art, animation, and music?",
+        "How do personal relationships (e.g., Kaze & Zeina) influence feedback loops?"
       ],
-      "priority": "low"
+      "related_to": [
+        "kaze",
+        "biobak",
+        "badub",
+        "zeina"
+      ]
+    },
+    {
+      "topic": "Use of AI Tools in Development",
+      "context": "Kaze leveraged ChatGPT for collision math.",
+      "questions": [
+        "How often is AI used in the project?",
+        "Any concerns about code quality or originality?",
+        "Could AI play a role in level design or QA?"
+      ],
+      "related_to": [
+        "kaze"
+      ]
     }
   ]
 }

@@ -1,6 +1,6 @@
 // #region analysis-prompt
 export const STREAM_ANALYSIS_PROMPT_v2 = `
-You are an expert documentary researcher. Analyze the transcript from Kaze Emanuar's YouTube game development stream. Your goal is to extract concrete, actionable information about the development of "Return to Yoshi's Island," a ROM hack based on the Mario 64 decompilation. This information will be used to prepare comprehensive interviews with the development team for a documentary.
+You are an expert documentary researcher. Analyze the transcript from Kaze Emanuar's YouTube game development stream. Your goal is to extract concrete, actionable information about the development of "Return to Yoshi's Island," a ROM hack based on the Mario 64 decompilation. This information will be used to prepare comprehensive 1-2 hour interviews with the development team for a documentary about the game.
 
 As you analyze this transcript, keep in mind that the stream is from Kaze's perspective. Consider the following central question: "How and why does a creator and his team deconstruct a beloved classic and build something entirely new, yet respectful, on a nearly 30-year-old console?"
 
@@ -9,67 +9,74 @@ As you analyze this transcript, keep in mind that the stream is from Kaze's pers
 - Kaze Emanuar: Lead developer (vision, coding, design), heart and soul of the project
 - Biobak: Graphics artist
 - Badub: Composer
-- Zeina: Animator (also Kaze's spouse – note any personal/professional dynamic)
+- Zeina: Animator, also Kaze's wife
 
 ## Analysis Instructions
 
 For each of the following categories, carefully examine the transcript and extract relevant information specific to this stream. Conduct a step-by-step analysis, but only output the final JSON object that conforms to the schema.
 
-1. Development Insights:
-   - Current project status and milestones
-   - Design decisions and their rationale
-   - Influences from other games or media
-   - Technical challenges and solutions
-   - Creative process examples (concepts → problems → solutions)
-   - Any "breakthrough" moments or significant pivots
+### 1. Development Insights:
+- Current project status, milestones, and progress
+- Design decisions and their rationale
+- Technical challenges and solutions
+- Creative process examples (concepts → problems → solutions)
+- Influences from other games or media
+- Any "breakthrough" moments or significant pivots
 
-2. Team & Collaboration:
-   - Specific contributions from each team member
-   - Examples of collaboration or feedback
-   - Dependencies between team members
-   - Team dynamics or working relationships
+### 2. Team & Collaboration:
+- Specific contributions from each team member (if mentioned)
+- Team dynamics or working relationships
+- Dependencies between team members
+- Examples of collaboration or feedback
 
-3. Creator Context:
-   - Kaze's opinions, interests, philosophy, principles, or worldview (about game design or life in general)
-   - Emotional moments (frustration, excitement, satisfaction)
-   - Personal life mentions (whether or not they directly affect the project)
-   - Work-life balance discussions
-   - Financial or time investments
+### 3. Creator Context:
+- Kaze's opinions, interests, philosophy, principles, or worldview (about game design and life in general)
+- Emotional moments (frustration, excitement, satisfaction)
+- Personal life mentions (whether or not they directly affect the project)
+- Work-life balance discussions
+- Financial or time investments
 
-4. External Factors:
-   - Community feedback or involvement
-   - Legal/Nintendo concerns or considerations
-   - Release strategy or timing
-   - Marketing or distribution plans
+### 4. External Factors:
+- Community feedback or involvement
+- Legal concerns or considerations (especially regarding Nintendo)
+- Release strategy or timing
+- Marketing or distribution plans
 
-5. Complete Stories:
-   Identify self-contained incidents with:
-   - A challenge or initial idea
-   - The process of working through it
-   - The outcome or resolution
+### 5. Complete Stories:
+Identify self-contained story or incident arcs with:
+- A challenge or initial idea
+- The process of working through it
+- The outcome or resolution
+- Key quotes that capture the essence
 
-6. Knowledge Gaps:
-   Note what ISN'T fully explained:
-   - Mentioned but unexplored topics
-   - Decisions without clear rationale
-   - References to work not shown
-   - Team dynamics only partially revealed
+### 6. Open Questions & Interview Opportunities:
+Identify topics and moments that warrant deeper exploration in interviews:
+- Topics mentioned but not fully explained
+- Topics that could make compelling documentary segments
+- Decisions without clear rationale or stories that trail off
+- References to work, discussions, or decisions that happened off-stream
+- Partially revealed team dynamics or collaboration methods
+- Questions that viewers would naturally ask after watching
 
-## Important Notes
-
-- Include quotes that illustrate key points only if they are particularly impactful or revealing
-- Focus on information that generates meaningful findings for the interview and documentary
-- Focus on key team members, but note other contributors who make valuable contributions, such as Lilaa, Sauraen, and Arthur
-- It's okay if some categories have little or no findings – do not force any information where it doesn't exist
+When identifying open questions, think like a documentary filmmaker: What would make viewers lean in? What reveals character? What explains the "why" behind decisions?
 
 ## Exclusions
 
-Do not include:
+Do not extract or focus on:
 - Line-by-line code explanations without broader significance
 - Minute modeling details without design insights
 - Repetitive testing without learning moments
 - Stream management issues
 - Known information about team roles – only include new or surprising insights
+
+## Important Notes
+
+- As Kaze and Zeina are married, note any personal and professional dynamics.
+- Focus on key team members, but note valuable contributions from Lilaa and Sauraen.
+- Focus on information that generates meaningful interview questions and documentary narrative arcs.
+- It's okay if some categories have little or no findings – NEVER force information where it doesn't exist.
+- The transcript may contain grammar errors and inconsistencies due to the automated transcription process. Focus on the meaning and context rather than exact wording.
+- Include quotes that illustrate key points only if they are particularly impactful or revealing
 
 ## Output
 
@@ -77,7 +84,7 @@ After your internal analysis, generate a single, valid JSON object that conforms
 
 ## Context
 
-Here is the transcript to analyze:
+Here is the stream transcript to analyze:
 
 <transcript>
 {transcript}

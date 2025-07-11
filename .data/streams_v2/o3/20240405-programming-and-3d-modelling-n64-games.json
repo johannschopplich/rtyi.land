@@ -1,144 +1,116 @@
 {
   "stream_context": {
-    "summary": "Kaze spends a bonus day off adding content and fixing bugs in the desert-themed \"cowboy town\" level.  Major work includes upgrading trains, adding bandits, coins, and getting the Pokey enemy working after a deep technical dive, all while juggling severe N64 RAM limits that force the removal of the planned Yoshi Ranch area.",
+    "summary": "Kaze spends a bonus day off-work stream refining the Western-style \"train town\" course: polishing train/bandit effects, adding NPC dialogue, placing coins, and—after a long debugging session—getting the vanilla Pokey enemy working while wrestling with N64 RAM limits.",
     "level": [
-      "desert town / cowboy course",
-      "yoshi ranch (cut)",
-      "train tracks sub-area"
+      "Western Train Town (desert/cowboy course)"
     ]
   },
   "development_findings": [
     {
-      "summary": "Trains now have VFX, SFX, camera shake and visible wheel rotation to make them feel dynamic",
-      "quote": "They now have VFX, they have SFX, they have the camera shake and they do that to you."
+      "summary": "Bandit trains now include visual effects, sound effects, and camera shake to convey impact.",
+      "quote": "We did some really cool effects here. They now have VFX, they have SFX, they have the camera shake."
     },
     {
-      "summary": "Bandit NPCs steal goods from the hat and tumbleweed stores; this narrative device eliminates the need to model shop interiors and saves RAM",
+      "summary": "Shopfronts are shown as \"robbed\" so the team can skip modeling inventory and save RAM.",
       "quote": "This is a trick we do so we don't actually have to 3D model the stuff here because we are getting pretty close to running out of RAM."
     },
     {
-      "summary": "Severe memory pressure (≈49 MB in-level) forced cutting the entire Yoshi Ranch area and reducing collision and geometry counts",
-      "quote": "We are out of memory… I’m fine with cutting out the Yoshi Ranch. I think that was unnecessary fluff anyway."
-    },
-    {
-      "summary": "Pokey enemy was broken because Kaze’s engine skipped floor ray-casts when objects were stationary; vanilla Pokey expects 37 ray-casts per frame.  He re-enabled floor checks, fixed billboard scaling, and adjusted spawn/despawn ranges",
-      "quote": "Pokey needed the floor to be Raycasted every tick… now it works and I’m putting him everywhere."
-    },
-    {
-      "summary": "Coins were placed along train tracks to encourage exploration, but coin count is kept low to avoid performance crashes",
+      "summary": "Three Yoshi coins and additional standard coins were placed, especially along train tracks, to make the area feel alive and guide exploration.",
       "quote": null
     },
     {
-      "summary": "Added cowboy Yoshis, cowboy Toad sheriff, shy-guy commuter NPC, and planned ‘shifty guy’ Yoshi-coin gimmick to make the town feel alive",
+      "summary": "Severe memory pressure (≈49 MB, 40 k triangles) forced removal of the planned Yoshi Ranch sub-area and prompted collision and triangle budget cuts.",
+      "quote": "We might need to be able to load data per area… I'm fine with cutting out the Yoshi Ranch. I think that was unnecessary fluff anyway."
+    },
+    {
+      "summary": "Kaze debugged and restored vanilla Pokey behaviour; issue traced to 37 ray-casts per frame that clashed with his engine’s ‘no-velocity, no-raycast’ optimisation.",
+      "quote": "I knew they were gonna do 25. I didn’t know they were gonna do 36. …Pokey needs 6 Raycasts? Actually, 37!"
+    },
+    {
+      "summary": "Pokey adjustments: scaled body parts (0.7), billboard fix, reduced shadow size, spawn distance raised to 5000 and despawn to 6000.",
       "quote": null
     },
     {
-      "summary": "Design decisions constrained by N64 memory: data-per-area loading is hard in decomp; Kaze resorts to geo culling, IGNORE_RENDER tags, and trimming animations",
+      "summary": "Random-rotation table was upgraded so every tumbleweed/train rotation is unique (1 in 65 536) enabling potential cheat detection.",
+      "quote": "In this game, every rotation is unique, because we actually use a signed approximation algorithm instead of a rounded LUT."
+    },
+    {
+      "summary": "Considering per-area data loading, removing effect/command banks, and shrinking collision to reclaim memory; overlay debug tools used to inspect free space.",
       "quote": null
     },
     {
-      "summary": "Badub’s soundtrack re-uses about 70 % of the original SM64 sound-font but in ‘creative ways’ to sound fresh yet familiar",
-      "quote": "It sounds like a completely new soundtrack with a similar vibe to me. That’s what I want anyway."
-    },
-    {
-      "summary": "Chain-chomp NPC follows a spline path and can reverse direction; showcases reusable path-following code",
+      "summary": "Lighting tweaks: switched some textures to multiply by shade colour alpha after Biobak feedback; avoided Mario 64 metallic look on models.",
       "quote": null
     }
   ],
   "context_findings": [
     {
-      "summary": "Kaze is on a week-long vacation from his day job at Gears for Breakfast and streams as a ‘bonus’ activity",
-      "quote": "I have a week off work and I decided to just do a bonus stream."
+      "summary": "Kaze is on a one-week vacation from his day job at Gears for Breakfast, enabling bonus streams.",
+      "quote": "It's a bonus stream because I'm off work for this week."
     },
     {
-      "summary": "Frustrated that PayPal froze his old German account, breaking donation music requests during the stream",
+      "summary": "PayPal froze his account after a pending identity verification; donations fail, causing on-stream frustration.",
       "quote": "They asked me to verify my identity three months ago… now they just closed my account basically."
     },
     {
-      "summary": "Admits physical fatigue from recent 315-lb bench-press PR; considers adding rest days",
-      "quote": null
+      "summary": "Maintains rigorous strength training; recently benched 315 lbs and needs more rest days due to heavier loads.",
+      "quote": "I feel like I haven't been able to recover from my bench in a while… I increased the weight so much."
     },
     {
-      "summary": "Expresses strong dislike for 2D platformers, boss fights, and verbose language—prefers concise, precise design",
-      "quote": null
-    },
-    {
-      "summary": "Cynical view of ROM-hack competitions: believes winners are audience-driven regardless of stated rules",
-      "quote": "I’ve always said, you don’t win comps by making good hacks. You win it by playing to the audience."
+      "summary": "Personal taste: dislikes 2D platformers, boss fights, and idioms; prefers concise, precise language.",
+      "quote": "I very much hate most games… Idioms are really dumb."
     }
   ],
   "contributor_findings": {
     "biobak": [
       {
-        "summary": "Gives feedback on metallic look of Bandit’s teeth; dialog shows ongoing graphic polish loop",
+        "summary": "Provided feedback on character teeth shading and metallic look, prompting lighting fixes.",
         "quote": null
       }
     ],
     "badub": [
       {
-        "summary": "Soundtrack praised for creative use of default SM64 instruments; 70 % old sound-font, 30 % new feel",
-        "quote": null
+        "summary": "Soundtrack uses ~70 % vanilla SM64 sound-font but arranged creatively for a fresh feel.",
+        "quote": "Most of it is still the default Mario 64 sound font… but they're used in really creative ways."
       }
     ],
     "zeina": [
       {
-        "summary": "Assigned to create tumbleweed store model/animations and Pokey animations",
-        "quote": "I gotta ask Zeina to make a tumbleweed store here."
+        "summary": "Kaze asked Zeina to model a tumbleweed store facade and animate Pokey segments.",
+        "quote": "I gotta ask Zeina to make a tumbleweed store here… Gonna ask Zeina to make animations for this guy here."
       }
     ]
   },
   "key_stories": [
     {
-      "title": "Pokey Debug Saga",
-      "summary": "The Pokey enemy spawned invisible and floating.  Kaze discovered his engine optimization removed essential floor ray-casts, clashing with vanilla behavior.",
-      "challenge": "Pokey segments instantly despawned or hovered in mid-air.",
-      "process": "Instrumented code, compared to vanilla, traced to missing 37 per-frame ray-casts and billboard scaling issues; re-enabled floor checks and fixed scale.",
-      "outcome": "Pokeys render and behave correctly; spawn distance increased and scattered through the level.",
-      "key_quote": "Remember when I said that I wouldn’t be surprised? … They needed the floor to be Raycasted every tick.",
+      "title": "The Pokey Debug Saga",
+      "summary": "While importing the vanilla Pokey enemy, every body segment floated and vanished. Kaze traced the bug to his engine’s optimisation that skipped floor ray-casts for stationary objects—Pokey actually performs 37 ray-casts per frame. After re-enabling floor checks and fixing billboard scaling, the enemy now works.",
+      "challenge": "Pokey segments spawned invisible and at wrong heights.",
+      "process": "Stubbed out code, added debug prints, compared to vanilla behaviour, restored constant floor updates.",
+      "outcome": "Pokey works; spawn/despawn distances and shadows tuned.",
+      "key_quote": "We finally fixed it… It was doing 36 ray-casts every tick!",
       "related_to": [
         "kaze"
       ]
     },
     {
       "title": "Running Out of RAM",
-      "summary": "The desert course exceeded memory limits, crashing the game.",
-      "challenge": "Level used ~40 k triangles plus placeholder songs, hitting 64 MB cap.",
-      "process": "Used memory overlay tool, removed Yoshi Ranch area, trimmed collision, deleted unused animations, added IGNORE_RENDER tags.",
-      "outcome": "Level now loads; Yoshi Ranch officially cut.",
-      "key_quote": "We are out of memory… I’m fine with cutting out the Yoshi Ranch.",
+      "summary": "The desert course hit the N64’s 64 MB ceiling, crashing on load. Kaze used overlay memory tools, cut 400 collision triangles, considered per-area loading, and ultimately removed the Yoshi Ranch sub-area.",
+      "challenge": "Level crashed due to memory exhaustion (~40 k tris, many textures).",
+      "process": "Measured free space, trimmed geometry, debated removing effect banks, and deleted the Ranch.",
+      "outcome": "Level now loads; future areas will be planned with stricter budgets.",
+      "key_quote": "We are out of memory. Cool, cool, cool… I'm fine with cutting out the Yoshi Ranch.",
       "related_to": [
         "kaze"
       ]
     },
     {
-      "title": "Donation Chaos",
-      "summary": "Viewers’ song requests didn’t play because Streamlabs sent money to Kaze’s closed German PayPal.",
-      "challenge": "Donations routed to wrong email; PayPal frozen for months.",
-      "process": "Checked Streamlabs settings, email accounts, PayPal notices live on-stream.",
-      "outcome": "Issue unresolved; donations remain broken.",
-      "key_quote": "It just goes to the wrong email address. This makes no sense.",
-      "related_to": [
-        "kaze"
-      ]
-    },
-    {
-      "title": "Train Makeover",
-      "summary": "Trains were bland; Kaze enhanced them for immersion.",
-      "challenge": "Original trains lacked impact.",
-      "process": "Added particle VFX, sound effects, camera shake, wheel rotation, and NPC commentary about their speed.",
-      "outcome": "Trains feel lively and threaten player; shy-guy NPC hints they’re obstacles.",
-      "key_quote": "Look at the train wheels. Isn’t that cool?",
-      "related_to": [
-        "kaze"
-      ]
-    },
-    {
-      "title": "Bandits as Memory Hack",
-      "summary": "Needed lively storefronts without extra models.",
-      "challenge": "Modeling hat/tumbleweed inventory would exceed RAM.",
-      "process": "Introduced two bandits who ‘stole’ all goods; shopkeepers complain via dialogue.",
-      "outcome": "Narrative justification removes need for additional assets.",
-      "key_quote": "So we don’t actually have to 3D model the stuff here because we are getting pretty close to running out of RAM.",
+      "title": "Donation System Meltdown",
+      "summary": "Streamlabs sent viewer tips to Kaze’s obsolete German PayPal, which PayPal had frozen after an unprocessed ID check, blocking music requests and revenue.",
+      "challenge": "Viewer donations stopped appearing.",
+      "process": "Checked Streamlabs, identified wrong email routing, recounted PayPal verification limbo.",
+      "outcome": "Issue unresolved on-stream; future fix required.",
+      "key_quote": "How is this going to the wrong email address? This makes no sense.",
       "related_to": [
         "kaze"
       ]
@@ -146,81 +118,92 @@
   ],
   "open_questions": [
     {
-      "topic": "Per-area memory streaming",
-      "context": "Kaze says decomp makes per-area data loading ‘hard’ and is currently trimming content instead.",
+      "topic": "Memory Management Strategy",
+      "context": "Cutting Yoshi Ranch highlights the project’s proximity to RAM limits; Kaze mentioned per-area data loading and removing banks but no concrete plan.",
       "questions": [
-        "Will you implement true per-area asset loading?",
-        "What technical hurdles remain?",
-        "Could community tools help?"
-      ],
-      "related_to": [
-        "kaze"
-      ],
-      "priority": "high"
-    },
-    {
-      "topic": "Yoshi Ranch cut",
-      "context": "Area was removed due to memory but Kaze liked the concept.",
-      "questions": [
-        "Is it permanently cancelled?",
-        "Could it return in another course or as DLC?",
-        "What design ideas were planned for the Ranch?"
+        "What long-term system will you adopt to avoid further content cuts?",
+        "Will you implement true per-area overlays in decomp?",
+        "How will this influence future level scope and art direction?"
       ],
       "related_to": [
         "kaze",
         "biobak",
         "zeina"
-      ],
-      "priority": "medium"
+      ]
     },
     {
-      "topic": "Soundtrack instrumentation",
-      "context": "Badub uses 70 % SM64 sound-font.",
+      "topic": "Soundtrack Implementation",
+      "context": "Badub’s music uses 70 % SM64 instruments but RAM is scarce.",
       "questions": [
-        "Will entirely new instruments be added?",
-        "Any hardware limitations on N64 preventing richer samples?",
-        "What's the overall musical direction?"
+        "How many original tracks are planned?",
+        "What technical methods are you using to stream or compress music?",
+        "How do you balance nostalgia with originality in composition?"
       ],
       "related_to": [
         "badub"
-      ],
-      "priority": "medium"
+      ]
     },
     {
-      "topic": "Legal boundary of decomp engine",
-      "context": "Chat asked whether Kaze’s rewritten graph renderer is still Nintendo code; Kaze unsure.",
+      "topic": "Legal Boundaries of Decomp Code",
+      "context": "Chat asked if Kaze owns graph-render code; he called it a \"ship of Theseus\" problem and said he's not a lawyer.",
       "questions": [
-        "Where do you draw the legal line between Nintendo and original code?",
-        "Has the team consulted legal experts?"
+        "Where do you draw the line between Nintendo’s code and your own?",
+        "Have you sought legal advice on distributing the hack?",
+        "Does this influence design or release plans?"
       ],
       "related_to": [
         "kaze"
-      ],
-      "priority": "medium"
+      ]
     },
     {
-      "topic": "Tumbleweed store and Pokey animations",
-      "context": "Zeina tasked but timeline unclear.",
+      "topic": "Cheat Detection via Unique RNG",
+      "context": "Every tumbleweed rotation is unique, theoretically exposing TAS or cheated runs.",
       "questions": [
-        "What is Zeina’s animation workflow on N64 hardware?",
-        "How do you balance detail vs performance?"
-      ],
-      "related_to": [
-        "zeina"
-      ],
-      "priority": "low"
-    },
-    {
-      "topic": "Broken PayPal donations",
-      "context": "Donations blocked by account issues.",
-      "questions": [
-        "Have you found a new payment solution?",
-        "Does funding impact dev timeline or asset commissioning?"
+        "Will you build official tools to detect manipulated RNG?",
+        "Could this system be extended to speedrun leaderboards?",
+        "Any risk of false positives affecting legitimate players?"
       ],
       "related_to": [
         "kaze"
+      ]
+    },
+    {
+      "topic": "Team Workflow & Task Assignment",
+      "context": "Kaze casually assigns Zeina models/animations and responds to Biobak’s feedback on stream.",
+      "questions": [
+        "What project management system (if any) do you use?",
+        "How are tasks prioritized and tracked across time zones?",
+        "How do you balance marital life and professional collaboration with Zeina?"
       ],
-      "priority": "low"
+      "related_to": [
+        "kaze",
+        "zeina",
+        "biobak"
+      ]
+    },
+    {
+      "topic": "Release Timeline & Scope",
+      "context": "Kaze told a viewer the game won't release this year but gave no roadmap.",
+      "questions": [
+        "What is the current milestone schedule?",
+        "How many total courses, stars, and Yoshi coins are planned?",
+        "What external factors (work, funding) could shift the timeline?"
+      ],
+      "related_to": [
+        "kaze"
+      ]
+    },
+    {
+      "topic": "Competition Cynicism",
+      "context": "Kaze criticized SM64 hacking competitions for extending deadlines and rewarding longer hacks.",
+      "questions": [
+        "How does this view shape your engagement with the community?",
+        "Would you ever submit Return to Yoshi’s Island to a comp?",
+        "What alternative competition structure would you find fair?"
+      ],
+      "related_to": [
+        "kaze"
+      ]
     }
   ]
 }

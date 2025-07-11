@@ -4,10 +4,8 @@ const QUOTE_INSTRUCTIONS =
   "Minor grammatical errors should be corrected and surrounding quotation marks must be ommitted.";
 
 const TeamMemberSchema = z
-  .string()
-  .describe(
-    'Lowercased name of the team member, e.g. "kaze", "biobak", "badub", or "zeina"',
-  );
+  .enum(["kaze", "biobak", "badub", "zeina"])
+  .describe("Name of the team member");
 
 const FindingSchema = z.object({
   summary: z
@@ -60,9 +58,6 @@ const OpenQuestionSchema = z.object({
   related_to: z
     .array(TeamMemberSchema)
     .describe("Team members who can provide more information on this topic"),
-  priority: z
-    .enum(["low", "medium", "high"])
-    .describe("The priority for the documentary"),
 });
 
 export const StreamAnalysisSchema = z.object({

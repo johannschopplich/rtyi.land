@@ -1,194 +1,177 @@
 {
   "stream_context": {
-    "summary": "Kaze worked primarily on the visuals for a beach level, focusing on implementing a complex water system with dynamic wave heights and shoreline foam effects. He also touched on minor modeling, texture work, and discussed technical challenges with the sound engine and development toolchain, while also sharing personal philosophies and frustrations with community and emulator issues.",
+    "summary": "Kaze worked on implementing a sea foam effect for the water shader in a large island level. He tackled technical challenges involving vertex data manipulation, custom display list parsing, and sine wave texture scrolling. He also shared a deep-dive into a classic Mario 64 sound bug and discussed his philosophies on AI in development, politics, and personal value.",
     "level": [
-      "Unnamed beach/cove level"
+      "Tropical Island Level"
     ]
   },
   "development_findings": [
     {
-      "summary": "Kaze explained that the infamous low-pitched boo laugh in Big Boo's Haunt is not a separate sound but the end of the wind sound effect, which is normally unheard but plays in full due to a complex interaction with the merry-go-round sound trigger and room transitions.",
-      "quote": "What's really going on is that the booloth is just a part of the wind sound effect... when you go through the door, the sound effect plays in full and the low-pitched booloth becomes part of the sound."
+      "summary": "Kaze discovered and explained the technical reason for the infamous low-pitched Boo laugh in Mario 64's Big Boo's Haunt: it's the end of the wind sound effect, which normally gets looped but is sometimes played fully when the sound channel is interrupted by an event like going through a door.",
+      "quote": "What's really going on is that the booloth is just a part of the wind sound effect."
     },
     {
-      "summary": "To implement variable wave heights without sufficient memory for new data, Kaze developed a workaround to store the wave height information in the lower bits of the red vertex color channel.",
-      "quote": "The problem is, we don't have any more storage space and I need to pre-calculate the wave height somehow... We could use the lower bits of the red channel for the wave height."
+      "summary": "To implement variable wave heights, Kaze devised a solution to encode the height data into the unused lower bits of the vertex color's red channel, as other storage methods were already in use.",
+      "quote": "We could use the lower bits of the red channel for the wave height. I think that might genuinely be our best option."
     },
     {
-      "summary": "Kaze is working on a significant sound engine upgrade to allow two sound effects to play simultaneously from the same sound bank, but is facing technical difficulties.",
-      "quote": "Basically what I'm trying to do is make it so that two sound effects per bank can play at the same time. This would seriously improve the sound effect quality across the board."
+      "summary": "Kaze expressed significant frustration with the Parallel emulator, recounting a time he fixed a critical bug with its developers only for the release to be plagued by other emulator issues, impacting players.",
+      "quote": "It actually pisses me off so much that on the last RTYI demo release, I worked with Falco to fix the bug that caused Parallel to crash on my ROM hack. And then a week later, I released my ROM hack and people didn't get the update."
     },
     {
-      "summary": "Kaze is frustrated with the project's toolchain, specifically the lack of exported 'material labels,' forcing him to write hacky workarounds to modify display lists by manually counting commands.",
-      "quote": "I'm not doing the stupid fucking segment idea. So if we don't get material labels, I'm going to make an init function now. That finds the index of the thing I need."
-    },
-    {
-      "summary": "Kaze revealed a memory optimization technique where he stores game object data (graph nodes) in a rarely used portion of memory allocated for the Z-Buffer, making the assets essentially 'free' from a memory standpoint.",
-      "quote": "I have one Z-Buffer Segment... And then next to the Z-Buffer Segment, I have all the Graph Nodes, which is where the fish would live... the fish is basically entirely free, and it's mostly living in a memory region that goes unused."
-    },
-    {
-      "summary": "Kaze is implementing detailed water effects, including shoreline foam that scrolls on a sine wave and fades in and out with the wave's vertical movement.",
+      "summary": "Kaze is working on a major upgrade to the sound engine to allow two sound effects from the same bank to play simultaneously, but has temporarily paused work on it due to its complexity.",
       "quote": null
     },
     {
-      "summary": "The game tracks player statistics including playtime, deaths, total jumps, damage taken, coins obtained, and save states.",
-      "quote": null
+      "summary": "Kaze encountered a toolchain limitation where he needed 'material labels' for shader work. Because they weren't available, he had to write a custom workaround function to parse the display list and find the data he needed to modify.",
+      "quote": "I'm not doing the stupid fucking segment idea. So if we don't get material labels, I'm going to make an init function now."
     },
     {
-      "summary": "Kaze provided a project status update, noting that the final Bowser encounter and approximately five side levels are among the major pieces of content yet to be completed.",
+      "summary": "Kaze stated that the game is still far from completion, with major content like the final boss and several side levels yet to be created.",
       "quote": "We're still missing the final Bowser. We're missing like five side levels."
+    },
+    {
+      "summary": "The game will feature a statistics tracker that logs playtime, deaths, damage taken, coins obtained, and save states.",
+      "quote": null
     }
   ],
   "context_findings": [
     {
-      "summary": "Kaze expressed a personal philosophy that his value is derived from his creations rather than his own life, which he does not see as having inherent value.",
-      "quote": "I myself as a human don't have much value, right? The value's in what I make."
+      "summary": "Kaze expressed a personal philosophy that his value as a person is secondary to the value of his creative work.",
+      "quote": "I mean, I myself as a human don't have much value, right? The values in what I make."
     },
     {
-      "summary": "Kaze has adopted a personal policy to avoid all political discussions by framing them as 'culture war' distractions from a 'class war'.",
-      "quote": "I have decided that my new excuse, and this is actually a really good excuse for not ever taking a political stance on anything, is going to be that I would say it's all culture war... The media is forcing you to have these discussions so that poor people fight and you don't actually start a class war."
+      "summary": "Kaze has adopted a personal policy to avoid taking political stances, believing them to be 'culture war' distractions from more important issues like 'class war'.",
+      "quote": "The media is forcing you to have these discussions so that poor people invite and you don't actually start a class war. That is my message now, and I will say this forever, until I get killed by the CIA."
     },
     {
-      "summary": "Kaze is consciously avoiding using AI tools in development, not because he's against them, but primarily to avoid backlash from the community.",
+      "summary": "Kaze is consciously avoiding using AI tools in development, not because of his own opposition, but to prevent backlash from the community, which he feels is not worth the current benefits of the technology.",
       "quote": "People will get really mad at me if I do anything AI, or if anything AI touches this game. And I don't think AI really has much of a use case for me right now. Definitely not enough to justify people being upset at me."
     },
     {
-      "summary": "Kaze has a contingency plan for the project in case of his death, with project access shared among about ten people and assets backed up.",
-      "quote": "There's like 10 people that have access to Return to Yoshi's Island. I also have a private repo with all the assets, so nothing would be lost if I died."
+      "summary": "Kaze confirmed that he would work on his game development projects full-time if he had sufficient financial support from patrons.",
+      "quote": "If you have enough patrons around us, would you do this full time? Um Yes, actually, yes, for sure, yes."
     },
     {
-      "summary": "Kaze expressed significant frustration with the Parallel N64 emulator due to release management issues and bugs that negatively impacted players of his demo, despite his efforts to fix them.",
-      "quote": "It actually pisses me off so much that on the last RTYI demo release, I worked with Falco to fix the bug that caused Parallel to crash on my ROM hack. And then a week later, I released my ROM hack and people didn't get the update."
+      "summary": "Kaze explained that he wouldn't create a Super Mario World romhack because he doesn't personally enjoy the game, and his creative process is driven by finding and expanding on the joy he finds in a game.",
+      "quote": "I don't like Mario World, so I would have to look at that and I would have to think what is the fun in playing Mario World, and I would have a really hard time coming up with an answer, because I don't find any joy in that game."
     },
     {
-      "summary": "Kaze stated he strongly dislikes Super Mario World and 2D platformers in general, explaining he couldn't create a faithful ROM hack for a game he doesn't find joy in.",
-      "quote": "The problem with me making a Mario World tag is that I don't like Mario World... I would have a really hard time coming up with an answer, because I don't find any joy in that game."
-    },
-    {
-      "summary": "Kaze would work on his game development projects full-time if he received sufficient financial support from patrons.",
+      "summary": "Kaze reassured viewers that if he were to die, his work would not be lost, as about ten people have access to the game's repository and a private repo contains all the assets.",
       "quote": null
     }
   ],
   "contributor_findings": {
     "biobak": [
       {
-        "summary": "Kaze is creating placeholder art and shaders with the expectation that Biobak, the graphics artist, will rework them later, indicating a workflow where Kaze does initial implementation and Biobak handles the final artistic pass.",
-        "quote": "Well, Biobak is probably going to change it anyway, so don't worry if you don't like it right now. I'm not trying to put too much work into this, just like get this semi-decent looking, so Biobak doesn't puke when he sees this."
+        "summary": "Kaze is implementing placeholder graphics and shaders with the explicit expectation that Biobak, the graphics artist, will rework and finalize them later.",
+        "quote": "I'm not trying to put too much work into this, just like get this semi-decent looking, so Biobak doesn't puke when he sees this."
       },
       {
-        "summary": "Biobak requested a specific water effect where waves are large far from shore and flat near the coast, a feature Kaze then successfully implemented.",
-        "quote": "Yep, this is exactly what Biobak wanted. We got big waves over there and then small waves here."
-      },
-      {
-        "summary": "Kaze mentions that Biobak has been given enough money to eat, but there are complications with their financial arrangement due to tax laws.",
-        "quote": "We're in a bit of a weird situation because of tax laws."
+        "summary": "Biobak provided a specific design suggestion to make the water waves flatter near the shore, which Kaze then successfully implemented technically.",
+        "quote": "Yep, this is exactly what Biobak wanted. Let's go."
       }
     ],
     "badub": [],
     "zeina": [
       {
-        "summary": "Zeina sent Kaze photos from a place they visited, showing a personal interaction during the stream.",
+        "summary": "Zeina messaged Kaze during the stream, sharing personal photos from a recent outing.",
         "quote": null
       },
       {
-        "summary": "Kaze confirmed his wife, Zeina, is doing well and they are playing a game together.",
-        "quote": "She's pretty well. We need some new discussion material. True."
+        "summary": "Kaze mentioned that he and Zeina are currently playing a game together.",
+        "quote": "Does Mrs. King play N64? Yeah, we're playing with Jurassic Musk right now."
       }
     ]
   },
   "key_stories": [
     {
-      "title": "The Mystery of the Big Boo's Haunt Laugh",
-      "summary": "Kaze investigated the mysterious low-pitched boo laugh in Big Boo's Haunt. He discovered it wasn't a distinct sound but was actually embedded at the end of the wind sound effect file, which only plays in full under specific circumstances related to sound cancellation and room transitions.",
-      "challenge": "A long-standing mystery in the original Super Mario 64 was the source of a low-pitched boo laugh sound in Big Boo's Haunt.",
-      "process": "Kaze investigated the game's sound banks and code, isolating the 'air_howling_wind' sound. He analyzed its structure and the game logic that plays it, identifying that the boo sound was part of the file and that sound cancellation logic was the trigger for the bug.",
-      "outcome": "Kaze discovered and explained that the sound is not a separate effect but the tail end of the 'howling wind' sound file. A complex interaction between the sound being triggered, cancelled, and the player changing rooms causes the full sound effect to play, revealing the normally unheard boo laugh.",
-      "key_quote": "What's really going on is that the booloth is just a part of the wind sound effect. For some reason... the N64 and Mario 64 designers made the booloth part of the sound effect and placed it at the very end.",
+      "title": "Deconstructing the Big Boo's Haunt Laugh",
+      "summary": "Kaze investigated the long-standing mystery of the low-pitched Boo laugh in Big Boo's Haunt. He discovered and explained that it's not a separate sound triggered by doors, but rather the tail end of the wind sound effect that only plays under very specific circumstances related to how the game handles sound channels when Mario changes rooms.",
+      "challenge": "A mysterious and well-known bug in the original Mario 64 where a low-pitched Boo laugh is heard in Big Boo's Haunt.",
+      "process": "Kaze debunked the popular theory that the laugh is related to the pitch of the door sound. He then opened a clean repo of the game's code, located the 'air howling wind' sound effect, and showed how the Boo laugh sound data is placed at the very end of the sample. He explained that the sound normally loops before reaching that point, but when the sound is cancelled by an event like changing rooms, the full sample can play out, revealing the laugh.",
+      "outcome": "Kaze provided a definitive technical explanation for the phenomenon, demonstrating his deep knowledge of the game's engine and debunking common misconceptions. This showcases the level of detail he applies to understanding the game's foundation.",
+      "key_quote": "What's really going on is that the booloth is just a part of the wind sound effect. For some reason, I don't know why, the N64 and Mario 64 designers made the booloth part of the sound effect and placed it at the very end.",
       "related_to": [
-        "Kaze"
+        "kaze"
       ]
     },
     {
-      "title": "Implementing Dynamic Shoreline Waves",
-      "summary": "To meet a design request from Biobak for more realistic water, Kaze needed to make waves flatten near the shore. Facing memory constraints, he devised a clever workaround to store wave height data in the vertex colors, successfully implementing a system with dynamic wave amplitudes.",
-      "challenge": "The team wanted more realistic water where waves are large in the open but calm near the shore, a feature requested by the artist, Biobak.",
-      "process": "Kaze received the design goal from Biobak. He brainstormed a technical solution to control wave amplitude, deciding to store height data in the lower bits of the vertices' red color channel to overcome memory limitations. He then coded this solution and demonstrated the successful result on stream.",
-      "outcome": "Kaze successfully implemented the dynamic wave system. The water now has large, rolling waves far from the shore that flatten out as they approach the beach, achieving the desired artistic effect and earning approval from Biobak.",
-      "key_quote": "Yep, this is exactly what Biobak wanted. We got big waves over there and then small waves here. Or, well, no waves at all over here.",
+      "title": "Collaborating on Realistic Water",
+      "summary": "To make the water more realistic, Biobak suggested that waves should be flatter near the shore. Kaze faced a technical hurdle as there was no obvious place to store the necessary data per vertex. He creatively solved this by encoding the wave height information into the unused lower bits of the vertex color data, successfully implementing the dynamic wave effect.",
+      "challenge": "The water waves in a level looked uniform, which was unrealistic for a shoreline where waves should be calmer near the beach.",
+      "process": "Biobak suggested that the waves should flatten near the shore. To implement this, Kaze needed a way to store a height modifier for each water vertex. He realized that the standard data locations (like vertex alpha) were already in use. He devised a creative technical solution: to encode the wave height scalar into the unused lower bits of the vertex color's red channel, allowing him to control wave amplitude without needing extra memory.",
+      "outcome": "Kaze successfully implemented the feature, resulting in large, dynamic waves out at sea that transition to calm water near the beach. The solution perfectly matched Biobak's artistic vision and added a significant level of polish to the environment.",
+      "key_quote": "We still have the red, blue and green channel on the vertex available to us as data... We could use the lower bits of the red channel for the wave height. I think that might genuinely be our best option.",
       "related_to": [
-        "Kaze",
-        "Biobak"
+        "kaze",
+        "biobak"
       ]
     },
     {
-      "title": "The Missing Material Labels",
-      "summary": "Kaze's work on a complex water foam shader was blocked by a limitation in the development toolchain. Lacking a feature called 'material labels' to easily target parts of a 3D model, he had to create a fragile workaround, revealing tension and inefficiencies in the development process.",
-      "challenge": "Kaze is trying to add complex, multi-layered scrolling effects for the water foam but is being hampered by the development tools.",
-      "process": "While trying to implement the foam shader, Kaze needed to modify specific display list commands. He discovered the toolchain lacks 'material labels' that would make this easy. He discussed it with Lilaa, who confirmed the feature exists but isn't exported. Frustrated, Kaze resorted to a manual, error-prone workaround.",
-      "outcome": "The issue remains unresolved. Kaze is forced to write a fragile, temporary workaround that involves manually counting display list commands to find the right place to inject his code, highlighting ongoing friction with the custom toolchain.",
-      "key_quote": "I'm not doing the stupid fucking segment idea. So if we don't get material labels, I'm going to make an init function now. That finds the index of the thing I need.",
+      "title": "The Parallel Emulator Bug",
+      "summary": "Kaze recounted his frustration with the Parallel emulator. He identified a critical bug that crashed his ROM hack, collaborated with the emulator team to fix it, but players still faced issues on release day due to other bugs and update problems, highlighting the challenges of developing for a fragmented ecosystem.",
+      "challenge": "Ensuring the game demo works correctly for all players, including those using the Parallel N64 emulator, which had compatibility issues.",
+      "process": "Kaze identified a critical bug in the Parallel emulator where it couldn't access the very last byte of memory, which broke his game's data decompression. He collaborated directly with one of the emulator's developers, Falco, to get the issue patched before his demo release.",
+      "outcome": "Despite Kaze's proactive efforts to fix a critical bug, players still encountered problems due to other issues with the emulator. This left Kaze deeply frustrated with the external dependencies and the unreliability of the emulator ecosystem, highlighting a key challenge of rom hacking.",
+      "key_quote": "It actually pisses me off so much that on the last RTYI demo release, I worked with Falco to fix the bug that caused Parallel to crash on my ROM hack. And then a week later, I released my ROM hack and people didn't get the update.",
       "related_to": [
-        "Kaze",
-        "Lilaa"
+        "kaze"
       ]
     }
   ],
   "open_questions": [
     {
+      "topic": "Toolchain Limitations and Workarounds",
+      "context": "Kaze expressed significant frustration with his development toolchain, specifically the lack of 'material labels'. He had to write a complex workaround to modify shader properties, and mentioned that the functionality seems to exist internally but is not exported.",
+      "questions": [
+        "Can you walk us through the custom toolchain you use for this project?",
+        "What exactly are 'material labels' in this context, and how would they streamline your shader development process?",
+        "There seemed to be a technical debate with Lilaa about why these labels aren't exported. Could you explain the reasoning behind that decision?",
+        "How much of your development time is spent creating workarounds for tool limitations versus creating actual game content?"
+      ],
+      "related_to": [
+        "kaze"
+      ]
+    },
+    {
+      "topic": "Kaze's Personal Philosophy on Value and Legacy",
+      "context": "Kaze made some striking philosophical statements, suggesting his personal value is tied directly to his creative output and that he doesn't believe in the inherent value of life.",
+      "questions": [
+        "You mentioned that you see value in what you create, rather than in yourself as a person. Can you expand on that philosophy?",
+        "How does this mindset influence your work ethic and your relationship with your projects?",
+        "Does this perspective ever create pressure, or do you find it liberating?",
+        "You also mentioned having your work backed up in case you die. What prompted you to set up that system of legacy?"
+      ],
+      "related_to": [
+        "kaze"
+      ]
+    },
+    {
+      "topic": "Creative and Technical Collaboration with Biobak",
+      "context": "Kaze and Biobak have a clear collaborative workflow where Kaze implements functional placeholders which Biobak later refines. A key example was Biobak suggesting flatter shoreline waves, which Kaze then implemented.",
+      "questions": [
+        "Can you describe your typical creative process with Biobak?",
+        "Does he provide concept art or a written brief first, or do you build a 'grey box' level and have him design on top of it?",
+        "How did the specific idea for the shoreline waves come about? Was it a conversation, a drawing he sent you?",
+        "How do you resolve creative differences when a technical implementation is difficult but is key to his artistic vision?"
+      ],
+      "related_to": [
+        "kaze",
+        "biobak"
+      ]
+    },
+    {
       "topic": "Sound Engine Upgrade",
-      "context": "Kaze is attempting to upgrade the sound engine to allow two sound effects from the same bank to play at once, which he says would be a major improvement. He calls the work 'nasty' and abandons it for the stream.",
+      "context": "Kaze began the stream mentioning a complex sound engine upgrade he was working on to allow two sound effects from the same bank to play at once. He postponed it due to difficulty.",
       "questions": [
-        "What are the specific technical challenges preventing two sound effects from playing at once?",
-        "What new gameplay or atmospheric possibilities would this sound engine upgrade unlock?",
-        "How much of a priority is this feature for the final game?"
+        "You mentioned upgrading the sound engine to play two effects simultaneously. What is the primary technical barrier to achieving that on the N64 hardware?",
+        "What specific gameplay moments in 'Return to Yoshi's Island' prompted the need for this upgrade?",
+        "Is your proposed solution based on an existing technique from another N64 game, or is it a completely novel approach?"
       ],
       "related_to": [
-        "Kaze"
-      ],
-      "priority": "high"
-    },
-    {
-      "topic": "Toolchain Development and Limitations",
-      "context": "Kaze expresses deep frustration with the development toolchain, specifically the lack of 'material labels' for shaders. He has to manually count display list commands, which is error-prone. Lilaa, another contributor, seems aware of the feature but states it won't be exported.",
-      "questions": [
-        "Can you walk us through the development toolchain for the project?",
-        "What is the story behind the 'material labels' feature? Why does it exist but isn't exported for use?",
-        "What is the 'dogshit segment idea' that Kaze mentioned as the alternative?",
-        "How does friction with the tools impact the overall development process and creative possibilities?"
-      ],
-      "related_to": [
-        "Kaze",
-        "Lilaa"
-      ],
-      "priority": "high"
-    },
-    {
-      "topic": "Team Finances and Sustainability",
-      "context": "Kaze mentions that he's given Biobak 'enough money to eat' but that they are in a 'weird situation because of tax laws'. He also states he would work on the project full-time if he had enough patrons.",
-      "questions": [
-        "How is the project funded?",
-        "How are core contributors like Biobak compensated for their work?",
-        "What are the 'weird' tax law complications the team is facing?",
-        "What level of financial support would be needed for you to transition to full-time development?"
-      ],
-      "related_to": [
-        "Kaze",
-        "Biobak"
-      ],
-      "priority": "medium"
-    },
-    {
-      "topic": "Project Scope and Remaining Work",
-      "context": "Kaze gives a brief status update, stating 'we're still missing the final Bowser. We're missing like five side levels.'",
-      "questions": [
-        "What is the overall vision for the final Bowser fight?",
-        "What is the nature of the five missing side levels? Are they optional content?",
-        "Besides these items, what are the other major components remaining before the game is considered complete?"
-      ],
-      "related_to": [
-        "Kaze"
-      ],
-      "priority": "medium"
+        "kaze"
+      ]
     }
   ]
 }

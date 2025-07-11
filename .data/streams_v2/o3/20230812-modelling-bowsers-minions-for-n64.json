@@ -1,120 +1,114 @@
 {
   "stream_context": {
-    "summary": "Kaze prototypes a new ‘soap bar’ rideable object (based on Koopa-shell code) and an accompanying bubble trail, then begins planning an oil-puddle obstacle the soap will clean.  He also evaluates Biobak’s concept for a new star-select screen and debates memory-saving 3D panoramas versus large 2D images.",
+    "summary": "Kaze spends the session prototyping two new gameplay systems—the rideable \"soap bar\" and an oil-slick hazard that can be cleaned with the soap—as well as iterating on a memory-efficient redesign of the star-select screen. Much of the time is spent live-coding physics, particle effects, and texture math while debating ROM size, performance and visual clarity.",
     "level": [
       "Overworld",
-      "Generic test map / editor"
+      "Rocket World (final puzzle area)"
     ]
   },
   "development_findings": [
     {
-      "summary": "The overworld is an island whose water level may gradually rise, re-using Wet/Dry World style manipulation.",
-      "quote": "The overworld is an island that you rescue, so it makes sense if water returned over time."
+      "summary": "Created a functional rideable \"soap bar\" by re-using the Koopa-shell action state (ActWritingShell) and the built-in RIDDEN_OBJ interaction pointer, saving significant implementation time.",
+      "quote": "How did I not know that? There's a whole interaction type for this—RIDDEN_OBJ. Alright, I guess we use this."
     },
     {
-      "summary": "Each course will get a new star-select screen featuring a tiny 3D panorama rather than a full 320×240 texture to save ~0.3-0.5 MB per level.",
-      "quote": "Pre-rendered 3D is cheaper ROM-wise and will look better than a blurry low-res JPEG."
-    },
-    {
-      "summary": "Biobak’s ‘simple drawing’ mock-ups are guiding the final star-select layout; Kaze is unhappy with his own prototype and will iterate on Biobak’s version.",
+      "summary": "Implemented dynamic scaling on the soap bar so it gradually shrinks and eventually disappears; adjusted Mario's vertical offset and collision so the ride feels natural.",
       "quote": null
     },
     {
-      "summary": "Kaze implemented a rideable soap bar by re-using the built-in ‘Ridden OBJ’ pointer used for Koopa shells, a capability he hadn’t noticed before.",
-      "quote": "There’s a whole interaction type for this? How did I not know that? Alright, I guess we use this."
+      "summary": "Built a new bubble-trail particle system for the soap bar using a custom engine that avoids texture reloads; bubbles fade from pink to white via N64 combine-modes and IA16 textures.",
+      "quote": "If you don't want to watch me make a bubble texture, you came to the wrong stream. This is progress."
     },
     {
-      "summary": "Soap bar behaviour: player can ride briefly, soap shrinks over time, drops Mario if speed threshold exceeded, then despawns.",
+      "summary": "Outlined an oil-puddle hazard that will be erased when Mario rides the soap over it; explored alpha-mask erasure, vertex-color hue shifts and optional ice physics, but final visual style still undecided.",
+      "quote": "I think this could work—Mario's just going to be an eraser going through here."
+    },
+    {
+      "summary": "Star-select screen is being redesigned: each course will show a tiny 3D panorama instead of large static images to save 0.3–0.5 MB per course and look sharper on emulator.",
+      "quote": "If we have a pre-rendered 3D scene, it's going to be cheaper ROM-wise and it's going to look better on emulator."
+    },
+    {
+      "summary": "Memory & performance experiments: deleting original MK64 grass backgrounds freed ~0.3 MB; orange fog was found to hurt frame-rate; discussed DX4 compression and image formats to stay within ROM limits.",
       "quote": null
     },
     {
-      "summary": "Created a custom bubble particle effect: IA-16 texture, alpha fade, hue shift, spawned via Kaze’s own engine (avoids texture reloads).",
+      "summary": "Fast64 exporter is the primary level-editing pipeline; Kaze also hints that an unnamed 20-year-old tool author is working on a new version that could be \"super cool.\"",
       "quote": null
     },
     {
-      "summary": "Planned mechanic: oil puddles that look reflective / rainbow and are erased (alpha cleared) when Mario rides the soap over them, effectively cleaning the level.",
-      "quote": "Oil slick: Mario goes through with soap, delete the alpha on all pixels he’s touched."
-    },
-    {
-      "summary": "Experimented with vertex-color hue-shifts tied to camera angle to fake oil sheen; normal-mapped reflections deemed too expensive.",
-      "quote": null
-    },
-    {
-      "summary": "Performance tweak noted: orange fog severely hurts FPS; may be removed before release.",
-      "quote": null
-    },
-    {
-      "summary": "Fast64 exporter is primary level-building workflow; Kaze prefers N64 target over PC port because PC branch is harder to maintain.",
-      "quote": null
+      "summary": "Adopted coding principle: defines are placed near first use and only for constants referenced more than once, reflecting Kaze’s preference for local readability.",
+      "quote": "Any constant that is used more than once is gonna be a define, but I also like to put the define as close as possible to where it's used."
     }
   ],
   "context_findings": [
     {
-      "summary": "Kaze expresses frustration with frequent Parallel Launcher updates and prefers Project64 1.6 for testing.",
-      "quote": "If I open Parallel Launcher right now and there’s an update I’m gonna be pissed. It’s been a week—there are three!"
+      "summary": "Kaze expresses a mix of amusement and frustration with online interactions, noting he received a rape threat—an extreme first—even compared to common death threats.",
+      "quote": "As a male I've gotten a rape threat. That's insane. That's never happened to me before."
     },
     {
-      "summary": "He received an unexpected rape threat online and shares mild shock but shrugs it off humorously.",
-      "quote": "As a male I’ve gotten a rape threat—that’s insane. Death threats happen, but this is new."
-    },
-    {
-      "summary": "Kaze dismisses academic philosophy as ‘stupid,’ sparking a comedic rant with chat.",
-      "quote": "Maybe I said I think philosophy is stupid. Philosophy people lose it when you do that."
-    },
-    {
-      "summary": "Mentions Zeina is at work while he streams, joking he’s ‘held hostage,’ hinting at casual home-work balance.",
+      "summary": "Shows playful but opinionated philosophy on design (“visual flare is important”) and coding style (hates putting defines globally).",
       "quote": null
     },
     {
-      "summary": "Ends stream due to hunger, highlighting long, focused dev sessions without breaks.",
+      "summary": "Light personal note: Zeina is at work during the stream; Kaze jokes he is \"being held hostage,\" indicating casual, supportive home dynamic.",
       "quote": null
+    },
+    {
+      "summary": "Reflects on community toolchains; dislikes frequent Parallel Launcher updates, revealing impatience with maintenance overhead.",
+      "quote": "Every time I open it there's so many updates. It's so annoying."
     }
   ],
   "contributor_findings": {
     "biobak": [
       {
-        "summary": "Provided a well-received mock-up for the new star-select screen, steering the UI direction.",
+        "summary": "Provided concept art for a new star-select screen featuring small panoramas and suggested aesthetic tweaks like parallax and simple sketches.",
         "quote": "Biobak had this here, which I think works a lot better already."
       },
       {
-        "summary": "Gave real-time feedback on visual polish (bubble transparency, oil color, bubble quantity).",
-        "quote": null
+        "summary": "Requested that soap bubbles fade to white, which Kaze implemented via combine-modes.",
+        "quote": "Biobak’s wish was to have this fade to white come true."
       }
     ],
     "badub": [],
-    "zeina": []
+    "zeina": [
+      {
+        "summary": "No development work this session; only mentioned as being at her day job.",
+        "quote": null
+      }
+    ]
   },
   "key_stories": [
     {
-      "title": "Discovering the Ridden-Object Pointer",
-      "summary": "While trying to script the soap bar, Kaze stumbles upon an existing interaction type meant for Koopa shells.  Reusing it instantly solves follow-logic issues.",
-      "challenge": "Soap bar wasn’t following Mario correctly and manual code was failing.",
-      "process": "Browsed decomp, noticed ‘Ridden OBJ’, tested it in engine.",
-      "outcome": "Soap now inherits shell riding behaviour, saving time and bugs.",
-      "key_quote": "There’s a whole interaction type for this? How did I not know that?",
-      "related_to": [
-        "kaze"
-      ]
-    },
-    {
-      "title": "Star-Select Memory Crunch",
-      "summary": "Large 2D backdrops for every level would blow up ROM size, so the team debates alternatives.",
-      "challenge": "A 320×240 texture per course costs ~0.5 MB, unsustainable for cartridge limits.",
-      "process": "Compare Biobak’s mock-ups, test anti-aliased drawings, discuss compression and pre-rendered 3D.",
-      "outcome": "Decision to pursue miniature 3D panoramas to keep memory low and emulator output sharp.",
-      "key_quote": "Pre-render a higher draw-distance background? That’s worse than having the 3D model.",
+      "title": "The Birth of the Soap Bar",
+      "summary": "Kaze wants a new mobility gimmick: a surfboard-like bar of soap. Reusing the Koopa shell state, he debugs collision, shrinking logic, and builds a bespoke bubble trail.",
+      "challenge": "Create a rideable object that feels unique but leverages existing SM64 mechanics.",
+      "process": "Discovered RIDDEN_OBJ pointer, copied ActWritingShell, tuned scaling variables, built particle system, and iterated on camera sync.",
+      "outcome": "Soap bar now fully rideable, auto-despawns, and leaves stylized bubbles.",
+      "key_quote": "We programmed the whole soap bar just today—that's not that bad.",
       "related_to": [
         "kaze",
         "biobak"
       ]
     },
     {
-      "title": "Building the Bubble Trail",
-      "summary": "To visualize soap movement, Kaze crafts a custom particle with color-fade and efficient texture handling.",
-      "challenge": "Original Mario64 particle system re-loads textures per sprite, killing performance.",
-      "process": "Uses own engine, modifies IA-16 bubble texture, tunes alpha and spawn rate based on chat feedback.",
-      "outcome": "Smooth bubble trail that costs little VRAM and sets visual tone for cleanliness mechanic.",
-      "key_quote": "Good thing we have a good particle engine—otherwise this would be awful.",
+      "title": "Star-Select Space Budget",
+      "summary": "The team wants richer course previews but must fit within strict ROM limits. Static images are big; Biobak’s sketches inspire a 3D-panorama compromise.",
+      "challenge": "Display evocative course art without burning 0.5 MB per level.",
+      "process": "Benchmarked texture sizes, removed MK64 grass to gauge savings, tested anti-aliased textures, discussed DX4 compression, decided on miniature 3D scenes and parallax.",
+      "outcome": "Direction set to 3D panoramas rendered in-engine; UI mock-ups still evolving.",
+      "key_quote": "A 320×240 still would take 0.5 MB—that’s a lot of space.",
+      "related_to": [
+        "kaze",
+        "biobak"
+      ]
+    },
+    {
+      "title": "Oil Slick Dilemma",
+      "summary": "To complement the soap, Kaze prototypes an oil puddle that can be cleaned. He experiments with alpha-mask erasure, hue-shift reflections, and considers ice physics.",
+      "challenge": "Make oil look convincing, interactive, and performant on N64 hardware.",
+      "process": "Searched reference images, debated rainbow vs. black look, built dynamic texture tests, and took notes for future implementation.",
+      "outcome": "Mechanic concept solid; visual style unresolved and queued for next stream.",
+      "key_quote": "I wish I had oil here I could spill on the floor and look at.",
       "related_to": [
         "kaze",
         "biobak"
@@ -123,81 +117,69 @@
   ],
   "open_questions": [
     {
-      "topic": "Water-level progression in the overworld",
-      "context": "Kaze hints the rescued island’s water may rise like Wet/Dry World.",
+      "topic": "Unnamed revitalized tool",
+      "context": "Kaze mentions a 20-year-old tool author contacting him about a new version but refuses to name it.",
       "questions": [
-        "Will water height tie into story milestones?",
-        "How technically will dynamic water be implemented?",
-        "Any gameplay tied to changing water state?"
+        "Which legacy tool is being revived?",
+        "How will the new version change your workflow for RTYI?",
+        "Could it replace or augment Fast64?"
       ],
       "related_to": [
         "kaze"
-      ],
-      "priority": "medium"
+      ]
     },
     {
-      "topic": "Unknown ‘really useful’ new tool",
-      "context": "Kaze mentions a 20-year-old tool author is writing an updated version but can’t reveal details.",
+      "topic": "Final design of star-select panoramas",
+      "context": "Various options—static textures, 3D renders, parallax—were discussed but no decision finalized.",
       "questions": [
-        "What is the tool and what gaps will it fill?",
-        "How will it change development workflow?"
-      ],
-      "related_to": [
-        "kaze"
-      ],
-      "priority": "high"
-    },
-    {
-      "topic": "Final star-select design",
-      "context": "Multiple mock-ups reviewed but decision still open.",
-      "questions": [
-        "What criteria will lock the design?",
-        "How will panoramas be generated and compressed?",
-        "Any interactive elements planned?"
+        "What specific pipeline will you adopt for generating each panorama?",
+        "How will Biobak’s art integrate with in-engine assets?",
+        "What is the final ROM size budget for this UI?"
       ],
       "related_to": [
         "kaze",
         "biobak"
-      ],
-      "priority": "high"
+      ]
     },
     {
-      "topic": "Oil-puddle visual & gameplay spec",
-      "context": "Concept ranges from pure black to rainbow sheen with vertex hue shift.",
+      "topic": "Visual identity of oil slicks",
+      "context": "Kaze is undecided between realistic black, rainbow sheen, or vertex-color tricks, and hasn’t tested on hardware.",
       "questions": [
-        "Which look will ship?",
-        "Will puddles affect physics (slip)?",
-        "How is cleaning progress tracked for objectives?"
+        "What artistic reference will guide the final look?",
+        "Will hardware limitations force design compromises?",
+        "How will the mechanic affect level difficulty and pacing?"
+      ],
+      "related_to": [
+        "kaze",
+        "biobak"
+      ]
+    },
+    {
+      "topic": "Water-level manipulation in the overworld",
+      "context": "Early in the stream Kaze hints water might rise over time like Wet-Dry World but leaves it vague.",
+      "questions": [
+        "Is dynamic water confirmed?",
+        "What technical approach would be used?",
+        "How does it tie into RTYI’s narrative of 'rescuing' the island?"
       ],
       "related_to": [
         "kaze"
-      ],
-      "priority": "high"
+      ]
     },
     {
-      "topic": "Bubble particle performance on real hardware",
-      "context": "Effect looks good in emulator, unknown on console.",
+      "topic": "Team workflow & task ownership",
+      "context": "Stream shows Kaze handling code, design and VFX while others contribute art/music off-screen.",
       "questions": [
-        "Has it been tested on N64 yet?",
-        "What is the sprite count and memory budget?",
-        "Fallback plan if performance drops?"
+        "How are tasks delegated among the four core members?",
+        "What tools or repositories keep everyone synced?",
+        "How does marriage affect Kaze and Zeina’s professional collaboration?"
       ],
       "related_to": [
-        "kaze"
-      ],
-      "priority": "medium"
-    },
-    {
-      "topic": "F3 event and RTYI promotion",
-      "context": "Kaze plugs upcoming F3 with ‘best F3 yet’.",
-      "questions": [
-        "Will RTYI content debut there?",
-        "Any marketing or demo strategy tied to event?"
-      ],
-      "related_to": [
-        "kaze"
-      ],
-      "priority": "low"
+        "kaze",
+        "zeina",
+        "biobak",
+        "badub"
+      ]
     }
   ]
 }

@@ -1,201 +1,197 @@
 {
   "stream_context": {
-    "summary": "Kaze primarily worked on the final Bowser boss fight, implementing grab and throw mechanics and debugging Bowser's AI pathing. This led to a major detour to fix long-standing bugs with how held objects are rendered, using the Resnor boss as a test case. He also integrated new tutorial sign models from Biobak and fixed background element pop-in on the Bowser level.",
+    "summary": "Kaze worked primarily on the final Bowser boss fight, focusing on programming Bowser's AI, movement, and the mechanics of grabbing and throwing him. He also debugged several significant technical issues, including an object rotation bug and surface collision problems, while discussing his game design philosophies, the switch to YouTube streaming, and implementing new assets from his team.",
     "level": [
-      "Bowser Boss Fight Arena",
-      "Course 6 (Resnor's Fiery Fortress)"
+      "Bowser Boss Fight Arena"
     ]
   },
   "development_findings": [
     {
-      "summary": "Kaze implemented a major optimization to the floor collision system that fixes the 'floor cocking' bug by selectively culling surfaces and only loading essential data, improving performance.",
-      "quote": "So since we need to fix floor clacking like this, we originally had to remove the sorting priority as well. But I had the idea, what if we just keep the sorting priority, and we kill all the floors that are too high, and then we can just only iterate 0x10 bytes of each floor?"
-    },
-    {
-      "summary": "A new, highly optimized sine and cosine function using imaginary numbers has been implemented, which is reportedly twice as fast.",
-      "quote": "just recently we have the most correct sine and cosine function now... we're using imaginary numbers."
-    },
-    {
-      "summary": "A new animation format for Mario is being developed by contributor Lilaa. Kaze anticipates it will break many existing things but accepts this as necessary for long-term improvement.",
-      "quote": "Yeah, Mario's going to get a new animation format in that Lilaa's making. And that's going to fuck a lot of shit up here, too. I don't mind just breaking a bunch of stuff. It means the game is going to be better forever."
-    },
-    {
-      "summary": "The final version of the game has diverged so significantly from the public demo that it is considered an almost entirely new experience.",
+      "summary": "The game has evolved significantly since the public demo, to the point where Kaze considers it an almost completely new experience.",
       "quote": "The actual final game is so unrecognizable from the demo right now it's actually crazy."
     },
     {
-      "summary": "The project is constrained by the 64MB ROM limit, with streamed music consuming over 70% of the current file size (32.1MB of 44.6MB).",
-      "quote": "Currently, the ROM is 44.6 megabytes and 32.1 megabytes is music because we have a lot of stream to music."
+      "summary": "Kaze devised a significant optimization to fix 'floor cocking' (where surfaces hide each other) by keeping the surface sorting but only checking the Y-coordinates of relevant floors, preventing unnecessary data from being loaded into the dcache.",
+      "quote": "Here's the optimization. So since we need to fix floor clacking like this, we originally had to remove the sorting priority as well. But I had the idea, what if we just keep the sorting priority, and we kill all the floors that are too high, and then we can just only iterate 0x10 bytes of each floor?"
     },
     {
-      "summary": "Kaze is actively working on the final Bowser boss fight, implementing mechanics for Bowser chasing Mario, being grabbed by the tail, and being thrown off the ship arena.",
-      "quote": null
+      "summary": "The core mechanic of the Bowser boss fight involves grabbing his tail and throwing him off the ship, with the encounter's difficulty and speed ramping up after each successful throw.",
+      "quote": "The idea here is gonna be that you have to grab bozos tail and from off the ship and he's gonna jump back to his castle once that happens. The first time has to be very easy and then it has to get faster and faster."
     },
     {
-      "summary": "To save polygons, background ships are only half-modeled. Kaze uses a trick with negative scaling and face culling to render the other side, effectively mirroring the geometry.",
-      "quote": "I have to use a negative scale because the ships are only half modeled so what I do is I use a negative scale and I Turn on front face culling and turn off back face culling. So that way the ship only is like about half the amount of polygons."
+      "summary": "Kaze is willing to introduce breaking changes, such as a new animation format from Lilaa, if it leads to a permanent improvement in the game's quality.",
+      "quote": "I don't mind just breaking a bunch of stuff. It means the game is going to be better forever."
     },
     {
-      "summary": "A bug causing newly spawned objects like tutorial signs to bounce was traced to an issue where their interpolated position was not being set correctly upon creation.",
+      "summary": "Significant changes have been made to Mario's physics to improve game feel, such as allowing the player to immediately jump again after landing from a long jump or triple jump.",
+      "quote": "One thing that really changes feel is that you can long jump out of the long jump land like this. That's a huge change to game feel. And you can jump out of like a triple jump land like this."
+    },
+    {
+      "summary": "The team has opted to use streamed music, which offers higher quality at the cost of significantly increasing the ROM's file size, with music accounting for over 70% of the current total.",
+      "quote": "Currently, the ROM is 44.6 megabytes and 32.1 megabytes is music because we have a lot of stream to music. A stream music performs better. It sounds better, but it's giant file size wise."
+    },
+    {
+      "summary": "Kaze uses a clever technical trick of negative scaling and face culling on mirrored background models to effectively halve their polygon count and improve performance.",
+      "quote": "I use a negative scale and I Turn on front face culling and turn off back face culling. So that way in the ship only is like about half the amount of polygons"
+    },
+    {
+      "summary": "Kaze debugged a major issue where objects held by Mario would have incorrect rotation and position, eventually tracing it to how his custom code interacted with the original game's functions for held objects.",
       "quote": null
     }
   ],
   "context_findings": [
     {
-      "summary": "Kaze believes his work is legal but plans to delay the open-source release for about two months to prevent an immediate Nintendo takedown and to hide Easter eggs.",
-      "quote": "What I'm doing is perfectly legal. Like, they literally cannot ban me from doing this... Yeah, we should probably delay open sourcing the game a little from the initial release, just so Nintendo doesn't instantly take it down."
+      "summary": "Kaze has a strong design philosophy against including many options in games, believing it leads to player confusion and a less unified experience. He argues that fewer choices lead to greater player satisfaction.",
+      "quote": "I hate options. I think games should give you as few options as possible, as little as you can get away with. ... There's an actual psychological experiment carried out where if you give someone the option to pick between two flavors of candy, they're going to be happy with that choice, much happier with that choice than if you give them 10 flavors to pick from."
     },
     {
-      "summary": "Kaze has a strong design philosophy against including many options in games, arguing it leads to player confusion and a less cohesive, shared experience.",
-      "quote": "I hate options. I think games should give you as few options as possible... a bunch of options are just unnecessarily confusing and people aren't going to have all the same experience, which I don't like."
+      "summary": "Kaze believes the software development industry discourages writing highly optimized or 'good' code in favor of more accessible, simpler code that a larger, less-skilled workforce can contribute to.",
+      "quote": "You can't really write good codes because bad programmers are not gonna be able to work with good code. So really like the industry just discourages writing good code now for the reason that people do need to be able to actually work on your games."
     },
     {
-      "summary": "Kaze believes 'Return to Yoshi's Island' will be much more popular and beloved than his previous major project, 'Last Impact'.",
-      "quote": "I think this one's gonna be different. I think everyone's gonna love this game and that's gonna make its popularity skyrocket."
+      "summary": "Kaze is aware of the legal risks from Nintendo and plans to strategically delay the open-sourcing of the game's code post-release to prevent an immediate takedown.",
+      "quote": "We should probably delay open sourcing the game a little from the initial release, just so Nintendo doesn't instantly take it down."
     },
     {
-      "summary": "The decision to move streaming from Twitch to YouTube was driven by community feedback and superior financial incentives.",
-      "quote": "I switched from Twitch to YouTube because community polls showed a clear preference, and YouTube offers a better revenue split (70/30 vs. Twitch's 50/50)."
+      "summary": "The decision to switch streaming from Twitch to YouTube was driven by both community preference and a more favorable revenue split on YouTube.",
+      "quote": "I ran some pulse it seems that most of my community prefers my streams to be on YouTube so YouTube is what we do. ... Twitch actually only gives you a 50-50 card, which sucks. I think YouTube is 70-30. It's another good reason to switch to YouTube."
     },
     {
-      "summary": "Kaze prioritizes freedom of movement and skill expression in platformers, which is why he prefers games like Mario 64 and Sonic Adventure over exploration-focused games like Banjo-Kazooie.",
-      "quote": "I'm very picky with games. And for me, Banjo-Kazooie is just kind of boring... For me, what's really important in a platformer is that I get that sense of freedom. That sense of skill expression."
-    },
-    {
-      "summary": "Kaze mentions that he and Zeina are saving money with the long-term goal of buying a house.",
+      "summary": "Kaze mentions he is saving money with Zeina to buy a house, indicating a long-term personal financial goal.",
       "quote": "I gotta save up so we can eventually get a house."
     },
     {
-      "summary": "Kaze is a professional Unreal Engine developer, a career he finds more lucrative than ROM hacking, and would use it for any original commercial game.",
-      "quote": "if I'm making my own game, I'm just gonna use Unreal Engine. I'm actually a professional developer in Unreal Engine already. I get paid a lot for that."
+      "summary": "Kaze's core value in platformer design is providing players with a sense of freedom and the ability for skill expression, which explains his focus on nuanced movement mechanics.",
+      "quote": "For me, what's really important in a platformer is that I get that sense of freedom. That sense of skill expression."
     }
   ],
   "contributor_findings": {
     "biobak": [
       {
-        "summary": "Biobak created and sent Kaze the 3D models for the tutorial bunnies' text boxes, which Kaze then implemented and debugged during the stream.",
+        "summary": "Biobak provided a 3D model for the tutorial bunnies, which Kaze implemented during the stream.",
+        "quote": null
+      },
+      {
+        "summary": "Kaze had to debug an issue with the tutorial bunny model having two textures instead of one, questioning the reason for the setup.",
         "quote": null
       }
     ],
     "badub": [],
     "zeina": [
       {
-        "summary": "Zeina's official role on the project is handling animations and artwork.",
-        "quote": "Zaina's job here is animations and artwork."
+        "summary": "Kaze jokingly refers to Zeina as his 'animation slave', highlighting a casual and playful dynamic in their working relationship.",
+        "quote": "My animation slave in the background."
       },
       {
-        "summary": "Kaze jokingly calls Zeina his 'animation slave', and she clarifies that she enjoys the work and finds it to be good practice and portfolio-building.",
-        "quote": "My animation slave in the background... I mean, animations are fun for me."
+        "summary": "Zeina is a key contributor for animations. Kaze notes that her involvement, along with his own practice, means they have enough animation support for the project.",
+        "quote": "I can do the animations. I don't think he wants to, but don't worry. We have Zaina doing some animations. I might redo some animations. Then there is enough people doing animations now."
       },
       {
-        "summary": "Outside of the project, Zeina works as a kitchen cook, a job she generally dislikes but finds tolerable due to her current team.",
+        "summary": "Zeina views her animation work on the project as a positive experience that serves as good practice and helps build her professional portfolio.",
+        "quote": "It's very good practice for you. Oh, yeah. And it's portfolio building and you like it. So perfect."
+      },
+      {
+        "summary": "Zeina works as a kitchen cook, a job she generally dislikes but finds tolerable due to a good team.",
         "quote": "I am currently a kitchen cook and I hate kitchens. I hate it. Actually, that's not entirely true. I have a good team to work with right now."
       }
     ]
   },
   "key_stories": [
     {
-      "title": "Fixing the 'Floor Cocking' Bug",
-      "summary": "Kaze devised a significant optimization for the game's collision detection. He solved a long-standing engine bug called 'floor cocking' not by removing the problematic code, but by cleverly refining it to filter out irrelevant data, resulting in a more stable and performant game.",
-      "challenge": "The original Mario 64 engine has a bug known as 'floor cocking,' where one surface can incorrectly hide another, causing the player to fall through the world. A naive fix is inefficient.",
-      "process": "Instead of removing the engine's surface sorting, Kaze kept it but added a check to discard any floors that were too high to be relevant. He then further optimized it by having the function only load the Y-coordinate data (the first 16 bytes) of the remaining surfaces into the cache, significantly reducing data processing.",
-      "outcome": "The new method fixes the bug while being highly optimal, as it avoids iterating through unnecessary data for distant or irrelevant floor polygons.",
-      "key_quote": "I had the idea, what if we just keep the sorting priority, and we kill all the floors that are too high, and then we can just only iterate 0x10 bytes of each floor?",
-      "related_to": [
-        "Kaze"
-      ]
-    },
-    {
       "title": "The Held Object Rotation Bug",
-      "summary": "A complex bug caused objects held by Mario to rotate and position themselves incorrectly. Kaze undertook a lengthy live debugging session, isolating the faulty code piece by piece until he could rewrite the logic for how object transformations are handled, fixing the bug for multiple bosses.",
-      "challenge": "When Mario grabbed an object, specifically the Resnor boss, its position and rotation were completely wrong, and it animated at 30 FPS instead of 60.",
-      "process": "Kaze systematically debugged the issue by removing code blocks to isolate the problem. He discovered the error was in the complex interaction between Mario's state, the held object's properties, and the order in which rotation and position data were being applied. He had to refactor the code to ensure the angles were copied correctly before the object's position was offset.",
-      "outcome": "After extensive debugging, Kaze fixed the code that copies the angle and position data to the held object, resolving the visual glitches and ensuring it animates smoothly. This fix is also crucial for the Bowser fight.",
+      "summary": "Kaze spent a significant portion of the stream debugging a complex visual bug where held objects were not rotating correctly with Mario. His methodical process of elimination, deep engine knowledge, and persistence eventually led him to identify and fix the faulty interaction between his custom code and the game's original logic.",
+      "challenge": "A persistent bug where objects held by Mario, like the Resnor enemy, would have incorrect rotation and position, making them unplayable.",
+      "process": "Kaze first noticed the bug with Resnor. He tried removing blocks of code to isolate the problem, suspecting it was related to recent refactors. He hypothesized it could be an issue with reading object fields, compiler optimizations, or the fundamental way his held object code interacts with vanilla functions. After a long process of trial and error, he pinpointed the faulty code segment and rewrote it to correctly copy Mario's angle to the held object.",
+      "outcome": "Kaze eventually fixed the issue by identifying and correcting how his custom object management code was interacting with the original game's code that handles held object rendering. The fix required careful refactoring to ensure Mario's and the object's angles were correctly synchronized.",
       "key_quote": "The crazy part is that they seem to completely ignore what Mario is doing. Like entirely.",
       "related_to": [
-        "Kaze"
+        "kaze"
       ]
     },
     {
-      "title": "The Bouncing Tutorial Signs",
-      "summary": "When implementing new models from Biobak, Kaze encountered a strange bug where the static objects would bounce. He deduced it was a frame rate-dependent issue caused by using the wrong spawning function, which failed to properly initialize the object's position, and fixed it by using the correct function.",
-      "challenge": "New 3D models for tutorial signs, provided by Biobak, were inexplicably bouncing up and down when loaded into the game.",
-      "process": "Kaze noticed the bug was tied to the frame rate. He theorized it was caused by a function that sets an object's position every frame. He realized the function he used to spawn the signs was intended for dynamic objects and didn't correctly initialize the interpolated position, causing a feedback loop. He moved the sign spawning to a different function to resolve it.",
-      "outcome": "Kaze successfully fixed the bug, and the tutorial signs now appear static as intended. The fix involved ensuring the object's interpolated position was set correctly upon spawning.",
-      "key_quote": "This coincides with the frame rate, doesn't it? Yellow got 30 FPS, it doesn't happen. What? I have a theory.",
+      "title": "The 'Floor Cocking' Optimization",
+      "summary": "Kaze detailed his elegant solution to a long-standing bug in the SM64 engine known as 'floor cocking'. Instead of a brute-force fix, he devised a clever method that not only solved the issue but also created a new performance optimization, showcasing his deep technical understanding of the game's architecture.",
+      "challenge": "The original SM64 engine has a 'floor cocking' bug where certain floor geometries can cause Mario to fall through the world. Fixing this naively would remove a performance optimization.",
+      "process": "Kaze explained that the original game sorted surfaces from highest to lowest and stopped checking after finding the first valid floor, which caused the bug. The simple fix was to remove this sorting, but that hurt performance. Kaze's breakthrough was to keep the sorting but add a preliminary check to discard floors that are too far above Mario, and then only load the Y-coordinate data (the first 0x10 bytes of the surface struct) for the remaining floors, saving a significant amount of processing time.",
+      "outcome": "Kaze implemented a solution that both fixed the 'floor cocking' bug and introduced a new, significant optimization. The game now correctly handles complex floor geometry while running more efficiently by avoiding loading unnecessary data for distant or irrelevant surfaces.",
+      "key_quote": "But I had the idea, what if we just keep the sorting priority, and we kill all the floors that are too high, and then we can just only iterate 0x10 bytes of each floor?",
       "related_to": [
-        "Kaze",
-        "Biobak"
+        "kaze"
+      ]
+    },
+    {
+      "title": "The Switch to YouTube",
+      "summary": "Kaze made a strategic decision to move his development streams from Twitch to YouTube. The move was based on a combination of direct community feedback from polls and the superior financial incentives offered by YouTube, reflecting a blend of community engagement and business sense.",
+      "challenge": "Deciding on the primary platform for live streaming after using Twitch for a long time.",
+      "process": "Kaze conducted a test stream on YouTube to see how it went. He then ran polls within his community to gather direct feedback. After seeing a clear preference for YouTube, and considering the platform's more favorable 70/30 revenue split compared to Twitch's 50/50, he made the switch.",
+      "outcome": "Kaze has decided to permanently move his streams to YouTube, citing both community preference and a better financial revenue split as the primary drivers for the decision.",
+      "key_quote": "I ran some pulse it seems that most of my community prefers my streams to be on YouTube so YouTube is what we do.",
+      "related_to": [
+        "kaze"
       ]
     }
   ],
   "open_questions": [
     {
-      "topic": "Sine/Cosine Optimization with Imaginary Numbers",
-      "context": "Kaze mentions a new, faster sine/cosine function using imaginary numbers was implemented, crediting a user from his Discord. He briefly shows the code but doesn't elaborate on the theory or impact.",
+      "topic": "Evolution from Demo to Final Game",
+      "context": "Kaze states the final game is 'so unrecognizable from the demo right now it's actually crazy.' He mentions All-Alone Bubbledome is very different and that new optimizations and movement changes have been added.",
       "questions": [
-        "Can you walk us through the problem with the old sine/cosine functions?",
-        "How does using imaginary numbers lead to a more optimal result in this context?",
-        "What was the collaborative process like with 'easy as pi' to develop and implement this solution?"
+        "What was the biggest turning point in development that caused the game to diverge so much from the demo?",
+        "Can you walk us through the evolution of a specific level, like All-Alone Bubbledome, from its demo state to its current one? What design philosophies changed?",
+        "Was this evolution a planned process, or did it happen organically as you discovered new possibilities with the engine?"
       ],
       "related_to": [
-        "Kaze"
-      ],
-      "priority": "medium"
+        "kaze"
+      ]
     },
     {
-      "topic": "New Mario Animation Format",
-      "context": "Kaze states that contributor Lilaa is creating a completely new animation format for Mario. He expects it to break many things but ultimately improve the game.",
+      "topic": "Game Design Philosophy on Player Options",
+      "context": "Kaze has a very strong, articulated philosophy against providing players with many options, citing a psychological study about choice paralysis. He dismisses a request for alternate music and questions the need for accessibility for blind players in a platformer.",
       "questions": [
-        "What are the limitations of the current N64 animation format that prompted this change?",
-        "What new possibilities will Lilaa's new format unlock for animators like you and Zeina?",
-        "How do you plan to manage the transition and fix the things that will inevitably break?"
+        "You have a strong stance on limiting player options. Can you elaborate on this philosophy? Where do you draw the line between a 'bad' option and a necessary accessibility feature?",
+        "How do you balance your vision for a unified player experience with requests for features like colorblind modes or other accessibility options?",
+        "Has there ever been a time when community feedback convinced you to add an option you were initially against?"
       ],
       "related_to": [
-        "Kaze",
-        "Zeina"
-      ],
-      "priority": "high"
+        "kaze"
+      ]
     },
     {
-      "topic": "Husband/Wife Team Dynamics",
-      "context": "Kaze and his wife, Zeina, are both core contributors to the project. They interact on stream, with Kaze jokingly calling her his 'animation slave' and Zeina discussing her role as good portfolio practice.",
+      "topic": "Kaze and Zeina's Collaborative Dynamic",
+      "context": "Zeina is present and identified as the animator. Kaze jokingly calls her his 'animation slave,' and she responds that she enjoys the work as it's good practice and portfolio-building. They are married and saving for a house.",
       "questions": [
-        "How did you two decide to collaborate on this project?",
-        "How do you navigate creative disagreements when your professional and personal lives are so intertwined?",
-        "Can you share an example of how your collaboration has made a specific part of the game better?"
+        "Could you both describe your collaborative process for animations? How does an idea go from a concept to a finished animation in the game?",
+        "How does your personal relationship as a married couple influence your professional collaboration on the project? What are the biggest advantages and challenges?",
+        "Zeina, what are your personal creative goals for this project? Are there any specific characters or animations you're most proud of or excited to work on?"
       ],
       "related_to": [
-        "Kaze",
-        "Zeina"
-      ],
-      "priority": "high"
+        "kaze",
+        "zeina"
+      ]
     },
     {
-      "topic": "Legal Strategy and Nintendo",
-      "context": "Kaze confidently states his project is 'perfectly legal' but also mentions delaying the source code release to avoid an immediate takedown from Nintendo.",
+      "topic": "Intersection of Professional and Hobbyist Development",
+      "context": "Kaze mentions he is a professional Unreal Engine developer and that he would use UE for an original game. He also displays deep, specialized knowledge of the N64 hardware and its limitations.",
       "questions": [
-        "What's your understanding of the legal landscape for ROM hacks based on decompilation projects?",
-        "Why do you believe the project is legally safe, yet still feel the need to take precautions against a takedown?",
-        "Have you received any legal advice, or is this based on your own research and community consensus?"
+        "How does your professional work with a modern tool like Unreal Engine influence your approach to modding a retro game on limited hardware?",
+        "Conversely, what has working within the strict constraints of the N64 taught you that you apply to your professional development work?",
+        "Do you ever find yourself trying to replicate modern game design concepts on the N64, and what are the biggest challenges in that translation?"
       ],
       "related_to": [
-        "Kaze"
-      ],
-      "priority": "high"
+        "kaze"
+      ]
     },
     {
-      "topic": "Balancing Professional Career and Passion Project",
-      "context": "Kaze mentions he is a professional Unreal Engine developer and that it pays significantly more than his modding work, which he considers a hobby.",
+      "topic": "Legal Strategy and Post-Release Plans",
+      "context": "Kaze mentions delaying the open-sourcing of the game to avoid an immediate takedown from Nintendo. He also states that what he's doing is 'perfectly legal'.",
       "questions": [
-        "How do you balance the demands of a professional game dev career with a massive passion project like this?",
-        "Do skills or ideas from your Unreal Engine work ever influence your N64 development, or vice versa?",
-        "What is it about N64 modding that keeps you so dedicated, even when you have a professional outlet for game development?"
+        "What is your detailed strategy regarding the release and the eventual open-sourcing of the code? What does that timeline look like?",
+        "You mentioned your work is 'perfectly legal.' Can you elaborate on your understanding of the legal landscape for decompilation-based projects?",
+        "What is your ideal outcome for the project's future after release? Do you hope a community forms around it to maintain or expand it?"
       ],
       "related_to": [
-        "Kaze"
-      ],
-      "priority": "medium"
+        "kaze"
+      ]
     }
   ]
 }

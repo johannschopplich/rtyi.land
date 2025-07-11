@@ -1,165 +1,212 @@
 {
   "stream_context": {
-    "summary": "Kaze iterates on the desert/railroad level: re-texturing quicksand, experimenting with fog colours, adding distant cliff billboards, and testing real-hardware performance while discussing upcoming engine optimisations and a missing graphics teammate.",
+    "summary": "Kaze spends most of the stream refining the desert/cowboy level: tweaking quick-sand visuals, experimenting with fog and distant cliff backdrops, and live-profiling performance on real N64 hardware. He also discusses forthcoming engine optimisations and team status.",
     "level": [
-      "desert railroad level",
-      "overworld"
+      "Desert / Cowboy level (world hub area)"
     ]
   },
   "development_findings": [
     {
-      "summary": "Decided against animated quicksand and instead blends a lighter sand texture into fixed blue fog to signal the kill-plane without costly alpha fades.",
-      "quote": "Making things fade to blue would make things look like they're disappearing, whereas the sand at the bottom would always make it feel like they're on the ground in the distance."
+      "summary": "Quicksand edges looked ugly; Kaze experimented with combiners, shade alpha and fog fades, finally deciding to blend the pit into a solid sand-coloured fog rather than blue sky.",
+      "quote": "There is the obvious solution of just fade everything into blue at the bottom… but I think fading into sand keeps the distance illusion."
     },
     {
-      "summary": "Introduced parallax cliff billboards on a separate draw layer; uses fog to mask edges and reduce overdraw while preserving depth.",
-      "quote": "We have a second layer, we get a little parallax effect… it's very cheap to render too."
+      "summary": "He introduced far-off billboard cliffs on a second render layer to add depth; used fog-coloured prim shading to match the skybox and avoid render-distance artefacts.",
+      "quote": null
     },
     {
-      "summary": "Cannot use shade-alpha combiners across the whole level; large 64×64 sand texture cannot scroll cheaply, so static math-based skybox clouds were adopted.",
-      "quote": "Not being able to use shade alpha throughout the entire level is such a big limitation."
+      "summary": "Colour mismatch arose because level fog and skybox fog were using slightly different saturation; he reduced overall fog saturation and re-exported textures to align both layers.",
+      "quote": "The actual level fog is applying to this and ruining the colour… so we decreased the saturation and now it finally matches."
     },
     {
-      "summary": "Performance test on real N64 shows 25-30 FPS with 10 k triangles, no culling planes, and stock F3DEX2; enabling culling and new F3DEX3 is expected to push it higher.",
-      "quote": "We’re not even culling these buildings… 30 FPS—that’s crazy."
+      "summary": "Fast64 kept overwriting manual hex edits; short-term fix is importing already colourised textures until a better workflow is found.",
+      "quote": null
     },
     {
-      "summary": "Current build exposes an RSP bottleneck; Sauraen is preparing a variant of F3DEX3 with lighter RSP costs to regain speed.",
-      "quote": "He thinks that in Return to Yoshi's Island the memory and RDP is so optimised that with F3DEX3 the RSP becomes the bottleneck."
+      "summary": "Large moving textures (e.g., shimmering sand) were rejected as they would double overdraw and be too expensive on N64.",
+      "quote": "That's so expensive to render… you’re basically overdrawing everything twice, you can’t do that on the N64."
     },
     {
-      "summary": "Fast64 keeps overwriting manual hex edits, so Kaze now stores critical combiner strings in Discord to paste back quickly.",
-      "quote": "Is there a way I can make this work next time I export so I don't have to deal with Fast64 resetting my hex edits? The only way I see is to use coloured sand from the get-go."
+      "summary": "Culling was accidentally disabled for the entire level; simply toggling it back on will immediately raise FPS.",
+      "quote": "Wait, we’re not culling any of these buildings here – how the fuck is it running?"
     },
     {
-      "summary": "Blue fog palette was locked in early; changing it now would break established lighting, so all new geometry is colour-matched to that fog.",
-      "quote": "No, I want the blue colours. That's already decided… It is too late to undo that."
+      "summary": "Live test showed 25-30 FPS on real hardware before culling or F3DX3; confident of solid 30 FPS after culling planes and new microcode.",
+      "quote": null
+    },
+    {
+      "summary": "Sauraen is writing a new F3DX3 variant that shifts work from RSP after discovering RTYI is now RSP-bound instead of RDP-bound.",
+      "quote": "He thinks that in Return to Yoshi’s Island the memory and RDP is so optimised that the RSP becomes the bottleneck."
+    },
+    {
+      "summary": "Dynamic lighting is still on the roadmap and will be added once geometry and performance budgets settle.",
+      "quote": null
+    },
+    {
+      "summary": "Considering ultra-high-resolution sand textures because the new approach eliminates previous tiling issues.",
+      "quote": null
     }
   ],
   "context_findings": [
     {
-      "summary": "Kaze is frustrated with YouTube’s drama-bait recommendations and values the 'power of not caring'.",
-      "quote": "Almost every video I'm recommended is some meaningless drama… Of course I don't get rage-baited; I just get annoyed that it's there."
+      "summary": "Kaze’s design method is highly iterative: 'you just have to try, see what happens'.",
+      "quote": "These are the kind of things where you just have to try, see what happens, see how it turns out."
     },
     {
-      "summary": "He sees marketing value in retro hardware novelty: an N64 game with a simultaneous PC port would generate free publicity.",
-      "quote": "If you have the marketing of 'hey, this is an N64 game, but there's also a PC port', it's kind of insane. That would make the news."
+      "summary": "Strong priority on player readability – worries players might think they should drop into the quicksand pit, so visuals must clearly communicate danger.",
+      "quote": null
+    },
+    {
+      "summary": "Expresses irritation with YouTube drama content and values ignoring rage-bait.",
+      "quote": "I don't get rage-baited, I just get annoyed that it's there, that it's infiltrating my world."
+    },
+    {
+      "summary": "Excitement about pushing 30-year-old hardware and comparing favourably to Banjo-Tooie’s scope.",
+      "quote": null
     }
   ],
   "contributor_findings": {
     "biobak": [
       {
-        "summary": "Has been absent for an extended period despite plans to help re-work several levels; Kaze expresses concern.",
-        "quote": "Has anyone seen Biobak recently? He wanted to help me rework a bunch of levels. I hope he's not gone."
+        "summary": "Currently unresponsive; was expected to help rework several levels.",
+        "quote": "Dude, has anyone seen Biobak recently? He wanted to help me rework a bunch of levels."
       }
     ],
-    "badub": [],
-    "zeina": []
+    "badub": [
+      {
+        "summary": "Holds primary responsibility for the entire soundtrack; other composers are being declined.",
+        "quote": "The reason you are not the first person to ask to compose for RTYI is because Badub wants to make all of it."
+      }
+    ],
+    "zeina": [
+      {
+        "summary": "Acts as a play-tester; Kaze mentions having her play on April Fools.",
+        "quote": "I have my wife play it too on April Fools."
+      }
+    ]
   },
   "key_stories": [
     {
-      "title": "Fixing the fog-cliff mismatch",
-      "summary": "When distant cliffs adopted the same RGB as scene fog, Fast64’s additional level fog layer shifted hues, causing an obvious seam. Kaze traced the issue to level-specific fog saturation and re-balanced both colours.",
-      "challenge": "Cliff billboards looked disconnected from the skybox because their colour didn’t match the distance fog.",
-      "process": "Tested combiner math, examined hex, realised level fog overrides, adjusted fog saturation and prim colour.",
-      "outcome": "Seamless blend and clear visual boundary without re-texturing everything.",
-      "key_quote": "I know what the issue is—the actual level fog is applying to this and ruining the colour.",
+      "title": "Fixing the Desert Fog Mismatch",
+      "summary": "The new distant cliffs looked wrong because their colour diverged from the level’s fog. Kaze traced the issue to two separate fog calculations and rebuilt the colour pipeline.",
+      "challenge": "Skybox and geometry colours clashed, breaking immersion.",
+      "process": "Tested multiple textures, swapped combiners, then tweaked fog saturation and re-exported assets.",
+      "outcome": "A cohesive backdrop that clearly separates walkable ground from void.",
+      "key_quote": "We decreased the saturation of the fog so now the fog matches exactly this colour.",
       "related_to": [
         "kaze"
       ]
     },
     {
-      "title": "Discovering an RSP bottleneck",
-      "summary": "A hardware test showed F3DEX3 ran slower only on Kaze’s build. Sauraen deduced Return to Yoshi's Island is so RDP-efficient that the RSP now limits speed.",
-      "challenge": "Why does F3DEX3 lag only on Kaze’s ROM while others are fine?",
-      "process": "Discussed with Sauraen; compared performance; isolated RSP workload as culprit.",
-      "outcome": "Sauraen is coding an RSP-lighter F3DEX3; Kaze expects an 'instant huge performance boost'.",
-      "key_quote": "He said he thinks that in Return to Yoshi's Island the memory and RDP is so optimised that the RSP becomes the bottleneck.",
+      "title": "When Optimisation Backfires",
+      "summary": "Adding F3DX3 actually slowed only Kaze’s copy of the hack. Investigation with Sauraen revealed RTYI had become RSP-limited.",
+      "challenge": "Unexpected FPS drop after an allegedly faster microcode.",
+      "process": "Profiling, consultation with Sauraen, hypothesis that memory/RDP savings moved workload to RSP.",
+      "outcome": "Sauraen is developing an RSP-lighter F3DX3; expected major boost.",
+      "key_quote": "Return to Yoshi's Island is so optimised the RSP becomes the bottleneck.",
+      "related_to": [
+        "kaze"
+      ]
+    },
+    {
+      "title": "Where’s Biobak?",
+      "summary": "The team’s primary artist has been absent, causing concern about pending level re-works.",
+      "challenge": "Missing contributor jeopardises planned graphical polish.",
+      "process": "Kaze publicly wonders about his whereabouts during stream.",
+      "outcome": "Status unresolved; Kaze plans to message him.",
+      "key_quote": "It’d be really unfortunate for the Kaze empire if he's gone.",
       "related_to": [
         "kaze",
-        "sauraen"
-      ]
-    },
-    {
-      "title": "External studio pitches new N64 title",
-      "summary": "A company approached Kaze about producing a new commercial N64 game for release in 2024; decision expected in June.",
-      "challenge": "Assess feasibility and marketability of shipping a brand-new cartridge in 2024.",
-      "process": "Initial conversation; Kaze analyses built-in marketing appeal of retro hardware.",
-      "outcome": "Project undecided but regarded as 'pretty hype' if green-lit.",
-      "key_quote": "There was a company that approached me recently and they said they want to make an N64 game in 2024… If they do make one, that would be pretty hype.",
-      "related_to": [
-        "kaze"
+        "biobak"
       ]
     }
   ],
   "open_questions": [
     {
-      "topic": "Biobak’s current involvement",
-      "context": "Kaze hasn’t heard from the lead graphics artist who was slated to help re-work several levels.",
+      "topic": "Status of Biobak",
+      "context": "Kaze notes the artist hasn’t appeared for 'a while' and is needed for level re-work.",
       "questions": [
-        "Have you re-established contact with Biobak?",
-        "Which specific levels was he set to overhaul?",
-        "Do you have contingency plans if he remains unavailable?"
-      ],
-      "related_to": [
-        "biobak"
-      ],
-      "priority": "high"
-    },
-    {
-      "topic": "F3DEX3 RSP-optimised fork",
-      "context": "Sauraen is preparing a variant but no timeline was given.",
-      "questions": [
-        "What specific RSP functions are being rewritten?",
-        "Expected performance gains in percentage?",
-        "Will this fork require level-side changes?"
-      ],
-      "related_to": [
-        "sauraen",
-        "kaze"
-      ],
-      "priority": "medium"
-    },
-    {
-      "topic": "Final desert background treatment",
-      "context": "Multiple visual ideas (additional cliffs, dynamic clouds, dynamic lighting) were floated but not finalised.",
-      "questions": [
-        "Which elements are locked in for the shipping build?",
-        "Will dynamic lighting make the cut on real hardware?",
-        "How will the second area’s skybox differ?"
+        "When did you last hear from Biobak?",
+        "What tasks are blocked until he returns?",
+        "Do you have contingency plans if he’s unavailable?"
       ],
       "related_to": [
         "kaze",
         "biobak"
-      ],
-      "priority": "medium"
+      ]
     },
     {
-      "topic": "OST cartridge release",
-      "context": "Kaze mentioned hopes of releasing RTYI alongside an OST cartridge.",
+      "topic": "New F3DX3 Microcode",
+      "context": "Sauraen is coding an RSP-friendlier version, but timeline and features are unclear.",
       "questions": [
-        "Is this formally planned?",
-        "What hardware/mapper will the cartridge use?",
-        "How will copyright be handled for any Nintendo-derived melodies?"
-      ],
-      "related_to": [
-        "badub",
-        "kaze"
-      ],
-      "priority": "low"
-    },
-    {
-      "topic": "Commercial N64 game proposal",
-      "context": "External studio’s offer was teased.",
-      "questions": [
-        "Can you share the studio’s name?",
-        "What genre or concept is proposed?",
-        "Would RTYI tech be reused?"
+        "What specific changes is Sauraen making?",
+        "How much FPS gain do you project?",
+        "Will any visual features be lost?"
       ],
       "related_to": [
         "kaze"
+      ]
+    },
+    {
+      "topic": "External N64 Game Proposal",
+      "context": "A company approached Kaze about producing a commercial N64 title with PC port in 2024.",
+      "questions": [
+        "Who is the company and what genre are they targeting?",
+        "Would the RTYI engine be reused?",
+        "How might this affect RTYI’s schedule?"
       ],
-      "priority": "low"
+      "related_to": [
+        "kaze"
+      ]
+    },
+    {
+      "topic": "Dynamic Lighting Implementation",
+      "context": "Kaze mentions adding it later.",
+      "questions": [
+        "What dynamic lighting effects are planned?",
+        "How will they coexist with strict performance budgets?",
+        "Is the tooling ready or still experimental?"
+      ],
+      "related_to": [
+        "kaze"
+      ]
+    },
+    {
+      "topic": "Soundtrack Release Strategy",
+      "context": "Kaze hopes to ship an OST cartridge alongside the game.",
+      "questions": [
+        "What format would an OST cartridge take?",
+        "How will you balance N64 sound limitations against SoundCloud-quality tracks?",
+        "Is Badub on board with this distribution?"
+      ],
+      "related_to": [
+        "kaze",
+        "badub"
+      ]
+    },
+    {
+      "topic": "Final Visual Treatment for Second Area",
+      "context": "Still undecided on how to handle the level’s second sector (clouds vs more cliffs).",
+      "questions": [
+        "What are the visual goals for Area 2?",
+        "Are there gameplay cues tied to that choice?",
+        "How will it integrate with the current fog solution?"
+      ],
+      "related_to": [
+        "kaze"
+      ]
+    },
+    {
+      "topic": "Combiner & Shade Alpha Limitations",
+      "context": "Kaze repeatedly hits issues with shade alpha being unusable across the whole level.",
+      "questions": [
+        "What is the root technical limit on shade alpha?",
+        "Could a custom microcode or tool workaround enable it?",
+        "How does this constrain future effects like heat haze?"
+      ],
+      "related_to": [
+        "kaze"
+      ]
     }
   ]
 }

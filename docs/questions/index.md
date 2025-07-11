@@ -14,6 +14,17 @@ const totalStreams = teamMembers.reduce(
 function formatMemberName(name) {
   return name.charAt(0).toUpperCase() + name.slice(1);
 }
+
+function getMemberRole(name) {
+  const roles = {
+    kaze: "Lead Developer and Project Creator",
+    biobak: "Visual Artist and Designer",
+    badub: "Composer and Audio Engineer",
+    zeina: "Animator and Character Artist",
+  };
+
+  return roles[name.toLowerCase()] || "Team Member";
+}
 </script>
 
 # Open Questions Overview
@@ -30,17 +41,13 @@ These questions are generated along the [development streams analysis](/streams/
 
 ## Team Members and Questions
 
-The questions are organized by team member according to their level of involvement in the topics discussed:
-
-- **Kaze** - Lead developer and project creator
-- **Biobak** - Visual artist and designer
-- **Badub** - Composer and audio engineer
-- **Zeina** - Animator and character artist
+The questions are organized by team member according to their level of involvement in the topics discussed.
 
 <table>
   <thead>
     <tr>
       <th>Team Member</th>
+      <th>Role</th>
       <th>Streams</th>
       <th>Total Questions</th>
       <th>Actions</th>
@@ -51,6 +58,7 @@ The questions are organized by team member according to their level of involveme
       <td>
         <strong>{{ formatMemberName(member.name) }}</strong>
       </td>
+      <td>{{ getMemberRole(member.name) }}</td>
       <td style="text-align: center;">
         <strong>{{ member.streams.length }}</strong>
       </td>

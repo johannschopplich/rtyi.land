@@ -1,197 +1,225 @@
 {
   "stream_context": {
-    "summary": "Kaze debugs performance with a new profiler, optimises Course 13’s snow-slide area, and imports a large batch of Oily Boily Bay assets supplied by Biobak.",
+    "summary": "Kaze integrates a new profiler, optimizes Course 13 (snow-themed slide) and imports Biobak’s updated “Oily Boily Bay” assets while discussing performance, memory and upcoming overworld work.",
     "level": [
       "Course 13",
-      "Oily Boily Bay"
+      "Oily Boily Bay",
+      "Overworld (pre-production)"
     ]
   },
   "development_findings": [
     {
-      "summary": "Sauraen’s new combined trace + profiler shows that ~76 % of each frame is spent in an idle while-1 loop, revealing a major memory/RSP bottleneck.",
-      "quote": "Funny thing about RTYI, 25 out of 33 ms are spent on a while 1 loop. It’s all idle."
+      "summary": "A new combined trace/profiler by Sauraen was integrated, exposing that roughly 76 % of each frame is spent in an idle loop and that the game is currently RSP-bottlenecked.",
+      "quote": "25 out of 33 milliseconds are spent on a while 1 loop… around 76 % of the entire game, it's just the game doing nothing at all."
     },
     {
-      "summary": "RSP and RDP tasks are imbalanced; the RDP runs slightly longer than the graphics task, signalling the game is currently RSP-bottlenecked.",
-      "quote": "The crazy thing is the RDP runs just a little bit longer than the GFX right now, which shouldn’t be the case… we’re RSP bottlenecked."
+      "summary": "Running out of memory while building the Course 13 slide led Kaze to rewrite the surface-node allocator, reclaiming roughly 400 µs of frame time.",
+      "quote": "When I first made this slide I ran out of memory… because of that we gained 400 microseconds of computing time."
     },
     {
-      "summary": "Kaze rewrote sine/cosine look-ups to polynomial approximations, gaining ~400 µs per frame and increasing analogue precision from 4,096 to 65,536 angles.",
-      "quote": "I switched to a polynomial… it increased the accuracy a lot as well."
+      "summary": "Trigonometric lookup tables were replaced with polynomial approximations, improving speed and increasing directional precision from 4 096 to 65 536 discrete angles.",
+      "quote": "I had to switch to a polynomial… it increased the accuracy a lot as well."
     },
     {
-      "summary": "A memory-heavy slide in Course 13 crashed due to excessive collision surface nodes; this led Kaze to implement a new memory allocation scheme highlighted in a recent ‘KazeClips’ video.",
-      "quote": "When I first made this slide I ran out of memory… because of that we gained 400 µs of computing time."
+      "summary": "Course 13 design: a snowman cave, helix slide over an abyss, ice-block surfing and a wall-kick exit; difficulty tuned by scaling the slide and adjusting camera rather than tilting it.",
+      "quote": null
     },
     {
-      "summary": "Camera/readability tweaks: Kaze scales the slide mesh and adjusts camera horizon instead of tilting the camera, prioritising player visibility of hazards.",
-      "quote": "Considering I don’t like changing the camera tilt, what if we just make the slide half its size?"
+      "summary": "Biobak’s latest “Oily Boily Bay” pass reduces materials, bones and textures (e.g., new wamps, tox boxes, Koopas) and, with fog tweaks, allows the level to hit 30 FPS on console.",
+      "quote": "Dang, I think we can get Oily Boily Bay at 30 FPS now."
     },
     {
-      "summary": "Fast64 sometimes auto-selects sub-optimal texture formats, causing rendering bugs (e.g., Koopa shell, glass); Kaze fixes these by forcing RGBA16 and adjusting combiners.",
-      "quote": "Fast64 automatically picked the wrong one… it shows up entirely white no matter where you look at it from."
+      "summary": "Updated step-function and collision normals caused some objects (tox boxes, thwomps) to clip; Kaze begins debugging and considers exceptions for bumpy slopes.",
+      "quote": null
     },
     {
-      "summary": "Path-following bug on Wiggler was traced to a logic error skipping waypoints when x-distance exceeded 200 units; removing that check fixed erratic turning.",
-      "quote": "That’s why the path was so buggy at first because I was skipping waypoints… now it’s fixed."
+      "summary": "Wiggler now uses three facial states, new path logic and corrected turning behaviour after bug-fixing ‘trajectory end’ logic.",
+      "quote": null
+    },
+    {
+      "summary": "Zeina has started modelling a new overworld; Kaze evaluates her early assets alongside level work.",
+      "quote": null
     }
   ],
   "context_findings": [
     {
-      "summary": "Kaze’s first child, Raina, is overdue by two days; he’s on a two-month paternity leave which he plans to spend optimising the game.",
-      "quote": "I’m still on two months of paternity leave. I’m gonna spend that time trying to optimise the operating system on my N64."
+      "summary": "Kaze is on two months of paternity leave but plans to spend much of it optimising the N64 engine.",
+      "quote": "I'm still on two months of paternity leave. I'm gonna spend that time trying to optimize the operating system on my N64."
     },
     {
-      "summary": "He views optimisation as a creative puzzle and jokes about ‘Rambus goes vroom vroom’ becoming a catch-phrase because he tired of repeating technical jargon.",
-      "quote": "I just kept saying Rambus goes vroom vroom in my notes because I didn’t care and then people loved it."
+      "summary": "He and Zeina are expecting a daughter named Raina; playful references to ‘Raina vs Zeina’ rivalries appear on-stream.",
+      "quote": "The child's gonna be called Raina… and then I'm gonna have Raina and Zeina fight to the death."
     },
     {
-      "summary": "Expresses frustration with Germany’s bureaucracy and contemplates emigration (mentions Canada) in a broader discussion on taxes and quality of life.",
-      "quote": "Living in Germany sucks. I’m so glad I moved out."
+      "summary": "Kaze expresses dissatisfaction with German bureaucracy, taxes and technology, noting he has moved out of Germany.",
+      "quote": "Living in Germany sucks. I'm so glad I moved out."
+    },
+    {
+      "summary": "Philosophy on optimisation: memory bandwidth & latency are major bottlenecks; ‘Rambus goes vroom vroom’ became a motif out of frustration at repeating technical explanations.",
+      "quote": null
+    },
+    {
+      "summary": "Emotional tone fluctuates between excitement over new tools, frustration with rendering bugs, and humour about memes and physics.",
+      "quote": null
     }
   ],
   "contributor_findings": {
     "biobak": [
       {
-        "summary": "Delivered a large ‘Oily Boily Bay’ asset dump: new tox boxes, womp tower, mop Koopa, builder Koopa, wiggler faces, glass textures, etc., each with detailed change-logs to cut materials, triangles, and bones.",
-        "quote": "Goal new design and one fewer material… it’s like ten fewer bones total across all of the womps."
+        "summary": "Provided large asset drop for Oily Boily Bay: fewer materials, fog-ready textures, redesigned wamps, tox boxes, Koopas, thwomps and glass elements to cut polygons and draw calls.",
+        "quote": "Goal: new design and one fewer material. That is the notes that Biobak left us, which is very good because fewer materials is good."
       },
       {
-        "summary": "Asset optimisations help the level hit 30 FPS; Kaze confirms performance improvement after imports.",
-        "quote": "Dang, I think we can get Oily Boily Bay at 30 FPS now."
-      },
-      {
-        "summary": "Provides clear notes inside blend files (e.g., ‘one fewer material’, ‘saves one bone’) which guide Kaze’s integration work.",
-        "quote": "Baked helmet strap into the texture, saves one material."
-      },
-      {
-        "summary": "Engages playfully, requesting colour-guessing quiz and joking about ‘oily boily boys’, indicating a friendly rapport.",
+        "summary": "Helped diagnose clipping and material issues live; requested colour-guessing ‘Color Rush’ mini-game to loosen the stream.",
         "quote": null
       }
     ],
     "badub": [],
     "zeina": [
       {
-        "summary": "Zeina is modelling the new overworld entrance area and is referenced as preparing multiple 3D assets independently.",
-        "quote": "The thing I was working on for the new overworld… Zeina is making a bunch of 3D models and stuff."
+        "summary": "Is producing 3D models for a new overworld and shares them with Kaze for review.",
+        "quote": "The thing I was working on for the new overwalt… Zeina is making a bunch of 3D models and stuff; Zeina wanted to give making the new overwalt a try."
       }
     ]
   },
   "key_stories": [
     {
-      "title": "Uncovering the 76 % Idle Time",
-      "summary": "With Sauraen’s new profiler, Kaze discovers most frame time is wasted in an idle loop, exposing RSP/memory bottlenecks.",
-      "challenge": "Unexpected performance ceiling with no clear culprit.",
-      "process": "Integrated profiler, limited FPS for consistent data, analysed thread timelines.",
-      "outcome": "Identified idle loop and RSP overrun as optimisation targets for future work.",
-      "key_quote": "Funny thing about RTYI, 25 out of 33 ms are spent on a while 1 loop.",
+      "title": "Slide Crash & Memory Breakthrough",
+      "summary": "A large slide in Course 13 exhausted Mario 64’s collision-node memory, crashing the game. Kaze rewrote the allocator, reclaimed 400 µs, and refined the slide’s design.",
+      "challenge": "Slide’s collision triangles crossed many spatial cells, exceeding surface-node limits and causing a crash.",
+      "process": "Investigated profiler, rewrote memory allocation, scaled slide geometry and camera to ease difficulty.",
+      "outcome": "Stable build with performance gain; slide remains challenging but fair.",
+      "key_quote": "I ran out of memory… we gained 400 microseconds of computing time.",
+      "related_to": [
+        "kaze"
+      ]
+    },
+    {
+      "title": "Profiler Revelation",
+      "summary": "Sauraen’s new profiler exposed that most frame time was idle and that RSP tasks gate performance, reshaping optimisation priorities.",
+      "challenge": "Unclear where frame time was being spent.",
+      "process": "Integrated profiler, limited FPS to visualise thread timeline, interpreted coloured bars.",
+      "outcome": "Identified severe idle time and RSP bottleneck; Kaze plans further low-level optimisation.",
+      "key_quote": "25 out of 33 milliseconds are spent on a while 1 loop.",
       "related_to": [
         "kaze",
-        "sauraen"
+        "biobak"
       ]
     },
     {
-      "title": "The Slide that Broke Memory",
-      "summary": "Course 13’s large helix slide crashed due to collision memory limits; Kaze rebuilt memory allocation and shrank geometry.",
-      "challenge": "Slide’s collision exceeded surface-node allocations causing a crash.",
-      "process": "Implemented new allocator, rewrote trig to polynomial, resized slide and adjusted camera.",
-      "outcome": "Crash resolved, gained 400 µs/frame and better player visibility.",
-      "key_quote": "Every time you have a collision triangle that crosses into multiple cells… the whole thing just crashed.",
+      "title": "Asset Pass to 30 FPS",
+      "summary": "Biobak’s material and bone reductions transformed Oily Boily Bay from lag-prone to a solid 30 FPS level on console.",
+      "challenge": "Level complexity dragged performance below target framerate.",
+      "process": "Biobak simplified textures, merged materials, removed bones; Kaze integrated, adjusted fog and shaders.",
+      "outcome": "Consistent 30 FPS expected; visual style improved.",
+      "key_quote": "Dang, I think we can get Oily Boily Bay at 30 FPS now.",
       "related_to": [
-        "kaze"
+        "kaze",
+        "biobak"
       ]
     },
     {
-      "title": "Wiggler’s Wild Path",
-      "summary": "Wiggler boss spun unpredictably because path code skipped waypoints.",
-      "challenge": "Erratic turning made the encounter look broken.",
-      "process": "Printed waypoint indices, found ‘distance > 200’ skip logic, removed check.",
-      "outcome": "Path traversal stable; facial animations added.",
-      "key_quote": "That’s why the path was so buggy at first… now it’s fixed.",
+      "title": "Developer & Dad",
+      "summary": "With daughter Raina due any day, Kaze balances impending fatherhood with obsession over optimisation, joking about using leave for N64 coding.",
+      "challenge": "Paternity leave traditionally used for childcare, not deep technical work.",
+      "process": "Streams continue; jokes with chat and Zeina; acknowledges schedule juggling.",
+      "outcome": "Leave will be divided between family and engine work; emotional but humorous attitude.",
+      "key_quote": "What the fuck do you want me to do with my free time?",
       "related_to": [
-        "kaze"
-      ]
-    },
-    {
-      "title": "Biobak’s Asset Diet",
-      "summary": "Biobak hands over optimised models that cut materials, bones, and triangles, letting Oily Boily Bay hit 30 FPS.",
-      "challenge": "Level previously failed to maintain target frame-rate.",
-      "process": "Biobak reduced draw calls; Kaze imported assets, adjusted fog and combiners.",
-      "outcome": "Performance milestone reached; visual cohesion improved (e.g., tox boxes now match environment).",
-      "key_quote": "It’s like ten fewer bones total across all of the womps… we can get Oily Boily Bay at 30 FPS now.",
-      "related_to": [
-        "biobak",
-        "kaze"
+        "kaze",
+        "zeina"
       ]
     }
   ],
   "open_questions": [
     {
-      "topic": "Future use and sharing of the profiler",
-      "context": "Profiler revealed major bottlenecks but next steps were not outlined.",
+      "topic": "Idle-time & RSP Bottleneck",
+      "context": "Profiler shows 76 % idle and RSP tasks exceeding RDP.",
       "questions": [
-        "Will the profiler be released to the community?",
-        "What specific optimisations are planned based on the findings?",
-        "How will results be validated on real hardware?"
-      ],
-      "related_to": [
-        "kaze",
-        "sauraen"
-      ],
-      "priority": "high"
-    },
-    {
-      "topic": "Overworld redesign",
-      "context": "Zeina is making new overworld assets but no details were shown.",
-      "questions": [
-        "What is the new overworld’s concept and how does it differ from the original?",
-        "How does Zeina integrate her work with Kaze’s level scripting?",
-        "Any technical constraints or themes guiding the redesign?"
-      ],
-      "related_to": [
-        "zeina",
-        "kaze"
-      ],
-      "priority": "medium"
-    },
-    {
-      "topic": "Course 13 Power-ups",
-      "context": "Chat asked whether the ice cap or other caps appear; Kaze is undecided.",
-      "questions": [
-        "Which special caps will ultimately be available in Course 13?",
-        "How are cap mechanics being modernised or rebalanced?"
-      ],
-      "related_to": [
-        "kaze"
-      ],
-      "priority": "low"
-    },
-    {
-      "topic": "Memory allocation overhaul",
-      "context": "Kaze mentioned a new allocator but only in passing.",
-      "questions": [
-        "What changes were made to Mario 64’s original memory model?",
-        "How generalisable is the new allocator across levels?",
-        "Any risks of fragmentation or future limits?"
-      ],
-      "related_to": [
-        "kaze"
-      ],
-      "priority": "medium"
-    },
-    {
-      "topic": "Team workflow & asset pipeline",
-      "context": "Fast64 auto-format issues and manual combiner fixes slow imports.",
-      "questions": [
-        "Is there a standardised material/texture guideline for contributors?",
-        "How are asset optimisation goals (tri counts, materials) communicated?",
-        "Any plans to automate validation to avoid recurring format bugs?"
+        "What specific tasks are blocking the main loop?",
+        "What is the roadmap to shift work off the RSP or parallelise better?",
+        "Could game logic run during idle cycles?"
       ],
       "related_to": [
         "kaze",
         "biobak"
+      ]
+    },
+    {
+      "topic": "Memory Allocator Rewrite",
+      "context": "Allocator fix gained 400 µs but details were brief.",
+      "questions": [
+        "How does the new allocator differ architecturally from the vanilla SM64 one?",
+        "Any risks of fragmentation or future limits?",
+        "Could this be generalised for community use?"
       ],
-      "priority": "medium"
+      "related_to": [
+        "kaze"
+      ]
+    },
+    {
+      "topic": "Polynomial Trig Functions",
+      "context": "Lookup tables replaced by polynomials; accuracy & speed both rose.",
+      "questions": [
+        "What specific polynomial approximation was chosen?",
+        "Any edge-case errors or gameplay impacts?",
+        "How portable is this to other N64 projects?"
+      ],
+      "related_to": [
+        "kaze"
+      ]
+    },
+    {
+      "topic": "Overworld Redesign",
+      "context": "Zeina is modelling a new overworld but only screenshots were shown.",
+      "questions": [
+        "What vision guides the new overworld layout?",
+        "How do Zeina and Kaze iterate and critique each other’s work?",
+        "Will the new hub change course progression or story?"
+      ],
+      "related_to": [
+        "zeina",
+        "kaze"
+      ]
+    },
+    {
+      "topic": "Oily Boily Bay Optimisation",
+      "context": "Level now aims for 30 FPS with asset reductions.",
+      "questions": [
+        "What concrete metrics improved (triangles, materials, commands)?",
+        "Any gameplay compromises for performance?",
+        "How is performance validated on real hardware?"
+      ],
+      "related_to": [
+        "biobak",
+        "kaze"
+      ]
+    },
+    {
+      "topic": "Work-Life Balance Post-Birth",
+      "context": "Kaze jokes about coding during paternity leave.",
+      "questions": [
+        "How will newborn care reshape the development schedule?",
+        "What tasks are delegated during his reduced availability?",
+        "How does the team support each other during life events?"
+      ],
+      "related_to": [
+        "kaze",
+        "zeina"
+      ]
+    },
+    {
+      "topic": "Step-Function & Collision Clipping",
+      "context": "New step function causes tox box clipping.",
+      "questions": [
+        "What changed in the step algorithm?",
+        "How widespread are the collision regressions?",
+        "Is there a testing pipeline for physics changes?"
+      ],
+      "related_to": [
+        "kaze",
+        "biobak"
+      ]
     }
   ]
 }

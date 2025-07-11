@@ -1,184 +1,224 @@
 {
   "stream_context": {
-    "summary": "Kaze focuses on the new “Bowser Protest” construction-site stage: adding coins, polishing crane colours, replacing the Bowser switch model, and solving an ‘infinite ocean’ background while constantly testing N64 performance and stability.",
+    "summary": "Kaze focuses almost the entire session on polishing the new Bowser-themed construction/oil-rig course: adjusting crane colours, fixing a mis-UV’d floor switch, hunting a coin-related rendering bug, optimising N64 performance, and—above all—designing an ‘infinite’ ocean backdrop that feels vast yet runs on hardware.",
     "level": [
-      "Bowser Protest (industrial/oil-ocean stage)"
+      "Bowser protest / oil-rig stage (internally still course 11 – Wet-Dry World slot)"
     ]
   },
   "development_findings": [
     {
-      "summary": "The level currently holds ~8 000 polygons, no render areas and no back-face culling; worst-case speed is ~22 FPS on real N64 hardware. Adding culling, triangle sorting and collision maps is expected to raise speed by 5–6 FPS.",
-      "quote": "This is an 8000-polygon level. No render areas. Sorting the triangles will also give us a big performance boost."
-    },
-    {
-      "summary": "By mistake the stage was exported with F3D microcode instead of F3DEX2, doubling vertex loads and triangle commands; despite that it still reached 30 FPS, indicating large optimisation headroom.",
-      "quote": "We had twice the vertex loads, twice the triangle commands… and it still ran fine."
-    },
-    {
-      "summary": "Kaze is distributing extra coin objects to make the arena feel ‘alive’, but one vertical coin formation caused memory corruption and camera render bugs, suggesting a deeper object-pool or display-list issue.",
-      "quote": "The only thing I changed was add a bunch of coin formations and then suddenly this started happening."
-    },
-    {
-      "summary": "Crane cabins now use individual colours; black looked poor, orange too saturated. Settled on a dark Bowser-themed hue suggested by Lilaa.",
+      "summary": "Current task is adding coins, recolouring cranes, and designing an ocean/fog background for the Bowser protest level so it feels less ‘dead’.",
       "quote": null
     },
     {
-      "summary": "The classic Bowser floor switch had UV mis-alignment (Nintendo’s map). Biobak supplied a new 1 336-poly model (down from ~4 000) with a single RGBA texture, adopted as the definitive version.",
-      "quote": "This actually just looks like an upgraded version of the Mario 64 one. Very, very nice."
+      "summary": "Kaze discovered the whole level had been exported with F3D microcode instead of F3DEX2, doubling vertex load and command count; re-exporting gains significant FPS headroom.",
+      "quote": "Funniest thing ever: we were exporting as an F3D model, not F3DEX2, so we had twice the vertex loads and it still ran fine."
     },
     {
-      "summary": "Wiseguy’s “Matrix Stack Fix” is mandatory for world-space directional lighting; otherwise lights are transformed by the camera.",
-      "quote": "If you put a light source into the original game, your light source is gonna be transformed by the camera."
+      "summary": "Target worst-case performance is ~22 FPS on real N64 before back-face culling, render-area splits, triangle sorting, and link-time optimisations that Kaze expects will add 5–6 FPS.",
+      "quote": "Whatever you're seeing right now is probably going to be 5-6 slower than what actually is going to be in the final game."
     },
     {
-      "summary": "A new visual solution for the ocean background: a curved 3-D water plane that follows 0.85–0.9 of camera translation, blended into fog with an oil-tinted gradient; NF-background attempts were rejected because of N64 culling limits.",
-      "quote": "I think an NBG doesn’t work if the elements in your level are touching the skybox. We curved the ocean plane instead."
+      "summary": "Kaze will enable back-face culling on gates and sort triangles; collision map is still unoptimised, all to reduce lag in the densest spots.",
+      "quote": null
     },
     {
-      "summary": "NEMU64 was recently revived; it now offers GDB debugging and accurate cache emulation, becoming Kaze’s primary emulator for real-time debugging.",
-      "quote": "A new emulator dropped called NEMU64… you can debug everything with it."
+      "summary": "Directional/world lighting is only possible because they integrated Wiseguy’s ‘Matrix Stack Fix’.",
+      "quote": "Use Wiseguy's Matrix Stack Fix … then you just put a light and it will be a world light."
+    },
+    {
+      "summary": "A coin formation near a crane caused memory corruption and missing geometry; removing or relocating the formation fixed the render bug.",
+      "quote": null
+    },
+    {
+      "summary": "Experimented with nfbg vs 3-D water; concluded an actual curved water mesh with a gradient linked to camera movement best sells an endless ocean without breaking culling limits.",
+      "quote": "I think the NBG is just not possible here … the ocean has to be in the 3-D model."
+    },
+    {
+      "summary": "Newly updated NEMU64 (2023) is now Kaze’s preferred emulator because it offers live GDB debugging and cache emulation.",
+      "quote": "A new emulator dropped called NEMU64 … you can debug everything with it."
+    },
+    {
+      "summary": "Merch possibility: custom company offered to print authentic-looking N64 boxes + manuals; Kaze considers selling boxes alone (legal) and separate OST ROM, even ‘hiring people’ if it works.",
+      "quote": "Dude, when I sell RTYI, I could just sell the box without the ROM, and it'd be legal … maybe I'm gonna start hiring people."
     }
   ],
   "context_findings": [
     {
-      "summary": "Kaze still holds a full-time C/C++ programming job, which restricts hack development time.",
-      "quote": "I have a full-time job on the side, so that’s why I don’t have too much time."
+      "summary": "Kaze works full-time as a C/C++ programmer; development streams happen in spare time.",
+      "quote": "I have a full-time job on the side, so that's why I don't have too much time to just work on this all the time."
     },
     {
-      "summary": "He jokes about monetising Twitter impressions and refuses to pay for Twitter Blue unless it covers his bills.",
-      "quote": "We’re gonna get Twitter Blue and it’s gonna pay my bills and I’m never gonna pay for Twitter Blue again."
+      "summary": "He jokes about monetising Twitter (5 M impressions) and believes Twitch will ‘die’, hence streaming on YouTube.",
+      "quote": "We're gonna activate the demonetization on Twitter … and I'm never gonna pay for Twitter Blue again."
     },
     {
-      "summary": "A merch company offered to print custom N64 boxes and manuals; Kaze wants to package empty boxes (legal) and separate ROMs (e.g., OST-only) as revenue streams and possibly launch a ROM-making company, hiring contributors and paying musicians.",
-      "quote": "Dude, when I sell RTYI, I could just sell the box without the ROM and it’d be legal… maybe I’m gonna start hiring people."
-    },
-    {
-      "summary": "Personal: self-described ‘vampire’ indoors, jokes about dying in the sun and being the ‘whitest man alive’.",
+      "summary": "Expresses ambition to form a ‘full ROM-making company’ if merch revenue is viable.",
       "quote": null
+    },
+    {
+      "summary": "Shows light frustration with chat but also pride in community intelligence; self-deprecates about being a ‘vampire’ indoors coder.",
+      "quote": "Why are people in my chat so smart compared to the average person on the planet? I think everyone here just gets smarter by watching me."
     }
   ],
   "contributor_findings": {
     "biobak": [
       {
-        "summary": "Supplied a lower-poly, UV-fixed Bowser switch model and texture; also drove the horizon-gradient concept for the ocean background.",
+        "summary": "Delivered an improved purple floor-switch model (1 336 polys vs 4 000+) fitting in a tiny texture; Kaze integrates it immediately.",
+        "quote": "This is so much better than the one we had before—actually just looks like an upgraded version of the Mario 64 one."
+      },
+      {
+        "summary": "Suggested colour-coding cranes and adding a blue-to-purple horizon gradient; Kaze adopts these ideas while tuning the background.",
         "quote": null
       }
     ],
     "badub": [],
     "zeina": [
       {
-        "summary": "Was scheduled to finish an animation for a yet-unnamed character (‘the guy here’) but was absent this session.",
+        "summary": "Absent this session; Kaze notes she would have finished an animation for a character in the stage.",
         "quote": "Unfortunately Zeina's gone today, otherwise she maybe would have finished the animation for the guy here."
       }
     ]
   },
   "key_stories": [
     {
-      "title": "The Mis-exported Level",
-      "summary": "Kaze unknowingly exported the entire stage with the slower F3D microcode. Only after noticing exceptionally high command counts did he realise the error.",
-      "challenge": "Unexpectedly high vertex load yet acceptable framerate suggested something was wrong.",
-      "process": "Investigated export settings; discovered the model was using F3D instead of F3DEX2.",
-      "outcome": "Re-exporting will halve command load, giving free performance headroom.",
-      "key_quote": "I was exporting it as an F3D model and not F3DEX2… we had twice the vertex loads and it still ran fine.",
+      "title": "Export Format Performance Bug",
+      "summary": "The level felt heavier than expected on hardware. While reviewing shading, Kaze noticed the exporter was set to F3D instead of the faster F3DEX2.",
+      "challenge": "Low FPS in a huge Bowser construction level.",
+      "process": "Checked shading flags, then realised the exporter target; rebuilt with correct microcode.",
+      "outcome": "Halved vertex commands; gained several FPS headroom for later effects.",
+      "key_quote": "We were exporting as an F3D model and not F3DEX2, so we had twice the vertex loads and it still ran fine.",
       "related_to": [
         "kaze"
       ]
     },
     {
-      "title": "Bowser Switch Make-over",
-      "summary": "The classic Bowser floor switch looked off—its UVs were mis-aligned. Community discussion blamed Kaze before he discovered Nintendo’s original mapping was at fault.",
-      "challenge": "Switch texture appeared off-centre and low-poly.",
-      "process": "Verified UV map, confirmed Nintendo’s error, then accepted Biobak’s redesigned model.",
-      "outcome": "New switch is sharper, accurate and uses one third of the polygons.",
-      "key_quote": "Don’t blame Nintendo just yet… oh, this is Nintendo’s UV map, not me.",
+      "title": "Coin Formation Crash",
+      "summary": "Adding vertical coin strings suddenly blanked large portions of geometry.",
+      "challenge": "Mysterious memory corruption causing Mario and parts of level to vanish.",
+      "process": "Systematically removed recent coin formations; tested; isolated one near the crane hook.",
+      "outcome": "Bug fixed; notes to watch object-table limits.",
+      "key_quote": "Every time you recompile the ROM your cheat codes get wiped, so I knew it had to be the new coin formations.",
+      "related_to": [
+        "kaze"
+      ]
+    },
+    {
+      "title": "Infinite Ocean Experiment",
+      "summary": "The stage needed a vast sea but N64 culling prohibits distant geometry.",
+      "challenge": "Make an ‘endless’ oil-slick ocean that doesn’t pop or tank FPS.",
+      "process": "Tried nfbg skybox, fog tricks, then a curved water mesh that moves ~0.9x camera translation plus colour gradient.",
+      "outcome": "Settled on curved mesh; looks convincing and respects hardware limits.",
+      "key_quote": "I think the ocean has to be in the 3-D model; NBG will never work—I can mathematically prove it.",
       "related_to": [
         "kaze",
         "biobak"
       ]
     },
     {
-      "title": "Building an Infinite Ocean",
-      "summary": "Kaze tried multiple background techniques to convey endless sea. NF backgrounds failed due to hardware clip distance. After hours of trial, he devised a moving, curved water plane blended with fog.",
-      "challenge": "Make the sea look vast without breaking N64 culling limits.",
-      "process": "Tested NF BG, adjusted fog, experimented with curved geometry tied to camera translation, colour-graded horizon.",
-      "outcome": "Settled on 3-D plane at 0.85 camera factor plus oil-red gradient—‘about as good as we're gonna get’.",
-      "key_quote": "An NBG doesn’t work if the elements in your level are touching the background… this curved plane finally works.",
+      "title": "Switch Model Upgrade",
+      "summary": "Original floor switch UVs were misaligned. Community artist Biobak offered a replacement.",
+      "challenge": "Mis-textured switch broke immersion.",
+      "process": "Tested Nintendo UVs, then imported Biobak’s cleaner model and palette.",
+      "outcome": "Higher-quality, lower-poly switch now standard across Bowser levels.",
+      "key_quote": "Somehow you managed to fit this in such a small texture; this actually just looks like an upgraded version of the Mario 64 one.",
       "related_to": [
         "kaze",
-        "biobak",
-        "lilaa"
+        "biobak"
+      ]
+    },
+    {
+      "title": "Physical Merch Brainwave",
+      "summary": "A custom printer contacted Kaze about producing N64 boxes.",
+      "challenge": "How to monetise RTYI without infringing Nintendo ROM distribution.",
+      "process": "Realised boxes/manuals alone are legal; considered separate OST ROM; joked about ‘becoming millionaires’.",
+      "outcome": "Exploring costs; would pay contributors if profitable; potential small business.",
+      "key_quote": "I could just sell the box without the ROM, and it'd be legal … maybe I'm gonna start hiring people.",
+      "related_to": [
+        "kaze"
       ]
     }
   ],
   "open_questions": [
     {
-      "topic": "Back-face culling & triangle sorting implementation",
-      "context": "Kaze cited these as upcoming optimisations (~5–6 FPS), but no timeline or method specified.",
+      "topic": "Bowser Protest Level Concept",
+      "context": "Stream focuses on visuals but not on why Mario is storming a Bowser construction rig titled ‘protest’.",
       "questions": [
-        "When will culling regions and triangle sorting be added to Bowser Protest?",
-        "What tools or scripts will automate this?",
-        "How much headroom do you expect after these changes on real hardware?"
+        "What is the narrative or thematic purpose of the Bowser protest stage?",
+        "How does it fit into RTYI’s overall progression and story?"
       ],
       "related_to": [
         "kaze"
-      ],
-      "priority": "medium"
+      ]
     },
     {
-      "topic": "Zeina’s missing animation",
-      "context": "Zeina was absent; her animation for ‘the guy here’ remains unfinished and unnamed.",
+      "topic": "Zeina’s Unfinished Animation",
+      "context": "Kaze mentions Zeina would have completed an animation for ‘the guy here’. No details given.",
       "questions": [
-        "Who is the character Zeina is animating?",
-        "What is the animation’s purpose (enemy, NPC, cut-scene)?",
-        "How does the professional/personal relationship with Kaze influence feedback cycles?"
+        "What character is Zeina animating for this level?",
+        "What is the workflow between Zeina’s animations and Kaze’s engine integration?"
       ],
       "related_to": [
-        "zeina",
-        "kaze"
-      ],
-      "priority": "high"
+        "zeina"
+      ]
     },
     {
-      "topic": "Physical-merch strategy",
-      "context": "A merch company can print N64 boxes; Kaze mused about selling boxes alone and OST ROMs.",
+      "topic": "Microcode & Link-Time Optimisation Plan",
+      "context": "Kaze hints at enabling a link option that could add 5–6 FPS.",
       "questions": [
-        "What is the current status of the merch agreement?",
-        "How will legal risk with Nintendo be mitigated?",
-        "Projected cost, print run, and timeline?"
+        "What specific linker or microcode tweaks are planned?",
+        "How risky is altering microcode this late in development?"
       ],
       "related_to": [
         "kaze"
-      ],
-      "priority": "high"
+      ]
     },
     {
-      "topic": "Team compensation model",
-      "context": "Kaze plans to pay musicians and possibly hire staff once revenue arrives.",
+      "topic": "New NEMU64 Debug Pipeline",
+      "context": "Kaze praises the updated emulator but gives no specifics on adoption.",
       "questions": [
-        "What revenue thresholds trigger payments?",
-        "Will contributors receive royalties or flat fees?",
-        "How will ownership/IP be structured for RTYI and future projects?"
+        "How will NEMU64 with GDB change day-to-day debugging?",
+        "Any limitations compared with real hardware tests?"
+      ],
+      "related_to": [
+        "kaze"
+      ]
+    },
+    {
+      "topic": "Physical Merch & Legal Strategy",
+      "context": "Idea to sell N64 boxes and OST ROMs.",
+      "questions": [
+        "What legal counsel has Kaze consulted regarding selling boxes?",
+        "How will revenue be shared among team members like Biobak and Badub?"
       ],
       "related_to": [
         "kaze",
         "badub",
-        "biobak",
-        "zeina"
-      ],
-      "priority": "medium"
+        "biobak"
+      ]
     },
     {
-      "topic": "Coin-formation memory bug",
-      "context": "Adding one coin formation corrupted rendering; root cause undiagnosed.",
+      "topic": "Performance Targets on Real N64",
+      "context": "Current level still dips to 22 FPS without culling.",
       "questions": [
-        "What specifically in the coin object triggered memory corruption?",
-        "Is there an object-pool or display-list limit being exceeded?",
-        "Has the issue been reproduced and logged?"
+        "What is the minimum acceptable FPS for release?",
+        "Will there be optional ‘enhanced’ settings for emulator/PC players?"
       ],
       "related_to": [
         "kaze"
+      ]
+    },
+    {
+      "topic": "Team Compensation & Hiring",
+      "context": "Kaze jokes but also seriously mentions paying musicians and hiring.",
+      "questions": [
+        "Has a revenue-sharing model been drafted?",
+        "What roles would be prioritised if a ROM-making company forms?"
       ],
-      "priority": "low"
+      "related_to": [
+        "kaze",
+        "badub"
+      ]
     }
   ]
 }

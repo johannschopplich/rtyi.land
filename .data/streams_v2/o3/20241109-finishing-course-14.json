@@ -1,72 +1,76 @@
 {
   "stream_context": {
-    "summary": "Kaze prototyped and debugged a Mario-Paint-style minigame inside Return to Yoshi’s Island in which the player physically paints a Mario sprite, then has their work graded by a newly-modeled Mario Paint ‘Save Robot’. Most of the stream revolved around coding the paint system’s fill, score, reset logic, and building the robot NPC model.",
+    "summary": "Kaze builds and tests the “Paint-Mario” retro section: players can color Mario, clear the canvas, and have their work judged by an in-level NPC. Most of the stream is spent coding the scoring logic, fixing resets, modelling the Coursebot evaluator, and discussing performance and technical curiosities.",
     "level": [
-      "Course 15 (Mario Paint retro sub-area)"
+      "Mario Paint retro section"
     ]
   },
   "development_findings": [
     {
-      "summary": "Created a dynamic ‘virtual texture’ that lets players draw directly on Mario’s face by writing to texture memory at runtime.",
-      "quote": "You can draw anything you want really—you can even color in Mario."
+      "summary": "Implemented a dynamic ‘virtual texture’ on Mario so the player can freely paint, with a button that clears the whole texture.",
+      "quote": "You can draw anything you want really… if you press this button here, it’s all gonna clear with the rocket."
     },
     {
-      "summary": "Implemented a non-recursive flood-fill algorithm that pushes candidate pixels onto a manually allocated stack in ROM because normal recursion would overflow the N64 stack.",
-      "quote": "The stack is not big enough for that, so I can't do that. I just allocated memory in temporary ROM space and use it as a stack for pixels to be checked."
+      "summary": "Paint fill uses an iterative flood-fill stack stored in ROM memory because a recursive version would overflow the N64 stack.",
+      "quote": "The stack is not big enough for that… so I had to invent something."
     },
     {
-      "summary": "Fixed a bug where clearing the canvas did not reset the score, which allowed infinite points. Refactored the score logic into its own function and separate storage.",
-      "quote": "This gets rid of the color on Mario so you can view it without drawing … but it doesn’t reset your score, so you can get infinite score. That needs to reset your score."
+      "summary": "Fixed bug where clearing the canvas didn’t reset the score, causing infinite points.",
+      "quote": null
     },
     {
-      "summary": "Set an initial star-award threshold: if the internal ‘error’ value drops below one million the player receives the star. Tested how inaccurate a drawing can be before failing.",
-      "quote": "You can mess up a fair bit before it doesn't work anymore … honestly, if you draw Mario like this you don't really deserve the star."
+      "summary": "Current scoring: every mismatched pixel adds to a counter; if the value is below 1 000 000 the NPC awards the star. Threshold still being tuned.",
+      "quote": "I have it currently set to where if you get the number in the bottom-left corner below 1,000,000 then you get the star."
     },
     {
-      "summary": "Chose the Mario Paint ‘Save/Load Robot’ (internally nick-named Corespond) as the grading NPC after rejecting Undo Dog to avoid implying there is an undo feature.",
-      "quote": "Undo Dog will make people think they can undo, and I will absolutely not add undo to this."
+      "summary": "Decided against an ‘undo’ feature; only full reset is allowed to keep it a game challenge rather than an editor.",
+      "quote": "You don’t get undo, but you get reset. That should be good enough for you guys."
     },
     {
-      "summary": "Modeled the robot as a relatively high-poly (≈300 triangles) 3D object because the sub-area is small and still runs at a stable 60 FPS.",
-      "quote": "It's less than Mario's model, so it's not that bad. This area is gonna run really well anyway."
+      "summary": "Chose Mario Paint ‘Coursebot’ robot as the evaluator NPC, built a high-poly (~300 tri) 3-D model from the original SNES sprites and positioned it on the ceiling.",
+      "quote": "This guy would be perfect… I guess it’s easiest if I just put him in the level somewhere and this is gonna run at 60 FPS anyway."
     },
     {
-      "summary": "Discovered roughly 1 MB of ‘hidden’ 9-bit memory on N64 that can be accessed via CPU tricks; may explore it for extra storage or a future tech-explanation video.",
-      "quote": "Secretly all the bytes on the N64 are nine bits … you can read and write the ninth bit with a few tricks."
+      "summary": "Switched Mario texture sampling to point filtering to keep pixel art crisp.",
+      "quote": "Oh yeah, that looks way more crisp. I don’t know why I didn’t try it."
     },
     {
-      "summary": "Parallel RDP currently crashes with RTYI; Kaze discussed failed debugging attempts with developer Falco and is using Project64 as the primary test emulator.",
-      "quote": "I tried to fix the RTYI crash, but we literally couldn't figure it out. It just doesn't work in Parallel."
+      "summary": "Performance test shows full canvas clear runs at 60 FPS; memory wipe is fast enough for real hardware.",
+      "quote": "I feel like there might be a small delay… I mean, this is 50 FPS, so we’re good."
     },
     {
-      "summary": "Long-term plan to asset-swap RTYI (replace all Mario IP) and release it as an original indie game once the hack is finished.",
-      "quote": "If I swap Mario and all the other [assets] that could be my first indie game."
+      "summary": "Mentioned still needing two new characters for the Yoshi Coin objective in the ice level.",
+      "quote": null
+    },
+    {
+      "summary": "Idea to asset-swap the whole hack (Mario + IP) and publish as an original indie game once finished.",
+      "quote": "If I swap Mario and all the others, that could be my first indie game."
+    },
+    {
+      "summary": "Identified unsolved crash under Parallel RDP; currently recommends Project64 or other plugins.",
+      "quote": "We literally couldn’t figure it out… Project 64 Master Race."
+    },
+    {
+      "summary": "Shared concept of hidden ‘ninth bit’ memory on N64 (~1 MB) and potential to exploit it for storage; plans a video explaining it.",
+      "quote": "Secretly, all the bytes on the N64 are nine bits… there are tricks to read and access the ninth bit."
     }
   ],
   "context_findings": [
     {
-      "summary": "Kaze is married; he and his wife Zeina are replaying Twilight Princess, which reminds him he prefers open-world exploration over dungeon-centric design.",
-      "quote": "Me and Zeina, we're currently playing through Twilight Princess … I realized what I like in Zelda games is the open world, not the dungeons."
+      "summary": "Kaze is married; casual mention his wife broke his large jug; they currently play Twilight Princess together.",
+      "quote": null
     },
     {
-      "summary": "Personal design philosophy: values challenge and simplicity over convenience; refuses to implement an undo feature in the paint minigame.",
-      "quote": "You mess up, you lose your points. It's still a game, guys. This is not an image editor."
+      "summary": "Personal design philosophy: prefers exploration over dungeons in Zelda; dislikes 2-D platformers and boss fights.",
+      "quote": "Playing Twilight Princess, I realized that what I like in Zelda games is all the open world and exploration and not really the dungeons."
     },
     {
-      "summary": "Dislikes 2D platformers and most boss fights, shaping how he designs levels and mechanics.",
-      "quote": "I don't like 2D platformers, like at all … I don't like boss fights in video games. They're very boring."
+      "summary": "Financial note: Roblox is paying him to stream; plans a sponsored Roblox stream Sunday with community participation.",
+      "quote": "They’re paying me money to stream Roblox, like I’d be stupid not to take that."
     },
     {
-      "summary": "Plans to livestream Roblox on Sunday because Roblox corporate is paying him; shows willingness to take sponsored streams for revenue.",
-      "quote": "They're paying me money to stream Roblox—I'd be stupid not to take that."
-    },
-    {
-      "summary": "Avoids politically themed hacks now; feels the current climate would react negatively compared to 2016’s Trump 64.",
+      "summary": "Cautious about producing politically themed ROM hacks in current climate; fears backlash.",
       "quote": "If I do the same thing in 2024 with a Trump 64 ROM hack, people will murder me."
-    },
-    {
-      "summary": "Aware of legal risk in asset-swap indie idea; intends to consult a lawyer.",
-      "quote": "Either way, it's definitely something I would have to talk to a lawyer about."
     }
   ],
   "contributor_findings": {
@@ -74,41 +78,30 @@
     "badub": [],
     "zeina": [
       {
-        "summary": "Plays Zelda titles with Kaze and influences his reflection on exploration-heavy versus dungeon-heavy design.",
-        "quote": "Me and Zeina, we're currently playing through Twilight Princess."
+        "summary": "Enjoys playing Zelda games with Kaze in personal time; no direct development activity this stream.",
+        "quote": null
       }
     ]
   },
   "key_stories": [
     {
-      "title": "Fixing the infinite-score exploit",
-      "summary": "Clearing the paint canvas did not reset the internal score counter, allowing players to farm infinite points. Kaze traced the issue to shared state and refactored the scoring code.",
-      "challenge": "Players could wipe the canvas and keep their accumulated points.",
-      "process": "Identified the shared variable, moved scoring data into its own structure, and turned the wipe logic into a separate function.",
-      "outcome": "Score now resets correctly; exploit removed.",
-      "key_quote": "This doesn't reset your score, so you can get infinite score. That needs to reset your score.",
+      "title": "Building the Paint-Mario Minigame",
+      "summary": "Kaze transforms Mario into a drawable canvas, codes a flood-fill, adds scoring, models an NPC evaluator, and establishes gameplay rules (no undo, only reset).",
+      "challenge": "Create an engaging retro ‘Mario Paint’ challenge that runs on real N64 hardware.",
+      "process": "Implemented virtual texture, iterative flood-fill, score metric, fixed bugs, and hand-modelled Coursebot to judge the art.",
+      "outcome": "Fully functional section that awards a star when player’s drawing is within tolerance; ready for tuning and polish.",
+      "key_quote": "It’s still a game, guys. This is not an image editor—you mess up, you lose your points.",
       "related_to": [
         "kaze"
       ]
     },
     {
-      "title": "Choosing an evaluator NPC",
-      "summary": "Kaze needed an in-game character to grade the player’s painting. Undo Dog was first suggestion, but he worried it would imply an undo function.",
-      "challenge": "Find a recognizable Mario Paint reference that won’t confuse players.",
-      "process": "Discussed options with chat; settled on the ‘Save Robot’. Began modeling a 3D version and confirmed performance budget.",
-      "outcome": "Robot NPC chosen and partially modeled; logic hooks into ‘ask Mario’ dialogue system.",
-      "key_quote": "Undo Dog will make people think that they can undo, and I will absolutely not add undo to this.",
-      "related_to": [
-        "kaze"
-      ]
-    },
-    {
-      "title": "Exploring hidden 1 MB N64 memory",
-      "summary": "Kaze explained a little-known 9-bit memory quirk on the N64 that could free roughly 1 MB of extra space.",
-      "challenge": "Memory is slow and awkward to access, normally reserved for pixel coverage data.",
-      "process": "Outlined CPU tricks to read/write odd bits and mused about rendering sub-pixel triangles as a write method.",
-      "outcome": "No implementation yet; possible future tech video and experimental storage for RTYI.",
-      "key_quote": "I know it sounds crazy, but it's there—an entire megabyte of memory no one really uses.",
+      "title": "Discovering Hidden N64 Memory",
+      "summary": "Kaze explains a rarely used ninth bit in N64 memory that could yield ~1 MB extra space and muses about making educational content.",
+      "challenge": "Hardware limitation of 4 MB RAM inspires search for extra resources.",
+      "process": "Researches reading/writing the coverage bit and considers rendering micro-triangles to access every other byte.",
+      "outcome": "No immediate implementation but plans a technical video and potential in-game uses.",
+      "key_quote": "You’re never going to guess where this megabyte is… secretly, all the bytes on the N64 are nine bits.",
       "related_to": [
         "kaze"
       ]
@@ -116,71 +109,78 @@
   ],
   "open_questions": [
     {
-      "topic": "Hidden 9-bit memory utilization",
-      "context": "Kaze outlined the concept but hasn’t decided whether or how RTYI will use the extra space.",
+      "topic": "Scoring Algorithm Tuning",
+      "context": "Threshold is arbitrarily set to 1,000,000; Kaze tests extremes to see what players can get away with.",
       "questions": [
-        "Have you prototyped any real gameplay systems that store data in the 9-bit space?",
-        "What practical limits (speed, reliability) did you observe in early tests?",
-        "Could this memory open doors for larger textures or save data?"
+        "How will you finalize the acceptable error margin?",
+        "Will the threshold adapt to speedrunning exploits or accessibility needs?",
+        "Could different difficulty settings be considered?"
       ],
       "related_to": [
         "kaze"
-      ],
-      "priority": "medium"
+      ]
     },
     {
-      "topic": "Legal pathway for asset-swapped indie release",
-      "context": "Kaze mentioned replacing Nintendo IP to turn RTYI into an original game, acknowledging legal concerns.",
+      "topic": "Coursebot NPC Integration",
+      "context": "Model finished, but dialogue and placement still tentative.",
       "questions": [
-        "What concrete steps are you taking to secure rights or protections?",
-        "Which assets would need the biggest redesign?",
-        "How would this affect level design tied to Mario mechanics?"
+        "Will Coursebot have unique animations or voice samples?",
+        "Why place him on the ceiling instead of eye-level?",
+        "Any Easter-egg interactions planned?"
       ],
       "related_to": [
         "kaze"
-      ],
-      "priority": "high"
+      ]
     },
     {
-      "topic": "Parallel RDP crash root cause",
-      "context": "Parallel graphics plugin currently crashes RTYI; exact reason unknown.",
+      "topic": "Hidden Ninth-Bit Memory",
+      "context": "Kaze theorizes about using coverage bits for storage.",
       "questions": [
-        "Have you isolated which Render- or RSP-side call triggers the crash?",
-        "Is the issue reproducible on real hardware or only in the plugin?",
-        "Could adopting an open-source fork help diagnose the bug?"
+        "Have you successfully stored gameplay data in the ninth bit yet?",
+        "What practical uses could this have in RTYI?",
+        "Could this discovery influence level design or asset limits?"
       ],
       "related_to": [
         "kaze"
-      ],
-      "priority": "low"
+      ]
     },
     {
-      "topic": "Painting score threshold balancing",
-      "context": "Current threshold set arbitrarily at one million error units.",
+      "topic": "Asset-Swap Indie Release",
+      "context": "Idea to replace Nintendo IP and publish commercially.",
       "questions": [
-        "How will you fine-tune scoring so casual players aren’t frustrated?",
-        "Is there a plan to visualize the score or give hints?",
-        "Could difficulty scale per star or course?"
+        "How feasible is a full asset swap given technical dependencies?",
+        "What legal counsel have you sought?",
+        "Would the gameplay need redesign if Mario mechanics are removed?"
       ],
       "related_to": [
         "kaze"
-      ],
-      "priority": "medium"
+      ]
     },
     {
-      "topic": "Team member roles in the painting section",
-      "context": "No mention of Biobak, Badub, or Zeina contributing to this feature.",
+      "topic": "Parallel RDP Crash",
+      "context": "RTYI currently crashes under Parallel RDP; reason unknown.",
       "questions": [
-        "Will Biobak provide final artwork or textures for the robot or UI?",
-        "Is Badub composing Mario Paint-style music for the minigame?",
-        "Could Zeina animate the robot or other elements?"
+        "What diagnostics have been run so far?",
+        "Is this a plugin limitation or a game bug?",
+        "Could the community assist with debugging?"
       ],
       "related_to": [
+        "kaze"
+      ]
+    },
+    {
+      "topic": "Missing Yoshi-Coin Characters in Ice Level",
+      "context": "Kaze mentions two characters still missing.",
+      "questions": [
+        "What roles will these characters play mechanically?",
+        "Who is responsible for their design and implementation?",
+        "Is there a deadline for completing Course 15 content?"
+      ],
+      "related_to": [
+        "kaze",
         "biobak",
-        "badub",
         "zeina"
-      ],
-      "priority": "low"
+      ]
     }
   ]
 }

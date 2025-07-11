@@ -1,191 +1,207 @@
 {
   "stream_context": {
-    "summary": "Kaze’s session starts with an abandoned attempt to let two sound-effects per bank play concurrently, then shifts almost entirely to graphics work on a large beach-style level.  Most of the stream is spent iterating on new water tech: shoreline wave-height falloff, vertex-driven foam, and texture-scroll logic, while fielding chat questions about releases, emulators, AI tools, and life philosophy.",
+    "summary": "Kaze spends most of the session prototyping a new shoreline-water system (waves that flatten near land and a dynamic foam layer) while briefly attempting a sound-effect engine upgrade. He also explains an old Mario 64 sound bug and vents about emulator issues.",
     "level": [
-      "Beach / shoreline level (course name not given)"
+      "Coastal overworld level (working title mentioned as \"cove\"/shore area)"
     ]
   },
   "development_findings": [
     {
-      "summary": "Kaze is building an audio rewrite that lets two sound effects from the same bank play simultaneously to improve overall SFX quality; he halted live debugging because it was getting too complex and will finish off-stream.",
+      "summary": "Kaze is adding the ability for two sound effects from the same bank to play simultaneously, which will \"seriously improve the sound-effect quality across the board\" but was postponed after running into complexity.",
       "quote": "Basically what I'm trying to do is make it so that two sound effects per bank can play at the same time. This would seriously improve the sound effect quality across the board."
     },
     {
-      "summary": "He fully traced the infamous low-pitched 'Booloth' noise: it is baked into the ‘air howling wind’ sample and only audible when the layer loop is interrupted, e.g., by entering the Big Boo door.",
-      "quote": "What's really going on is that the Booloth is just a part of the wind sound effect … usually you don't hear it, but when you cancel the sound effect, you do hear it."
+      "summary": "He solved the famous low-pitched boo noise in Big Boo’s Haunt: the ‘boo laugh’ is baked into the wind sample with a 299-frame delay; when the sound is prematurely cancelled (e.g., door transition) the boo layer plays at full volume.",
+      "quote": "The truth is actually so much more messed up… the boolaugh is just a part of the wind sound effect and placed at the very end of the sound."
     },
     {
-      "summary": "Water system overhaul: shoreline vertices now carry a scalar that forces wave height to zero near land, while offshore waves remain large; foam will be a separate clamped texture that scrolls on a sine path and fades with vertex alpha.",
-      "quote": "We got big waves over there and then small waves here … Next, let's make some foam here."
-    },
-    {
-      "summary": "Because vertex alpha is already used, he plans to encode wave-height data in the low bits of the vertex red channel to save memory.",
+      "summary": "New shoreline system: waves now use vertex scalars to reduce amplitude near land; foam is a separate clamped texture that scrolls on a sine wave and fades with vertex alpha. Spare bits of the red vertex channel store pre-computed wave height.",
       "quote": "We could use the lower bits of the red channel for the wave height. I think that might genuinely be our best option."
     },
     {
-      "summary": "A missing 'material label' export from the Blender plug-in blocks clean display-list insertion; unless Lilaa adds it, Kaze will write a runtime workaround that scans for the first tile-size command after a texture pointer.",
-      "quote": "If we don't get material labels, I'm going to make an init function now that finds the index of the thing I need."
+      "summary": "Water rendering upgraded to two-cycle combiner with directional wave motion; ROM currently ~59 MB, still acceptable.",
+      "quote": null
     },
     {
-      "summary": "Engine progress continues even while content slows; ROM size currently ~59 MB and a single Z-buffer segment now shares space with rarely-read graph nodes to minimise memory impact of decorative models.",
-      "quote": "In the meantime I've been upgrading the engine, so it's not like I've been making too much progress on the content either."
+      "summary": "Need ‘material labels’ in the exporter; without them Kaze plans a startup routine that searches display-list commands after a texture pointer to insert scroll operations.",
+      "quote": "If we don’t get material labels, I’m going to make a function that finds the first tile-size command after the texture pointer."
     },
     {
-      "summary": "In-game analytics already track play time, jumps, deaths, damage, coins, and savestates for post-release stats.",
-      "quote": "We are already capturing the playtime stats: total jump stamps, playtime deaths, damage taken, coins obtained, save states."
+      "summary": "Engine memory layout: Z-buffer sits next to rarely-read graph-node data so extra models (e.g., fish) are ‘basically free’.",
+      "quote": "By doing it this way… the fish is basically entirely free and it's mostly living in a memory region that goes unused."
     },
     {
-      "summary": "He refuses to integrate AI tools (e.g., GitHub Copilot) after strong community pushback and sees little benefit for his workflow.",
-      "quote": "People will get really mad at me if I do anything AI, or if anything AI touches this game."
+      "summary": "Gameplay statistics (jumps, stamps, playtime, deaths, damage, coins, savestates) are already being recorded for possible end-game display.",
+      "quote": null
     },
     {
-      "summary": "Persistent emulator headaches: Project64 1.6 remains his primary dev emulator despite security flaws because alternatives (Ares, Parallel) are \"unusable\"; he previously fixed an off-by-one memory bug in Parallel that resurfaced after release.",
-      "quote": "On the last RTYI demo release, I worked with Falco to fix the bug … a week later I released my ROM hack and people didn't get the update."
+      "summary": "Current content status: final Bowser fight and ~5 side levels still missing; overall progress slowed because Kaze focused on engine upgrades rather than new courses.",
+      "quote": "We’re still missing the final Bowser, we’re missing like five side levels. You’re gonna have to wait."
     },
     {
-      "summary": "Approximately ten collaborators have full repo access and he maintains a private asset backup to ensure the project survives any personal emergency.",
-      "quote": "There's like 10 people that have access to Return to Yoshi's Island. I also have a private repo with all the assets, so nothing would be lost if I died."
+      "summary": "ROM size sits at 59 MB; parallel-N64 emulator still crashes because it formerly could not address the last byte of memory (off-by-one bug Kaze helped identify).",
+      "quote": "The bug was that you couldn’t use the last byte in memory because of an off by one error."
     }
   ],
   "context_findings": [
     {
-      "summary": "Kaze expresses a utilitarian view on life’s value, saying the worth lies in what he creates rather than in himself.",
-      "quote": "I myself as a human don't have much value, right? The value's in what I make."
+      "summary": "Kaze keeps a private repo with ten trusted people so the project survives him; believes \"the value is in what I make\" rather than in his own life.",
+      "quote": "There’s like 10 people that have access to Return to Yoshi’s Island… nothing would be lost if I died."
     },
     {
-      "summary": "He recounts a recent near-attack by three large dogs, highlighting personal vulnerability and mild trauma.",
-      "quote": "I did almost die yesterday … their neighbors had three big dogs that all came running and barking at me."
+      "summary": "Avoids AI tools on the project to prevent backlash from fans even though he sees autocomplete utility.",
+      "quote": "People will get really mad at me if I do anything AI… definitely not enough to justify people being upset at me."
     },
     {
-      "summary": "Shows ongoing anxiety about public backlash, especially around AI usage and political discussions, leading him to avoid both topics on stream.",
-      "quote": "Maybe I just shouldn't worry about stuff like that, but it does suck … my new excuse is to say it's all culture war and I won't talk about it."
+      "summary": "He detests 2-D platformers and Mario World, saying he’d only hack it by changing the core fun completely.",
+      "quote": "I absolutely hate 2D platformers… I would have a really hard time coming up with an answer because I don’t find any joy in that game."
     },
     {
-      "summary": "Mentions the couple’s home-search outing with Zeina, indicating shared life outside development.",
-      "quote": "Zayna is sending me pictures. Yes. Look what a nice region we were in. This is like the perfect place to live."
+      "summary": "Expresses nihilistic philosophy (life has no inherent value) and recounts near-dog attack incident.",
+      "quote": "I don’t think there’s an inherent value in life, but that’s just me."
+    },
+    {
+      "summary": "Would go full-time on the hack if patron support covered living costs; current finances complicated by tax laws.",
+      "quote": "If you have enough patrons around us, would you do this full time? – Yes, actually, yes, for sure, yes."
+    },
+    {
+      "summary": "Attempts to dodge political discourse by labeling it ‘culture-war distraction’, preferring to focus on game development.",
+      "quote": "My new excuse… I will say it’s all culture war and I will not be discussing any culture-war issues."
     }
   ],
   "contributor_findings": {
     "biobak": [
       {
-        "summary": "Provides art direction on water; specifically asked for large offshore waves tapered to flat water near shore and eventual foam overlay.",
-        "quote": "I'm assuming I did it wrong. Too bad, that's salt water … This is exactly what Biobak wanted. We got big waves over there and then small waves here."
+        "summary": "Sets visual targets for the new shoreline; expects to redo placeholder textures and UV maps once Kaze’s technical base is ready.",
+        "quote": "Well, Biobak is probably going to change it anyway, so don’t worry if you don’t like it right now."
       },
       {
-        "summary": "Will ultimately replace Kaze’s placeholder textures, so Kaze keeps interim work \"semi-decent looking\" to avoid making him \"puke.\"",
-        "quote": "I'm not trying to put too much work into this, just get this semi-decent looking, so Biobak doesn't puke when he sees this."
+        "summary": "Requested large waves far from shore and flat water near land; Kaze implemented height scaling accordingly.",
+        "quote": "I think this is exactly what Biobak wanted. We got big waves over there and then small waves here."
       }
     ],
     "badub": [],
     "zeina": [
       {
-        "summary": "Zeina participated indirectly by sending Kaze photos from their outing, but no production tasks were discussed.",
+        "summary": "Appears only briefly, sending Kaze photos of a region they visited; no direct project work discussed.",
         "quote": null
       }
     ]
   },
   "key_stories": [
     {
-      "title": "Solving the Booloth Mystery",
-      "summary": "A decades-old oddity—Big Boo's Hand emitting a low-pitched laugh—was traced live.  Kaze inspected the original sound banks and discovered the boo sample appended to the wind track, only audible when the loop reset is interrupted.",
-      "challenge": "Community confusion over unexplained low-pitch boo noise in Big Boo’s Haunt.",
-      "process": "Opened clean SM64 repo, inspected sample bank 6 instrument 9, identified 299-frame delayed boo segment and explained timing.",
-      "outcome": "Provided definitive technical explanation, closing a long-standing fan debate.",
-      "key_quote": "The Booloth is just a part of the wind sound effect … when you cancel the sound effect, you do hear it.",
+      "title": "Cracking the Booloth Sound Glitch",
+      "summary": "An infamous low-pitch boo heard in Big Boo’s Haunt puzzled players for years. On stream, Kaze disassembled the original sample bank and proved the boo laugh is embedded at the tail of the wind sample with huge delays, only audible when playback is interrupted.",
+      "challenge": "Determine why a ‘boo’ plays when Mario exits the merry-go-round room.",
+      "process": "Examined sample list, located wind instrument bank 6, instrument 9; showed frame delays and door-triggered cancellation.",
+      "outcome": "Definitive technical explanation; no code change yet but myth debunked.",
+      "key_quote": "The boolaugh is just part of the wind sound effect… usually you never hear it, but when you cancel the sound effect you do.",
       "related_to": [
         "kaze"
       ]
     },
     {
-      "title": "Shoreline Water Overhaul",
-      "summary": "Kaze’s current milestone is realistic beach water: vertex-scaled waves that flatten near land and a foam layer that scrolls and fades.  Storage limits forced creative use of vertex color bits.",
-      "challenge": "Make N64-era hardware draw believable, dynamic shoreline water without exceeding memory or combiner limits.",
-      "process": "Zeroed wave height via vertex scalars near shore, devised foam texture strategy, reused red-channel bits for wave data, tested live until visual targets met.",
-      "outcome": "Prototype meets Biobak’s art direction; optimisation deferred for later.",
-      "key_quote": "We could use the lower bits of the red channel for the wave height. That might genuinely be our best option.",
+      "title": "Parallel Emulator Memory Bug",
+      "summary": "A demo crash in the Parallel-N64 emulator forced Kaze to collaborate with developer Falco. They traced it to an off-by-one error that prevented use of the last RAM byte, but many players never got the patched build.",
+      "challenge": "RTYI demo crashed for users on Parallel-N64.",
+      "process": "Kaze and Falco debugged, found emulator couldn’t address final byte; Kaze adjusted decompression heap but fix relied on emulator update.",
+      "outcome": "Bug fixed upstream yet players still affected; Kaze remains frustrated and avoids Parallel.",
+      "key_quote": "This wouldn’t have been a problem if they didn’t test in production.",
+      "related_to": [
+        "kaze"
+      ]
+    },
+    {
+      "title": "Engineering Realistic Shore Foam",
+      "summary": "To make coastlines believable, Kaze built a new shader system: wave heights stored in vertex color bits, amplitude reduced near shore, and a clamped scrolling foam texture fades based on wave height.",
+      "challenge": "Previous water lacked convincing interaction with land.",
+      "process": "Mapped wave height to vertex scalars; repurposed red-channel bits; designed sine-wave scroll and two-cycle combiner; iterated live with Biobak and chat.",
+      "outcome": "Prototype working in-engine; Biobak will refine art.",
+      "key_quote": "We could use the lower bits of the red channel for the wave height — that might genuinely be our best option.",
       "related_to": [
         "kaze",
         "biobak"
-      ]
-    },
-    {
-      "title": "Parallel Emulator Regression",
-      "summary": "After painstakingly coordinating with Parallel’s maintainer to fix an off-by-one memory bug, the fix failed to reach players and new bugs appeared right after release.",
-      "challenge": "Ensure RTYI demo runs on the popular Parallel emulator despite its instability.",
-      "process": "Collaborated with Falco to patch off-by-one error affecting last byte of memory; released demo; users still hit crashes because update didn’t propagate and new issues surfaced.",
-      "outcome": "Kaze resolved to avoid Parallel during development, using PJ64 despite known flaws.",
-      "key_quote": "This wouldn't have been a problem if they didn't test in production.",
-      "related_to": [
-        "kaze"
       ]
     }
   ],
   "open_questions": [
     {
       "topic": "Dual-sound-effect system",
-      "context": "Kaze paused live work on allowing two SFX per bank due to complexity.",
+      "context": "Kaze introduced idea but postponed implementation.",
       "questions": [
-        "What specific technical hurdles remain before this feature is production-ready?",
-        "Will doubling simultaneous SFX raise CPU or memory costs on real hardware?",
-        "Is the goal to retrofit existing levels or only future content?"
+        "How will two-per-bank playback be scheduled without exhausting channels?",
+        "Which gameplay scenarios currently suffer most from the limitation?",
+        "What milestones remain before this feature ships?"
       ],
       "related_to": [
         "kaze"
-      ],
-      "priority": "high"
+      ]
     },
     {
-      "topic": "Material label export",
-      "context": "Lack of material labels from Lilaa’s Blender plug-in forces Kaze into hacky display-list scanning.",
+      "topic": "Material label support in exporter",
+      "context": "Current lack forces Kaze to write a startup hack to find tile-size commands.",
       "questions": [
-        "Can Lilaa commit to exporting material labels, and on what timeline?",
-        "If not, what long-term maintenance risks does Kaze’s planned workaround pose?"
+        "Is Lilaa planning to expose material tags?",
+        "How would proper labels change artist workflow for Biobak?",
+        "What technical debt accrues if workaround stays?"
       ],
       "related_to": [
         "kaze",
         "biobak"
-      ],
-      "priority": "medium"
+      ]
     },
     {
-      "topic": "Remaining content scope",
-      "context": "Final Bowser fight and about five side levels are still missing; no release window was given.",
+      "topic": "Remaining content (final Bowser + side levels)",
+      "context": "Kaze stated these areas are still missing.",
       "questions": [
-        "What design concepts exist for the missing Bowser encounter?",
-        "How many levels/acts remain overall, and who owns them?",
-        "Is there an internal milestone schedule or is progress purely organic?"
+        "What design ideas exist for the final Bowser battle?",
+        "How many side levels and what themes are planned?",
+        "What’s the projected content-complete date?"
       ],
       "related_to": [
         "kaze",
         "biobak",
         "badub",
         "zeina"
-      ],
-      "priority": "high"
+      ]
     },
     {
-      "topic": "Engine upgrades",
-      "context": "Kaze says engine work has progressed while content stalled.",
+      "topic": "Gameplay statistics display",
+      "context": "Engine captures jumps, stamps, playtime, etc.",
       "questions": [
-        "What major engine features have been added since the last public demo?",
-        "How do these upgrades enable new gameplay or performance targets?"
+        "How will these stats be surfaced to players?",
+        "Do they influence unlockables or purely informational?",
+        "Will they feed into speedrun leaderboards?"
       ],
       "related_to": [
         "kaze"
-      ],
-      "priority": "medium"
+      ]
     },
     {
-      "topic": "Analytics usage",
-      "context": "The hack logs extensive player stats.",
+      "topic": "AI tool policy",
+      "context": "Kaze avoids AI to prevent backlash.",
       "questions": [
-        "How will these statistics influence post-launch patches or design balance?",
-        "Will aggregated stats be shared publicly?"
+        "Would limited AI (e.g., code autocomplete) ever be acceptable?",
+        "How does the team balance efficiency with community perception?",
+        "Has the stance affected recruiting contributors?"
       ],
       "related_to": [
-        "kaze"
+        "kaze",
+        "biobak"
+      ]
+    },
+    {
+      "topic": "Financial sustainability & full-time work",
+      "context": "Kaze would go full-time if patronage allowed; tax laws complicate income.",
+      "questions": [
+        "What patronage level enables full-time focus?",
+        "How much time does Kaze currently allocate weekly?",
+        "What legal/tax hurdles exist for making the project a primary job?"
       ],
-      "priority": "low"
+      "related_to": [
+        "kaze",
+        "zeina"
+      ]
     }
   ]
 }

@@ -1,211 +1,218 @@
 {
   "stream_context": {
-    "summary": "Kaze spends most of the session prototyping the beach section of the overworld—tweaking sand and grass blends, experimenting with animated shoreline foam, placing rocks, paths and bunny-footprint decals, and hunting a code bug that stops the foam routine. The stream also features a prolonged digression on whether the C keyword \"const\" produces faster MIPS code.",
+    "summary": "Kaze models and scripts the overworld island: experimenting with sand-to-grass textures, shoreline foam animation, interactive coconuts, and bunny-print path to a cave while debugging Fast64 export issues, audio glitches, and optimization questions raised by chat.",
     "level": [
       "Overworld"
     ]
   },
   "development_findings": [
     {
-      "summary": "Incrementing the routine-flags inside the shoreline-foam function caused the draw routine to stop after one call; leaving the flags unchanged fixed the animation.",
-      "quote": "Is the problem that I'm incrementing the flags? ... You're not allowed to increase the flags."
-    },
-    {
-      "summary": "Fast64 exporter currently introduces vertex-colour and random-mode bugs; Kaze is forced to tolerate visual glitches until the tool is patched.",
-      "quote": "It's a Fast64 bug. Nothing I can do about that."
-    },
-    {
-      "summary": "Kaze replaced the old audio plugin because it distorted music; the new plugin restores proper OST quality.",
-      "quote": "Fun fact, I had to change the audio plugin, because there was a bug in the old audio plugin that made the music sound terrible."
-    },
-    {
-      "summary": "Sauraen is writing a version of the legacy vertex pipeline that can toggle a Fresnel-style effect; Kaze is waiting for that before testing certain water features.",
-      "quote": "Sauraen is working on a version of the legacy vertex pipeline that enables Fresnel like a flag."
-    },
-    {
-      "summary": "Overworld will evolve during the game: obstacles, characters and scenery (e.g., treasure chests on the beach, flower groves) appear as the story advances.",
-      "quote": "The overworld changes throughout the game. It's supposed to feel alive."
-    },
-    {
-      "summary": "Interactive coconuts are planned: kicking palm trees will drop 0-5 coin coconuts and may wake a sleeping NPC.",
-      "quote": "All the coconut trees have coconuts. You can kick them to make them drop the coconuts that may have 0 to 5 coins in them."
-    },
-    {
-      "summary": "Kaze demonstrated that marking tables \"const\" lets GCC omit two memory loads and four MIPS instructions, arguing for selective use of const for speed.",
-      "quote": "Remove the const ... compile again … four instructions less. It optimized out the memory read because it's const."
-    },
-    {
-      "summary": "Light-mapping is impractical on N64 because only one UV set is available; any light map would have to share identical UVs with geometry.",
-      "quote": "You can only have one UV mapper ... in practice you can say it can't do it."
-    },
-    {
-      "summary": "Planned footprint decal system: Zeina is supplying a strip of rotated bunny-paw images (128×32 IA-8) that repeat into a trail towards the cave entrance.",
+      "summary": "Overworld modelling pass: new sand/grass palettes, rock props, raised dunes, and a foot-print path leading to the Bunny Brushwoods cave; current target is 20-30 stars in the hub.",
       "quote": null
     },
     {
-      "summary": "Sand/grass colour balance remains unsolved; darker shoreline sand, raised dunes and later Biobak polish are expected.",
-      "quote": null
+      "summary": "Planned interactive coconuts on palm trees that fall, break, and release 0–5 coins; may also be used to wake a sleeping NPC.",
+      "quote": "All the coconut trees have coconuts… you can kick them to make them drop the coconuts that may have 0 to 5 coins in them."
+    },
+    {
+      "summary": "Attempted shoreline foam uses a transparent decal layer that scrolls up/down with the water. Issues: Fast64 export resets random flags and decals mis-align; looking into multi-texture or abandoning foam if performance/visuals stay poor.",
+      "quote": "Seeing this, I don't believe in it anymore… we might have to just say no sand foam."
+    },
+    {
+      "summary": "Custom linked-list render graph now stores back-links in a hash map so links don’t sit in data cache except on level load, improving performance.",
+      "quote": "The links do not set up data cache unless you're specifically looking for them… see me smart."
+    },
+    {
+      "summary": "Waiting on Sauraen’s legacy-vertex-pipeline patch to enable Fresnel shading and packed geometry normals; current build can’t test those features.",
+      "quote": "Sauraen is working on a version of the legacy vertex pipeline that enables Fresnel like a flag is set."
+    },
+    {
+      "summary": "Audio: switched to a different plugin to fix a bug that made music sound terrible; audio engine still imperfect, causing crackle during stream.",
+      "quote": "Fun fact, I had to change the audio plugin because there was a bug in the old audio plugin that made the music sound terrible."
+    },
+    {
+      "summary": "Demonstrated that marking tables 'const' removes two memory loads & four MIPS instructions, rebutting chat’s claim it never affects optimization; link-time optimization is off because Mario 64 build breaks with LTO.",
+      "quote": "Look at this… const removed two memory reads and four instructions. Point proven."
+    },
+    {
+      "summary": "Fast64 exporter currently corrupts random mode and vertex colors, producing bugs Kaze can only work around for now.",
+      "quote": "That's a Fast64 bug. Nothing I can do about it right now."
     }
   ],
   "context_findings": [
     {
-      "summary": "Kaze prides himself on frugality (still uses a 10-year-old Galaxy S6, hates spending money) and bench-presses 315 lbs.",
-      "quote": "My phone is so old, it cannot play YouTube videos … you have no idea how much of a cheap fuck I am."
+      "summary": "Kaze prides himself on optimization debates and welcomes correction but insists on evidence; enjoys proving points live.",
+      "quote": "Not only have I said that, I specifically noticed it optimizing something… I've also proved it."
     },
     {
-      "summary": "He enjoys keeping fish (pleco, guppies, shrimp) and dreams of extravagant aquariums if he were wealthy.",
-      "quote": "You guys know what I love? I love keeping fishes … it's the coolest thing ever."
+      "summary": "Extremely frugal: still uses a 10-year-old Galaxy S6 and hates spending €100-200 on a phone.",
+      "quote": "I have no idea what phone I'm getting, but it can’t be worse than my dusty-ass Samsung Galaxy S6."
     },
     {
-      "summary": "Kaze’s philosophy: welcomes correction but dislikes uninformed certainty; uses live debugging and assembly inspection to prove points.",
-      "quote": "We have proven that I'm someone who doesn't really take any issue with being corrected. I just care about becoming as good as possible."
+      "summary": "Fitness hobby: benches 315 lbs and views 225 lbs as a ‘noble goal for every man’.",
+      "quote": "Going for 225, I think that's a noble goal that every man should do."
     },
     {
-      "summary": "Avoids viewing Nintendo Giga-Leak assets to dodge legal risk.",
-      "quote": "I did kind of want to look at it because that is, like, hella views, but because of the legal implications."
+      "summary": "Keeps aquarium fish, guppies and shrimp, dreams of elaborate indoor pools.",
+      "quote": "You guys know what I love? I love keeping fishes… it's the coolest thing ever."
     },
     {
-      "summary": "Prefers not to buy new consoles at launch; sceptical of Switch 2 pricing plus taxes.",
-      "quote": "All consoles at launch are a bad investment."
+      "summary": "Avoided looking at Nintendo’s Giga-Leak for legal reasons, reflecting caution around IP owners.",
+      "quote": "I did kind of want to look at it because that is hella views, but because of the legal implications, no."
     }
   ],
   "contributor_findings": {
     "biobak": [
       {
-        "summary": "Provides shader and texture guidance; will refine beach materials after Kaze establishes a placeholder version.",
-        "quote": "I'm just getting something like semi decent going so then when Biobak starts working on this, he has a good starting point."
-      },
-      {
-        "summary": "Suggested technical alternatives for foam rendering and offered critical feedback on sand colours.",
-        "quote": null
+        "summary": "Provided visual feedback on shoreline foam, sand color, and grass; will polish graphics once Kaze delivers a working base.",
+        "quote": "I'm just getting something semi decent going so when Biobak starts working on this, he has a good starting point."
       }
     ],
     "badub": [
       {
-        "summary": "Composed new orchestral overworld and Course 1 tracks, still using Mario 64’s original instrument set.",
-        "quote": "I think having orchestra music is cooler … I'm pretty sure the OST of this is mostly composed with the same instruments as the vanilla game."
-      },
-      {
-        "summary": "Fans already stream Badub’s unfinished tracks on SoundCloud; ranks fourth in his listener stats.",
-        "quote": "You're the fourth most—that's funny."
+        "summary": "Composed new overworld and Course 1 tracks using mostly SM64 instruments; community already streams his WIPs on SoundCloud.",
+        "quote": "A bunch of people are listening to Badub songs that are not even in a finished game yet—it's pretty cool."
       }
     ],
     "zeina": [
       {
-        "summary": "Created the bunny-footprint decal texture at Kaze’s request and iterated (adding random rotations).",
+        "summary": "Created and supplied the bunny-footprint texture sheet during the stream.",
         "quote": "Looks good, Zeina. I will try that in a bit."
       },
       {
-        "summary": "Coined the family nickname \"Debooba\" for their child and occasionally triggers household distractions during streams.",
-        "quote": "Debooba is my child … Zeina just started calling her that and now she is Debooba."
+        "summary": "Participates casually in chat, names their child ‘Debooba’, highlighting family atmosphere.",
+        "quote": null
       }
     ]
   },
   "key_stories": [
     {
-      "title": "The Const Debate",
-      "summary": "A chatter claimed that the C keyword \"const\" never affects performance. Kaze paused level work, wrote a test, and demonstrated that GCC removes two memory loads and four instructions when a table is marked const.",
-      "challenge": "Chat doubted Kaze’s statement that const can speed up code.",
-      "process": "Created a small function, compiled with and without const, disassembled both, and compared opcodes.",
-      "outcome": "Chat conceded the micro-optimization; Kaze reaffirmed his approach to provable performance tuning.",
-      "key_quote": "I remove the const, compile again—four instructions less. What more proof do you need?",
+      "title": "The ‘const’ Showdown",
+      "summary": "Chat insisted the ‘const’ keyword never speeds up code. Kaze paused level work, modified tables live, re-built, and showed the MIPS diff, eliminating loads and instructions.",
+      "challenge": "Prove that adding ‘const’ can generate faster assembly.",
+      "process": "Removed const, compiled, measured 0x32EC size; re-added const, size shrank and loads vanished; displayed assembly.",
+      "outcome": "Kaze vindicated, chat conceded; reinforced his optimization ethos.",
+      "key_quote": "I prove to you that this removes two memory reads and four instructions—point proven.",
       "related_to": [
         "kaze"
       ]
     },
     {
-      "title": "Shoreline Foam Stops Rendering",
-      "summary": "Kaze discovered that the newly written shoreline-foam routine only ran once. After debugging, he realised incrementing its internal flags prevented further calls.",
-      "challenge": "Foam animation played one frame, then froze.",
-      "process": "Inserted print statements, examined flag logic, removed the flag increment.",
-      "outcome": "Foam animates correctly, though Fast64 exporter still causes visual errors needing future fixes.",
-      "key_quote": "Is the problem that I'm incrementing the flags? … You're not allowed to increase the flags.",
+      "title": "Shoreline Foam Experiment",
+      "summary": "Kaze tries to mimic gentle surf with a scrolling decal but Fast64 resets flags and the effect misaligns.",
+      "challenge": "Create convincing foam without blowing texture or CPU budget.",
+      "process": "Tested wave_height, 60 FPS draw layer, experimented with multi-texture, considered abandoning feature.",
+      "outcome": "Unresolved; may drop foam or wait for tooling fixes.",
+      "key_quote": "Seeing this, I don't believe in it anymore—we might have to just say no sand foam.",
       "related_to": [
-        "kaze"
+        "kaze",
+        "biobak"
       ]
     },
     {
-      "title": "Audio Plugin Swap",
-      "summary": "Music quality in the current build sounded distorted. Kaze traced the issue to the emulator audio plugin and replaced it, restoring Badub’s tracks.",
-      "challenge": "Overworld music played with noticeable artifacts.",
-      "process": "Tested alternate plugins and configured the new one.",
-      "outcome": "Sound quality is acceptable again; further engine work remains.",
-      "key_quote": "I had to change the audio plugin, because there was a bug in the old audio plugin that made the music sound terrible.",
+      "title": "Music Overhaul & Audio Bugs",
+      "summary": "Badub delivers orchestral overworld theme replacing DuckTales-style temp track. Stream audio plugin ruins first impression, triggering mixed chat reaction.",
+      "challenge": "Integrate new song without audio distortion.",
+      "process": "Switched audio plugin; previewed track; discussed layering idea abandoned for scope.",
+      "outcome": "Song accepted but engine still crackles; audio polish remains open task.",
+      "key_quote": "Do not get attached to something that is unfinished.",
       "related_to": [
         "kaze",
         "badub"
+      ]
+    },
+    {
+      "title": "Fast64 Export Regression",
+      "summary": "Latest Fast64 exporter fixes one issue but breaks random mode, vertex colors, and overworld rendering.",
+      "challenge": "Continue level design despite constant exporter regressions.",
+      "process": "Identified bugs, blamed random seed handling, showcased miscolored geometry.",
+      "outcome": "Kaze logs bugs, resumes work; depends on tool maintainers for fix.",
+      "key_quote": "That's a Fast64 bug—nothing I can do about it right now.",
+      "related_to": [
+        "kaze"
       ]
     }
   ],
   "open_questions": [
     {
-      "topic": "Legacy vertex pipeline with Fresnel flag",
-      "context": "Kaze mentions Sauraen is adding this but offers no timeline or details.",
+      "topic": "Dynamic overworld evolution",
+      "context": "Kaze says the hub will ‘change throughout the game’ with objects like flowers blooming and treasure washing up.",
       "questions": [
-        "What specific visual effects will the Fresnel flag enable?",
-        "How close is the feature to completion?",
-        "Will it affect performance on real N64 hardware?"
+        "What specific states or events will alter the overworld?",
+        "How does this tie into narrative or star progression?",
+        "Which team member owns the scripting and assets for each phase?"
       ],
       "related_to": [
         "kaze",
-        "sauraen"
-      ],
-      "priority": "high"
+        "biobak",
+        "badub",
+        "zeina"
+      ]
     },
     {
-      "topic": "Dynamic overworld changes",
-      "context": "Kaze says the island evolves (e.g., washed-up chests, blooming groves) but no technical plan given.",
+      "topic": "Sauraen’s vertex-pipeline update",
+      "context": "Need Fresnel and packed normals; waiting on Sauraen’s code.",
       "questions": [
-        "Which events trigger each overworld transformation?",
-        "How are these state changes stored on N64 saves?",
-        "Any memory constraints anticipated?"
-      ],
-      "related_to": [
-        "kaze",
-        "biobak"
-      ],
-      "priority": "medium"
-    },
-    {
-      "topic": "Interactive coconuts",
-      "context": "Concept: kick palms to drop coin-filled coconuts and wake NPCs; not yet implemented.",
-      "questions": [
-        "Has collision logic or object code been started?",
-        "Will falling coconuts hurt Mario or only NPCs?",
-        "How does coin randomization work under deterministic RNG?"
+        "What is the status and timeline of Sauraen’s patch?",
+        "How will these features change the game’s visual style?",
+        "Are there fallback plans if it’s delayed?"
       ],
       "related_to": [
         "kaze"
-      ],
-      "priority": "medium"
+      ]
     },
     {
-      "topic": "Fast64 exporter bugs",
-      "context": "Exporter corrupts random-mode and vertex colours.",
+      "topic": "Toolchain limitations (LTO & Fast64)",
+      "context": "Link-time optimization disabled; exporter unstable.",
       "questions": [
-        "What is the root cause and who is fixing it?",
-        "Is there a fallback pipeline if Fast64 remains unstable?",
-        "Does this delay level-design collaboration with Biobak?"
+        "Can the build system be modernised to allow LTO?",
+        "How does the team coordinate with Fast64 maintainers?",
+        "What contingency exists if tooling remains buggy near release?"
+      ],
+      "related_to": [
+        "kaze"
+      ]
+    },
+    {
+      "topic": "Interactive coconuts design",
+      "context": "Idea drafted during stream but not specced.",
+      "questions": [
+        "Will coconuts use physics or scripted paths?",
+        "Any unique rewards beyond coins?",
+        "How will the mechanic be introduced to players?"
       ],
       "related_to": [
         "kaze",
-        "biobak"
-      ],
-      "priority": "high"
+        "biobak",
+        "zeina"
+      ]
     },
     {
-      "topic": "Final sand/grass palette",
-      "context": "Kaze is dissatisfied with current colours and defers to Biobak.",
+      "topic": "Legal risk management",
+      "context": "Kaze avoids Giga-Leak; project is an IP-heavy ROM-hack.",
       "questions": [
-        "Which references or real locations inspire the target palette?",
-        "Will custom vertex colours or texture baking achieve the blend?",
-        "How much texture memory is budgeted for the beach zone?"
+        "What legal safeguards are in place for release?",
+        "Has Nintendo contacted the team before?",
+        "Would they consider an original engine port if pressured?"
+      ],
+      "related_to": [
+        "kaze"
+      ]
+    },
+    {
+      "topic": "Team workflow & hand-offs",
+      "context": "Kaze builds ‘starting point’ before Biobak polishes.",
+      "questions": [
+        "What is the pipeline from grey-box to final art?",
+        "How do they track tasks between code and art?",
+        "How does Zeina’s animation integrate with Badub’s music timing?"
       ],
       "related_to": [
         "kaze",
-        "biobak"
-      ],
-      "priority": "low"
+        "biobak",
+        "badub",
+        "zeina"
+      ]
     }
   ]
 }

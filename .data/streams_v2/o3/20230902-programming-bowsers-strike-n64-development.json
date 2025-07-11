@@ -1,120 +1,130 @@
 {
   "stream_context": {
-    "summary": "Kaze spends the session importing and tweaking a large batch of new 3-D models supplied by Biobak, most of them for Bowser’s office and other in-progress levels. Major time goes into redesigning interactive switches, refining textures and combiners, and chasing tool-chain bugs in Fast64. Smaller but important topics include N64 performance tuning, a discovery that the NEMU emulator can reproduce hardware crashes, and status updates on remaining levels.",
+    "summary": "Nearly the entire stream is devoted to importing, testing and iterating on a large batch of new or revised 3-D models and textures supplied by Biobak.  While Bowser’s office was announced as the goal, the session turns into a ‘model-replacement day’, touching everything from switches to enemies and particle effects, and repeatedly troubleshooting Fast64 quirks, texture combiners, collision and lighting.  Kaze also discovers floating-point crashes on real N64 hardware while capturing footage, highlighting the need for last-minute stability fixes.",
     "level": [
-      "Bowser’s office",
-      "Course 1 (performance tests)",
-      "Underwater test areas",
-      "Overworld / hub placeholders"
+      "Bowser’s Office",
+      "Cap-Switch Test Level(s)",
+      "Course 1",
+      "Go-Go Galleon / water areas",
+      "Yanagi Comedy Club (hub)"
     ]
   },
   "development_findings": [
     {
-      "summary": "Steel beam texture upgraded from CI4 (1-bit alpha) to RGBA16 with a separate alpha mask, giving markedly smoother edges.",
-      "quote": "Because we now have 8-bit alpha… we have much, much smoother edges here and it looks so much better."
+      "summary": "Steel-beam textures in Bowser’s office are upgraded from CI4 (1-bit alpha) to an RGBA16 base texture plus a larger alpha mask, giving smoother edges without ‘crust’.",
+      "quote": "Because we now have 8-bit alpha the edges are much smoother and it looks so much better."
     },
     {
-      "summary": "Blue-coin switch completely redesigned: baked texture replaces vertex colors, size increased 1.5×, no ground-pound animation kept (5-frame change judged unnecessary).",
-      "quote": "A five-frame thing doesn’t need an animation… It’s so much better than the previous one."
+      "summary": "Blue-coin switch completely redesigned: star emblem on top, no ground-pound scale animation (5-frame original removed for snappier feel), stone SFX, collision resized and re-tuned.",
+      "quote": "A five-frame thing doesn’t need an animation – it would just feel slower."
     },
     {
-      "summary": "Several levels currently crash real N64 due to floating-point exceptions (e.g., Goomba scale hitting zero); Kaze flags it as tedious but fixable.",
-      "quote": "Unfortunately, I found out that a lot of the levels have floating-point exceptions when you enter them right now on N64… it’s going to be annoying as fuck."
+      "summary": "Many levels crash on real N64 due to floating-point exceptions (e.g. Goomba scale hitting zero on crush).  Kaze flags this as a looming stability task before capture/release.",
+      "quote": "Unfortunately I found out that a lot of the levels have floating-point exceptions when you enter them right now on N64."
     },
     {
-      "summary": "Render-time goal for Course 1 lowered from 26 ms to about 24.5 ms; nanosecond-level savings still pursued.",
-      "quote": "I think we can get it down to maybe 24.5."
+      "summary": "Cap switches overhauled: four new models (up, two in-between, down) with baked lighting; world-light integration achieved via vertex colours and revised combiner; vanilla scaling bone scrapped to avoid Fast64 armature bugs and speed up workflow.",
+      "quote": "That is so much faster than making the bones and avoids the jank completely."
     },
     {
-      "summary": "Manual bounding-box entry still required for Fast64 ‘render area’; Kaze again requests an automatic calculator.",
-      "quote": "I’ve asked for a feature to automatically compute it so many times now."
+      "summary": "Custom colour palette set for each cap type (red, cyan ice, cloud white, blue bomb).",
+      "quote": null
     },
     {
-      "summary": "Cap switches rebuilt: new high-res geometry, four colour variants, three in-between models replace scale-bone animation to avoid Fast64 armature bugs.",
-      "quote": "Making armatures with switch bones sucks… This is so much faster than making the bones."
+      "summary": "Fish enemy remodelled (single CI4 sheet).  Constraint: one texture only so dozens can batch-render; Fast64 GL-layout bug forces manual pivot fix for fin.",
+      "quote": "Because we have so many fish, having an extra texture to load is going to be really, really bad."
     },
     {
-      "summary": "NEMU emulator is confirmed to reproduce hardware crashes, opening a new, faster debugging workflow.",
-      "quote": "NEMU crashes here just like N64 would… Oh my god, that is going to save me so much time."
+      "summary": "New Goomba model accepted but closed-eye texture mapping breaks colour-swap logic; Kaze defers full integration and opens bug-tracker item.",
+      "quote": "We need the textures fixed – I’m not really sure what I can do here right now."
     },
     {
-      "summary": "New Goomba model imports but exposes texture-sharing and colour-swap issues; logged for later fix.",
-      "quote": "The closed-eyes texture needs to change… I don’t think I can do this right now."
+      "summary": "Ground-pound star sparkles redrawn to be rounder and less grainy; combiner glitch in plugin exposed and fixed after testing on NEMU and re-authoring combiner.",
+      "quote": "There must be a combiner setting somewhere that fucked it up – and I found it."
     },
     {
-      "summary": "Decision to hard-code normal pipes into level geometry for ‘tiny’ but free performance gain.",
-      "quote": "I also think we’re gonna put all the normal pipes hard-coded into the level in the end… just for a tiny bit of performance."
+      "summary": "‘Sludge Blarg’ boss block concept approved; uses metal beams for teeth and dual scrolling alpha textures; Kaze will code technical animation (damage colour shift etc.).",
+      "quote": "The beams and teeth is genius – Biobak deserves a medal for that."
     },
     {
-      "summary": "Overall progress: about 4.5 regular levels, Bowser level, two extras, and three overworlds remain to be built.",
-      "quote": "There’s like four and a half levels left… and then the three overworlds."
+      "summary": "Performance mindset: entire Course 1 now renders in ~26 ms; Kaze targets ~24.5 ms via micro-optimisations (texture batching, embedding pipes, etc.).",
+      "quote": "I think we can get it down to maybe 24.5 [ms]."
     }
   ],
   "context_findings": [
     {
-      "summary": "Kaze studies MrBeast videos for marketing inspiration.",
-      "quote": "I actually study MrBeast’s videos like a fucking nerd… How can I implement this?"
+      "summary": "Kaze actively studies MrBeast videos for audience engagement techniques.",
+      "quote": "I actually study MrBeast’s videos like a fucking nerd – how can I implement this?"
     },
     {
-      "summary": "Personal scheduling tweak (new workout routine) almost let chat gaslight him about the day.",
-      "quote": "The gaslight almost worked because I usually bench on Fridays."
+      "summary": "Rant against C++ ‘private’ variables illustrates preference for low-level transparency and disdain for unnecessary abstractions.",
+      "quote": "Private variables don’t exist on the processor – why is it a thing in your code?"
     },
     {
-      "summary": "Philosophical stance on programming encapsulation: hates private variables, sees them as meaningless overhead.",
-      "quote": "Private variables are completely useless and should never exist. They mean nothing to the processor."
+      "summary": "Expresses pride in shaving nanoseconds for the meme, reflecting obsession with technical optimisation.",
+      "quote": "At this point I’m just doing it for the meme – saving 50 nanoseconds."
+    },
+    {
+      "summary": "Mentions changed workout routine (bench day shifted), revealing attempt at work-life balance amid streaming schedule.",
+      "quote": null
+    },
+    {
+      "summary": "Shows frustration but also humour toward Fast64 bugs, emulator quirks and chat ‘gaslighting’ about the day of the week.",
+      "quote": null
     }
   ],
   "contributor_findings": {
     "biobak": [
       {
-        "summary": "Provided extensive new assets this stream: blue-coin switch, cap switches, fish, Goomba overhaul, coin texture, fire animation colours, 8-bit warp pipe, sludge ‘net peanut’ block.",
+        "summary": "Supplied large batch of new models/textures (blue-coin switch, cap switches, fish, Goomba, coin texture, fire, 8-bit pipe, ‘sludge blarg’).",
         "quote": null
       },
       {
-        "summary": "Participates live, quickly iterates on feedback (contrast tweaks, model scale, animation ideas).",
-        "quote": "Let me just do that real quick… Yeah, I think so too, Biobak."
+        "summary": "Actively collaborates in chat, accepts iterative tweaks (contrast, brightness, vertex colours) and quickly delivers requested adjustments.",
+        "quote": "Okay, let me just do that real quick."
       }
     ],
     "badub": [],
     "zeina": [
       {
-        "summary": "Zeina is working on Wiggler run/walk animations in parallel; her forthcoming ‘Quatrainian’ door animations will require level logic updates.",
-        "quote": "I think I finally got Wiggler’s walk or run looking right… I wasn’t gonna bother with doors after Quatrainian animations are in because I have to change them then again anyway."
+        "summary": "Thwomp animation variations finished; Kaze plans to import after model pass.",
+        "quote": "Did I send you the Thwomp animations? I am not sure."
       }
     ]
   },
   "key_stories": [
     {
-      "title": "Reinventing the Cap Switch",
-      "summary": "Kaze and Biobak scrap the vanilla cap switch, building a high-fidelity replacement with proper world lighting and colour variants. After struggling with Fast64’s bone system, they pivot to swapping whole models for each state, gaining reliability and speed.",
-      "challenge": "Original animation relied on buggy armature scale bones and looked dated.",
-      "process": "Tested bone scaling, argued pros/cons, then created three static intermediate models and colour-baked textures, manually set render bounds.",
-      "outcome": "A stable, visually superior switch that integrates with lighting and costs negligible performance.",
-      "key_quote": "Making armatures with switch bones sucks… This is so much faster than making the bones.",
+      "title": "Reinventing the Blue-Coin Switch",
+      "summary": "Kaze and Biobak replace the notoriously ugly vanilla blue-coin switch.  Early concepts combine multiple designs, then Kaze prototypes real-time in Blender, debates animation vs. instant feedback, and finalises collision and sound.",
+      "challenge": "Vanilla model looked ‘dog shit’ and felt sluggish.",
+      "process": "Brainstorm in chat, combine star emblem idea, test scaling/removal, tweak vertex colours and collision.",
+      "outcome": "Crisp, modern blue-coin switch with no delay and proper stone SFX now in game.",
+      "key_quote": "Give me one vanilla Mario 64 model that is not awful.",
+      "related_to": [
+        "kaze",
+        "biobak",
+        "zeina"
+      ]
+    },
+    {
+      "title": "Cap-Switch Overhaul & Combiner Mystery",
+      "summary": "New cap-switch models needed to respect world lighting, but Fast64 and plugin bugs broke the combiner.  Kaze reverse-engineers the material pipeline, rebuilds the combiner from scratch, tests on NEMU and discovers a single wrong setting.",
+      "challenge": "Lighting and colour looked wrong and emulator crashed.",
+      "process": "Rip out bone animation, add intermediate models, experiment with vertex colours and primitive colour, debug on hardware and emulator, rebuild combiner.",
+      "outcome": "Fully lit, colour-correct cap switches with stable performance.",
+      "key_quote": "We can have our cake and eat it too – I know exactly what I’m doing here.",
       "related_to": [
         "kaze",
         "biobak"
       ]
     },
     {
-      "title": "Chasing the Combiner Bug",
-      "summary": "A new fire texture appeared as blank white in-game. Kaze suspected tool errors, rebuilt the combiner from scratch, and eventually found a single incorrect setting, restoring the intended look.",
-      "challenge": "Fire model rendered incorrectly despite appearing fine in Blender.",
-      "process": "Tested on two emulators, tweaked clamp/mirror settings, rewrote combiner line-by-line.",
-      "outcome": "Correct, vivid flame effect and a better understanding of Fast64 quirks.",
-      "key_quote": "There must be a combiner setting somewhere that fucked it up and I don’t know what the setting was.",
-      "related_to": [
-        "kaze",
-        "biobak"
-      ]
-    },
-    {
-      "title": "Discovering NEMU as a Crash Oracle",
-      "summary": "While testing the faulty flame, Kaze noticed NEMU crashing exactly like real hardware. This revelation means future low-level bug hunts can be done without constant EverDrive flashes.",
-      "challenge": "Hardware-only crashes were slow to reproduce and diagnose.",
-      "process": "Ran the ROM in NEMU, observed identical crash, realised the emulator mirrored hardware behaviour.",
-      "outcome": "Adopts NEMU for faster debugging pipeline.",
-      "key_quote": "NEMU crashes here just like N64 would… that is going to save me so much time.",
+      "title": "Hardware Crashes Uncovered During Footage Capture",
+      "summary": "While recording N64 footage for a sign-tutorial video, Kaze discovers that some levels now crash due to floating-point errors (e.g., Goomba scaling).",
+      "challenge": "Unexpected N64 hard crashes jeopardise marketing video and final release.",
+      "process": "Reproduce on emulator, identify FPEs, note need to audit physics/math before shipping.",
+      "outcome": "Issue logged for upcoming bug-fix phase; NEMU debugger will be leveraged to speed up fixes.",
+      "key_quote": "A lot of the levels have floating-point exceptions – it’s going to be annoying as fuck.",
       "related_to": [
         "kaze"
       ]
@@ -122,70 +132,73 @@
   ],
   "open_questions": [
     {
-      "topic": "Water-collision/raycast bug",
-      "context": "Swimming physics felt ‘really weird’; Kaze suspects a raycasting error underwater but didn’t investigate further.",
+      "topic": "Bowser’s Office (level design & narrative role)",
+      "context": "Stream started intending to work on Bowser’s office but never got beyond setting room size.",
       "questions": [
-        "What specifically causes the underwater raycast malfunction?",
-        "How widespread is the issue across levels?",
-        "What is the planned fix and timeline?"
+        "What is the thematic concept for Bowser’s office?",
+        "How will the ‘guy in the wall’ mechanic work?",
+        "Does this area advance the story or tutorial in a unique way?"
+      ],
+      "related_to": [
+        "kaze",
+        "biobak",
+        "badub",
+        "zeina"
+      ]
+    },
+    {
+      "topic": "Floating-Point Exception Audit",
+      "context": "Multiple crashes on N64 detected (e.g., Goomba crush).",
+      "questions": [
+        "How widespread are FPE issues across the remaining levels?",
+        "What tools/processes will the team use to systematically find and fix them?",
+        "Will this delay the planned release timeline?"
       ],
       "related_to": [
         "kaze"
-      ],
-      "priority": "high"
+      ]
     },
     {
-      "topic": "Floating-point exceptions on real N64",
-      "context": "Several levels crash due to objects scaling to zero (e.g., Goomba).",
+      "topic": "Fast64 Limitations & Workarounds",
+      "context": "Kaze repeatedly fights Fast64 bone and GL-layout bugs.",
       "questions": [
-        "Which objects besides Goomba trigger FPEs?",
-        "Is a systemic safeguard being added?",
-        "Who is responsible for auditing all levels?"
-      ],
-      "related_to": [
-        "kaze"
-      ],
-      "priority": "high"
-    },
-    {
-      "topic": "Goomba texture/colour swap bug",
-      "context": "New Goomba model broke closed-eye textures and colour swaps, placed on ‘later’ list.",
-      "questions": [
-        "What is the concrete fix plan for shared textures?",
-        "Will texture packing changes affect memory budget?"
+        "Have you considered contributing fixes upstream or building custom tooling?",
+        "How do these limitations shape design decisions (e.g., avoiding armatures)?",
+        "Could switching editors speed development or is Fast64 indispensable?"
       ],
       "related_to": [
         "kaze",
         "biobak"
-      ],
-      "priority": "medium"
+      ]
     },
     {
-      "topic": "Performance goal & measurement",
-      "context": "Aim to shave ~1.5 ms from Course 1 render time.",
+      "topic": "Sludge Blarg Boss",
+      "context": "New model approved with scrolling textures and damage colour shift.",
       "questions": [
-        "What optimisations remain on the roadmap?",
-        "How will success be measured on hardware vs emulator?",
-        "Are there non-render bottlenecks still unprofiled?"
-      ],
-      "related_to": [
-        "kaze"
-      ],
-      "priority": "medium"
-    },
-    {
-      "topic": "Hard-coding pipes into level geometry",
-      "context": "Kaze proposes embedding pipes directly for micro-optimisations.",
-      "questions": [
-        "How much time does this realistically save?",
-        "Will it complicate future level edits or modding tools?",
-        "Who will own the conversion?"
+        "What is the intended gameplay mechanic for this boss?",
+        "How will technical animation be implemented on N64 hardware?",
+        "What inspired the beam-tooth aesthetic and oil theme?"
       ],
       "related_to": [
         "kaze",
-        "biobak"
+        "biobak",
+        "zeina"
+      ]
+    },
+    {
+      "topic": "Team Workflow & Source Control",
+      "context": "Kaze uses GitHub Desktop offline and manual backups.",
+      "questions": [
+        "What version-control practices does the team follow for art, code and levels?",
+        "How are tasks assigned and tracked (e.g., bug list mentioned)?",
+        "Any lessons learned from previous merge or data-loss incidents?"
       ],
-      "priority": "low"
+      "related_to": [
+        "kaze",
+        "biobak",
+        "zeina",
+        "badub"
+      ]
     }
   ]
 }
