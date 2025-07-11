@@ -1,5 +1,8 @@
+import type { DefaultTheme } from "vitepress";
 import { defineConfig } from "vitepress";
 import { description, name, ogImage, ogUrl, twitterImage } from "./meta";
+
+const RTYI_TEAM_MEMBERS = ["kaze", "biobak", "badub", "zeina"];
 
 export default defineConfig({
   title: name,
@@ -48,7 +51,10 @@ export default defineConfig({
     nav: [
       { text: "Home", link: "/" },
       { text: "Narrative Arcs", link: "/drafts/narrative-arcs" },
-      { text: "Interview Questions", link: "/drafts/interview-questions" },
+      {
+        text: "Interview Questions",
+        items: teamMemberNavigationItems(),
+      },
     ],
 
     sidebar: [
@@ -59,11 +65,11 @@ export default defineConfig({
             text: "Narrative Arcs",
             link: "/drafts/narrative-arcs",
           },
-          {
-            text: "Interview Questions",
-            link: "/drafts/interview-questions",
-          },
         ],
+      },
+      {
+        text: "Interview Questions",
+        items: teamMemberNavigationItems(),
       },
       {
         text: "Research",
@@ -94,3 +100,20 @@ export default defineConfig({
     },
   },
 });
+
+function teamMemberNavigationItems(): DefaultTheme.NavItemWithLink[] {
+  return [
+    {
+      text: "Overview & Team",
+      link: "/interviews",
+    },
+    ...RTYI_TEAM_MEMBERS.map((member) => ({
+      text: member.charAt(0).toUpperCase() + member.slice(1),
+      link: `/interviews/${member}`,
+    })),
+    {
+      text: "Kaze & Zeina",
+      link: "/interviews/kaze-zeina",
+    },
+  ];
+}

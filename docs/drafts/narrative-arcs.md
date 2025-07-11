@@ -28,9 +28,9 @@ This outline serves only as a roadmap for filming, while allowing the actual sto
   - RTYI gameplay juxtaposed with classic SM64 and SNES Yoshi's Island footage.
   - Archival footage of the N64 console and era.
 
-### The Zoo Catalyst: The Real Origin Story
+### The Zoo Catalyst: The Real Origin Story?
 
-- **Narrative Goal:** The actual inciting incident that transformed a simple ROM hack into an engine rewrite project. This is THE missing origin story.
+- **Narrative Goal:** The actual inciting incident that transformed a simple ROM hack into an engine rewrite project.
 - **Topics to Cover:**
   - **The Breaking Point:** "The zoo is actually the reason I even started optimizing Mario 64. The zoo ran so poorly that I just could not take that." The specific moment when acceptable became unacceptable.
   - **Technical Awakening:** How this single level's poor performance opened Kaze's eyes to fundamental problems with the SM64 engine – the "fucked" sound system, "unusable" collision detection, and optimization issues.

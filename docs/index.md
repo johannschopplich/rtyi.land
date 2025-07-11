@@ -10,11 +10,11 @@ hero:
     alt: Return to Yoshi's Island Documentary Logo
   actions:
     - theme: brand
+      text: Interview Questions
+      link: /interviews
+    - theme: brand
       text: Narrative Arcs
       link: /drafts/narrative-arcs
-    - theme: brand
-      text: Interview Questions
-      link: /drafts/interview-questions
     - theme: alt
       text: Stream Analysis
       link: /streams
