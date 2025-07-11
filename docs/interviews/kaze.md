@@ -12,6 +12,9 @@ Tell me about your role in creating RTYI – you're not just modding Mario 64, y
 
     ::: info Follow-ups
 
+    - **The Zoo Catalyst**: "The zoo is actually the reason I even started optimizing Mario 64. The zoo ran so poorly that I just could not take that." Can you take me back to that specific moment when you decided enough was enough? For people unfamiliar with game development, help us understand what "lag" means and why fixing it required such extreme measures.
+    - **The Yoshi Connection**: "I like Yoshi. That's kind of where the thought process ended." What does that mean to you on a deeper level? What is it about Yoshi specifically that made this project worth years of your life?
+    - **Scope Realization**: Did you understand from the start that fixing one laggy level would lead to rewriting collision systems, sound engines, and graphics pipelines? How did fixing one problem reveal that the entire engine needed rebuilding?
     - **Show Don't Tell Philosophy**: "Exclamation mark is basically telling... It's like admitting oh, I can't make a good game." Your deep philosophy against hand-holding and explicit instruction
     - **Quality Over Familiarity**: "If they weren't even good enough for Mario 64, why would they be good enough for my game?" Using Nintendo's classic as your benchmark
     - **The Space Arcade Pivot**: "The idea we had for this level is terrible." Completely reimagining it as the Shy Guy Space Station when the original concept failed
@@ -50,6 +53,8 @@ Tell me about your role in creating RTYI – you're not just modding Mario 64, y
     - **Performance Pride**: "This is an N64 game. How crazy is that?" – the satisfaction of pushing 30-year-old hardware to modern standards
     - **Cache Optimization**: "Mario's behavior loop never gets thrown out of cache which is fucking crazy" – your optimization achievements
     - **Mathematical Modeling**: The paper airplane physics where you folded a real paper airplane to understand the mathematics, then applied trigonometry and physics equations to create realistic flight mechanics. How do you approach translating real-world physics into N64-compatible game mechanics?
+    - **The Sound Engine Revolution**: "The sound engine is now around 80% faster than vanilla sound engine... We need much less memory." What drove you to completely rewrite one of the most complex systems in the game?
+    - **Custom Shader Innovation**: Creating solutions like the "rescale combiner" on the fly – how do you invent new technical solutions under pressure?
 
     :::
 

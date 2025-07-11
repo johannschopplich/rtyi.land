@@ -29,14 +29,14 @@ You bring RTYI's characters to life through animation and art, but you're also K
 
     ::: info Follow-ups
 
-    - **Concept to Reality**: The "mutant Yoshi" boss concept and zoo entrance drawings becoming key game elements
-    - **Model Creation**: Working on characters like Peach and Toad within N64 constraints
-    - **Texture Contributions**: Bunny footprints, signs, and other environmental details that add charm
-    - **Style Collaboration**: How you coordinate with Biobak to maintain visual consistency
-    - **Sketching Process**: "Zeina already has a lot of sketches about how Mario goes through the levels" – your planning role
-    - **Level Entrance Concepts**: Your beautiful concept art for Bunny Brushwoods, Koopa Wave Cove, and other areas
-    - **Artistic Direction**: How your ideas influence the project's overall visual identity
-    - **Multi-Role Versatility**: "Helping out with anything else that he needs" – the scope of your contributions
+    - **Concept to Reality**: How did your "mutant Yoshi" boss concept and zoo entrance drawings become key game elements?
+    - **Character Modeling**: What's the challenge of creating characters like Peach and Toad within N64 constraints?
+    - **Environmental Charm**: How do your texture contributions (bunny footprints, signs) add personality to the world?
+    - **Style Coordination**: How do you coordinate with Biobak to maintain visual consistency?
+    - **Planning Through Art**: "Zeina already has a lot of sketches about how Mario goes through the levels" – how does your art inform level design?
+    - **Entrance Concepts**: Tell me about your concept art for Bunny Brushwoods, Koopa Wave Cove, and other areas
+    - **Visual Influence**: How do your ideas shape the project's overall visual identity?
+    - **Multi-Role Mastery**: "Helping out with anything else that he needs" – what's the scope of your contributions?
 
     :::
 
@@ -44,14 +44,14 @@ You bring RTYI's characters to life through animation and art, but you're also K
 
     ::: info Follow-ups
 
-    - **The "Painful to Watch" Moment**: Your perspective on struggling with a difficult section and seeing Kaze's immediate response
+    - **The "Painful to Watch" Moment**: Tell me about your perspective on struggling with a difficult section and seeing Kaze's immediate response
     - **Fresh Eyes Advantage**: What issues do you catch that someone who programmed the level might miss?
-    - **Animation-Gameplay Connection**: How does experiencing the gameplay feel influence your animation decisions?
-    - **Artist-Player Perspective**: The unique viewpoint of both creating art for the game and being its first audience
-    - **Flow and Polish**: Catching visual inconsistencies, pacing issues, or unclear player guidance
-    - **Real Player Reactions**: How your genuine first-time responses help refine the game
-    - **Other Design Changes**: Specific examples of levels or mechanics adjusted based on your playtesting
-    - **Quality Assurance Role**: Being the filter between developer vision and player experience
+    - **Animation-Gameplay Connection**: How does experiencing the gameplay influence your animation decisions?
+    - **Dual Perspective**: What's it like being both the artist creating content and the first person playing it?
+    - **Polish Detection**: How do you spot visual inconsistencies, pacing issues, or unclear player guidance?
+    - **Authentic Reactions**: How do your genuine first-time responses help refine the game?
+    - **Design Influence**: What are specific examples of levels or mechanics adjusted based on your playtesting?
+    - **Quality Filter**: How do you serve as the bridge between developer vision and player experience?
 
     :::
 

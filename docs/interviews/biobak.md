@@ -2,7 +2,7 @@
 
 ::: tip Introduction
 
-You're the visual wizard behind RTYI – when people see those stunning, modern-looking environments running on N64 hardware, that's your work. Tell me about your role and what drives you to create such detailed worlds for 30-year-old hardware.
+You're the visual artist behind many RTYI levels – when people see those modern-looking environments running on N64 hardware, that's your work. Tell me about your role and what drives you to create such detailed worlds for 30-year-old hardware.
 
 :::
 
@@ -27,12 +27,12 @@ You're the visual wizard behind RTYI – when people see those stunning, modern-
 
     ::: info Follow-ups
 
-    - The process of sending high-poly models to Kaze for optimization
-    - Creative solutions for N64's limited color palette
-    - Optimizing geometry and textures without losing the artistic vision
-    - The story of the "Cursed Texture" and the 96x42 resolution workaround
-    - An example of an idea that was just too ambitious for the hardware
-    - An example of an idea that surprisingly _did_ work after some optimization
+    - **High-Poly to N64**: What's your process for creating detailed models knowing they'll be optimized for N64 hardware?
+    - **Color Palette**: How do you create visual richness within N64's limited color palette?
+    - **Optimization**: How do you optimize geometry and textures without losing your artistic vision?
+    - **The Cursed Texture**: Tell me about the "Cursed Texture" and the 96x42 resolution workaround
+    - **Hardware Defeat**: What's an example of an idea that was just too ambitious for the hardware?
+    - **Surprising Success**: What's an idea that surprisingly _did_ work after some optimization?
 
     :::
 
@@ -42,13 +42,13 @@ You're the visual wizard behind RTYI – when people see those stunning, modern-
 
     ::: info Follow-ups
 
-    - Receiving MS Paint maps or blockout models
-    - Translating a feeling or "vibe" into a concrete visual identity
-    - Your role as an idea contributor beyond just visuals
-    - Suggesting level flow or gameplay improvements
-    - The story of suggesting the destructible planet for the Course 15 boss fight
-    - A time Kaze's initial idea was vague and you had to define the look
-    - A time your artistic choice fundamentally changed Kaze's initial gameplay idea
+    - **From Blueprint to Beauty**: How do you transform Kaze's MS Paint maps or blockout models into stunning environments?
+    - **Vibe Translation**: What's your process for translating a feeling or "vibe" into a concrete visual identity?
+    - **Beyond Visuals**: How do you contribute ideas beyond just artistic direction?
+    - **Level Flow Input**: What's your role in suggesting level flow or gameplay improvements?
+    - **Boss Battle Innovation**: The story of suggesting the destructible planet for the Course 15 boss fight
+    - **Creative Leadership**: Tell me about a time when Kaze's initial idea was vague and you had to define the look
+    - **Artistic Influence**: When has your artistic choice fundamentally changed Kaze's initial gameplay idea?
 
     :::
 
@@ -56,11 +56,11 @@ You're the visual wizard behind RTYI – when people see those stunning, modern-
 
     ::: info Follow-ups
 
-    - Using environmental details to tell a story
-    - The importance of lighting in creating atmosphere on the N64
-    - Small details that players might not notice but that add to the world's believability
-    - How a level's visual identity influences asset creation (enemies, objects, etc.)
-    - A favorite "placemaking" detail you've added that you're particularly proud of
+    - **Environmental Storytelling**: How do you use environmental details to tell stories without words?
+    - **N64 Atmosphere**: How do you create compelling lighting and atmosphere on the N64?
+    - **Invisible Details**: What small details do you add that players might not notice but that enhance the world's believability?
+    - **Visual Cohesion**: How does a level's visual identity influence your asset creation (enemies, objects, etc.)?
+    - **Proudest Detail**: What's your favorite "placemaking" detail you've added that you're particularly proud of?
 
     :::
 

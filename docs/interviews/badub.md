@@ -2,7 +2,7 @@
 
 ::: tip Introduction
 
-Music is the soul of any game, and your compositions for RTYI have this incredible ability to instantly transport players into each world. Tell me about your role as the composer and how you create that perfect musical identity for the project.
+Music is the soul of any game, and your rich compositions for RTYI have this ability to transport players into each world. Tell me about your role as the composer and how you create that perfect musical identity for the project.
 
 :::
 
@@ -12,15 +12,15 @@ Music is the soul of any game, and your compositions for RTYI have this incredib
 
     ::: info Follow-ups
 
-    - Using the limited N64 sound font creatively
-    - Achieving that "new yet familiar" sound
-    - Balancing nostalgia with innovation
-    - How the "Yoshi" theme influences your compositions vs. the "Mario 64" theme
-    - Creating a cohesive soundtrack across so many diverse level themes
+    - **Sound Font**: How do you use the limited N64 sound font creatively to achieve rich compositions?
+    - **Familiar Yet Fresh**: What's your approach to achieving a "new yet familiar" sound?
+    - **Nostalgia**: How do you balance nostalgia with innovation in your compositions?
+    - **Dual Identity**: How does the "Yoshi" theme influence your compositions versus the "Mario 64" theme?
+    - **Cohesive Diversity**: How do you create a cohesive soundtrack across so many diverse level themes?
 
     :::
 
-2.  Kaze has said your music directly inspires his level design. Can you tell me about the moment you sent the Cowboy Level track? It arrived mid-stream and completely changed the direction of that level's atmosphere.
+2.  Kaze has said your music directly inspires his level design. There's a moment when you sent the Cowboy Level track mid-stream and it completely transformed Kaze's creative block. He immediately started adding atmospheric elements and said "this is so perfect." Tell me about that moment and how it feels to have your music directly shape the level's atmosphere.
 
     ::: info Follow-ups
 
@@ -29,8 +29,8 @@ Music is the soul of any game, and your compositions for RTYI have this incredib
     - **Vibe Translation**: Taking Kaze's description ("evil, bowser, construction, goofy") and creating a musical identity
     - **The New Yet Familiar Goal**: "It sounds like a completely new soundtrack with like a similar vibe to me. That's what I want anyway"
     - **Dynamic Overworld Challenge**: Creating nearly 20 tracks that transition seamlessly across the island
-    - **ROM Space Constraints**: The OST taking up significant cartridge space and brainstorming hybrid track solutions
-    - **Custom Engine Benefits**: How Kaze's rewritten sound engine enables your musical vision
+    - **ROM Space**: The OST taking up significant cartridge space and brainstorming hybrid track solutions
+    - **Custom Engine**: How Kaze's rewritten sound engine enables your musical vision
     - **Music-Driven Design**: "I love working with a song already made for the level because it gives me so many ideas for the vibe"
 
     :::
@@ -41,10 +41,10 @@ Music is the soul of any game, and your compositions for RTYI have this incredib
 
     ::: info Follow-ups
 
-    - The OST taking up a significant ROM space (64MB limit)
-    - Working with Kaze's rewritten sound engine
-    - Creative workarounds for instrument limitations, like your idea for hybrid tracks
-    - The process of making dynamic music within these constraints
+    - **ROM Space**: How do you create a rich soundtrack within the 64MB ROM limit?
+    - **Custom Engine**: How has working with Kaze's rewritten sound engine changed your composition process?
+    - **Innovation**: Tell me about your creative workarounds for instrument limitations, like hybrid tracks
+    - **Dynamic Music Magic**: What's the process of creating dynamic music within N64's constraints?
 
     :::
 
@@ -52,10 +52,10 @@ Music is the soul of any game, and your compositions for RTYI have this incredib
 
     ::: info Follow-ups
 
-    - Ensuring smooth musical and key transitions between themes
-    - Working with Kaze on the technical implementation of triggers
-    - Composing music that responds to player actions or events
-    - Maintaining a cohesive musical identity across the entire island
+    - **Seamless Transitions**: How do you ensure smooth musical and key transitions between themes?
+    - **Technical Collaboration**: What's it like working with Kaze on the technical implementation of music triggers?
+    - **Responsive Composition**: How do you compose music that responds to player actions or story events?
+    - **Island Identity**: How do you maintain a cohesive musical identity across the entire island?
 
     :::
 
