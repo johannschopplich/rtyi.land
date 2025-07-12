@@ -6,7 +6,7 @@ Music is the soul of any game, and your rich compositions for RTYI have this abi
 
 :::
 
-**On Musical Identity**
+## On Musical Identity
 
 1.  What's the musical identity you're creating for "Return to Yoshi's Island"? How do you blend the nostalgic sounds of Mario 64 and Yoshi's Island while creating something that feels both fresh and familiar?
 
@@ -30,7 +30,7 @@ Music is the soul of any game, and your rich compositions for RTYI have this abi
 
     :::
 
-**On The Craft of N64 Music**
+## On The Craft of N64 Music
 
 1.  Composing for the N64 has unique challenges – the small sound font, the limited ROM space. How do these limitations shape your compositions? Do you see them more as a restriction or a creative opportunity?
 

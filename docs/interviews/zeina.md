@@ -6,7 +6,7 @@ You bring RTYI's characters to life through animation and art, but you're also K
 
 :::
 
-**On Animation & Character**
+## On Animation & Character
 
 1.  You bring the game's characters to life through animation. What's your approach to giving personality and emotion to characters within the N64's technical limits? The Piano Guy is a favorite character with so much charisma.
 
@@ -21,7 +21,7 @@ You bring RTYI's characters to life through animation and art, but you're also K
 
     :::
 
-**On Art, Design & Influence**
+## On Art, Design & Influence
 
 1.  Beyond animation, you contribute so much: 2D art, 3D models, concept art. Could you tell me about the story behind your concept for the mutant Yoshi boss, or your drawings for the zoo entrance? How did those initial ideas shape what the team built?
 

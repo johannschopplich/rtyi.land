@@ -6,7 +6,7 @@ You're the visual artist behind many RTYI levels – when people see those moder
 
 :::
 
-**On Visuals & World-Building**
+## On Visuals & World-Building
 
 1.  We often see Kaze build a functional "blockout" version of a level to get the platforming right. Then later, we see your rework that completely transforms it. Can you walk me through your process? How do you take that basic layout and breathe life into it? Course 1, the Ghost Ship or Oily Boily Bay reworks are my favorite examples.
 
@@ -35,7 +35,7 @@ You're the visual artist behind many RTYI levels – when people see those moder
 
     :::
 
-**On Collaboration & Creative Vision**
+## On Collaboration & Creative Vision
 
 1.  How does Kaze communicate what he's looking for in a level's art style? Does he give you reference images or describe a "vibe?" How do you translate that direction into a cohesive visual identity?
 

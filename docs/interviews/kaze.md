@@ -6,7 +6,7 @@ Tell me about your role in creating RTYI – you're not just modding Mario 64, y
 
 :::
 
-**On Vision & Design Philosophy**
+## On Vision & Design Philosophy
 
 1.  You have very clear design principles: creating "placeness," prioritizing excitement over difficulty, and respecting the player's time. Can you tell me about a time you had to make a tough call to stick to these principles? Maybe something you really liked but had to cut because it didn't fit?
 
@@ -34,7 +34,7 @@ Tell me about your role in creating RTYI – you're not just modding Mario 64, y
 
     :::
 
-**On Technical Mastery**
+## On Technical Mastery
 
 1.  You didn't just mod SM64, you've rewritten huge chunks of its foundation: the sound engine, collision system, even the operating system. What drove you to take on these massive technical challenges? What can you do in RTYI that would be impossible without them?
 
@@ -62,7 +62,7 @@ Tell me about your role in creating RTYI – you're not just modding Mario 64, y
 
     :::
 
-**On Collaboration & The Public Eye**
+## On Collaboration & The Public Eye
 
 1.  You have a strong vision for RTYI, but you're also working with a talented team. How do you balance staying true to your vision while being open to their input? Can you recall a moment when a collaborator's suggestion fundamentally changed or improved your original idea?
 
@@ -90,7 +90,7 @@ Tell me about your role in creating RTYI – you're not just modding Mario 64, y
 
     :::
 
-**On The "Nintendo Risk" & The Future**
+## On The "Nintendo Risk" & The Future
 
 1.  Nintendo has taken down over 70 of your videos. Every fan project lives under that shadow. How does this reality affect your development and release strategy? And what's your plan if the worst happens?
 
