@@ -12,14 +12,12 @@ You bring RTYI's characters to life through animation and art, but you're also K
 
     ::: info Follow-ups
 
-    - **The Wiggler Challenge**: "The most difficult one to animate yet" – what made this character so technically demanding?
-    - **System Evolution**: Benefits of Kaze's new quaternion-based animation system vs. the old "geo bone" limitations
-    - **Personality Through Movement**: Conveying character with limited polygons – the Piano Guy's charisma, Dry Bones personality
-    - **Real-Time Creation**: Creating eye textures "in under 10 minutes" during live streams
-    - **Critical Self-Evaluation**: Your professional assessment of your own Bowser animation shows high standards
-    - **Animation Pipeline**: The workflow with Kaze – "All we're waiting for now is animations"
-    - **Technical Constraints**: Working within N64's animation limitations while maintaining character appeal
-    - **Rapid Iteration**: Creating sobbing animations for Koopa characters live during streams
+    - **The Wiggler Challenge**: "The most difficult one to animate yet."
+    - **Personality in Polygons**: Giving characters like the Piano Guy charisma with N64 limits.
+    - **Animation Pipeline**: The workflow when Kaze is "waiting for animations."
+    - **Evolving Tools**: Kaze's new quaternion animation system vs. old "geo bone" limits.
+    - **Live Creation**: Creating eye textures "in under 10 minutes" on stream.
+    - **Self-Critique**: Your high standards for your own work, like the Bowser animation.
 
     :::
 
@@ -29,14 +27,12 @@ You bring RTYI's characters to life through animation and art, but you're also K
 
     ::: info Follow-ups
 
-    - **Concept to Reality**: How did your "mutant Yoshi" boss concept and zoo entrance drawings become key game elements?
-    - **Character Modeling**: What's the challenge of creating characters like Peach and Toad within N64 constraints?
-    - **Environmental Charm**: How do your texture contributions (bunny footprints, signs) add personality to the world?
-    - **Style Coordination**: How do you coordinate with Biobak to maintain visual consistency?
-    - **Planning Through Art**: "Zeina already has a lot of sketches about how Mario goes through the levels" – how does your art inform level design?
-    - **Entrance Concepts**: Tell me about your concept art for Bunny Brushwoods, Koopa Wave Cove, and other areas
-    - **Visual Influence**: How do your ideas shape the project's overall visual identity?
-    - **Multi-Role Mastery**: "Helping out with anything else that he needs" – what's the scope of your contributions?
+    - **Mutant Yoshi Boss**: The story behind your "mutant Yoshi" concept art.
+    - **From 2D to 3D**: Your process for translating drawings (like the zoo entrance) into game assets.
+    - **Environmental Charm**: How small textures like bunny footprints add to the world.
+    - **Artistic Coordination**: Coordinating with Biobak to maintain a consistent visual style.
+    - **Planning Through Art**: How your sketches of level flow inform the final design. Kaze: "Zeina already has a lot of sketches about how Mario goes through the levels"
+    - **The Scope of Your Role**: The wide range of your contributions, from animation to playtesting.
 
     :::
 
@@ -44,14 +40,11 @@ You bring RTYI's characters to life through animation and art, but you're also K
 
     ::: info Follow-ups
 
-    - **The "Painful to Watch" Moment**: Tell me about your perspective on struggling with a difficult section and seeing Kaze's immediate response
-    - **Fresh Eyes Advantage**: What issues do you catch that someone who programmed the level might miss?
-    - **Animation-Gameplay Connection**: How does experiencing the gameplay influence your animation decisions?
-    - **Dual Perspective**: What's it like being both the artist creating content and the first person playing it?
-    - **Polish Detection**: How do you spot visual inconsistencies, pacing issues, or unclear player guidance?
-    - **Authentic Reactions**: How do your genuine first-time responses help refine the game?
-    - **Design Influence**: What are specific examples of levels or mechanics adjusted based on your playtesting?
-    - **Quality Filter**: How do you serve as the bridge between developer vision and player experience?
+    - **Kaze: "Painful to Watch"**: Your perspective on being the first playtester for difficult sections.
+    - **The First Playtester**: The kinds of issues you notice that a programmer might miss.
+    - **From Player to Artist**: How playtesting influences your animation and art decisions.
+    - **The Quality Filter**: Your role as the bridge between developer and player.
+    - **A Concrete Example**: A specific level or mechanic that changed because of your feedback.
 
     :::
 

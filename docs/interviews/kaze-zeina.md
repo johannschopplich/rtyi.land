@@ -6,11 +6,10 @@ These questions are for Kaze and Zeina together, focusing on their unique dynami
 
     ::: info Follow-ups
 
-    - **Home Office Dynamics**: How do you make design decisions over dinner or in everyday moments?
-    - **Work-Life Boundaries**: How do you switch off from "developer mode" when you're both invested in the project?
-    - **Space Evolution**: How did working in the same physical space change when you moved and got separate rooms?
-    - **Daily Integration**: How does the project weave into your daily life as a couple?
-    - **Balance Challenge**: How do you balance the creative work with your personal relationship?
+    - **Creative Decisions**: Making design decisions over dinner vs. formal sessions.
+    - **Work-Life Balance**: Switching off from "developer mode."
+    - **The Workspace**: The move to separate rooms and Kaze's "banishment" to the basement.
+    - **A Family Project**: The project's integration into daily life (terrariums, moving homes, haircuts).
 
     :::
 
@@ -18,11 +17,10 @@ These questions are for Kaze and Zeina together, focusing on their unique dynami
 
     ::: info Follow-ups
 
-    - **Dual Perspective**: Tell me about the "painful to watch" playtest from both your perspectives
-    - **Creative Resolution**: How do you resolve creative disagreements when they arise?
-    - **Honest Criticism**: What's it like being each other's harshest critics?
-    - **Instant Feedback**: What are the benefits of being able to give immediate, honest feedback?
-    - **Personal to Professional**: How do personal dynamics affect professional choices on the game?
+    - **"Painful to Watch"**: The story of a playtest that was "painful to watch."
+    - **Resolving Disagreements**: Being brutally honest with each other.
+    - **The First Critic**: Benefits and drawbacks of your partner being your first critic.
+    - **Influence on Design**: How Zeina's playtests directly influence level design.
 
     :::
 
@@ -30,11 +28,11 @@ These questions are for Kaze and Zeina together, focusing on their unique dynami
 
     ::: info Follow-ups
 
-    - **Technical Collaboration**: Walk me through the back-and-forth on the Wiggler's notoriously difficult rigging
-    - **First Look**: Kaze, what's it like seeing a finished animation for the first time?
-    - **Vision → Reality**: How do technical constraints from Kaze meet Zeina's artistic vision?
-    - **The Waiting Game**: "All we're waiting for now is animations" - how do you handle these dependencies?
-    - **Iterative Process**: How do animation changes affect programming, and vice versa?
+    - **The Wiggler**: The back-and-forth on the "most difficult to animate" character.
+    - **First Look**: Kaze's reaction to seeing a finished animation for the first time.
+    - **Vision vs. Reality**: The negotiation between artistic vision and technical constraints.
+    - **The Waiting Game**: Managing dependencies when Kaze is "waiting for animations."
+    - **Iterative Process**: An animation change that required a code change, or vice-versa.
 
     :::
 
@@ -42,15 +40,11 @@ These questions are for Kaze and Zeina together, focusing on their unique dynami
 
     ::: info Follow-ups
 
-    - **Life Integration**: How do you balance development with life events (moving homes, making terrariums together, the infamous haircut streams)?
-    - **Financial Partnership**: Kaze's transparency about opportunity costs ("tens of thousands") and saving for a house together
-    - **Space Boundaries**: Zeina "banishing" Kaze to the basement vs. working in the same space - how do you manage work territories?
-    - **Anniversary Moments**: Forgetting your third wedding anniversary until Kaze's father called during a stream - how does the project consume your attention?
-    - **Parenthood Transformation**: How did becoming parents during the final phase change the project's meaning?
-    - **Shared Legacy**: What does RTYI represent as something you've built together?
-    - **Personal Moments**: The playful banter about cooking skills, hot dog definitions, and daily life bleeding into streams
-    - **Support Systems**: Zeina meal prepping for Kaze's streaming schedule, managing life logistics around development
-    - **Global Context**: Help viewers understand what it means to build something this ambitious as a family, and why someone would choose to work on "old games" instead of creating something new
+    - **Parenthood & Perspective**: How becoming parents has changed your view on the project.
+    - **The Anniversary Moment**: Forgetting your third wedding anniversary during a stream.
+    - **Financial Partnership**: Making financial decisions together for a passion project. Kaze: "The game as a whole is going to cost me in the tens of thousands."
+    - **Support Systems**: Zeina meal prepping for Kaze's streaming schedule, managing life logistics around development.
+    - **A Shared Legacy**: What RTYI represents as something you've built together.
 
     :::
 
@@ -58,13 +52,11 @@ These questions are for Kaze and Zeina together, focusing on their unique dynami
 
     ::: info Follow-ups
 
-    - **Shared Vision**: How do you maintain a unified creative vision when you both have strong artistic opinions?
-    - **Creative Intimacy**: What's it like having someone who understands both your technical and creative struggles?
-    - **The Pressure Cooker**: How do you handle the stress of such an ambitious project without it affecting your marriage?
-    - **Unique Advantages**: What creative possibilities emerge from being partners in both life and work?
-    - **Future Collaborations**: Has working on RTYI together changed how you want to approach future projects?
-    - **Role Evolution**: How have your individual roles and contributions evolved as both the project and your relationship have matured?
-    - **Legacy Together**: What does it mean to be creating something that will outlast you both as a couple?
+    - **A Unified Vision**: Maintaining a shared creative vision with strong opinions.
+    - **Creative Intimacy**: Having a partner who understands your creative and technical struggles.
+    - **The Pressure Cooker**: Handling the stress of an ambitious project as a couple.
+    - **Unique Advantages**: Creative possibilities that emerge from being partners.
+    - **Future Collaborations**: Has RTYI made you want to work together more, or less?
 
     :::
 

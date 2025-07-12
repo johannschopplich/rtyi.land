@@ -12,14 +12,13 @@ You're the visual artist behind many RTYI levels – when people see those moder
 
     ::: info Follow-ups
 
-    - **Kaze's Reactions**: "Holy shit, everything is different" (Ghost Ship) and "Holy shit. This actually looks insane" (Oily Boily Bay) – how does it feel to surprise him?
-    - **Starting Point**: What does a level look like when you receive it? MS Paint maps, basic geometry blocks?
-    - **Detailed Communication**: Your comprehensive changelogs explaining every decision - how important is that documentation?
-    - **Thematic Cohesion**: The Bomb Cap redesign as a "bomb manufacturing process" – how do you find the narrative thread?
-    - **Lighting Solutions**: "The year's lighting now matching with the light from the windows was pissing me off, so I thought, what if the ceiling was the light source?" Your problem-solving process
-    - **Practical Constraints**: "Fuck cranes. I hate modeling them" – how modeling limitations influence design decisions
-    - **Quality Evolution**: How your standards and capabilities have evolved over the project's timeline
-    - **Technical Challenges**: Sending high-poly models to Kaze for N64 optimization
+    - **Kaze's Reaction**: His "Holy shit, everything is different" (Ghost Ship) reaction to your reworks.
+    - **The Starting Point**: Receiving a level as a blockout or MS Paint map.
+    - **Thematic Storytelling**: Finding the "bomb manufacturing process" narrative for the Bomb-Cap Factory.
+    - **Creative Problem-Solving**: The ceiling becoming the light source.
+    - **Practical Constraints**: Kaze: "Fuck cranes. I hate modeling them."
+    - **Quality Evolution**: How your standards have evolved over the project's timeline.
+    - **The Changelog**: The importance of your comprehensive changelogs.
 
     :::
 
@@ -27,12 +26,12 @@ You're the visual artist behind many RTYI levels – when people see those moder
 
     ::: info Follow-ups
 
-    - **High-Poly to N64**: What's your process for creating detailed models knowing they'll be optimized for N64 hardware?
-    - **Color Palette**: How do you create visual richness within N64's limited color palette?
-    - **Optimization**: How do you optimize geometry and textures without losing your artistic vision?
-    - **The Cursed Texture**: Tell me about the "Cursed Texture" and the 96x42 resolution workaround
-    - **Hardware Defeat**: What's an example of an idea that was just too ambitious for the hardware?
-    - **Surprising Success**: What's an idea that surprisingly _did_ work after some optimization?
+    - **High-Poly to Low-Poly**: Your process for creating detailed models for N64 optimization.
+    - **The N64 Palette**: Creating visual richness within the limited color palette.
+    - **Optimization vs. Vision**: Balancing optimization with your artistic vision.
+    - **Creative Workarounds**: The story of the "Cursed Texture" and the 96x42 resolution fix.
+    - **Hardware Defeats**: An idea that was too ambitious for the hardware.
+    - **Surprising Successes**: An idea that worked despite the limitations.
 
     :::
 
@@ -42,13 +41,12 @@ You're the visual artist behind many RTYI levels – when people see those moder
 
     ::: info Follow-ups
 
-    - **From Blueprint to Beauty**: How do you transform Kaze's MS Paint maps or blockout models into stunning environments?
-    - **Vibe Translation**: What's your process for translating a feeling or "vibe" into a concrete visual identity?
-    - **Beyond Visuals**: How do you contribute ideas beyond just artistic direction?
-    - **Level Flow Input**: What's your role in suggesting level flow or gameplay improvements?
-    - **Boss Battle Innovation**: The story of suggesting the destructible planet for the Course 15 boss fight
-    - **Creative Leadership**: Tell me about a time when Kaze's initial idea was vague and you had to define the look
-    - **Artistic Influence**: When has your artistic choice fundamentally changed Kaze's initial gameplay idea?
+    - **Translating the "Vibe"**: Turning Kaze's abstract "vibe" descriptions into a concrete visual identity.
+    - **Blueprint to Beauty**: Your process for transforming Kaze's MS Paint maps into 3D environments.
+    - **Beyond Visuals**: Your role in suggesting gameplay improvements and new mechanics.
+    - **Boss Battle Innovation**: Suggesting the destructible planet for the Course 15 boss.
+    - **Defining the Look**: A time you had to define the visual direction for a level.
+    - **Artistic Influence**: An artistic choice of yours that fundamentally changed a level's gameplay.
 
     :::
 
@@ -56,11 +54,11 @@ You're the visual artist behind many RTYI levels – when people see those moder
 
     ::: info Follow-ups
 
-    - **Environmental Storytelling**: How do you use environmental details to tell stories without words?
-    - **N64 Atmosphere**: How do you create compelling lighting and atmosphere on the N64?
-    - **Invisible Details**: What small details do you add that players might not notice but that enhance the world's believability?
-    - **Visual Cohesion**: How does a level's visual identity influence your asset creation (enemies, objects, etc.)?
-    - **Proudest Detail**: What's your favorite "placemaking" detail you've added that you're particularly proud of?
+    - **Environmental Storytelling**: Using environmental details to tell stories.
+    - **N64 Atmosphere**: Creating compelling lighting and atmosphere on the N64.
+    - **The "Biobak Rework"**: The secret ingredient to your successful level reworks.
+    - **Invisible Details**: A small detail you've added that enhances believability.
+    - **A Proud Moment**: The visual element or "placemaking" detail you're most proud of.
 
     :::
 

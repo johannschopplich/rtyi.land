@@ -12,11 +12,10 @@ Music is the soul of any game, and your rich compositions for RTYI have this abi
 
     ::: info Follow-ups
 
-    - **Sound Font**: How do you use the limited N64 sound font creatively to achieve rich compositions?
-    - **Familiar Yet Fresh**: What's your approach to achieving a "new yet familiar" sound?
-    - **Nostalgia**: How do you balance nostalgia with innovation in your compositions?
-    - **Dual Identity**: How does the "Yoshi" theme influence your compositions versus the "Mario 64" theme?
-    - **Cohesive Diversity**: How do you create a cohesive soundtrack across so many diverse level themes?
+    - **The Soundfont**: Creative use of the limited N64 soundfont.
+    - **Familiar Yet Fresh**: Achieving a "new yet familiar" sound.
+    - **Yoshi vs. Mario**: The influence of the "Yoshi's Island" vs. "Mario 64" themes.
+    - **Thematic Diversity**: Creating a cohesive soundtrack across diverse level themes.
 
     :::
 
@@ -24,14 +23,10 @@ Music is the soul of any game, and your rich compositions for RTYI have this abi
 
     ::: info Follow-ups
 
-    - **The Magic Moment**: Kaze's reaction: "Oh, this is so good... that's so perfect" and immediately adding atmospheric elements
-    - **Instant Inspiration**: How the music instantly solved Kaze's creative block ("This building style is just not exciting me")
-    - **Vibe Translation**: Taking Kaze's description ("evil, bowser, construction, goofy") and creating a musical identity
-    - **The New Yet Familiar Goal**: "It sounds like a completely new soundtrack with like a similar vibe to me. That's what I want anyway"
-    - **Dynamic Overworld Challenge**: Creating nearly 20 tracks that transition seamlessly across the island
-    - **ROM Space**: The OST taking up significant cartridge space and brainstorming hybrid track solutions
-    - **Custom Engine**: How Kaze's rewritten sound engine enables your musical vision
-    - **Music-Driven Design**: "I love working with a song already made for the level because it gives me so many ideas for the vibe"
+    - **The Cowboy Music Moment**: Kaze's creative block on the Western level until your music arrived: "Oh, this is so good... that's so perfect."
+    - **Vibe Translation**: Translating Kaze's brief ("evil, bowser, construction, goofy") into music.
+    - **Music-Driven Design**: Your music often being the foundational step for a level's vibe.
+    - **Creative Struggle**: The ten drafts for the Oily Boily Bay track.
 
     :::
 
@@ -41,10 +36,10 @@ Music is the soul of any game, and your rich compositions for RTYI have this abi
 
     ::: info Follow-ups
 
-    - **ROM Space**: How do you create a rich soundtrack within the 64MB ROM limit?
-    - **Custom Engine**: How has working with Kaze's rewritten sound engine changed your composition process?
-    - **Innovation**: Tell me about your creative workarounds for instrument limitations, like hybrid tracks
-    - **Dynamic Music Magic**: What's the process of creating dynamic music within N64's constraints?
+    - **ROM Space**: Composing within the strict 64MB ROM limit.
+    - **Kaze's Custom Engine**: How the new, "80% faster" audio engine changed your process.
+    - **Creative Workarounds**: Any clever workarounds for instrument or channel limitations.
+    - **Streamed vs. Sequenced**: Deciding between streamed audio and sequenced M64 tracks.
 
     :::
 
@@ -52,10 +47,10 @@ Music is the soul of any game, and your rich compositions for RTYI have this abi
 
     ::: info Follow-ups
 
-    - **Seamless Transitions**: How do you ensure smooth musical and key transitions between themes?
-    - **Technical Collaboration**: What's it like working with Kaze on the technical implementation of music triggers?
-    - **Responsive Composition**: How do you compose music that responds to player actions or story events?
-    - **Island Identity**: How do you maintain a cohesive musical identity across the entire island?
+    - **The Seamless Overworld**: The challenge of making nearly 20 overworld tracks transition seamlessly.
+    - **Technical Collaboration**: The back-and-forth with Kaze to implement dynamic music triggers.
+    - **Musical Storytelling**: Using music to reflect the "capitalist Bowser" theme or other story beats.
+    - **Maintaining Identity**: Keeping a cohesive musical identity across the entire island.
 
     :::
 

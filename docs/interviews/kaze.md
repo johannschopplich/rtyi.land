@@ -12,15 +12,12 @@ Tell me about your role in creating RTYI – you're not just modding Mario 64, y
 
     ::: info Follow-ups
 
-    - **The Zoo Catalyst**: "The zoo is actually the reason I even started optimizing Mario 64. The zoo ran so poorly that I just could not take that." Can you take me back to that specific moment when you decided enough was enough? For people unfamiliar with game development, help us understand what "lag" means and why fixing it required such extreme measures.
-    - **The Yoshi Connection**: "I like Yoshi. That's kind of where the thought process ended." What does that mean to you on a deeper level? What is it about Yoshi specifically that made this project worth years of your life?
-    - **Scope Realization**: Did you understand from the start that fixing one laggy level would lead to rewriting collision systems, sound engines, and graphics pipelines? How did fixing one problem reveal that the entire engine needed rebuilding?
-    - **Show Don't Tell Philosophy**: "Exclamation mark is basically telling... It's like admitting oh, I can't make a good game." Your deep philosophy against hand-holding and explicit instruction
-    - **Quality Over Familiarity**: "If they weren't even good enough for Mario 64, why would they be good enough for my game?" Using Nintendo's classic as your benchmark
-    - **The Space Arcade Pivot**: "The idea we had for this level is terrible." Completely reimagining it as the Shy Guy Space Station when the original concept failed
-    - **AAA Game Critique**: What specifically makes modern games feel like a "chore" to you? How does RTYI avoid that trap?
-    - **Design Maturation**: The evolution from 5% design time (Last Impact) to 20% (RTYI) and learning to filter ideas
-    - **Boot Out Removal**: The decision to remove "boot out" stars to maintain flow and respect player time
+    - **The Zoo Catalyst**: The Zoo's lag spiraling into a full engine rewrite: "The zoo is actually the reason I even started optimizing Mario 64. The zoo ran so poorly that I just could not take that."
+    - **Placeness vs. Gameplay**: Balancing world-building with "excitement over difficulty."
+    - **Killing Darlings**: Scrapping the "terrible" Space Arcade for the Shy Guy Space Station.
+    - **Design Maturity**: Evolving from 5% design time (_Last Impact_) to 20% (RTYI).
+    - **AAA Game Critique**: Designing to avoid modern AAA "chore" gameplay.
+    - **Show, Don't Tell**: The philosophy behind removing exclamation marks and using "tutorial bunnies."
 
     :::
 
@@ -28,13 +25,12 @@ Tell me about your role in creating RTYI – you're not just modding Mario 64, y
 
     ::: info Follow-ups
 
-    - **The Secret Identity**: "What if we made the island the shape of a Yoshi? Yes or no? The island needs to be the shape of a Yoshi." The hidden Yoshi head shape that players will discover
-    - **Scale Ambition**: "I'm thinking the overworld will be around four times the size of Super Mario 64" broken into 14 interconnected areas
-    - **The Lighthouse Puzzle**: "What if the ship is here, but it's like a shadowy fix, and you have to go into the lighthouse... And in the lighthouse, you point the light at the ship. And that makes the ship visible and breaks through the fog." Creative environmental puzzles
-    - **Living World Events**: Rescued Yoshis stopping the rain, freed Dory providing transport – how the world evolves with player actions
-    - **The Interconnected River**: Course 2's river flowing through the entire overworld, creating "placeness" and connection
-    - **Story-Driven Progression**: Evolution from coin payments to narrative events, making coins "feel more valuable than Mario Odyssey"
-    - **Badub's Dynamic Music**: Nearly 20 tracks that transition seamlessly as players explore
+    - **Secret Identity**: The overworld shaped like a Yoshi head.
+    - **A Living World**: Permanent world changes after events (volcano eruption, rain stopping).
+    - **Interconnected Design**: The river flowing from Course 2 through the whole overworld.
+    - **The Lighthouse Puzzle**: Using the lighthouse to reveal the Ghost Ship.
+    - **Dynamic Music**: Badub's 20 transitioning tracks for the overworld.
+    - **Coin Economy**: Making coins "more valuable than Mario Odyssey" with shops.
 
     :::
 
@@ -44,17 +40,12 @@ Tell me about your role in creating RTYI – you're not just modding Mario 64, y
 
     ::: info Follow-ups
 
-    - **The Zoo Catalyst**: How fixing one laggy level revealed fundamental engine problems
-    - **Collision System Overhaul**: Why vanilla collision was "unusable" and how floor clocking bugs were fixed
-    - **Sound Engine Rewrite**: What exactly was "fucked" about the original audio engine? How does your custom engine enable Badub's seamless dynamic music?
-    - **F3DEX3 Collaboration**: Working with Sauraen on custom microcode to overcome the N64's RSP bottleneck
-    - **Complete libultra Replacement**: Rewriting the entire operating system for better performance
-    - **60 FPS Achievement**: Enabling smooth gameplay that vanilla SM64 "would never be able to handle"
-    - **Performance Pride**: "This is an N64 game. How crazy is that?" – the satisfaction of pushing 30-year-old hardware to modern standards
-    - **Cache Optimization**: "Mario's behavior loop never gets thrown out of cache which is fucking crazy" – your optimization achievements
-    - **Mathematical Modeling**: The paper airplane physics where you folded a real paper airplane to understand the mathematics, then applied trigonometry and physics equations to create realistic flight mechanics. How do you approach translating real-world physics into N64-compatible game mechanics?
-    - **The Sound Engine Revolution**: "The sound engine is now around 80% faster than vanilla sound engine... We need much less memory." What drove you to completely rewrite one of the most complex systems in the game?
-    - **Custom Shader Innovation**: Creating solutions like the "rescale combiner" on the fly – how do you invent new technical solutions under pressure?
+    - **Engine from Scratch**: The point of no return in rewriting the engine.
+    - **The Sound Engine**: What was so "fucked" about the vanilla audio engine?
+    - **Collision Overhaul**: Fixing the "unusable" vanilla collision and floor clocking.
+    - **Microcode Collaboration**: Working with Sauraen on F3DEX3 to beat RSP bottlenecks.
+    - **Performance Pride**: Achieving 60 FPS and the "Mario's behavior loop" i-cache optimization. Kaze: "This is an N64 game. How crazy is that?"
+    - **Real-World Physics**: The paper airplane experiment and translating it to code.
 
     :::
 
@@ -62,14 +53,12 @@ Tell me about your role in creating RTYI – you're not just modding Mario 64, y
 
     ::: info Follow-ups
 
-    - Crashes that "just work" on certain emulators
-    - The challenge of testing on multiple emulator types
-    - Why you can't trust emulators for final performance testing
-    - N64 hardware stability and floating point exception issues
-    - The "Phantom Bowser Bug" that only happened on Project64
-    - The EverDrive X7 boot failure
-    - The story of the compiler generating faulty code for the Thimble Guy's shine effect
-    - How critical are tools like Sauraen's profiler or the NEMU64 emulator for this process?
+    - **Emulator Hell**: Most frustrating hardware-only bug.
+    - **The Compiler's Fault**: Debugging a crash caused by the compiler, not your code.
+    - **Hardware vs. Emulator**: Why emulators can't be trusted for final performance.
+    - **Essential Tools**: The importance of Sauraen's profiler and NEMU64.
+    - **The EverDrive Failure**: The story behind the EverDrive X7 boot failure.
+    - **The Phantom Bowser**: The bug that only happened on Project64.
 
     :::
 
@@ -79,13 +68,13 @@ Tell me about your role in creating RTYI – you're not just modding Mario 64, y
 
     ::: info Follow-ups
 
-    - **Biobak's Transformative Reworks**: "Holy shit, everything is different" - his complete overhauls of Course 1, Oily Boily Bay, and the Ghost Ship
-    - **The Cowboy Music Moment**: Badub's track arriving mid-stream and instantly inspiring Kaze to add fog and skybox, solidifying the level's "vibe"
-    - **Zeina's Creative Contributions**: The "mutant Yoshi" boss concept, zoo entrance drawings, and bunny footprint textures
-    - **Tutorial Innovation**: How the team collaboratively solved the "unteachable tutorial" problem with Biobak's ring concept and Zeina's demonstration animations
-    - **Feedback Philosophy**: "Feelings are real, reasoning is stupid" - how you separate emotional reactions from technical suggestions
-    - **Creative Disputes**: "Arguments in Discord DMs" with Biobak that lead to better solutions
-    - **Quality Concerns**: "I do not want to reach out to people and ask for help. Because... I feel like I'm gonna say 'oh this actually isn't up to the quality standards I expect'" – managing collaborative standards
+    - **Biobak's Reworks**: The "Holy shit, everything is different" moment.
+    - **Badub's Music**: The "Cowboy Crisis" and music inspiring level design.
+    - **Zeina's Concepts**: The "mutant Yoshi" boss and other artistic influences.
+    - **Collaborative Problem-Solving**: Solving the "unteachable tutorial" as a team.
+    - **Managing Standards**: Hesitation to ask for help due to quality concerns.
+    - **Creative Arguments**: Resolving disagreements with collaborators like Biobak.
+    - **Quality Concerns**: Managing collaborative standards: "I do not want to reach out to people and ask for help. Because... I feel like I'm gonna say 'oh this actually isn't up to the quality standards I expect'."
 
     :::
 
@@ -93,14 +82,11 @@ Tell me about your role in creating RTYI – you're not just modding Mario 64, y
 
     ::: info Follow-ups
 
-    - **The Whomp Tower Breakthrough**: "You could be waiting to be used as a building material, oh, okay. Yeah. That's a funny idea." A viewer's spontaneous suggestion becoming a major puzzle element
-    - **Mirror Wall Mechanic**: Chat suggestion that became a core gameplay feature
-    - **Growing Flower Vine**: Another community idea that made it into the game
-    - **Filtering Input**: How you separate useful creative suggestions from unhelpful technical advice
-    - **Real-Time Iteration**: Biobak offering live color palette feedback during streams
-    - **The Pressure**: "They don't want to see code, they want to see the funny Wahoo man jump" - managing YouTube algorithm vs. technical development
-    - **Community Testing**: Using the Course 1 demo to gather real player data via questionnaires
-    - **Feelings vs. Reasoning**: How emotional reactions to gameplay often reveal more than analytical explanations
+    - **Feelings vs. Reasoning**: Your philosophy on processing viewer feedback.
+    - **Community-Sourced Features**: The Whomp Tower, mirror wall, and growing vine ideas.
+    - **Live Feedback Loop**: Biobak offering real-time color feedback during streams.
+    - **The Pressure of Public Dev**: Balancing the YouTube algorithm vs. tedious development work.
+    - **Community Testing**: Using questionnaires from the Course 1 demo.
 
     :::
 
@@ -110,13 +96,12 @@ Tell me about your role in creating RTYI – you're not just modding Mario 64, y
 
     ::: info Follow-ups
 
-    - The "calculated risk" mindset: Why you do this despite the risks?
-    - Your "win-win" philosophy about a takedown being a PR opportunity
-    - The strategy of having a copyright-free trailer ready to go
-    - The "legally distinct" asset-swap contingency plan
-    - Your aspirations for a commercial game on Godot, funded via Kickstarter
-    - Open-sourcing the engine and code to preserve the work
-    - The story of your profane reply to a 2019 DMCA notice
+    - **The Takedowns**: Emotional impact of Nintendo taking down over 70 of your videos.
+    - **"Calculated Risk" Mindset**: Why you continue despite the constant threat.
+    - **"Win-Win" Scenario**: About a takedown being a PR opportunity.
+    - **Contingency Plans**: The "legally distinct" asset-swap and open-sourcing the engine.
+    - **The Profane Reply**: The story behind your colorful reply to a 2019 DMCA notice.
+    - **Commercial Aspirations**: The long-term goal of a Kickstarter for an original game.
 
     :::
 

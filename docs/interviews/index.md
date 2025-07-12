@@ -14,10 +14,10 @@ These central questions are for Kaze, Biobak, Badub, and Zeina individually. Thi
 
    ::: info Follow-ups
 
-   - **Childhood**: What is your earliest memory of playing video games? How did that shape your love for gaming?
-   - **Nintendo 64**: What was your first experience with the N64? Do you remember the first game you played on it?
-   - **Mario 64**: How did you first encounter Super Mario 64? What drew you to it?
-   - **ROM Hacking**: When did you first hear about ROM hacking? What made you want to get involved?
+   - **Childhood**: Earliest video game memory?
+   - **Nintendo 64**: First N64 experience?
+   - **Mario 64**: First encounter with the game?
+   - **ROM Hacking**: How did you get into it?
 
    :::
 
@@ -25,10 +25,11 @@ These central questions are for Kaze, Biobak, Badub, and Zeina individually. Thi
 
    ::: info Follow-ups
 
-   - Help viewers understand: What is ROM hacking? What makes this different from typical game mods?
-   - The SM64 decompilation project – how did this change what was possible?
-   - Why Yoshi's Island specifically? What about that game captured your imagination?
-   - For people who've never heard of this scene – what drives someone to rebuild a 30-year-old game from the ground up?
+   - **Explaining ROM Hacking**: What is ROM hacking?
+   - **Decompilation Impact**: How the decomp project changed things.
+   - **Why Yoshi?**: The specific appeal of Yoshi's Island.
+   - **The Drive**: Motivation for rebuilding a 30-year-old game.
+   - **A New Engine**: What Kaze's new engine means for your work.
 
    :::
 
@@ -36,12 +37,11 @@ These central questions are for Kaze, Biobak, Badub, and Zeina individually. Thi
 
    ::: info Follow-ups
 
-   - **Initial Spark**: What excitement or skepticism did you feel when you first heard about the project?
-   - **The Pitch**: What was Kaze's pitch like to get you involved?
-   - **Personal Connection**: How did your nostalgia for Super Mario 64 or Yoshi's Island influence your decision?
-   - **The Yoshi Connection (Kaze)**: "I like Yoshi. That's kind of where the thought process ended." What does that mean to you on a deeper level? What is it about Yoshi specifically that made this project worth years of your life?
-   - **Scope Revelation**: When did you realize this wasn't a typical ROM hack but something much more ambitious?
-   - **Commitment Moment**: What made you decide to commit to such a massive undertaking?
+   - **First Impressions**: Initial reaction to the project?
+   - **The Pitch (For Biobak, Badub, Zeina)**: Kaze's pitch to get you on board.
+   - **The Yoshi Connection**: Kaze: "I like Yoshi. That's kind of where the thought process ended." Unpack that.
+   - **Scope Creep**: The moment you realized the project's true scale.
+   - **The Commitment**: What made you commit to the long haul?
 
    :::
 
@@ -49,12 +49,11 @@ These central questions are for Kaze, Biobak, Badub, and Zeina individually. Thi
 
    ::: info Follow-ups
 
-   - **The Creative Cycle**: "It always starts like really fun and eventually it turns into pure torture. That's just the cycle of making games." How do you navigate this emotional rollercoaster?
-   - **Burnout Management**: How do you push through creative blocks and maintain momentum?
-   - **Hardware Ambition**: What drives the desire to push 30-year-old hardware to its limits?
-   - **Practical Balance**: How do you balance creative passion with financial reality?
-   - **Quality Obsession**: What keeps you committed to such high standards over years of development?
-   - **Motivation Philosophy**: How do you maintain consistency when motivation fluctuates?
+   - **The Creative Cycle (For Kaze)**: Navigating the "fun to pure torture" cycle. Kaze: "It always starts like really fun and eventually it turns into pure torture. That's just the cycle of making games."
+   - **Motivation vs. Discipline**: Kaze's philosophy of "work without motivation."
+   - **Financial Reality**: Balancing passion with the project's real-world costs.
+   - **The N64 Obsession**: The appeal of pushing 30-year-old hardware.
+   - **Defining Quality**: What "quality" means for RTYI.
 
    :::
 
@@ -62,12 +61,11 @@ These central questions are for Kaze, Biobak, Badub, and Zeina individually. Thi
 
    ::: info Follow-ups
 
-   - **Game Identity**: What is the game's specific "vibe" and sense of "placeness"?
-   - **Thematic Influence**: How does the Yoshi theme shape every aspect of the game?
-   - **Nostalgia Balance**: How do you blend familiar feelings with innovative gameplay?
-   - **Philosophy of Fun**: What does "excitement over difficulty" mean in practice?
-   - **Motivation Design**: How do you create intrinsic motivation beyond simple reward collection?
-   - **Kaze's Critique**: What makes modern games feel like a "chore" and how does RTYI avoid that?
+   - **Defining "Placeness"**: What the game's specific "vibe" and sense of "placeness" means to you.
+   - **The Yoshi Vibe**: Influence of the Yoshi's Island theme on your work.
+   - **Innovation vs. Nostalgia**: Balancing new ideas with the classic feel.
+   - **Intrinsic Motivation**: Designing for fun, not just for rewards.
+   - **AAA Game Critique (For Kaze)**: Specific design choices to avoid being a "chore."
 
    :::
 
@@ -75,16 +73,11 @@ These central questions are for Kaze, Biobak, Badub, and Zeina individually. Thi
 
    ::: info Follow-ups
 
-   - **The "Shit Phase" Philosophy**: "It always looks like shit at the beginning." How do you push through the ugly early stages to reach the polished result?
-   - **Design Evolution**: How has your creative process matured over the years of development?
-   - **Design Evolution (Kaze)**: From 5% design time (Last Impact) to 20% (RTYI): "Back when I was making Last Impact, whenever I had an idea, I would just put it in almost unfiltered." How has your creative process matured?
-   - **Real-Time Collaboration**: What's it like creating together during live streams?
-   - **Communication Channels**: How do you balance private creative discussions with public feedback?
-   - **Concept to Reality**: How do rough sketches become polished implementations?
-   - **Planning vs. Improvisation**: How do you balance careful planning with spontaneous creativity?
-   - **Research Methods**: How do you approach translating real-world concepts into game mechanics?
-   - **Community Integration**: How do viewer suggestions become actual game features?
-   - **Live Development**: How does creating in public change the creative process?
+   - **The "Shit Phase"**: Pushing through the ugly early stages of creation.
+   - **From Idea to Reality**: A specific example of a level, song, or character's evolution.
+   - **Live Development**: The impact of creating on a livestream with viewer feedback.
+   - **Team Communication**: How the team stays in sync and resolves creative disagreements.
+   - **Design Maturity (For Kaze)**: The shift from 5% design time on _Last Impact_ to 20% on RTYI: "Back when I was making Last Impact, whenever I had an idea, I would just put it in almost unfiltered."
 
    :::
 
@@ -92,18 +85,11 @@ These central questions are for Kaze, Biobak, Badub, and Zeina individually. Thi
 
    ::: info Follow-ups
 
-   - **Hardware-Only Bugs**: The compiler generating faulty division-by-zero code that only manifested on real N64 hardware. "That is not a bug in the code. That is not my fault." How do you debug something that complex?
-   - **Creative Dead Ends**: "The idea we had for this level is terrible." The Space Arcade concept being completely scrapped for the Shy Guy Space Station. How do you know when to kill your darlings?
-   - **The Cowboy Crisis**: "This building style is just not exciting me" – the level struggling to find its identity until Badub's music arrived and transformed everything
-   - **Technical Nightmares**: What's the most frustrating bug or technical challenge you've faced?
-   - **Creative Pivots**: Tell me about a time you had to completely change direction on something you'd invested in
-   - **Team Crisis**: How does the team handle moments when things aren't working?
-   - **Debugging Philosophy**: What's your approach to solving complex technical problems?
-   - **Quality Struggles**: How do you handle the gap between your vision and current reality?
-   - **Breakthrough Moments**: What's the most satisfying problem you've solved?
-   - **Research Methods**: How do you approach understanding complex systems or physics?
-   - **The Paper Airplane (Kaze)**: Folding a real paper airplane to understand the mathematics ("I'm making a paper airplane to look at it. I got a piece of graph paper"), then spending an entire stream tweaking variables as physics went "volatile and chaotic." How do you balance real-world physics with playable game mechanics?
-   - **Happy Accidents**: What's the most valuable thing you've learned from a mistake vs. planned optimization?
+   - **Technical Nightmare**: Most frustrating bug: hardware-only crash, compiler error, etc.
+   - **Creative Dead End**: Scrapping the "Space Arcade" for the "Shy Guy Space Station."
+   - **The Cowboy Crisis (For Kaze, Badub)**: The level struggling until Badub's music arrived.
+   - **The Physics of Flight (For Kaze)**: Folding and translating a real paper airplane's flight into N64 code.
+   - **A Breakthrough Moment**: The most satisfying problem you've solved.
 
    :::
 
@@ -111,17 +97,11 @@ These central questions are for Kaze, Biobak, Badub, and Zeina individually. Thi
 
    ::: info Follow-ups
 
-   - **Hardware Context**: Help explain what N64 limitations mean in practical terms – like how 64MB is tiny compared to modern games
-   - **Creative Constraints**: How do technical limitations actually inspire creative solutions?
-   - **System Deep Dive**: What's the most surprising thing you've discovered about N64 hardware?
-   - **Memory Management**: How do you create something beautiful within such tight constraints?
-   - **Innovation Necessity (Kaze)**: What custom solutions have you had to invent?
-
-     - The "fucked" vanilla audio engine requiring a complete rewrite
-     - The vanilla collision system being "unusable"
-
-   - **Modern Comparison**: What makes pushing 30-year-old hardware impressive? Why not just use modern engines?
-   - **Legacy Benefits**: What advantages come from building on existing foundations?
+   - **Creative Constraint**: An example of a hardware limitation forcing a creative solution.
+   - **The 64MB Limit**: The importance of staying within the original cartridge size. How 64MB is tiny compared to modern games.
+   - **Engine Rewrite (For Kaze)**: The "this is broken" moment that forced a rewrite of a core system.
+   - **Why Not Modern Engines?**: The appeal of pushing old hardware.
+   - **Hardware Surprises**: The "hidden megabyte" and other unexpected discoveries.
 
    :::
 
@@ -129,12 +109,12 @@ These central questions are for Kaze, Biobak, Badub, and Zeina individually. Thi
 
    ::: info Follow-ups
 
-   - **Memorable Moments**: What specific experiences do you want players to remember?
-   - **Community Impact**: How do you hope this influences the SM64 modding scene?
-   - **Open Source Vision (Kaze)**: What are your plans for releasing the engine and source code?
-   - **Personal Legacy**: What does completing this project mean to you personally?
-   - **Fan Project Power**: What does this prove about what fan projects can achieve?
-   - **Retro Appeal**: Why does retro-style game development still matter today?
+   - **Player Experience**: The feeling or memory you want players to have.
+   - **Community Impact**: Hopes for influencing the SM64 hacking scene.
+   - **Open Source (For Kaze)**: Vision for the community using the source code.
+   - **Retro Appeal**: Why retro-style game development still matters today.
+   - **Commercial Ambitions**: Team's thoughts on a potential asset-swapped commercial release.
+   - **Personal Meaning**: What finishing this project means to you.
 
    :::
 
