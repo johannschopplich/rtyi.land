@@ -47,7 +47,7 @@ Music is the soul of any game, and your rich compositions for RTYI have this abi
 
     ::: info Follow-ups
 
-    - **The Seamless Overworld**: The challenge of making nearly 20 overworld tracks transition seamlessly.
+    - **Seamless Transitions**: The challenge of making the overworld tracks transition seamlessly.
     - **Technical Collaboration**: The back-and-forth with Kaze to implement dynamic music triggers.
     - **Musical Storytelling**: Using music to reflect the "capitalist Bowser" theme or other story beats.
     - **Maintaining Identity**: Keeping a cohesive musical identity across the entire island.
