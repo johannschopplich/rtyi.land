@@ -28,8 +28,8 @@ These central questions are for Kaze, Biobak, Badub, and Zeina individually. Thi
    - **Explaining ROM Hacking**: What is ROM hacking?
    - **Decompilation Impact**: How the decomp project changed things.
    - **Why Yoshi?**: The specific appeal of Yoshi's Island.
-   - **A New Engine**: What Kaze's new engine means for your work.
-   - **Ship of Theseus**: Is this still Mario 64, or something else entirely?
+   - **A New Engine**: What Kaze's new engine, with its custom collision and sound, means for your work.
+   - **"Ship of Theseus"**: Is this still Mario 64, or something else entirely?
 
    :::
 
@@ -40,7 +40,7 @@ These central questions are for Kaze, Biobak, Badub, and Zeina individually. Thi
    - **First Impressions**: Initial reaction to the project?
    - **The Pitch (For Biobak, Badub, Zeina)**: Kaze's pitch to get you on board.
    - **The Yoshi Connection**: Kaze: "I like Yoshi. That's kind of where the thought process ended." Unpack that.
-   - **Scope Creep**: The moment you realized the project's true scale.
+   - **Scope Creep**: The moment you realized the project's true scale, growing to 15 courses and a huge overworld.
    - **The Commitment**: What made you commit to the long haul?
 
    :::
@@ -51,9 +51,9 @@ These central questions are for Kaze, Biobak, Badub, and Zeina individually. Thi
 
    - **The Creative Cycle (For Kaze)**: Navigating the "fun to pure torture" cycle. Kaze: "It always starts like really fun and eventually it turns into pure torture. That's just the cycle of making games."
    - **Motivation vs. Discipline**: Kaze's philosophy of "work without motivation."
-   - **Financial Reality**: Balancing passion with the project's real-world costs, especially with Kaze spending "tens of thousands."
+   - **Financial Reality**: Balancing passion with the project's real-world costs, especially with Biobak's contract.
    - **The N64 Obsession**: The appeal of pushing 30-year-old hardware.
-   - **Defining Quality**: What "quality" means for RTYI.
+   - **Defining Quality**: What "quality" means for RTYI, and why Kaze says he'd rather make a "good game" than just optimize.
 
    :::
 
@@ -63,7 +63,7 @@ These central questions are for Kaze, Biobak, Badub, and Zeina individually. Thi
 
    - **Defining "Placeness"**: What the game's specific "vibe" and sense of "placeness" means to you.
    - **The Yoshi Vibe**: Influence of the Yoshi's Island theme on your work.
-   - **Capitalist Bowser**: The story theme of Bowser as a "ruthless capitalist" exploiting the island.
+   - **Capitalist Bowser**: The story theme of Bowser as a "ruthless capitalist" exploiting the island's resources.
    - **Innovation vs. Nostalgia**: Balancing new ideas with the classic feel.
    - **Intrinsic Motivation**: Designing for fun, not just for rewards.
    - **AAA Game Critique (For Kaze)**: Specific design choices to avoid being a "chore."
@@ -82,15 +82,15 @@ These central questions are for Kaze, Biobak, Badub, and Zeina individually. Thi
 
    :::
 
-6. **A Story of a Challenge:** I'd love to hear about a time when things got really tough. Maybe a technical nightmare, a creative block, or even a disagreement. What happened, and how did you push through to that breakthrough moment?
+6. **A Story of a Challenge:** Was there a moment you thought "this might not happen"? Maybe a technical nightmare, a creative block, a financial scare, or even a disagreement, that made you genuinely doubt if Return to Yoshi's Island would ever be finished? What happened, and how did you push through to that breakthrough moment?
 
    ::: info Follow-ups
 
    - **Technical Nightmare**: Most frustrating bug: hardware-only crash, compiler error, etc.
-   - **Creative Dead End**: Scrapping the "Space Arcade" for the "Shy Guy Space Station."
+   - **A Breakthrough Moment**: The most satisfying problem you've solved.
+   - **Creative Dead End**: Scrapping the "Space Arcade" for the "Shy Guy Space Station," or the pivot from volcano to oil rig for Course 11.
    - **The Cowboy Crisis (For Kaze, Badub)**: The level struggling until Badub's music arrived.
    - **The Physics of Flight (For Kaze)**: Folding and translating a real paper airplane's flight into N64 code.
-   - **A Breakthrough Moment**: The most satisfying problem you've solved.
    - **The Wiggler Animation (For Zeina)**: The story behind the "most difficult to animate" character.
    - **The Oily Boily Bay Music (For Badub)**: The story of the ten drafts it took to get the music right.
 
@@ -100,10 +100,10 @@ These central questions are for Kaze, Biobak, Badub, and Zeina individually. Thi
 
    ::: info Follow-ups
 
-   - **Outdated Hardware**: The appeal of working with 30-year-old technology instead of modern engines.
+   - **Outdated Hardware**: Why not use modern engines?
    - **Creative Constraint**: An example of a hardware limitation forcing a creative solution.
    - **ROM Space**: The importance of staying within the 64MB cartridge size, especially when music takes up over half the space.
-   - **Engine Rewrite (For Kaze)**: The "this is broken" moment that forced a rewrite of a core system.
+   - **Engine Rewrite (For Kaze)**: The "this is broken" moment that forced a rewrite of a core system like collision or audio.
    - **Hardware Surprises**: The "hidden megabyte" and other unexpected discoveries.
 
    :::

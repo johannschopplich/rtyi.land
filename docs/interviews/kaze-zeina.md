@@ -10,6 +10,8 @@ These questions are for Kaze and Zeina together, focusing on their unique dynami
     - **Work-Life Balance**: Switching off from "developer mode."
     - **The Workspace**: The move to separate rooms and Kaze's "banishment" to the basement dungeon.
     - **A Family Project**: The project's integration into daily life (terrariums, moving homes, the haircut mishap, rescuing a baby bird).
+    - **A Unified Vision**: Maintaining a shared creative vision even when you have strong, differing opinions.
+    - **Creative Intimacy**: The unique advantage of having a partner who deeply understands your creative and technical struggles.
 
     :::
 
@@ -36,29 +38,21 @@ These questions are for Kaze and Zeina together, focusing on their unique dynami
 
     :::
 
-4.  **Life, Art, and Parenthood:** This project has been part of your lives for years, and you became parents as it nears completion. How has this project shaped your life together, and how has your life, and parenthood, shaped the project and your perspective on it?
+4.  **Life, Art, and Parenthood:** You've built this game while building a life – moving homes, getting married, becoming parents. How has this project shaped your life together, and how has your life, and parenthood, shaped the project and your perspective on it?
 
     ::: info Follow-ups
 
     - **Parenthood & Perspective**: How becoming parents to your daughter, Reyna, has changed your view on the project.
     - **The Anniversary Moment**: Forgetting your third wedding anniversary during a stream.
+    - **The Haircut Mishap**: A moment where personal life and creative partnership hilariously collided.
     - **Financial Partnership**: Making financial decisions together for a passion project. Kaze: "The game as a whole is going to cost me in the tens of thousands."
     - **Support Systems**: Zeina meal prepping for Kaze's streaming schedule, managing life logistics around development.
+    - **The Pressure Cooker**: Handling the stress of an ambitious, multi-year project as a couple.
     - **A Shared Legacy**: What RTYI represents as something you've built together.
 
     :::
 
-5.  **The Creative Marriage:** This project has been a constant presence in your relationship for years. You've lived through technical breakthroughs, creative blocks, and late-night debugging sessions together. How has creating RTYI as a married couple shaped both your relationship and the game itself?
-
-    ::: info Follow-ups
-
-    - **A Unified Vision**: Maintaining a shared creative vision with strong opinions.
-    - **Creative Intimacy**: Having a partner who understands your creative and technical struggles.
-    - **The Pressure Cooker**: Handling the stress of an ambitious project as a couple.
-    - **The Haircut Mishap**: A moment where personal life and creative partnership hilariously collided.
-    - **Future Collaborations**: Has RTYI made you want to work together more, or less?
-
-    :::
+5.  **The Future:** After spending years on this single, massive project together, has the experience made you want to collaborate more in the future, or less?
 
 <style scoped>
 .custom-block.info {
