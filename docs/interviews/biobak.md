@@ -12,13 +12,13 @@ You're the visual artist behind many RTYI levels – when people see those moder
 
     ::: info Follow-ups
 
-    - **Kaze's Reaction**: His "Holy shit, everything is different" (Ghost Ship) reaction to your reworks.
+    - **Kaze's Reaction**: His "Holy shit, everything is different" (Ghost Ship) or "it looked poopy before" (Oily Boily Bay) reactions to your reworks.
     - **The Starting Point**: Receiving a level as a blockout or MS Paint map.
     - **Thematic Storytelling**: Finding the "bomb manufacturing process" narrative for the Bomb-Cap Factory.
-    - **Creative Problem-Solving**: The ceiling becoming the light source.
-    - **Practical Constraints**: Kaze: "Fuck cranes. I hate modeling them."
-    - **Quality Evolution**: How your standards have evolved over the project's timeline.
-    - **The Changelog**: The importance of your comprehensive changelogs.
+    - **Creative Problem-Solving**: The ceiling becoming the light source in the factory.
+    - **Iterative Process**: The back-and-forth on Oily Boily Bay, from volcano to oil rig, and finding the right color palette.
+    - **Performance Gains**: How your reworks often reduce triangle counts and materials while improving visuals.
+    - **The Changelog**: The importance of your comprehensive changelogs for Kaze to integrate your work.
 
     :::
 
@@ -26,12 +26,12 @@ You're the visual artist behind many RTYI levels – when people see those moder
 
     ::: info Follow-ups
 
-    - **High-Poly to Low-Poly**: Your process for creating detailed models for N64 optimization.
-    - **The N64 Palette**: Creating visual richness within the limited color palette.
-    - **Optimization vs. Vision**: Balancing optimization with your artistic vision.
-    - **Creative Workarounds**: The story of the "Cursed Texture" and the 96x42 resolution fix.
+    - **High-Poly to Low-Poly**: Your process for creating detailed models optimized for the N64.
+    - **The N64 Palette**: Creating visual richness within the limited color palette and texture memory.
+    - **Optimization vs. Vision**: Balancing optimization with your artistic vision – a time you had to compromise.
+    - **Creative Workarounds**: The story of the "Cursed Texture" and the 96x42 resolution fix for the ship sail.
     - **Hardware Defeats**: An idea that was too ambitious for the hardware.
-    - **Surprising Successes**: An idea that worked despite the limitations.
+    - **Surprising Successes**: An idea that worked despite the limitations, like the transparent water in Dino Dino Domain.
 
     :::
 
@@ -43,9 +43,10 @@ You're the visual artist behind many RTYI levels – when people see those moder
 
     - **Translating the "Vibe"**: Turning Kaze's abstract "vibe" descriptions into a concrete visual identity.
     - **Blueprint to Beauty**: Your process for transforming Kaze's MS Paint maps into 3D environments.
+    - **Live Feedback**: Your role in providing real-time feedback on colors and textures during Kaze's streams.
     - **Beyond Visuals**: Your role in suggesting gameplay improvements and new mechanics.
-    - **Boss Battle Innovation**: Suggesting the destructible planet for the Course 15 boss.
-    - **Defining the Look**: A time you had to define the visual direction for a level.
+    - **Boss Battle Innovation**: Suggesting the destructible planet for the Course 15 boss fight.
+    - **Naming Influence**: Pitching level names like "Oozing Oil Operation."
     - **Artistic Influence**: An artistic choice of yours that fundamentally changed a level's gameplay.
 
     :::
@@ -54,11 +55,12 @@ You're the visual artist behind many RTYI levels – when people see those moder
 
     ::: info Follow-ups
 
-    - **Environmental Storytelling**: Using environmental details to tell stories.
+    - **Environmental Storytelling**: Using environmental details like the "sexy brutalist architecture" to tell stories.
     - **N64 Atmosphere**: Creating compelling lighting and atmosphere on the N64.
     - **The "Biobak Rework"**: The secret ingredient to your successful level reworks.
-    - **Invisible Details**: A small detail you've added that enhances believability.
+    - **Invisible Details**: A small detail you've added that enhances believability, like the garlic plate in Wario's office.
     - **A Proud Moment**: The visual element or "placemaking" detail you're most proud of.
+    - **The HUD**: Your work on the new health meter and other UI elements.
 
     :::
 

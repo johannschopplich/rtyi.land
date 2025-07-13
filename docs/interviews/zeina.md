@@ -13,11 +13,12 @@ You bring RTYI's characters to life through animation and art, but you're also K
     ::: info Follow-ups
 
     - **The Wiggler Challenge**: "The most difficult one to animate yet."
-    - **Personality in Polygons**: Giving characters like the Piano Guy charisma with N64 limits.
-    - **Animation Pipeline**: The workflow when Kaze is "waiting for animations."
-    - **Evolving Tools**: Kaze's new quaternion animation system vs. old "geo bone" limits.
+    - **Personality in Polygons**: Giving characters like the Piano Guy or the "pouty" Bowser charisma with N64 limits.
+    - **Animation Pipeline**: The workflow when Kaze is "waiting for animations" for a boss fight or NPC.
+    - **Evolving Tools**: Kaze's new quaternion animation system vs. the old "geo bone" limits that required re-animating the penguins and Dory.
     - **Live Creation**: Creating eye textures "in under 10 minutes" on stream.
     - **Self-Critique**: Your high standards for your own work, like the Bowser animation.
+    - **New Animation Format**: The new per-frame streaming system that allows for infinitely long animations, like the Mario shuffle dance.
 
     :::
 
@@ -27,12 +28,12 @@ You bring RTYI's characters to life through animation and art, but you're also K
 
     ::: info Follow-ups
 
-    - **Mutant Yoshi Boss**: The story behind your "mutant Yoshi" concept art.
-    - **From 2D to 3D**: Your process for translating drawings (like the zoo entrance) into game assets.
-    - **Environmental Charm**: How small textures like bunny footprints add to the world.
+    - **Mutant Yoshi Boss**: The story behind your "mutant Yoshi" and "tentacle Yoshi" concept art.
+    - **From 2D to 3D**: Your process for translating drawings (like the zoo entrance or level flow sketches) into game assets.
+    - **Environmental Charm**: How small textures like bunny footprints or the "butt-print" texture add to the world.
     - **Artistic Coordination**: Coordinating with Biobak to maintain a consistent visual style.
-    - **Planning Through Art**: How your sketches of level flow inform the final design. Kaze: "Zeina already has a lot of sketches about how Mario goes through the levels"
-    - **The Scope of Your Role**: The wide range of your contributions, from animation to playtesting.
+    - **Planning Through Art**: How your sketches of level flow inform the final design. Kaze: "Zeina already has a lot of sketches about how Mario goes through the levels."
+    - **The Scope of Your Role**: The wide range of your contributions, from animation to playtesting to modeling the Dry Bones.
 
     :::
 
@@ -40,11 +41,12 @@ You bring RTYI's characters to life through animation and art, but you're also K
 
     ::: info Follow-ups
 
-    - **Kaze: "Painful to Watch"**: Your perspective on being the first playtester for difficult sections.
+    - **Kaze: "Painful to Watch"**: Your perspective on being the first playtester for difficult sections, like the oil-rig water reset.
     - **The First Playtester**: The kinds of issues you notice that a programmer might miss.
     - **From Player to Artist**: How playtesting influences your animation and art decisions.
     - **The Quality Filter**: Your role as the bridge between developer and player.
     - **A Concrete Example**: A specific level or mechanic that changed because of your feedback.
+    - **The Baby Bird Rescue**: The story of you and Kaze rescuing an injured baby bird.
 
     :::
 

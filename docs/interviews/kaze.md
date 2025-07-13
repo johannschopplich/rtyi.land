@@ -18,6 +18,7 @@ Tell me about your role in creating RTYI – you're not just modding Mario 64, y
     - **Design Maturity**: Evolving from 5% design time (_Last Impact_) to 20% (RTYI).
     - **AAA Game Critique**: Designing to avoid modern AAA "chore" gameplay.
     - **Show, Don't Tell**: The philosophy behind removing exclamation marks and using "tutorial bunnies."
+    - **Rule of Cool**: Your philosophy that "this is not about logic, this is about cool."
 
     :::
 
@@ -25,12 +26,12 @@ Tell me about your role in creating RTYI – you're not just modding Mario 64, y
 
     ::: info Follow-ups
 
-    - **Secret Identity**: The overworld shaped like a Yoshi head.
-    - **A Living World**: Permanent world changes after events (volcano eruption, rain stopping).
-    - **Interconnected Design**: The river flowing from Course 2 through the whole overworld.
-    - **The Lighthouse Puzzle**: Using the lighthouse to reveal the Ghost Ship.
-    - **Dynamic Music**: Badub's 20 transitioning tracks for the overworld.
-    - **Coin Economy**: Making coins "more valuable than Mario Odyssey" with shops.
+    - **Secret Identity**: The overworld shaped like a Yoshi head, a secret players might only notice on a map.
+    - **A Living World**: Permanent world changes after events like a volcano eruption, a pirate attack, or NPCs building new structures.
+    - **Interconnected Design**: The river flowing from Course 2 through the whole overworld, and shortcuts that open up as you progress.
+    - **The Lighthouse Puzzle**: Using the lighthouse to reveal the Ghost Ship instead of a simple star door.
+    - **Dynamic Music**: Badub's 20+ transitioning tracks for the overworld.
+    - **Coin Economy**: Making coins "more valuable than Mario Odyssey" with shops and donation-based events.
 
     :::
 
@@ -40,12 +41,13 @@ Tell me about your role in creating RTYI – you're not just modding Mario 64, y
 
     ::: info Follow-ups
 
-    - **Engine from Scratch**: The point of no return in rewriting the engine.
-    - **The Sound Engine**: What was so "fucked" about the vanilla audio engine?
-    - **Collision Overhaul**: Fixing the "unusable" vanilla collision and floor clocking.
-    - **Microcode Collaboration**: Working with Sauraen on F3DEX3 to beat RSP bottlenecks.
+    - **Engine from Scratch**: The "Ship of Theseus" approach to replacing vanilla code until it's almost entirely custom.
+    - **The Sound Engine**: What was so "fucked" about the vanilla audio engine? The story of the 80% performance gain and 32-note polyphony.
+    - **Collision Overhaul**: Fixing the "unusable" vanilla collision and "floor clocking" to be more stable and predictable.
+    - **Microcode Collaboration**: Working with Sauraen on F3DEX3 to beat RSP bottlenecks, making the game RSP-bound instead of RDP-bound.
     - **Performance Pride**: Achieving 60 FPS and the "Mario's behavior loop" i-cache optimization. Kaze: "This is an N64 game. How crazy is that?"
-    - **Real-World Physics**: The paper airplane experiment and translating it to code.
+    - **Real-World Physics**: The paper airplane experiment and translating its flight into code.
+    - **Hardware-Based RNG**: Using the N64's cycle counter for true hardware randomness, even if it breaks TAS determinism.
 
     :::
 
@@ -53,12 +55,12 @@ Tell me about your role in creating RTYI – you're not just modding Mario 64, y
 
     ::: info Follow-ups
 
-    - **Emulator Hell**: Most frustrating hardware-only bug.
-    - **The Compiler's Fault**: Debugging a crash caused by the compiler, not your code.
-    - **Hardware vs. Emulator**: Why emulators can't be trusted for final performance.
-    - **Essential Tools**: The importance of Sauraen's profiler and NEMU64.
-    - **The EverDrive Failure**: The story behind the EverDrive X7 boot failure.
-    - **The Phantom Bowser**: The bug that only happened on Project64.
+    - **Emulator Hell**: The story of a hardware-only crash caused by a single misplaced coin formation.
+    - **The Compiler's Fault**: Debugging a crash caused by the compiler moving a division-by-zero into a branch delay slot.
+    - **Hardware vs. Emulator**: Why emulators can't be trusted for final performance, and the decision to drop emulator support after v1.1.
+    - **Essential Tools**: The importance of Sauraen's profiler and the custom NEMU64 build for live GDB debugging.
+    - **The EverDrive Failure**: The story behind the EverDrive X7 boot failure and the RAM-clearing fix.
+    - **The Phantom Bowser**: The bug that only happened on Project64 where Mario would randomly drop Bowser.
 
     :::
 
@@ -68,13 +70,13 @@ Tell me about your role in creating RTYI – you're not just modding Mario 64, y
 
     ::: info Follow-ups
 
-    - **Biobak's Reworks**: The "Holy shit, everything is different" moment.
-    - **Badub's Music**: The "Cowboy Crisis" and music inspiring level design.
-    - **Zeina's Concepts**: The "mutant Yoshi" boss and other artistic influences.
-    - **Collaborative Problem-Solving**: Solving the "unteachable tutorial" as a team.
-    - **Managing Standards**: Hesitation to ask for help due to quality concerns.
-    - **Creative Arguments**: Resolving disagreements with collaborators like Biobak.
-    - **Quality Concerns**: Managing collaborative standards: "I do not want to reach out to people and ask for help. Because... I feel like I'm gonna say 'oh this actually isn't up to the quality standards I expect'."
+    - **Biobak's Reworks**: The "Holy shit, everything is different" moment when seeing the Ghost Ship or Oily Boily Bay reworks.
+    - **Badub's Music**: The "Cowboy Crisis" and how Badub's music instantly solved a creative block on the Western level.
+    - **Zeina's Concepts**: The "mutant Yoshi" boss concept and other artistic influences on level design.
+    - **Collaborative Problem-Solving**: Solving the "unteachable tutorial" for the Bomb-Cap Factory as a team.
+    - **Managing Standards**: Hesitation to ask for help due to quality concerns: "I do not want to reach out to people and ask for help. Because... I feel like I'm gonna say 'oh this actually isn't up to the quality standards I expect'."
+    - **Creative Arguments**: Resolving disagreements with collaborators like Biobak over the overworld design.
+    - **The "Soft Skills" Epiphany**: Your recent realization about the importance of "soft skills" in collaboration.
 
     :::
 
@@ -83,10 +85,10 @@ Tell me about your role in creating RTYI – you're not just modding Mario 64, y
     ::: info Follow-ups
 
     - **Feelings vs. Reasoning**: Your philosophy on processing viewer feedback.
-    - **Community-Sourced Features**: The Whomp Tower, mirror wall, and growing vine ideas.
+    - **Community-Sourced Features**: The Whomp Tower, mirror wall, growing vine ideas, and the Womp-stacking gag in the factory.
     - **Live Feedback Loop**: Biobak offering real-time color feedback during streams.
     - **The Pressure of Public Dev**: Balancing the YouTube algorithm vs. tedious development work.
-    - **Community Testing**: Using questionnaires from the Course 1 demo.
+    - **Community Testing**: Using questionnaires from the Course 1 demo to gather structured feedback.
 
     :::
 
@@ -97,11 +99,12 @@ Tell me about your role in creating RTYI – you're not just modding Mario 64, y
     ::: info Follow-ups
 
     - **The Takedowns**: Emotional impact of Nintendo taking down over 70 of your videos.
-    - **"Calculated Risk" Mindset**: Why you continue despite the constant threat.
-    - **"Win-Win" Scenario**: About a takedown being a PR opportunity.
-    - **Contingency Plans**: The "legally distinct" asset-swap and open-sourcing the engine.
+    - **"Calculated Risk" Mindset**: Why you continue despite the constant threat, and timing releases to avoid major Nintendo announcements.
+    - **"Win-Win" Scenario**: Your view of a takedown as a PR opportunity to launch an original IP.
+    - **Contingency Plans**: The "legally distinct" asset-swap for a Steam release and open-sourcing the engine.
     - **The Profane Reply**: The story behind your colorful reply to a 2019 DMCA notice.
-    - **Commercial Aspirations**: The long-term goal of a Kickstarter for an original game.
+    - **Commercial Aspirations**: The long-term goal of a Kickstarter for an original game after RTYI is complete.
+    - **Physical Release**: The plan to sell a physical box and manual (with no ROM) to avoid legal issues.
 
     :::
 

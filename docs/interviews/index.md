@@ -28,8 +28,8 @@ These central questions are for Kaze, Biobak, Badub, and Zeina individually. Thi
    - **Explaining ROM Hacking**: What is ROM hacking?
    - **Decompilation Impact**: How the decomp project changed things.
    - **Why Yoshi?**: The specific appeal of Yoshi's Island.
-   - **The Drive**: Motivation for rebuilding a 30-year-old game.
    - **A New Engine**: What Kaze's new engine means for your work.
+   - **Ship of Theseus**: Is this still Mario 64, or something else entirely?
 
    :::
 
@@ -51,7 +51,7 @@ These central questions are for Kaze, Biobak, Badub, and Zeina individually. Thi
 
    - **The Creative Cycle (For Kaze)**: Navigating the "fun to pure torture" cycle. Kaze: "It always starts like really fun and eventually it turns into pure torture. That's just the cycle of making games."
    - **Motivation vs. Discipline**: Kaze's philosophy of "work without motivation."
-   - **Financial Reality**: Balancing passion with the project's real-world costs.
+   - **Financial Reality**: Balancing passion with the project's real-world costs, especially with Kaze spending "tens of thousands."
    - **The N64 Obsession**: The appeal of pushing 30-year-old hardware.
    - **Defining Quality**: What "quality" means for RTYI.
 
@@ -63,6 +63,7 @@ These central questions are for Kaze, Biobak, Badub, and Zeina individually. Thi
 
    - **Defining "Placeness"**: What the game's specific "vibe" and sense of "placeness" means to you.
    - **The Yoshi Vibe**: Influence of the Yoshi's Island theme on your work.
+   - **Capitalist Bowser**: The story theme of Bowser as a "ruthless capitalist" exploiting the island.
    - **Innovation vs. Nostalgia**: Balancing new ideas with the classic feel.
    - **Intrinsic Motivation**: Designing for fun, not just for rewards.
    - **AAA Game Critique (For Kaze)**: Specific design choices to avoid being a "chore."
@@ -90,6 +91,8 @@ These central questions are for Kaze, Biobak, Badub, and Zeina individually. Thi
    - **The Cowboy Crisis (For Kaze, Badub)**: The level struggling until Badub's music arrived.
    - **The Physics of Flight (For Kaze)**: Folding and translating a real paper airplane's flight into N64 code.
    - **A Breakthrough Moment**: The most satisfying problem you've solved.
+   - **The Wiggler Animation (For Zeina)**: The story behind the "most difficult to animate" character.
+   - **The Oily Boily Bay Music (For Badub)**: The story of the ten drafts it took to get the music right.
 
    :::
 
@@ -98,9 +101,9 @@ These central questions are for Kaze, Biobak, Badub, and Zeina individually. Thi
    ::: info Follow-ups
 
    - **Creative Constraint**: An example of a hardware limitation forcing a creative solution.
-   - **The 64MB Limit**: The importance of staying within the original cartridge size. How 64MB is tiny compared to modern games.
+   - **The 64MB Limit**: The importance of staying within the original cartridge size, especially when music takes up over half the space.
    - **Engine Rewrite (For Kaze)**: The "this is broken" moment that forced a rewrite of a core system.
-   - **Why Not Modern Engines?**: The appeal of pushing old hardware.
+   - **The RSP Bottleneck**: The surprise discovery that the RSP, not the RDP, was the performance bottleneck.
    - **Hardware Surprises**: The "hidden megabyte" and other unexpected discoveries.
 
    :::
@@ -113,7 +116,7 @@ These central questions are for Kaze, Biobak, Badub, and Zeina individually. Thi
    - **Community Impact**: Hopes for influencing the SM64 hacking scene.
    - **Open Source (For Kaze)**: Vision for the community using the source code.
    - **Retro Appeal**: Why retro-style game development still matters today.
-   - **Commercial Ambitions**: Team's thoughts on a potential asset-swapped commercial release.
+   - **Commercial Ambitions**: Team's thoughts on a potential "legally distinct" asset-swapped commercial release.
    - **Personal Meaning**: What finishing this project means to you.
 
    :::

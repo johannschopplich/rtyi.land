@@ -8,8 +8,8 @@ These questions are for Kaze and Zeina together, focusing on their unique dynami
 
     - **Creative Decisions**: Making design decisions over dinner vs. formal sessions.
     - **Work-Life Balance**: Switching off from "developer mode."
-    - **The Workspace**: The move to separate rooms and Kaze's "banishment" to the basement.
-    - **A Family Project**: The project's integration into daily life (terrariums, moving homes, haircuts).
+    - **The Workspace**: The move to separate rooms and Kaze's "banishment" to the basement dungeon.
+    - **A Family Project**: The project's integration into daily life (terrariums, moving homes, the haircut mishap, rescuing a baby bird).
 
     :::
 
@@ -17,10 +17,10 @@ These questions are for Kaze and Zeina together, focusing on their unique dynami
 
     ::: info Follow-ups
 
-    - **"Painful to Watch"**: The story of a playtest that was "painful to watch."
-    - **Resolving Disagreements**: Being brutally honest with each other.
+    - **"Painful to Watch"**: The story of the oil-rig water reset being so "painful to watch" that Kaze had to make it easier.
+    - **Resolving Disagreements**: Being brutally honest with each other about a feature or animation.
     - **The First Critic**: Benefits and drawbacks of your partner being your first critic.
-    - **Influence on Design**: How Zeina's playtests directly influence level design.
+    - **Influence on Design**: How Zeina's playtests directly influence level design and difficulty.
 
     :::
 
@@ -31,7 +31,7 @@ These questions are for Kaze and Zeina together, focusing on their unique dynami
     - **The Wiggler**: The back-and-forth on the "most difficult to animate" character.
     - **First Look**: Kaze's reaction to seeing a finished animation for the first time.
     - **Vision vs. Reality**: The negotiation between artistic vision and technical constraints.
-    - **The Waiting Game**: Managing dependencies when Kaze is "waiting for animations."
+    - **The Waiting Game**: Managing dependencies when Kaze is "waiting for animations" for a boss fight.
     - **Iterative Process**: An animation change that required a code change, or vice-versa.
 
     :::
@@ -40,7 +40,7 @@ These questions are for Kaze and Zeina together, focusing on their unique dynami
 
     ::: info Follow-ups
 
-    - **Parenthood & Perspective**: How becoming parents has changed your view on the project.
+    - **Parenthood & Perspective**: How becoming parents to your daughter, Reyna, has changed your view on the project.
     - **The Anniversary Moment**: Forgetting your third wedding anniversary during a stream.
     - **Financial Partnership**: Making financial decisions together for a passion project. Kaze: "The game as a whole is going to cost me in the tens of thousands."
     - **Support Systems**: Zeina meal prepping for Kaze's streaming schedule, managing life logistics around development.
@@ -55,7 +55,7 @@ These questions are for Kaze and Zeina together, focusing on their unique dynami
     - **A Unified Vision**: Maintaining a shared creative vision with strong opinions.
     - **Creative Intimacy**: Having a partner who understands your creative and technical struggles.
     - **The Pressure Cooker**: Handling the stress of an ambitious project as a couple.
-    - **Unique Advantages**: Creative possibilities that emerge from being partners.
+    - **The Haircut Mishap**: A moment where personal life and creative partnership hilariously collided.
     - **Future Collaborations**: Has RTYI made you want to work together more, or less?
 
     :::
