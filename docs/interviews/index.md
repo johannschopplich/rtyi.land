@@ -100,10 +100,10 @@ These central questions are for Kaze, Biobak, Badub, and Zeina individually. Thi
 
    ::: info Follow-ups
 
+   - **Outdated Hardware**: The appeal of working with 30-year-old technology instead of modern engines.
    - **Creative Constraint**: An example of a hardware limitation forcing a creative solution.
-   - **The 64MB Limit**: The importance of staying within the original cartridge size, especially when music takes up over half the space.
+   - **ROM Space**: The importance of staying within the 64MB cartridge size, especially when music takes up over half the space.
    - **Engine Rewrite (For Kaze)**: The "this is broken" moment that forced a rewrite of a core system.
-   - **The RSP Bottleneck**: The surprise discovery that the RSP, not the RDP, was the performance bottleneck.
    - **Hardware Surprises**: The "hidden megabyte" and other unexpected discoveries.
 
    :::
