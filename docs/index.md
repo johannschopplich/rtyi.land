@@ -3,8 +3,8 @@ layout: home
 
 hero:
   name: RTYI Documentary
-  text: Research and Preparation
-  tagline: Personal space for the Return to Yoshi's Island documentary.
+  text: Beyond the Cartridge
+  tagline: Research and preparation for the Return to Yoshi's Island documentary.
   image:
     src: /logo-shadow.svg
     alt: Return to Yoshi's Island Documentary Logo
