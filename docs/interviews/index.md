@@ -25,7 +25,7 @@ These central questions are for Kaze, Biobak, Badub, and Zeina individually. Thi
 
    ::: info Follow-ups
 
-   - **Explaining ROM Hacking**: What is ROM hacking?
+   - **ROM Hacking**: What is ROM hacking?
    - **Decompilation Impact**: How the decomp project changed things.
    - **Why Yoshi?**: The specific appeal of Yoshi's Island.
    - **A New Engine**: What Kaze's new engine, with its custom collision and sound, means for your work.
