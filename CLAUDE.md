@@ -17,7 +17,6 @@ This is a documentation project for a Mario 64 modding documentary called "Right
 ### Analysis Scripts
 
 - `pnpm stream-analysis` - Run AI analysis on stream transcripts
-- `pnpm combine-stream-extracts` - Combine extracted analysis data
 
 ### Code Quality
 
