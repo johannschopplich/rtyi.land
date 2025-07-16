@@ -98,6 +98,10 @@ export default defineConfig({
       message:
         'Written for internal use by <a href="https://byjohann.link">Johann Schopplich</a>.',
     },
+
+    search: {
+      provider: "local",
+    },
   },
 });
 
