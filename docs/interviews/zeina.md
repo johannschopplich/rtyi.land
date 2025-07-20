@@ -8,7 +8,7 @@ You bring RTYI's characters to life through animation and art, but you're also K
 
 ## On Animation & Character
 
-1.  You bring the game's characters to life through animation. What's your approach to giving personality and emotion to characters within the N64's technical limits? The Piano Guy is a favorite character with so much charisma.
+1.  You bring the game's characters to life through animation. What's your approach to giving personality and emotion to characters within the N64's technical limits? The Piano Guy is my favorite character. He has so much charisma.
 
     ::: info Follow-ups
 
