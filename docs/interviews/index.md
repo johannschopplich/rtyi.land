@@ -15,7 +15,7 @@ These central questions are for Kaze, Biobak, Badub, and Zeina individually. Thi
    ::: info Follow-ups
 
    - **Childhood**: Earliest video game memory?
-   - **Nintendo 64**: First N64 experience?
+   - **Nintendo 64**: First N64 experience? Earliest childhood connection?
    - **Mario 64**: First encounter with the game?
    - **ROM Hacking**: How did you get into it?
 
@@ -25,6 +25,7 @@ These central questions are for Kaze, Biobak, Badub, and Zeina individually. Thi
 
    ::: info Follow-ups
 
+   - **Development Timeline**: How many years of development has this project taken so far?
    - **ROM Hacking**: What is ROM hacking?
    - **Decompilation Impact**: How the decomp project changed things.
    - **Why Yoshi?**: The specific appeal of Yoshi's Island.
