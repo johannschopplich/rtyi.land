@@ -90,7 +90,7 @@ This outline serves only as a roadmap for filming, while allowing the actual sto
 
 - **Narrative Goal:** Documenting how a simple mistake led to doubling the game's performance, showing the unexpected nature of optimization.
 - **Topics to Cover:**
-  - **The Accident:** "I was exporting it as an F3D model and not F3DX2. So we had twice the vertex loads, twice the triangle comments... and it still ran fine."
+  - **The Accident:** "I was exporting it as an F3D model and not F3DEX2. So we had twice the vertex loads, twice the triangle comments... and it still ran fine."
   - **The Realization:** Testing on N64 hardware and discovering the level performed much better than expected.
   - **The Impact:** Instantly doubling performance with a single setting change, turning a potential optimization nightmare into a validating win.
   - **The Philosophy:** How accidents can be more valuable than months of planned optimization.
