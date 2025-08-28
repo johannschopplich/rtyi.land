@@ -29,7 +29,7 @@ You bring RTYI's characters to life through animation and art, but you're also K
     ::: info Follow-ups
 
     - **Mutant Yoshi Boss**: The story behind your "mutant Yoshi" and "tentacle Yoshi" concept art.
-    - **From 2D to 3D**: Your process for translating drawings (like the zoo entrance or level flow sketches) into game assets.
+    - **From 2D to 3D**: Your process for translating drawings (like the zoo entrance or level flow sketches) into game assets, including Wild West props that Kaze praised.
     - **Environmental Charm**: How small textures like bunny footprints or the "butt-print" texture add to the world.
     - **Artistic Coordination**: Coordinating with Biobak to maintain a consistent visual style.
     - **Planning Through Art**: How your sketches of level flow inform the final design. Kaze: "Zeina already has a lot of sketches about how Mario goes through the levels."

@@ -35,6 +35,7 @@ These questions are for Kaze and Zeina together, focusing on their unique dynami
     - **Vision vs. Reality**: The negotiation between artistic vision and technical constraints.
     - **The Waiting Game**: Managing dependencies when Kaze is "waiting for animations" for a boss fight.
     - **Iterative Process**: An animation change that required a code change, or vice-versa.
+    - **Wild West Props**: Zeina's modeling work for the western level and its impact on design.
 
     :::
 

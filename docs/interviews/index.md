@@ -51,6 +51,7 @@ These central questions are for Kaze, Biobak, Badub, and Zeina individually. Thi
    ::: info Follow-ups
 
    - **The Creative Cycle (For Kaze)**: Navigating the "fun to pure torture" cycle. Kaze: "It always starts like really fun and eventually it turns into pure torture. That's just the cycle of making games."
+   - **The Creator's Purpose (For Kaze)**: Your philosophy that creation is the "purpose of the human soul."
    - **Motivation vs. Discipline**: Kaze's philosophy of "work without motivation."
    - **Financial Reality**: Balancing passion with the project's real-world costs, especially with Biobak's contract.
    - **The N64 Obsession**: The appeal of pushing 30-year-old hardware.
@@ -65,6 +66,7 @@ These central questions are for Kaze, Biobak, Badub, and Zeina individually. Thi
    - **Defining "Placeness"**: What the game's specific "vibe" and sense of "placeness" means to you.
    - **The Yoshi Vibe**: Influence of the Yoshi's Island theme on your work.
    - **Capitalist Bowser**: The story theme of Bowser as a "ruthless capitalist" exploiting the island's resources.
+   - **The Zoo's Humor**: The appeal of humor and parody (funny signs and trophies) within the Mario IP constraints and fitting the overall tone.
    - **Innovation vs. Nostalgia**: Balancing new ideas with the classic feel.
    - **Intrinsic Motivation**: Designing for fun, not just for rewards.
    - **AAA Game Critique (For Kaze)**: Specific design choices to avoid being a "chore."
@@ -103,7 +105,7 @@ These central questions are for Kaze, Biobak, Badub, and Zeina individually. Thi
 
    - **Outdated Hardware**: Why not use modern engines?
    - **Creative Constraint**: An example of a hardware limitation forcing a creative solution.
-   - **ROM Space**: The importance of staying within the 64MB cartridge size, especially when music takes up over half the space.
+   - **ROM Space**: The importance of staying within the 64MB cartridge size, especially when music takes up over half the space. What to chop if exceeding it?
    - **Engine Rewrite (For Kaze)**: The "this is broken" moment that forced a rewrite of a core system like collision or audio.
    - **Hardware Surprises**: The "hidden megabyte" and other unexpected discoveries.
 
@@ -117,7 +119,7 @@ These central questions are for Kaze, Biobak, Badub, and Zeina individually. Thi
    - **Community Impact**: Hopes for influencing the SM64 hacking scene.
    - **Open Source (For Kaze)**: Vision for the community using the source code.
    - **Retro Appeal**: Why retro-style game development still matters today.
-   - **Commercial Ambitions**: Team's thoughts on a potential "legally distinct" asset-swapped commercial release.
+   - **Commercial Ambitions**: Team's thoughts on a potential "legally distinct" asset-swapped commercial release. Financial viability of a standalone game?
    - **Personal Meaning**: What finishing this project means to you.
 
    :::

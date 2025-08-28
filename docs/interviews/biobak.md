@@ -16,7 +16,7 @@ You're the visual artist behind many RTYI levels – when people see those moder
     - **The Starting Point**: Receiving a level as a blockout or MS Paint map.
     - **Thematic Storytelling**: Finding the "bomb manufacturing process" narrative for the Bomb-Cap Factory.
     - **Creative Problem-Solving**: The ceiling becoming the light source in the factory.
-    - **Iterative Process**: The back-and-forth on Oily Boily Bay, from volcano to oil rig, and finding the right color palette.
+    - **Iterative Process**: The back-and-forth on Oily Boily Bay, from volcano to oil rig, and finding the right color palette. The main office change from a full castle to a single tower.
     - **Performance Gains**: How your reworks often reduce triangle counts and materials while improving visuals.
     - **The Changelog**: The importance of your comprehensive changelogs for Kaze to integrate your work.
 

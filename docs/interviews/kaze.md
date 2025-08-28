@@ -13,6 +13,8 @@ Tell me about your role in creating RTYI – you're not just modding Mario 64, y
     ::: info Follow-ups
 
     - **The Zoo Catalyst**: The Zoo's lag spiraling into a full engine rewrite: "The zoo is actually the reason I even started optimizing Mario 64. The zoo ran so poorly that I just could not take that."
+    - **Design Philosophy**: "Tell stories in this game" philosophy and its concrete manifestation in RTYI design choices.
+    - **Influences**: Older titles, like _SpongeBob SquarePants: Battle for Bikini Bottom_, and influences for a friction-free, enjoyable platformer.
     - **Placeness vs. Gameplay**: Balancing world-building with "excitement over difficulty."
     - **Killing Darlings**: Scrapping the "terrible" Space Arcade for the Shy Guy Space Station.
     - **Design Maturity**: Evolving from 5% design time (_Last Impact_) to 20% (RTYI).
@@ -71,7 +73,7 @@ Tell me about your role in creating RTYI – you're not just modding Mario 64, y
     ::: info Follow-ups
 
     - **Biobak's Reworks**: The "Holy shit, everything is different" moment when seeing the Ghost Ship or Oily Boily Bay reworks.
-    - **Badub's Music**: The "Cowboy Crisis" and how Badub's music instantly solved a creative block on the Western level.
+    - **Badub's Music**: The "Cowboy Crisis" and how Badub's music instantly solved a creative block on the Western level. Also watching Western movies for inspiration.
     - **Zeina's Concepts**: The "mutant Yoshi" boss concept and other artistic influences on level design.
     - **Collaborative Problem-Solving**: Solving the "unteachable tutorial" for the Bomb-Cap Factory as a team.
     - **Managing Standards**: Hesitation to ask for help due to quality concerns: "I do not want to reach out to people and ask for help. Because... I feel like I'm gonna say 'oh this actually isn't up to the quality standards I expect'."
@@ -104,7 +106,7 @@ Tell me about your role in creating RTYI – you're not just modding Mario 64, y
     - **Contingency Plans**: The "legally distinct" asset-swap for a Steam release and open-sourcing the engine.
     - **The Profane Reply**: The story behind your colorful reply to a 2019 DMCA notice.
     - **Commercial Aspirations**: The long-term goal of a Kickstarter for an original game after RTYI is complete.
-    - **Physical Release**: The plan to sell a physical box and manual (with no ROM) to avoid legal issues.
+    - **Physical Release**: The plan to sell a physical box and manual (with no ROM) to avoid legal issues. Technical hurdles of a MP3 player cartridge.
 
     :::
 
