@@ -14,10 +14,8 @@ These central questions are for Kaze, Biobak, Badub, and Zeina individually. Thi
 
    ::: info Follow-ups
 
-   - **Childhood**: Earliest video game memory?
    - **Nintendo 64**: First N64 experience? Earliest childhood connection?
    - **Mario 64**: First encounter with the game?
-   - **ROM Hacking**: How did you get into it?
 
    :::
 
@@ -28,7 +26,6 @@ These central questions are for Kaze, Biobak, Badub, and Zeina individually. Thi
    - **Development Timeline**: How many years of development has this project taken so far?
    - **ROM Hacking**: What is ROM hacking?
    - **Decompilation Impact**: How the decomp project changed things.
-   - **Why Yoshi?**: The specific appeal of Yoshi's Island.
    - **A New Engine**: What Kaze's new engine, with its custom collision and sound, means for your work.
    - **"Ship of Theseus"**: Is this still Mario 64, or something else entirely?
 
@@ -40,7 +37,7 @@ These central questions are for Kaze, Biobak, Badub, and Zeina individually. Thi
 
    - **First Impressions**: Initial reaction to the project?
    - **The Pitch (For Biobak, Badub, Zeina)**: Kaze's pitch to get you on board.
-   - **The Yoshi Connection**: Kaze: "I like Yoshi. That's kind of where the thought process ended." Unpack that.
+   - **Why Yoshi?**: The specific appeal of Yoshi's Island. Kaze: "I like Yoshi. That's kind of where the thought process ended."
    - **Scope Creep**: The moment you realized the project's true scale, growing to 15 courses and a huge overworld.
    - **The Commitment**: What made you commit to the long haul?
 
