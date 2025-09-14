@@ -35,7 +35,6 @@ These central questions are for Kaze, Biobak, Badub, and Zeina individually. Thi
 
    ::: info Follow-ups
 
-   - **First Impressions**: Initial reaction to the project?
    - **The Pitch (For Biobak, Badub, Zeina)**: Kaze's pitch to get you on board.
    - **Why Yoshi?**: The specific appeal of Yoshi's Island. Kaze: "I like Yoshi. That's kind of where the thought process ended."
    - **Scope Creep**: The moment you realized the project's true scale, growing to 15 courses and a huge overworld.

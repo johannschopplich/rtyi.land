@@ -12,11 +12,7 @@ Music is the soul of any game, and your rich compositions for RTYI have this abi
 
     ::: info Follow-ups
 
-    - **The Soundfont**: Creative use of the limited N64 soundfont – are you using 70% vanilla SM64 instruments?
-    - **Familiar Yet Fresh**: Achieving a "new yet familiar" sound.
-    - **Yoshi vs. Mario**: The influence of the "Yoshi's Island" vs. "Mario 64" themes.
     - **Thematic Diversity**: Creating a cohesive soundtrack across diverse levels like a factory, a western, a craft world, and an ice castle.
-    - **The "Funky Space Casino"**: The story behind the track for Course 15.
 
     :::
 
@@ -28,7 +24,6 @@ Music is the soul of any game, and your rich compositions for RTYI have this abi
     - **Vibe Translation**: Translating Kaze's brief ("evil, bowser, construction, goofy") into music.
     - **Music-Driven Design**: Your music often being the foundational step for a level's vibe.
     - **Creative Struggle**: The ten drafts for the Oily Boily Bay track – what made that one so challenging?
-    - **A Period of Absence**: You were "missing in attendance" for a bit; what was happening during that time and what brought you back?
 
     :::
 
@@ -50,7 +45,6 @@ Music is the soul of any game, and your rich compositions for RTYI have this abi
 
     ::: info Follow-ups
 
-    - **Seamless Transitions**: The challenge of making the overworld tracks transition seamlessly.
     - **Technical Collaboration**: The back-and-forth with Kaze to implement dynamic music triggers.
     - **Adaptive Music**: The Bowser 2 track with mutable channels for indoor/outdoor feel – how was that designed?
     - **Musical Storytelling**: Using music to reflect the "capitalist Bowser" theme or other story beats.
