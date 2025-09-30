@@ -9,7 +9,6 @@ export const DOCS_DIR = join(ROOT_DIR, "docs");
 export const TRANSCRIPTS_DIR = join(ROOT_DIR, "transcripts");
 
 export const STREAMS_DIR = join(DATA_DIR, "streams_v2");
-export const KV_QUESTIONS_DIR = join(DATA_DIR, "kv", "questions");
 
 // AI language models
 export const DEFAULT_OPENAI_MODEL = "o4-mini" as const;

@@ -1,25 +1,15 @@
-import type { LanguageModelV1 } from "ai";
-import type { StorageValue } from "unstorage";
+import type { LanguageModelV2 } from "@ai-sdk/provider";
 import { constants } from "node:fs";
 import * as fsp from "node:fs/promises";
 import process from "node:process";
 import { createAnthropic } from "@ai-sdk/anthropic";
 import { createGoogleGenerativeAI } from "@ai-sdk/google";
 import { createOpenAI } from "@ai-sdk/openai";
-import { createStorage } from "unstorage";
-import fsDriver from "unstorage/drivers/fs";
 import {
   DEFAULT_ANTHROPIC_MODEL,
   DEFAULT_GOOGLE_MODEL,
   DEFAULT_OPENAI_MODEL,
-  KV_QUESTIONS_DIR,
 } from "./constants";
-
-export function getQuestionStorage<T extends StorageValue>() {
-  return createStorage<T>({
-    driver: fsDriver({ base: KV_QUESTIONS_DIR }),
-  });
-}
 
 export async function ensureDirectoryExists(dirPath: string) {
   try {
@@ -29,7 +19,7 @@ export async function ensureDirectoryExists(dirPath: string) {
   }
 }
 
-export function resolveProviderLanguageModel(model?: string): LanguageModelV1 {
+export function resolveProviderLanguageModel(model?: string): LanguageModelV2 {
   const languageModel = model?.trim() || DEFAULT_OPENAI_MODEL;
 
   if (languageModel?.startsWith("claude")) {
