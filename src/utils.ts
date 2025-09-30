@@ -2,14 +2,9 @@ import type { LanguageModelV2 } from "@ai-sdk/provider";
 import { constants } from "node:fs";
 import * as fsp from "node:fs/promises";
 import process from "node:process";
-import { createAnthropic } from "@ai-sdk/anthropic";
 import { createGoogleGenerativeAI } from "@ai-sdk/google";
 import { createOpenAI } from "@ai-sdk/openai";
-import {
-  DEFAULT_ANTHROPIC_MODEL,
-  DEFAULT_GOOGLE_MODEL,
-  DEFAULT_OPENAI_MODEL,
-} from "./constants";
+import { DEFAULT_OPENAI_MODEL } from "./constants";
 
 export async function ensureDirectoryExists(dirPath: string) {
   try {
@@ -22,20 +17,12 @@ export async function ensureDirectoryExists(dirPath: string) {
 export function resolveProviderLanguageModel(model?: string): LanguageModelV2 {
   const languageModel = model?.trim() || DEFAULT_OPENAI_MODEL;
 
-  if (languageModel?.startsWith("claude")) {
-    const anthropic = createAnthropic({
-      apiKey: process.env.ANTHROPIC_API_KEY,
-    });
-
-    return anthropic(languageModel || DEFAULT_ANTHROPIC_MODEL);
-  }
-
   if (languageModel?.startsWith("gemini")) {
     const google = createGoogleGenerativeAI({
       apiKey: process.env.GOOGLE_API_KEY,
     });
 
-    return google(languageModel || DEFAULT_GOOGLE_MODEL);
+    return google(languageModel);
   }
 
   const openai = createOpenAI({

@@ -5,28 +5,23 @@ import * as clack from "@clack/prompts";
 import ansis from "ansis";
 import PQueue from "p-queue";
 import {
-  DEFAULT_ANTHROPIC_PRO_MODEL,
-  DEFAULT_GOOGLE_PRO_MODEL,
-  DEFAULT_OPENAI_MODEL,
-  DEFAULT_OPENAI_PRO_MODEL,
-  STREAMS_DIR,
-  TRANSCRIPTS_DIR,
+  MODEL_LABELS,
+  TRANSCRIPTS_INPUT_DIR,
+  TRANSCRIPTS_OUTPUT_DIR,
 } from "../src/constants";
 import { createTranscriptProcessor } from "../src/context/transcripts";
 import { ensureDirectoryExists } from "../src/utils";
 
 clack.intro("Transcript Extractor");
 
-await ensureDirectoryExists(STREAMS_DIR);
+await ensureDirectoryExists(TRANSCRIPTS_OUTPUT_DIR);
 
 const modelName = await clack.select({
   message: "Enter AI model name:",
-  options: [
-    DEFAULT_GOOGLE_PRO_MODEL,
-    DEFAULT_OPENAI_MODEL,
-    DEFAULT_OPENAI_PRO_MODEL,
-    DEFAULT_ANTHROPIC_PRO_MODEL,
-  ].map((model) => ({ value: model, label: model })),
+  options: Object.entries(MODEL_LABELS).map(([value, label]) => ({
+    value,
+    label,
+  })),
 });
 
 if (clack.isCancel(modelName)) {
@@ -55,9 +50,9 @@ if (clack.isCancel(concurrency)) {
 const concurrencyLimit = Number.parseInt(concurrency);
 
 // Get list of transcript files
-const files = (await fsp.readdir(TRANSCRIPTS_DIR))
+const files = (await fsp.readdir(TRANSCRIPTS_INPUT_DIR))
   .filter((file) => file.endsWith(".txt"))
-  .map((file) => join(TRANSCRIPTS_DIR, file));
+  .map((file) => join(TRANSCRIPTS_INPUT_DIR, file));
 
 if (files.length === 0) {
   clack.cancel(`No transcript files found in ${ansis.bold("./transcripts")}`);
@@ -86,5 +81,5 @@ await queue.onIdle();
 
 // Success message
 clack.outro(
-  `All transcripts processed successfully! Check the ${ansis.cyan(STREAMS_DIR)} directory for results.`,
+  `All transcripts processed successfully! Check the ${ansis.cyan(TRANSCRIPTS_OUTPUT_DIR)} directory for results.`,
 );

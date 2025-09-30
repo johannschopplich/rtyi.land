@@ -1,6 +1,6 @@
 import * as path from "node:path";
 import { tryParseJSON } from "utilful";
-import { STREAMS_DIR } from "../../src/constants";
+import { TRANSCRIPTS_OUTPUT_DIR } from "../../src/constants";
 import {
   formatDateFromYYYYMMDD,
   globAndProcessFiles,
@@ -14,7 +14,7 @@ export default {
   async paths() {
     const results = await globAndProcessFiles(
       "**/*.json",
-      STREAMS_DIR,
+      TRANSCRIPTS_OUTPUT_DIR,
       ({ filePath, fileName, fileContent }) => {
         const modelDir = path.basename(path.dirname(filePath));
         const streamData = tryParseJSON<Record<string, any>>(fileContent);
