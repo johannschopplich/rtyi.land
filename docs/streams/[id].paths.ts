@@ -4,18 +4,11 @@ import type {
   Significance,
   StreamAnalysis,
 } from "../../src/schemas";
-import * as path from "node:path";
-import { tryParseJSON } from "utilful";
-import {
-  STREAM_ANALYSIS_DIR,
-  TRANSCRIPTS_OUTPUT_DIR,
-} from "../../src/constants";
 import {
   capitalizeInitialLetter,
-  formatDateFromYYYYMMDD,
   formatTopicLabel,
 } from "../.vitepress/shared";
-import { globAndProcessFiles } from "../.vitepress/utils";
+import { loadStreamAnalyses } from "../.vitepress/utils";
 
 function renderFindingsByTopic(findings: Finding[]): string {
   if (!findings?.length) return "_No findings._";
@@ -82,39 +75,21 @@ const SIGNIFICANCE_BADGES: Record<Significance, string> = {
 
 export default {
   async paths() {
-    const results = await globAndProcessFiles(
-      "**/*.json",
-      TRANSCRIPTS_OUTPUT_DIR,
-      ({ filePath, fileName, fileContent }) => {
-        const modelDir = path.basename(path.dirname(filePath));
-        if (modelDir !== STREAM_ANALYSIS_DIR) return;
+    const entries = await loadStreamAnalyses();
 
-        const streamData = tryParseJSON<StreamAnalysis>(fileContent);
+    const results = entries.map(({ analysis, rawDate, date, streamId }) => {
+      const significance = analysis.stream_context?.significance;
+      const significanceBadge =
+        SIGNIFICANCE_BADGES[significance] || significance || "Unknown";
+      const significanceReason = analysis.stream_context?.significance_reason;
 
-        if (!streamData) {
-          throw new Error(
-            `Failed to parse JSON for ${fileName}. Check the file format!`,
-          );
-        }
+      const level = analysis.stream_context?.level ?? [];
+      const levelDisplay = level.join(", ") || "Unknown";
 
-        const [rawDate] = fileName.split("-");
-        const formattedDate = formatDateFromYYYYMMDD(rawDate);
-
-        const significance = streamData.stream_context?.significance;
-        const significanceBadge =
-          SIGNIFICANCE_BADGES[significance] || significance || "Unknown";
-        const significanceReason =
-          streamData.stream_context?.significance_reason;
-
-        const level = streamData.stream_context?.level ?? [];
-        const levelDisplay = level.join(", ") || "Unknown";
-
-        const markdownContent = `# Development Stream Analysis
+      const markdownContent = `# Development Stream Analysis
 
 ::: tip Summary
-**Date:** ${formattedDate}
-
-**Model:** ${modelDir}
+**Date:** ${date}
 
 **Level(s):** ${levelDisplay}
 
@@ -123,13 +98,13 @@ export default {
 
 ## Stream Context
 
-${streamData.stream_context?.summary || "No summary available."}
+${analysis.stream_context?.summary || "No summary available."}
 
 ${
-  streamData.memorable_quotes?.length
+  analysis.memorable_quotes?.length
     ? `## Memorable Quotes
 
-${streamData.memorable_quotes
+${analysis.memorable_quotes
   .map(
     (memorableQuote) =>
       `> ${memorableQuote.quote}\n>\n> — **${memorableQuote.speaker}**${memorableQuote.context ? ` · _${memorableQuote.context}_` : ""}`,
@@ -140,17 +115,17 @@ ${streamData.memorable_quotes
 }
 ## Findings
 
-${renderFindingsByTopic(streamData.findings)}
+${renderFindingsByTopic(analysis.findings)}
 
 ## Contributor Findings
 
-${renderContributorFindings(streamData.contributor_findings)}
+${renderContributorFindings(analysis.contributor_findings)}
 
 ## Key Stories
 
 ${
-  streamData.key_stories?.length
-    ? streamData.key_stories
+  analysis.key_stories?.length
+    ? analysis.key_stories
         .map(
           (story) => `
 ::: info ${story.title}
@@ -176,8 +151,8 @@ ${story.related_to.length ? `**Related to:** ${story.related_to.map(capitalizeIn
 ## Open Questions
 
 ${
-  streamData.open_questions?.length
-    ? streamData.open_questions
+  analysis.open_questions?.length
+    ? analysis.open_questions
         .map(
           (item) => `
 ### ${item.topic}
@@ -195,24 +170,17 @@ ${item.questions.map((question: string, index: number) => `${index + 1}. ${quest
     : "_No open questions._"
 }`;
 
-        return {
-          params: {
-            id: `${modelDir}-${rawDate}`,
-            rawDate,
-            model: modelDir,
-          },
-          content: markdownContent,
-        };
-      },
-    );
-
-    // Sort by model directory first, then by date
-    return results.sort((a, b) => {
-      if (a.params.model !== b.params.model) {
-        return a.params.model.localeCompare(b.params.model);
-      }
-
-      return a.params.rawDate.localeCompare(b.params.rawDate);
+      return {
+        params: {
+          id: streamId,
+          rawDate,
+        },
+        content: markdownContent,
+      };
     });
+
+    return results.sort((a, b) =>
+      a.params.rawDate.localeCompare(b.params.rawDate),
+    );
   },
 };

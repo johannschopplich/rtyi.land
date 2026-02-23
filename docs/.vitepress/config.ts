@@ -139,10 +139,6 @@ export default defineConfig({
             text: "Video Game Documentaries",
             link: "/research/video-game-documentaries",
           },
-          {
-            text: "All Streams (GPT-5.2)",
-            link: "/streams/gpt-5-2",
-          },
         ],
       },
       {

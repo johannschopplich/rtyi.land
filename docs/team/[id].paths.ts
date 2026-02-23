@@ -1,20 +1,9 @@
-import type {
-  FindingTopic,
-  StreamAnalysis,
-  TeamMember,
-} from "../../src/schemas";
-import * as path from "node:path";
-import { tryParseJSON } from "utilful";
-import {
-  STREAM_ANALYSIS_DIR,
-  TRANSCRIPTS_OUTPUT_DIR,
-} from "../../src/constants";
+import type { FindingTopic, TeamMember } from "../../src/schemas";
 import {
   capitalizeInitialLetter,
-  formatDateFromYYYYMMDD,
   formatTopicLabel,
 } from "../.vitepress/shared";
-import { globAndProcessFiles } from "../.vitepress/utils";
+import { loadStreamAnalyses } from "../.vitepress/utils";
 
 interface TeamFinding {
   summary: string;
@@ -68,80 +57,67 @@ export default {
       zeina: [],
     };
 
-    await globAndProcessFiles(
-      "**/*.json",
-      TRANSCRIPTS_OUTPUT_DIR,
-      ({ filePath, fileName, fileContent }) => {
-        const modelDir = path.basename(path.dirname(filePath));
-        if (modelDir !== STREAM_ANALYSIS_DIR) return;
+    const entries = await loadStreamAnalyses();
 
-        const streamData = tryParseJSON<StreamAnalysis>(fileContent);
-        if (!streamData) return;
+    for (const { analysis, rawDate, date, streamId } of entries) {
+      for (const member of CORE_MEMBERS) {
+        const findings: TeamFinding[] = [];
+        const stories: TeamStory[] = [];
+        const quotes: TeamQuote[] = [];
 
-        const [rawDate] = fileName.split("-");
-        const formattedDate = formatDateFromYYYYMMDD(rawDate);
-        const streamId = `${modelDir}-${rawDate}`;
-
-        for (const member of CORE_MEMBERS) {
-          const findings: TeamFinding[] = [];
-          const stories: TeamStory[] = [];
-          const quotes: TeamQuote[] = [];
-
-          const contributorFindings = member !== "kaze"
-            ? streamData.contributor_findings?.[member]
+        const contributorFindings =
+          member !== "kaze"
+            ? analysis.contributor_findings?.[member]
             : undefined;
-          if (Array.isArray(contributorFindings)) {
-            for (const finding of contributorFindings) {
-              findings.push({
-                summary: finding.summary,
-                quote: finding.quote,
-                topic: finding.topic,
-              });
-            }
-          }
-
-          for (const story of streamData.key_stories ?? []) {
-            if (story.related_to?.includes(member)) {
-              stories.push({
-                title: story.title,
-                summary: story.summary,
-                challenge: story.challenge,
-                process: story.process,
-                outcome: story.outcome,
-                keyQuote: story.key_quote,
-                streamDate: formattedDate,
-                streamId,
-              });
-            }
-          }
-
-          for (const memorableQuote of streamData.memorable_quotes ?? []) {
-            if (memorableQuote.speaker.toLowerCase() === member) {
-              quotes.push({
-                speaker: memorableQuote.speaker,
-                quote: memorableQuote.quote,
-                context: memorableQuote.context,
-                streamDate: formattedDate,
-                streamId,
-              });
-            }
-          }
-
-          if (findings.length || stories.length || quotes.length) {
-            memberMap[member].push({
-              date: formattedDate,
-              rawDate,
-              id: streamId,
-              findings,
-              stories,
-              quotes,
+        if (Array.isArray(contributorFindings)) {
+          for (const finding of contributorFindings) {
+            findings.push({
+              summary: finding.summary,
+              quote: finding.quote,
+              topic: finding.topic,
             });
           }
         }
 
-        return null;
-      },
-    );
+        for (const story of analysis.key_stories ?? []) {
+          if (story.related_to?.includes(member)) {
+            stories.push({
+              title: story.title,
+              summary: story.summary,
+              challenge: story.challenge,
+              process: story.process,
+              outcome: story.outcome,
+              keyQuote: story.key_quote,
+              streamDate: date,
+              streamId,
+            });
+          }
+        }
+
+        for (const memorableQuote of analysis.memorable_quotes ?? []) {
+          if (memorableQuote.speaker.toLowerCase() === member) {
+            quotes.push({
+              speaker: memorableQuote.speaker,
+              quote: memorableQuote.quote,
+              context: memorableQuote.context,
+              streamDate: date,
+              streamId,
+            });
+          }
+        }
+
+        if (findings.length || stories.length || quotes.length) {
+          memberMap[member].push({
+            date,
+            rawDate,
+            id: streamId,
+            findings,
+            stories,
+            quotes,
+          });
+        }
+      }
+    }
 
     return CORE_MEMBERS.map((member) => {
       const streams = memberMap[member].sort((a, b) =>

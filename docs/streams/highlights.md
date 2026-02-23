@@ -51,9 +51,7 @@ Project-defining decisions, major emotional moments, or creative breakthroughs.
         <a :href="`/streams/${stream.id}`">{{ stream.date }}</a>
       </td>
       <td>{{ stream.excerpt }}</td>
-      <td style="color: var(--vp-c-text-2);">
-        {{ stream.significanceReason || "—" }}
-      </td>
+      <td class="reason">{{ stream.significanceReason || "—" }}</td>
     </tr>
   </tbody>
 </table>
@@ -78,9 +76,7 @@ Major features completed, levels finished, or significant project phases.
         <a :href="`/streams/${stream.id}`">{{ stream.date }}</a>
       </td>
       <td>{{ stream.excerpt }}</td>
-      <td style="color: var(--vp-c-text-2);">
-        {{ stream.significanceReason || "—" }}
-      </td>
+      <td class="reason">{{ stream.significanceReason || "—" }}</td>
     </tr>
   </tbody>
 </table>
@@ -105,11 +101,15 @@ Interesting insights, good quotes, or minor revelations worth exploring.
         <a :href="`/streams/${stream.id}`">{{ stream.date }}</a>
       </td>
       <td>{{ stream.excerpt }}</td>
-      <td style="color: var(--vp-c-text-2);">
-        {{ stream.significanceReason || "—" }}
-      </td>
+      <td class="reason">{{ stream.significanceReason || "—" }}</td>
     </tr>
   </tbody>
 </table>
 
 </template>
+
+<style scoped>
+.reason {
+  color: var(--vp-c-text-2);
+}
+</style>

@@ -1,13 +1,5 @@
-import type { StreamAnalysis } from "../../src/schemas";
-import * as path from "node:path";
-import { tryParseJSON } from "utilful";
 import { defineLoader } from "vitepress";
-import {
-  STREAM_ANALYSIS_DIR,
-  TRANSCRIPTS_OUTPUT_DIR,
-} from "../../src/constants";
-import { formatDateFromYYYYMMDD } from "../.vitepress/shared";
-import { globAndProcessFiles } from "../.vitepress/utils";
+import { loadStreamAnalyses } from "../.vitepress/utils";
 
 export interface QuoteEntry {
   speaker: string;
@@ -20,36 +12,21 @@ export interface QuoteEntry {
 
 export default defineLoader({
   async load() {
+    const entries = await loadStreamAnalyses();
     const quotes: QuoteEntry[] = [];
 
-    await globAndProcessFiles(
-      "**/*.json",
-      TRANSCRIPTS_OUTPUT_DIR,
-      ({ filePath, fileName, fileContent }) => {
-        const modelDir = path.basename(path.dirname(filePath));
-        if (modelDir !== STREAM_ANALYSIS_DIR) return;
-
-        const streamData = tryParseJSON<StreamAnalysis>(fileContent);
-        if (!streamData) return;
-
-        const [rawDate] = fileName.split("-");
-        const formattedDate = formatDateFromYYYYMMDD(rawDate);
-        const streamId = `${modelDir}-${rawDate}`;
-
-        for (const memorableQuote of streamData.memorable_quotes ?? []) {
-          quotes.push({
-            speaker: memorableQuote.speaker,
-            quote: memorableQuote.quote,
-            context: memorableQuote.context,
-            streamDate: formattedDate,
-            streamRawDate: rawDate,
-            streamId,
-          });
-        }
-
-        return null;
-      },
-    );
+    for (const { analysis, rawDate, date, streamId } of entries) {
+      for (const memorableQuote of analysis.memorable_quotes ?? []) {
+        quotes.push({
+          speaker: memorableQuote.speaker,
+          quote: memorableQuote.quote,
+          context: memorableQuote.context,
+          streamDate: date,
+          streamRawDate: rawDate,
+          streamId,
+        });
+      }
+    }
 
     quotes.sort((a, b) => a.streamRawDate.localeCompare(b.streamRawDate));
 

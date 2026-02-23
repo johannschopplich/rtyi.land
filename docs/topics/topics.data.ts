@@ -1,17 +1,7 @@
-import type { FindingTopic, StreamAnalysis } from "../../src/schemas";
-import * as path from "node:path";
-import { tryParseJSON } from "utilful";
+import type { FindingTopic } from "../../src/schemas";
 import { defineLoader } from "vitepress";
-import {
-  STREAM_ANALYSIS_DIR,
-  TRANSCRIPTS_OUTPUT_DIR,
-} from "../../src/constants";
-import {
-  formatDateFromYYYYMMDD,
-  formatTopicLabel,
-  TOPIC_KEYS,
-} from "../.vitepress/shared";
-import { globAndProcessFiles } from "../.vitepress/utils";
+import { formatTopicLabel, TOPIC_KEYS } from "../.vitepress/shared";
+import { loadStreamAnalyses } from "../.vitepress/utils";
 
 export interface TopicFinding {
   summary: string;
@@ -36,37 +26,22 @@ export default defineLoader({
       topicMap[key] = [];
     }
 
-    await globAndProcessFiles(
-      "**/*.json",
-      TRANSCRIPTS_OUTPUT_DIR,
-      ({ filePath, fileName, fileContent }) => {
-        const modelDir = path.basename(path.dirname(filePath));
-        if (modelDir !== STREAM_ANALYSIS_DIR) return;
+    const entries = await loadStreamAnalyses();
 
-        const streamData = tryParseJSON<StreamAnalysis>(fileContent);
-        if (!streamData) return;
+    for (const { analysis, rawDate, date, streamId } of entries) {
+      for (const finding of analysis.findings ?? []) {
+        const currentTopic = topicMap[finding.topic];
+        if (!currentTopic) continue;
 
-        const [rawDate] = fileName.split("-");
-        const formattedDate = formatDateFromYYYYMMDD(rawDate);
-        const streamId = `${modelDir}-${rawDate}`;
-
-        const findings = streamData.findings ?? [];
-        for (const finding of findings) {
-          const currentTopic = topicMap[finding.topic];
-          if (!currentTopic) continue;
-
-          currentTopic.push({
-            summary: finding.summary,
-            quote: finding.quote,
-            streamDate: formattedDate,
-            streamRawDate: rawDate,
-            streamId,
-          });
-        }
-
-        return null;
-      },
-    );
+        currentTopic.push({
+          summary: finding.summary,
+          quote: finding.quote,
+          streamDate: date,
+          streamRawDate: rawDate,
+          streamId,
+        });
+      }
+    }
 
     const result: Partial<Record<FindingTopic, TopicData>> = {};
     for (const [topic, findings] of Object.entries(topicMap)) {

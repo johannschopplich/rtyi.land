@@ -1,11 +1,5 @@
 import type { FindingTopic } from "../../src/schemas";
 
-export interface FileHandlerOptions {
-  filePath: string;
-  fileContent: string;
-  fileName: string;
-}
-
 const TOPIC_LABELS: Record<FindingTopic, string> = {
   design: "Design",
   technical: "Technical",

@@ -37,11 +37,8 @@ See also: [Team Profiles](/team/index.md) for full per-person context.
 
 **Filter by speaker:**
 
-<div style="margin-bottom: 1rem;">
-  <select
-    v-model="selectedSpeaker"
-    style="padding: 4px 8px; border: 1px solid var(--vp-c-border); border-radius: 4px; background: var(--vp-c-bg-soft); color: var(--vp-c-text-1);"
-  >
+<div class="quote-filter">
+  <select v-model="selectedSpeaker" class="quote-select">
     <option value="all">All ({{ allQuotes.length }})</option>
     <option
       v-for="speaker in speakers"
@@ -53,24 +50,66 @@ See also: [Team Profiles](/team/index.md) for full per-person context.
   </select>
 </div>
 
-<p style="color: var(--vp-c-text-2); font-size: 0.85em;">
-  Showing {{ filteredQuotes.length }} quotes
-</p>
+<p class="quote-count">Showing {{ filteredQuotes.length }} quotes</p>
 
-<div v-for="quote in filteredQuotes" :key="quote.streamId + quote.quote.slice(0, 30)" style="margin-bottom: 1.5rem; padding-left: 1rem; border-left: 3px solid var(--vp-c-brand-1);">
+<div v-for="quote in filteredQuotes" :key="quote.streamId + quote.quote.slice(0, 30)" class="quote-card">
 
-<p style="font-style: italic; margin-bottom: 0.25rem;">"{{ quote.quote }}"</p>
+<p class="quote-text">"{{ quote.quote }}"</p>
 
-<p style="font-size: 0.85em; margin-bottom: 0.25rem;">
+<p class="quote-attribution">
   — <strong>{{ quote.speaker }}</strong
-  >, <a :href="`/streams/${quote.streamId}`">{{ quote.streamDate }}</a>
+  >,
+  <a :href="`/streams/${quote.streamId}`">{{ quote.streamDate }}</a>
 </p>
 
-<p
-  v-if="quote.context"
-  style="color: var(--vp-c-text-2); font-size: 0.85em; margin-top: 0;"
->
+<p v-if="quote.context" class="quote-context">
   {{ quote.context }}
 </p>
 
 </div>
+
+<style scoped>
+.quote-filter {
+  margin-bottom: 16px;
+}
+
+.quote-select {
+  padding: 4px 8px;
+  border: 1px solid var(--vp-input-border-color);
+  border-radius: 4px;
+  background: var(--vp-input-bg-color);
+  color: var(--vp-c-text-1);
+  font-size: 14px;
+  line-height: 24px;
+}
+
+.quote-count {
+  color: var(--vp-c-text-2);
+  font-size: 14px;
+  line-height: 24px;
+}
+
+.quote-card {
+  margin-bottom: 24px;
+  padding-left: 16px;
+  border-left: 2px solid var(--vp-c-brand-1);
+}
+
+.quote-text {
+  font-style: italic;
+  margin-bottom: 8px;
+}
+
+.quote-attribution {
+  font-size: 14px;
+  line-height: 20px;
+  margin-bottom: 8px;
+}
+
+.quote-context {
+  color: var(--vp-c-text-2);
+  font-size: 14px;
+  line-height: 20px;
+  margin-top: 0;
+}
+</style>

@@ -1,23 +1,11 @@
-import type {
-  FindingTopic,
-  Significance,
-  StreamAnalysis,
-} from "../../src/schemas";
-import * as path from "node:path";
-import { tryParseJSON } from "utilful";
+import type { FindingTopic, Significance } from "../../src/schemas";
 import { defineLoader } from "vitepress";
-import {
-  STREAM_ANALYSIS_DIR,
-  TRANSCRIPTS_OUTPUT_DIR,
-} from "../../src/constants";
-import { formatDateFromYYYYMMDD } from "../.vitepress/shared";
-import { globAndProcessFiles } from "../.vitepress/utils";
+import { loadStreamAnalyses } from "../.vitepress/utils";
 
 export interface ModelStreamData {
   id: string;
   date: string;
   rawDate: string;
-  model: string;
   excerpt: string;
   significance: Significance;
   significanceReason: string | null;
@@ -30,46 +18,29 @@ export interface ModelStreamData {
 
 export default defineLoader({
   async load() {
-    const streamData = await globAndProcessFiles(
-      "**/*.json",
-      TRANSCRIPTS_OUTPUT_DIR,
-      ({ filePath, fileName, fileContent }) => {
-        const modelDir = path.basename(path.dirname(filePath));
-        if (modelDir !== STREAM_ANALYSIS_DIR) return;
+    const entries = await loadStreamAnalyses();
 
-        const streamData = tryParseJSON<StreamAnalysis>(fileContent);
-
-        if (!streamData) return;
-
-        const [rawDate] = fileName.split("-");
-        const formattedDate = formatDateFromYYYYMMDD(rawDate);
-        const excerpt = streamData.stream_context?.summary || "";
-
+    const streamData: ModelStreamData[] = entries.map(
+      ({ analysis, rawDate, date, streamId }) => {
         const topicCounts: Partial<Record<FindingTopic, number>> = {};
-        const findings = streamData.findings ?? [];
-        for (const finding of findings) {
+        for (const finding of analysis.findings ?? []) {
           topicCounts[finding.topic] = (topicCounts[finding.topic] || 0) + 1;
         }
 
-        const level = streamData.stream_context?.level ?? [];
-
-        const streamInfo: ModelStreamData = {
-          id: `${modelDir}-${rawDate}`,
-          date: formattedDate,
+        return {
+          id: streamId,
+          date,
           rawDate,
-          model: modelDir,
-          excerpt,
-          significance: streamData.stream_context?.significance || "routine",
+          excerpt: analysis.stream_context?.summary || "",
+          significance: analysis.stream_context?.significance || "routine",
           significanceReason:
-            streamData.stream_context?.significance_reason || null,
-          level,
+            analysis.stream_context?.significance_reason || null,
+          level: analysis.stream_context?.level ?? [],
           topicCounts,
-          quoteCount: streamData.memorable_quotes?.length ?? 0,
-          storyCount: streamData.key_stories?.length ?? 0,
-          questionCount: streamData.open_questions?.length ?? 0,
+          quoteCount: analysis.memorable_quotes?.length ?? 0,
+          storyCount: analysis.key_stories?.length ?? 0,
+          questionCount: analysis.open_questions?.length ?? 0,
         };
-
-        return streamInfo;
       },
     );
 

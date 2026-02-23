@@ -1,15 +1,6 @@
-import type { StreamAnalysis, TeamMember } from "../../src/schemas";
-import * as path from "node:path";
-import { tryParseJSON } from "utilful";
-import {
-  STREAM_ANALYSIS_DIR,
-  TRANSCRIPTS_OUTPUT_DIR,
-} from "../../src/constants";
-import {
-  capitalizeInitialLetter,
-  formatDateFromYYYYMMDD,
-} from "../.vitepress/shared";
-import { globAndProcessFiles } from "../.vitepress/utils";
+import type { TeamMember } from "../../src/schemas";
+import { capitalizeInitialLetter } from "../.vitepress/shared";
+import { loadStreamAnalyses } from "../.vitepress/utils";
 
 export interface OpenQuestion {
   topic: string;
@@ -22,7 +13,6 @@ export interface QuestionStreamData {
   id: string;
   date: string;
   rawDate: string;
-  model: string;
   openQuestions: OpenQuestion[];
 }
 
@@ -34,35 +24,16 @@ export interface TeamMemberQuestions {
 
 export default {
   async paths() {
-    const streamData = await globAndProcessFiles(
-      "**/*.json",
-      TRANSCRIPTS_OUTPUT_DIR,
-      ({ filePath, fileName, fileContent }) => {
-        const modelDir = path.basename(path.dirname(filePath));
-        if (modelDir !== STREAM_ANALYSIS_DIR) return;
+    const entries = await loadStreamAnalyses();
 
-        const streamData = tryParseJSON<StreamAnalysis>(fileContent);
-
-        if (!streamData) return;
-
-        const [rawDate] = fileName.split("-");
-        const formattedDate = formatDateFromYYYYMMDD(rawDate);
-        const openQuestions = streamData.open_questions ?? [];
-
-        // Only include streams that have open questions
-        if (openQuestions.length === 0) return;
-
-        const streamInfo: QuestionStreamData = {
-          id: `${modelDir}-${rawDate}`,
-          date: formattedDate,
-          rawDate,
-          model: modelDir,
-          openQuestions,
-        };
-
-        return streamInfo;
-      },
-    );
+    const streamData: QuestionStreamData[] = entries
+      .filter(({ analysis }) => (analysis.open_questions ?? []).length > 0)
+      .map(({ analysis, rawDate, date, streamId }) => ({
+        id: streamId,
+        date,
+        rawDate,
+        openQuestions: analysis.open_questions ?? [],
+      }));
 
     // Group questions by team member
     const teamMemberQuestions: Record<string, TeamMemberQuestions> = {};
@@ -133,7 +104,7 @@ ${member.streams
     return `
 ## ${stream.date}
 
-[Stream Analysis →](/streams/${`${stream.model}-${stream.rawDate}`})
+[Stream Analysis →](/streams/${stream.id})
 
 ${stream.openQuestions
   .map((question) => {

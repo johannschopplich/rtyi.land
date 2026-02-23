@@ -1,146 +1,127 @@
-# RTYI Documentary Research Platform
+# RTYI Documentary Research Workspace
 
 > [!NOTE]
-> Beyond the cartridge: A comprehensive research and preparation platform for the Return to Yoshi's Island documentary.
+> Beyond the cartridge: A research and preparation workspace for the **Return to Yoshi's Island** documentary.
 
 [![Documentation](https://img.shields.io/badge/docs-rtyi.land-blue)](https://rtyi.land)
-[![Cloudflare Workers](https://img.shields.io/badge/Cloudflare-F38020?logo=cloudflare&logoColor=white)](https://workers.cloudflare.com/)
 
 ## About
 
-This project serves as a comprehensive research and preparation platform for creating a documentary about **Return to Yoshi's Island**, a major Mario 64 ROM hack by Kaze and his team. The platform leverages AI to analyze hundreds of development stream transcripts, extract key insights, and organize research materials for documentary production.
+This repository is the working hub for a long-form documentary about **Return to Yoshi's Island**, the Mario 64 ROM hack led by Kaze Emanuar.
 
-## Features
+It is built to support real interview and writing work: preparing question sets, tracking open questions, reviewing stream evidence, collecting quotes, and shaping narrative arcs.
 
-### 🤖 AI-Powered Analysis
+Planned interviews include:
 
-- **Multi-Provider Support**: Google Gemini, OpenAI models
-- **Structured Extraction**: Zod schemas ensure consistent data formatting
-- **Stream Processing**: Automated analysis of 100+ development streams
-- **Key Insights**: Development findings, team dynamics, and narrative arcs
+- Kaze Emanuar
+- Biobak
+- Badub
+- Kaze and Zeina together
 
-### 📚 Research Documentation
+## What This Repository Is For
 
-- **Interview Questions**: Comprehensive questions organized by team member
-- **Stream Analysis**: Detailed summaries with key quotes
-- **Narrative Arcs**: Structured story elements for documentary production
-- **Research Materials**: Video game documentary analysis and references
+- Maintain a single source of truth for documentary research notes
+- Build interview question sets per contributor
+- Analyze development streams and extract reusable findings
+- Connect quotes, themes, and timeline context for story development
 
 ## Quick Start
 
 ### Prerequisites
 
-- Node.js 22+ and pnpm
-- AI API keys (Google, OpenAI)
-- Cloudflare account (for deployment)
+- Node.js 22+
+- pnpm
 
 ### Installation
 
 ```bash
-# Clone the repository
 git clone git@github.com:johannschopplich/rtyi-doc.git
 cd rtyi-doc
-
-# Install dependencies
 pnpm install
-
-# Set up environment variables
-cp .env.example .env
-# Edit .env with your API keys
 ```
 
-### Development
+### Local Documentation Workflow
 
 ```bash
-# Start documentation development server
+# Start the VitePress research site
 pnpm docs:dev
 
-# Run stream analysis (requires API keys)
+# Build the docs site
+pnpm docs:build
+
+# Preview the built site locally
+pnpm docs:preview
+```
+
+### Transcript Analysis Workflow
+
+Create a `.env` file in the repository root with the API keys you use for transcript analysis.
+
+```bash
+# Analyze transcripts and write structured output into .data/streams_v2/
 pnpm stream-analysis
 ```
 
-### Production Build
+### Quality Checks
 
 ```bash
-# Build documentation
-pnpm docs:build
+pnpm lint
+pnpm format:check
+pnpm test:types
 ```
 
 ## Project Structure
 
-```
+```text
 rtyi-doc/
-├── src/                   # Core TypeScript utilities
-│   ├── schemas.ts         # Zod schemas for data validation
-│   ├── utils.ts           # AI provider utilities
-│   ├── constants.ts       # Configuration constants
-│   └── context/           # Transcript processing logic
-├── scripts/               # CLI analysis tools
-│   ├── stream-analysis.ts # Main analysis script
-├── docs/                  # VitePress documentation site
-│   ├── .vitepress/        # VitePress configuration
-│   ├── interviews/        # Interview questions by team member
-│   ├── streams/           # Stream analysis results
-│   ├── questions/         # Generated interview questions
-│   ├── prompts/           # AI prompts and methodology
-│   ├── research/          # Background research materials
-│   └── drafts/            # Narrative arcs and planning
-├── worker/                # Cloudflare Worker for authentication
-├── transcripts/           # Raw stream transcript files (.txt)
-└── .data/                 # Processed analysis data
-    ├── streams_v2/        # Stream analysis results by AI model
-    └── kv/                # Key-value storage for questions
+├── docs/                         # VitePress documentary research workspace
+│   ├── .vitepress/               # Site config, theme, data loaders
+│   ├── drafts/                   # Narrative drafts and chapter planning
+│   ├── interviews/               # Interview questions by person and topic
+│   ├── streams/                  # Stream pages, summaries, and dashboards
+│   ├── topics/                   # Findings grouped by documentary theme
+│   ├── team/                     # Contributor profiles and per-person context
+│   ├── quotes/                   # Quote collections for narration and trailers
+│   ├── questions/                # Open question tracking
+│   ├── prompts/                  # Prompt and extraction documentation
+│   ├── research/                 # External documentary and background research
+│   ├── public/                   # Static assets
+│   └── index.md
+├── scripts/
+│   └── stream-analysis.ts        # Batch transcript analysis CLI
+├── src/
+│   ├── constants.ts              # Paths and model labels/defaults
+│   ├── prompts.ts                # Prompt templates for extraction
+│   ├── schemas.ts                # Zod schemas for structured output
+│   ├── utils.ts                  # Provider and model helpers
+│   └── context/
+│       ├── transcripts.ts        # Transcript processing and output writing
+│       └── stt-corrections.ts    # Speech-to-text cleanup rules
+├── transcripts/                  # Raw stream transcript files (.txt)
+├── .data/                        # Generated analysis artifacts
+│   └── streams_v2/               # Structured transcript output by model
+├── package.json
+├── pnpm-workspace.yaml
+├── wrangler.toml
+└── README.md
 ```
 
-## AI Analysis Pipeline
+## Transcript Analysis Output
 
-To analyze stream transcripts and generate structured data, run the following command:
+Running `pnpm stream-analysis` generates structured JSON artifacts in `.data/streams_v2/`.
 
-```bash
-pnpm stream-analysis
-```
+Typical output includes:
 
-After running this command, the analysis results will be stored in `.data/streams_v2/` with subdirectories for each AI provider (e.g., `gemini-2-5-pro`, `o3`). Each directory contains JSON files with structured insights.
+- Development findings (technical decisions and implementation details)
+- Context findings (motivation, emotions, philosophy)
+- Contributor findings (roles, collaboration, ownership)
+- Key stories (self-contained narrative arcs)
+- Open questions (targets for follow-up interviews)
 
-- **Development Findings**: Technical insights, design decisions
-- **Context Findings**: Personal insights, emotions, philosophy
-- **Contributor Findings**: Team member contributions and dynamics
-- **Key Stories**: Self-contained narrative arcs
-- **Open Questions**: Topics requiring follow-up interviews
+## Optional Deployment
 
-## Documentation Features
-
-### Interview Preparation
-
-- **Team-Specific Questions**: Tailored for each contributor
-- **Central Themes**: Core questions for all team members
-- **Follow-up Guidance**: Context-aware question suggestions
-- **Global Audience Focus**: Accessible explanations for non-technical viewers
-
-### Stream Analysis
-
-- **Model Comparison**: Results from multiple AI providers
-- **Temporal Organization**: Chronological stream progression
-- **Key Insights**: Highlighted findings and quotes
-- **Cross-Reference**: Links between related streams and topics
-
-### Research Materials
-
-- **Video Game Documentaries**: Analysis of successful documentary approaches
-- **Narrative Planning**: Story structure and thematic organization
-- **Technical Context**: ROM hacking and N64 development background
+The project can be deployed to Cloudflare as a static docs site. Routing and asset settings live in `wrangler.toml`.
 
 ## License
 
-This project is for internal documentary research and preparation. All content related to the RTYI team and project is used with permission for documentary purposes.
-
-## Acknowledgments
-
-- **Kaze and the RTYI Team** for their incredible work and openness
-- **AI Providers** for enabling large-scale transcript analysis
-- **VitePress** for excellent documentation tooling
-- **Cloudflare** for reliable hosting and security
-
----
-
-_Built with passion for documenting the art of game development and the people who make it possible._
+This project is for internal documentary research and preparation. Content related to the RTYI team and project is used with permission for documentary purposes.
