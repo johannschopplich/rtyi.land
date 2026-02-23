@@ -1,9 +1,7 @@
 {
   "stream_context": {
     "summary": "Kaze iterates on a disappearing light-bridge mechanic (player-triggered arcade button) but spends most of the stream integrating and debugging Biobak’s upgraded Mario model. The session focuses on N64 rendering constraints: TMEM reductions, texture format changes (CI8/I4/RGBA16), combiner/render-mode limitations, anti-aliasing tradeoffs, and implementing a new cap-color system via HSV-shifting a palette. Late in the stream he notices lighting-limit side effects (crystal color appearing wrong) and an RCP crash likely caused by VFX particles; he ends by confirming the new Mario model is working and looks great.",
-    "level": [
-      "Course 4 – CoreOS"
-    ],
+    "level": ["Course 4 – CoreOS"],
     "significance": "milestone",
     "significance_reason": "The stream lands a major player-facing upgrade: a new Mario model that looks substantially better while reducing TMEM usage (~39–40%) and slightly reducing triangles, plus a new approach to recoloring Mario’s cap by HSV-shifting a palette—despite N64 combiner/AA constraints."
   },
@@ -150,9 +148,7 @@
       "process": "He prototypes transparency/alpha behavior, considers dithering and using a separate render layer for unambiguous state changes, and designs the interaction around an arcade button trigger.",
       "outcome": "The bridge work is acknowledged as the original goal but is deprioritized; the stream ends with Kaze satisfied about major progress elsewhere (the Mario model).",
       "key_quote": "We were supposed to make the light bridge today. But that's fine. We made other good progress.",
-      "related_to": [
-        "kaze"
-      ]
+      "related_to": ["kaze"]
     },
     {
       "title": "Making Mario look better while costing less: TMEM cuts, combiner limits, and a palette-based cap system",
@@ -161,10 +157,7 @@
       "process": "He audits materials (I4/CI8/RGBA16), fixes artifacts (vertex normals), experiments with combiner setups and render modes, then switches strategy: add small texture data and recolor by HSV-shifting an entire 16-color palette. He debugs HSV math (saturation handling) and validates with cap-color tests.",
       "outcome": "Mario looks 'insanely good' and is cheaper to render; the tradeoff is a more complex cap recolor system (palette-wide HSV shifting) that must be supported across cap variants.",
       "key_quote": "This solution is possible, unlike the other solution, which is not possible.",
-      "related_to": [
-        "kaze",
-        "biobak"
-      ]
+      "related_to": ["kaze", "biobak"]
     },
     {
       "title": "Lighting budget weirdness: crystals reading green and an RCP crash",
@@ -173,9 +166,7 @@
       "process": "He checks RGB values, swaps/compares crystal colors, reasons about too many active lights, and then tests on N64 hardware to separate emulator artifacts from real constraints.",
       "outcome": "He tentatively concludes too many concurrent lights are the cause and deprioritizes further debugging in favor of locking in the Mario model progress; the RCP crash is noted as likely VFX-related.",
       "key_quote": "I think the VFX particles there caused an RCP crash.",
-      "related_to": [
-        "kaze"
-      ]
+      "related_to": ["kaze"]
     }
   ],
   "open_questions": [
@@ -187,9 +178,7 @@
         "How did Kaze validate correctness for speculative iCache prefetching based on thread history (profiling approach, edge cases, regressions)?",
         "Did any of these optimizations create new classes of bugs (timing, cache coherency, rare crashes), and how were they debugged?"
       ],
-      "related_to": [
-        "kaze"
-      ]
+      "related_to": ["kaze"]
     },
     {
       "topic": "Final light-bridge behavior and readability",
@@ -199,9 +188,7 @@
         "Did the disappearing bridge become a core mechanic in Course 4/CoreOS or remain a one-off set piece?",
         "Were there N64-specific rendering constraints (alpha sorting, layers, fillrate) that forced a redesign of the effect?"
       ],
-      "related_to": [
-        "kaze"
-      ]
+      "related_to": ["kaze"]
     },
     {
       "topic": "Mario cap recolor pipeline after switching to a dynamic palette",
@@ -211,10 +198,7 @@
         "Where in the codebase did you centralize the HSV-shift logic to avoid duplicating cap-state behavior across Mario actions?",
         "What were the visual tradeoffs of hue-shifting a palette (banding, loss of subtle shading), and how did you tune S/V preservation?"
       ],
-      "related_to": [
-        "kaze",
-        "biobak"
-      ]
+      "related_to": ["kaze", "biobak"]
     },
     {
       "topic": "Lighting limits and the 'green crystal' issue",
@@ -224,9 +208,7 @@
         "Did you implement a prioritization system (nearest lights win, last-spawned win, brightness-based selection) to make lighting stable?",
         "Was the RCP crash reproducibly tied to a specific VFX emitter, and what was the eventual fix (particle count, task size, state leakage)?"
       ],
-      "related_to": [
-        "kaze"
-      ]
+      "related_to": ["kaze"]
     },
     {
       "topic": "Fast64 tooling limitations impacting level/object iteration",
@@ -236,9 +218,7 @@
         "Did the team create internal scripts/workarounds to validate exports or patch Fast64 output automatically?",
         "Who (if anyone) on the team ended up maintaining tooling fixes versus adapting design around the bugs?"
       ],
-      "related_to": [
-        "kaze"
-      ]
+      "related_to": ["kaze"]
     }
   ]
 }

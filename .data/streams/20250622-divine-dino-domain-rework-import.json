@@ -1,9 +1,7 @@
 {
   "stream_context": {
     "summary": "Kaze imports and debugs new environment/actor assets (egg gate, Poochie, temple gates, fruit/apple), while also discussing and demonstrating major engine work: a new collision routine aimed at eliminating quarter-frame inconsistency, plus runtime CPU lighting/shading to preserve artist vertex colors on rotating actors. The stream also surfaces practical constraints (N64 RAM pools, nearing 64MB ROM size) and small team/workflow realities (thumbnail planning, streaming slowing progress).",
-    "level": [
-      "Course 10"
-    ],
+    "level": ["Course 10"],
     "significance": "notable",
     "significance_reason": "Contains project-defining technical philosophy (removing quarter-frame randomness), a concrete engine change (new collision routine), a notable art/tech compromise (CPU-computed lighting for rotating vertex-colored actors), and frank constraints about N64 RAM pools and approaching the 64MB ROM ceiling."
   },
@@ -132,9 +130,7 @@
       "process": "He rewrites step/collision handling to take full steps unless constrained, and tests movement through problematic geometry to ensure Mario doesn’t snag or unpredictably fall/float. He analyzes remaining landing imprecision caused by raycast snapping in aerial steps and notes possible improvements (multi-raycast or adjusted snapping).",
       "outcome": "Ground movement becomes predictably consistent in showcased cases; however, he identifies unresolved edge cases for aerial landing and steep slopes that may require further iteration or accepting small remnants of subframe behavior.",
       "key_quote": "I would argue, if you have the player thinking about quarters of a frame of movement in your video game engine, there's a little bit of an issue that I would like to avoid.",
-      "related_to": [
-        "kaze"
-      ]
+      "related_to": ["kaze"]
     },
     {
       "title": "Apple lighting compromise: preserve vertex colors and add real shading",
@@ -143,10 +139,7 @@
       "process": "He prototypes combiner changes, then decides to compute a shade value per vertex in software, prints/debugs light normals, and fixes incorrect transforms by using the correct graph/thread rotation values and correcting matrix math (including swapping indices).",
       "outcome": "The apple gains smooth, believable lighting while maintaining the desired visual style, at the cost of CPU work during rotation.",
       "key_quote": "We compromise by computing the fucking shadows on the CPU in real time.",
-      "related_to": [
-        "kaze",
-        "biobak"
-      ]
+      "related_to": ["kaze", "biobak"]
     },
     {
       "title": "Memory crisis and rapid recovery via emergency pool",
@@ -155,9 +148,7 @@
       "process": "He checks memory pool status, recognizes allocations already using the emergency pool in some places, then moves additional suitable allocations into the emergency pool to free main pool space.",
       "outcome": "The build runs again with minimal changes; the incident reinforces ongoing need to actively manage memory pools as content grows.",
       "key_quote": "We were over just a couple of kilobytes.",
-      "related_to": [
-        "kaze"
-      ]
+      "related_to": ["kaze"]
     },
     {
       "title": "Self-imposed 64MB ROM ceiling and cleanup plan",
@@ -166,9 +157,7 @@
       "process": "He identifies unused assets as cleanup targets and discusses reducing code size and removing unneeded base-game content from the repo.",
       "outcome": "A clear near-term optimization task list emerges (asset/code cleanup) tied to a stated philosophy about respecting original hardware limits.",
       "key_quote": "Dude, we have 4 more megabytes.",
-      "related_to": [
-        "kaze"
-      ]
+      "related_to": ["kaze"]
     }
   ],
   "open_questions": [
@@ -181,9 +170,7 @@
         "Which edge cases (steep slopes, wall/ceiling interactions on landing) were the hardest to reason about, and how did you test them?",
         "How does this collision rewrite affect speedrunning techniques (e.g., BLJ on surf floors) and did you intentionally preserve/disable any legacy behaviors?"
       ],
-      "related_to": [
-        "kaze"
-      ]
+      "related_to": ["kaze"]
     },
     {
       "topic": "Runtime CPU lighting system scope and performance budget",
@@ -194,10 +181,7 @@
         "What testing did you do to ensure the lighting remains stable at <60 FPS or in heavy scenes (e.g., does it cause visible jitter/aliasing when frame rate drops)?",
         "What exactly was the final matrix/inversion approach you settled on, and what earlier incorrect assumption caused the light to not rotate?"
       ],
-      "related_to": [
-        "kaze",
-        "biobak"
-      ]
+      "related_to": ["kaze", "biobak"]
     },
     {
       "topic": "Memory pool strategy and ongoing RAM/ROM mitigation plan",
@@ -208,9 +192,7 @@
         "How do you decide what goes into the emergency memory pool versus the main pool, and have you hit fragmentation issues repeatedly?",
         "At what point does optimizing for 64MB become too costly, and would you ever choose to ship a >64MB build despite the 'cheating' feeling?"
       ],
-      "related_to": [
-        "kaze"
-      ]
+      "related_to": ["kaze"]
     },
     {
       "topic": "Unresolved content/placement anomalies during asset import",
@@ -220,9 +202,7 @@
         "Were the multiple Area 6 copies and missing/misplaced temple doors a transient import mistake or a deeper issue in the level data pipeline?",
         "What best practices did you adopt to prevent these pipeline errors as the team scaled asset volume?"
       ],
-      "related_to": [
-        "kaze"
-      ]
+      "related_to": ["kaze"]
     },
     {
       "topic": "Feature triage: jukebox idea and split-screen multiplayer",
@@ -233,9 +213,7 @@
         "How far did split-screen multiplayer prototyping go, and what were the biggest N64 constraints (framebuffers, RSP/RDP time, camera systems, memory pools)?",
         "What does 'custom edit of GCC' change for your build, and was it required for multiplayer or for general performance/compatibility?"
       ],
-      "related_to": [
-        "kaze"
-      ]
+      "related_to": ["kaze"]
     }
   ]
 }
