@@ -24,61 +24,43 @@ Also track contributions from these people when mentioned:
 
 ## Analysis Instructions
 
-For each of the following categories, carefully examine the transcript and extract relevant information specific to this stream. Conduct a step-by-step analysis, but only output the final JSON object that conforms to the schema.
+Carefully examine the transcript and extract relevant information. Only output the final JSON object that conforms to the schema.
 
-### 1. Development Insights
-- Current project status, milestones, and progress
-- Design decisions and their rationale
-- Technical challenges and solutions
-- Creative process examples (concepts → problems → solutions)
-- Influences from other games or media
-- Any "breakthrough" moments or significant pivots
+### 1. Findings
+Extract the most important insights from this stream into a single findings array (max 15). Each finding gets a topic tag for filtering across all 152 streams. The available topics are:
 
-Tag each finding with the most appropriate topic: design-decision, technical-breakthrough, creative-process, milestone, philosophy, influence, personal, team-dynamics, legal-nintendo, community, or business.
+- **design**: Design decisions, creative process, rationale, influences from other games
+- **technical**: Technical challenges, solutions, performance work, engine improvements
+- **milestone**: Project milestones, level completions, major features finished
+- **philosophy**: Game design philosophy, creative principles, worldview statements
+- **personal**: Life events, emotions, health, finances, work-life balance
+- **team**: Team dynamics, collaboration, dependencies, working relationships
+- **legal-nintendo**: Nintendo takedowns, DMCA, legal strategy, copyright concerns
+- **community**: Viewer feedback, community involvement, chat-driven decisions
+- **business**: Release strategy, monetization plans, Kickstarter, physical cartridge
+
+Prioritize findings that generate meaningful interview questions or documentary narrative arcs. Capture emotional turning points: moments of frustration, breakthroughs that reignited motivation, celebrations. Note Kaze and Zeina's personal/professional dynamics when they surface.
 
 ### 2. Team & Collaboration
 - Specific contributions from each team member (if mentioned)
-- Team dynamics or working relationships
-- Dependencies between team members
-- Examples of collaboration or feedback
+- Dependencies between team members, examples of collaboration or feedback
 - Contributions from community members beyond the core team (attribute to the "others" field)
 
-### 3. Creator Context
-- Kaze's opinions, interests, philosophy, principles, or worldview (about game design and life in general)
-- Emotional turning points: moments of frustration that nearly caused someone to quit, breakthroughs that reignited motivation, celebrations of milestones
-- Personal life mentions (whether or not they directly affect the project)
-- Work-life balance discussions, especially regarding Kaze and Zeina's joint creative/personal partnership
-- Financial or time investments
+### 3. Complete Stories
+Identify self-contained story or incident arcs (max 5) with a challenge, process, outcome, and optionally a key quote.
 
-### 4. External Factors
-- Community feedback or involvement
-- Legal concerns or considerations (especially regarding Nintendo)
-- Release strategy or timing
-- Marketing or distribution plans
+### 4. Memorable Quotes
+Select up to 3 standalone quotes that are character-defining, emotionally revealing, or capture Kaze's philosophy. These should stand on their own as documentary narration, chapter titles, or trailer moments.
 
-### 5. Complete Stories
-Identify self-contained story or incident arcs with:
-- A challenge or initial idea
-- The process of working through it
-- The outcome or resolution
-- Key quotes that capture the essence
+### 5. Open Questions & Interview Opportunities
+Identify topics that warrant deeper exploration in interviews (max 10):
+- Topics mentioned but not fully explained, or that could make compelling documentary segments
+- References to off-stream work, partially revealed team dynamics
+- Cross-stream references ("we finished this from last stream") – note what was referenced for timeline building
 
-### 6. Memorable Quotes
-Select up to 3 standalone quotes that are character-defining, emotionally revealing, or capture Kaze's philosophy. These are quotes that could serve as documentary narration, chapter titles, or trailer moments. They should stand on their own without needing the surrounding context to be powerful.
+Think like a documentary filmmaker: What would make viewers lean in? What reveals character?
 
-### 7. Open Questions & Interview Opportunities
-Identify topics and moments that warrant deeper exploration in interviews:
-- Topics mentioned but not fully explained
-- Topics that could make compelling documentary segments
-- Decisions without clear rationale or stories that trail off
-- References to work, discussions, or decisions that happened off-stream
-- Partially revealed team dynamics or collaboration methods
-- Questions that viewers would naturally ask after watching
-- Cross-stream references ("we finished this from last stream," "remember two weeks ago") – note what was referenced for timeline building
-
-When identifying open questions, think like a documentary filmmaker: What would make viewers lean in? What reveals character? What explains the "why" behind decisions?
-
-### 8. Stream Significance
+### 6. Stream Significance
 Rate this stream's overall significance for the documentary:
 - **routine**: Standard development work without notable narrative moments
 - **notable**: Contains interesting insights, good quotes, or minor revelations
@@ -87,18 +69,7 @@ Rate this stream's overall significance for the documentary:
 
 ## Known Transcription Corrections
 
-The automated speech-to-text process frequently misspells these names and terms. Most have been corrected in pre-processing, but some may still appear:
-- "Biomech/Biomek/Biobike" → Biobak (graphics artist)
-- "Badoop/Badoob/Barduke" → Badub (composer)
-- "Xena/Zena/Zeyna" → Zeina (animator)
-- "Leela/Leila/Layla" → Lilaa (contributor)
-- "Sauron/Saurin/Sauren" → Sauraen (programmer)
-- "F3DX/f3dx" → F3DEX (N64 graphics microcode)
-- "LibDragon" → libdragon (N64 SDK)
-- "RomEx/Romex" → ROM hack
-- "Course" is sometimes transcribed as "Chris"
-
-Apply these corrections when extracting quotes and attributing contributions.
+Most name and term misspellings have been corrected in preprocessing. If you encounter unfamiliar names, check if they match: Biobak, Badub, Zeina, Lilaa, Sauraen, F3DEX. Note that "Course" is sometimes transcribed as "Chris."
 
 ## Exclusions
 

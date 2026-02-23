@@ -9,14 +9,12 @@ const TeamMemberSchema = z
 
 const FindingTopicSchema = z
   .enum([
-    "design-decision",
-    "technical-breakthrough",
-    "creative-process",
+    "design",
+    "technical",
     "milestone",
     "philosophy",
-    "influence",
     "personal",
-    "team-dynamics",
+    "team",
     "legal-nintendo",
     "community",
     "business",
@@ -75,8 +73,9 @@ const StorySchema = z.object({
     .describe("The resolution, learning, or current state of the situation"),
   key_quote: z
     .string()
+    .nullable()
     .describe(
-      `The most revealing quote from this story. ${QUOTE_INSTRUCTIONS}`,
+      `The most revealing quote from this story, if one exists. ${QUOTE_INSTRUCTIONS}`,
     ),
   related_to: z
     .array(TeamMemberSchema)
@@ -94,6 +93,8 @@ const OpenQuestionSchema = z.object({
     ),
   questions: z
     .array(z.string())
+    .min(1)
+    .max(5)
     .describe("Follow-up questions to ask in the interview"),
   related_to: z
     .array(TeamMemberSchema)
@@ -110,7 +111,7 @@ export const StreamAnalysisSchema = z.object({
     level: z
       .array(z.string())
       .describe(
-        'Specific game level(s) or area(s) being worked on (e.g. "Course 1", "Overworld")',
+        'Specific game level(s) or area(s) being worked on. Use the format "Course N" or "Overworld". Add a short name only if clearly established (e.g. "Course 11 – Power Plant")',
       ),
     significance: z
       .enum(["routine", "notable", "milestone", "pivotal"])
@@ -121,16 +122,11 @@ export const StreamAnalysisSchema = z.object({
       .describe("Why this stream is notable, if not routine"),
   }),
 
-  development_findings: z
+  findings: z
     .array(FindingSchema)
+    .max(15)
     .describe(
-      "Key findings about the game's development, design decisions, technical aspects, and creative process",
-    ),
-
-  context_findings: z
-    .array(FindingSchema)
-    .describe(
-      "Findings about Kaze's personal context, emotions, philosophy, or external factors (community, legal, business)",
+      "Key findings from this stream: development progress, design decisions, technical insights, creative process, personal context, philosophy, emotions, community dynamics, legal concerns, and business considerations",
     ),
 
   contributor_findings: z
@@ -146,6 +142,7 @@ export const StreamAnalysisSchema = z.object({
         .describe("Contributions and insights from Zeina"),
       others: z
         .array(OtherContributorSchema)
+        .max(5)
         .describe(
           "Notable contributions from other community members (e.g. Lilaa, Sauraen, ZeroVolt)",
         ),
@@ -166,6 +163,7 @@ export const StreamAnalysisSchema = z.object({
 
   open_questions: z
     .array(OpenQuestionSchema)
+    .max(10)
     .describe(
       "Unresolved topics or knowledge gaps that translate directly into interview questions",
     ),
