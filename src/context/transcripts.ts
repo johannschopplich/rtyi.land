@@ -1,3 +1,4 @@
+import type { OpenAILanguageModelChatOptions } from "@ai-sdk/openai";
 import { constants } from "node:fs";
 import * as fsp from "node:fs/promises";
 import { basename, extname, join } from "node:path";
@@ -34,6 +35,11 @@ export async function processTranscript(filePath: string, model: string) {
       prompt: template(STREAM_ANALYSIS_PROMPT_v2, {
         transcript: transcriptContent,
       }),
+      providerOptions: {
+        openai: {
+          reasoningEffort: "xhigh",
+        } satisfies OpenAILanguageModelChatOptions,
+      },
     });
 
     await fsp.writeFile(
