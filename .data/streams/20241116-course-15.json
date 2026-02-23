@@ -1,0 +1,273 @@
+{
+  "stream_context": {
+    "summary": "Kaze brainstorms the concept and mission structure for the game’s final main course (Course 15), a “space arcade” built around a giant rocket hub with multiple arcade-machine minigames and a retro SM64-fragment finale. Mid-stream he pivots into reviewing a major rework of the Bomb Cap stage (bomb-factory themed), then spends significant time debugging repeated crashes tied to collision limits, actor/object overflows, and a suspected Fast64 texture export/preview bug. He also discusses emulator accuracy issues (Parallel/RS) and reiterates RTYI’s focus on consistent mechanics, improved physics, and performance over the vanilla SM64 engine.",
+    "level": [
+      "Course 15"
+    ],
+    "significance": "notable",
+    "significance_reason": "Defines the intended structure/theme of the final course (space arcade + SM64 contrast section), captures Kaze’s design philosophy about consistency vs. novelty, and documents real engineering pain points: collision/actor overflows, Fast64 texture tiling quirks, and emulator/accuracy constraints impacting development and testing."
+  },
+  "findings": [
+    {
+      "topic": "design",
+      "importance": "high",
+      "summary": "Course 15’s theme is locked as a non-gambling “space arcade” (Kaze explicitly rejects calling it a casino), centered on a giant rocket structure with platforming both outside and inside (spiral ascent inside the rocket, rooms within, and a void/black-hole drop below as a visual and gameplay anchor).",
+      "quote": null
+    },
+    {
+      "topic": "design",
+      "importance": "high",
+      "summary": "Kaze lays out a concrete six-star mission plan for Course 15: (1) star atop the arcade/rocket, (2) whack-a-mole arcade machine minigame, (3) rhythm-game arcade machine minigame, (4) skee-ball style cannon shot into scoring holes that routes you to a slide area, (5) red coins set on “pinball in space” platforms inspired by Sonic’s Casino Night (pinball-machine pieces as platforms/obstacles, not a slippery pinball), and (6) a finale warp pipe taking the player into short ‘fragments’ of multiple SM64 levels for contrast.",
+      "quote": null
+    },
+    {
+      "topic": "design",
+      "importance": "medium",
+      "summary": "The warp-pipe “SM64 fragments” concept is framed as an intentional contrast beat: short diorama-like sections referencing iconic SM64 areas (e.g., Bob-omb Battlefield’s opening grass/bridge/spiral mountain hint; Jolly Roger Bay cave vibe), kept visually “prettier” via improved lighting/palette while still reading as SM64-era style. Kaze wants big retro references mostly contained inside warp pipes so they don’t “bleed” into the main game.",
+      "quote": null
+    },
+    {
+      "topic": "design",
+      "importance": "medium",
+      "summary": "Kaze confirms a structure rule: three “Yoshi stars” per main level (green stars) alongside stars/coins, and that Course 15 will also contain many additional arcade minigames primarily for Yoshi coins (with some minigames tied to stars).",
+      "quote": null
+    },
+    {
+      "topic": "philosophy",
+      "importance": "high",
+      "summary": "Kaze emphasizes RTYI’s design constraint of consistency: novelty is valuable, but if a mechanic/minigame is too different from the rest of RTYI it can reduce the number of players who enjoy the game; mechanics should be added to enable new platforming ideas, not ‘just for the sake of more mechanics.’",
+      "quote": "It’s not necessarily about what’s fun, but rather what’s consistent with the rest of the game."
+    },
+    {
+      "topic": "technical",
+      "importance": "high",
+      "summary": "A major crash investigation reveals multiple engine constraints: the default engine collision map budget is ~5,000 triangles (his temporary collision was ~8,000 before building a real collision map). Even after reducing collision to ~3,900 triangles, crashes persist; later tests indicate some crashes are linked to actor/object overflow rather than collision alone.",
+      "quote": null
+    },
+    {
+      "topic": "technical",
+      "importance": "high",
+      "summary": "Kaze identifies a likely actor-count issue: many environmental details are built as separate objects (e.g., brick wall made of 10 bricks each, totaling ~44 objects), and removing certain object sets (notably wall gears and factory windows) stops an overflow/crash. He considers that a previously reduced RAM object chain size might be interacting with the new, denser layout.",
+      "quote": null
+    },
+    {
+      "topic": "technical",
+      "importance": "high",
+      "summary": "He runs into what appears to be a Fast64 texture tiling/shift bug: a texture displays ‘repeated/twice’ incorrectly unless he uses a workaround (changing shift behavior), which then forces the team to model around the bug. He plans to file a bug report, but notes that if Fast64 fixes it later the level’s look could change.",
+      "quote": null
+    },
+    {
+      "topic": "technical",
+      "importance": "medium",
+      "summary": "Testing and debugging are complicated by emulator accuracy and boot-mode detection. Kaze describes needing different behavior for accurate vs inaccurate emulators; RS had an accuracy issue that forced his ROM into an ‘emulator mode’ and caused crashes until he worked around it, while Parallel may include intentional inaccuracies for speed that crash his ROM and may also take ~2 minutes to boot older builds. He largely relies on Project64 1.6 and Rosalie’s Mupen GUI for certain tests.",
+      "quote": null
+    },
+    {
+      "topic": "team",
+      "importance": "medium",
+      "summary": "Biobak delivers a substantial Bomb Cap stage rework pass (geometry, lighting consistency decisions, platforming adjustments, object reductions) that Kaze reviews live and uses as the basis for gameplay/tutorial tweaks (e.g., ensuring the player immediately learns bombs break walls).",
+      "quote": null
+    },
+    {
+      "topic": "personal",
+      "importance": "low",
+      "summary": "Kaze recounts a real-life dispute with an internet provider who installed equipment before he signed a contract; he refuses to sign/pay and frames it as a lesson about not agreeing without seeing the contract first.",
+      "quote": null
+    },
+    {
+      "topic": "technical",
+      "importance": "medium",
+      "summary": "Kaze reiterates an RTYI engine goal: physics ‘feel infinitely better’ than vanilla SM64 and the engine can handle ‘crazy geometry’ with better performance than the original, even as he actively fights collision and actor budgets during production.",
+      "quote": "Everything you do just works."
+    }
+  ],
+  "contributor_findings": {
+    "biobak": [
+      {
+        "topic": "design",
+        "importance": "high",
+        "summary": "Provides the core Course 15 setpiece concept: a giant rocket in space that serves as the arcade’s centerpiece, shaping the entire level’s aesthetic and layout constraints.",
+        "quote": null
+      },
+      {
+        "topic": "design",
+        "importance": "medium",
+        "summary": "Suggests/owns at least one arcade-minigame concept referenced by Kaze as “Biobak’s window idea,” described as a ‘hit the lights’ type game variant.",
+        "quote": null
+      },
+      {
+        "topic": "technical",
+        "importance": "high",
+        "summary": "Delivers a detailed Bomb Cap stage rework (as seen in Kaze’s review notes): lighting and texture updates, geometry cleanup (e.g., removing wall pillars/gears to make space), round pillars, replacing some platforms with catwalks/metal cubes, reworking treadmill section to include bombs dropping from three pipes onto three treadmills, removing a cannon to reduce bomb spam difficulty, adding a large ‘firewall’ catch for returning from the red coin zone, and proposing stronger overhead/ceiling-based lighting for consistency.",
+        "quote": null
+      },
+      {
+        "topic": "design",
+        "importance": "medium",
+        "summary": "Design intent noted in the rework: level should be playable both forwards and backwards; includes a return pipe concept that is conditionally available depending on whether the switch was pressed during the current visit.",
+        "quote": null
+      }
+    ],
+    "badub": [],
+    "zeina": [
+      {
+        "topic": "personal",
+        "importance": "low",
+        "summary": "Mentioned in a domestic anecdote: Zeina sometimes makes the bed, and Kaze jokes it makes the bed worse for his preference (a brief glimpse of their everyday dynamic during development).",
+        "quote": null
+      }
+    ],
+    "others": [
+      {
+        "name": "Arthur Tilley",
+        "findings": [
+          {
+            "topic": "design",
+            "importance": "medium",
+            "summary": "Credited with the idea for Course 15’s final warp pipe that takes the player into short, contrasted sections referencing multiple SM64 levels (a ‘fragments/diorama’ finale).",
+            "quote": null
+          }
+        ]
+      },
+      {
+        "name": "Spiralback",
+        "findings": [
+          {
+            "topic": "design",
+            "importance": "medium",
+            "summary": "Credited with the initial idea of making the central setpiece a giant rocket that functions as the arcade hub for Course 15.",
+            "quote": null
+          }
+        ]
+      }
+    ]
+  },
+  "memorable_quotes": [
+    {
+      "speaker": "Kaze",
+      "quote": "It’s not necessarily about what’s fun, but rather what’s consistent with the rest of the game.",
+      "context": "Said while evaluating whether an arcade ‘crane game’ concept or other minigames would be too different from RTYI’s core platforming identity; he frames variety as subordinate to cohesion."
+    },
+    {
+      "speaker": "Kaze",
+      "quote": "Everything you do just works.",
+      "context": "Kaze’s summary of RTYI’s physics/engine improvements versus vanilla SM64, used to explain why the project can support more ambitious geometry and movement feel."
+    }
+  ],
+  "key_stories": [
+    {
+      "title": "Course 15 concept: space arcade + SM64 contrast finale",
+      "summary": "Kaze outlines the final main course as a space arcade built around a giant rocket, packed with arcade-machine minigames and a pinball-platform red coin mission. The finale is a warp-pipe section made of short fragments referencing multiple SM64 levels to create an intentional contrast beat right before the endgame content.",
+      "challenge": "Designing a final course that feels climactic and reference-rich without letting retro content ‘bleed’ into the rest of RTYI or introducing mechanics that break the game’s consistency.",
+      "process": "He lists six star concepts, brainstorms additional coin-focused minigames, and debates art-direction constraints (SM64 style but improved lighting/palette). He explicitly draws a line against gambling theming and against adding mechanics only for novelty.",
+      "outcome": "A clear mission/structure direction is established for the level, with open implementation questions remaining (palette, traversal surfaces, and how to execute the SM64 fragments).",
+      "key_quote": "There’s going to be three Yoshi stars per main level, which are like green stars in our galaxy.",
+      "related_to": [
+        "kaze"
+      ]
+    },
+    {
+      "title": "Bomb Cap stage rework review becomes a crash-hunt",
+      "summary": "Kaze reviews a substantial geometry/lighting/platforming rework (from Biobak) for the Bomb Cap factory-like stage, then discovers the updated build repeatedly crashes. He initially suspects collision map size, then pivots to actor/object overflow after testing shows removing certain object sets stabilizes the level.",
+      "challenge": "The stage exceeds engine limits (collision triangle budget and/or actor/object budgets), causing crashes that block iteration and playtesting.",
+      "process": "He reduces collision complexity, experiments with increasing collision buffers (which itself crashes), disables actors in batches to isolate the culprit, and estimates object counts (e.g., brick walls made of many separate objects).",
+      "outcome": "Evidence points to an actor/object overflow interaction (wall gears/factory windows and dense object breakdowns). The precise final fix is not completed on-stream, but the debugging direction is clarified.",
+      "key_quote": "If the level just works now, that’s a very good hint that it’s one of the objects that’s crashing.",
+      "related_to": [
+        "kaze",
+        "biobak"
+      ]
+    },
+    {
+      "title": "Fast64 texture shift/tiling bug forces a workaround",
+      "summary": "While addressing a wall texture that appears incorrectly (stretched/repeated), Kaze determines the problem persists on real hardware/emulation, suggesting an export or preview bug rather than an emulator-only issue. A workaround involving texture shift settings produces the intended look, but implies the team may need to model around the bug.",
+      "challenge": "A toolchain inconsistency (Fast64) causes textures to render wrong, risking wasted art time and future breakage if the bug is fixed later.",
+      "process": "He inspects material/tile parameters, checks behavior on N64/emulator, consults chat hints about encoding (e.g., negative shift encoded as 14), and tests alternative shift values until the output matches the intended design.",
+      "outcome": "A temporary workaround is found; Kaze plans to submit a bug report but notes the fix could retroactively change level visuals.",
+      "key_quote": "I guess we just have to model the level like this. Definitely a Fast64 bug, right?",
+      "related_to": [
+        "kaze"
+      ]
+    },
+    {
+      "title": "Emulator accuracy becomes part of the development problem",
+      "summary": "Kaze explains that some emulators are ‘too accurate’ or ‘not accurate enough’ in ways that affect whether his ROM boots, which mode it boots into, and whether it crashes. He recounts coordinating with an RS developer to fix an accuracy-detection issue and describes Parallel’s speed-focused inaccuracies as a likely cause of persistent crashes.",
+      "challenge": "Reliable iteration requires dependable boot/testing targets, but emulator differences and deliberate inaccuracies create false negatives and confusing crash behavior.",
+      "process": "He compares RS, Parallel (launcher/RDP plugin), Project64, and Rosalie’s Mupen GUI; he discusses detection logic that switches between N64 mode and emulator mode depending on observed inaccuracies.",
+      "outcome": "Kaze continues using the tools that work (often PJ64/Mupen GUI) and treats Parallel as unreliable for this project; the underlying compatibility strategy remains ongoing.",
+      "key_quote": "Clearly the thing has inaccuracies in there on purpose, and I’m guessing one of those inaccuracies is what makes my game crash.",
+      "related_to": [
+        "kaze"
+      ]
+    }
+  ],
+  "open_questions": [
+    {
+      "topic": "Course 15 production plan and feasibility of the minigames",
+      "context": "Kaze lists multiple arcade-machine minigames (whack-a-mole, rhythm game, skee-ball cannon scoring, pinball-platform red coins, plus additional Yoshi-coin games like ‘walk over pixel art to light pixels’), but also says he has ‘too many ideas’ and struggles with mapping/traversal surfaces and palette.",
+      "questions": [
+        "Which of the listed minigames are considered ‘must-have’ for Course 15 versus cuttable scope?",
+        "What implementation approach will each minigame use (custom actors, separate sub-areas, scripted sequences, teleport rooms), and how will they be kept performant within actor/collision budgets?",
+        "What was the final decision on traversal surfaces (catwalks, meteor trails, CRT walkable screens, rainbow-road-like platforms) and how did playtesting influence it?",
+        "What guardrails did Kaze use to prevent Course 15 from turning into a ‘variety pack’ that breaks RTYI’s consistency?"
+      ],
+      "related_to": [
+        "kaze",
+        "biobak"
+      ]
+    },
+    {
+      "topic": "SM64 fragments finale: art direction and level selection",
+      "context": "Course 15’s star 6 warp pipe is intended to drop the player into short fragments of iconic SM64 levels, with improved lighting/palette so it’s ‘prettier’ but still recognizable as SM64-era style, explicitly to create contrast with RTYI.",
+      "questions": [
+        "Which SM64 levels/fragments made the final cut, and what criteria were used (iconic-ness, biome variety, avoiding duplicates like THI vs other themes)?",
+        "How did the team avoid the fragments feeling like ‘remade SM64 levels’ while still delivering nostalgia?",
+        "What technical approach was used to swap/stream these diorama fragments (separate sublevels, shared asset bank, texture set switching)?",
+        "Did this section introduce any legal/copyright risk discussions internally (since it directly references Nintendo’s original level layouts/themes)?"
+      ],
+      "related_to": [
+        "kaze"
+      ]
+    },
+    {
+      "topic": "Crash root cause in the Bomb Cap stage (collision vs actor overflow)",
+      "context": "Kaze observes default collision-map handling (~5k triangles), reduces collision substantially, and then finds that removing certain object sets (wall gears/factory windows) stops an overflow. He also suspects RAM object chain size changes across builds might interact with current layouts.",
+      "questions": [
+        "What was the final confirmed crash cause: actor overflow, memory pool exhaustion, display list size, collision buffers, or a combination?",
+        "What concrete engine changes (if any) were made to raise limits safely (actor slots, collision buffers, segmented memory, object pools), and what tradeoffs did that introduce?",
+        "Did the team adopt new content guidelines after this (max objects per room, batching meshes, avoiding ‘brick walls as many objects’)?",
+        "Which specific assets were redesigned (e.g., gears, windows, bricks) to reduce actor/object count without losing the intended look?"
+      ],
+      "related_to": [
+        "kaze",
+        "biobak"
+      ]
+    },
+    {
+      "topic": "Fast64 texture shift bug and long-term toolchain strategy",
+      "context": "A wall texture renders incorrectly unless Kaze uses a workaround that changes how the texture shift is set; he considers filing a bug report but worries a fix could change the level’s visuals later.",
+      "questions": [
+        "Was a Fast64 issue filed, and if so, what was the resolution/timeline?",
+        "Did the team lock a specific Fast64 version for production to prevent visual regressions?",
+        "How many assets were affected by this texture shift/tiling issue, and did it influence art direction decisions (texture sizes, UV conventions, avoiding certain shift ranges)?",
+        "Did the team add validation steps (hardware checks, emulator matrix) before merging art exports after this incident?"
+      ],
+      "related_to": [
+        "kaze"
+      ]
+    },
+    {
+      "topic": "Emulator compatibility policy for RTYI development and release",
+      "context": "Kaze describes complex emulator accuracy/detection issues: RS accuracy quirks, Parallel’s intentional inaccuracies, and needing different boot modes for different emulators. This affects debugging reliability during development and potentially player experience post-release.",
+      "questions": [
+        "Which emulators (and versions/plugins) did the team officially target for development testing, and which were deprioritized as unreliable?",
+        "Did RTYI implement explicit emulator detection/compatibility paths in the shipped build, or was it kept as a dev-only workaround?",
+        "How did these emulator constraints affect QA—did the team rely more on real hardware, EverDrive, or a small ‘known-good’ emulator set?",
+        "Were there any moments where an emulator-induced bug drove a major design or engineering change (e.g., reducing effects, changing RDP usage, simplifying materials)?"
+      ],
+      "related_to": [
+        "kaze"
+      ]
+    }
+  ]
+}

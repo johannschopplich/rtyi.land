@@ -1,0 +1,224 @@
+{
+  "stream_context": {
+    "summary": "Kaze showcases substantial progress on a new Wild West/cowboy-themed level (buildings, props, gags) and focuses the session on creating a low‑poly moving train setpiece. Along the way he discusses emulator-vs-hardware feature toggles (render distance/60fps), N64 rendering optimizations (screen-space quads for coins/billboards), performance targets on real hardware, and his design philosophy of pushing an exaggerated theme while avoiding unnecessary controversy.",
+    "level": [],
+    "significance": "notable",
+    "significance_reason": "The stream contains concrete level planning (town layout, NPC gags, bounty targets), a key setpiece asset (train) brought to a near-finished state, real-hardware performance observations, and several clear philosophy statements about optimization and thematic direction."
+  },
+  "findings": [
+    {
+      "topic": "design",
+      "importance": "high",
+      "summary": "Kaze outlines the Wild West level’s core structure as a small town with readable landmark buildings (sheriff office with wanted posters, hat store, gun store, hotel, bank, saloon) plus comedic “stores” (tumbleweed store, Unagi oil salesman) and setpieces (train loop, bank robbery aftermath).",
+      "quote": null
+    },
+    {
+      "topic": "design",
+      "importance": "high",
+      "summary": "The level’s main objective loop includes catching three “cowboy” criminals (a Goomba gang, a Snufit, and a Shy Guy) who end up jailed in the sheriff’s office, potentially with post-capture dialogue.",
+      "quote": null
+    },
+    {
+      "topic": "design",
+      "importance": "medium",
+      "summary": "Kaze rejects giving Mario a cowboy hat or doing character “skins,” arguing that if he adds it for one level it creates an expectation to support it across the whole game (and for Luigi too).",
+      "quote": null
+    },
+    {
+      "topic": "technical",
+      "importance": "high",
+      "summary": "He is implementing emulator detection and enabling emulator-specific quality-of-life upgrades: unlimited draw distances and defaulting to 60 FPS on emulator rather than the console’s typical 30 FPS target.",
+      "quote": null
+    },
+    {
+      "topic": "technical",
+      "importance": "high",
+      "summary": "Train movement cannot be programmed yet because it depends on finalized/baked collision for the train tracks; collision baking is deferred until late in level production when geometry is stable.",
+      "quote": null
+    },
+    {
+      "topic": "technical",
+      "importance": "high",
+      "summary": "Kaze reports early real-hardware performance for the cowboy level: ~40–50 FPS “pretty stable” before optimization, with an expectation performance will drop as more content is added—highlighting the need for later optimization passes.",
+      "quote": null
+    },
+    {
+      "topic": "technical",
+      "importance": "high",
+      "summary": "He explains a specific optimization decision: rendering coins/billboards as screen-space quads can be significantly faster than generating per-object matrices and loading extra vertices, saving substantial per-coin data and command overhead.",
+      "quote": null
+    },
+    {
+      "topic": "technical",
+      "importance": "medium",
+      "summary": "While creating the train, Kaze debates using exact Calamari Desert (Mario Kart 64) accuracy versus fitting the hack’s art style; he ultimately leans toward an “in-between” look, exploring higher-quality references (e.g., MK7/MK8) and selectively reusing textures rather than importing full 3D models.",
+      "quote": null
+    },
+    {
+      "topic": "team",
+      "importance": "medium",
+      "summary": "Biobak provides live art/level feedback and cleanup support: flags a geometry placement issue (objects sunk too far into ground) and later commits to improving a “64” logo texture Kaze struggled to make in Photoshop.",
+      "quote": null
+    },
+    {
+      "topic": "philosophy",
+      "importance": "high",
+      "summary": "Kaze states a guiding principle for technical work on the decomp-based engine: he prioritizes raising the project’s capabilities (skill ceiling) even if the optimizations make the codebase harder for other romhackers to adopt.",
+      "quote": null
+    }
+  ],
+  "contributor_findings": {
+    "biobak": [
+      {
+        "topic": "design",
+        "importance": "low",
+        "summary": "Biobak points out that certain spherical props are placed too low (lowest vertex much lower than expected), prompting Kaze to adjust their vertical placement.",
+        "quote": null
+      },
+      {
+        "topic": "technical",
+        "importance": "medium",
+        "summary": "Biobak advises keeping textures CI4 “for memspeed,” reinforcing a memory/performance-first texture pipeline.",
+        "quote": null
+      },
+      {
+        "topic": "team",
+        "importance": "medium",
+        "summary": "When Kaze can’t get a clean 3D-looking “64” badge texture via Photoshop effects, Biobak tells him not to worry and that he’ll improve it later (clear example of iterative handoff between coder/designer and art support).",
+        "quote": null
+      },
+      {
+        "topic": "business",
+        "importance": "low",
+        "summary": "Biobak challenges Kaze’s interpretation of YouTube analytics (“people don’t watch this”) which prompts Kaze to reason about algorithmic distribution rather than audience interest.",
+        "quote": null
+      }
+    ],
+    "badub": [],
+    "zeina": [
+      {
+        "topic": "personal",
+        "importance": "low",
+        "summary": "Zeina briefly speaks during a Christmas discussion, reframing the point of gift-giving as simply being happy rather than surprises.",
+        "quote": "Just being happy is the point."
+      }
+    ],
+    "others": []
+  },
+  "memorable_quotes": [
+    {
+      "speaker": "Kaze",
+      "quote": "I don’t really care about raising the skill floor, I care about raising the skill ceiling.",
+      "context": "Kaze explains why he’s willing to implement powerful engine/optimization changes even if they make the code harder for other romhackers to understand or adopt."
+    },
+    {
+      "speaker": "Kaze",
+      "quote": "My vision for this is… I’m doing that to American culture: the cowboys. We move the cowboy slider all the way to the right, and then we keep going.",
+      "context": "A concise statement of the level’s creative direction: intentional thematic exaggeration as the guiding aesthetic, akin to a parody but built with genuine craft."
+    },
+    {
+      "speaker": "Kaze",
+      "quote": "We’re all slowly dying. I gotta make what I can.",
+      "context": "He dismisses the idea of remaking older projects again; it’s a frank statement about time, priorities, and why new work matters."
+    }
+  ],
+  "key_stories": [
+    {
+      "title": "Building the moving train setpiece under N64 constraints",
+      "summary": "Kaze begins by choosing the train as the day’s main task for the cowboy town and iterates on the model using Mario Kart references. He debates authenticity vs style, explores higher-quality references, then builds a low-poly version that fits the level and plans functional lighting and smoke.",
+      "challenge": "Create a visually appealing, thematically fitting train that can later move along tracks while staying within N64 rendering/performance limits.",
+      "process": "He compares MK64 vs newer Mario Kart versions, chooses to copy the look rather than import heavy models, uses 2D planes for wheels initially, then experiments with making wheels feel more 3D. He sizes the train in-world, tests it in-engine, and identifies track collision issues that block movement programming for now.",
+      "outcome": "Train model is considered essentially done for the session and placed in the level at a better scale; movement is confirmed as a goal, but delayed until track collision is finalized/baked.",
+      "key_quote": "Okay, we can’t program the train yet. Because we need the collision baked for that. And to bake the collision, we need to finish the level.",
+      "related_to": [
+        "kaze",
+        "biobak"
+      ]
+    },
+    {
+      "title": "Emulator-specific upgrades as a deliberate player experience choice",
+      "summary": "Kaze mentions he actively detects whether the game is running on emulator and uses that to unlock features that would be too expensive or unstable on original hardware. He specifically calls out unlimited draw distance and default 60 FPS behavior on emulator.",
+      "challenge": "Balance authenticity and hardware respect with modern player expectations when many players will experience the hack on emulator.",
+      "process": "He adds an emulator check and routes default settings/limits through that condition, separating “console-safe” behavior from “emulator-enhanced” behavior.",
+      "outcome": "A dual-target experience emerges: hardware remains the baseline, while emulators can opt into higher fidelity/performance targets.",
+      "key_quote": "I’m making it so that on emulator drawing distances are unlimited… and it defaults to 60 fps instead of 30.",
+      "related_to": [
+        "kaze"
+      ]
+    },
+    {
+      "title": "Theme maximalism with conscious boundary-setting",
+      "summary": "While joking about stereotypes, Kaze explicitly decides not to include Native American caricatures or cowboy-vs-Indians framing. He frames it as avoiding pointless controversy and keeping the level focused on the intended playful cowboy exaggeration.",
+      "challenge": "How to push a recognizable Wild West theme without importing harmful stereotypes that distract from the game and invite backlash.",
+      "process": "He articulates a “cowboy slider” approach (maximal cowboy aesthetic) while drawing a line at including elements that would create political/ethical controversy with no gameplay benefit.",
+      "outcome": "A clear creative boundary: the level commits to cowboy parody but avoids specific cultural depictions likely to be offensive or contentious.",
+      "key_quote": "There’s no reason to have random political controversy… it’d just be stupid.",
+      "related_to": [
+        "kaze"
+      ]
+    }
+  ],
+  "open_questions": [
+    {
+      "topic": "Emulator detection and feature gating",
+      "context": "Kaze says he checks if the game is on emulator and then enables unlimited draw distance and defaults to 60 FPS.",
+      "questions": [
+        "How exactly does the build detect “emulator” versus real N64 hardware (timing quirks, RSP behavior, known emulator flags, or a manual setting)?",
+        "Which features are currently planned to be emulator-only versus hardware (render distance, FPS, texture filtering, LOD rules, debug tools)?",
+        "How do you avoid emulator-only changes accidentally affecting hardware stability or determinism (physics tied to framerate, animation timing, collision)?"
+      ],
+      "related_to": [
+        "kaze"
+      ]
+    },
+    {
+      "topic": "Train movement implementation plan and collision pipeline",
+      "context": "Kaze can’t script the moving train yet because track collision is not final/baked; he also notes track visuals behaving differently in-editor vs in-game.",
+      "questions": [
+        "What system will drive the moving train (spline/path nodes, segmented collision rails, parametric curve, or per-segment triggers)?",
+        "What is the exact workflow for collision baking in your toolchain, and what commonly breaks when level geometry changes late?",
+        "What caused the train track mismatch between the editor view and in-game collision/appearance in this session, and how will you prevent regressions?"
+      ],
+      "related_to": [
+        "kaze"
+      ]
+    },
+    {
+      "topic": "Real-hardware performance targets and optimization strategy for dense town levels",
+      "context": "Kaze reports ~40–50 FPS on hardware early, expects it to drop as assets are added, and mentions future optimization.",
+      "questions": [
+        "What is your target framerate on real N64 for this hack overall (30 locked, 60 in select areas, or ‘as high as possible’)?",
+        "What are the top three performance risks in the cowboy town (overdraw, too many objects, texture memory, RSP microcode limits, collision complexity)?",
+        "At what point do you ‘freeze’ level art/design to start a serious optimization pass, and what tools/metrics do you use to measure wins?"
+      ],
+      "related_to": [
+        "kaze"
+      ]
+    },
+    {
+      "topic": "Asset sourcing and adaptation (Mario Kart train references/textures)",
+      "context": "Kaze looks at MK64 and newer Mario Kart train assets, considers using textures from an available model, and wants an in-between style rather than 1:1 copying.",
+      "questions": [
+        "What is the project’s internal rule for reusing/deriving Nintendo assets versus creating originals—especially when the goal is ‘respectful but new’?",
+        "How do you decide when accuracy to the reference (MK64 Calamari Desert train) matters versus when style coherence with your hack matters more?",
+        "Did you end up using any textures directly from that external model file, and if so, how did you modify them (palette reduction/CI4, downscaling, hand edits) to fit N64 constraints?"
+      ],
+      "related_to": [
+        "kaze",
+        "biobak"
+      ]
+    },
+    {
+      "topic": "The ‘skill ceiling over skill floor’ philosophy and community impact",
+      "context": "Kaze explicitly prioritizes advanced optimizations that may be hard for other hackers to adopt, acknowledging some will be upset about complexity.",
+      "questions": [
+        "What specific optimizations/engine changes have drawn the most pushback from other ROM hackers, and why?",
+        "How do you balance being a ‘platform’ for others (decomp community) versus shipping the best possible version of your own game?",
+        "Do you plan to document these optimizations for others later, or is the project intentionally optimized for your team’s workflow only?"
+      ],
+      "related_to": [
+        "kaze"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,244 @@
+{
+  "stream_context": {
+    "summary": "Kaze continues building an oil/power-plant interior area, debugging moving platforms (elevator/treadmill), discussing RAM/performance constraints, and iterating on core interactive design (Yoshi coin placement, breakables). He also shifts into planning enemy reworks: replacing vanilla Amps with a new, lighter Odyssey-like look and introducing an “oil fuzzy” enemy concept that applies trippy visual/audio/physics status effects.",
+    "level": [],
+    "significance": "notable",
+    "significance_reason": "Contains multiple concrete design decisions for the power-plant area (Yoshi coin mechanic, platforming adjustments), technical discoveries (texture scroll bug/culling FPS changes, optimization approach), and a new enemy/status-effect concept (oil fuzzy trippy filter) that ties directly to the hack’s Yoshi’s Island identity."
+  },
+  "findings": [
+    {
+      "topic": "design",
+      "importance": "high",
+      "summary": "Kaze defines the power-plant interior’s gameplay theme around electricity hazards (Amp-heavy sections, gates/pipes with amps) and plans to make the space feel alive via dynamic lighting that affects nearby vertices as lit enemies move through the area.",
+      "quote": null
+    },
+    {
+      "topic": "technical",
+      "importance": "medium",
+      "summary": "He reports recent performance gains (roughly mid-40s FPS up to high-40s in the area), then notes a subsequent culling-related change reduced FPS again, implying active iteration on visibility/culling strategies to stabilize framerate.",
+      "quote": null
+    },
+    {
+      "topic": "technical",
+      "importance": "medium",
+      "summary": "A moving-platform issue (elevator/treadmill) is traced to implementation mistakes: missing collision, accidental overlap/duplication of platforms, and unintended texture-scroll actions still active on another selected object/asset; cleaning/rebuilding and removing the correct scroll action resolves the unexpected motion.",
+      "quote": null
+    },
+    {
+      "topic": "design",
+      "importance": "high",
+      "summary": "Kaze decides the power-plant room needs Yoshi coins and chooses to place one early in the star path to avoid forcing players to replay half the mission if they miss it, shaping collectible placement around player friction and retry cost.",
+      "quote": null
+    },
+    {
+      "topic": "design",
+      "importance": "high",
+      "summary": "He abandons the initial idea of hiding a Yoshi coin under breakable crates (difficulty conveying destructibility and poor visual fit) and instead prototypes a “pulldown platform” solution: a dangling platform the player pulls/uses to reach an otherwise unreachable Yoshi coin.",
+      "quote": null
+    },
+    {
+      "topic": "design",
+      "importance": "medium",
+      "summary": "While tuning platforming difficulty, Kaze identifies camera readability as a limiting factor: he’s willing to keep challenging jumps only if the camera lets the player track Mario clearly; otherwise he simplifies the jump timing (e.g., slowing snap-back behavior).",
+      "quote": null
+    },
+    {
+      "topic": "technical",
+      "importance": "medium",
+      "summary": "He discusses memory-saving ideas like storing transitions as SVG/polygonal cutouts, but estimates the likely savings as small (on the order of ~1.5KB net after accounting for multiple transitions and decode overhead), suggesting he prioritizes optimizations with measurable impact.",
+      "quote": null
+    },
+    {
+      "topic": "philosophy",
+      "importance": "medium",
+      "summary": "Kaze states he is comfortable doing runtime code changes for optimization and references earlier hacks where he used self-modifying assembly to reuse routines (e.g., changing object movement axis by patching instructions at runtime).",
+      "quote": "I had self-modifying assembly code, because I figured: hey, this is actually a faster way to program this."
+    },
+    {
+      "topic": "design",
+      "importance": "high",
+      "summary": "He commits to reworking Amps because he doesn’t consider the vanilla SM64 version “viable” for his needs; he wants a lighter, more modern look and considers an effect built from repeated spiky textured geometry (pyramids) with randomized offsets/rotations that scale and cycle rapidly.",
+      "quote": null
+    },
+    {
+      "topic": "design",
+      "importance": "high",
+      "summary": "A new enemy/status-effect concept emerges: “oil fuzzies” (chosen partly because fuzzies are a Yoshi’s Island icon) that apply a trippy visual filter and gameplay debuffs—extra-slippery movement with an oil trail, exaggerated squash-and-stretch, rainbow/hue-shifted scene/fog, and potentially audio manipulation (slowdown/pitch effects), without necessarily dealing direct damage.",
+      "quote": "Touch fuzzy, get dizzy."
+    },
+    {
+      "topic": "business",
+      "importance": "high",
+      "summary": "Before releasing Return to Yoshi’s Island, Kaze wants to ship 1–2 additional public demos/hacks to lock down camera and physics quality; he explicitly ties this to post-release rigidity (harder to change core feel after the main release) and also to needing ideas that are likely to be financially successful (topical/clickbaity enough).",
+      "quote": "Once I have RTYI out, I can’t really change anything anymore that much."
+    }
+  ],
+  "contributor_findings": {
+    "biobak": [
+      {
+        "topic": "team",
+        "importance": "medium",
+        "summary": "Kaze implies Biobak’s texture pass is a dependency for finalizing the area’s look; until textures are decided, Kaze treats the current space as a placeholder and expects it to remain visually rough.",
+        "quote": null
+      },
+      {
+        "topic": "design",
+        "importance": "low",
+        "summary": "Biobak indicates some current geometry/visual elements “look off” because objects aren’t affected the same way, and suggests removing/replacing them rather than forcing them to work in the current form.",
+        "quote": null
+      }
+    ],
+    "badub": [],
+    "zeina": [
+      {
+        "topic": "personal",
+        "importance": "low",
+        "summary": "Kaze mentions a new living/work setup after moving: Zeina is upstairs while he streams/works downstairs, suggesting a change in day-to-day working environment (and possibly fewer on-stream interactions).",
+        "quote": null
+      }
+    ],
+    "others": [
+      {
+        "name": "Lilaa",
+        "findings": [
+          {
+            "topic": "community",
+            "importance": "medium",
+            "summary": "Lilaa helps diagnose a key gameplay bug by suggesting overlapping platforms as the cause of the elevator not behaving correctly; this matches a common failure mode and prompts Kaze to check for duplicates/overlaps.",
+            "quote": null
+          },
+          {
+            "topic": "technical",
+            "importance": "medium",
+            "summary": "Lilaa proposes RAM-saving/asset ideas (SVG-based items/transitions, polygonal cutouts with vertex alpha), and Kaze responds with concrete cost/benefit reasoning (decode overhead and small net savings) and performance tradeoffs.",
+            "quote": null
+          },
+          {
+            "topic": "design",
+            "importance": "medium",
+            "summary": "Lilaa participates in brainstorming collectible mechanics and enemy behavior (Yoshi coin integration and fuzzy/oil debuff ideas), influencing Kaze’s iteration path even when Kaze rejects specific proposals.",
+            "quote": null
+          }
+        ]
+      }
+    ]
+  },
+  "memorable_quotes": [
+    {
+      "speaker": "Kaze",
+      "quote": "Once I have RTYI out, I can’t really change anything anymore that much.",
+      "context": "Explains why he wants extra demos/hacks before the main release: to perfect camera/physics and avoid locking in problems."
+    },
+    {
+      "speaker": "Kaze",
+      "quote": "I had self-modifying assembly code, because I figured: hey, this is actually a faster way to program this.",
+      "context": "A revealing statement about his engineering ethos on N64 constraints: he’ll use extreme low-level techniques when they’re pragmatic."
+    }
+  ],
+  "key_stories": [
+    {
+      "title": "Pre-release demos to finalize camera and physics",
+      "summary": "Kaze reflects on past releases (e.g., Only Up 64) where camera and move tech issues shipped publicly. He wants to avoid repeating that with Return to Yoshi’s Island, so he plans to release one or two additional demos/hacks first, ideally using recognizable SM64 content as a testbed.",
+      "challenge": "He wants RTYI’s core feel (camera, physics, movement tech like side-flips) to be “perfect,” but also doesn’t want to invest heavily in side projects that won’t perform financially.",
+      "process": "He proposes selecting highly recognizable levels/ideas for playtests, using those releases to validate camera/physics fixes, and only then shipping RTYI; he also frames selection as needing a topical/clickable hook.",
+      "outcome": "A tentative strategy emerges: at least 1–2 public playtest releases before RTYI, with RTYI treated as a point of reduced flexibility after launch.",
+      "key_quote": "I want to release at least one hack where it’s like: this is all perfect, and then I put RTYI out.",
+      "related_to": [
+        "kaze"
+      ]
+    },
+    {
+      "title": "Reframing the power-plant Yoshi coin and hazard identity",
+      "summary": "While building the oil power-plant interior, Kaze realizes the level needs Yoshi coins and evaluates how to make one feel fair and readable. At the same time, he locks in a broader identity: the area should be electric, Amp-driven, and later enhanced with dynamic lighting and new enemy variants.",
+      "challenge": "Breakable-crate concealment is visually unclear and thematically awkward, and placing collectibles too late increases frustration if missed.",
+      "process": "He tests multiple concealment ideas, rejects crates/barrels/batteries as unconvincing breakables, and prototypes an alternative: a reachable-by-interaction dangling platform that enables early collection. He also plans a full Amp rework plus lighting-driven presentation.",
+      "outcome": "A clearer design direction: early collectible placement, less reliance on ambiguous breakables, and a power-plant space built around redesigned electric hazards and lighting.",
+      "key_quote": "The thing is I want the Yoshi coin to be in the first room here.",
+      "related_to": [
+        "kaze",
+        "biobak"
+      ]
+    },
+    {
+      "title": "Oil fuzzy as a Yoshi’s Island-respectful status-effect enemy",
+      "summary": "Kaze searches for an enemy that both fits the oil power-plant and connects to Yoshi’s Island iconography. He lands on fuzzies and starts prototyping a trippy filter effect by manipulating matrices and visual parameters, then expands it into a full status package (slippery movement, rainbow/hue shifts, exaggerated squash/stretch, audio changes).",
+      "challenge": "He wants something that feels distinctly “Yoshi’s Island” but also novel and mechanically meaningful in SM64’s engine, without becoming too complex or unfun.",
+      "process": "He experiments with view/perspective matrix manipulation to find a usable ‘dizzy’ filter, considers synchronization with music, and brainstorms a concrete gameplay kit: uncontrollable sliding/oil trail plus intensified visual distortions and optional audio slowdown.",
+      "outcome": "A strong candidate for a signature enemy effect in the factory/power-plant level; he defers implementation of the new Amp and fuzzy to a future stream.",
+      "key_quote": "I never said I’m doing this for the fans. I’m doing this because I want to.",
+      "related_to": [
+        "kaze"
+      ]
+    }
+  ],
+  "open_questions": [
+    {
+      "topic": "Dynamic lighting plan for the power plant",
+      "context": "Kaze wants enemies with lighting effects to move through the area and cause nearby vertices to light up, implying a custom lighting system or per-vertex color modulation tied to enemy position.",
+      "questions": [
+        "What exact technique are you using for “dynamic lighting” on N64/SM64—per-vertex color updates, multiple light sources, envcolor tricks, or custom microcode/F3DEX features?",
+        "What performance/memory budget do you have for updating vertex colors during gameplay, and how do you avoid stutter?",
+        "Is this lighting system a one-off for the power plant, or intended as an engine feature used across multiple courses?"
+      ],
+      "related_to": [
+        "kaze"
+      ]
+    },
+    {
+      "topic": "Pre-release demo strategy before RTYI launch",
+      "context": "Kaze says he wants 1–2 additional demos/hacks before RTYI to perfect camera and physics, but also wants those releases to be financially successful (topical/clickbaity).",
+      "questions": [
+        "Which specific builds count as the “1–2 demos” (content, scope, and what systems they are meant to validate)?",
+        "What concrete camera/physics issues from prior releases are you trying to eliminate before RTYI (side-flip, camera collision, readability, etc.)?",
+        "How do you balance ‘topical’ releases with not distracting the team from RTYI—do you timebox them, reuse RTYI tech, or assign them to specific teammates?"
+      ],
+      "related_to": [
+        "kaze",
+        "biobak",
+        "badub"
+      ]
+    },
+    {
+      "topic": "Amp redesign scope and ownership",
+      "context": "Kaze says vanilla Amps aren’t viable, wants an Odyssey-like lighter look, and sketches an effect using spiky textured geometry that cycles and randomizes.",
+      "questions": [
+        "What specifically makes vanilla Amps “not viable” for RTYI—visual style mismatch, collision/behavior limitations, performance, or readability?",
+        "Who is responsible for Amp modeling/animation and VFX (Kaze vs. Biobak vs. Zeina), and what pipeline do you use to iterate quickly?",
+        "Do Amps gain new behaviors (pathing on pipes, gates, variants) or is the rework primarily visual?",
+        "How will the Amp visuals interact with the planned dynamic lighting (do they act as light sources)?"
+      ],
+      "related_to": [
+        "kaze",
+        "biobak",
+        "zeina"
+      ]
+    },
+    {
+      "topic": "Oil fuzzy final design rules (mechanics + audiovisual effects)",
+      "context": "Kaze prototypes a matrix-based trippy filter and brainstorms a status package: extra-slippery movement/oil trail, stronger squash/stretch, rainbow/hue-shifted fog/scene, and possible audio slowdown/pitch manipulation.",
+      "questions": [
+        "What is the final ‘contract’ for oil fuzzy contact—duration, stacking rules, and how the player recovers?",
+        "Which effects are purely cosmetic versus gameplay-relevant (e.g., slipperiness, forced momentum/rotation, camera/FOV wobble)?",
+        "How will you implement audio manipulation on N64 (sequence pitch bends/tempo changes) without breaking music transitions?",
+        "How do you playtest for comfort/accessibility (motion sickness risk) while keeping the effect impactful?"
+      ],
+      "related_to": [
+        "kaze",
+        "badub"
+      ]
+    },
+    {
+      "topic": "Compression/asset-storage decisions for transitions",
+      "context": "There’s discussion about storing transitions as SVGs/polygonal cutouts vs. standard compression; Kaze estimates minimal net RAM savings after decode overhead.",
+      "questions": [
+        "What are your current biggest RAM bottlenecks in RTYI (textures, object lists, audio sequences, animation data)?",
+        "When do you accept ‘small’ savings (kilobytes) as worth the engineering complexity, and when do you reject them?",
+        "Are transition assets shared across levels or duplicated per-course, and how does that affect your memory model?"
+      ],
+      "related_to": [
+        "kaze",
+        "biobak"
+      ]
+    }
+  ]
+}

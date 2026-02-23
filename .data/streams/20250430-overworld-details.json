@@ -1,0 +1,253 @@
+{
+  "stream_context": {
+    "summary": "Kaze works on the overworld’s beach/shore area, focusing on water wave animation, shoreline foam/sand decals, and path/terrain texturing. The stream includes a technical detour into compiler optimization (const), discussion of current toolchain limitations (Fast64 export bugs, lack of packed normals, missing vertex-pipeline features), and some design ideation for interactive coconut palms and an overworld that changes over time.",
+    "level": [
+      "Overworld"
+    ],
+    "significance": "notable",
+    "significance_reason": "Contains concrete technical constraints (decal alignment limits, packed normals unsupported, Fast64 bugs, pipeline feature gaps), a clear failed/abandoned shoreline-foam approach, team dependencies (Sauraen pipeline work; Zeina texture assets; Badub track revisions), and a strong philosophy segment about fidelity vs stylized art that speaks directly to the documentary’s central question."
+  },
+  "findings": [
+    {
+      "topic": "technical",
+      "importance": "high",
+      "summary": "A wave/foam animation routine was only running once because Kaze was incrementing a flag field in a way that prevented re-execution; he fixes it by moving the behavior to the correct draw-layer/parameter approach rather than mutating execution flags.",
+      "quote": null
+    },
+    {
+      "topic": "technical",
+      "importance": "high",
+      "summary": "Shoreline foam/sand was attempted using a transparent decal overlay, but Kaze concludes it likely won’t work convincingly on N64 due to alignment and geometry constraints (decal must match exact coordinates; uneven shoreline causes visible floating/misalignment), and he considers dropping or simplifying the sand/foam concept.",
+      "quote": null
+    },
+    {
+      "topic": "technical",
+      "importance": "medium",
+      "summary": "Kaze describes a performance-minded data-structure choice: a doubly-linked circular list where backward links are not directly stored; instead they’re retrieved via a HashMap lookup on level load to avoid polluting cache blocks during runtime, since backward traversal isn’t needed during gameplay.",
+      "quote": null
+    },
+    {
+      "topic": "technical",
+      "importance": "high",
+      "summary": "Certain visual features can’t be validated in-game yet because the current rendering pipeline/version lacks needed capabilities; Sauraen is working on a legacy vertex pipeline update to enable these features (referred to as “Fresno” flags/feature set).",
+      "quote": null
+    },
+    {
+      "topic": "technical",
+      "importance": "medium",
+      "summary": "Kaze changed the audio plugin due to a bug that made music sound “terrible,” but his emulator/audio engine is still not in a fully satisfactory state, affecting how music previews sound on stream.",
+      "quote": null
+    },
+    {
+      "topic": "technical",
+      "importance": "medium",
+      "summary": "He cannot use packed geometry normals yet because they are not supported in the current legacy vertex pipeline (LVP), limiting certain shading/asset approaches.",
+      "quote": null
+    },
+    {
+      "topic": "technical",
+      "importance": "medium",
+      "summary": "Fast64 export introduces recurring rendering/vertex-color/normal issues; Kaze identifies at least one as “a Fast64 bug” that he can’t fix locally and must wait for tooling to resolve.",
+      "quote": null
+    },
+    {
+      "topic": "design",
+      "importance": "medium",
+      "summary": "Overworld gating/readability: Kaze plans to place a character/NPC in front of a blocked entrance and add obvious bunny footprints leading to it, believing players won’t miss it even without extra signage.",
+      "quote": null
+    },
+    {
+      "topic": "design",
+      "importance": "medium",
+      "summary": "Interactive overworld idea: coconut palms with kickable coconuts that drop (0–5) coins; optionally, a sleeping character could be awakened only by getting bonked with a coconut, using accidental discovery as a natural tutorial.",
+      "quote": null
+    },
+    {
+      "topic": "philosophy",
+      "importance": "high",
+      "summary": "Kaze reflects that increased graphical fidelity can reduce the “special” quality of games and art, arguing stylization and deliberate exaggeration can be more emotionally effective than realism—framing his preference for N64-era readability and character in a modern hack.",
+      "quote": "Sometimes you just have to go with what your heart desires, you know? That’s what game design is all about."
+    }
+  ],
+  "contributor_findings": {
+    "biobak": [
+      {
+        "topic": "design",
+        "importance": "low",
+        "summary": "Kaze defers some shoreline foam realism concerns and later detailing (seashells/shoreline behavior) to Biobak’s judgment, implying Biobak will refine the beach once a usable base layout is in place.",
+        "quote": null
+      },
+      {
+        "topic": "team",
+        "importance": "medium",
+        "summary": "Kaze explicitly states he is building a “semi-decent” starting point for the island/overworld so Biobak can take over with a better baseline for polish and iteration.",
+        "quote": null
+      }
+    ],
+    "badub": [
+      {
+        "topic": "milestone",
+        "importance": "medium",
+        "summary": "Kaze plays/reacts to Badub’s music on stream and mentions a track update: the song for Course 5 has been revised (including orchestral direction replacing/competing with a previously used reference/feel), prompting strong audience reactions that Kaze cautions against over-attachment to unfinished assets.",
+        "quote": null
+      }
+    ],
+    "zeina": [
+      {
+        "topic": "design",
+        "importance": "medium",
+        "summary": "Zeina provides a footprint texture asset; Kaze requests a practical production change—packing 4–5 variations onto one texture (e.g., 128x32) so the footprints can be used as a repeating path with variation/rotation.",
+        "quote": null
+      },
+      {
+        "topic": "design",
+        "importance": "low",
+        "summary": "Kaze attributes some palette/UI oddities (a “funky palette” and the power meter look) to Zeina’s earlier asset/style choices, suggesting ongoing iteration on overall visual language.",
+        "quote": null
+      }
+    ],
+    "others": [
+      {
+        "name": "Sauraen",
+        "findings": [
+          {
+            "topic": "technical",
+            "importance": "high",
+            "summary": "Sauraen is actively developing a legacy vertex pipeline version that enables missing rendering features (the stream refers to them as “Fresno” features/flags), which currently blocks Kaze from testing certain visuals in-game.",
+            "quote": null
+          }
+        ]
+      },
+      {
+        "name": "Lilaa",
+        "findings": [
+          {
+            "topic": "technical",
+            "importance": "medium",
+            "summary": "A fix to export programming introduced a bug affecting the game’s random mode/behavior (Kaze calls it “the random mode bug”); Kaze jokingly blames Lilaa’s influence and notes the issue resembles an earlier footsteps-related bug.",
+            "quote": null
+          }
+        ]
+      }
+    ]
+  },
+  "memorable_quotes": [
+    {
+      "speaker": "Kaze",
+      "quote": "The game gets done when it gets done.",
+      "context": "In response to release-date pressure and comparisons to long dev cycles; reflects his stance on quality and uncertainty in a complex N64-scale project."
+    },
+    {
+      "speaker": "Kaze",
+      "quote": "Sometimes you just have to go with what your heart desires, you know? That’s what game design is all about.",
+      "context": "Said while making an aesthetic choice (adding rocks) despite optimization/readability discussions; a succinct statement of his creative philosophy."
+    },
+    {
+      "speaker": "Kaze",
+      "quote": "Lying to the compiler to make the compiler produce more optimized code is something I very commonly do.",
+      "context": "During the heated const/optimization debate; illustrates his pragmatic, performance-driven approach on constrained hardware."
+    }
+  ],
+  "key_stories": [
+    {
+      "title": "Wave/foam animation only runs once",
+      "summary": "While implementing shoreline wave/foam visuals, Kaze finds the behavior plays a single time and then stops. He traces it to improper mutation of execution flags and reworks the approach using the correct draw-layer/parameter setup.",
+      "challenge": "The water effect appeared to run once and then never again, making the shoreline feel broken and undermining the beach atmosphere.",
+      "process": "He tests hypotheses (render ordering, Fast64-induced render bug, execution flow), then identifies that incrementing non-zero flags prevents the function from executing again; he switches to a draw-layer-based method and adjusts wave height/speed.",
+      "outcome": "The animation logic is corrected, but the broader shoreline foam/sand solution remains questionable due to decal alignment constraints.",
+      "key_quote": null,
+      "related_to": [
+        "kaze"
+      ]
+    },
+    {
+      "title": "Shoreline foam via transparent decals fails the ‘N64 practicality’ test",
+      "summary": "Kaze experiments with a transparent decal layer to simulate foamy water meeting sand. After previewing behavior and considering geometry needs, he loses confidence that it can be made to look right with N64 constraints and his current toolchain.",
+      "challenge": "Foam needs transparency, proper shoreline alignment, and believable motion; uneven terrain and strict coordinate matching make it look like it floats or slides incorrectly.",
+      "process": "He tries overlay textures, contemplates multi-texture blending, considers texture size changes, and checks how quickly the fade-out occurs in practice.",
+      "outcome": "He leans toward abandoning or simplifying the effect (“we might have to just say no sand”) until a more robust approach exists.",
+      "key_quote": null,
+      "related_to": [
+        "kaze",
+        "biobak"
+      ]
+    },
+    {
+      "title": "Proving (and redefining) what const does in this toolchain",
+      "summary": "A chat argument claims const has no performance impact; Kaze insists he has seen it matter and produces a minimal example where removing const changes generated code. The discussion evolves into a clearer mental model of when const enables optimizations in their build context.",
+      "challenge": "Determining whether marking data const can meaningfully improve performance and code generation on the project’s compiler/target (MIPS/N64) rather than being purely ‘documentation.’",
+      "process": "He builds a small test, recompiles with/without const, compares instruction counts and memory loads, and reads the produced assembly to show eliminated loads/instructions.",
+      "outcome": "Kaze updates his own understanding (const matters depending on compilation visibility and assumptions), while reinforcing his performance-first mindset and willingness to validate with assembly output.",
+      "key_quote": "You’ve just seen that it removed two memory reads and four instructions.",
+      "related_to": [
+        "kaze"
+      ]
+    }
+  ],
+  "open_questions": [
+    {
+      "topic": "Random mode bug from export programming fix (Lilaa influence)",
+      "context": "Kaze says an export programming fix introduced a bug where “the random one/mode is wrong,” similar to an earlier footsteps-related issue.",
+      "questions": [
+        "What exactly is ‘random mode’ in Return to Yoshi’s Island (where does it appear in gameplay), and how does the bug manifest for players?",
+        "Which export/tooling change introduced the regression, and was it from Fast64 or a custom exporter step?",
+        "What’s the plan/timeline for fixing it, and who owns the fix (Kaze vs Lilaa vs tooling maintainer)?"
+      ],
+      "related_to": [
+        "kaze"
+      ]
+    },
+    {
+      "topic": "Fast64 rendering/export bugs blocking polish",
+      "context": "Multiple times Kaze hits issues he attributes to Fast64 (e.g., floor/vertex color problems, ‘not reverting’ certain data).",
+      "questions": [
+        "Which specific Fast64 bugs are currently the highest priority blockers for overworld polish (vertex colors, normals, material layers, UVs)?",
+        "How are these bugs tracked—are they reported upstream, patched locally, or worked around with asset constraints?",
+        "Have Fast64 bugs ever forced a redesign (changing geometry/material approach) rather than just delaying polish?"
+      ],
+      "related_to": [
+        "kaze",
+        "biobak",
+        "zeina"
+      ]
+    },
+    {
+      "topic": "Legacy vertex pipeline limitations (packed normals, missing ‘Fresno’ features)",
+      "context": "Kaze can’t use packed geometry normals and can’t test certain visuals because the current pipeline version lacks features; Sauraen is working on a legacy pipeline enabling ‘Fresno’ flags/features.",
+      "questions": [
+        "What is ‘Fresno’ referring to here (which exact rendering features/flags are missing), and what visuals does it unlock for the project?",
+        "What’s the dependency chain: what can’t ship or be finalized until Sauraen’s pipeline update lands?",
+        "How does the pipeline choice interact with performance budgets and the ‘respectful to SM64’ visual goal?"
+      ],
+      "related_to": [
+        "kaze"
+      ]
+    },
+    {
+      "topic": "Dynamic overworld plan vs dynamic music plan",
+      "context": "Kaze confirms the overworld will change over time (‘alive’), but says his earlier plan for music to gradually add instruments and become happier “doesn’t seem to be… going to happen anymore.”",
+      "questions": [
+        "What concrete overworld changes are planned over progression (new paths, props, NPCs, vegetation, structures), and how will they be communicated to players?",
+        "Why was the ‘music gains instruments over time’ plan dropped—technical limits (audio engine), production scope, or a creative decision?",
+        "Is there still a musical storytelling approach for overworld evolution (track variants, layered stems, or separate tracks per phase)?"
+      ],
+      "related_to": [
+        "kaze",
+        "badub"
+      ]
+    },
+    {
+      "topic": "Coconut palms as systemic tutorial / optional puzzle",
+      "context": "Kaze likes the idea of kickable coconuts dropping coins and possibly bonking a sleeping character to wake them.",
+      "questions": [
+        "Will coconuts be pure flavor/coins, or will they become a recurring mechanic used in puzzles/combat/gating?",
+        "How would you implement coconuts technically (physics object, hit detection, interaction with Mario/NPCs) within SM64 constraints?",
+        "Who is the sleeping character conceptually, and what does waking them unlock in the overworld progression?"
+      ],
+      "related_to": [
+        "kaze",
+        "biobak"
+      ]
+    }
+  ]
+}

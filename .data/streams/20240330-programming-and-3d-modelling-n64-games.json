@@ -1,0 +1,217 @@
+{
+  "stream_context": {
+    "summary": "Kaze continues polishing the Wild West/train saloon level (internally named “Grand Sand Badland”), focusing on interactive saloon doors and small setpiece/mission QoL. He fixes a quickdraw shootout timing issue (adds a 3-2-1 countdown), resolves a persistent door-swing direction bug, and implements a new audio-engine feature to pitch individual sound effects (used to deepen Boshi/Yoshi-style voice samples). He also adds the bartender’s gag where the hat grows as the player progresses through the level.",
+    "level": [],
+    "significance": "notable",
+    "significance_reason": "Introduces a reusable engine feature (per-sound pitch control + dialogue-driven pitch), checks off a visible level-interaction task (saloon doors), and surfaces constraints (RSP bottlenecking, memory limits) plus collaboration dependencies (Sauraen F3DEX3 work, Zeina textures, Biobak visual pass)."
+  },
+  "findings": [
+    {
+      "topic": "philosophy",
+      "importance": "medium",
+      "summary": "Kaze frames his approach to feedback as an “integrity” practice: he tries to evaluate criticism objectively rather than emotionally, even if he sometimes dismisses it.",
+      "quote": "Always look at criticism very objectively. And unemotionally."
+    },
+    {
+      "topic": "design",
+      "importance": "medium",
+      "summary": "The Wild West quickdraw encounter felt unfair because the enemy could shoot too soon; Kaze responds by adding a clearer timing telegraph (a 3-2-1 countdown) and increasing the wait time before “fire.”",
+      "quote": null
+    },
+    {
+      "topic": "technical",
+      "importance": "medium",
+      "summary": "A texture/render-state glitch (bar textures appearing wrong) is attributed to a known Fast64 issue: render-mode “bleeding” from prior materials not being reset correctly; Kaze treats it as a toolchain quirk to investigate/mitigate.",
+      "quote": null
+    },
+    {
+      "topic": "technical",
+      "importance": "high",
+      "summary": "Saloon doors swung unpredictably due to using the wrong reference angle (object face angle vs. angle from object to Mario). After switching to the angle-to-Mario calculation and handling per-door inversion, the doors behave correctly and the task is marked done.",
+      "quote": "The issue was really just something stupid. I was just checking the wrong angle."
+    },
+    {
+      "topic": "technical",
+      "importance": "high",
+      "summary": "Kaze implements per-sound-effect pitch control in the audio engine, replacing an older “sound bank pitch” approach he disliked because it would add cost to every sound. The new method applies pitch adjustments only when needed and is then used to lower Boshi’s voice.",
+      "quote": "Every time you program something, you want it to be free of cost if you're not using that part of code."
+    },
+    {
+      "topic": "technical",
+      "importance": "medium",
+      "summary": "He notices duplicated audio code paths (two similar start-sound routines), refactors to remove duplication, and confirms the change reduces instruction count (small but meaningful in an N64-constrained codebase).",
+      "quote": null
+    },
+    {
+      "topic": "design",
+      "importance": "medium",
+      "summary": "The bartender Koopa’s hat gag is tied to progression: Kaze decides the hat grows per star collected in the level (more visible/understandable than tying it to “acts” or jailing criminals), and adjusts baseline hat size so growth is noticeable over a full clear.",
+      "quote": null
+    },
+    {
+      "topic": "technical",
+      "importance": "medium",
+      "summary": "To support character voice variation through dialogue, Kaze extends the textbox/dialogue system so dialogue entries can supply a pitch value for the associated voice sound effect (low overhead, only incurred when opening dialogue).",
+      "quote": null
+    },
+    {
+      "topic": "technical",
+      "importance": "high",
+      "summary": "Performance constraints are explicitly framed: RTYI is currently RSP-bottlenecked. Kaze mentions Sauraen’s ongoing work to make F3DEX3 less RSP-intensive as a key hoped-for unlock for RTYI’s performance headroom on real hardware.",
+      "quote": null
+    },
+    {
+      "topic": "team",
+      "importance": "medium",
+      "summary": "Kaze avoids opening Visual Studio on-stream because his day job involves an NDA; he uses VS Code/Ubuntu terminal workflow instead to reduce risk of leaking work-related info during streams.",
+      "quote": "I use it for work and I don't want anything from my work to show up here because I'm on an NDA."
+    }
+  ],
+  "contributor_findings": {
+    "biobak": [
+      {
+        "topic": "design",
+        "importance": "medium",
+        "summary": "Biobak begins reworking Course 11 visuals and shares an improved container look (better depth/weathering). Kaze highlights it as a major immediate upgrade compared to his earlier placeholder textures and notes Biobak had combiner-related issues while producing the look.",
+        "quote": null
+      }
+    ],
+    "badub": [],
+    "zeina": [
+      {
+        "topic": "team",
+        "importance": "low",
+        "summary": "Kaze states Zeina is making textures/signage assets (context: not all visual “signs” are present yet in the level).",
+        "quote": null
+      }
+    ],
+    "others": [
+      {
+        "name": "Sauraen",
+        "findings": [
+          {
+            "topic": "technical",
+            "importance": "high",
+            "summary": "Sauraen is actively working on reducing F3DEX3’s RSP load; Kaze explicitly connects this to RTYI’s current RSP bottleneck and future viability on real N64 hardware.",
+            "quote": null
+          }
+        ]
+      },
+      {
+        "name": "Lilaa",
+        "findings": [
+          {
+            "topic": "community",
+            "importance": "medium",
+            "summary": "Lilaa’s feedback drives two immediate changes: (1) the quickdraw timing felt too fast/unreadable, prompting a 3-2-1 indicator and longer pre-fire delay; (2) saloon-door proportions/entrance width should be smaller to read more like proper saloon doors and ease modeling.",
+            "quote": null
+          }
+        ]
+      }
+    ]
+  },
+  "memorable_quotes": [
+    {
+      "speaker": "Kaze",
+      "quote": "Every time you program something, you want it to be free of cost if you're not using that part of code.",
+      "context": "Explaining why he replaced the old bank-level pitch approach with a per-sound pitch adjustment that only costs CPU when pitch is actually used."
+    },
+    {
+      "speaker": "Kaze",
+      "quote": "Always look at criticism very objectively. And unemotionally.",
+      "context": "Early stream reflection on how he handles community critique and decision-making."
+    },
+    {
+      "speaker": "Kaze",
+      "quote": "The issue was really just something stupid. I was just checking the wrong angle.",
+      "context": "After extended debugging of saloon doors, he identifies the root cause (using the wrong angular reference)."
+    }
+  ],
+  "key_stories": [
+    {
+      "title": "Saloon doors that swung the wrong way",
+      "summary": "Kaze tries to add iconic swinging saloon doors to the bar entrance, but the doors repeatedly swing in inconsistent or inverted directions depending on interaction (push vs punch). After iterative tests, he realizes the code is using the object’s facing angle (and Mario’s facing) instead of computing the angle from the door to Mario.",
+      "challenge": "Get doors to swing reliably and naturally, without weird inversions/rollover issues from s16 angles and different interaction branches.",
+      "process": "He experiments with sign inversions, warp sizing, and interaction-specific behavior; then switches to computing ‘angle to Mario’ and adds a per-door inversion so left/right doors mirror correctly. He also tweaks doorway proportions based on feedback and sets a better start camera to observe the behavior.",
+      "outcome": "Doors behave correctly and the saloon-door task is checked off the list; the level moves closer to final polish.",
+      "key_quote": "The issue was really just something stupid. I was just checking the wrong angle.",
+      "related_to": [
+        "kaze"
+      ]
+    },
+    {
+      "title": "Rebuilding sound pitching to deepen Boshi’s voice",
+      "summary": "Kaze wants Boshi/Yoshi-like character voice samples to be pitchable (for a deeper Boshi voice), but discovers an older ‘sound bank pitch’ mechanism that is inefficient and confusing. He reimplements pitch as a lightweight per-sound adjustment and extends the dialogue system so textboxes can supply pitch values.",
+      "challenge": "Add pitch control without increasing per-sound CPU cost across the entire game, and integrate it into dialogue/character voice playback cleanly.",
+      "process": "He locates duplicated audio paths, removes redundant code, ensures pitch is applied only when needed (resetting after use), tests with exaggerated pitch values, and then wires pitch into dialogue definitions. He measures instruction savings and validates normal Yoshi sounds aren’t broken.",
+      "outcome": "A new audio-engine feature exists for RTYI: individual sound effects can be pitched, Boshi’s voice is lowered, and dialogue can drive pitch for character voices.",
+      "key_quote": "Every time you program something, you want it to be free of cost if you're not using that part of code.",
+      "related_to": [
+        "kaze"
+      ]
+    }
+  ],
+  "open_questions": [
+    {
+      "topic": "Grand Sand Badland memory budget and object banking",
+      "context": "Kaze mentions the level is “kind of out of memory,” influencing design (hesitant to add new characters/minigames). He also wants to move Wiggler and Chain Chomp mempool allocations into an object-specific bank to free/organize memory.",
+      "questions": [
+        "What specifically is exhausting memory in this level (actors, geo, textures, collision, audio, dynamic allocations)?",
+        "How does the object-specific bank plan work in the decomp-based engine—what changes are required and what risks (regressions, fragmentation) come with it?",
+        "Did memory constraints change any planned setpieces (e.g., horseshoe minigame, extra NPCs) and how do you decide what gets cut?"
+      ],
+      "related_to": [
+        "kaze"
+      ]
+    },
+    {
+      "topic": "Sauraen’s F3DEX3 optimization integration plan",
+      "context": "Kaze says RTYI is RSP-bottlenecked and hopes Sauraen’s work making F3DEX3 less RSP-intensive will help RTYI run better on real N64s.",
+      "questions": [
+        "What’s RTYI’s current RSP cost breakdown (display list size, microcode overhead, matrix/skin, overdraw)?",
+        "What changes is Sauraen making to F3DEX3, and what would Kaze need to change in RTYI to adopt it?",
+        "Was there a specific performance target for real hardware (fps stability, worst-case scenes) and has that target evolved?"
+      ],
+      "related_to": [
+        "kaze"
+      ]
+    },
+    {
+      "topic": "Progression structure: stars vs acts in the Wild West level",
+      "context": "Kaze debates tying the bartender hat growth to “acts” versus per-star progression, and chooses per-star for clarity and narrative structure.",
+      "questions": [
+        "How are ‘acts’ defined in RTYI levels—are they mission states, world-state changes, or purely narrative framing?",
+        "Where else does the game use persistent per-star/per-mission state changes inside a course (visual gags, NPC behavior, unlocked areas)?",
+        "What’s the intended story arc of the Wild West level across its star missions (e.g., jailing criminals, Boshi leaving)?"
+      ],
+      "related_to": [
+        "kaze"
+      ]
+    },
+    {
+      "topic": "Save-state detection and player messaging",
+      "context": "Kaze explains a method to detect emulator save states by comparing EEPROM persistence vs current game state, then reviews/edits community-written “Time Patrol Yoshi” rap dialogues triggered by cheat detection.",
+      "questions": [
+        "How robust is the EEPROM mismatch approach across popular emulators/flashcarts—does it create false positives/negatives?",
+        "What’s the design intent of cheat detection in RTYI: comedy, fairness (leaderboards), preserving intended experience, or all three?",
+        "Where in the game does the detection trigger, and can it ever punish legitimate resets/power-loss scenarios?"
+      ],
+      "related_to": [
+        "kaze"
+      ]
+    },
+    {
+      "topic": "Course roadmap clarity (Course 11 rework, Course 14 space arcade)",
+      "context": "Kaze showcases Biobak starting a major rework on Course 11 visuals, and mentions Course 14 is planned as a ‘space arcade’ with an area already built.",
+      "questions": [
+        "What was Course 11 before the rework, and what problem is Biobak solving (theme readability, texture quality, cohesion, performance)?",
+        "What is the ‘space arcade’ fantasy for Course 14—gameplay hooks, art style, and how it differs from other courses?",
+        "How do you decide course order and pacing so RTYI feels respectful to SM64 yet clearly ‘new’?"
+      ],
+      "related_to": [
+        "kaze",
+        "biobak"
+      ]
+    }
+  ]
+}

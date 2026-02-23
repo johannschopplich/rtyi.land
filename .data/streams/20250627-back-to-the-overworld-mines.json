@@ -1,0 +1,246 @@
+{
+  "stream_context": {
+    "summary": "Kaze pivots the session to starting overworld implementation and planning: deciding how the hub gates Course 1, outlining an intro cutscene that lands Mario on the island, adding overworld NPC/tutorial beats, and beginning the underlying persistence system (save/event flags) needed for overworld doors/warps. He also discusses potential split-screen co-op feasibility and performance, and runs into tooling friction (Fast64 material bug) while quickly mocking up overworld assets/textures.",
+    "level": [
+      "Overworld",
+      "Course 1",
+      "Course 2"
+    ],
+    "significance": "notable",
+    "significance_reason": "Early overworld programming begins, including a key architectural change to save/event flags (EEPROM space) and several hub/intro design decisions that shape how players first experience the game."
+  },
+  "findings": [
+    {
+      "topic": "design",
+      "importance": "high",
+      "summary": "Kaze identifies a star-count planning issue: with all planned content the game would land around 193 stars (previously ~185 planned), and he wants a rounder total, so he anticipates adding roughly seven more stars via the overworld while the rest of development finishes.",
+      "quote": "We started with a hack that had planned to have like 185 stars and now we have 193… we are probably finding seven more stars we want to put into the overworld."
+    },
+    {
+      "topic": "milestone",
+      "importance": "medium",
+      "summary": "He begins overworld programming in earnest and remarks it feels surreal to finally reach this phase after a long period focused on courses and content production.",
+      "quote": "Man, finally getting to program the overworld feels crazy. After all this time."
+    },
+    {
+      "topic": "design",
+      "importance": "high",
+      "summary": "Course 1’s initial gate design becomes a focus: the current idea is using Pachyderm as a blocker that either takes 10 coins to pass or can be knocked over with a ground pound. Kaze’s intent is to force early overworld exploration and teach mechanics (coins / overworld engagement), but he acknowledges it may feel like an early-game chore and is open to changing the unlock method.",
+      "quote": "I really, really want the player to collect 10 coins… It makes them immediately engage with the overworld."
+    },
+    {
+      "topic": "design",
+      "importance": "high",
+      "summary": "Kaze rejects TNT as an unlock/obstacle motif for the overworld because it doesn’t feel “Mario-ish” or cartoonish enough. He explores alternatives like Bob-ombs, thorns, metal bars, or a large boulder/egg-like rollable obstacle to create a physical, readable gate without forcing dialogue with NPCs.",
+      "quote": "I kinda don't like TNT for the reason of it just being not very Mario-ish."
+    },
+    {
+      "topic": "design",
+      "importance": "high",
+      "summary": "He outlines a new intro flow centered on Mario arriving by boat and immediately being attacked by a Nap-E-Nut, forcing Mario into the water so the player swims toward shore. This is meant less as a pure control tutorial and more as a camera-guided way to show the whole island and seed curiosity about landmarks early (including seeing Yoshi/the island layout).",
+      "quote": "Mario arrives at Yoshi’s Island. He immediately gets mauled by a Nap-E-Nut… Mario then swims [to] the island while… [getting] the player [to] see the whole island."
+    },
+    {
+      "topic": "design",
+      "importance": "medium",
+      "summary": "Overworld onboarding details are enumerated as a checklist: a friendly Cheep-Cheep sign/tutorial for swimming controls; a tide system already present; placement/logic for entrances like Cloudcap and events like “Mandarine” appearing after a specific act; and standard door logic like “collect the star and the door opens itself.”",
+      "quote": null
+    },
+    {
+      "topic": "technical",
+      "importance": "high",
+      "summary": "He realizes the overworld’s star/event tracking exceeds existing bitfield assumptions: the overworld already has 17 stars, making a 16-bit flag approach insufficient. He starts refactoring toward broader “event flags,” notes many overworld elements will need save flags, and anticipates needing additional EEPROM space for flags.",
+      "quote": "How many stars do we have in the overworld now? 17. So these 16 bits are no good… We might need to make new space for save flags in the EEPROM."
+    },
+    {
+      "topic": "technical",
+      "importance": "medium",
+      "summary": "Kaze tests saving/boot after refactoring flags, expects star progress to wipe (it does), confirms the game still boots and saves, and flags additional persistence features like tracking playtime that could be surfaced or used later.",
+      "quote": "Okay, I have lost all my stars, which was to be expected… Okay, good, the game still saves."
+    },
+    {
+      "topic": "technical",
+      "importance": "medium",
+      "summary": "Split-screen co-op remains under consideration; he outlines implementation challenges (dialogue freezing, single-player-only setpieces, choosing which Mario state interacts) and suggests reading the closest player state. He estimates performance could drop from 30 FPS to ~20 FPS on N64 but argues it may still be acceptable, noting pixel savings from black bars and that not everything must be rendered twice.",
+      "quote": "Multiplayer is probably going to drop… 30 FPS… to 20 FPS. But 20 FPS on the N64, honestly, is it that bad?"
+    },
+    {
+      "topic": "technical",
+      "importance": "low",
+      "summary": "Tooling friction: Kaze hits a Fast64 render/material limitation (can’t add more materials in a specific Fast64 render mode), forcing him onto Eevee despite slower performance while he does quick texture edits (e.g., improvising a star symbol).",
+      "quote": "I think there's some sort of bug with the Fast64 render… that means I can't add any more materials."
+    },
+    {
+      "topic": "team",
+      "importance": "medium",
+      "summary": "Kaze mentions Biobak is actively reworking a stage (preferring a smaller mission), so Kaze avoids touching that area; Zeina is working on an animation (described as a “ball breaking scene”); and his editor is assembling a “Missing Link” video intended as a version update plus design commentary.",
+      "quote": null
+    },
+    {
+      "topic": "community",
+      "importance": "low",
+      "summary": "Kaze discourages beta applications via email and points viewers to a dedicated beta test form, implying he’s standardizing intake to reduce overhead and keep the process organized.",
+      "quote": null
+    },
+    {
+      "topic": "legal-nintendo",
+      "importance": "medium",
+      "summary": "In response to chat about paying Biobak, Kaze says there are “some legal issues right now” but assures he will be paid, hinting at administrative/legal friction affecting team compensation or contracting.",
+      "quote": "There are some legal issues right now, but don't worry, he will be paid."
+    }
+  ],
+  "contributor_findings": {
+    "biobak": [
+      {
+        "topic": "design",
+        "importance": "medium",
+        "summary": "Biobak is reworking a stage/mission to be smaller, and Kaze avoids editing areas Biobak is currently working on to prevent conflicts.",
+        "quote": "Biobak is actually working on reworking this one right now. He wanted a smaller mission."
+      },
+      {
+        "topic": "design",
+        "importance": "high",
+        "summary": "Biobak pushes back on using Pachyderm as the first gate if it risks feeling like a chore, influencing Kaze to consider alternative unlock methods for Course 1.",
+        "quote": null
+      }
+    ],
+    "badub": [],
+    "zeina": [
+      {
+        "topic": "team",
+        "importance": "medium",
+        "summary": "Zeina is working on an in-game animation referred to as the “ball breaking scene,” indicating ongoing bespoke cutscene/animation production in parallel with Kaze’s overworld programming.",
+        "quote": "Zeina's working on the animation right now."
+      }
+    ],
+    "others": [
+      {
+        "name": "Kyle (editor/asset contributor)",
+        "findings": [
+          {
+            "topic": "team",
+            "importance": "medium",
+            "summary": "Kyle is producing the “Missing Link” video (version update + design talk) and shares an animation asset (a “sad guy” animation) that Kaze previews briefly on stream.",
+            "quote": "Oh, you made the animation for the sad guy? Let's see."
+          }
+        ]
+      }
+    ]
+  },
+  "memorable_quotes": [
+    {
+      "speaker": "Kaze",
+      "quote": "Man, finally getting to program the overworld feels crazy. After all this time.",
+      "context": "Marks the emotional shift from building individual courses to wiring the game’s hub logic and progression, highlighting how long this phase took to reach."
+    },
+    {
+      "speaker": "Kaze",
+      "quote": "We started with a hack that had planned to have like 185 stars and now we have 193.",
+      "context": "Concrete indicator of scope expansion and the practical problem of balancing/rounding star counts in a large Mario 64-style hack."
+    },
+    {
+      "speaker": "Kaze",
+      "quote": "We try to improve our tools, gather as much knowledge as possible, and then start the task so we can finish the task as fast as possible.",
+      "context": "Explains his work philosophy: investing in tooling/knowledge first (decomp, Fast64, engine changes) to make later content production faster and more reliable."
+    }
+  ],
+  "key_stories": [
+    {
+      "title": "Overworld gating debate for Course 1",
+      "summary": "Kaze wants the overworld to immediately invite exploration and set expectations that the hub contains secrets and progression. He proposes Pachyderm as a physical blocker that requires either paying 10 coins or knocking him over, but recognizes this could feel like a chore before the player has momentum.",
+      "challenge": "How to gate the very first level in a way that teaches mechanics and encourages hub exploration without annoying players or forcing unwanted dialogue.",
+      "process": "He evaluates the Pachyderm coin gate, considers whether coins should be required at all, and brainstorms alternative obstacles (thorns, bars, Bob-ombs, boulders/rollable objects) while aligning with Yoshi/Mario tone.",
+      "outcome": "Decision remains open; Kaze leans toward changing the gate if it reads as busywork, while preserving the core goal of making players explore the overworld early.",
+      "key_quote": "I really, really want the player to collect 10 coins… I immediately feel like a chore.",
+      "related_to": [
+        "kaze",
+        "biobak"
+      ]
+    },
+    {
+      "title": "Reframing the intro cutscene around a water landing",
+      "summary": "Kaze proposes an intro where Mario arrives by boat and is instantly attacked by a Nap-E-Nut, forcing him into the water and making the player swim toward shore. The intent is to show off the island’s layout and seed curiosity, not merely to teach swimming controls.",
+      "challenge": "How to introduce the overworld in a memorable, thematic way that communicates danger and showcases the island while keeping the story light.",
+      "process": "He rejects a stormy-night tone shift, designs a simple ‘boat destroyed → swim to island’ sequence, ties it to an in-world tutorial sign (Cheep-Cheep), and uses the path to frame the island visually for the player.",
+      "outcome": "A clear candidate intro structure emerges (start position, swim route, landmark reveals), with follow-up needed to implement and integrate with existing intro lore.",
+      "key_quote": "We're not doing this to teach the controls. We're doing this to make the player see the whole island.",
+      "related_to": [
+        "kaze"
+      ]
+    },
+    {
+      "title": "Overworld persistence architecture hits a hard limit",
+      "summary": "While wiring overworld progression, Kaze discovers the hub already needs more star/event flags than the existing 16-bit assumption supports. He begins refactoring toward a larger event-flag system and anticipates needing more EEPROM space for overworld state.",
+      "challenge": "Ensuring doors, warps, stars, and one-time events persist correctly across saves with limited N64 EEPROM space and existing menu/save structures.",
+      "process": "He audits current flag names/usage, realizes the overworld has 17 stars, renames/reframes flags as “event flags,” tests whether the game still boots/saves after changes, and notes the need for additional persistent data (including playtime).",
+      "outcome": "Boot/save confirmed working but progress wiped as expected; follow-up work remains to wire star unlock flags to doors (e.g., Dino Domain main door opens at 1 star and stays open).",
+      "key_quote": "We might need to make new space for save flags in the EEPROM.",
+      "related_to": [
+        "kaze"
+      ]
+    }
+  ],
+  "open_questions": [
+    {
+      "topic": "Final star count target and overworld star additions",
+      "context": "Kaze estimates the project currently trends to ~193 stars and considers adding ~7 overworld stars to reach a round number, while also implying substantial existing progress (~140 stars implemented).",
+      "questions": [
+        "What star total do you consider ‘final’ (e.g., 200), and why is a round number important for Return to Yoshi’s Island specifically?",
+        "What criteria makes a star belong in the overworld vs. inside a course (pacing, discovery, tutorialization, narrative beats)?",
+        "How do you avoid ‘scope creep’ turning into a never-ending star list—do you have a cutoff rule?"
+      ],
+      "related_to": [
+        "kaze"
+      ]
+    },
+    {
+      "topic": "Course 1 gate: coins/Pachyderm vs alternate unlocks",
+      "context": "Kaze wants the first gate to push players to explore the hub, but worries a coin requirement could feel like a chore; Biobak appears to nudge against using Pachyderm for this specific purpose.",
+      "questions": [
+        "What playtesting signals would convince you the coin gate is a chore (time-to-first-level, player drop-off, confusion, annoyance)?",
+        "If Pachyderm isn’t the first gate, where does he fit best so he still feels like a Yoshi-world character and tutorial moment?",
+        "What’s the guiding principle for overworld gates across the game—unique unlock methods per level, or a consistent grammar the player learns?"
+      ],
+      "related_to": [
+        "kaze",
+        "biobak"
+      ]
+    },
+    {
+      "topic": "Intro cutscene implementation and tone alignment",
+      "context": "Kaze pitches a boat arrival immediately interrupted by a Nap-E-Nut attack to force swimming and reveal the island layout, explicitly avoiding a stormy-night tonal mismatch.",
+      "questions": [
+        "How will the intro cutscene be staged technically (camera scripting, spawning the Nap-E-Nut, controlling Mario state, forced swim segment) within Mario 64’s engine constraints?",
+        "What specific landmarks do you want the player to notice during the swim, and how do you ensure the camera/route makes that happen?",
+        "How does this intro connect to the ‘Yoshis abducted’ premise—what does Mario know, and what does the player learn immediately vs. later?"
+      ],
+      "related_to": [
+        "kaze"
+      ]
+    },
+    {
+      "topic": "Save/event flag system and EEPROM budget",
+      "context": "Kaze discovers the overworld already exceeds a 16-bit flag model (17 overworld stars), anticipates many more overworld events, and mentions potentially allocating new EEPROM space.",
+      "questions": [
+        "What is the final inventory of persistent overworld states you expect (doors, NPC states, tides, tutorial signs, ships, one-time events)?",
+        "How are you budgeting EEPROM space across core SM64 save data, your new systems, and future-proofing?",
+        "Do you have a naming/organization scheme for flags to prevent collisions as content scales (by region, by course, by feature)?"
+      ],
+      "related_to": [
+        "kaze"
+      ]
+    },
+    {
+      "topic": "Split-screen co-op: design compromises vs feature value",
+      "context": "Kaze believes split-screen co-op might be possible but highlights systemic issues (dialogue pausing, single-player setpieces, choosing which Mario interacts) and expects an FPS drop to ~20.",
+      "questions": [
+        "What is the documentary-worthy reason you want co-op in this project—novelty, accessibility, ‘play with a friend’ nostalgia, or technical achievement?",
+        "Which parts of the game would you cut/alter to make co-op coherent (boss fights, dialogue-heavy sequences, scripted setpieces)?",
+        "What’s your ‘go/no-go’ threshold for performance and complexity—what would make you decide to ship without co-op?"
+      ],
+      "related_to": [
+        "kaze"
+      ]
+    }
+  ]
+}

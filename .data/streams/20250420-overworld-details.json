@@ -1,0 +1,227 @@
+{
+  "stream_context": {
+    "summary": "Kaze continues polishing the overworld visuals, focusing on designing a convincing tropical water surface (waves, depth tinting, shoreline behavior) while discussing recent major under-the-hood work: a near-complete rewrite of the SM64 audio engine for efficiency, debuggability, and legal/ownership reasons. He iterates on wave math/mesh approaches, rejects expensive or ugly options, ships a workable hex-tessellated wave solution, and outlines next steps like shoreline foam and palette cohesion.",
+    "level": [
+      "Overworld"
+    ],
+    "significance": "milestone",
+    "significance_reason": "He reaches a first satisfactory, performant overworld water solution (mesh + material + wave behavior) and frames a major project shift: a mostly rewritten audio engine intended to be “his own code,” partially motivated by long-term maintainability and legal separation from Nintendo’s original implementation."
+  },
+  "findings": [
+    {
+      "topic": "technical",
+      "importance": "high",
+      "summary": "Kaze says he spent the past week largely rewriting Mario 64’s audio engine and is “almost finished,” claiming it is now more memory efficient, supports new capabilities, and—critically—he now understands the whole audio codebase well enough to debug future issues quickly.",
+      "quote": null
+    },
+    {
+      "topic": "legal-nintendo",
+      "importance": "high",
+      "summary": "He frames the audio rewrite as a step toward legal/ownership safety: the engine is now “mostly” his code, with remaining Nintendo code primarily in the RSP interface, which he suggests can be replaced/reworded if the project becomes a standalone game.",
+      "quote": "I think we’re fine legally to just use this in our own game now… because all of it is completely different, as long as we change the way we interface with the RSP as well."
+    },
+    {
+      "topic": "design",
+      "importance": "high",
+      "summary": "Overworld art direction goal: a tropical beach feel, selecting/validating sand, wood, and water textures/materials, emphasizing that strong fixed-function/combiner setups can make environments look dramatically better with relatively little geometry effort.",
+      "quote": null
+    },
+    {
+      "topic": "technical",
+      "importance": "high",
+      "summary": "Core water problem statement: directionality and shoreline behavior are hard because simple sine-wave vertex displacement reads as generic/tiling and breaks interaction—especially swimming—where Mario can appear to pop above/below the water surface as waves move.",
+      "quote": null
+    },
+    {
+      "topic": "technical",
+      "importance": "high",
+      "summary": "He explores and rejects several wave approaches (including Gerstner-style wave ideas and a Wind Waker-inspired look) mainly due to cost/mesh density needs or visuals reading “flat/cheap.” He concludes that some ideas “have to die” due to N64 constraints.",
+      "quote": "Even with 25 [segments], it’s nowhere near enough… I think Gerstner waves are out. We can’t do it. That idea has to die."
+    },
+    {
+      "topic": "technical",
+      "importance": "high",
+      "summary": "Working solution: he proceeds with a hex/denser tessellation approach and implements a practical material (two scrolling water textures with transparency/additive elements), then adds wave motion based on vertex distance from a chosen origin point, iterating wave phase speed and amplitude until it reads as ocean-like but calmer near shore.",
+      "quote": null
+    },
+    {
+      "topic": "technical",
+      "importance": "medium",
+      "summary": "A significant debug moment: the game crashes (TLB exception) not from his new code but because the water mesh accidentally had collision triangles; removing/avoiding collision on water geometry resolves the engine-side crash.",
+      "quote": "It wasn’t even the code I wrote that crashed. It was the engine… every single one of these has a collision triangle."
+    },
+    {
+      "topic": "design",
+      "importance": "high",
+      "summary": "He improves readability by adding depth: dynamically tinting/adjusting vertex color so the water looks deeper/darker outward, and reducing wave amplitude toward the island, which visually sells waves “coming into” the shore without requiring physically accurate simulation.",
+      "quote": null
+    },
+    {
+      "topic": "design",
+      "importance": "medium",
+      "summary": "He notices palette inconsistency across overworld elements (water/sand/mountains) and calls out saturation problems; water and sand look good together, but other combinations clash, implying a future color-script pass for cohesive world identity.",
+      "quote": "The saturation’s all over the place."
+    },
+    {
+      "topic": "technical",
+      "importance": "medium",
+      "summary": "Performance budgeting: he challenges chat concerns about LOD, stating the current water is ~600 triangles (before culling invisible triangles) and can be further optimized by removing unseen geometry or reducing vertex density at distance if needed.",
+      "quote": null
+    },
+    {
+      "topic": "business",
+      "importance": "medium",
+      "summary": "Hardware target decision: he explicitly rejects an 8MB approach and says the project will target 64MB, aligning with late-lifespan N64 cartridge limits—an important constraint for content scope, audio, textures, and streaming strategy.",
+      "quote": "I’m not going with an 8 megabyte game, I’m going with 64 megabytes. So I’m limiting myself to end of the N64’s lifespan."
+    },
+    {
+      "topic": "community",
+      "importance": "low",
+      "summary": "He responds to requests for hidden easter eggs by stating there are already “so many easter eggs” in the game that players don’t know about, implying intentional secrets meant for discovery rather than marketing beats.",
+      "quote": "There are so many easter eggs in this game, you have no idea."
+    },
+    {
+      "topic": "philosophy",
+      "importance": "medium",
+      "summary": "He describes the game structure as continuous/no loading zones (an “open zone” feel), but is self-conscious about calling it “open world,” indicating a design intent to keep exploration seamless while avoiding buzzword framing.",
+      "quote": "This is all just going to feel open world, and there’s not going to be loading zones… calling this an open world is maybe a little cringe."
+    },
+    {
+      "topic": "community",
+      "importance": "medium",
+      "summary": "He discusses console compatibility historically: many older SM64 hacks weren’t console compatible due to limitations of early tools and because the community prioritized experimentation over hardware accuracy; he acknowledges homebrew critiques that such projects can become closer to “a video game” than a strict N64 hack.",
+      "quote": "For the longest time no one really cared about making hacks console compatible… It is kind of funny… how… the Mari64 community was… such a pathetic part of the homebrew community."
+    },
+    {
+      "topic": "personal",
+      "importance": "low",
+      "summary": "Personal aside: he notes unintended weight loss (~20 pounds, ~215 down to ~194–195), and mentions he won’t stream on Easter and may return Monday/Tuesday.",
+      "quote": null
+    }
+  ],
+  "contributor_findings": {
+    "biobak": [
+      {
+        "topic": "technical",
+        "importance": "medium",
+        "summary": "Biobak (via chat, read/responded to by Kaze) pushes ideas around wave visuals (including smoothing/flattening behavior) and participates in the key tradeoff discussion: better-looking waves vs. broken swimming/mario-water interaction.",
+        "quote": null
+      },
+      {
+        "topic": "design",
+        "importance": "medium",
+        "summary": "Biobak suggests shoreline foam; Kaze immediately adopts it as a next step and outlines a concrete implementation plan (foam mapped to selected shoreline vertices, opacity tied to vertex height/velocity).",
+        "quote": null
+      }
+    ],
+    "badub": [],
+    "zeina": [],
+    "others": []
+  },
+  "memorable_quotes": [
+    {
+      "speaker": "Kaze",
+      "quote": "I think we’re fine legally to just use this in our own game now… because all of it is completely different, as long as we change the way we interface with the RSP as well.",
+      "context": "He connects the audio engine rewrite to legal/ownership concerns and the long-term possibility of becoming a standalone game rather than a pure ROM hack."
+    },
+    {
+      "speaker": "Kaze",
+      "quote": "For the longest time no one really cared about making hacks console compatible. We just wanted the funny Mario going bing bing wahoo.",
+      "context": "A candid summary of the early SM64 hacking scene’s priorities—experimentation and novelty over hardware-accurate engineering."
+    },
+    {
+      "speaker": "Kaze",
+      "quote": "There are so many easter eggs in this game, you have no idea.",
+      "context": "He claims intentional hidden content already exists, positioning the hack as something meant to be explored and discovered, not just watched."
+    }
+  ],
+  "key_stories": [
+    {
+      "title": "Rewriting Mario 64’s audio engine to own the foundation",
+      "summary": "Kaze explains he spent a week almost completely rewriting SM64’s audio engine. He describes the results as more memory efficient, more capable, and significantly easier to debug because he now understands the entire audio codebase.",
+      "challenge": "The original audio system was a black box risk for a long project: memory constraints, hard-to-debug bugs, and uncertainty about what code was truly ‘theirs’ vs. Nintendo’s.",
+      "process": "He rewrote most of the engine, keeping only the RSP interface layer for now, and frames a future step of replacing/remaking that interface as well.",
+      "outcome": "Audio is close to finished in rewritten form, giving the team a safer and more maintainable foundation for a larger, more ambitious N64-scale project.",
+      "key_quote": "Now I understand the whole codebase. Meaning it’s going to be very easy to debug any problems that may occur.",
+      "related_to": [
+        "kaze"
+      ]
+    },
+    {
+      "title": "Making tropical overworld water that looks good and still plays well",
+      "summary": "The stream’s main work is iterating on overworld water: Kaze prototypes wave motion, tests multiple approaches, and fights the constraints of mesh density and player interaction. He ends with a water surface he’s happy with visually, including stronger waves offshore and calmer water near the island.",
+      "challenge": "Directionality and shoreline waves are difficult on N64-era rendering without expensive simulation, and animated waves can break the illusion when Mario swims (popping above/below water).",
+      "process": "He rejects approaches that look flat or are too expensive, adopts a hex-tessellated surface, implements scrolling textures + transparency, drives wave height by distance-from-center parameters, then adds depth via vertex tinting and tweaks curvature and amplitude falloff.",
+      "outcome": "A first-pass overworld water solution that reads tropical and performant (~600 triangles before culling), with a clear next step: shoreline foam whose opacity responds to wave height/velocity.",
+      "key_quote": "Now the waves actually look properly going into the island. It looks very tropical.",
+      "related_to": [
+        "kaze",
+        "biobak"
+      ]
+    }
+  ],
+  "open_questions": [
+    {
+      "topic": "Audio engine rewrite scope and ‘owning’ the code",
+      "context": "Kaze claims the audio engine is now mostly his code, with the RSP interface still using Nintendo routines; he links this to legal comfort and future plans.",
+      "questions": [
+        "What specifically was rewritten (sequence parsing, instrument/sample handling, mixing, effects, scheduling), and what remains original?",
+        "What were the measurable wins (RAM usage, CPU time, fewer audio bugs, new features) and how did you validate them?",
+        "What is the plan to replace/remake the RSP interface layer, and how would that change the project’s legal/technical posture?",
+        "Was this rewrite triggered by a specific bug or limitation that threatened the project schedule?"
+      ],
+      "related_to": [
+        "kaze"
+      ]
+    },
+    {
+      "topic": "Water vs. swimming interaction design decision",
+      "context": "Kaze repeatedly flags that visible waves can make swimming look wrong (Mario popping above/below the animated surface), and mentions possibly disabling waves around Mario or using programmed water height.",
+      "questions": [
+        "Will the overworld water be swimmable at all, and if yes, what rules will you use to keep Mario’s waterline stable?",
+        "What does “disable the waves around Mario” mean technically (local flattening, masking in a radius, separate surface for physics vs. visuals)?",
+        "How will you prevent water from clipping through docks/structures while keeping the wave silhouette near shore?"
+      ],
+      "related_to": [
+        "kaze"
+      ]
+    },
+    {
+      "topic": "Shoreline foam implementation details",
+      "context": "Kaze outlines a plan: select shoreline vertices, map foam textures, move foam with the same wave displacement, and drive foam opacity from vertex height/velocity.",
+      "questions": [
+        "Will foam be a separate mesh strip, a second texture layer on the same mesh, or decal-like geometry?",
+        "Which parameter will best sell foam timing—vertex height, vertical velocity, or distance-to-shore—and how will you tune it?",
+        "How will foam behave around complex coastlines (small islands, docks, curved bays) without obvious tiling?"
+      ],
+      "related_to": [
+        "kaze",
+        "biobak"
+      ]
+    },
+    {
+      "topic": "Overworld art cohesion and palette strategy",
+      "context": "Kaze says the water/sand/mountains don’t cohere and saturation is inconsistent, implying the current look is placeholder despite some strong materials.",
+      "questions": [
+        "Who will own the final palette pass (Kaze vs. an artist), and what reference games/art will guide it?",
+        "Will you standardize saturation/contrast via global color grading (combiner choices) or per-material adjustments?",
+        "How early do you want to lock the overworld palette given it affects every level portal/landmark read?"
+      ],
+      "related_to": [
+        "kaze"
+      ]
+    },
+    {
+      "topic": "64MB target and content budgeting",
+      "context": "Kaze commits to a 64MB cartridge-scale target (late N64 lifespan) rather than 8MB, which has big implications for audio, textures, and level count/detail.",
+      "questions": [
+        "What is the high-level memory budget split (code, textures, geometry, audio samples/sequences, cutscenes/animations)?",
+        "Did the audio engine rewrite change what’s feasible in that 64MB target (e.g., more samples, higher-quality instruments)?",
+        "Is 64MB a hard cap for an eventual physical release, or mainly a design constraint to keep the project ‘authentically N64’?"
+      ],
+      "related_to": [
+        "kaze"
+      ]
+    }
+  ]
+}

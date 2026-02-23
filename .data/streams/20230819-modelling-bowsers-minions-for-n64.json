@@ -1,0 +1,233 @@
+{
+  "stream_context": {
+    "summary": "Kaze iterates on an industrial/oil-rig Bowser-stage environment: populating the level with coins, fixing/choosing a more Mario-64-authentic floor switch, testing N64 performance, and doing extensive experimentation on how to make an ocean/skybox background look vast within N64 culling limits. He also shares a potential merch/business idea (selling N64-style boxes/instruction booklets separately from ROMs) and briefly discusses tooling (Matrix Stack Fix for world-directional lighting; an updated NEMU64 emulator with debugging).",
+    "level": [
+      "Course 11"
+    ],
+    "significance": "notable",
+    "significance_reason": "Contains several documentary-relevant decisions and revelations: a concrete background-tech pivot (NFBG approach won’t work for this ocean), real N64 performance/optimization planning, a stability breakthrough (Up64 crash bug), and a new business/legal distribution idea (selling boxes/OST ROM separately)."
+  },
+  "findings": [
+    {
+      "topic": "design",
+      "importance": "medium",
+      "summary": "Kaze feels the level looks “too dead” and begins spreading coins (including considering coin rings) to make the space feel more populated and readable during platforming.",
+      "quote": null
+    },
+    {
+      "topic": "design",
+      "importance": "medium",
+      "summary": "He debates interaction affordances (lever vs. classic Mario 64 floor switch) and explicitly prefers the floor switch because it matches how Bowser stages in the original Mario 64 signal progression/interaction.",
+      "quote": "Every Bowser level in Mario 64 uses this exact switch to help Mario beat the stage."
+    },
+    {
+      "topic": "design",
+      "importance": "low",
+      "summary": "Kaze experiments with giving one crane (the demolishing crane) a distinct color to differentiate roles, but rejects several palettes (black/orange/green/red) as clashing with the level’s look before settling on a muted darker scheme.",
+      "quote": null
+    },
+    {
+      "topic": "technical",
+      "importance": "high",
+      "summary": "During N64 testing, Kaze realizes earlier builds were accidentally exported as an F3D model instead of F3DEX2, doubling certain vertex/triangle command costs—yet the level still ran well, implying more performance headroom once exported correctly.",
+      "quote": "I was exporting it as an F3D model and not F3DEX2—so we had twice the vertex loads, twice the triangle commands… and it still ran fine."
+    },
+    {
+      "topic": "technical",
+      "importance": "high",
+      "summary": "He identifies a roadmap of straightforward performance wins for this large (~8000 polygon) level: enable backface culling (e.g., on gate geometry), add render areas, sort triangles, and build a collision map to reduce collision triangle counts.",
+      "quote": null
+    },
+    {
+      "topic": "technical",
+      "importance": "high",
+      "summary": "Kaze reports a stability improvement on real hardware: he believes he found the bug that caused only “Up64” to crash, and says RTYI is now very stable on N64.",
+      "quote": "I think I found the bug that caused only Up64 to crash. And now RTYI is so stable on the N64."
+    },
+    {
+      "topic": "technical",
+      "importance": "medium",
+      "summary": "He explains how to achieve world-directional lighting in Mario 64 by using Wiseguy’s Matrix Stack Fix, because the original engine transforms the world around the camera, which otherwise causes light vectors to be camera-relative.",
+      "quote": null
+    },
+    {
+      "topic": "technical",
+      "importance": "medium",
+      "summary": "Kaze notes real-hardware development friction: significant input lag while testing on N64 makes gameplay feel like predicting Mario’s movement in advance, affecting how he evaluates difficulty and responsiveness during testing.",
+      "quote": "I have like half a second of input lag… I just have to know what Mario’s going to do when I press a button."
+    },
+    {
+      "topic": "technical",
+      "importance": "high",
+      "summary": "A rendering/visual corruption appears after adding coin formations; Kaze suspects a model/resource unloading or memory corruption (mentioning the yellow coin model being unloaded per-area and needing special code to reload), then continues investigating rather than attributing it to unrelated gameplay elements.",
+      "quote": "The coin model is loaded per area and you need to call special code to load it again."
+    },
+    {
+      "topic": "design",
+      "importance": "high",
+      "summary": "After extensive trials, Kaze concludes an NFBG-style approach won’t work for this course’s ocean because the water visually/physically touches the horizon/skybox; N64 culling limits make “infinite ocean” illusions break when the camera elevates, so he decides the water must be part of the 3D model and continues iterating on fog/gradient/horizon translation to fake vastness.",
+      "quote": "I think the water has to be in the 3D model. There’s no way around it."
+    },
+    {
+      "topic": "business",
+      "importance": "high",
+      "summary": "A merch company offers custom product printing; Kaze floats selling N64-style boxes and instruction booklets as merchandise, separate from ROM distribution, as a potentially legal way to monetize physical presentation. He also suggests selling a separate ROM that contains only the OST.",
+      "quote": "When I sell RTYI, I could just sell the box without the ROM, and it’d be legal."
+    }
+  ],
+  "contributor_findings": {
+    "biobak": [
+      {
+        "topic": "design",
+        "importance": "high",
+        "summary": "Biobak provides a new floor switch model/texture (“purple floor switch”) that Kaze praises as an upgraded version of the original Mario 64 switch, with improved look at a much lower polygon count than an alternative option.",
+        "quote": "This actually just looks like an upgraded version of the Mario 64 one."
+      },
+      {
+        "topic": "design",
+        "importance": "medium",
+        "summary": "Biobak gives art-direction feedback on the ocean/skybox gradient and horizon blending; Kaze actively tries to match the water edge to the skybox gradient and iterates values in response to Biobak’s reference/idea.",
+        "quote": null
+      },
+      {
+        "topic": "technical",
+        "importance": "low",
+        "summary": "Biobak clarifies he did not change switch geometry, only the texture/material setup (helping Kaze diagnose what changed and why it compiles/renders differently).",
+        "quote": null
+      }
+    ],
+    "badub": [],
+    "zeina": [
+      {
+        "topic": "team",
+        "importance": "low",
+        "summary": "Kaze notes Zeina is absent this stream; he implies an animation for an NPC/guy in the level might have been finished if she were present, signaling an ongoing dependency on her for character animation tasks.",
+        "quote": null
+      }
+    ],
+    "others": [
+      {
+        "name": "Lilaa",
+        "findings": [
+          {
+            "topic": "community",
+            "importance": "low",
+            "summary": "Lilaa suggests visual tweaks (e.g., shading/platform smoothing, horizon/gradient ideas) and discusses debugging/emulator concepts with Kaze; Kaze occasionally incorporates the prompts (or reacts dismissively) while iterating on visuals.",
+            "quote": null
+          }
+        ]
+      },
+      {
+        "name": "Wiseguy",
+        "findings": [
+          {
+            "topic": "technical",
+            "importance": "medium",
+            "summary": "Kaze credits Wiseguy’s Matrix Stack Fix as the enabling tech for proper world-space (directional) lighting in the Mario 64 renderer, avoiding camera-transformed light vectors.",
+            "quote": null
+          }
+        ]
+      }
+    ]
+  },
+  "memorable_quotes": [
+    {
+      "speaker": "Kaze",
+      "quote": "I think the water has to be in the 3D model. There’s no way around it.",
+      "context": "After repeated experiments to fake an infinite ocean with background tricks, he frames the final constraint-driven conclusion: for this level, the illusion breaks due to N64 culling and camera elevation."
+    },
+    {
+      "speaker": "Kaze",
+      "quote": "When I sell RTYI, I could just sell the box without the ROM, and it’d be legal.",
+      "context": "He reacts to a merch company offer and immediately connects it to a physical-product strategy that might avoid distributing copyrighted ROM content."
+    }
+  ],
+  "key_stories": [
+    {
+      "title": "Accidentally shipping an unoptimized export and still passing N64 performance",
+      "summary": "While reviewing N64 performance, Kaze realizes he had been exporting the level using F3D instead of F3DEX2, which doubles certain rendering costs. Despite the mistake, the level still ran acceptably, suggesting additional headroom once the correct pipeline and planned optimizations are applied.",
+      "challenge": "The course is visually large and performance-sensitive on real N64 hardware, and Kaze needs confidence it will hit acceptable FPS after polish.",
+      "process": "He tests on N64, audits the export pipeline, identifies the F3D vs F3DEX2 mismatch, and enumerates remaining optimization steps (culling, triangle sorting, collision map).",
+      "outcome": "Kaze gains confidence there is performance headroom and frames future work as structured optimization rather than redesigning the whole level.",
+      "key_quote": "I was exporting it as an F3D model and not F3DEX2… and it still ran fine.",
+      "related_to": [
+        "kaze"
+      ]
+    },
+    {
+      "title": "Pivot on ocean background approach due to N64 culling and camera elevation",
+      "summary": "Kaze tries multiple strategies to make the ocean feel infinite: fog positioning, skybox gradients, horizon translation multipliers, and background layering. He ultimately concludes that an NFBG-style solution fails when level elements visually touch the background and when the camera rises, so the water must remain a 3D element and the illusion must be achieved through careful gradients/fog and spatial shaping.",
+      "challenge": "Creating a convincing vast ocean on N64 without rendering too far (visual artifacts) and without culling popping (hardware limitation).",
+      "process": "He iterates through fog distances, layer/material ordering, vertex pulls to create an optical illusion of distance, and camera-relative horizon translation tuning (testing values like 0.7–0.95) while checking in-game results.",
+      "outcome": "He decides the core approach: keep water in the 3D model and continue refining gradients/construct silhouettes to imply scale, rather than relying on an NFBG that breaks the illusion.",
+      "key_quote": "I think the idea is fundamentally wrong… I think the water has to be in the 3D model.",
+      "related_to": [
+        "kaze",
+        "biobak"
+      ]
+    },
+    {
+      "title": "Physical merch plan: N64 boxes and OST-only ROM",
+      "summary": "A merch company contacts Kaze offering custom printed products. He immediately imagines selling N64-style boxes and instruction booklets as merch, separate from any ROM distribution, and also considers an OST-only ROM as a sellable item.",
+      "challenge": "Finding monetization/distribution methods that are appealing to fans while navigating Nintendo/IP constraints and avoiding direct ROM sales.",
+      "process": "Kaze brainstorms packaging-only sales and supplemental content (OST ROM), and mentions potential downstream effects like hiring people if it becomes viable.",
+      "outcome": "A concrete potential business track is introduced that could affect scope, staffing, and release packaging decisions later.",
+      "key_quote": "We could actually just print N64 boxes… sell the box without the ROM… and sell a ROM that’s just the OST.",
+      "related_to": [
+        "kaze"
+      ]
+    }
+  ],
+  "open_questions": [
+    {
+      "topic": "Up64 crash bug and new N64 stability",
+      "context": "Kaze says he believes he found the bug that caused only Up64 to crash and that RTYI is now very stable on N64, but he doesn’t explain the root cause or fix.",
+      "questions": [
+        "What exactly was the Up64-only crash (symptoms, reproducibility, and when it first appeared)?",
+        "What was the root cause (memory layout difference, microcode/RSP state, undefined behavior in C, asset size/segment overflow, etc.)?",
+        "How did you confirm the fix on hardware (test matrix, duration, stress cases), and did it change any engine/asset constraints going forward?"
+      ],
+      "related_to": [
+        "kaze"
+      ]
+    },
+    {
+      "topic": "Ocean/skybox technique that finally ‘works’ on N64",
+      "context": "Kaze iterates on fog, horizon gradients, and camera-relative translation multipliers, concluding NFBG won’t work when the ocean touches the horizon and that water must remain in 3D. The final chosen values/implementation details are not fully crystallized.",
+      "questions": [
+        "What is the final implementation for the ‘vast ocean’ illusion (camera-relative translation math, fog start/end, gradient colors, and any vertex shaping)?",
+        "What are the hard constraints you’re designing around (culling radius numbers, far plane/clip ratio, max practical water extent) and how did you measure them?",
+        "What visual compromises are you willing to accept to preserve performance and avoid ‘floating on the skybox’ artifacts when the player gains height?"
+      ],
+      "related_to": [
+        "kaze",
+        "biobak"
+      ]
+    },
+    {
+      "topic": "Merch/packaging-only sales and legal risk strategy",
+      "context": "Kaze proposes selling N64 boxes/instruction booklets without ROMs and separately selling an OST-only ROM, framing it as potentially legal and lucrative.",
+      "questions": [
+        "Did you get any legal advice on selling N64-style boxes/booklets for a Mario-related hack—what risks did you identify (trademark/trade dress, character art, logos, naming)?",
+        "Would the box art be original/RTYI-branded, and how would you avoid Nintendo marks while still making it feel authentic?",
+        "What does an ‘OST-only ROM’ contain in practice, and how would you distribute it in a way that doesn’t imply endorsement or include Nintendo assets?"
+      ],
+      "related_to": [
+        "kaze"
+      ]
+    },
+    {
+      "topic": "Music rights/payment plan for contributors",
+      "context": "Kaze mentions he offered to pay musicians for rights to the music once everything is done, and jokes about royalty splits with a contributor.",
+      "questions": [
+        "What’s the actual plan for music licensing/ownership: work-for-hire, exclusive license, revenue share, or credited free contribution?",
+        "When do you expect to formalize agreements (before release, before merch, before OST distribution)?",
+        "How do you prevent future disputes if RTYI grows into a bigger commercial-adjacent project (merch, OST sales, physical packaging)?"
+      ],
+      "related_to": [
+        "kaze",
+        "badub"
+      ]
+    }
+  ]
+}

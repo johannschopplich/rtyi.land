@@ -1,0 +1,239 @@
+{
+  "stream_context": {
+    "summary": "Kaze iterates on a late-game factory/Bowser-worksite level (Course 11), implementing the “Womp tower/domino” worker gag, adding VFX/sound behavior, and building the mission’s hinting/text structure. He also briefly hardware-tests on N64, hits an N64-only crash (float exception) in a background-shaping routine, and discusses ROM-size/audio constraints and why he’s optimizing assets now.",
+    "level": [
+      "Course 11"
+    ],
+    "significance": "notable",
+    "significance_reason": "Major progress on a signature mission concept (five Bowser-helmet ‘workers’ you sabotage), including the Womp-tower chain reaction, VFX/sound layering, and a clear articulation of Kaze’s ‘layered hints / show-don’t-tell’ design philosophy; also reveals ROM-size/audio strategy and an N64-only crash discovered via hardware testing."
+  },
+  "findings": [
+    {
+      "topic": "technical",
+      "importance": "high",
+      "summary": "A real-hardware N64 test immediately exposed an N64-only crash: a floating-point exception inside the function that ‘shapes the background,’ likely tied to reading from a color table/offset incorrectly (F2 ends up undefined). Kaze considers it ‘pretty easy to fix’ and points to the exact area in code (load from V1/offset math) as the culprit.",
+      "quote": null
+    },
+    {
+      "topic": "design",
+      "importance": "high",
+      "summary": "The level’s core mission structure is ‘mess with’ five Bowser-helmeted workers/props (cement pit Koopa, lunch-break Goomba, glass carriers, oil barrel/slide setup, and a Womp tower domino chain). The reward will be a star (or equivalent), and Kaze explicitly rejects “padding” rewards (e.g., placing a collectible next to a required objective).",
+      "quote": "If you’ve ever made a ROM hack where you put a star and right next to the star there’s a red coin… I want you to know that I hate you on a personal level."
+    },
+    {
+      "topic": "design",
+      "importance": "high",
+      "summary": "A chat-driven idea becomes a concrete set piece: Womps are ‘waiting in line’ to become building material, forming a Womp tower that you topple via a chain reaction. Kaze plans to delete/close inner geometry to prevent the player from getting inside/stuck and to reduce triangle load.",
+      "quote": null
+    },
+    {
+      "topic": "philosophy",
+      "importance": "high",
+      "summary": "Kaze explains his mission-clarity approach: you can’t guarantee 100% player comprehension, so you stack multiple subtle ‘failsafes’ (environmental cues, NPC hints, layout, etc.) until nearly everyone finds at least one. He frames explicit markers/text as ‘telling,’ preferring ‘show, don’t tell.’",
+      "quote": "You can never truly get everyone up to a hundred percent success rate… you can put in more and more failsafe mechanics."
+    },
+    {
+      "topic": "design",
+      "importance": "medium",
+      "summary": "To guide the player toward sabotaging all five targets without heavy-handed UI markers, Kaze leans toward an optional ‘overseer’ NPC who updates hint text as you complete disruptions (e.g., “My Koopas are carrying glass… please don’t disrupt them,” then switches to another target). This is ‘telling,’ but only if the player seeks it out.",
+      "quote": null
+    },
+    {
+      "topic": "technical",
+      "importance": "high",
+      "summary": "ROM-size optimization has become mandatory: Kaze removed all original Mario 64 backgrounds and is targeting oversized audio samples (noting several are 44 kHz and ‘don’t need to be this big’). He expects substantial savings (on the order of ~0.5 MB) by cutting/downsampling samples.",
+      "quote": null
+    },
+    {
+      "topic": "technical",
+      "importance": "high",
+      "summary": "Audio/performance tradeoff strategy: large areas should use streamed audio (he contrasts with WAV-like usage, where streamed tracks save performance in big spaces). He frames smaller ROMs as enabling more space for streamed/MP3-like assets while keeping levels performant.",
+      "quote": null
+    },
+    {
+      "topic": "technical",
+      "importance": "medium",
+      "summary": "He fixes/works around a sound system issue where repeated fall/scream SFX overwrite and won’t restart reliably; he chooses to route the Womp ‘screams’ through a specific sound layer (Layer 8) as a practical solution rather than perfecting the discrete/priority flags immediately.",
+      "quote": null
+    },
+    {
+      "topic": "team",
+      "importance": "medium",
+      "summary": "Zeina is actively producing character animations (Womp idle and multi-stage falling variants). Kaze coordinates the required list (idle + tipping/falling) and constraints (only the last Womp falls fully; others need partial/angled fall animations to push the tower).",
+      "quote": null
+    },
+    {
+      "topic": "team",
+      "importance": "medium",
+      "summary": "Badub returns to composing after a hiatus and is iterating heavily on a level track (week of work, ~10 tries). Kaze treats this as significant momentum for the project’s polish and identity.",
+      "quote": null
+    },
+    {
+      "topic": "design",
+      "importance": "medium",
+      "summary": "Kaze adjusts lighting/brightness globally because previous builds were ‘way too dark,’ acknowledging the game’s lighting is intentionally ‘fake’ and tuned for readability/feel rather than realism.",
+      "quote": null
+    },
+    {
+      "topic": "design",
+      "importance": "medium",
+      "summary": "He identifies and considers cutting/re-routing an underused platform/crane segment because it doesn’t serve any mission objective and costs performance. He experiments with moving major geometry to make the approach to the boss area feel more intentional and less awkward.",
+      "quote": null
+    },
+    {
+      "topic": "community",
+      "importance": "low",
+      "summary": "Kaze states an informal target release date: ‘the 30th,’ tied to a competition deadline (not fully specified in-stream).",
+      "quote": "I’m planning to release it on the 30th. Which I think is like the deadline for someone’s competition or something."
+    },
+    {
+      "topic": "business",
+      "importance": "low",
+      "summary": "He reiterates why he streams on YouTube rather than Twitch: ad load and preference for keeping content ‘in one place.’",
+      "quote": null
+    }
+  ],
+  "contributor_findings": {
+    "biobak": [],
+    "badub": [
+      {
+        "topic": "team",
+        "importance": "medium",
+        "summary": "Badub has resumed composing and is attempting many iterations for the Course 11 level theme; Kaze signals this as important because the track is being tailored specifically to the level’s tone and is taking real effort/time.",
+        "quote": null
+      }
+    ],
+    "zeina": [
+      {
+        "topic": "team",
+        "importance": "medium",
+        "summary": "Zeina is producing and exporting animation sets for the worker/Womp sequences (idle + staged fall), and Kaze is designing the gameplay system around what animations are practical (partial falls for most, full fall only for the last that triggers the tower knockdown).",
+        "quote": null
+      }
+    ],
+    "others": [
+      {
+        "name": "Lilaa",
+        "findings": [
+          {
+            "topic": "design",
+            "importance": "medium",
+            "summary": "Provides repeated moment-to-moment feedback on readability and character appeal (e.g., Koopa eyes looking ‘weird,’ adding talk animations, and text line suggestions). Kaze implements/accepts multiple of these notes live.",
+            "quote": null
+          },
+          {
+            "topic": "design",
+            "importance": "low",
+            "summary": "Suggests comedic/UX details like Womps dropping a coin and dialogue phrasing; Kaze adopts the ‘drop one coin’ idea as a quick gag.",
+            "quote": null
+          }
+        ]
+      }
+    ]
+  },
+  "memorable_quotes": [
+    {
+      "speaker": "Kaze",
+      "quote": "It’s like the principle of show, don’t tell. Exclamation mark is basically telling.",
+      "context": "Kaze rejects obvious UI markers for the ‘mess with five workers’ mission and explains his preference for environmental storytelling and layered hinting."
+    },
+    {
+      "speaker": "Kaze",
+      "quote": "This level is so fucking funny. How is this level so funny? Between all the comedic things and the animations.",
+      "context": "He’s surprised at how strongly the level’s comedy is landing once worker animations, domino logic, and texts come together—useful for the documentary’s ‘respectful but new’ framing."
+    },
+    {
+      "speaker": "Kaze",
+      "quote": "We’re at a point where we have to optimize the game for ROM size.",
+      "context": "Signals a new production phase: asset/ROM budgeting now constrains design decisions (audio, backgrounds, samples), reflecting the reality of shipping on N64-era limits."
+    }
+  ],
+  "key_stories": [
+    {
+      "title": "N64 hardware test reveals an N64-only crash",
+      "summary": "Kaze agrees to test the current build on real N64 hardware and immediately encounters a floating-point exception in a background-shaping routine that doesn’t occur on emulator. He traces it to undefined FPU state (F2) originating from a color-table read/offset path and frames it as fixable but a reminder that hardware validation still matters.",
+      "challenge": "Emulator passes, but N64 hardware crashes with a float exception in a rendering/background function.",
+      "process": "Kaze opens the relevant function, inspects register loads and offsets (V1/color table), and isolates where F2 becomes undefined; he plans to patch and re-test on hardware.",
+      "outcome": "Bug is identified as N64-only and localized enough to be addressed; reinforces need for ongoing real-hardware checks.",
+      "key_quote": "There is a crash in this function here on N64 only. Should be pretty easy to fix.",
+      "related_to": [
+        "kaze"
+      ]
+    },
+    {
+      "title": "Womp tower becomes a sabotage objective with comedy + tech constraints",
+      "summary": "A chat idea evolves into a full set piece: Womps form a ‘tower’ like building bricks, you trigger a chain reaction to topple them, and they ‘scream in agony’ with synced VFX. Kaze then adapts level geometry and animation requirements around N64 constraints (triangle count, player collision trapping, limited animation variants).",
+      "challenge": "Give Womps a meaningful, funny role in the mission without being unclear, too expensive to render, or prone to collision/geometry bugs.",
+      "process": "Kaze prototypes a stacked Womp ‘brick’ tower, plans to remove inner geometry to prevent player trapping, adds staged fall logic, adds impact particles, and resolves sound restart/overwrites via sound-layer routing; Zeina provides the needed animation set.",
+      "outcome": "The Womp sabotage reads as a distinct objective with strong tone, and the technical scaffolding (animation stages, VFX, sound behavior) is in place.",
+      "key_quote": "Is it intentional that the Thwomps sound cut in after the tower gets knocked over? Yes! They are screaming in agony.",
+      "related_to": [
+        "kaze",
+        "zeina"
+      ]
+    },
+    {
+      "title": "Designing mission clarity through layered failsafes",
+      "summary": "Kaze identifies a core usability risk: players may sabotage one or two workers by accident but fail to realize they must sabotage all five. He outlines a layered hint strategy inspired by his ‘Missing Link’ level design—multiple subtle cues so players feel clever rather than instructed.",
+      "challenge": "Communicate the mission goal (‘mess with five specific Bowser-helmet workers’) without blunt UI markers or mandatory exposition.",
+      "process": "He considers optional hint sources (an overseer NPC that references current worker activities), environmental invitation (targets placed where players naturally run/kick), and multiple small cues rather than one dominant one.",
+      "outcome": "A direction emerges: optional NPC hints + environmental affordances + multiple redundant cues to push success rate toward ~90–99% without feeling hand-holdy.",
+      "key_quote": "I want as many hints as possible… but I want not a single hint to be overbearing.",
+      "related_to": [
+        "kaze"
+      ]
+    }
+  ],
+  "open_questions": [
+    {
+      "topic": "N64-only float exception in background shaping",
+      "context": "Hardware test shows a float exception where F2 becomes undefined, likely due to color-table reads/offset logic behaving differently on N64 than on emulator.",
+      "questions": [
+        "What was the final root cause of the undefined FPU register on N64 (alignment, uninitialized memory, table bounds, or emulator inaccuracy)?",
+        "Did you add any automated hardware regression tests or ‘N64-only’ guardrails after this incident?",
+        "How often do emulator-vs-hardware differences still surprise you this late in development?"
+      ],
+      "related_to": [
+        "kaze"
+      ]
+    },
+    {
+      "topic": "ROM size vs audio strategy (samples, streaming, formats)",
+      "context": "Kaze is removing vanilla backgrounds and downsampling/cutting 44 kHz samples to save ROM, framing smaller ROM as enabling more room for streamed music while keeping performance acceptable in large areas.",
+      "questions": [
+        "What exact audio pipeline are you using for ‘streamed audio’ on N64 (format, buffering, CPU cost), and how does it differ from your sample/WAV-style playback?",
+        "What ROM size target are you budgeting around now, and what content is most at risk if you exceed it (music, textures, cutscenes, levels)?",
+        "How do you decide per-level whether to use streamed tracks vs shorter samples, and what performance metrics guide that decision?"
+      ],
+      "related_to": [
+        "kaze",
+        "badub"
+      ]
+    },
+    {
+      "topic": "Mission readability for ‘sabotage five workers’ objective",
+      "context": "Kaze worries players will do individual sabotages accidentally but not realize completion requires all five; he prefers layered cues over explicit markers.",
+      "questions": [
+        "What final combination of cues did you settle on (overseer NPC, helmet motif, placement, camera framing, textboxes), and which ones tested best?",
+        "Did you run any external playtests on this mission specifically to measure completion rate without hints?",
+        "How do you prevent the level from becoming ‘trial-and-error checklisting’ rather than playful discovery?"
+      ],
+      "related_to": [
+        "kaze"
+      ]
+    },
+    {
+      "topic": "Multiplayer and playable character scope",
+      "context": "Kaze still wants multiplayer as a toggle but anticipates complexity with multiple characters and text/story conflicts (e.g., encountering/buying from Mario/Waluigi while playing them; adding Yoshi implies rideable mechanics).",
+      "questions": [
+        "What is the current multiplayer design goal (co-op exploration, shared stars, separate cameras), and what made it ‘worth it’ despite the extra QA burden?",
+        "Which characters (if any) are you willing to support beyond Mario/Luigi, and what are your rules for handling story/text conflicts when the player is ‘the NPC’ in canon?",
+        "Did multiplayer influence level design constraints (space, hazards, respawns) in Course 11 or elsewhere?"
+      ],
+      "related_to": [
+        "kaze",
+        "zeina"
+      ]
+    }
+  ]
+}

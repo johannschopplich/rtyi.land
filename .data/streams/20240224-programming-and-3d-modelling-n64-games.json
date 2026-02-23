@@ -1,0 +1,203 @@
+{
+  "stream_context": {
+    "summary": "Kaze brings N64 programmer Sauraen on a live call to diagnose why Sauraen’s F3DEX3 microcode (meant to add new graphics features and reduce RDP time) is running slower in Return to Yoshi’s Island than expected. They A/B test old F3DEX3 vs F3DEX2 vs current F3DEX3 on real hardware, disable lighting to isolate costs, and then modify microcode instrumentation to split RSP time into vertex-processing and triangle-processing cycle counters. Results suggest the slowdown is not solely vertex processing; there appears to be ~8–9 ms of additional RSP time unaccounted for by vertex+triangle processing, prompting further profiling plans. After the call, Kaze returns to level work on a Mario Kart 64 “retro pipe” stage (Calamari Desert-inspired), discussing design beats like a timed race, moving train hazards, and visual tweaks.",
+    "level": [
+      "Course 12"
+    ],
+    "significance": "notable",
+    "significance_reason": "Rare stream centered on a deep collaboration with Sauraen, including real-time performance experiments, new microcode profiling instrumentation added specifically for RTYI, and a concrete reframing of the bottleneck (unexplained RSP overhead beyond vertex/triangle work)."
+  },
+  "findings": [
+    {
+      "topic": "technical",
+      "importance": "high",
+      "summary": "Sauraen frames F3DEX3’s intent as a trade: faster RDP (more features + reduced RDP time) at the cost of higher RSP time; RTYI may uniquely expose this because its RDP side is already efficient, making RSP the new bottleneck.",
+      "quote": null
+    },
+    {
+      "topic": "technical",
+      "importance": "high",
+      "summary": "Kaze reports expecting roughly a 5–15% speedup from F3DEX3 overall, but real N64 profiling shows the opposite in his build: baseline old F3DEX3 shows ~21.7 ms GFX time; current F3DEX3 shows ~27 ms in the same scene, indicating a major regression or measurement mismatch.",
+      "quote": null
+    },
+    {
+      "topic": "technical",
+      "importance": "high",
+      "summary": "RTYI does not plan to use point lights (compatibility/emulator concerns and art style): environments are vertex-colored, and light “glows” are faked via CPU-updated vertex colors; only actors use lighting, and Kaze can have up to ~7 runtime-computed directional lights active in a level.",
+      "quote": null
+    },
+    {
+      "topic": "technical",
+      "importance": "high",
+      "summary": "They test by disabling all microcode lighting (commenting out lighting entry) and see only ~2 ms improvement, implying lighting cost alone cannot explain the jump from ~25.5 ms to ~27 ms and the broader regression being investigated.",
+      "quote": null
+    },
+    {
+      "topic": "technical",
+      "importance": "high",
+      "summary": "Sauraen and Kaze add new microcode performance instrumentation: replacing prior footer counters with two U32 counters for vertex-processing cycles and triangle-processing cycles (RCP cycles), requiring Kaze to update his in-game profiler display and conversion (divide by ~62).",
+      "quote": null
+    },
+    {
+      "topic": "technical",
+      "importance": "high",
+      "summary": "With the new counters working, Kaze observes about ~10 ms vertex time and ~8 ms triangle time (≈18 ms total), but the total RSP task is still ~27 ms—leaving an unexplained ~8–9 ms overhead not attributable to vertex+triangle processing, suggesting additional hidden costs (misc commands/overlay switching/stalls/tooling mismatch) that need further profiling.",
+      "quote": null
+    },
+    {
+      "topic": "technical",
+      "importance": "medium",
+      "summary": "Sauraen proposes a potential bespoke “F3DEX2.5” direction for RTYI: keep F3DEX3’s improvements/features but backport parts of F3DEX2’s vertex/lighting pipeline if RTYI doesn’t need point lights, aiming to recover RSP performance while retaining key upgrades.",
+      "quote": null
+    },
+    {
+      "topic": "design",
+      "importance": "medium",
+      "summary": "Kaze explains a recurring RTYI motif: each level includes a “retro pipe” referencing a pre-end-of-N64-era game; for Course 12, the pipe shows Mario Kart 64 footage/imagery (a playful inversion of MK64 containing a Mario 64 course).",
+      "quote": null
+    },
+    {
+      "topic": "design",
+      "importance": "medium",
+      "summary": "Course 12’s retro segment is shaping into a timed race (~40–45 seconds) with a start/finish line, planned moving train elements (including smoke particles), and added hazards like cacti; Kaze also considers how the train interacts with a tunnel shortcut to balance risk/reward.",
+      "quote": null
+    },
+    {
+      "topic": "business",
+      "importance": "medium",
+      "summary": "Kaze recounts seeing N64 repro carts with ROM hacks (including ones he worked on) being sold at events/stores; he notes the uneasy reality that money goes to resellers exploiting creators’ work, and Sauraen mentions seeing stores with very large aggregate sales of such carts.",
+      "quote": null
+    }
+  ],
+  "contributor_findings": {
+    "biobak": [],
+    "badub": [],
+    "zeina": [],
+    "others": [
+      {
+        "name": "Sauraen",
+        "findings": [
+          {
+            "topic": "technical",
+            "importance": "high",
+            "summary": "Explains architectural differences between F3DEX2 and F3DEX3: F3DEX3 does more per-vertex work (model→world and world→clip transforms, normal transforms + normalization, optional octahedral normals) to enable features and make point lighting scale better; F3DEX2 can be faster for basic directional lighting by transforming lights into model space per bone and doing only model→clip per vertex.",
+            "quote": null
+          },
+          {
+            "topic": "technical",
+            "importance": "high",
+            "summary": "Leads the investigation plan: establish baseline timings, isolate costs by disabling lighting, then add new cycle-based counters for vertex and triangle processing to locate where the missing time is coming from.",
+            "quote": null
+          },
+          {
+            "topic": "technical",
+            "importance": "medium",
+            "summary": "Provides practical build/tooling support: offers a SummerCart64 as a faster development workflow option, and instructs Kaze to enable additional profiling via Makefile flags (e.g., command count / clock sampling).",
+            "quote": null
+          },
+          {
+            "topic": "community",
+            "importance": "low",
+            "summary": "Introduces himself on-stream with credentials (F3DEX3 author; Triforce% director; Sec64 author; long-time OoT music modder), giving documentary-useful provenance for why he’s a key external technical collaborator.",
+            "quote": null
+          }
+        ]
+      }
+    ]
+  },
+  "memorable_quotes": [
+    {
+      "speaker": "Kaze",
+      "quote": "Ideally, I wouldn’t have to deal with emulators at all. I just want to make my N64 game.",
+      "context": "Sums up the team’s goal of building something ambitious on real hardware constraints, and the friction of emulator variance while developing a decomp-based ROM hack."
+    },
+    {
+      "speaker": "Kaze",
+      "quote": "All graphics are just about faking it, right?",
+      "context": "Said while discussing “glow effects” vs. vertex-color fakes; captures the project’s practical art/tech philosophy on N64-era rendering."
+    },
+    {
+      "speaker": "Kaze",
+      "quote": "I saw in one of the vendor booths they had a bunch of N64 repro carts with ROM hacks on... that money is going to somebody who is just taking our stuff and selling it.",
+      "context": "A candid moment about the uncomfortable economics of ROM hack distribution and third-party profiteering."
+    }
+  ],
+  "key_stories": [
+    {
+      "title": "Diagnosing why F3DEX3 is slower in RTYI",
+      "summary": "Kaze and Sauraen suspect RTYI’s strong RDP efficiency makes RSP costs more visible, causing F3DEX3’s extra vertex/feature overhead to become a bottleneck. Live tests (old F3DEX3 vs F3DEX2 vs current F3DEX3) plus disabling lighting don’t fully explain the regression, so they add new microcode counters to split vertex and triangle processing time.",
+      "challenge": "F3DEX3 was expected to speed RTYI up, but measured GFX/RSP timings in Kaze’s build were significantly worse and inconsistent across baselines.",
+      "process": "They establish baselines, attempt to isolate lighting cost, then modify microcode and the yield footer to record vertex and triangle processing cycles and add additional command-count profiling via Makefile flags.",
+      "outcome": "New instrumentation reveals ~18 ms of vertex+triangle processing but ~27 ms total RSP time, leaving ~8–9 ms unexplained; Sauraen plans further investigation and suggests a possible “F3DEX2.5” hybrid approach for RTYI.",
+      "key_quote": "We have 10 milliseconds for vertices, 8 milliseconds for triangles, and 27 milliseconds… so it’s not just that the vertex processing is slower.",
+      "related_to": [
+        "kaze",
+        "biobak",
+        "badub",
+        "zeina"
+      ]
+    },
+    {
+      "title": "Seeing ROM hacks sold as repro carts",
+      "summary": "Kaze describes encountering physical repro cartridges of ROM hacks for sale at an event/vendor booth, including a hack he worked on. Both he and Sauraen acknowledge that widespread resale happens at scale, and creators often have to tolerate it as part of being in the scene.",
+      "challenge": "Third parties monetize ROM hacks without compensating creators, raising ethical and practical concerns for a project like RTYI.",
+      "process": "Kaze recounts the incident and reflects on the reality of the ecosystem; Sauraen adds that some stores appear to have very large aggregate sales across many hacks.",
+      "outcome": "No solution is implemented here, but it’s flagged as a recurring issue the team is aware of while building a high-profile hack.",
+      "key_quote": "You gotta have some tolerance for that in order to be in this.",
+      "related_to": [
+        "kaze"
+      ]
+    }
+  ],
+  "open_questions": [
+    {
+      "topic": "Unexplained ~8–9 ms RSP overhead in current F3DEX3 profiling",
+      "context": "New counters suggest vertex (~10 ms) + triangle (~8 ms) processing does not sum to the total RSP task time (~27 ms), leaving substantial time unattributed.",
+      "questions": [
+        "What specific categories of work fill the missing ~8–9 ms (overlay swaps, matrix loads, command shuttling, stalls, cache/DMEM effects, FIFO waits, or something else)?",
+        "Does RTYI’s display-list structure (command patterns, state changes, or buffer sizes) interact poorly with F3DEX3 compared to OoT scenes Sauraen profiled?",
+        "Did any recent RTYI-side changes (GBI usage, actor lighting, vertex formats, DMA patterns) coincide with the jump from ~25.5 ms to ~27 ms baseline?",
+        "What additional counters or traces can Sauraen add next (e.g., per-command-class timing, overlay swap counts, DMA wait cycles) to isolate the overhead definitively?"
+      ],
+      "related_to": [
+        "kaze"
+      ]
+    },
+    {
+      "topic": "Potential ‘F3DEX2.5’ hybrid microcode path for RTYI",
+      "context": "Sauraen floated building a version that keeps F3DEX3’s benefits but backports F3DEX2’s faster directional-lighting/vertex pipeline, since RTYI avoids point lights.",
+      "questions": [
+        "Which F3DEX3 features are non-negotiable for RTYI (e.g., cel shading, AO/occlusion plane, larger vertex buffer), and which can be dropped to regain RSP headroom?",
+        "What’s the minimal subset of F3DEX3 architectural changes that must remain to support RTYI’s current art/engine pipeline?",
+        "How would a hybrid microcode affect content creation (vertex formats, normals, lighting authoring, compatibility with existing assets)?"
+      ],
+      "related_to": [
+        "kaze"
+      ]
+    },
+    {
+      "topic": "Lighting strategy: up to seven directional lights, but vertex-colored environments",
+      "context": "Kaze states environments are vertex-colored and he fakes point lights via CPU-updated vertex colors; actors use world lighting, and some levels can compute multiple directional lights at runtime.",
+      "questions": [
+        "How are up to seven directional lights combined (max, additive, weighted, nearest-N, time-sliced), and what drove that choice artistically and technically?",
+        "What does ‘compute at runtime’ mean here—are directions derived from scene objects (sun position, fire, etc.) and how often are they updated?",
+        "What are the exact constraints that make point lights undesirable (emulator correctness, performance, artistic mismatch), and were there any experiments that failed?"
+      ],
+      "related_to": [
+        "kaze"
+      ]
+    },
+    {
+      "topic": "Handling physical repro-cart resale of ROM hacks",
+      "context": "Kaze and Sauraen note third parties sell hacks on cartridges, sometimes at large scale, with no compensation to creators.",
+      "questions": [
+        "Has the RTYI team discussed any ‘official’ physical release approach (or explicit non-release) to reduce gray-market demand, or is that out of scope?",
+        "What was Kaze’s reaction when he first saw a cart of a hack he worked on being sold—did it change how he thinks about distribution/branding/credits?",
+        "Are there technical measures being considered (boot code, signatures, messaging) to discourage resellers, and do they actually work in practice?"
+      ],
+      "related_to": [
+        "kaze"
+      ]
+    }
+  ]
+}

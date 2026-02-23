@@ -1,0 +1,256 @@
+{
+  "stream_context": {
+    "summary": "Kaze debugs and tunes the Raphael the Raven moon boss: fixes a broken hurtbox caused by incorrect scaling, adds boss scaling-on-hit and time-based difficulty easing, implements planet-relative/world-space behavior for the egg/star using quaternion and matrix math, and iterates on the moon transition cutscene camera. He also brainstorms overworld (Yoshi’s Island hub) progression that uses coins to unlock traversal changes (bridges/trees).",
+    "level": [
+      "Course 13 – Moon (Raphael the Raven boss)",
+      "Overworld"
+    ],
+    "significance": "milestone",
+    "significance_reason": "The Raphael the Raven fight becomes meaningfully playable again (hitbox/hurtbox fixed, difficulty curve adjusted), and the key ‘star/egg on a rotating planet’ world-space behavior is solved—both are foundational for completing this boss encounter and its reward flow."
+  },
+  "findings": [
+    {
+      "topic": "technical",
+      "importance": "high",
+      "summary": "The boss hurtbox stopped working because Raphael Raven was being scaled down so far that his effective hitbox became zero; fixing the actor scale restored damage detection.",
+      "quote": null
+    },
+    {
+      "topic": "design",
+      "importance": "medium",
+      "summary": "Kaze wants Raphael Raven to get bigger after each hit (both as feedback and to make later phases slightly easier to land hits), while still increasing attack intensity (speed and shockwave frequency) per hit.",
+      "quote": null
+    },
+    {
+      "topic": "design",
+      "importance": "high",
+      "summary": "He rethinks difficulty tuning: instead of making the boss stop after shockwaves (too easy) or never stop (too hard), he implements a time-based easing where the fight gradually becomes easier the longer it lasts so most players can eventually win.",
+      "quote": null
+    },
+    {
+      "topic": "philosophy",
+      "importance": "medium",
+      "summary": "Kaze rejects player-health-based dynamic difficulty scaling because it can make progression feel meaningless (compares it to RPG enemy level scaling); he prefers time-as-a-proxy for struggle so difficulty naturally eases without ‘punishing’ skilled players.",
+      "quote": null
+    },
+    {
+      "topic": "design",
+      "importance": "medium",
+      "summary": "Hub world concept: the overworld will be Yoshi’s Island-inspired (like the Mario Party tropical board), with fruit-filled visuals and coin spending that unlocks overworld traversal/progression (e.g., paying NPCs to build a bridge, plant/buy a climbable tree).",
+      "quote": null
+    },
+    {
+      "topic": "design",
+      "importance": "high",
+      "summary": "Cutscene plan for the boss intro: reveal the moon, Raphael Raven rises with eyes closed, opens eyes, jumps, changes gravity, launches Mario to the moon, follows him, then the fight begins. Kaze emphasizes a strong ‘oh shit’ moment via lighting/occlusion and camera framing.",
+      "quote": null
+    },
+    {
+      "topic": "team",
+      "importance": "medium",
+      "summary": "Kaze explicitly calls out Biobak’s potential to make the fight visually striking (e.g., rotating background during the fight) and notes a planned stomp-triggered color effect that depends on how the boss ‘gets color’ after stomps.",
+      "quote": null
+    },
+    {
+      "topic": "technical",
+      "importance": "high",
+      "summary": "Planet/moon object behavior requires custom coordinate handling: objects like coins/stars must be moved into the planet’s coordinate system and updated relative to planet rotation; otherwise spawned items become unreachable or drift incorrectly.",
+      "quote": null
+    },
+    {
+      "topic": "technical",
+      "importance": "high",
+      "summary": "He fixes the reward star behavior on the moon: two different “spoof star” systems were conflicting, and an object-pointer/variable assignment issue prevented the update function from being called. After resolving, the star correctly stays in world space relative to the planet rotation.",
+      "quote": null
+    },
+    {
+      "topic": "technical",
+      "importance": "high",
+      "summary": "To spawn the reward star above Mario on a rotating planet, he uses quaternion inversion via conjugate (normalized quaternion) to correct the rotation offset; a sign error initially caused incorrect placement, then was fixed.",
+      "quote": null
+    },
+    {
+      "topic": "design",
+      "importance": "medium",
+      "summary": "Return-from-moon flow is debated: a pipe back is desirable for clarity but is ‘stupid math’ and visually unclear; Kaze leans toward the simplest solution—spawn the star directly on the moon after the egg hatches and potentially end the encounter there.",
+      "quote": null
+    },
+    {
+      "topic": "business",
+      "importance": "medium",
+      "summary": "Kaze hired a paid video editor (Okayo) and considers increasing output of explanatory/accessible Mario 64 tech videos (e.g., BLJ, paintings, MIPS clip) to better support his family financially.",
+      "quote": null
+    },
+    {
+      "topic": "team",
+      "importance": "high",
+      "summary": "Zeina is actively producing the needed animations for Raphael Raven and the sequence; Kaze confirms she’s working on them and mentions she has sent animations, but integration is postponed because it’s late.",
+      "quote": null
+    },
+    {
+      "topic": "community",
+      "importance": "medium",
+      "summary": "Kaze describes contradictory audience feedback on difficulty (too easy vs too hard) and expresses frustration with release-date harassment, framing it as a morale issue where setting boundaries makes him look like the ‘bad guy.’",
+      "quote": null
+    }
+  ],
+  "contributor_findings": {
+    "biobak": [
+      {
+        "topic": "design",
+        "importance": "medium",
+        "summary": "Biobak is positioned as the key visual/scene artist for the boss arena; Kaze suggests Biobak could massively upgrade spectacle with a rotating background and coordinated color/effect timing on boss stomps.",
+        "quote": null
+      },
+      {
+        "topic": "design",
+        "importance": "medium",
+        "summary": "Biobak proposes/aligns on cinematic ideas for the intro (occlusion/blackout moment, eyes reveal, blur), which Kaze tries to reconcile with his existing moon transition plan.",
+        "quote": null
+      }
+    ],
+    "badub": [],
+    "zeina": [
+      {
+        "topic": "team",
+        "importance": "high",
+        "summary": "Zeina is responsible for the boss/cutscene animation work; Kaze says she is currently working on all needed animations and confirms she has sent animations, though they won’t be implemented until a future stream/session.",
+        "quote": null
+      },
+      {
+        "topic": "personal",
+        "importance": "low",
+        "summary": "Kaze notes (via a donation alert incident) that Zeina dislikes “Crazy Bus,” used as a small glimpse into their off-stream household dynamic while he streams dev work.",
+        "quote": null
+      }
+    ],
+    "others": [
+      {
+        "name": "Okayo",
+        "findings": [
+          {
+            "topic": "business",
+            "importance": "medium",
+            "summary": "Okayo is a paid external editor for Kaze’s YouTube videos; Kaze hopes to retain him for upcoming videos to enable a higher publishing cadence.",
+            "quote": null
+          }
+        ]
+      }
+    ]
+  },
+  "memorable_quotes": [
+    {
+      "speaker": "Kaze",
+      "quote": "You guys have no idea how fucked programming this was. They don’t have velocities, they have turn speeds.",
+      "context": "Explaining how unintuitive the underlying movement system is when implementing the meteor/boss behaviors, underscoring the ‘deconstruct and rebuild’ challenge on N64-era tech."
+    },
+    {
+      "speaker": "Kaze",
+      "quote": "You know what the most fucked up part about being a famous romaker is? When people harass me about the release date and I tell them that I want the whole family to... I am the bad guy.",
+      "context": "A raw moment about creator pressure, entitlement from fans, and the emotional cost of long development timelines."
+    }
+  ],
+  "key_stories": [
+    {
+      "title": "Boss hit detection breaks due to scale mismatch",
+      "summary": "Early in the stream, Kaze discovers Raphael Raven’s hurtbox no longer registers hits. After logging/debugging, he realizes the boss has been scaled so small that the hitbox effectively becomes zero, and the visual model scale doesn’t match the collision logic.",
+      "challenge": "A broken boss fight (no damage possible) caused by a silent scaling/collision interaction.",
+      "process": "Kaze prints positional/debug info, suspects scale changes, identifies the actor being scaled too far down, and adjusts scaling so the collision volume remains valid.",
+      "outcome": "Damage/hit detection works again; he proceeds to add scaling-on-hit as a deliberate design feature rather than an accidental bug.",
+      "key_quote": null,
+      "related_to": [
+        "kaze"
+      ]
+    },
+    {
+      "title": "Making the reward star behave correctly on a rotating moon",
+      "summary": "Kaze tries to spawn and maintain the reward star on the moon/planet system, but it disappears, desyncs, or crashes due to pointer/logic issues and conflicting star systems. He resolves the update-call/assignment bug and corrects placement with quaternion inversion math.",
+      "challenge": "Objects must exist in the correct space (planet-relative vs world space) while the planet rotates, without crashes or snapping.",
+      "process": "He instruments code paths, finds the function isn’t called due to a variable/assignment issue, then discovers two star implementations fighting each other. After isolating one system, he fixes placement by conjugating the normalized quaternion and correcting a sign error.",
+      "outcome": "The star stays in the intended world space position relative to Mario/planet rotation; Kaze declares the star behavior “perfect” and treats it as a solved subproblem.",
+      "key_quote": "The star is now in world space. Perfect. Perfect.",
+      "related_to": [
+        "kaze"
+      ]
+    },
+    {
+      "title": "Debating how players return from the moon after the boss",
+      "summary": "Kaze plans a pipe to return the player after beating Raphael Raven, but the pipe’s rotation/orientation on a spherical surface becomes a thorny math problem and may be visually unclear. He pivots toward a simpler reward flow: hatch the egg and grant the star directly on the moon.",
+      "challenge": "Design clarity vs technical complexity for post-boss traversal back to the main area.",
+      "process": "He explores using raven matrices/quaternions, considers deriving pitch/yaw from position vectors, hits rotation-order pitfalls, and questions whether a pipe is worth it at all.",
+      "outcome": "Provisional decision: spawn the star on the moon and potentially avoid the return pipe entirely, unless a clean solution emerges later.",
+      "key_quote": "I think the pipe sucks. It sucks programming wise. And it’s also not really very visually clear why that would happen.",
+      "related_to": [
+        "kaze"
+      ]
+    }
+  ],
+  "open_questions": [
+    {
+      "topic": "Final post-boss flow (pipe vs star vs other return method)",
+      "context": "Kaze oscillates between spawning a return pipe on the moon (clear exit but complex orientation math) and simply spawning the star on the moon (simpler, but changes pacing/structure).",
+      "questions": [
+        "What final player flow do you want after beating Raphael Raven—instant star on the moon, a return pipe, or a cutscene teleport—and why?",
+        "If you keep a pipe/exit object on a spherical surface, what’s your preferred technical approach (vector-derived pitch/yaw, quaternion reuse, fixed ‘up’ emergency vector), and what visual readability tests will you use?",
+        "How does this choice affect the intended ‘Yoshi’s Island’ identity (vs avoiding obvious Mario Galaxy parallels)?"
+      ],
+      "related_to": [
+        "kaze",
+        "biobak"
+      ]
+    },
+    {
+      "topic": "Overworld progression economy design",
+      "context": "Kaze describes a Yoshi’s Island hub where coins can purchase overworld changes like bridges/trees to unlock new traversal routes and progression.",
+      "questions": [
+        "What are the specific ‘construction’ upgrades in the overworld (bridge, tree, NPC services), and how do you gate/price them to balance exploration vs grinding?",
+        "Is this overworld progression meant to replace or complement star gates/doors, and how do you communicate it to players without tutorials feeling out of place?",
+        "How will the hub visually evolve as players buy upgrades (new geometry, NPC animations, environmental changes)?"
+      ],
+      "related_to": [
+        "kaze",
+        "biobak",
+        "zeina"
+      ]
+    },
+    {
+      "topic": "Animation integration pipeline with Zeina",
+      "context": "Kaze says Zeina is working on all animations and has sent animations, but they aren’t integrated yet; boss currently lacks proper hit/death/flight animations.",
+      "questions": [
+        "What’s the handoff pipeline between Zeina’s animation exports and Kaze’s in-engine/state-machine implementation (formats, tools, iteration loop)?",
+        "Which animations are critical for selling the cutscene ‘oh shit’ moment (eyes closed/open, jump, gravity change), and which can be deferred?",
+        "Are there N64/decomp constraints that force animation compromises (bone count, keyframes, memory), and how do you choose what to simplify?"
+      ],
+      "related_to": [
+        "kaze",
+        "zeina"
+      ]
+    },
+    {
+      "topic": "Planetary gravity/object system scope and reuse",
+      "context": "Kaze repeatedly references the need to move objects (coins, stars, pipes) into the planet’s coordinate system and update them with planet rotation; he also mentions this solution can generalize to “everything geo-fixated actor.”",
+      "questions": [
+        "What’s the underlying abstraction for ‘geo-fixated actors’—is it a reusable component/system, or per-object hacks?",
+        "Which object classes are hardest to port to planetary coordinates (coins, pipes, enemies, camera triggers), and what’s your priority order?",
+        "What player-facing rules must remain consistent (e.g., how pickups behave) so the planet gimmick feels polished rather than janky?"
+      ],
+      "related_to": [
+        "kaze"
+      ]
+    },
+    {
+      "topic": "Project status estimate and remaining critical path",
+      "context": "Kaze answers ‘just over 80%’ done, while also listing major remaining items for this fight (animations, VFX/SFX, camera shake, death polish, raven landing/flying polish).",
+      "questions": [
+        "What does ‘80% done’ mean in your internal accounting—levels count, features, content complete, or polish?",
+        "What are the current critical-path blockers that could most threaten timeline (animations, cutscenes, planet-system generalization, music, performance)?",
+        "Which remaining tasks are ‘must ship’ vs ‘nice to have,’ and who owns each (you vs Biobak vs Zeina vs external contributors)?"
+      ],
+      "related_to": [
+        "kaze",
+        "biobak",
+        "zeina"
+      ]
+    }
+  ]
+}

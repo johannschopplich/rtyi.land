@@ -1,0 +1,241 @@
+{
+  "stream_context": {
+    "summary": "Kaze tests streaming on YouTube (considering leaving Twitch due to ads) while implementing and polishing Course 1’s tutorial bunnies: dialog text, on-screen button prompt billboards, and a new “ring” mechanic that only rewards the player when the correct movement is performed. Zeina shares an in-progress animation video and they critique pivot/root placement. Kaze also discusses performance/memory optimization, N64 texture constraints, camera-design philosophy, and frustration with Nintendo takedowns impacting motivation for tutorials.",
+    "level": [
+      "Course 1"
+    ],
+    "significance": "milestone",
+    "significance_reason": "A discrete onboarding feature set is implemented end-to-end (tutorial bunnies + prompt graphics + movement-gated rings), with final logic working and only animation left for the next stream; also includes clear design philosophy statements about player patience and camera control."
+  },
+  "findings": [
+    {
+      "topic": "business",
+      "importance": "medium",
+      "summary": "Kaze is testing a potential migration from Twitch to YouTube primarily because Twitch has become “ad-riddled,” including ads even for subscribed viewers; he frames this stream as an interest/viability test rather than a commitment.",
+      "quote": null
+    },
+    {
+      "topic": "design",
+      "importance": "high",
+      "summary": "Course 1 is being treated explicitly as a “beginning playground” to learn the hack’s expanded movement; Kaze adds three tutorial bunnies teaching dive-jump, wall slide/kick, and spin jump, aiming for “unobtrusive” but clear onboarding.",
+      "quote": null
+    },
+    {
+      "topic": "design",
+      "importance": "high",
+      "summary": "To prevent players from missing or brute-forcing the movement tutorial coin, Kaze adopts a ring-gate concept: the ring appears after talking to the bunny, and the reward triggers only if Mario passes through while in the correct action/state (not just any jump/long jump).",
+      "quote": null
+    },
+    {
+      "topic": "design",
+      "importance": "medium",
+      "summary": "Kaze decides tutorial rings should only activate after speaking to the bunny to avoid confusing players who encounter rings with no context; he also considers making bunny dialog disappear once the associated coin is collected.",
+      "quote": null
+    },
+    {
+      "topic": "technical",
+      "importance": "high",
+      "summary": "Kaze builds a new on-screen tutorial prompt system as billboarded textures above the bunnies (e.g., ZA, AA, ZB), discussing the N64’s hard constraints: small texture sizes, limited palette (e.g., 64x64 indexed with ~16 colors) and binary alpha (0/1), which shapes UI readability and art direction.",
+      "quote": null
+    },
+    {
+      "topic": "technical",
+      "importance": "medium",
+      "summary": "He encounters and documents practical texture-pipeline issues: Photoshop edge blending causing white fringing on indexed assets, requiring a specific prep step (fill/clear background + re-index) to avoid interpolation artifacts on N64.",
+      "quote": null
+    },
+    {
+      "topic": "technical",
+      "importance": "medium",
+      "summary": "Kaze prototypes a particle-based ring (sparkle ring style, inspired by Yoshi’s Island), tunes spin speed/lifetime, and fixes a crash caused by a missing/incorrect particle flag (mentions 0x40), then refactors because the initial code felt “disgusting.”",
+      "quote": null
+    },
+    {
+      "topic": "philosophy",
+      "importance": "high",
+      "summary": "Kaze articulates a “patience budget” philosophy: ROM-hack players have low initial commitment because they didn’t pay, so tutorials, text, and onboarding must be concise and unfrustrating to avoid losing players early.",
+      "quote": "You have to be very careful with the text you put, because players start out with some amount of patience left for your game… for a romhack, you can’t really go over your patience budget."
+    },
+    {
+      "topic": "philosophy",
+      "importance": "high",
+      "summary": "He states a strong camera design rule: the game should not rotate the camera in ways the player can’t predict, because human reaction time forces unintended movement; camera movement should be directly caused by player actions or obvious collision correction, not by overworld objects.",
+      "quote": "If you make the camera rotate without the player being able to predict it, you’re always gonna have the player go a whole direction that they don’t intend."
+    },
+    {
+      "topic": "technical",
+      "importance": "medium",
+      "summary": "Course 1 performance headroom is high (he claims it runs near 60 FPS on real N64), enabling more decorative geometry (e.g., adding trees) without compromising performance, reinforcing the “friendly first course” goal.",
+      "quote": null
+    },
+    {
+      "topic": "technical",
+      "importance": "medium",
+      "summary": "Kaze mentions engine/performance work beyond the tutorial: recent optimizations to sine/cos functions; plus a broader explanation of instruction-cache “block” organization (e.g., aligning rendering functions within a 0x400-byte I-cache block) and separate D-cache optimizations.",
+      "quote": null
+    },
+    {
+      "topic": "technical",
+      "importance": "low",
+      "summary": "A long-standing bug is noted: an object (a boat in an overworld area) appears as a fire flower due to changes in shading handling—shading is now stored per-level, and objects default to white shade colors, causing legacy assets to render incorrectly.",
+      "quote": null
+    },
+    {
+      "topic": "team",
+      "importance": "medium",
+      "summary": "Kaze credits Biobak with significant revamps to Course 1’s look and also delegates making the billboard prompts clearer to him, indicating a workflow where Kaze prototypes systems and Biobak refines visual clarity and presentation.",
+      "quote": null
+    },
+    {
+      "topic": "team",
+      "importance": "medium",
+      "summary": "Zeina provides an animation WIP video during the stream; Kaze and Zeina identify a rotation/pivot issue (root not centered on the character), agree the bounce looks good, and discuss moving the root/pivot as the fix.",
+      "quote": null
+    },
+    {
+      "topic": "legal-nintendo",
+      "importance": "high",
+      "summary": "Kaze says Nintendo previously took down his tutorials, reducing his motivation to create tutorial content; he also cites Nintendo taking down his “climate change” ROM hack, reinforcing his awareness that RTYI is “technically illegal,” even if it hasn’t received a C&D.",
+      "quote": null
+    }
+  ],
+  "contributor_findings": {
+    "biobak": [
+      {
+        "topic": "design",
+        "importance": "high",
+        "summary": "Biobak pushes for a solution that ensures players cannot miss the intended move: using rings/targets tied to the action so players must perform the tutorialized technique, not merely reach a coin.",
+        "quote": null
+      },
+      {
+        "topic": "design",
+        "importance": "medium",
+        "summary": "Biobak provides visual/UI feedback on the prompt billboard clarity and suggests alternative texture/material approaches (e.g., combined textures to save memory), leading Kaze to delegate final billboard polish to him.",
+        "quote": null
+      }
+    ],
+    "badub": [],
+    "zeina": [
+      {
+        "topic": "team",
+        "importance": "medium",
+        "summary": "Zeina shares a WIP animation video (requested to be played on stream) and engages in iterative critique with Kaze; the main issue identified is rotation around the wrong point, implying the rig/root needs repositioning.",
+        "quote": null
+      },
+      {
+        "topic": "design",
+        "importance": "low",
+        "summary": "Zeina suggests an “egg-shaped ring” concept and discusses curve-following/shape ideas, influencing exploration of ring visuals consistent with Yoshi’s Island motifs.",
+        "quote": null
+      }
+    ],
+    "others": []
+  },
+  "memorable_quotes": [
+    {
+      "speaker": "Kaze",
+      "quote": "You have to be very careful with the text you put, because players start out with some amount of patience left for your game… for a romhack, you can’t really go over your patience budget.",
+      "context": "Explaining why tutorial text and onboarding must be extremely concise and clear for a free ROM hack audience."
+    },
+    {
+      "speaker": "Kaze",
+      "quote": "If you make the camera rotate without the player being able to predict it, you’re always gonna have the player go a whole direction that they don’t intend.",
+      "context": "Stating a core camera philosophy while deciding how to frame the bunny tutorial cutscene and whether to force camera changes."
+    },
+    {
+      "speaker": "Kaze",
+      "quote": "When you make games it always starts really fun and eventually it turns into pure torture. That’s just the cycle of making games.",
+      "context": "Reflecting on long-term development fatigue and why many big hacks never finish."
+    }
+  ],
+  "key_stories": [
+    {
+      "title": "Building Course 1 onboarding with tutorial bunnies and movement-gated rings",
+      "summary": "Kaze iterates on how to teach new movement tech in Course 1 without intrusive UI, adding three tutorial bunnies and experimenting with how players earn the tutorial coins. He shifts from a simple “coin placed near the move” approach to a ring-gate system that only rewards correct action states, then adds billboard button prompts and considers post-completion behavior like hiding dialog once the coin is earned.",
+      "challenge": "Players could misunderstand prompts, miss the tutorial entirely, or obtain the reward via unintended movement (e.g., long-jumping through a ring or reaching a coin without learning the move).",
+      "process": "He designs bunny personalities/text, prototypes speech-bubble button prompt textures under N64 palette/alpha constraints, implements billboard rendering and animation states, and adopts Biobak’s ring-gate idea so the reward triggers only on the correct move. He also adjusts level geometry flags (e.g., making a surface climbable) to tune wall-slide difficulty and tests camera framing for the bunny demonstration.",
+      "outcome": "Tutorial system is declared “perfect” functionally by end of stream; remaining work is primarily animation polish to be done later (planned next stream).",
+      "key_quote": "The tutorial is going to be pretty unintrusive, and hopefully it’s going to be easy to understand.",
+      "related_to": [
+        "kaze",
+        "biobak",
+        "zeina"
+      ]
+    },
+    {
+      "title": "Nintendo takedowns reduce motivation for public tutorial content",
+      "summary": "While discussing tutorial presentation, Kaze notes that Nintendo has taken down his tutorials before, which makes him less motivated to invest time into producing them. He also references Nintendo taking down a past “climate change” ROM hack and acknowledges the underlying legal risk of the project.",
+      "challenge": "Repeated takedowns and uncertainty make it harder to justify spending effort on ancillary content like tutorials and public documentation.",
+      "process": "He adapts by focusing on in-game onboarding (bunnies, prompts) rather than relying on external tutorial videos, and he remains cautious in how he talks about release/open-sourcing.",
+      "outcome": "A stronger emphasis on self-contained in-game teaching, with lingering concern about future enforcement.",
+      "key_quote": "Nintendo always takes them down, so that kind of puts a dent in my motivation to make tutorials.",
+      "related_to": [
+        "kaze"
+      ]
+    }
+  ],
+  "open_questions": [
+    {
+      "topic": "Final art direction for tutorial rings and prompts",
+      "context": "Kaze prototypes a particle sparkle ring inspired by Yoshi’s Island and creates placeholder prompt textures constrained by indexed palettes and binary alpha; Biobak is asked to improve billboard clarity.",
+      "questions": [
+        "What final visual language did you settle on for the tutorial rings (particle sparkle, modeled ring, egg-themed ring), and why was it the best fit for RTYI’s tone and N64 constraints?",
+        "What readability testing did you do (or wish you had done) to ensure players interpret ZA/AA/ZB prompts correctly across controllers/emulators?",
+        "How did you budget texture memory and display-list complexity for these UI-like assets in an N64 scene?"
+      ],
+      "related_to": [
+        "kaze",
+        "biobak",
+        "zeina"
+      ]
+    },
+    {
+      "topic": "Camera rules vs. tutorial cutscenes",
+      "context": "Kaze resists forcing camera rotations because of reaction-time and player control, yet tutorial demonstrations benefit from consistent framing; he experiments with cutscene camera variables to align to the bunny.",
+      "questions": [
+        "Where did you draw the line between ‘never move camera unexpectedly’ and ‘tutorial needs a clear shot’?",
+        "Did you implement any general system for tutorial/demo camera framing, or is it bespoke per tutorial?",
+        "How did you evaluate whether the player could miss crucial animation beats (e.g., spin jump) due to camera angle?"
+      ],
+      "related_to": [
+        "kaze"
+      ]
+    },
+    {
+      "topic": "Lighting/shadow pipeline and future improvements",
+      "context": "Kaze discusses baked shadows, per-level shading (objects defaulting to white shade), debug-warp lighting issues, and mentions possibly raycasting toward the light direction for more accurate lighting (e.g., lens flares).",
+      "questions": [
+        "What is the current lighting/shadow pipeline in RTYI (vertex colors, baked textures, per-level light/ambient), and what are the biggest pain points?",
+        "Did you ever implement the raycast-to-light idea for more accurate character lighting, and what was the performance impact on N64?",
+        "How do you prevent debug/warp lighting state from leaking into levels in normal gameplay?"
+      ],
+      "related_to": [
+        "kaze"
+      ]
+    },
+    {
+      "topic": "Porting the Banjo hack into the RTY engine",
+      "context": "Kaze briefly shows progress on a Banjo-Kazooie-related hack and states a desire to port it into the RTY engine as a bonus before RTYI is done.",
+      "questions": [
+        "Why port the Banjo content into the RTY engine—what does it demonstrate (engine flexibility, bonus content, personal motivation) for the project’s narrative?",
+        "What are the technical blockers to porting a separate hack into RTY’s engine (asset formats, behaviors, camera, collision, audio)?",
+        "How do you keep ‘bonus ports’ from derailing the main game schedule?"
+      ],
+      "related_to": [
+        "kaze"
+      ]
+    },
+    {
+      "topic": "Tutorial content strategy under takedown risk",
+      "context": "Kaze says Nintendo takedowns of tutorials reduced his motivation; he also acknowledges the project’s legal grey area and references a prior hack takedown.",
+      "questions": [
+        "What’s your decision framework for what you publish publicly (tutorials, source code, builds) vs. keep in-game, given takedown risk?",
+        "How did past takedowns change your approach to marketing/documentation for RTYI?",
+        "Did the team ever discuss contingency plans (mirrors, alternate hosting, delayed open-source) if RTYI receives a C&D?"
+      ],
+      "related_to": [
+        "kaze"
+      ]
+    }
+  ]
+}

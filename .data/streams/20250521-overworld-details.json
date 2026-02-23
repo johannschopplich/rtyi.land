@@ -1,0 +1,192 @@
+{
+  "stream_context": {
+    "summary": "Kaze works on overworld visual upgrades, focusing on shader/primitive-color changes and a fog system to create a whiteout transition near a ship setpiece. He also prototypes new overworld “grape” bounce objects as separate actors and mentions ongoing maintenance work to fix older levels broken by engine updates. Late in the stream he checks in on Zeina’s progress on Course 13 (Penguin Town) and notes his real-life work schedule limiting stream/dev time.",
+    "level": [
+      "Overworld",
+      "Course 13 – Penguin Town"
+    ],
+    "significance": "notable",
+    "significance_reason": "Contains concrete development progress (overworld shader/fog pass, new grape actor), an engine refactor note (removing loops to ticks), and meaningful collaboration updates (Zeina’s Course 13 work; Sauraen doing a major unseen ‘retro section’ contribution)."
+  },
+  "findings": [
+    {
+      "topic": "technical",
+      "importance": "medium",
+      "summary": "Kaze says older levels became less playable over time because engine updates broke things; he’s actively enjoying and prioritizing bug-fix passes to restore playability, noting new issues with decals that did not exist before.",
+      "quote": "These old levels are going to become a lot more playable soon because we broke them over time with engine updates."
+    },
+    {
+      "topic": "technical",
+      "importance": "high",
+      "summary": "A key goal is an overworld visual pass: adding/finishing a first round of shaders and getting fog/primitive-color rendering behaving correctly, including transitioning areas to a whiteout near the ship setpiece.",
+      "quote": null
+    },
+    {
+      "topic": "design",
+      "importance": "high",
+      "summary": "Setpiece logic/design: as the player approaches the ship, the world should progressively fade to white; if the player has done a “lighthouse thing,” the ship remains visible while everything else washes out (implying a conditional state tied to an overworld objective).",
+      "quote": null
+    },
+    {
+      "topic": "technical",
+      "importance": "high",
+      "summary": "He experiments with solving ‘fog visible from the distance’ problems by changing the fog controller behavior based on player position (no fog on one side of a bridge, fog enabled on the other), and by tuning fog start distances (e.g., changing start values around ~970/1000 and targeting ~12,000–13,000).",
+      "quote": null
+    },
+    {
+      "topic": "technical",
+      "importance": "medium",
+      "summary": "Kaze wants a more automated build/export pipeline: he aims to get the repository into a state where he can run a script to export/rebuild everything consistently, enabled by a newer, more convenient system he refers to as “bitfs/bitflex.”",
+      "quote": "I want to get my repository into a state where I can execute a script to export the whole repository."
+    },
+    {
+      "topic": "design",
+      "importance": "medium",
+      "summary": "He prototypes new overworld ‘grapes’ as individual, bounceable objects that must be implemented as separate actors (not a single mesh), indicating an interactive traversal element rather than pure decoration.",
+      "quote": null
+    },
+    {
+      "topic": "technical",
+      "importance": "medium",
+      "summary": "Implementation details for the grape objects: he adjusts materials so the base grape color is driven by primitive color (prim) combined with texture, adds collision, remembers he forgot setup steps like ‘stunning area,’ and assigns a ‘rare squishy’ sound effect to the interaction.",
+      "quote": null
+    },
+    {
+      "topic": "technical",
+      "importance": "medium",
+      "summary": "Kaze mentions a codebase cleanup/refactor: “removing all loops” and turning them into “ticks,” implying a shift toward per-frame update functions (possibly for consistency, performance, or engine architecture).",
+      "quote": null
+    },
+    {
+      "topic": "team",
+      "importance": "medium",
+      "summary": "Zeina is actively building/reworking ‘Penguin Town’ for Course 13 while Kaze works; Kaze plans to start on needed assets (“Squid game model stuff”) and suggests checking her rework on a future stream (likely Tuesday).",
+      "quote": null
+    },
+    {
+      "topic": "team",
+      "importance": "high",
+      "summary": "Kaze credits Sauraen with having done “the coolest thing ever” for the game’s ‘retro section,’ but deliberately does not show it yet—suggesting a notable technical or presentation feature being kept as a later reveal.",
+      "quote": "Sauraen did the coolest thing ever for the retro section that I will not show you guys yet."
+    }
+  ],
+  "contributor_findings": {
+    "biobak": [],
+    "badub": [],
+    "zeina": [
+      {
+        "topic": "team",
+        "importance": "medium",
+        "summary": "Kaze states Zeina is currently working on ‘Penguin Town’ for Course 13, with a ‘cozy and depressing’ intended vibe; Kaze expects to review her rework on stream (possibly Tuesday).",
+        "quote": "She's currently still working on the Penguin Town for course 13."
+      }
+    ],
+    "others": [
+      {
+        "name": "Sauraen",
+        "findings": [
+          {
+            "topic": "technical",
+            "importance": "high",
+            "summary": "Kaze attributes an impressive, unrevealed contribution for the game’s ‘retro section’ to Sauraen, implying an advanced technical feature or presentation element being saved for later.",
+            "quote": "Sauraen did the coolest thing ever for the retro section that I will not show you guys yet."
+          }
+        ]
+      }
+    ]
+  },
+  "memorable_quotes": [
+    {
+      "speaker": "Kaze",
+      "quote": "These old levels are going to become a lot more playable soon because we broke them over time with engine updates.",
+      "context": "A candid acknowledgement of the cost of engine iteration on a long-running ROMhack project, and why maintenance/restoration work becomes part of the creative process."
+    }
+  ],
+  "key_stories": [
+    {
+      "title": "Designing the ship approach whiteout and conditional visibility",
+      "summary": "Kaze iterates on an overworld moment where approaching a ship should wash the scene out to white. He describes a conditional state tied to a lighthouse objective: if completed, the ship remains visible while the rest fades out.",
+      "challenge": "Fog can’t simply be enabled globally because it becomes visible from afar and breaks the intended contrast between nearby and distant regions; the whiteout must feel localized and progressive.",
+      "process": "He tests changes to fog start distance, considers prim-color fades, and explores a fog controller that switches fog behavior based on player position (bridge-side gating).",
+      "outcome": "He gets a version that ‘kind of’ works and likes the direction, but notes further tuning is needed (fog should start earlier and some areas still lack fog where he wants it).",
+      "key_quote": "The idea is that as soon as you walk here you just kind of fade out unless you did the lighthouse thing in which case the ship will stay visible but everything else will go white.",
+      "related_to": [
+        "kaze"
+      ]
+    },
+    {
+      "title": "Turning overworld decoration into gameplay with grape actors",
+      "summary": "Kaze decides the overworld should have individual grapes the player can bounce off of, meaning they must be implemented as separate actors with their own collision and materials. He builds and tests them live, including visuals and audio feedback.",
+      "challenge": "A single combined mesh wouldn’t support the intended interaction; each grape needs proper collision/behavior setup, and he initially forgets several required integration steps.",
+      "process": "He creates the grape shape/material approach using prim color + texture, then adds collision and sound and fixes missing setup elements (e.g., ‘stunning area’ and file integration).",
+      "outcome": "He ends up satisfied with the look and interaction: “I like the grapes,” and the area starts to feel more complete.",
+      "key_quote": "I think we want individual grapes. That you bounce off of. And they need to be separate actors.",
+      "related_to": [
+        "kaze"
+      ]
+    }
+  ],
+  "open_questions": [
+    {
+      "topic": "Sauraen’s ‘retro section’ breakthrough",
+      "context": "Kaze repeatedly highlights that Sauraen made an extremely cool contribution for the ‘retro section,’ but refuses to show it yet.",
+      "questions": [
+        "What exactly did Sauraen build for the ‘retro section’ (tooling, rendering feature, microcode work, scene, transition, etc.)?",
+        "Why is it being held back from viewers—spoiler concerns, not production-ready, or part of a planned reveal?",
+        "What problem did it solve (performance, authenticity, compatibility, aesthetic goal), and how did it change the direction of the retro section?"
+      ],
+      "related_to": [
+        "kaze"
+      ]
+    },
+    {
+      "topic": "Lighthouse objective and ship visibility logic",
+      "context": "Kaze describes an overworld moment where the ship stays visible only if the player has done a ‘lighthouse thing,’ while everything else fades to white.",
+      "questions": [
+        "What is the ‘lighthouse thing’ in gameplay terms (quest, puzzle, star requirement, switch)?",
+        "Is the ship a hub transition, a level entrance, or a narrative/atmosphere setpiece?",
+        "How is this state tracked in the overworld—save flags, event triggers, or star counts—and how early did this idea exist in the overworld plan?"
+      ],
+      "related_to": [
+        "kaze"
+      ]
+    },
+    {
+      "topic": "Fog controller architecture and constraints",
+      "context": "He tries to localize fog by switching fog behavior based on where the player is (bridge-side gating) and adjusting fog start distances, but runs into visibility-from-distance issues.",
+      "questions": [
+        "How is the fog controller implemented in the decomp-based engine (per-area volumes, distance-based params, per-camera settings, or per-geo node effects)?",
+        "What are the hard constraints that prevent a clean whiteout (global render state, scene graph limitations, N64 fog register behavior)?",
+        "Did this lead to broader engine changes (e.g., region-based render-state changes, shader pipeline updates) that benefit other levels too?"
+      ],
+      "related_to": [
+        "kaze"
+      ]
+    },
+    {
+      "topic": "Refactor: ‘removing loops’ and converting to ‘ticks’",
+      "context": "Kaze mentions replacing loops with tick-based updates while working on the grape code and general cleanup.",
+      "questions": [
+        "What specific ‘loops’ were removed (game update loops, object behavior loops, scripting loops), and what was wrong with the previous approach?",
+        "Was this driven by performance on real N64 hardware, determinism/bug reduction, or maintainability?",
+        "Did this change require touching many actors/behaviors, and did it introduce regressions like the ‘old levels broke over time’ issue?"
+      ],
+      "related_to": [
+        "kaze"
+      ]
+    },
+    {
+      "topic": "Zeina’s Course 13 – Penguin Town ownership and pipeline",
+      "context": "Kaze says Zeina is still working on Penguin Town for Course 13 and that it’s meant to feel ‘cozy and depressing.’",
+      "questions": [
+        "What is Zeina’s end-to-end responsibility for Penguin Town (layout, modeling, texturing, NPCs, animation, storytelling)?",
+        "What tools does she use (Blender/Fast64/custom exporters), and where do handoffs to Kaze typically break down (collision, scripting, memory budgets)?",
+        "What does ‘cozy and depressing’ mean in concrete design terms—lighting, music direction, NPC dialogue, pacing—and what inspired that tone?"
+      ],
+      "related_to": [
+        "kaze",
+        "zeina"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,234 @@
+{
+  "stream_context": {
+    "summary": "Kaze blocks out and iterates on the layout for a craft-material “cardboard diorama” level (Course 14), trying to avoid linear routes while filling large empty spaces with believable craft props (e.g., toilet-paper-roll mushroom platforms, fences, crayons). He repeatedly checks real N64 performance, identifies overdraw/RDP as the main bottleneck, and mentions concrete micro-optimizations he made to the renderer (saving ~30 instructions). He also briefly discusses near-term plans (a public-ish demo limited to Course 1) and content/business realities (commissions, invoicing issues).",
+    "level": [
+      "Course 14"
+    ],
+    "significance": "notable",
+    "significance_reason": "Contains clear statements of the project’s visual philosophy (realistic craft materials and visible seams), concrete level-design goals for nonlinearity, real-hardware performance diagnosis (RDP/overdraw), and a specific demo-scope update (Course 1 only)."
+  },
+  "findings": [
+    {
+      "topic": "design",
+      "importance": "high",
+      "summary": "Course 14’s core premise is a “craft-material diorama” (cardboard, gift wrap, toilet paper rolls, staples, crayons, rulers), and Kaze emphasizes that the material read has to be convincing; small realism errors break the illusion.",
+      "quote": "The seam is very important to me."
+    },
+    {
+      "topic": "design",
+      "importance": "high",
+      "summary": "He actively redesigns the opening navigation to reduce linearity, sketching multiple walkable paths from the spawn and adjusting the spawn location to be more central and balanced (inspired by open layouts like Bowser’s Fury rather than a straight corridor).",
+      "quote": null
+    },
+    {
+      "topic": "design",
+      "importance": "medium",
+      "summary": "He prototypes a specific traversal setpiece: a paper airplane platform that will transport Mario to a separate island/pipe area, treating it as a core route connector rather than decoration.",
+      "quote": null
+    },
+    {
+      "topic": "design",
+      "importance": "medium",
+      "summary": "He settles on a new platform prop: “paper mushrooms” crafted from a toilet paper roll stem with shiny gift-wrap cap and a visible staple; he debates which real craft supplies feel authentic (staples vs. pipe cleaners, plates, etc.) and chooses staples plus reflective sheen to sell “wrap paper.”",
+      "quote": null
+    },
+    {
+      "topic": "design",
+      "importance": "medium",
+      "summary": "Difficulty tuning is explicitly on his mind: he wants hard optional platforming (e.g., tiny pin jumps to reach a collectible/Yoshi coin) but avoids forcing long-jumps constantly, even though he frames this as a late-game course.",
+      "quote": null
+    },
+    {
+      "topic": "design",
+      "importance": "medium",
+      "summary": "A planned star objective is outlined: a “Luigi doodle” NPC/interaction where the player draws a star for Luigi to receive a star reward, indicating Course 14 includes bespoke mission scripting beyond pure platforming.",
+      "quote": null
+    },
+    {
+      "topic": "technical",
+      "importance": "high",
+      "summary": "Real N64 performance profiling shows the level is currently RDP-bound due to massive overdraw (RDP ~36.8 ms vs RSP ~18 ms). He notes the background still uses the Z-buffer and that he has not done overdraw optimization yet; he expects performance to improve once geometry is cut/culled and overdraw reduced.",
+      "quote": null
+    },
+    {
+      "topic": "technical",
+      "importance": "high",
+      "summary": "He reports concrete low-level engine/render improvements: saving ~30 instructions in “graph render” by caching the GMAT stack index instead of recomputing it in loops, plus small instruction savings across multiple functions; he also found optimizations to Wiseguy’s MTXF shadow function by inlining VAC3F cross and using the restrict keyword. He considers a further refactor suggested by chat: replacing GMAT stack index with GMAT stack add to save ~20 instructions.",
+      "quote": null
+    },
+    {
+      "topic": "technical",
+      "importance": "medium",
+      "summary": "Testing differences across emulators/hardware: he observes the level looks more saturated in Nemu/Nemio than in Project64, and he confirms anti-aliasing toggling affects framerate (e.g., AA turning on dropped him from ~50 FPS to ~43).",
+      "quote": null
+    },
+    {
+      "topic": "business",
+      "importance": "medium",
+      "summary": "He states a demo is coming soon and will be “somewhat public,” but it will only include Course 1 (no broader slice). He also considers making simpler YouTube educational content (e.g., BLJ explanations) as “easy content,” but finds similar deep-dive videos already exist.",
+      "quote": null
+    },
+    {
+      "topic": "business",
+      "importance": "low",
+      "summary": "He mentions he has received about $3,500 from SimpleFlips but can’t invoice properly because he lacks address details needed for sales tax, implying occasional admin friction around contractor/self-employment work.",
+      "quote": null
+    },
+    {
+      "topic": "technical",
+      "importance": "low",
+      "summary": "He strongly prefers the SummerCart64 for ROM uploading/testing (USB-linked, fast uploads) and calls EverDrive X7 unreliable on his setup, making iteration speed and reliability part of his development workflow.",
+      "quote": null
+    }
+  ],
+  "contributor_findings": {
+    "biobak": [],
+    "badub": [],
+    "zeina": [
+      {
+        "topic": "team",
+        "importance": "low",
+        "summary": "Zeina is present in the stream context as a moderating/support role (“chat mom now”), suggesting she sometimes provides community-facing support during development streams.",
+        "quote": null
+      }
+    ],
+    "others": [
+      {
+        "name": "Lilaa",
+        "findings": [
+          {
+            "topic": "technical",
+            "importance": "low",
+            "summary": "Kaze jokingly blames Lilaa for a Fast64 error and later interacts with her in chat; she also appears to have sent him a texture/image via Discord during the toilet-paper-roll texture search.",
+            "quote": null
+          }
+        ]
+      },
+      {
+        "name": "Unidentified chat contributor",
+        "findings": [
+          {
+            "topic": "technical",
+            "importance": "medium",
+            "summary": "A chat suggestion prompts Kaze to consider replacing GMAT stack index usage with GMAT stack add (pointer increment/decrement approach) to reduce instructions further, and he explicitly commits to trying it.",
+            "quote": null
+          }
+        ]
+      }
+    ]
+  },
+  "memorable_quotes": [
+    {
+      "speaker": "Kaze",
+      "quote": "The seam is very important to me.",
+      "context": "Explaining why cardboard/texture detail must visibly read as real craft construction for the whole visual style to work."
+    },
+    {
+      "speaker": "Kaze",
+      "quote": "We have the disadvantage that because we’re working with real world materials here… if it looks off just a little bit it’s going to be very obvious that it’s wrong.",
+      "context": "Art-direction philosophy: realism/recognizability of craft materials is central, and small mistakes break immersion."
+    },
+    {
+      "speaker": "Kaze",
+      "quote": "So we used around half of our polygon budget for the level… but we use more than half, more than our entire RDP budget… and that means it’s all the overdraw.",
+      "context": "Clear, documentary-friendly explanation of the main performance bottleneck on original N64 hardware."
+    }
+  ],
+  "key_stories": [
+    {
+      "title": "Designing a non-linear cardboard diorama course",
+      "summary": "Kaze iterates on Course 14’s macro layout by drawing intended walk paths and reconsidering the spawn location to avoid a single obvious route. He compares his goal to open-ended 3D Mario spaces (e.g., Bowser’s Fury) and focuses on making each path serve a gameplay purpose rather than filler.",
+      "challenge": "Early blockout felt too linear and empty, with large flat cardboard surfaces that weren’t fun to traverse.",
+      "process": "He sketches multiple routes, considers path marking, relocates spawn to a central spot, and adds traversal connectors like a paper airplane to reach a separate island/pipe area.",
+      "outcome": "A clearer multi-path plan emerges, with specific connectors and planned platform props to populate empty space; final placement remains flexible.",
+      "key_quote": "I don’t like this. This is all too linear and obvious.",
+      "related_to": [
+        "kaze"
+      ]
+    },
+    {
+      "title": "Selling the craft-material illusion through specific props",
+      "summary": "To fill space without breaking the style, Kaze prototypes paper mushroom platforms made from a toilet paper roll and shiny gift wrap, including an intentionally visible staple. He repeatedly rejects assets/textures that look “too fake” or too complex to model within budget, emphasizing readable, believable construction.",
+      "challenge": "Large areas need traversal props, but the project’s realism depends on craft materials looking authentic while staying within N64 polygon/render limits.",
+      "process": "He searches references, debates which craft supplies people would realistically use, builds a simplified model, creates/edits tiling textures from found images, and tweaks shading to add a subtle reflective sheen for gift wrap.",
+      "outcome": "A workable mushroom platform asset is established (TP-roll stem + wrap cap + staple), with ongoing shader/texture tweaks to better sell paper at the top surface.",
+      "key_quote": "Because we all know wrap paper has a little bit of a shine to it.",
+      "related_to": [
+        "kaze"
+      ]
+    },
+    {
+      "title": "Diagnosing N64 slowdown: polygons are fine, overdraw is not",
+      "summary": "Kaze tests the level on real N64 and confirms the framerate issues are primarily RDP/overdraw related rather than raw triangle count. He notes the background still uses Z-buffering and that he hasn’t done basic cutout/optimization passes yet, so performance should improve with targeted overdraw reduction.",
+      "challenge": "The course runs with “not great” framerate on hardware and he needs to know whether geometry complexity or pixel overdraw is the culprit.",
+      "process": "He profiles RSP vs RDP times, checks settings like anti-aliasing, and visually inspects the scene to identify heavy overdraw and unoptimized background rendering.",
+      "outcome": "Actionable diagnosis: prioritize overdraw reduction/cutouts and background Z-buffer optimizations; triangle budget is only ~half used at this stage.",
+      "key_quote": "That means it’s all the overdraw.",
+      "related_to": [
+        "kaze"
+      ]
+    }
+  ],
+  "open_questions": [
+    {
+      "topic": "Course 14 mission design: “Luigi doodle” star",
+      "context": "Kaze describes an objective where a Luigi doodle gives a star after the player draws a star for him, implying a custom interaction/minigame system.",
+      "questions": [
+        "How does the ‘draw a star for Luigi’ mechanic work mechanically—analog drawing, selecting strokes, placing an item, or triggering a scripted sequence?",
+        "Was this mechanic built specifically for Course 14, or is it a reusable system for other Yoshi’s Island-themed missions?",
+        "What made you choose Luigi as the ‘doodle’ quest giver in a Yoshi’s Island-themed hack—any narrative or tone reason?"
+      ],
+      "related_to": [
+        "kaze"
+      ]
+    },
+    {
+      "topic": "Demo scope and timing",
+      "context": "Kaze says a demo will release soon and be somewhat public, but only includes Course 1 and not a broader slice.",
+      "questions": [
+        "What does ‘somewhat public’ mean operationally—limited link, patrons/discord first, timed release, or public download with caveats?",
+        "Why is the demo limited to Course 1—production readiness, spoiler control, or keeping expectations manageable?",
+        "What needs to be finished internally before you feel safe releasing even a Course 1-only build (stability, legal concerns, polish, performance)?"
+      ],
+      "related_to": [
+        "kaze"
+      ]
+    },
+    {
+      "topic": "Performance roadmap for Course 14 (overdraw/RDP bottleneck)",
+      "context": "Profiling shows RDP time dominated by overdraw; background currently uses Z-buffer and little optimization has been applied.",
+      "questions": [
+        "What specific overdraw-reduction techniques do you plan to apply (mesh cutouts, tighter bounds, draw order changes, background render mode changes, Z-buffer disable for certain layers)?",
+        "Do you have a target framerate for real N64 by default (30 capped vs optional uncapped), and what drove that decision?",
+        "How do you decide when a visual flourish (e.g., sheen, decals, dense props) is worth the RDP cost?"
+      ],
+      "related_to": [
+        "kaze"
+      ]
+    },
+    {
+      "topic": "Renderer micro-optimizations and team knowledge sharing",
+      "context": "Kaze cites saving ~30 instructions in graph render (caching GMAT stack index) and mentions improvements to Wiseguy’s MTXF shadow function, considering a chat-suggested refactor (GMAT stack add).",
+      "questions": [
+        "How do you measure and prioritize ‘instruction savings’ work versus content creation—do you have a profiling threshold that triggers optimization sessions?",
+        "What was the real-world impact of the ~30-instruction savings (measurable FPS increase, more headroom for effects, fewer frame spikes)?",
+        "Who originally authored/maintains the relevant render code (Wiseguy/others), and how do these optimizations get reviewed or integrated across the project?"
+      ],
+      "related_to": [
+        "kaze"
+      ]
+    },
+    {
+      "topic": "Art-direction rule: realism of craft materials and visible seams",
+      "context": "Kaze repeatedly insists materials must read as real objects (wrap paper needs shine, seams must be visible), rejecting assets that look ‘too fake’ or too complex for the poly budget.",
+      "questions": [
+        "Did you formalize any ‘style bible’ rules (seams visible, glue marks, imperfect cuts), and how do you communicate them to artists/collaborators?",
+        "What are your go-to checks to decide if a prop reads as the intended material on real N64 output (CRT/composite blur, limited texture detail, lighting differences across emulators)?",
+        "Where do you intentionally break realism for gameplay clarity, and how do you keep it feeling ‘handmade’ rather than ‘cheap’?"
+      ],
+      "related_to": [
+        "kaze"
+      ]
+    }
+  ]
+}

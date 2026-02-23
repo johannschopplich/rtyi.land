@@ -1,0 +1,240 @@
+{
+  "stream_context": {
+    "summary": "Kaze greyboxes/platforms for Course 13 (an ice-castle level), focusing on implementing an interactive ice platform that cracks and then disappears with a custom material/shader approach and added particle/VFX. The stream also includes a major personal update (expecting a child soon) that affects near-term scheduling and release planning.",
+    "level": [
+      "Course 13 – Ice Castle"
+    ],
+    "significance": "notable",
+    "significance_reason": "Introduces a major personal timeline constraint (baby due in ~2 months) and captures a real, end-to-end implementation attempt of a signature platform mechanic (cracking + dissolving ice) including an accidental fix to a long-standing pointer/misalignment bug."
+  },
+  "findings": [
+    {
+      "topic": "design",
+      "importance": "medium",
+      "summary": "Course 13’s immediate goal is to move from broad level outline into playable platforming by building the core platform pieces as 3D models first, then iterating on “fun platforming” with them.",
+      "quote": null
+    },
+    {
+      "topic": "design",
+      "importance": "high",
+      "summary": "Kaze identifies key ice-castle platforming set pieces to prioritize: cracking ice platforms (crack-on-first / break-on-second), spinning ice shards you can run on and jump off at angles, and wind gusts (implying windows/architecture that justifies them).",
+      "quote": null
+    },
+    {
+      "topic": "team",
+      "importance": "medium",
+      "summary": "Kaze wants to include “Biobak’s appearing path” mechanic (a path that fades/appears as the player approaches, likened to Mario Galaxy light platforms), but notes the castle was modeled without planning space for it; he considers placing it in an “abyss room” or the “snowman hideout.”",
+      "quote": null
+    },
+    {
+      "topic": "personal",
+      "importance": "high",
+      "summary": "Kaze reveals he and Zeina are expecting a baby girl in about two months, and implies this may prevent him from attending/doing an F3 event this year.",
+      "quote": "We’re going to have a kid in like two months. That’s the birth date."
+    },
+    {
+      "topic": "business",
+      "importance": "medium",
+      "summary": "For an upcoming release video (context: “the slide”), Kaze says Eiza has a special plan that is intended to be “a little bit of a documentary thing,” and Kaze is waiting on that direction before finishing the release video.",
+      "quote": null
+    },
+    {
+      "topic": "technical",
+      "importance": "high",
+      "summary": "Kaze prototypes and implements a custom cracked-ice platform visual system using multiple textures/material logic (cutout vs transparent decal) to support (1) cracks intensifying and (2) the platform dissolving/disappearing, while staying within N64 rendering constraints (e.g., I4/I8 texture formats, limited channels).",
+      "quote": null
+    },
+    {
+      "topic": "technical",
+      "importance": "high",
+      "summary": "While adding a new geo/material function for the platform, Kaze repeatedly hits crashes due to small but critical mistakes (e.g., not returning from a geo function; reading the wrong timer), highlighting how fragile graphics-thread state is in this engine context.",
+      "quote": null
+    },
+    {
+      "topic": "technical",
+      "importance": "high",
+      "summary": "Kaze discovers he was reading the wrong value for timing (confusing a timer value with a register/display list head pointer), which caused the dissolve logic to pull random memory instead of the intended timer.",
+      "quote": "I wasn’t reading the timer… it was reading a random memory address instead of the timer."
+    },
+    {
+      "topic": "technical",
+      "importance": "high",
+      "summary": "A separate, long-standing bug where ROM/RAM pointers became misaligned—causing music and animations to stop in the second area—may have been fixed accidentally during this work; Kaze frames this as a reason he often postpones dedicated bug-fixing until late because fixes sometimes emerge as side effects of other changes.",
+      "quote": "I think I just fixed that whole thing on accident… this is why I don’t go bug fixing until like the very end sometimes."
+    },
+    {
+      "topic": "design",
+      "importance": "medium",
+      "summary": "Kaze realizes the cracked-ice dissolve reads more like “melting” than cracking; he decides the effect may be acceptable if paired with additional VFX (triangle shards + mist/dust) to hide imperfections and sell the break.",
+      "quote": null
+    },
+    {
+      "topic": "design",
+      "importance": "medium",
+      "summary": "The platform is designed to be safe/readable: Kaze notes the need to introduce it without killing players on first encounter, and he also plans for the platform to respawn/reset after some time so it can’t soft-lock progression.",
+      "quote": null
+    },
+    {
+      "topic": "design",
+      "importance": "medium",
+      "summary": "A movement exploit changed as a side effect of a bug fix: a triple-jump setup no longer works. Kaze is undecided about restoring it, weighing “exploit/cheese” potential versus player freedom; chat suggests restoring some tech while removing kicks as a compromise.",
+      "quote": "I’m 50-50 on whether I want it in the game. Because it kind of feels like an exploit already."
+    },
+    {
+      "topic": "team",
+      "importance": "low",
+      "summary": "Kaze states Zeina likely wouldn’t be a good fit as video editor because she doesn’t know the technical details of what he’s doing; he also mentions he hates video editing and lacks a dedicated editor.",
+      "quote": null
+    }
+  ],
+  "contributor_findings": {
+    "biobak": [
+      {
+        "topic": "design",
+        "importance": "medium",
+        "summary": "Biobak’s “appearing path” platform concept is explicitly requested by Kaze for Course 13, and Kaze starts planning where it could be integrated despite earlier modeling not accounting for it.",
+        "quote": null
+      },
+      {
+        "topic": "technical",
+        "importance": "high",
+        "summary": "Biobak provides a Blender file/material concept (and/or textures) that Kaze references while rebuilding the cracked-ice material. Kaze directly asks whether Biobak’s vision matches a two-texture approach where one controls crack visibility and another controls dissolve/threshold.",
+        "quote": "Biobak, is this what you were thinking? Because if so, I think this has potential."
+      },
+      {
+        "topic": "design",
+        "importance": "low",
+        "summary": "Biobak (via DM) shares “snowy ice bricks” concept art; Kaze responds that the ice-brick look likely requires a shader-like approach (glow/reflection effect), not just a texture.",
+        "quote": null
+      }
+    ],
+    "badub": [],
+    "zeina": [
+      {
+        "topic": "personal",
+        "importance": "medium",
+        "summary": "Zeina is referenced in the baby announcement and naming discussion (Kaze jokes about naming the child “Reina” as a rival to “Zana”); Zeina also bought Kaze the Dragon Ball shirt he’s wearing on stream.",
+        "quote": null
+      }
+    ],
+    "others": []
+  },
+  "memorable_quotes": [
+    {
+      "speaker": "Kaze",
+      "quote": "We’re going to have a kid in like two months. That’s the birth date.",
+      "context": "Major life update that will shape production pace, availability, and how the team plans releases/promos near launch."
+    },
+    {
+      "speaker": "Kaze",
+      "quote": "I think I just fixed that whole thing on accident… this is why I don’t go bug fixing until like the very end sometimes.",
+      "context": "Reveals his development philosophy and how engine-level work in a decomp project can create unexpected side effects (good and bad)."
+    },
+    {
+      "speaker": "Kaze",
+      "quote": "I wasn’t reading the timer… it was reading a random memory address instead of the timer.",
+      "context": "A concise illustration of how easy it is to misread state on N64/graphics-thread code and why debugging can be brutal."
+    }
+  ],
+  "key_stories": [
+    {
+      "title": "Building the cracked-ice platform mechanic",
+      "summary": "Kaze attempts to create an ice platform that visually cracks as you step/jump on it and then convincingly disappears, while also remaining readable and fair for players. He iterates through texture/material constraints, realizes the dissolve reads like melting, and decides to lean on added VFX (ice triangles + mist/dust) to sell the break.",
+      "challenge": "Create a satisfying crack-then-break animation on N64 constraints (limited texture formats/channels; Blender preview not matching in-game; cutout vs transparency ordering).",
+      "process": "Defines gameplay beats (crack intensity steps, then break), prototypes material math (threshold/dither vs primitive alpha), tests in-engine repeatedly, adds triangle shard particles and mist to mask harsh transitions, and tunes timing to avoid sudden endings or unreadable cracks.",
+      "outcome": "Mechanic works end-to-end (crack steps + dissolve + particles), but Kaze is still unhappy with the look and expects future inspiration/iteration; he also notes the need for respawn/reset behavior.",
+      "key_quote": "Okay, it disappears, but… the way it disappears looks really bad.",
+      "related_to": [
+        "kaze",
+        "biobak"
+      ]
+    },
+    {
+      "title": "Accidental fix to a pointer misalignment bug",
+      "summary": "While implementing new geo/material logic, Kaze fixes crashes and notices a previously observed issue where entering the second area could stop music and animations—attributed to misaligned ROM/RAM pointers. He suspects the new change may have resolved it unintentionally and uses the moment to justify his tendency to defer dedicated bug-fixing.",
+      "challenge": "A long-standing, intermittent misalignment bug that impacted area transitions (music/animation stopping) plus immediate crashes from new geo code mistakes.",
+      "process": "Adds a new geo function, hits a crash (missing return), corrects logic, and later realizes other systemic behavior appears corrected; reflects on how changes in one subsystem can fix another unexpectedly.",
+      "outcome": "Bug may be fixed “on accident,” reinforcing his workflow preference to prioritize forward progress and catch/fix bugs opportunistically.",
+      "key_quote": "No way that fixed the bug… what the hell.",
+      "related_to": [
+        "kaze"
+      ]
+    },
+    {
+      "title": "Personal timeline shift: baby due soon",
+      "summary": "Kaze shares that he and Zeina are expecting a baby girl in roughly two months, and this likely affects travel/appearance plans (e.g., F3 this year). The announcement surfaces casually mid-dev work, showing how personal life is now interleaving with production decisions.",
+      "challenge": "Balancing a major life event with an ongoing long-form technical game project and public-facing release expectations.",
+      "process": "He states the timeline openly, answers chat questions, and immediately frames implications (F3 might not be possible).",
+      "outcome": "A new real-world constraint is established for future scheduling, workload division, and release planning.",
+      "key_quote": "I don’t know if I can do an F3 this year. Because I’m going to have a child releasing in a bit.",
+      "related_to": [
+        "kaze",
+        "zeina"
+      ]
+    }
+  ],
+  "open_questions": [
+    {
+      "topic": "Course 13 “appearing path” implementation scope",
+      "context": "Kaze wants Biobak’s appearing-path platform (proximity-based reveal) but modeled the castle without planning for it; he mentions placing it in an abyss room or snowman hideout.",
+      "questions": [
+        "Where exactly did the appearing-path mechanic originate (inspiration/reference), and what gameplay purpose will it serve in Course 13 (navigation, tension, secret routing)?",
+        "What technical approach will you use for the appearance (alpha threshold, draw distance triggers, collision toggling), and what were the N64 constraints that shaped it?",
+        "Did the already-modeled castle layout force compromises (cutting rooms, repurposing spaces) to fit this mechanic?"
+      ],
+      "related_to": [
+        "kaze",
+        "biobak"
+      ]
+    },
+    {
+      "topic": "Final design of cracked-ice platform visuals and fairness",
+      "context": "The crack/dissolve currently reads as melting; cracks are hard to see; Kaze plans VFX and a reset/respawn behavior to avoid soft-locks and to improve readability.",
+      "questions": [
+        "What is the intended player read (audio cue, texture contrast, particles) that signals ‘one more step and it breaks’ without feeling cheap?",
+        "How many “states” will the platform have (2-step vs 3-step), and will the state be tied to jumps, time-on-platform, or total contacts?",
+        "What are the rules for respawn/reset (time-based, room reload, distance-based), and how do you prevent sequence breaks or accidental soft-locks?"
+      ],
+      "related_to": [
+        "kaze",
+        "biobak"
+      ]
+    },
+    {
+      "topic": "Accidental pointer misalignment fix (music/animations stopping in area 2)",
+      "context": "Kaze reports a previously known issue where pointer misalignment stopped music/animations after entering a second area, and he believes it may now be fixed unintentionally.",
+      "questions": [
+        "Can you reproduce the original bug reliably, and what evidence convinced you it’s fixed now?",
+        "What code change likely caused the fix (return value, geo function memory behavior, display list head handling), and what does that reveal about the engine’s memory model?",
+        "Was Arthur (mentioned as wanting to fix it) working on a different solution, and how did you coordinate tracking this issue?"
+      ],
+      "related_to": [
+        "kaze"
+      ]
+    },
+    {
+      "topic": "Movement-tech policy: restore removed triple-jump setup or not",
+      "context": "A bug fix removed a not-intended triple-jump setup; Kaze is undecided about restoring it; chat suggests restoring while removing kicks to reduce cheese.",
+      "questions": [
+        "What’s your overall stance on unintended movement tech in Return to Yoshi’s Island—embrace as expression, or eliminate for curated challenge?",
+        "Are there levels/star challenges that implicitly rely on this tech (even if unintended), or would it mainly enable skips?",
+        "If you restore it, will you formalize it (tutorialization, consistent input window), or keep it as hidden tech?"
+      ],
+      "related_to": [
+        "kaze"
+      ]
+    },
+    {
+      "topic": "Release video/documentary-style plan with Eiza",
+      "context": "Kaze says Eiza has a plan for a “little bit of a documentary thing” for an upcoming release video, and Kaze is waiting on that before finishing the video.",
+      "questions": [
+        "What is ‘the slide’ release, and what does the ‘documentary thing’ include (team interviews, dev footage, narrative framing)?",
+        "Why wait on Eiza’s concept—what decisions does it affect (assets needed, capture shots, messaging, reveal pacing)?",
+        "What’s the intended audience: ROMhack community, general Mario 64 fans, or broader YouTube viewers?"
+      ],
+      "related_to": [
+        "kaze"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,230 @@
+{
+  "stream_context": {
+    "summary": "Kaze does incremental development on RTY, focusing on a new snowman/Mr. Blizzard-style enemy and early layout work for a room-based icy castle area. He also discusses technical infrastructure work (Sauraen’s trace import for profiling/optimization, toggleable anti-aliasing) and introduces a temporary test overworld to quickly access and test all levels.",
+    "level": [
+      "Overworld"
+    ],
+    "significance": "notable",
+    "significance_reason": "Introduces a new testing workflow (test overworld), completes a first-pass implementation of a new enemy behavior, and outlines upcoming optimization/graphics toggles (Sauraen trace + AA). Also includes personal timeline context (child due in under two weeks) and a small but clear example of Kaze’s iterative design process with chat feedback."
+  },
+  "findings": [
+    {
+      "topic": "technical",
+      "importance": "high",
+      "summary": "Kaze is working toward importing Sauraen’s trace tooling, expecting it to significantly improve profiling and optimization by revealing inefficient game behavior.",
+      "quote": "Once Sauraen’s trace is in, it’s going to be a lot easier to program. It’s going to make optimization so much easier."
+    },
+    {
+      "topic": "technical",
+      "importance": "medium",
+      "summary": "An N64 hardware test of the project (or a recent build) performed better than expected, running near-perfect without any optimization work yet, implying headroom for further improvements once profiling is in place.",
+      "quote": "It ran near perfect without even optimizing anything. It’s not optimized at all yet."
+    },
+    {
+      "topic": "technical",
+      "importance": "medium",
+      "summary": "Kaze mentions he’s using time off from his day job to tackle long-postponed features, including an “enable NA option” (context suggests a graphics/video option) and a longer-term goal of adding toggleable anti-aliasing.",
+      "quote": "My offline project right now is programming the anti-aliasing options… we finally have a toggleable anti-aliasing."
+    },
+    {
+      "topic": "technical",
+      "importance": "medium",
+      "summary": "The project’s “official” overworld is temporarily removed and replaced with a new test overworld used purely for QA: exiting levels returns to a debug hub that allows quickly testing any level. This exposes rendering/camera problems across levels during rapid iteration.",
+      "quote": "The official RTY overworld is reduced to nothing again… this is important for testing. Now we can test all the levels whenever we want."
+    },
+    {
+      "topic": "design",
+      "importance": "high",
+      "summary": "Kaze designs and implements a new snowman enemy (3D Mr. Blizzard) with a key animation/behavior concept: the head detaches/rolls toward Mario while the body resets/spawns another head. He iterates on whether the enemy should rotate to track Mario and decides it should mostly not rotate to avoid weird behavior in vertical platforming contexts.",
+      "quote": "If we had him rotate around towards Mario, then he would be shooting his head upwards and I don’t like that… let’s not mostly roll free, but also kind of approach Mario."
+    },
+    {
+      "topic": "design",
+      "importance": "medium",
+      "summary": "Enemy tuning issues are identified during live testing: attack rate is too fast, scale/offset/shadow need adjustment, and collision/pushing against walls can cause odd movement; Kaze reduces size and plans further physics work (slope accel/decel, wall bounce, shatter effect).",
+      "quote": "Next, we just need to give it slope physics… then we need to make this shatter and… give it some wall bounce."
+    },
+    {
+      "topic": "design",
+      "importance": "high",
+      "summary": "The icy castle level is being structured as a set of “rooms” connected via doorways/windows, with intended player-friendly fail states: missed jumps should still drop you somewhere navigable rather than hard-punishing resets. Kaze has not yet implemented the room system but is already blocking out how rooms will be hidden/revealed.",
+      "quote": "I haven’t programmed the room system yet, but that’s how it’s gonna work… you can just go wherever you want… and it doesn’t even matter if you miss a jump because you’re always gonna end somewhere."
+    },
+    {
+      "topic": "design",
+      "importance": "medium",
+      "summary": "Planned first-room readability: Kaze wants the player to enter and immediately see a star and key visual landmarks (penguin statues), but calls the current setup too contrived and considers removing non-functional slides to improve theming and flow.",
+      "quote": "I think I’m going to change the first room… it’s a bit stupid. It’s like too contrived."
+    },
+    {
+      "topic": "design",
+      "importance": "medium",
+      "summary": "A specific small puzzle/interaction is outlined: a pushable snowman (separate from the enemy) will fall into a window/opening to reveal or grant access to a star behind it, tying the snowman concept to level progression.",
+      "quote": "There’s a snowman here and you push it and it falls into this window and there’s a star behind it."
+    },
+    {
+      "topic": "technical",
+      "importance": "low",
+      "summary": "Kaze considers adding reflective/‘Mario-like’ reflections to an ice-carpet surface but notes it would roughly double triangle count for the room, suggesting it’s a late-stage polish task once performance budgets are clearer.",
+      "quote": "I can add that, but then it doubles the tri count of this room… it’s going to be something that we have to do at the end."
+    },
+    {
+      "topic": "technical",
+      "importance": "low",
+      "summary": "A coyote-timer-related bug/side effect is noticed: double-jump sounds trigger unexpectedly, indicating small systemic interactions between movement assists and audio triggers that need cleanup.",
+      "quote": "You heard the double jump sounds? Oh, that’s from the coyote timer."
+    },
+    {
+      "topic": "personal",
+      "importance": "medium",
+      "summary": "Kaze states his child is expected in less than two weeks, setting a near-term real-life milestone that may affect schedule/availability. He also explains Zeina appears less on streams because they moved and she now has her own office.",
+      "quote": "Can you guys believe it’s just two weeks until my child is born?"
+    }
+  ],
+  "contributor_findings": {
+    "biobak": [
+      {
+        "topic": "design",
+        "importance": "medium",
+        "summary": "Biobak provides real-time feedback on the snowman enemy’s presentation and scale/readability, contributing to Kaze’s iteration (e.g., concerns about large sprites/visuals and whether size/behavior feels right).",
+        "quote": null
+      },
+      {
+        "topic": "design",
+        "importance": "low",
+        "summary": "Biobak contributes a visual set-dressing idea for the icy entrance (a carpet concept), prompting Kaze to test an “ice carpet” surface treatment and evaluate how it affects the room’s feel.",
+        "quote": null
+      }
+    ],
+    "badub": [],
+    "zeina": [
+      {
+        "topic": "personal",
+        "importance": "low",
+        "summary": "Zeina is referenced as co-watching shows with Kaze (informal creative companionship) and as having her own office after moving, affecting her stream presence.",
+        "quote": null
+      }
+    ],
+    "others": [
+      {
+        "name": "Sauraen",
+        "findings": [
+          {
+            "topic": "technical",
+            "importance": "high",
+            "summary": "Sauraen’s tracing/profiling tooling is being imported into the project; Kaze expects it to reveal performance bottlenecks and enable large optimization gains.",
+            "quote": null
+          }
+        ]
+      },
+      {
+        "name": "Vazana",
+        "findings": [
+          {
+            "topic": "community",
+            "importance": "low",
+            "summary": "Kaze references Vazana’s video about Diddy Kong Racing findings and considers making a video responding to or building on those findings (outside RTY core dev, but indicates ongoing research/analysis habits).",
+            "quote": "I was actually planning to maybe make a video about his findings."
+          }
+        ]
+      }
+    ]
+  },
+  "memorable_quotes": [
+    {
+      "speaker": "Kaze",
+      "quote": "Once Sauraen’s trace is in, it’s going to make optimization so much easier.",
+      "context": "A clear statement of why the team is investing in tooling: profiling is framed as the unlock for performance and future technical progress."
+    },
+    {
+      "speaker": "Kaze",
+      "quote": "I haven’t programmed the room system yet, but that’s how it’s gonna work… it doesn’t even matter if you miss a jump because you’re always gonna end somewhere.",
+      "context": "Captures a core level-design intention: room-based structure that reduces frustration and keeps player flow, aligning with ‘respectful but new’ Mario 64 design."
+    },
+    {
+      "speaker": "Kaze",
+      "quote": "Can you guys believe it’s just two weeks until my child is born?",
+      "context": "Personal timeline marker that can contextualize productivity bursts, planning decisions, and stress/joy around late-stage development."
+    }
+  ],
+  "key_stories": [
+    {
+      "title": "Replacing the overworld with a test hub to accelerate QA",
+      "summary": "Kaze temporarily removes the ‘official’ RTY overworld and replaces it with a test overworld used to access all stages quickly after exiting a level. The purpose is rapid testing across levels and catching issues like broken camera setups and missing render-distance behaviors (e.g., lava).",
+      "challenge": "Needing faster iteration and broader testing coverage without constantly changing build flags or manually navigating content.",
+      "process": "He sets up a test overworld that acts as a centralized debug walkroom/hub, then uses it to jump between levels and evaluate visuals, camera, and performance.",
+      "outcome": "A faster internal workflow for finding cross-level issues; the official overworld is deferred until later, while the test hub becomes the current development entry point.",
+      "key_quote": "The official RTY overworld is reduced to nothing again… this is important for testing.",
+      "related_to": [
+        "kaze"
+      ]
+    },
+    {
+      "title": "Snowman enemy iteration: readability vs. behavior in vertical platforming",
+      "summary": "Kaze develops a 3D Mr. Blizzard-like enemy whose head rolls toward Mario. He debates animation/rig choices (two faces vs. face emerging) and behavior (rotating to track Mario vs. mostly fixed orientation), guided by how the enemy will be encountered while climbing upward.",
+      "challenge": "Making an enemy that is visually readable and mechanically fair in an ice-castle context, without producing awkward head-launch trajectories in vertical sections.",
+      "process": "He prototypes the model/animation concept, tests scale/shadows/attack rate, and decides the enemy should not freely rotate to face Mario; instead it should have weak tracking and controlled acceleration.",
+      "outcome": "A working first pass where the snowball/head can roll; remaining tasks are slope physics, shatter/glass interaction, wall bounce, and tuning attack cadence.",
+      "key_quote": "If we had him rotate around towards Mario, then he would be shooting his head upwards and I don’t like that.",
+      "related_to": [
+        "kaze",
+        "biobak"
+      ]
+    }
+  ],
+  "open_questions": [
+    {
+      "topic": "Sauraen trace integration and optimization targets",
+      "context": "Kaze expects Sauraen’s trace tooling to expose ‘stupid things going on’ and yield ‘huge boosts,’ but doesn’t specify what systems are currently most expensive or what metrics define success.",
+      "questions": [
+        "What exactly is Sauraen’s trace in your pipeline (CPU sampling, function timing, RSP/RDP profiling, frame breakdowns)?",
+        "What are your current performance bottlenecks on real N64 hardware vs emulator builds?",
+        "Can you share an example of a past ‘stupid’ inefficiency you found in SM64/RTY that profiling revealed and how much performance it recovered?",
+        "How do you decide when to optimize vs keep building content (a rule of thumb or milestone threshold)?"
+      ],
+      "related_to": [
+        "kaze"
+      ]
+    },
+    {
+      "topic": "Room-based level/‘castle feel’ structure and the unimplemented room system",
+      "context": "Kaze is blocking out doorways/windows and says the room system isn’t programmed yet, but the level’s flow depends on it (hiding rooms, connecting spaces, and ensuring missed jumps still land the player somewhere).",
+      "questions": [
+        "What is the technical plan for the room system (scene graph/area loading, portal culling, multiple areas, custom streaming)?",
+        "How does the room system relate to N64 performance goals (occlusion, draw distance, triangle budgets)?",
+        "What rules are you using to ensure ‘missed jumps’ still feel fair—are there intentional safety nets, one-way drops, or loopbacks?",
+        "What inspired this approach—any reference levels from SM64, Banjo, or other 3D platformers?"
+      ],
+      "related_to": [
+        "kaze"
+      ]
+    },
+    {
+      "topic": "Graphics options: toggleable anti-aliasing and “enable NA option”",
+      "context": "Kaze says he’s implementing anti-aliasing options and earlier mentions an “enable NA option,” but the viewer doesn’t get the intended UX, platform constraints, or tradeoffs.",
+      "questions": [
+        "What anti-aliasing modes are you planning to expose (VI AA, bilinear filtering, MSAA-style approaches, custom post-process), and how do they differ on emulator vs real hardware?",
+        "What is the ‘enable NA option’ referring to—native resolution, no-AA, or another render setting?",
+        "How will you present these options in-game (settings menu, boot option, per-level)?",
+        "What’s the performance/visual tradeoff you’re targeting for the final N64 build?"
+      ],
+      "related_to": [
+        "kaze"
+      ]
+    },
+    {
+      "topic": "Snowman interaction plan: shattering/glass and puzzle gating",
+      "context": "Kaze’s next steps for the snowman include ‘glass shattering’ and a planned pushable snowman that falls into a window to reveal a star, but the exact gameplay framing isn’t defined.",
+      "questions": [
+        "Where in the ice-castle flow does the snowman puzzle appear, and what does it teach the player before it becomes a gate?",
+        "What is the ‘glass shattering’ tied to—breaking a window to open a path, shattering the snowman on impact, or both?",
+        "How do you tune attack cadence so the enemy reads as a threat without feeling spammy or unfair?",
+        "Will the snowman mechanics recur elsewhere (variants, escalating challenges), or is it unique to this level?"
+      ],
+      "related_to": [
+        "kaze",
+        "biobak"
+      ]
+    }
+  ]
+}

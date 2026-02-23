@@ -1,0 +1,234 @@
+{
+  "stream_context": {
+    "summary": "Kaze implements and tunes a paper-airplane traversal mechanic for an unnamed multi-biome course (Course 14), aiming for a “swoop” flight path that lands on/into a pyramid as a way to reach the top. He finishes the paper-airplane feature and its target mission, adds/validates NPC interactions (a large cardboard-cutout Toad that dispenses a star), and begins/repairs the rubber-band/slingshot animation pipeline in Blender/Fast64. He also showcases demo readiness and N64-specific rendering/performance fixes (anti-aliasing toggle, coverage/alpha artifact removal, remaining Z-order issues) and discusses tooling limits (mipmaps/midmap levels) and performance constraints (RSP bottleneck, F3DEX3).",
+    "level": [
+      "Course 14",
+      "Overworld"
+    ],
+    "significance": "milestone",
+    "significance_reason": "Kaze declares the paper airplane finished (completing the associated target mission) and states the demo is done with N64 bugs fixed, then moves on to the next major interaction (rubber-band slingshot animation)."
+  },
+  "findings": [
+    {
+      "topic": "milestone",
+      "importance": "high",
+      "summary": "Kaze completes the paper-airplane mechanic and considers the associated “target mission” finished: the plane flight now works reliably enough to ship in the demo, with failure states if launched with too little speed.",
+      "quote": null
+    },
+    {
+      "topic": "design",
+      "importance": "high",
+      "summary": "The paper airplane is intended as a traversal tool to reach the pyramid: on contact with the pyramid, the plane’s movement should stop, effectively making it a ride/step-up mechanic rather than free-flight.",
+      "quote": null
+    },
+    {
+      "topic": "technical",
+      "importance": "high",
+      "summary": "Paper-airplane flight is implemented as a custom physics approximation (not spline-driven), tuned through pitch/velocity coupling, friction, gravity-like terms, and clamps to avoid runaway rotation; Kaze explicitly prioritizes a physical basis even if the equations are “fudged.”",
+      "quote": null
+    },
+    {
+      "topic": "technical",
+      "importance": "medium",
+      "summary": "A key bug during tuning was caused by using an uninitialized/random stack value (he identifies this as “the issue” once found), which destabilized behavior until corrected.",
+      "quote": null
+    },
+    {
+      "topic": "design",
+      "importance": "medium",
+      "summary": "Kaze rejects making the plane simply fly straight: he wants a characteristic “swoop swoop” wave-like flight path that looks like a paper airplane, while still being controllable enough to land at a specific target area near the pyramid.",
+      "quote": null
+    },
+    {
+      "topic": "technical",
+      "importance": "medium",
+      "summary": "He uses Mario 64’s gravity constant as a realism anchor: a velocity factor of 4 ‘makes sense’ because gravity is 4 in Mario 64, and that setting produced more believable motion.",
+      "quote": null
+    },
+    {
+      "topic": "milestone",
+      "importance": "high",
+      "summary": "He finishes “paper targets” off-stream: targets can now be broken by colliding with Mario’s face; they still need a dedicated animation, but the interaction works.",
+      "quote": null
+    },
+    {
+      "topic": "design",
+      "importance": "medium",
+      "summary": "Course 14 is described as having multiple distinct biomes/visual zones (desert/pyramid area, mountains with a Styrofoam look, a castle area, and grasslands). The course name is not final; ‘Handmade Heights’ is floated as a candidate.",
+      "quote": null
+    },
+    {
+      "topic": "technical",
+      "importance": "high",
+      "summary": "Kaze states the demo is done and he ‘fixed all the N64 bugs’ he’s aware of, but notes he still needs more console testing. He plans a video of himself playing through the demo for verification/documentation.",
+      "quote": null
+    },
+    {
+      "topic": "technical",
+      "importance": "high",
+      "summary": "On real N64, he fixed anti-aliasing options: with AA disabled he reports ‘almost 50 FPS’ in a shown area. He also fixed a visible line/artifact caused by a coverage*alpha issue; however, at least two Z-ordering issues remain visible in the background.",
+      "quote": null
+    },
+    {
+      "topic": "technical",
+      "importance": "medium",
+      "summary": "He clarifies that texture flicker is a mipmapping/midmap-level problem, not solved by anti-aliasing. Fast64 currently supports only two midmap levels; using more would require hand-writing display lists and reinserting them after each export, which he deems too costly for iteration.",
+      "quote": null
+    },
+    {
+      "topic": "technical",
+      "importance": "medium",
+      "summary": "He notes some visual ‘offset textures’ are an emulator-only Glide bug and look correct on N64, implying the team must validate visuals on hardware rather than trust emulation artifacts.",
+      "quote": null
+    },
+    {
+      "topic": "technical",
+      "importance": "medium",
+      "summary": "He mentions engine/performance evolution: F3DEX3 is now in the game and provides performance improvements (triangle fences/strips, occlusion plane), but he’s now RSP-bottlenecked, shifting optimization priorities.",
+      "quote": null
+    },
+    {
+      "topic": "team",
+      "importance": "medium",
+      "summary": "Zeina appears briefly on stream; Kaze shows her the paper airplane and notes remaining work includes the slingshot that actually flings Mario. Kaze also states he’s not the game’s animator, aiming only to create a workable base for animation tasks.",
+      "quote": null
+    },
+    {
+      "topic": "technical",
+      "importance": "high",
+      "summary": "Rubber-band/slingshot animation work in Blender/Fast64: Kaze initially gets broken behavior because the ‘first animation frame wasn’t exporting’ due to a “smart animation range” feature that trims frames before the first keyed frame. Adding a keyframe before frame 1 fixes the export and restores intended motion.",
+      "quote": null
+    }
+  ],
+  "contributor_findings": {
+    "biobak": [
+      {
+        "topic": "team",
+        "importance": "low",
+        "summary": "Biobak appears in chat; Kaze greets him while dealing with plane-physics tuning and chat frustration, implying Biobak is present during implementation/tuning sessions even when not actively directing decisions in this transcript.",
+        "quote": null
+      }
+    ],
+    "badub": [],
+    "zeina": [
+      {
+        "topic": "team",
+        "importance": "medium",
+        "summary": "Zeina checks in during the stream; Kaze demonstrates the finished paper-airplane mechanic and highlights the next dependency: implementing the slingshot/rubber-band to actually launch Mario, tying level interactions to animation/rigging work.",
+        "quote": null
+      }
+    ],
+    "others": []
+  },
+  "memorable_quotes": [
+    {
+      "speaker": "Kaze",
+      "quote": "I thought what made you insane when you romhack is the romhacking itself. But no, it’s Twitch chat like watching you romhack.",
+      "context": "Kaze vents about the psychological strain of live development and constant viewer interrogation while he’s building an unfinished system."
+    },
+    {
+      "speaker": "Kaze",
+      "quote": "I think the bar for 3D platformers is so incredibly low that making a 3D platformer is easy at this point.",
+      "context": "Design/philosophy statement about why a ‘pure fun platformer’ can stand out today—relevant to why he believes this project will resonate."
+    }
+  ],
+  "key_stories": [
+    {
+      "title": "Building a paper-airplane traversal system by “fudging” physics until it feels right",
+      "summary": "Kaze tries to create a paper-airplane ride that naturally rises, loses speed, tips forward, and regains speed in a repeating swoop—while still landing at a precise pyramid target. The system repeatedly becomes unstable (spins/backflips), too stable (never tips), or stalls at zero velocity, forcing iterative tuning.",
+      "challenge": "Designing a motion path that feels like a paper airplane (wave-like swoops) but behaves reliably as a platforming mechanic to reach the pyramid, within Mario 64’s engine constraints.",
+      "process": "He iterates on equations coupling face-angle pitch and forward velocity, adds friction and clamp limits, uses gravity-like constants for plausibility, and debugs a destabilizing uninitialized stack value. He explicitly rejects replacing the motion with a spline because he wants a physically grounded base.",
+      "outcome": "He declares the paper airplane ‘done,’ completing the target mission and moving on to the next interaction (rubber-band/slingshot).",
+      "key_quote": "At this point, I’m just fucking with the numbers until I get something decent.",
+      "related_to": [
+        "kaze"
+      ]
+    },
+    {
+      "title": "Demo readiness and real-N64 rendering/performance fixes",
+      "summary": "Kaze shows the demo running on N64 and highlights fixes that make the build more presentable: anti-aliasing toggles, improved performance, and removal of a coverage/alpha artifact line. He also identifies remaining Z-ordering issues and reiterates the need for hardware validation because emulators can mislead (Glide bugs).",
+      "challenge": "Getting a decomp-based ROM hack to look correct and run smoothly on original N64 hardware, while tooling (Fast64) limits midmap/mipmap workflows.",
+      "process": "He fixes AA option handling, investigates coverage/alpha artifacts, checks HUD appearance on N64, and evaluates performance gains (near-60 in some areas, ~50 with AA off). He documents that more midmap levels would require hand-authored display lists, slowing iteration too much.",
+      "outcome": "Kaze says the demo is done and N64 bugs are fixed to his knowledge, but he still plans full console playthrough testing.",
+      "key_quote": "The demo is all done, by the way. I fixed all the N64 bugs.",
+      "related_to": [
+        "kaze"
+      ]
+    },
+    {
+      "title": "Fast64 ‘smart animation range’ silently breaking the slingshot animation",
+      "summary": "While animating the rubber-band/slingshot, Kaze finds the motion doesn’t match the measured seven-frame timing he expects. He discovers Fast64 trimmed the first frame because the export range starts at the first keyed frame, effectively deleting needed initial pose data.",
+      "challenge": "Pipeline/tooling issue: animation export changes timing/poses, causing broken in-game behavior despite correct Blender setup.",
+      "process": "He diagnoses the missing first frame, suspects Fast64 behavior, and fixes it by ensuring a keyframe exists before frame 1 so the export doesn’t trim the start state.",
+      "outcome": "The rubber-band animation becomes smooth and correct-looking, giving a usable base for future polish (sound effects, final timing).",
+      "key_quote": "The first animation frame wasn’t exporting because there’s a smart animation range feature.",
+      "related_to": [
+        "kaze"
+      ]
+    }
+  ],
+  "open_questions": [
+    {
+      "topic": "Paper airplane landing/interaction rules at the pyramid",
+      "context": "Kaze wants the plane to stop once it touches the pyramid and to land slightly higher, but he is still tuning values and the exact stop condition/feel.",
+      "questions": [
+        "What exact collision condition should ‘stop the plane’—first contact with pyramid collision, entering a trigger volume, or reaching a target point?",
+        "How did you decide the acceptable tolerance for landing location (how ‘precise’ does the flight need to be for players)?",
+        "Did you consider letting players influence landing (steering, timing, camera) or is it intentionally non-steerable? Why?"
+      ],
+      "related_to": [
+        "kaze"
+      ]
+    },
+    {
+      "topic": "Immediate A-press out of cannon causes a bug",
+      "context": "Kaze discovers pressing A on the first frame after being shot from the cannon triggers a bug; he’s unsure whether it’s vanilla Mario 64 behavior or introduced by the hack.",
+      "questions": [
+        "What exactly happens in the bug (state corruption, wrong velocity, stuck animation, crash)?",
+        "Did you confirm whether this exists in vanilla SM64 on hardware, or only in R2YI?",
+        "What mitigation will ship: input buffering delay, state guard, or redesigning the cannon exit state machine?"
+      ],
+      "related_to": [
+        "kaze"
+      ]
+    },
+    {
+      "topic": "Paper targets still missing animations",
+      "context": "Targets can be broken by Mario’s face, but Kaze notes they still need an animation.",
+      "questions": [
+        "What visual language do you want for ‘paper target breaks’—tear, fold, pop, confetti, crumple?",
+        "Who on the team owns that animation (Zeina vs. someone else), and what does the asset pipeline look like for it?",
+        "Will the animation be purely cosmetic, or tied to collision/iframes/score feedback?"
+      ],
+      "related_to": [
+        "kaze",
+        "zeina"
+      ]
+    },
+    {
+      "topic": "Rubber-band/slingshot implementation beyond animation",
+      "context": "Kaze says the slingshot still needs to actually sling Mario; he’s currently focused on rubber-band animation timing and export correctness.",
+      "questions": [
+        "What is the intended gameplay for the slingshot: fixed launch strength, chargeable, or timing-based?",
+        "How will you synchronize the animation (rubber band snap) with the moment Mario receives velocity—on a specific frame like the plane’s 7-frame timing?",
+        "Do you anticipate any N64 performance/animation update constraints when multiple animated interactables exist in the same area?"
+      ],
+      "related_to": [
+        "kaze",
+        "zeina"
+      ]
+    },
+    {
+      "topic": "Tooling limitation: Fast64 midmap levels and flicker strategy",
+      "context": "Kaze says Fast64 supports only two midmap levels; more would require hand-written display lists, which he avoids for iteration speed. Flicker remains in some areas and seems not easily fixable with current tools.",
+      "questions": [
+        "What’s the threshold where flicker becomes unacceptable and forces a workflow change (hand-authored display lists, texture redesign, or engine-side changes)?",
+        "Have you coordinated with Fast64 maintainers or considered contributing a midmap-level feature to unblock this?",
+        "Which specific demo areas are most affected, and what player-facing compromises are acceptable (lower-res textures, different materials, reduced detail)?"
+      ],
+      "related_to": [
+        "kaze"
+      ]
+    }
+  ]
+}

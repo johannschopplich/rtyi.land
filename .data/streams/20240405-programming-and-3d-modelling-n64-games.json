@@ -1,0 +1,257 @@
+{
+  "stream_context": {
+    "summary": "Bonus dev stream focused on polishing the first “western/train town” level: fixing bandit NPC visuals, adding coins/NPC sign ideas, and integrating Pokey enemies. A major technical thread runs through the session: the level hits serious memory limits, forcing scope cuts (removing “Yoshi Ranch”) and prompting debugging of a vanilla Mario 64 Pokey behavior that broke due to Kaze’s engine optimizations (floor updates/raycast assumptions, billboard scaling). Also includes discussion of soundtrack goals, donation/PayPal issues, and small team coordination tasks for Zeina.",
+    "level": [
+      "Course 1 – Western Train Town"
+    ],
+    "significance": "milestone",
+    "significance_reason": "Kaze makes a scope-defining decision (cutting an entire sub-area due to memory) and resolves a long debugging session to get the vanilla Pokey working again, uncovering an engine-level optimization incompatibility (floor updates/raycasting) and implementing fixes."
+  },
+  "findings": [
+    {
+      "topic": "design",
+      "importance": "medium",
+      "summary": "Kaze reiterates an aesthetic goal: the hack should feel like Mario 64 but not be constrained to an exact ‘vanilla’ look (e.g., metallic teeth debate on an NPC).",
+      "quote": null
+    },
+    {
+      "topic": "design",
+      "importance": "medium",
+      "summary": "He describes the level’s diegetic ‘storefront’ storytelling (hat store, tumbleweed store, ‘Koopa bank’) partly as a production trick to avoid modeling extra props as RAM gets tight; bandits ‘steal’ the unseen inventory so the emptiness is justified in-world.",
+      "quote": null
+    },
+    {
+      "topic": "technical",
+      "importance": "high",
+      "summary": "The first level hits a hard memory limit; simply having an extra area/geometry causes crashes. Kaze cuts the planned “Yoshi Ranch” section and walls the space off to keep the level shippable under memory constraints.",
+      "quote": null
+    },
+    {
+      "topic": "technical",
+      "importance": "high",
+      "summary": "Kaze notes the underlying technical cause of the memory pain: in the decomp, it’s difficult to isolate/load data per area, so level-specific assets are harder to keep scoped; he considers needing per-area data loading or at least per-area actor sets to stay within budget.",
+      "quote": null
+    },
+    {
+      "topic": "technical",
+      "importance": "medium",
+      "summary": "He begins “budget cutting” by removing unnecessary collision and geometry (hundreds of collision triangles), and realizes additional required set dressing (train tracks) may push memory over the edge again.",
+      "quote": null
+    },
+    {
+      "topic": "technical",
+      "importance": "medium",
+      "summary": "A memory overlay suggests there should be plenty of free space (on the order of a quarter megabyte), which confuses Kaze and implies either a tooling/overlay accounting gap (e.g., surface nodes) or a specific bug/asset (he suspects something like a ‘Goddard star’) causing the earlier crash.",
+      "quote": null
+    },
+    {
+      "topic": "design",
+      "importance": "medium",
+      "summary": "NPC/population plan for the town: multiple small characters placed at the hat store, train station, and tumbleweed store to make the space feel alive; dialogue also acts as gameplay hinting (e.g., train-station NPC implying trains are obstacles rather than rideable).",
+      "quote": null
+    },
+    {
+      "topic": "community",
+      "importance": "low",
+      "summary": "A chat suggestion leads Kaze to add more coin trails quickly to make the level feel more alive; he also plans coins on/near the tracks to encourage exploration while watching coin count to avoid instability.",
+      "quote": null
+    },
+    {
+      "topic": "technical",
+      "importance": "high",
+      "summary": "The vanilla Pokey enemy behavior initially breaks badly (segments invisible, popping for one frame, incorrect heights/scales, odd face/billboard behavior). Kaze determines the spawner appears but the Pokey parts’ behavior/geo/rendering is failing under his current engine assumptions.",
+      "quote": null
+    },
+    {
+      "topic": "technical",
+      "importance": "high",
+      "summary": "Root cause: an engine optimization prevented floor raycasts/floor updates when an object ‘isn’t moving’ (no velocity). Pokey segments rely on constant floor updates even when moved indirectly, and vanilla Pokey logic is extremely raycast-heavy (~37 raycasts per tick) to re-find the floor repeatedly. Kaze relaxes/removes the optimization requirement so the Pokey can update floors correctly.",
+      "quote": "For some reason a Pokey needs 6 raycasts… actually, a Pokey was doing 36 raycasts every tick. Think about this. 36 raycasts. 37."
+    },
+    {
+      "topic": "technical",
+      "importance": "medium",
+      "summary": "A rendering fix is needed because Kaze’s billboard matrix does not carry scale; he compensates by scaling the Pokey head/parts (e.g., multiplying by ~3.33) so billboarded pieces render at the intended size.",
+      "quote": null
+    },
+    {
+      "topic": "technical",
+      "importance": "medium",
+      "summary": "He improves enemy presentation/performance settings: adjusts Pokey shadow size and ensures segments inherit a proper floor pointer for consistent shadows; increases spawn distance significantly (from ~2000 to ~5000+) since the default was likely constrained by the heavy raycast cost.",
+      "quote": null
+    },
+    {
+      "topic": "technical",
+      "importance": "medium",
+      "summary": "Kaze shares an engine/RNG improvement: unlike SM64’s rotation generation where multiple RNG values map to identical rotations, his signed-approximation approach makes each rotation unique. He notes this could make ‘RNG-table off’ cheating easier to detect in speedruns via visible rotation differences (e.g., tumbleweeds).",
+      "quote": null
+    },
+    {
+      "topic": "business",
+      "importance": "medium",
+      "summary": "Donation revenue flow breaks due to PayPal account issues: identity verification stalled for months and PayPal effectively closed the account; additionally, Streamlabs/Twitch donations are configured to an old email tied to a German PayPal, conflicting with a newer Canadian PayPal created for tax reasons.",
+      "quote": null
+    },
+    {
+      "topic": "philosophy",
+      "importance": "low",
+      "summary": "Kaze states a soundtrack philosophy: even when using much of the SM64 soundfont, creative instrument usage can make the OST feel completely new while preserving a similar vibe—his stated target aesthetic for the project’s music direction.",
+      "quote": null
+    }
+  ],
+  "contributor_findings": {
+    "biobak": [
+      {
+        "topic": "community",
+        "importance": "medium",
+        "summary": "Biobak prompts/affirms a quick ‘add coins’ pass as a fast way to make the level feel more alive, which Kaze adopts before continuing enemy work.",
+        "quote": null
+      }
+    ],
+    "badub": [
+      {
+        "topic": "team",
+        "importance": "low",
+        "summary": "Kaze references listening to Badub’s soundtrack work (via SoundCloud) and praises it for sounding distinct while still largely using the SM64 soundfont, aligning with Kaze’s desired vibe.",
+        "quote": null
+      }
+    ],
+    "zeina": [
+      {
+        "topic": "team",
+        "importance": "medium",
+        "summary": "Kaze assigns Zeina new environment/animation tasks for this level: create a tumbleweed store set piece and make animations for a spline-following NPC/actor. She later joins chat and asks about shadow updates, prompting a brief discussion of shadow rendering ideas.",
+        "quote": null
+      }
+    ],
+    "others": [
+      {
+        "name": "Sauraen",
+        "findings": [
+          {
+            "topic": "community",
+            "importance": "low",
+            "summary": "Kaze reads/uses a piece of cowboy NPC dialogue attributed to Sauraen (or a similarly named contributor), suggesting community-written flavor text is being integrated directly into the level’s NPCs.",
+            "quote": "Howdy partner… My critter’s as friendly as they come, but bless his heart, he ain’t got no sense of his own weakness."
+          }
+        ]
+      }
+    ]
+  },
+  "memorable_quotes": [
+    {
+      "speaker": "Kaze",
+      "quote": "I thought RAM on the N64 was infinite.",
+      "context": "Said after unexpectedly hitting severe memory limits on the first level and deciding to cut an entire sub-area (Yoshi Ranch)."
+    },
+    {
+      "speaker": "Kaze",
+      "quote": "They asked me to verify my identity three months ago… and now they just closed my account basically.",
+      "context": "Explaining PayPal donation failures and the real-world friction of funding/operations around the project."
+    },
+    {
+      "speaker": "Kaze",
+      "quote": "Why was a Pokey doing 37 raycasts every tick? To find the same floor over and over.",
+      "context": "A striking example of how odd/expensive some original SM64 behaviors are, and how modern engine optimizations can break them."
+    }
+  ],
+  "key_stories": [
+    {
+      "title": "Cutting Yoshi Ranch due to memory limits",
+      "summary": "While polishing the first level, Kaze discovers the project is effectively out of memory when this course loads, with crashes triggered by adding or retaining an extra area. To keep forward momentum, he decides to remove the planned ‘Yoshi Ranch’ section and wall it off, then starts looking for triangle/collision savings and considers per-area data strategies.",
+      "challenge": "The level’s geometry and assets (notably ~40,000 triangles plus additional planned elements like train tracks) push memory over the limit, causing crashes.",
+      "process": "He tests removing an area to confirm it resolves the crash, then commits to restructuring the space (walling it off, moving/keeping only a shed portion) and begins pruning collision/geometry and reviewing memory overlay output.",
+      "outcome": "Yoshi Ranch is cut from this level’s scope for now; the course loads again, and memory budgeting becomes an explicit production constraint going forward.",
+      "key_quote": "All right, let’s cut the Yoshi Ranch then, I guess.",
+      "related_to": [
+        "kaze"
+      ]
+    },
+    {
+      "title": "Vanilla Pokey breaks after engine optimizations",
+      "summary": "Kaze attempts to reuse the original SM64 Pokey behavior but finds it severely broken (segments invisible, wrong heights, billboard/scale issues, inconsistent interaction). Through iterative debugging and code stubbing, he traces the issue to an engine optimization that skipped floor updates/raycasting when objects had no velocity—an assumption invalid for Pokey segments moved indirectly by their controller logic.",
+      "challenge": "A legacy enemy relies on constant floor detection and assumptions about movement/floor pointers that Kaze’s optimized engine no longer guarantees.",
+      "process": "He compares against vanilla SM64 behavior, adds debug prints, isolates which behaviors and transforms are failing, and progressively stubs/rewires logic until discovering the floor-update dependency. He then adjusts the engine/object logic and fixes billboard scaling limitations by compensatory scaling.",
+      "outcome": "Pokey functions again with correct rendering, movement-facing orientation, improved shadows, and more practical spawn distances; Kaze learns which SM64 behaviors are unexpectedly ‘requirements-heavy’ and how to safeguard against similar regressions.",
+      "key_quote": "My engine made it so that if an object doesn’t move it doesn’t raycast the floor every tick. But they needed the floor to be raycasted every tick.",
+      "related_to": [
+        "kaze"
+      ]
+    },
+    {
+      "title": "Donations break due to PayPal identity/tax/account mismatch",
+      "summary": "During the stream, a viewer’s donation fails to play/appear, prompting Kaze to investigate Streamlabs/PayPal. He discovers PayPal identity verification has been stuck for months and the account was effectively closed, and that donations are routing to an old email tied to a German PayPal while he needs a Canadian PayPal for tax reasons.",
+      "challenge": "Operational/payment infrastructure fails mid-development, risking lost income and confusing supporters.",
+      "process": "Kaze checks Streamlabs tips, emails, and PayPal configuration, and identifies the wrong target email plus the account verification shutdown as the likely causes.",
+      "outcome": "Issue is not fully resolved on-stream; it becomes a concrete follow-up item (reconfiguring donation endpoints and stabilizing payment/tax setup).",
+      "key_quote": "It’s associated with my German PayPal account, but because of taxes, I needed to make a Canadian one.",
+      "related_to": [
+        "kaze"
+      ]
+    }
+  ],
+  "open_questions": [
+    {
+      "topic": "Memory model and ‘64MB’ constraint in the decomp build",
+      "context": "Kaze repeatedly describes being close to ‘64 megabytes’ and hitting RAM crashes on this course, while also seeing a memory overlay that appears to show ample free space, suggesting either a tooling mismatch, an accounting blind spot (surface nodes), or a specific asset/allocator issue.",
+      "questions": [
+        "What exact memory limits are you operating under in this build (expanded memory, emulator setting, custom heap sizes), and how does that relate to original N64 4/8MB realities?",
+        "What did the crash actually come from—surface node allocation, an overlay-reporting bug, a specific asset (you suspected a ‘Goddard star’), or something else?",
+        "What is your current strategy for memory budgeting per level (triangle targets, collision targets, texture budgets, audio banks), and how early do you enforce it?",
+        "Do you plan to implement true per-area asset loading in the decomp, or will you rely on narrower fixes (per-area actor sets, overlays, bank pruning)?"
+      ],
+      "related_to": [
+        "kaze"
+      ]
+    },
+    {
+      "topic": "Scope/design implications of cutting ‘Yoshi Ranch’",
+      "context": "Kaze decides on-stream to remove Yoshi Ranch, calling it ‘unnecessary fluff,’ due to memory pressure.",
+      "questions": [
+        "What was Yoshi Ranch supposed to contain (gameplay purpose, stars/coins, narrative tone)?",
+        "Was Yoshi Ranch intended as optional bonus content, tutorial space, or pacing break from the town/train area?",
+        "Could it return later as its own course/level rather than a sub-area, and what would need to change technically to allow that?"
+      ],
+      "related_to": [
+        "kaze"
+      ]
+    },
+    {
+      "topic": "Engine safeguards against ‘vanilla behavior’ regressions",
+      "context": "Kaze describes a recurring pattern: he optimizes the engine and ‘really old vanilla stuff just breaks,’ with Pokey as the latest example due to floor-update assumptions and heavy raycasts.",
+      "questions": [
+        "Do you have a regression-test suite for vanilla behaviors/actors (automated or manual), and if not, what would be the minimum viable version?",
+        "How do you decide whether to preserve a vanilla behavior exactly versus rewrite it into a new, simpler enemy implementation?",
+        "Are there other vanilla actors you already know are fragile under your engine changes (similar to Pokey)?"
+      ],
+      "related_to": [
+        "kaze"
+      ]
+    },
+    {
+      "topic": "RNG rotation change and speedrun integrity",
+      "context": "Kaze claims his signed-approximation rotation method makes rotations unique (unlike SM64’s repeated rotations), potentially making RNG-table tampering more detectable (e.g., tumbleweed rotation).",
+      "questions": [
+        "What exact change did you make to the rotation generation (math/approximation details), and why was it introduced originally?",
+        "Was speedrun cheat-detection an intended benefit, or just a side effect?",
+        "Have you considered documenting these RNG differences for the speedrunning community to avoid confusion when comparing to SM64 behavior?"
+      ],
+      "related_to": [
+        "kaze"
+      ]
+    },
+    {
+      "topic": "Music direction constraints: ‘new soundtrack with the same vibe’",
+      "context": "Kaze praises Badub’s work for sounding new while still largely using the SM64 soundfont, framing it as a deliberate target aesthetic.",
+      "questions": [
+        "Is using the SM64 soundfont (mostly) an artistic choice, a technical limitation, or both?",
+        "What percentage of tracks/instruments do you expect to be ‘vanilla soundfont’ by the end, and where do you allow yourself to break away?",
+        "How are you coordinating with Badub on references (Yoshi’s Island, Mario & Luigi, western motifs) while keeping the ‘Mario 64’ feel?"
+      ],
+      "related_to": [
+        "kaze",
+        "badub"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,231 @@
+{
+  "stream_context": {
+    "summary": "Kaze struggles with Blender/Fast64 pipeline regressions (notably Fast64 repo settings like \"write all\"/\"bleed\" affecting exports), tests an N64-style Fast64 renderer to improve viewport performance, and continues overworld/volcano environment work (UVs/materials). He shares project status updates: Course 7 is mostly finished and out for beta test on real N64; adds a new post-star \"return to overworld\" dialog; discusses ROM size constraints (~60MB of 64MB), planned overworld streaming sprint, and brainstorms side-level structure and Luigi’s potential role (possibly co-op).",
+    "level": [
+      "Overworld",
+      "Course 7"
+    ],
+    "significance": "notable",
+    "significance_reason": "Contains several concrete production updates (Course 7 beta on real hardware, new exit-course UX, ROM size estimate), a pipeline issue that explains recurring export bugs, and forward-looking overworld/streaming timeline plus Luigi/co-op teasing."
+  },
+  "findings": [
+    {
+      "topic": "technical",
+      "importance": "high",
+      "summary": "A Fast64 repo setting (“write all”) kept re-enabling itself on file reload via stored JSON repo settings, causing repeated export breakage; disabling/removing it from repo settings stopped the auto-reset and resolved at least one visible export issue (Mario’s hair disappearing).",
+      "quote": "No wonder I kept getting bugs. It’s because that turns itself on over and over."
+    },
+    {
+      "topic": "technical",
+      "importance": "medium",
+      "summary": "Fast64 installation method mattered: installing the add-on via Blender’s “Install from Disk” with the zip worked, while manually extracting into the add-ons folder did not behave as expected in his setup.",
+      "quote": null
+    },
+    {
+      "topic": "technical",
+      "importance": "medium",
+      "summary": "The team is still blocked by a known Fast64 issue: model “switch options” beyond the base option remain broken; the attempted change did not fix the eye/switch-option issue.",
+      "quote": "Switch options… are still broken for sure, guaranteed 100%."
+    },
+    {
+      "topic": "milestone",
+      "importance": "high",
+      "summary": "Course 7 is mostly finished and has been sent out for beta testing; Kaze reports it “fully works on real N64,” which is a key validation point for the project’s real-hardware target.",
+      "quote": "I finished most of Course 7 and I set it out for a beta test… It fully works on real N64, which is amazing."
+    },
+    {
+      "topic": "design",
+      "importance": "high",
+      "summary": "Kaze implemented a quality-of-life feature after collecting a star: a prompt to either stay in the level or return to the overworld, addressing awkward flow in earlier demos where players were forced to remain in the course.",
+      "quote": "Do you want to return to the overworld? Stay or leave?"
+    },
+    {
+      "topic": "technical",
+      "importance": "high",
+      "summary": "ROM budget is actively tracked against the N64’s 64MB limit: current estimated ROM size is 59.953 MB, leaving little headroom and implying careful asset/content management for the remainder of development.",
+      "quote": null
+    },
+    {
+      "topic": "design",
+      "importance": "high",
+      "summary": "Overworld production plan: keep an initial connected but visually-rough pass, then later consolidate it into “one big level” that loads dynamically while walking, to support cross-visibility (e.g., large trees seen from multiple angles) without fighting current forest/visibility constraints.",
+      "quote": "After your pass is done, I'm going to make this all into one big level that loads dynamically as you walk through it."
+    },
+    {
+      "topic": "team",
+      "importance": "medium",
+      "summary": "Kaze notes bug fixing is unusually heavy because the engine has been rewritten multiple times, creating cascading regressions and compatibility issues across systems/assets.",
+      "quote": "Bug fixing is a lot of work for a hack of this size, especially because we rewrote the engine so many times."
+    },
+    {
+      "topic": "technical",
+      "importance": "medium",
+      "summary": "A specialized N64-style Fast64 renderer significantly improved Blender responsiveness (near 0% CPU in his test) but showed inaccuracies in transparent decal/depth behavior compared to in-game results, suggesting it’s useful for workflow speed but not fully faithful for validation.",
+      "quote": null
+    },
+    {
+      "topic": "design",
+      "importance": "medium",
+      "summary": "Side-level structure brainstorming: an “oil tanker” infiltration concept tied to boss progression/side-level unlocking (mentions “5 bosses” and a warp to “Oily Body Bay”), with an intent to keep side levels small and fast to build (1–2 days each).",
+      "quote": null
+    },
+    {
+      "topic": "milestone",
+      "importance": "medium",
+      "summary": "Short-term schedule expectation: Kaze expects a two-week streaming burst during upcoming time off work and believes the overworld could be finished in that window (at least to a first-pass state).",
+      "quote": "In two weeks, I’ll be off work… We will probably finish the overworld in those two weeks."
+    },
+    {
+      "topic": "technical",
+      "importance": "low",
+      "summary": "Kaze is trying to drive the codebase toward “zero compile warnings,” fixing warnings opportunistically as they appear.",
+      "quote": null
+    }
+  ],
+  "contributor_findings": {
+    "biobak": [
+      {
+        "topic": "technical",
+        "importance": "low",
+        "summary": "Biobak is encouraged to try the new Fast64/N64-style renderer as well, implying the tool could benefit other artists working on RTYI assets.",
+        "quote": null
+      }
+    ],
+    "badub": [],
+    "zeina": [],
+    "others": [
+      {
+        "name": "Lilaa",
+        "findings": [
+          {
+            "topic": "technical",
+            "importance": "high",
+            "summary": "Lilaa helps diagnose that the troublesome “write all” behavior is stored in Fast64’s repo settings JSON and suggests turning off auto node repo settings / adjusting repo settings rather than per-file tweaks; her guidance leads Kaze to remove/disable the setting so it no longer re-enables on reload.",
+            "quote": null
+          },
+          {
+            "topic": "technical",
+            "importance": "medium",
+            "summary": "Lilaa points Kaze toward installing add-ons via Blender’s “Install from Disk” method and introduces/advocates the Fast64 renderer option that improves Blender performance on Kaze’s machine.",
+            "quote": null
+          }
+        ]
+      },
+      {
+        "name": "Sauraen",
+        "findings": [
+          {
+            "topic": "technical",
+            "importance": "medium",
+            "summary": "“Pack normals” support is discussed as contingent on Sauraen’s continued involvement, highlighting a dependency on specialized N64 graphics/renderer expertise outside Kaze’s core work.",
+            "quote": "If Sauraen gets struck by lightning tomorrow, then we probably will never have them."
+          }
+        ]
+      }
+    ]
+  },
+  "memorable_quotes": [
+    {
+      "speaker": "Kaze",
+      "quote": "Bug fixing is a lot of work for a hack of this size, especially because we rewrote the engine so many times.",
+      "context": "A succinct explanation for why polish and stability take disproportionate time in RTYI: repeated engine rewrites create widespread regressions."
+    },
+    {
+      "speaker": "Kaze",
+      "quote": "I finished most of Course 7… It fully works on real N64, which is amazing.",
+      "context": "Reinforces the project’s thesis of building something new while respecting original hardware constraints; also a concrete progress marker."
+    },
+    {
+      "speaker": "Kaze",
+      "quote": "After your pass is done, I'm going to make this all into one big level that loads dynamically as you walk through it.",
+      "context": "A clear statement of the overworld’s planned technical/design approach and an example of adapting modern streaming/open-world expectations to N64 limits."
+    }
+  ],
+  "key_stories": [
+    {
+      "title": "Fast64 repo setting regression caused repeated export bugs",
+      "summary": "Kaze investigates why exports keep breaking and notices a Fast64 option (“write all”) re-enables itself when reopening the blend file due to being stored in repo-level JSON settings. This manifests as confusing visual issues (e.g., Mario’s hair disappearing) and undermines confidence in recent tool changes.",
+      "challenge": "A workflow-breaking setting keeps resetting, producing inconsistent exports and making it hard to attribute bugs to user error vs. Fast64 changes/PRs.",
+      "process": "Kaze tests toggling “write all”/“bleed,” confirms the setting auto-resets on reload, then removes/disables the line in repo settings and verifies the behavior no longer returns.",
+      "outcome": "The auto-reset stops and the immediate symptom (missing hair) is resolved, but other Fast64 issues (switch options/eye rendering) remain unsolved, leaving ongoing tooling risk.",
+      "key_quote": "No wonder I kept getting bugs. It’s because that turns itself on over and over.",
+      "related_to": [
+        "kaze"
+      ]
+    },
+    {
+      "title": "Improving post-star flow with an exit-to-overworld prompt",
+      "summary": "Kaze shows a new dialog that appears after collecting a star, allowing the player to either stay in the level or return to the overworld. He frames it as a fix for awkward pacing in earlier builds where players were stuck in-course after collecting a star.",
+      "challenge": "Earlier demo behavior disrupted the gameplay loop by not offering a clean return path to the hub/overworld.",
+      "process": "He implements a dialog choice (stay/leave) and demonstrates it in-game during the stream.",
+      "outcome": "A more polished, player-friendly loop that better matches expectations from Mario 64-style progression while supporting RTYI’s custom overworld structure.",
+      "key_quote": "Do you want to return to the overworld? Stay or leave?",
+      "related_to": [
+        "kaze"
+      ]
+    }
+  ],
+  "open_questions": [
+    {
+      "topic": "Luigi’s role (co-op vs. single-player integration)",
+      "context": "Kaze imports Luigi, calls him the stream’s “special guest,” and says co-op would be the coolest option, but he’s unsure how Luigi will tie into RTYI yet.",
+      "questions": [
+        "Was Luigi added for true co-op gameplay, an unlockable character, story/credits stinger, or a technical experiment?",
+        "If co-op is planned, what are the biggest engine constraints (camera, netcode/local input, object syncing, performance on real N64) and what’s the minimum viable co-op feature?",
+        "If co-op is not feasible, what alternative use of Luigi best serves the game (postgame content, parallel challenges, assist mode, etc.)?"
+      ],
+      "related_to": [
+        "kaze"
+      ]
+    },
+    {
+      "topic": "Overworld as one dynamically-loaded level",
+      "context": "Kaze plans to keep a rough connected overworld first, then rebuild it as a single large level with dynamic loading to handle cross-visibility and avoid forest/occlusion pain.",
+      "questions": [
+        "What technical approach will be used for dynamic loading on N64 (area streaming, segmented memory, custom object/geo loading)?",
+        "What content needs to be visible across boundaries (trees, landmarks, skybox elements), and how will LOD/occlusion be handled?",
+        "When does the team decide the ‘first pass’ is good enough to begin the dynamic-loading rebuild?"
+      ],
+      "related_to": [
+        "kaze"
+      ]
+    },
+    {
+      "topic": "Fast64 reliability and the remaining ‘switch options’ breakage",
+      "context": "Even after addressing the repo-setting reset, Kaze states switch options beyond the base option remain broken and the attempted fix didn’t resolve the eye/switch issue.",
+      "questions": [
+        "What exactly is broken in Fast64 switch options (material overrides, display list branching, palette/indexed textures, or export ordering)?",
+        "What’s the current workaround for affected assets, and how many models are blocked by this?",
+        "Is the plan to pin to a known-good Fast64 version for production, or continue tracking main and absorbing breakages?",
+        "Which changes would Kaze want upstreamed to prevent similar repo-setting ‘auto reset’ problems?"
+      ],
+      "related_to": [
+        "kaze"
+      ]
+    },
+    {
+      "topic": "Using the N64-style Fast64 renderer in production",
+      "context": "The renderer dramatically improved Blender performance but showed inaccuracies with transparent decals/depth quantization compared to in-game visuals.",
+      "questions": [
+        "Will the renderer be adopted as the default tool for artists despite fidelity issues, or only for performance troubleshooting?",
+        "What specific rendering mismatches matter for RTYI art direction (decals, transparency sorting, clip planes, depth precision), and how will they be validated?",
+        "Who will maintain/extend this renderer for RTYI needs, and how does it integrate with the asset export pipeline?"
+      ],
+      "related_to": [
+        "kaze"
+      ]
+    },
+    {
+      "topic": "ROM size headroom and content planning",
+      "context": "Kaze reports an estimated ROM size of 59.953 MB out of 64 MB and mentions a very high final music track count estimate (~120).",
+      "questions": [
+        "What categories are the biggest ROM consumers right now (textures, music, level geometry, cutscenes)?",
+        "What’s the contingency plan if the project exceeds 64MB (asset compression changes, cutting content, multi-ROM approach, or streaming from cartridge hardware assumptions)?",
+        "How is music being stored/handled to support ~120 tracks within the memory/ROM budget?"
+      ],
+      "related_to": [
+        "kaze"
+      ]
+    }
+  ]
+}

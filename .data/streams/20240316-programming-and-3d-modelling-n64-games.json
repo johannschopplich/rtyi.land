@@ -1,0 +1,230 @@
+{
+  "stream_context": {
+    "summary": "Kaze focuses on improving the look of a desert/cliffside area by iterating on sand/quicksand visuals, fog, and skybox blending. He experiments with N64 material combiners, a distant-cliff “second layer” (parallax/skybox-like) solution, and then performance-tests on real hardware—discovering culling was accidentally off and discussing upcoming F3DEX3/occlusion-plane optimizations with Sauraen.",
+    "level": [
+      "Course ? – Bomberfield (desert/cliff area with train tracks)"
+    ],
+    "significance": "notable",
+    "significance_reason": "Contains concrete art-direction constraints (fog color locked), a specific rendering/seam problem and fix (level fog saturation mismatch), real-N64 performance data, and a key technical insight from Sauraen: RTYI may be RSP-bottlenecked under F3DEX3 due to unusually optimized RDP/memory usage."
+  },
+  "findings": [
+    {
+      "topic": "design",
+      "importance": "medium",
+      "summary": "Kaze rejects the current quicksand approach as visually “not it,” and pivots to making the ‘can’t-walk-here’ region read clearly via color/fog blending rather than relying on a moving quicksand texture.",
+      "quote": null
+    },
+    {
+      "topic": "design",
+      "importance": "high",
+      "summary": "Fog color is treated as a core part of the level’s established art style; Kaze explicitly refuses to change the fog to yellow/orange even though it would make sand/skybox blending easier, because it would “change the vibe.”",
+      "quote": "I don't want to change the fog color this late in. The fog color right now is very essential for the art style here."
+    },
+    {
+      "topic": "technical",
+      "importance": "medium",
+      "summary": "He prototypes distant background cliffs using a separate “layer”/skybox-like approach (OOT-style idea), aiming for a parallax-like illusion while keeping geometry cheap and avoiding render-distance issues; limitation: it won’t interact with actual level geometry and requires careful fog/color matching.",
+      "quote": null
+    },
+    {
+      "topic": "technical",
+      "importance": "medium",
+      "summary": "He notes several N64-era constraints shaping decisions: a slow-moving giant texture is not feasible cheaply; adding a second moving reflective layer would be too expensive due to overdraw; and the inability to use shade alpha across the whole level is a major material/combiner limitation.",
+      "quote": null
+    },
+    {
+      "topic": "technical",
+      "importance": "high",
+      "summary": "A visual seam/mismatch is traced to two different fog applications: the “level fog” applied to geometry is more saturated than the intended fog used for the fade/background, causing colors that match in Blender to diverge in-engine. His fix path is to reduce fog saturation so it matches the fade color, then re-adjust fog distance/intensity to preserve the prior look.",
+      "quote": "The actual level fog is applying to this and ruining the color. The level fog is more saturated than the actual fog we use."
+    },
+    {
+      "topic": "technical",
+      "importance": "medium",
+      "summary": "Fast64 workflow issue: exporting resets Kaze’s manual hex edits, forcing repeated rework during iteration; he looks for a way to make changes persist across exports (implying pipeline friction between Blender/Fast64 and ROM/build steps).",
+      "quote": null
+    },
+    {
+      "topic": "technical",
+      "importance": "high",
+      "summary": "Real-hardware performance check: the level hits ~25–30 FPS in the worst view even before applying planned optimizations (F3DEX3 and occlusion/culling planes). Kaze is surprised to discover “Enable Culling” was off, meaning many buildings weren’t culled at all; the scene is noted as ~10,000 triangles.",
+      "quote": "Enable Culling isn't even on. We're not even culling these buildings."
+    },
+    {
+      "topic": "technical",
+      "importance": "high",
+      "summary": "Sauraen’s diagnosis (as reported by Kaze): RTYI appears so optimized on memory/RDP that with F3DEX3 the bottleneck may shift to the RSP (because F3DEX3 costs more RSP time). Sauraen is making a modified F3DEX3 variant that removes some features to reduce RSP cost, which Kaze expects could yield a large performance boost.",
+      "quote": "He thinks that in Return to Yoshi's Island the memory and RDP is so optimized that with F3DEX3 the RSP becomes the bottleneck."
+    },
+    {
+      "topic": "design",
+      "importance": "low",
+      "summary": "Kaze tunes a train/track setpiece: fixes a rotation error causing the train to go “off the rails,” and adjusts behavior so pitch changes with the surface rather than staying flat; he also confirms plans to add structural support under the tracks for plausibility/visual polish.",
+      "quote": null
+    },
+    {
+      "topic": "business",
+      "importance": "medium",
+      "summary": "Kaze expresses interest in physical tie-ins: he hopes RTYI can release alongside an OST cartridge. He also mentions a company approached him about making a brand-new N64 game in 2024, highlighting the marketing appeal of “real N64 game + PC port.”",
+      "quote": "I'm hoping that I can release RTYI alongside an OST cartridge."
+    },
+    {
+      "topic": "team",
+      "importance": "medium",
+      "summary": "Kaze notices Biobak has been absent and says Biobak wanted to help rework multiple levels; Kaze expresses concern about losing that support.",
+      "quote": "Has anyone seen Biobak recently? He's been gone for a while. He wanted to help me rework a bunch of levels."
+    }
+  ],
+  "contributor_findings": {
+    "biobak": [
+      {
+        "topic": "team",
+        "importance": "medium",
+        "summary": "Kaze flags Biobak’s absence as a risk because Biobak had planned to help rework multiple levels, suggesting pending level-polish tasks may be blocked or slowed without him.",
+        "quote": null
+      }
+    ],
+    "badub": [
+      {
+        "topic": "team",
+        "importance": "low",
+        "summary": "Kaze implies the project’s music is being handled by a primary composer (“my dupe wants to make all of it”), and he’s turning away additional volunteer composers as a result.",
+        "quote": null
+      },
+      {
+        "topic": "business",
+        "importance": "medium",
+        "summary": "Kaze mentions the idea of shipping an OST cartridge alongside RTYI, implying the soundtrack is being treated as a standalone deliverable suitable for physical release.",
+        "quote": null
+      }
+    ],
+    "zeina": [
+      {
+        "topic": "team",
+        "importance": "low",
+        "summary": "Kaze mentions having his wife play-test (e.g., planning to have her play “Madness” on April Fools), indicating informal internal playtesting support at home.",
+        "quote": null
+      }
+    ],
+    "others": [
+      {
+        "name": "Sauraen",
+        "findings": [
+          {
+            "topic": "technical",
+            "importance": "high",
+            "summary": "Sauraen attributes F3DEX3 lag in RTYI (but not other hacks) to RTYI being unusually optimized on the RDP/memory side, making the RSP the new bottleneck; he is reportedly building a more RSP-efficient F3DEX3 variant by cutting features/optimizing processing.",
+            "quote": null
+          }
+        ]
+      },
+      {
+        "name": "Lilaa",
+        "findings": [
+          {
+            "topic": "community",
+            "importance": "low",
+            "summary": "Lilaa prompts discussion about lagspots and is present during the F3DEX3 performance/bottleneck discussion; Kaze also jokes with Lilaa while debugging scene elements (train/cliffs).",
+            "quote": null
+          }
+        ]
+      }
+    ]
+  },
+  "memorable_quotes": [
+    {
+      "speaker": "Kaze",
+      "quote": "He thinks that in Return to Yoshi's Island the memory and RDP is so optimized that with F3DEX3 the RSP becomes the bottleneck.",
+      "context": "Kaze relays Sauraen’s diagnosis explaining why RTYI uniquely lags under F3DEX3—framing RTYI’s optimization level as high enough to shift the limiting factor to a different N64 subsystem."
+    },
+    {
+      "speaker": "Kaze",
+      "quote": "I don't want to change the fog color this late in. The fog color right now is very essential for the art style here.",
+      "context": "A clear art-direction line in the sand: technical convenience (matching sand/skybox) is rejected to protect the established mood of the level."
+    }
+  ],
+  "key_stories": [
+    {
+      "title": "Diagnosing why F3DEX3 lags specifically in RTYI",
+      "summary": "Kaze discusses an unusual performance situation: his hack lags under F3DEX3 while others don’t. Sauraen suggests RTYI is optimized enough on the RDP/memory side that the RSP becomes the bottleneck when switching to the more RSP-expensive F3DEX3.",
+      "challenge": "Explain and fix RTYI-specific slowdown under F3DEX3, especially as the project depends on F3DEX3 features like occlusion/culling planes.",
+      "process": "Kaze disables features and tests, then consults Sauraen; Sauraen proposes the bottleneck shift and begins work on a trimmed/optimized F3DEX3 variant.",
+      "outcome": "A potential path to a “huge performance boost” is identified: an RTYI-tailored F3DEX3 build that reduces RSP cost, plus re-exporting levels with updated vertex/material setups and adding occlusion planes.",
+      "key_quote": "He thinks that in Return to Yoshi's Island the memory and RDP is so optimized that with F3DEX3 the RSP becomes the bottleneck.",
+      "related_to": [
+        "kaze"
+      ]
+    },
+    {
+      "title": "Skybox/level seam caused by fog saturation mismatch",
+      "summary": "While trying to make distant cliffs and sand blend into the skybox, Kaze finds that colors matching in Blender still don’t match in-game. He realizes the geometry is being fogged with a more saturated ‘level fog’ than the fog color used for the intended fade, breaking the illusion.",
+      "challenge": "Make the background fade/cliffs blend seamlessly without changing the project’s established fog color palette.",
+      "process": "He tests on emulator/N64, rules out a Project64-only issue, identifies the level fog saturation as the culprit, then reduces fog saturation so the fog matches the fade color and compensates by adjusting fog distance/intensity.",
+      "outcome": "The seam becomes solvable without abandoning the chosen blue fog aesthetic, at the cost of slightly heavier fog settings and more careful tuning.",
+      "key_quote": "The actual level fog is applying to this and ruining the color.",
+      "related_to": [
+        "kaze"
+      ]
+    }
+  ],
+  "open_questions": [
+    {
+      "topic": "Sauraen’s optimized F3DEX3 variant for RTYI",
+      "context": "Kaze reports Sauraen is building a version of F3DEX3 that removes some features and/or changes processing to reduce RSP cost, because RTYI may be RSP-bottlenecked under F3DEX3.",
+      "questions": [
+        "Which specific F3DEX3 features are being cut or changed, and what visual/engine tradeoffs does that imply for RTYI?",
+        "What measurements/profiling convinced Sauraen that RTYI shifts the bottleneck to the RSP (and why RTYI differs from other hacks)?",
+        "What is the expected timeline for this F3DEX3 variant, and what does Kaze need to change in RTYI to integrate it (re-exports, material changes, new display-list patterns)?"
+      ],
+      "related_to": [
+        "kaze"
+      ]
+    },
+    {
+      "topic": "Two fog systems: “level fog” vs intended fog for fades/skybox blending",
+      "context": "Kaze identifies that the level geometry fog is more saturated than the fog he wants for the fade, creating mismatches even when colors match in Blender.",
+      "questions": [
+        "How is fog configured in RTYI (engine-level fog state vs per-material/combiner usage), and why is the ‘level fog’ saturation different from the desired fade fog?",
+        "Is there a plan to unify fog handling across skybox/background layers and world geometry so future levels don’t hit the same seam problem?"
+      ],
+      "related_to": [
+        "kaze"
+      ]
+    },
+    {
+      "topic": "Occlusion/culling plane pipeline and export workflow",
+      "context": "Kaze performance-tests a ~10k triangle scene and realizes ‘Enable Culling’ was off, yet it still runs surprisingly well; he expects big gains once occlusion planes and F3DEX3 are used properly. He also complains that Fast64 resets hex edits on export.",
+      "questions": [
+        "What is Kaze’s intended workflow for authoring and validating occlusion/culling planes per level, and what tools (Fast64/custom scripts) are involved?",
+        "Why was culling disabled—was it a default, a regression, or an export/config issue—and how will they prevent it from happening again?",
+        "What hex edits are being reset by Fast64, and can those edits be moved into source/config so exports are deterministic?"
+      ],
+      "related_to": [
+        "kaze"
+      ]
+    },
+    {
+      "topic": "Music ownership, soundtrack scope, and the OST cartridge idea",
+      "context": "Kaze suggests releasing RTYI alongside an OST cartridge and implies a single primary composer is responsible for the full soundtrack, with additional volunteer composers being declined.",
+      "questions": [
+        "Who is the primary composer (likely Badub) and what is the creative brief for the soundtrack (Yoshi’s Island nostalgia vs original identity)?",
+        "How much of the OST is original vs arrangements/midi-fied material, and how does that affect the feasibility/legal risk of an OST cartridge?",
+        "What would an ‘OST cartridge’ actually be (N64 cart that plays tracks, bundled with the hack, separate product), and how would distribution work?"
+      ],
+      "related_to": [
+        "kaze"
+      ]
+    },
+    {
+      "topic": "Biobak’s planned level rework support",
+      "context": "Kaze says Biobak had wanted to help rework multiple levels but hasn’t been around recently, and Kaze seems worried about losing that assistance.",
+      "questions": [
+        "Which specific levels were slated for Biobak-led reworks, and what deliverables were expected (textures, layout passes, lighting, set dressing)?",
+        "Did Biobak’s absence change the production plan or priorities, and who is covering that work now?"
+      ],
+      "related_to": [
+        "kaze"
+      ]
+    }
+  ]
+}

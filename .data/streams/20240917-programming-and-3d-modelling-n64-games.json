@@ -1,0 +1,190 @@
+{
+  "stream_context": {
+    "summary": "Kaze spends the stream trying to create a believable, performant “styrofoam” material for a mountain/geometry set. After multiple failed texture and Blender-displacement attempts (and briefly testing AI texture generation), he lands on a concrete technical plan: simulate styrofoam highlights using a CPU-precomputed normal-map/palette technique on N64, with strict constraints on surface rotations and texture data.",
+    "level": [],
+    "significance": "notable",
+    "significance_reason": "Contains a clear technical direction change/breakthrough for achieving a new material look on N64 (fake bump/specular for styrofoam), plus candid comments about the emotional fatigue of streaming and staying focused during development."
+  },
+  "findings": [
+    {
+      "topic": "technical",
+      "importance": "high",
+      "summary": "Kaze defines the target look for styrofoam as view-dependent highlights: when the object rotates relative to the light and camera, highlights appear primarily on rims/raised bubble edges; he wants to reproduce this in-game via a fake bump/specular effect rather than static baked lighting.",
+      "quote": "You can see how in the dark lights there's like no highlights now, but then as soon as he turns it, highlights start to appear. That's what I want."
+    },
+    {
+      "topic": "technical",
+      "importance": "high",
+      "summary": "He concludes that using ordinary photo textures is failing because almost every candidate texture has lighting baked in, which conflicts with his plan to drive highlights dynamically; the project needs an unlit base texture plus a separately controllable highlight component (or a normal-map-derived method).",
+      "quote": "We need one texture without light baked in and then one texture where we bake the highlights in."
+    },
+    {
+      "topic": "technical",
+      "importance": "high",
+      "summary": "Kaze pivots to a specific N64-friendly solution: a CI4/palette-based “normal map without shaders” approach where per-pixel normals are quantized (e.g., 16 directions), then every frame the CPU overwrites a grayscale/intensity output based on the light–view reflection relationship, effectively precomputing what a shader would do.",
+      "quote": "The N64 also can't do normal maps. We have to compute the output of the normal map before we pass this to the renderer on the CPU, which fortunately is cheap, which is why we used 16 directions."
+    },
+    {
+      "topic": "design",
+      "importance": "medium",
+      "summary": "The proposed normal-map workaround introduces a major content constraint: styrofoam surfaces may need to be limited to a small number of allowed rotations/facings (e.g., 6 for a cube, possibly 8 overall) so the correct “rotated” normal interpretation can be applied, impacting level art freedom (boxes vs triangles/varied slopes).",
+      "quote": "But this has the limitation that we can only have surfaces with this texture at a limited amount of rotations in game."
+    },
+    {
+      "topic": "technical",
+      "importance": "medium",
+      "summary": "He considers what geometric information must be exported/available to compute highlight intensity, discussing using vertex normals and the trade-off with vertex colors; he notes this may require exporting models twice (one pass for normals, one for colors) or otherwise restructuring assets/pipelines.",
+      "quote": "The problem with storing the vertex normals is... that would mean exporting twice. Or not having vertex colors."
+    },
+    {
+      "topic": "technical",
+      "importance": "medium",
+      "summary": "He frames the runtime cost as acceptable: with limited facings/normal sets, the technique would require on the order of ~128 vector dot products/multiplications, which he judges cheaper than other existing effects in the hack.",
+      "quote": "And at the end, that's just 128 vector multiplications. Should be relatively cheap."
+    },
+    {
+      "topic": "technical",
+      "importance": "medium",
+      "summary": "Kaze briefly attempts alternative production pipelines (Blender displacement, Voronoi/particle-ish setups, and AI generation via DALL·E) but concludes they’re either too slow to learn mid-stream or unreliable for seamless, neutral-lit textures at N64 resolution.",
+      "quote": "Learning new tech is always so goddamn annoying."
+    },
+    {
+      "topic": "community",
+      "importance": "medium",
+      "summary": "He reports implementing a viewer/contributor idea (attributed to Lilaa) across the entire game that saved roughly ~30 CPU instructions, but notes it made the resulting code “cursed,” illustrating ongoing optimization pressure and willingness to trade cleanliness for performance.",
+      "quote": "Lilaa, your idea worked... I applied your idea in the entire game. It saved like 30 instructions or so... Unfortunately, that means we have very cursed code."
+    },
+    {
+      "topic": "personal",
+      "importance": "medium",
+      "summary": "Kaze expresses mounting frustration with livestreaming interruptions and off-topic questions, describing social engagement during dev as exhausting and stating he wants to focus purely on building the game.",
+      "quote": "I really don't want to talk about things. I want to just talk about making my game. That's all I want."
+    },
+    {
+      "topic": "design",
+      "importance": "low",
+      "summary": "He mentions a high-level project scope detail: the game is planned to contain 15 courses in total.",
+      "quote": null
+    }
+  ],
+  "contributor_findings": {
+    "biobak": [],
+    "badub": [],
+    "zeina": [],
+    "others": [
+      {
+        "name": "Lilaa",
+        "findings": [
+          {
+            "topic": "technical",
+            "importance": "medium",
+            "summary": "Provided an optimization idea that Kaze says he applied “in the entire game,” saving ~30 instructions but producing less readable/clean code.",
+            "quote": "Your idea worked... I applied your idea in the entire game."
+          },
+          {
+            "topic": "community",
+            "importance": "low",
+            "summary": "Suggested sourcing paid textures and later suggested using a displacement-map workflow; Kaze attempts to follow Blender node instructions but struggles with tooling friction and texture limitations (baked lighting, low-res JPEGs).",
+            "quote": null
+          }
+        ]
+      },
+      {
+        "name": "X-Linx (Xlinks)",
+        "findings": [
+          {
+            "topic": "community",
+            "importance": "medium",
+            "summary": "Actively iterates with Kaze on generating/locating a workable styrofoam texture solution (“cooking” a texture), implying community-assisted asset development during live R&D.",
+            "quote": null
+          }
+        ]
+      }
+    ]
+  },
+  "memorable_quotes": [
+    {
+      "speaker": "Kaze",
+      "quote": "My least favorite thing about streaming is people asking me stuff that doesn't relate to what I'm doing right now.",
+      "context": "Captures the tension between public-facing dev and the concentration required for deep technical/art problem solving."
+    },
+    {
+      "speaker": "Kaze",
+      "quote": "The N64 also can't do normal maps. We have to compute the output of the normal map before we pass this to the renderer on the CPU.",
+      "context": "A succinct statement of the core creative/technical challenge: rebuilding modern rendering ideas within N64 constraints."
+    }
+  ],
+  "key_stories": [
+    {
+      "title": "Inventing a believable styrofoam material under N64 constraints",
+      "summary": "Kaze tries to make a mountain/geometry set look like styrofoam, focusing on view-dependent highlights that sell the material. After many failed texture searches and tooling experiments (Blender displacement, AI texture generation), he lands on a CPU-driven normal/palette technique that approximates specular/bump behavior without shaders.",
+      "challenge": "Create a convincing styrofoam look (bubbles + rim highlights) with N64-era rendering limitations, tiny textures, and performance budgets, while avoiding textures with baked-in lighting.",
+      "process": "He tests various texture sources (sponge/insulation/bubble wrap), attempts to generate displacement in Blender, studies how real styrofoam highlights behave via reference video, and evaluates AI outputs. He then pivots to a CI4/palette ‘normal map’ trick: quantize normals, compute per-pixel intensity on CPU each frame based on light/view reflection, and constrain surface rotations to keep the math tractable.",
+      "outcome": "He ends the stream confident in a plan: implement the palette/normal-map CPU precompute approach, likely with 6–8 allowed facings, then swap in improved styrofoam textures once the code path exists.",
+      "key_quote": "I know what to do now, though, and it will look really good.",
+      "related_to": [
+        "kaze"
+      ]
+    }
+  ],
+  "open_questions": [
+    {
+      "topic": "The CI4/palette-based normal-map technique (origin, implementation details, and final impact)",
+      "context": "Kaze references a prior method (“Dan's CI4 palette trick” and ‘Daryl did before’) to simulate normal-mapped lighting by overwriting palette/grayscale values on CPU each frame, with quantized normal directions (e.g., 16). He implies Daryl’s version worked for one direction and Kaze wants multi-facing support by rotating/transforming normal data at boot and recomputing intensities per frame.",
+      "questions": [
+        "Who originally developed the CI4/palette normal trick (Daryl? Dan?), and what project was it first proven in?",
+        "What exact texture format and data layout does RTYI use for this (CI4 with 16-entry palette? how are normals encoded)?",
+        "How is the reflection term computed (dot(N, L), reflected vector vs view vector, or a simplified heuristic), and what compromises were necessary for N64 CPU time?",
+        "What did the final per-frame cost end up being in practice, and what had to be cut or optimized elsewhere to afford it?",
+        "Did it ultimately ‘sell’ the styrofoam look in motion, or did artifacts/repetition/tiling remain noticeable?"
+      ],
+      "related_to": [
+        "kaze"
+      ]
+    },
+    {
+      "topic": "Asset pipeline trade-off: vertex colors vs exporting/using vertex normals",
+      "context": "Kaze worries that using vertex normals for lighting/highlight computations may conflict with existing vertex-color usage, potentially requiring exporting models twice or maintaining parallel model variants.",
+      "questions": [
+        "What did the team ultimately choose: dual exports, repurposed vertex channels, or a custom importer pipeline?",
+        "How did this decision affect level artists’ workflow (Fast64, Blender, custom scripts), and did it introduce bugs or iteration slowdowns?"
+      ],
+      "related_to": [
+        "kaze"
+      ]
+    },
+    {
+      "topic": "Design constraints caused by limiting styrofoam surface rotations",
+      "context": "To make the palette/normal trick feasible, Kaze considers restricting styrofoam surfaces to a handful of orientations (cube faces plus a few extras), which could constrain triangles/slopes and general level geometry variety.",
+      "questions": [
+        "Did the final level design impose rotation/orientation rules for styrofoam meshes, and how were those rules communicated/enforced?",
+        "Were any areas redesigned (or the material abandoned) because the orientation limits were too restrictive?"
+      ],
+      "related_to": [
+        "kaze"
+      ]
+    },
+    {
+      "topic": "Global optimization contributed by Lilaa (~30 instructions saved)",
+      "context": "Kaze says Lilaa suggested an idea applied across the entire game that saved about 30 instructions, but made code ‘cursed.’",
+      "questions": [
+        "What was the specific optimization (what code path, what technique), and why did it save so much across the whole game?",
+        "Where did the savings matter most (frame time, RSP/RDP setup, CPU gameplay logic), and how was the improvement measured?"
+      ],
+      "related_to": [
+        "kaze"
+      ]
+    },
+    {
+      "topic": "Course count decision (15 courses total)",
+      "context": "Kaze casually states there will be 15 courses in total.",
+      "questions": [
+        "Why 15 courses (scope, pacing, production capacity, narrative structure), and has that number changed over development?",
+        "How does 15 courses map to the team’s definition of ‘respectful but new’ compared to Mario 64’s structure?"
+      ],
+      "related_to": [
+        "kaze"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,234 @@
+{
+  "stream_context": {
+    "summary": "Kaze blocks out and iterates on an in-progress icy castle level, prioritizing platforming flow (slides, momentum jumps, warp connections, star routes) before polishing visuals. He experiments with ice-like reflective materials and a new void/bottomless-pit effect, weighs readability/camera constraints in tight indoor spaces, and discusses N64 hardware limits, future performance tooling (Sauraen’s thread tracer), and the logistics of releasing source code.",
+    "level": [],
+    "significance": "notable",
+    "significance_reason": "Contains clear design philosophy (form-follows-function, difficulty-as-choice), concrete layout decisions for the ice castle’s routes/stars/warps, and several forward-looking technical threads (Sauraen tracing, void shader/effect, possible AI upscaling ideas) that can shape interview topics."
+  },
+  "findings": [
+    {
+      "topic": "design",
+      "importance": "high",
+      "summary": "Kaze’s primary goal for the session is to make the ice castle’s platforming “feel good” first (routes, jumps, safety, readability), postponing visual polish to avoid wasting time beautifying geometry that might be removed.",
+      "quote": "If we do both at the same time, then we're going to spend a lot of time making stuff look good that is not even going to make it into the game."
+    },
+    {
+      "topic": "design",
+      "importance": "high",
+      "summary": "The level’s core movement theme is sliding plus “slight momentum jumps,” with many optional skips; Kaze targets roughly vanilla SM64 difficulty but with more consistent controls to reduce perceived unfairness.",
+      "quote": "Some of this may look more difficult, but the controls in this game are a lot more consistent."
+    },
+    {
+      "topic": "design",
+      "importance": "medium",
+      "summary": "Kaze identifies and fixes a “leap of faith” problem in the layout (player must commit without enough information). He considers moving geometry and adding safer return paths to reduce blind jumps.",
+      "quote": null
+    },
+    {
+      "topic": "design",
+      "importance": "high",
+      "summary": "He outlines a star/mission structure for the ice castle: (1) an early-visible star behind glass gated by later platforming; (2) a snowman cave path accessed via slide jump; (3) a boss route culminating in a “big raven” fight, with an alternate skip that routes through an abyss/cold-haze rooms.",
+      "quote": null
+    },
+    {
+      "topic": "design",
+      "importance": "medium",
+      "summary": "A planned secret/optional route involves a hidden ‘8-bit pipe’ accessed via an outside slide and discovered inside a cell/room; during the stream he pivots from “jail cells” toward frozen-ice-wall displays (enemies/figures encased in ice) to better match the theme.",
+      "quote": null
+    },
+    {
+      "topic": "technical",
+      "importance": "medium",
+      "summary": "Kaze experiments with ice-material rendering (moving shine across texture layers) and uses texture generation/shiny surfaces in specific spots to sell “icy” reflectivity, but is dissatisfied with current reflective wall quality and continues iterating.",
+      "quote": "What do you think of my reflective wall here? I think it looks like shit."
+    },
+    {
+      "topic": "technical",
+      "importance": "high",
+      "summary": "He prototypes a striking bottomless-pit/void visual using a noisy alpha texture, likes the effect for slides/falling sequences, but immediately runs into correctness/opacity issues (unexpected black render) and adjusts transparency/clearing assumptions.",
+      "quote": "Oh my God, this looks insane."
+    },
+    {
+      "topic": "design",
+      "importance": "high",
+      "summary": "Camera behavior is flagged as the biggest usability risk, especially in tight interior rooms with wind/platforming. Kaze considers removing or redesigning rooms to allow better camera distance rather than forcing hard camera corners.",
+      "quote": "Camera really is my biggest concern in this construction here."
+    },
+    {
+      "topic": "technical",
+      "importance": "medium",
+      "summary": "Wind is used as both obstacle and helper (blowing Mario around), but Kaze discovers the wind has no speed cap and notes excessive inertia/velocity interactions, especially with long jumps, requiring tuning.",
+      "quote": null
+    },
+    {
+      "topic": "philosophy",
+      "importance": "high",
+      "summary": "Kaze articulates a guiding principle for SM64-style difficulty: the game should offer safe routes and risky, skill-based optimizations; difficulty is partly player-chosen through bravery and route selection.",
+      "quote": "The game is as difficult as you are brave."
+    },
+    {
+      "topic": "technical",
+      "importance": "high",
+      "summary": "He reiterates a hardware-authenticity constraint: staying within original N64-era limits (e.g., 64MB size constraints), and pushes back on armchair claims like “Nintendo should have used faster memory,” emphasizing cost/real-world constraints.",
+      "quote": "I try to stay within the 64 megabytes limit because I do want to do this whole thing with the hardware of the time."
+    },
+    {
+      "topic": "team",
+      "importance": "medium",
+      "summary": "Kaze mentions future performance work dependent on integrating Sauraen’s tooling: a thread/runtime tracer that shows which thread runs when and for how long each frame, to provide an overview for optimization decisions.",
+      "quote": null
+    },
+    {
+      "topic": "business",
+      "importance": "medium",
+      "summary": "Kaze states he plans to release his source code when the mod is done (to prevent early play shaping opinions and to reduce asset/code poaching), noting he has already released an older code version alongside Peach’s Fury.",
+      "quote": "I release the source code whenever my mod's done because if I release it before then I dig my whole mod."
+    }
+  ],
+  "contributor_findings": {
+    "biobak": [
+      {
+        "topic": "technical",
+        "importance": "medium",
+        "summary": "Biobak suggests applying the new void/bottomless-pit style effect to a pit in the ice castle. Kaze implements a quick test and reacts strongly to the look, then troubleshoots opacity/black-clear behavior.",
+        "quote": null
+      }
+    ],
+    "badub": [],
+    "zeina": [],
+    "others": [
+      {
+        "name": "Eiza (EasyAsPie)",
+        "findings": [
+          {
+            "topic": "team",
+            "importance": "medium",
+            "summary": "Kaze describes a recent collaboration with Eiza on a small side ROM hack (Royal Scuttlebug-themed). Kaze handled programming and helped with shaders, while maintaining authority over his slide sections; Eiza did most of his own content and some models/areas.",
+            "quote": "I did all the programming and I helped them with a bunch of shaders. And, of course, I had complete authority over my slides."
+          },
+          {
+            "topic": "milestone",
+            "importance": "low",
+            "summary": "Kaze says the side hack was built quickly (roughly a week of work on his slides plus back-and-forth), with a significant share of effort going into cutscenes, and he points to visibility as a key issue he addressed (notably water visibility).",
+            "quote": null
+          }
+        ]
+      },
+      {
+        "name": "Sauraen",
+        "findings": [
+          {
+            "topic": "technical",
+            "importance": "high",
+            "summary": "Kaze plans to import Sauraen’s tracing tool that records when each thread runs and for how long per frame, to gain a full frame-time overview and support performance tuning decisions.",
+            "quote": null
+          }
+        ]
+      }
+    ]
+  },
+  "memorable_quotes": [
+    {
+      "speaker": "Kaze",
+      "quote": "I think making a game is all about designing a feeling that you want the player to have.",
+      "context": "He rejects an idea (a Sonic-like loop in a slide) because it doesn’t match the ice-castle mood/theme, summarizing his broader design criteria."
+    },
+    {
+      "speaker": "Kaze",
+      "quote": "The game is as difficult as you are brave.",
+      "context": "Explaining how RTYI aims to preserve SM64’s optional-risk structure: safe routes exist, but risky optimizations are player-chosen."
+    },
+    {
+      "speaker": "Kaze",
+      "quote": "If we do both at the same time, then we're going to spend a lot of time making stuff look good that is not even going to make it into the game.",
+      "context": "His production process rationale for blocking out platforming and camera first, then committing to art/beauty passes."
+    }
+  ],
+  "key_stories": [
+    {
+      "title": "Blocking out the ice castle before making it pretty",
+      "summary": "Throughout the stream, Kaze repeatedly chooses to redesign or remove chunks of the ice castle when jumps, readability, or camera behavior feel wrong. He treats the current ugly/placeholder look as intentional so he can rapidly iterate on the movement experience. Only after the routes are proven will he do the time-consuming art pass.",
+      "challenge": "Ice-castle platforming (slides, wind, indoor rooms) risks unfair jumps, unclear routes, and bad camera behavior if art and layout are developed simultaneously.",
+      "process": "He sketches geometry, tests jumps, identifies problem spots (leap-of-faith, impossible jump, cramped wind room), considers alternatives (warp pipes, moving geometry, removing rooms), and recaps star routes to verify flow.",
+      "outcome": "A more coherent star/route plan emerges, plus a willingness to cut areas that fight the camera; visuals are explicitly deferred until the platforming stabilizes.",
+      "key_quote": "Camera really is my biggest concern in this construction here.",
+      "related_to": [
+        "kaze"
+      ]
+    },
+    {
+      "title": "Collaboration side-project with Eiza as a fast iteration outlet",
+      "summary": "Kaze showcases a newly released small hack built with Eiza, describing a division of labor where Kaze did programming and shader help while controlling his slide design. He frames it as a lightweight project with quick turnaround and acknowledges visibility and cutscenes as major effort sinks.",
+      "challenge": "Producing additional content without derailing RTYI, while still experimenting with slides, shaders, and presentation.",
+      "process": "Kaze builds slide segments and programming/shader support; Eiza develops most of the rest; they iterate back and forth. Kaze playthroughs the hack quickly on stream and comments on what worked and what didn’t (visibility, pacing, slide fatigue).",
+      "outcome": "A finished, small release that reinforces lessons relevant to RTYI (breaking up slide monotony with platforming, prioritizing readability).",
+      "key_quote": "In my slide, I broke it up with normal platforming.",
+      "related_to": [
+        "kaze"
+      ]
+    }
+  ],
+  "open_questions": [
+    {
+      "topic": "Ice castle structure and mission gating",
+      "context": "Kaze recaps a multi-route layout with an early-visible star behind glass, a snowman cave path, a raven boss route, and optional abyss/cold-haze rooms plus a hidden 8-bit pipe entrance.",
+      "questions": [
+        "What is the intended narrative/logic for why the star is behind glass, and what ability/path unlocks it later?",
+        "How many stars/collectibles are planned for this course, and which ones are designed to teach sliding vs. momentum jumps vs. wind mechanics?",
+        "What is the ‘big raven’ boss mechanically (movement, arena gimmicks, phases), and how does it tie to Yoshi’s Island inspirations?",
+        "What are the ‘cold haze rooms’ and the abyss skip meant to communicate (risk/reward, atmosphere, story)?"
+      ],
+      "related_to": [
+        "kaze"
+      ]
+    },
+    {
+      "topic": "Camera design policy for indoor platforming",
+      "context": "Kaze repeatedly encounters camera problems in tight rooms (especially with wind and back-and-forth movement) and considers deleting/rebuilding spaces rather than forcing hard camera positions.",
+      "questions": [
+        "Do you have a rule set for when you redesign the level to fit the SM64 camera vs. when you customize camera behavior?",
+        "What camera improvements have you already made in RTYI compared to vanilla/decomp baselines, and what still feels unsolved?",
+        "Are there specific ‘camera danger patterns’ you now avoid when laying out rooms (narrow corridors, vertical shafts, wind sections, etc.)?"
+      ],
+      "related_to": [
+        "kaze"
+      ]
+    },
+    {
+      "topic": "Visual tech for ice (reflectivity, textgen, void effects) under N64 constraints",
+      "context": "Kaze wants ice surfaces with convincing moving shine, dislikes current reflective walls, and tests a noisy-alpha void/bottomless-pit look that he finds visually striking.",
+      "questions": [
+        "What specific rendering approach are you using for the ice shine (multi-texture combiner setup, prim/shade usage), and what’s missing compared to the look you want?",
+        "Where did the void effect come from (inspiration, prior experiments), and what technical constraints (fillrate, overdraw, Z/alpha sorting) limit its use?",
+        "How do you decide when a visual effect is ‘worth it’ on N64 despite performance or complexity cost?"
+      ],
+      "related_to": [
+        "kaze"
+      ]
+    },
+    {
+      "topic": "Performance tooling roadmap (Sauraen tracer) and optimization philosophy",
+      "context": "Kaze says he still needs to import Sauraen’s tool that traces thread timing per frame to get a full overview, implying upcoming optimization work once integrated.",
+      "questions": [
+        "What are the current performance bottlenecks you expect in RTYI (RSP microcode, display lists, overdraw, CPU action code, audio)?",
+        "How will Sauraen’s tracer change your workflow—what decisions will it enable that you can’t confidently make today?",
+        "What would be the documentary ‘before/after’ example of a performance win you expect from using the tracer?"
+      ],
+      "related_to": [
+        "kaze"
+      ]
+    },
+    {
+      "topic": "Source code release strategy and decoupling improvements",
+      "context": "Kaze says he’ll release source when the mod is done to avoid poaching and early impressions, but notes it’s hard while actively developing and he’d need to isolate improvements; he has released an older Peach’s Fury code version.",
+      "questions": [
+        "What specific incidents or fears shaped the decision to delay full source release (asset/code reuse, spoilers, community forks)?",
+        "What does ‘decoupling all the improvements’ involve technically (engine patches, shared libs, build system, toolchain)?",
+        "Would you consider staged releases (tools first, engine improvements, then full game) and why/why not?"
+      ],
+      "related_to": [
+        "kaze"
+      ]
+    }
+  ]
+}

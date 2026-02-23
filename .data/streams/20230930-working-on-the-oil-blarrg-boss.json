@@ -1,0 +1,233 @@
+{
+  "stream_context": {
+    "summary": "Kaze improves engine performance by fixing Mario 64’s culling math and refactoring per-object culling/shadow handling, then spends most of the stream integrating Biobak’s new Star Select (menu) scene: scrolling/tiling background, layout/centering, and text kerning. He also begins implementing Oil Blargg area gameplay logic (fall-into-oil fade-out + respawn), using a triangle edge-distance check generated with ChatGPT, and discusses future polish ideas like a “decal Mario” layer for oil stains.",
+    "level": [
+      "Overworld",
+      "Course 1"
+    ],
+    "significance": "notable",
+    "significance_reason": "Contains a clear engine-level optimization/refactor (measurable FPS gain), a near-finished overhaul of the Star Select presentation (a core first-impression UX moment), and a concrete new approach to respawn safety using triangle edge-distance checks (with explicit ChatGPT-assisted workflow)."
+  },
+  "findings": [
+    {
+      "topic": "technical",
+      "importance": "high",
+      "summary": "Kaze fixed a fundamental issue in Mario 64’s culling logic (it culled as if FOV were ~45° while the hack uses ~60°), which previously forced overly conservative culling; correcting it saved ~600 microseconds per frame (~3–5% render time), improving framerate from ~44 FPS to ~46 FPS in his test scene.",
+      "quote": null
+    },
+    {
+      "topic": "technical",
+      "importance": "high",
+      "summary": "He refactored culling and shadow handling to live in the object itself (rather than geo layout), reducing per-object overhead by “two RAM iterations on every object” and making the engine easier to use for adding shadows/culling radii broadly.",
+      "quote": null
+    },
+    {
+      "topic": "design",
+      "importance": "medium",
+      "summary": "Enemy shadows are currently absent largely due to Fast64 workflow friction; Kaze states that under his newer engine structure, adding enemy shadows everywhere should become straightforward.",
+      "quote": null
+    },
+    {
+      "topic": "milestone",
+      "importance": "medium",
+      "summary": "Project progress estimate: the hack is “over 70% done,” with roughly “four and a half courses” still missing.",
+      "quote": null
+    },
+    {
+      "topic": "technical",
+      "importance": "high",
+      "summary": "Star Select integration required rethinking menu rendering: Kaze decides to use “one render function per thing” (rather than one geo layout per element) so code can select which geometry/layout to draw dynamically, enabling more flexibility for per-slot animations and variations.",
+      "quote": null
+    },
+    {
+      "topic": "technical",
+      "importance": "medium",
+      "summary": "While implementing the new Star Select’s scrolling background, Kaze tracks down a visible seam to an update tick mismatch (speed value aligning with a delayed update), then fixes the “root cause” so the seam disappears.",
+      "quote": null
+    },
+    {
+      "topic": "technical",
+      "importance": "high",
+      "summary": "He discovers a key menu pipeline constraint: some objects/models are not actually loaded at the time Star Select code runs (they appear for a single frame then disappear). He concludes he may need a custom menu segment/asset loading approach, which is “a lot more work than I thought it would.”",
+      "quote": null
+    },
+    {
+      "topic": "technical",
+      "importance": "medium",
+      "summary": "The new Star Select text centering problem is traced to using string length without kerning; Kaze switches it to his improved kerning-based measurement, accepting minor remaining inaccuracy until final kerning is fully settled.",
+      "quote": "I invented better kerning, and this is not used here."
+    },
+    {
+      "topic": "philosophy",
+      "importance": "medium",
+      "summary": "For camera/control schemes, Kaze avoids complex button-combo “tool-like” interactions; he prefers a “one button one output” philosophy to keep gameplay feeling like a game rather than an editor (relevant to his stance on an 8-direction camera concept suggested via another hack).",
+      "quote": "I don’t want to add any button combos to do stuff because it starts to feel less like a game and more like a tool."
+    },
+    {
+      "topic": "technical",
+      "importance": "high",
+      "summary": "In the Oil Blargg area, Kaze implements a fall-into-oil fade-out + respawn system and iterates on camera behavior to minimize disorientation, aiming to keep the camera angle stable and show where the player died (avoiding the camera going under the oil).",
+      "quote": null
+    },
+    {
+      "topic": "technical",
+      "importance": "high",
+      "summary": "Respawn safety becomes a design/tech problem: he wants to respawn Mario away from edges/geometry exploits, and settles toward validating last-safe ground via distance-to-triangle-edge checks. He uses ChatGPT to generate a triangle edge-distance function, calls it “insane,” and notes it would have been hard to write quickly from memory.",
+      "quote": "Dude, it fucking works. You guys have no idea how hard that would have been to program by myself. And this is why I like ChatGPT."
+    },
+    {
+      "topic": "technical",
+      "importance": "medium",
+      "summary": "He explicitly plans to disable this last-safe-position respawn logic on moving objects/platforms, acknowledging that object-based ground introduces edge cases.",
+      "quote": null
+    },
+    {
+      "topic": "design",
+      "importance": "medium",
+      "summary": "He proposes a late-stage polish phase to add VFX/SFX across the game; for the oil hazard specifically, he considers adding an oil-on-Mario effect via a performant overlay approach (rendering a second ‘decal Mario’ with fade in/out), but flags future maintenance cost if additional Mario variants are added.",
+      "quote": null
+    },
+    {
+      "topic": "business",
+      "importance": "low",
+      "summary": "Kaze reports the current ROM size is around 46 MB (an important constraint/metric for content scope and potential hardware expectations).",
+      "quote": null
+    },
+    {
+      "topic": "technical",
+      "importance": "low",
+      "summary": "Kaze speculates that, with F3DEX3 microcode and extreme optimization (geometry, culling, PVS), an N64 could maybe render parts of Mario Sunshine’s Delfino Plaza at ~30 FPS, but calls water “impossible” without a novel technique.",
+      "quote": null
+    }
+  ],
+  "contributor_findings": {
+    "biobak": [
+      {
+        "topic": "design",
+        "importance": "high",
+        "summary": "Biobak provides the new Star Select visual concept/assets (Blender scene) and gives direct feedback on layout: relative vertical placement of strings/stars/logo, and overall “mood setter” composition. Kaze repeatedly checks ‘is this what you want, Biobak?’ while matching the in-game render to Biobak’s reference video.",
+        "quote": null
+      },
+      {
+        "topic": "technical",
+        "importance": "medium",
+        "summary": "Biobak’s Star Select materials/textures include choices that triggered N64 format constraints (e.g., ‘too many unique colors to fit the format’), requiring adjustments like using intensity formats and proper alpha handling.",
+        "quote": null
+      }
+    ],
+    "badub": [],
+    "zeina": [],
+    "others": []
+  },
+  "memorable_quotes": [
+    {
+      "speaker": "Kaze",
+      "quote": "I don’t want to add any button combos to do stuff because it starts to feel less like a game and more like a tool.",
+      "context": "Explaining why he avoids complex camera/control input schemes (ties to his broader goal of making a new game that still feels native to Mario 64/N64)."
+    },
+    {
+      "speaker": "Kaze",
+      "quote": "Dude, it fucking works. You guys have no idea how hard that would have been to program by myself. And this is why I like ChatGPT.",
+      "context": "After using ChatGPT-generated math/code to compute distance from a point to triangle edges for respawn validation in the oil hazard."
+    }
+  ],
+  "key_stories": [
+    {
+      "title": "Fixing Mario 64 culling math to reclaim performance",
+      "summary": "Kaze identifies that Mario 64’s original culling assumptions don’t match RTYI’s camera/FOV and that the stock code effectively compensates by culling too little. He corrects the culling logic, moves culling/shadow decisions into object code, and measures a meaningful per-frame time reduction and FPS gain.",
+      "challenge": "Performance was being wasted because off-screen objects weren’t being culled aggressively/correctly, and object rendering had avoidable overhead.",
+      "process": "He corrected the culling math to match the actual FOV, then refactored so culling radius and shadow hooks are part of each object’s code path, reducing repeated iterations/overhead.",
+      "outcome": "Measured savings of ~600 microseconds per frame (~3–5%), improving a test scene from ~44 to ~46 FPS and making future shadow/culling additions easier to implement consistently.",
+      "key_quote": null,
+      "related_to": [
+        "kaze"
+      ]
+    },
+    {
+      "title": "Integrating a new Star Select that behaves like a real-time scene",
+      "summary": "Kaze implements Biobak’s redesigned Star Select screen, wrestling with menu rendering constraints, asset loading timing, scrolling background tiling seams, and text centering. He shifts toward a more flexible rendering architecture to support unique per-slot animations and future changes.",
+      "challenge": "The menu pipeline loads assets differently than levels, causing models to appear for only a frame or not at all; additionally, scrolling backgrounds introduced visible seams and layout mismatches versus the Blender reference.",
+      "process": "He experiments with object spawning and offsets, investigates load order (‘set current level’ vs actual load), considers custom menu segments, fixes the scrolling seam’s tick-delay root cause, and revises text centering by switching from length-based to kerning-based measurement.",
+      "outcome": "Star Select is described as “beautiful” and close to final, with remaining work mainly around pop-in/spawn timing and minor kerning/layout polish.",
+      "key_quote": null,
+      "related_to": [
+        "kaze",
+        "biobak"
+      ]
+    },
+    {
+      "title": "Designing a fair respawn for falling into oil without flags/checkpoints",
+      "summary": "While starting Oil Blargg gameplay logic, Kaze implements fade-out and respawn when Mario falls into the oil, but realizes naive respawns can place Mario on edges or inside geometry and can be exploited. He explores a deterministic ‘last safe ground’ approach validated by triangle-edge distance, using ChatGPT to quickly obtain the math routine.",
+      "challenge": "Preventing unfair or exploitable respawns (edge spawns, geometry overlap, progress-by-falling) without adding obvious checkpoint flags or heavy per-frame geometry scans.",
+      "process": "He debates respawn-point volumes vs triangle-based logic, rejects ‘flag/checkpoint’ aesthetics, and settles on storing the last valid position only when Mario is sufficiently far from triangle edges; he asks ChatGPT for the edge-distance algorithm and integrates/testing it.",
+      "outcome": "A working distance-to-edge validator is in place and used to gate saving the last-safe position; next steps include finishing Oil Blargg hitbox/behavior and polishing camera/animation/sound.",
+      "key_quote": "Who has edge detection algorithms memorized?",
+      "related_to": [
+        "kaze"
+      ]
+    }
+  ],
+  "open_questions": [
+    {
+      "topic": "Engine refactor details: object-level culling/shadow system",
+      "context": "Kaze says he moved culling and shadow handling into the object itself (instead of geo layout), saving iterations and making features easier to apply everywhere.",
+      "questions": [
+        "What exactly changed in the object pipeline—what data moved (culling radius, shadow params), and how is it authored now compared to the old Fast64-driven workflow?",
+        "What was the optimization he mentioned that ‘doesn’t quite work right now,’ and what’s blocking it?",
+        "How do these engine changes affect collaboration with artists (e.g., what does Biobak need to provide now vs before)?"
+      ],
+      "related_to": [
+        "kaze"
+      ]
+    },
+    {
+      "topic": "Star Select asset loading and ‘one frame visible’ bug",
+      "context": "During Star Select coding, Kaze notices models appear for one frame and disappear; he realizes the menu code may run before required segments/objects are loaded, implying a need for custom menu segment handling.",
+      "questions": [
+        "What is the exact loading order for the act selector/star select in the decomp, and where did RTYI’s approach conflict with it?",
+        "Did you end up implementing a custom menu segment or preloading strategy? If so, what were the tradeoffs (ROM size, RAM, complexity)?",
+        "How did Biobak’s Blender reference scene translate into N64 segment/texture constraints (e.g., color limits, material formats)?"
+      ],
+      "related_to": [
+        "kaze",
+        "biobak"
+      ]
+    },
+    {
+      "topic": "Typography/kerning system in RTYI",
+      "context": "Kaze identifies off-centering caused by length-based measurement without kerning, then switches to his kerning-aware measurement but still expects minor inaccuracies until ‘final kerning.’",
+      "questions": [
+        "What is Kaze’s ‘better kerning’ system technically (data source, per-character widths/pairs), and why wasn’t it used in some UI code paths?",
+        "Is the kerning system custom for RTYI fonts only, or generalized for all UI text (mission titles, course names, etc.)?",
+        "What remaining text/layout issues are still acceptable placeholders vs must-fix before release?"
+      ],
+      "related_to": [
+        "kaze"
+      ]
+    },
+    {
+      "topic": "Oil hazard respawn rules and preventing exploits",
+      "context": "Kaze wants oil to cause fade-out + respawn without feeling random, without flags/checkpoints, and without letting players gain progress by falling; he implements triangle edge-distance validation for ‘last safe’ position and plans to disable it on objects/platforms.",
+      "questions": [
+        "What final rules define a ‘valid’ respawn save point (edge distance threshold, triangle size, slope, ceiling/overhang checks)?",
+        "How do you guarantee players can’t intentionally ‘save’ a spot that lets them skip intended challenge by falling?",
+        "What were the edge cases discovered later (small triangles, thin ledges, moving platforms), and how did you resolve them?"
+      ],
+      "related_to": [
+        "kaze"
+      ]
+    },
+    {
+      "topic": "Planned polish pass: VFX/SFX and ‘decal Mario’ overlay",
+      "context": "Kaze proposes a future polish phase and specifically considers an oil-stain effect via rendering an overlay ‘decal Mario’ with fade in/out, but worries about maintainability if more Mario variants are added.",
+      "questions": [
+        "Did the team end up implementing the ‘decal Mario’ overlay system? If yes, what rendering technique did you use (materials, combiner setup, alpha fades), and what was the performance cost?",
+        "How did you decide which hazards get bespoke VFX/SFX (oil, lava, etc.), and how late in development did that pass happen?",
+        "What other ‘cheap but high impact’ polish techniques became priorities once performance headroom improved?"
+      ],
+      "related_to": [
+        "kaze"
+      ]
+    }
+  ]
+}

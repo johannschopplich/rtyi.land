@@ -1,0 +1,196 @@
+{
+  "stream_context": {
+    "summary": "Kaze iterates on a sub-area of the Arts & Crafts/Cardboard level: defining a fast-paced floating-platform gauntlet with falling platforms and saw hazards, while troubleshooting scaling/UV issues, emulator quirks, and discussing speedrun design constraints. He also briefly talks about his content/business priorities (YouTube as income vs. game-dev passion) and his approach to minimizing user-facing options.",
+    "level": [
+      "Course 14 – Arts & Crafts (Cardboard)"
+    ],
+    "significance": "notable",
+    "significance_reason": "Contains concrete design intent for a new sub-area (race-like falling-platform section with saws), a movement-system side effect that impacts level design, a recurring technical hurdle (scaling vs UV/geometry export mismatch), emulator-support stance, and unusually direct comments about YouTube as a revenue tool vs his actual passion (the game)."
+  },
+  "findings": [
+    {
+      "topic": "design",
+      "importance": "high",
+      "summary": "Kaze defines the core concept for a cardboard/arts-and-crafts sub-area: floating platforms over an abyss with a lava motif, where platforms fall once the player approaches and saw hazards activate when you get close, pushing the section toward a fast, momentum-heavy ‘race’ feel rather than an autoscroller.",
+      "quote": null
+    },
+    {
+      "topic": "technical",
+      "importance": "high",
+      "summary": "Platform variety is being driven via per-object parameters (he refers to them as “B” parameters) to scale platforms, but he runs into major mismatches between how Blender applies transforms/scales and how Mario 64 renders/imports them, creating incorrect scaling/offsets and forcing him to consider remaking the platforms cleanly.",
+      "quote": null
+    },
+    {
+      "topic": "technical",
+      "importance": "medium",
+      "summary": "Scaling platforms does not scale UVs, causing visible texture stretching; Kaze notes the likely real fix is dynamically generating vertices and/or recalculating UV mapping based on final scale rather than relying on static geometry.",
+      "quote": null
+    },
+    {
+      "topic": "technical",
+      "importance": "medium",
+      "summary": "He encounters rendering/precision issues (“underflow/overflow”) while experimenting with these platform pieces and their colors; he adjusts parameters (he mentions setting values too high) and tries to isolate whether some issues are emulator artifacts vs real engine problems.",
+      "quote": null
+    },
+    {
+      "topic": "design",
+      "importance": "medium",
+      "summary": "He actively tunes difficulty by changing platform spacing/width, acknowledging some sequences are too punishing for first-time players, and expecting players to improve by later courses; he also plans the star to end on a stable (non-falling) platform for fairness/clarity.",
+      "quote": null
+    },
+    {
+      "topic": "technical",
+      "importance": "medium",
+      "summary": "He describes conveyor behavior as an actor-driven push effect (checks radius + collision type and pushes Mario), while the visuals are currently part of level geometry—implying a separation between collision logic and rendered mesh that affects how conveyors should be authored in levels.",
+      "quote": null
+    },
+    {
+      "topic": "technical",
+      "importance": "medium",
+      "summary": "For bomb/treadmill behavior, he confirms the bombs are currently just moved forward by the treadmill logic; turning the treadmill path is possible, but would require geometry changes (rounded corner and/or a drop-down to center bombs) to avoid bombs sticking on edges or looking broken.",
+      "quote": null
+    },
+    {
+      "topic": "philosophy",
+      "importance": "high",
+      "summary": "Kaze states a clear speedrun-design philosophy: BLJs and invisible-wall tech can be exciting in moderation, but too many exploits make a speedrun “unrecognizable” from casual play and therefore less fun to watch/play; he explicitly wants speedrunning potential without letting exploit repetition dominate.",
+      "quote": "If there’s 20 BLJs in a speedrun, it no longer is hype. As soon as the game becomes unrecognizable from how the casual gameplay of the game goes, then the speedrun is not fun anymore."
+    },
+    {
+      "topic": "business",
+      "importance": "high",
+      "summary": "He is unusually explicit that YouTube videos are primarily a money vehicle for him, while his actual passion is building Return to Yoshi’s Island; he treats video performance as a functional metric rather than creative validation and is actively testing what topics get views.",
+      "quote": "There’s two things I care about in life right now, professionally. The first is making my video game and the second is making money. Making YouTube videos, for me, that’s just a way to make money."
+    },
+    {
+      "topic": "philosophy",
+      "importance": "medium",
+      "summary": "He rejects adding lots of user-facing graphics/options “for every little baby thing,” preferring fewer options and more opinionated defaults; he tests a conditional emulator-only visual tweak (smaller hat texture) but decides it looks bad and won’t ship it.",
+      "quote": "I’m not adding options for every little baby thing. Less options is better."
+    }
+  ],
+  "contributor_findings": {
+    "biobak": [],
+    "badub": [],
+    "zeina": [
+      {
+        "topic": "team",
+        "importance": "low",
+        "summary": "Kaze banters with Zeina (addressed as “Lina”) about tool/editor messiness and error spam, implying she has been commenting on his setup and he’s pushing back jokingly; it’s a glimpse of their working-from-home dynamic during active development.",
+        "quote": null
+      }
+    ],
+    "others": [
+      {
+        "name": "Sauraen",
+        "findings": [
+          {
+            "topic": "technical",
+            "importance": "low",
+            "summary": "Kaze attributes some persistent engine/editor error spam (including references to occlusion planes) to upstream/other-side technical causes and jokes that if it’s Sauraen’s fault he won’t complain—indicating ongoing low-level rendering/toolchain work that can surface as noisy errors during content creation.",
+            "quote": null
+          }
+        ]
+      }
+    ]
+  },
+  "memorable_quotes": [
+    {
+      "speaker": "Kaze",
+      "quote": "There’s two things I care about in life right now, professionally. The first is making my video game and the second is making money. Making YouTube videos, for me, that’s just a way to make money.",
+      "context": "Explains his current professional priorities and why he evaluates YouTube topics by performance, not passion—useful for the documentary’s ‘how do you sustain a long ROMhack project’ thread."
+    },
+    {
+      "speaker": "Kaze",
+      "quote": "If there’s 20 BLJs in a speedrun, it no longer is hype. As soon as the game becomes unrecognizable from how the casual gameplay of the game goes, then the speedrun is not fun anymore.",
+      "context": "A succinct statement of how he wants to balance exploit-friendly Mario 64 mechanics with an intended experience that still reads like ‘real gameplay’."
+    }
+  ],
+  "key_stories": [
+    {
+      "title": "A movement-consistency tweak creates a new jump option",
+      "summary": "While testing platforming, Kaze demonstrates that a long jump can be forced into a front flip due to a movement change he made earlier. The change was intended to make side flips more consistent, but it also creates new ways for players (and level design) to chain movement.",
+      "challenge": "Improve movement consistency (specifically side flips) without making controls awkward or overly input-sensitive.",
+      "process": "He implements a behavior where braking while holding forward triggers a forward flip, then discovers it can be used as a ‘new jump strat’ from other states like long jumps; he evaluates how it feels for platforming sections.",
+      "outcome": "He likes the result as an emergent technique and considers it in the context of platform challenges (i.e., designing spaces that reward mastery without requiring obscure inputs).",
+      "key_quote": "I made it so if you’re braking and holding forward, you get a forward flip… I wanted to make the side flips more consistent.",
+      "related_to": [
+        "kaze"
+      ]
+    },
+    {
+      "title": "Scaling platforms exposes Blender-to-engine mismatch",
+      "summary": "Kaze tries to author modular platform pieces with variable scaling for level variety, but the imported result doesn’t match Blender: scales and translations appear inconsistent, and texture UVs don’t follow scale. He decides the fastest path is to remake the platform assets cleanly and potentially move to a more programmatic solution for UV/geometry.",
+      "challenge": "Create modular platform variants cheaply (different sizes/colors) without breaking alignment, UVs, or stability in the Mario 64 renderer/toolchain.",
+      "process": "He uses object parameters for scaling, tests in-game repeatedly, observes overflow/underflow and transform mismatches, and considers generating vertices/UVs dynamically to reflect final scale.",
+      "outcome": "He abandons the current broken setup (“remake these platforms”) and identifies a likely future engineering task (UV scaling via dynamic geometry) if scaling remains a core feature.",
+      "key_quote": "There’s clearly a large difference between how all of this is applied in Blender versus in Mario 64.",
+      "related_to": [
+        "kaze"
+      ]
+    }
+  ],
+  "open_questions": [
+    {
+      "topic": "Arts & Crafts sub-area identity and placement",
+      "context": "Kaze calls it an ‘Arts and Crafts stage’/‘cardboard level’ sub-area that stands out as more arbitrary than the rest of the game, with painted floors, falling cardboard platforms, and lava/abyss theming.",
+      "questions": [
+        "Where does this sub-area sit in the game’s broader tone/fiction—why is it intentionally more ‘arbitrary’ than the rest, and is that a one-off contrast or a recurring motif?",
+        "What is the player’s narrative framing for this section (secret room, optional challenge, required star path), and how do you tutorialize its ‘race-like’ pacing?",
+        "How do you decide when a section is ‘brutal but fair’ vs. simply too difficult for the intended audience?"
+      ],
+      "related_to": [
+        "kaze"
+      ]
+    },
+    {
+      "topic": "Scaling system: transforms, UVs, and authoring workflow",
+      "context": "He scales platforms via parameters for variety, but scaling doesn’t affect UVs and Blender transforms don’t match in-game; he mentions potentially needing dynamic vertex/UV generation.",
+      "questions": [
+        "What exactly are the ‘B parameters’ you’re using for platform scaling (engine-side variables, actor params, custom level-script values), and why was that approach chosen?",
+        "What is the root cause of the Blender-to-engine mismatch (transform bake order, axis/rotation order, exporter bug, decomp model pipeline constraints)?",
+        "Do you expect to solve UV scaling via a custom exporter step, runtime dynamic geometry generation, or by restricting scaling to axes that don’t break textures?",
+        "How do these constraints affect level designers/artists on the team—are you building tooling to shield them from transform/UV pitfalls?"
+      ],
+      "related_to": [
+        "kaze"
+      ]
+    },
+    {
+      "topic": "Hazard behavior: saw activation and conveyor/bomb routing",
+      "context": "Saws will activate when Mario is close; conveyors are described as actor push-logic with visual geo; bombs on treadmills can be routed but need geometry accommodations (drop/rounded corners).",
+      "questions": [
+        "How are the saws implemented (actor count, activation radius checks, audio/animation cues), and what performance limits does that impose in larger rooms?",
+        "Is the ‘visual geo + invisible logic actor’ approach for conveyors a deliberate engine standard you’re adopting for other hazards too?",
+        "For the bomb treadmill: do bombs use standard enemy pathing at all, or are they entirely driven by external forces—how do you prevent edge-sticking and keep the motion looking intentional?"
+      ],
+      "related_to": [
+        "kaze"
+      ]
+    },
+    {
+      "topic": "Emulator support policy and ‘minimum options’ philosophy",
+      "context": "Kaze experiments with an emulator-only visual tweak (smaller hat texture to look less crusty) and rejects it; he also expresses strong preference for fewer settings.",
+      "questions": [
+        "What is your formal policy for emulator vs real N64 parity—what kinds of differences are acceptable, and what’s the line you won’t cross?",
+        "How do you decide when to add a toggle vs enforcing one artistic/technical choice, especially when viewers request customization?",
+        "Do you plan to publish a recommended emulator/plugin setup given issues like coin rendering and input quirks you hit live?"
+      ],
+      "related_to": [
+        "kaze"
+      ]
+    },
+    {
+      "topic": "Speedrun compatibility without ‘exploit soup’",
+      "context": "He expects strong speedrunning potential but wants to avoid runs dominated by BLJs/invisible-wall abuse; he even estimates rough any% and 100% times based on his current expectations.",
+      "questions": [
+        "What specific mechanics are you intentionally preserving for speedrunners (BLJs, wallkicks, advanced tech), and which are you actively designing against?",
+        "Do you run any internal ‘casual readability’ checks (e.g., can a viewer still recognize intended gameplay from watching a run)?",
+        "Are you considering separate categories/rulesets, or is the design goal to shape the meta purely through level layout and collision choices?"
+      ],
+      "related_to": [
+        "kaze"
+      ]
+    }
+  ]
+}

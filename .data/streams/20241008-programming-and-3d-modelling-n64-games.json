@@ -1,0 +1,260 @@
+{
+  "stream_context": {
+    "summary": "Kaze focuses the stream on polishing and reworking the Goomba boss fight based on Biobak’s feedback, including AI/pathing, boulder behavior, spawn/disappearance tuning, and visual polish (shadows/animations/doors). He also shares recent N64-compatibility fixes (lights/crashes), experiments with mipmaps and a bloom-like effect, and discusses channel strategy: clarifying to viewers he’s building a full game (RTYI/RTY64) rather than “still talking about Mario 64,” including deliberate title/thumbnail positioning and concerns about being lumped into “YouTube slop.”",
+    "level": [],
+    "significance": "notable",
+    "significance_reason": "Contains concrete boss-fight redesign details, N64 performance/graphics experimentation, a clear UI philosophy statement, and several practical production notes (pending animations, assets missing, paying an external editor/creator for update videos)."
+  },
+  "findings": [
+    {
+      "topic": "design",
+      "importance": "high",
+      "summary": "Biobak’s requested redesign for the Goomba boss fight is adopted: the Goomba King chooses a spot and walks there, while the boulder’s targeting/follow behavior is tied to Mario so the player must aim the boulder into the boss (rather than the boulder simply tracking the boss).",
+      "quote": null
+    },
+    {
+      "topic": "technical",
+      "importance": "high",
+      "summary": "A major boss-fight movement/positioning bug was traced to random number generation producing values in the range 0..1 instead of -1..1, causing biased/incorrect position generation; fixing the range restores expected movement.",
+      "quote": null
+    },
+    {
+      "topic": "technical",
+      "importance": "medium",
+      "summary": "Spike Goombas had a visual/animation glitch (brief teleport/disappear during kick/arc) tied to a face angle pitch/animation parameter behaving erratically; Kaze adjusts the pitch handling to stabilize the motion.",
+      "quote": null
+    },
+    {
+      "topic": "technical",
+      "importance": "medium",
+      "summary": "The boss encounter still has edge-case state issues when the Goomba King is hit mid-kick animation, suggesting an action/state transition bug that needs guarding or a cleaner interrupt path.",
+      "quote": null
+    },
+    {
+      "topic": "design",
+      "importance": "medium",
+      "summary": "Kaze tunes encounter fairness/readability by making the Goomba King less likely to choose the middle of the arena for his positioning behavior, reducing accidental hits and improving intentional aiming.",
+      "quote": null
+    },
+    {
+      "topic": "technical",
+      "importance": "medium",
+      "summary": "Boss disappearance/draw distance is explicitly tuned: current cutoff at ~2000 is considered too early; Kaze targets ~2500–2600 to make despawns less noticeable and more natural in the arena layout.",
+      "quote": null
+    },
+    {
+      "topic": "technical",
+      "importance": "medium",
+      "summary": "Kaze adjusts collision geometry around an inaccessible area to prevent Goombas getting stuck and to stop spike Goombas from jumping over a fence; he notes collision simplification can save only a few bytes of RAM but also offers a very minor FPS improvement.",
+      "quote": null
+    },
+    {
+      "topic": "technical",
+      "importance": "medium",
+      "summary": "N64-specific stability/perf work happened off-stream: Kaze fixed multiple N64 bugs over the prior two days, including lights working again (after a macro-related mistake) and a crash in a specific area.",
+      "quote": null
+    },
+    {
+      "topic": "technical",
+      "importance": "medium",
+      "summary": "Graphics pipeline experiments: Kaze successfully adds mipmaps (visible on textures) and prototypes a bloom-like effect, but it looks overly bright in his attempt. He references a known bloom setup that costs ~7ms of RDP time, suggesting it’s only viable in tightly controlled sub-areas.",
+      "quote": null
+    },
+    {
+      "topic": "technical",
+      "importance": "low",
+      "summary": "Tooling note: Kaze exports animations/models through Blender using Fast64; he observes Fast64 influences the animation table layout and workflow quirks.",
+      "quote": null
+    },
+    {
+      "topic": "team",
+      "importance": "high",
+      "summary": "Animation dependencies are blocking completion: Kaze identifies missing/needed animations (notably a kick animation and an “angry” animation trigger for the Goomba King, plus closed-eye tweaks and other boss-related animations) and plans to message Zeina with a specific animation request list and send her the latest file.",
+      "quote": null
+    },
+    {
+      "topic": "design",
+      "importance": "medium",
+      "summary": "UI philosophy is explicitly stated: Kaze wants any new UI to feel like a natural evolution of Mario 64’s UI rather than an unrelated “3D world UI” overlay; he frames UI redesign as a constrained design problem, not just cosmetic preference.",
+      "quote": "It has to be like, here is a UI that is a natural evolution of Mario 64's UI."
+    },
+    {
+      "topic": "community",
+      "importance": "medium",
+      "summary": "Kaze is increasingly encountering audience confusion/negativity (“why are you still talking about Mario 64?”). He plans a dedicated main-channel video explaining he’s not optimizing vanilla SM64 but building a new N64 game from the decomp base, and why progress previews are limited on the main channel.",
+      "quote": null
+    },
+    {
+      "topic": "business",
+      "importance": "medium",
+      "summary": "Kaze discusses deliberate YouTube packaging strategy: he and Biobak workshop stronger, clickier titles (e.g., “The secret reason I’ve been rewriting Mario 64”) while worrying about being categorized as low-value “slop.” He views title/thumbnail and video quality as multiplicative for reach.",
+      "quote": null
+    },
+    {
+      "topic": "legal-nintendo",
+      "importance": "low",
+      "summary": "He briefly mentions Nintendo takedowns circulating on Twitter and that people are worried; he implies legal defense is costly (“lawyers are very expensive”), shaping how creators respond.",
+      "quote": null
+    }
+  ],
+  "contributor_findings": {
+    "biobak": [
+      {
+        "topic": "design",
+        "importance": "high",
+        "summary": "Biobak proposes changes to the Goomba boss fight that Kaze agrees to implement, including the core behavior shift (boss picks a spot; boulder follows Mario so the player aims it).",
+        "quote": null
+      },
+      {
+        "topic": "team",
+        "importance": "medium",
+        "summary": "Biobak supplies key assets Kaze is integrating and re-integrating (Goomba King model/animations, boss door files). Kaze temporarily loses track of the door file/version and has to locate it locally and/or re-download.",
+        "quote": null
+      },
+      {
+        "topic": "business",
+        "importance": "medium",
+        "summary": "Biobak suggests high-performing title concepts for upcoming videos; Kaze believes the title changes alone could substantially increase views and adjusts his plan accordingly.",
+        "quote": null
+      }
+    ],
+    "badub": [],
+    "zeina": [
+      {
+        "topic": "team",
+        "importance": "high",
+        "summary": "Zeina is the next dependency for polish/finish: Kaze plans to send her the newest file and a list of needed animations (kick, angry state, closed-eye/face tweaks; also mentions other bosses needing sleep/idle-style animations).",
+        "quote": null
+      }
+    ],
+    "others": [
+      {
+        "name": "Zell",
+        "findings": [
+          {
+            "topic": "business",
+            "importance": "low",
+            "summary": "Kaze mentions an upcoming “Missing Link version updates” video that Zell is working on; Kaze intends to pay Zell to handle it, indicating outsourcing some video production/editing work.",
+            "quote": null
+          }
+        ]
+      },
+      {
+        "name": "ZeroVolt",
+        "findings": [
+          {
+            "topic": "community",
+            "importance": "low",
+            "summary": "Kaze references ZeroVolt in passing in a joke about music/ROM-hack culture, reinforcing that music conversion/community tooling exists around the project ecosystem.",
+            "quote": null
+          }
+        ]
+      }
+    ]
+  },
+  "memorable_quotes": [
+    {
+      "speaker": "Kaze",
+      "quote": "If you want to be successful making video games you need to be mentally unwell.",
+      "context": "Kaze frames long-term game development as requiring an obsessive endurance for unpleasant tasks, compromises, and grinding through features with little immediate reward."
+    },
+    {
+      "speaker": "Kaze",
+      "quote": "It has to be like, here is a UI that is a natural evolution of Mario 64's UI.",
+      "context": "A clear articulation of his ‘respectful but new’ design stance: changes should feel continuous with the original game’s language, not bolted-on modern UI."
+    }
+  ],
+  "key_stories": [
+    {
+      "title": "Goomba boss fight rework driven by Biobak feedback",
+      "summary": "Kaze dedicates the stream to implementing Biobak’s suggested changes to the Goomba boss fight, discovering multiple small but consequential issues (random range bug, animation/state edge cases, despawn distance, collision quirks). The encounter moves toward a clearer player skill loop: positioning and aiming the boulder at a boss that chooses locations, supported by new animations and doors for the ‘angry’ phase.",
+      "challenge": "The fight had behavior/visual bugs (teleporty motion, state glitches when hit mid-animation, missing boulder-goombas, early despawns) and needed a more intentional player-driven mechanic.",
+      "process": "Kaze debugs movement math (0..1 vs -1..1 RNG), adjusts state/action logic, tunes distances, edits collision to prevent stuck/jumps, adds/adjusts shadows, and identifies missing animations/door assets; he plans to hand off animation needs to Zeina.",
+      "outcome": "Core behavior is largely working (Goombas can push the boulder; aiming loop functioning), but the fight still needs a kick animation, an angry animation trigger, boss doors tied to anger, and a more natural-looking boss disappearance/despawn behavior.",
+      "key_quote": null,
+      "related_to": [
+        "kaze",
+        "biobak",
+        "zeina"
+      ]
+    },
+    {
+      "title": "Repositioning the public narrative: not “still Mario 64 videos,” but a new N64 game",
+      "summary": "Kaze describes recurring comments from viewers who misunderstand his work as only making Mario 64 videos, not building a new game. He plans a main-channel video to explicitly explain the project’s purpose and why progress previews aren’t heavily featured on the main channel, while also debating how far to lean into click-forward titles without being labeled low-quality ‘slop.’",
+      "challenge": "Audience expectation mismatch and negativity, plus platform incentives that reward clicky framing but can damage perceived credibility.",
+      "process": "He outlines a release cadence (BLJ video, then an explainer about the N64 game, then a Missing Link updates video via Zell) and iterates on titles suggested by Biobak while discussing the importance of title/thumbnail vs content depth.",
+      "outcome": "A concrete communication plan emerges: publish an explicit ‘why I’m rewriting Mario 64’ explanation to realign audience understanding and protect the project’s long-term identity.",
+      "key_quote": "The secret reason I've been rewriting Mario 64.",
+      "related_to": [
+        "kaze",
+        "biobak"
+      ]
+    }
+  ],
+  "open_questions": [
+    {
+      "topic": "Goomba boss fight final spec and difficulty goals",
+      "context": "Kaze implements Biobak’s behavioral redesign (boss chooses spot; boulder follows Mario; goombas push boulder), but still tunes center-position likelihood, inverted directions, and state transitions when hit mid-animation.",
+      "questions": [
+        "What was the original Goomba fight design, and what specific player frustrations or readability issues triggered the redesign?",
+        "What is the intended ‘skill test’ of the fight (aiming, positioning, timing), and how do you measure when it feels fair but challenging?",
+        "How did you decide the boss should choose a spot (AI-driven) rather than chase Mario, and what does that say about your broader RTYI boss philosophy?",
+        "What’s the plan to prevent animation/state bugs when the boss is interrupted mid-kick—do you add invulnerability windows, action locks, or better state machines?"
+      ],
+      "related_to": [
+        "kaze",
+        "biobak"
+      ]
+    },
+    {
+      "topic": "Animation pipeline and Zeina handoff for boss polish",
+      "context": "Completion is blocked on missing animations (kick, angry) and tweaks (closed eyes, other boss ‘sleep’). Kaze plans to message Zeina a list and send the updated file.",
+      "questions": [
+        "How do you and Zeina divide animation tasks: does Kaze specify exact frame counts/poses, or does Zeina iterate creatively and you integrate?",
+        "What are the exact remaining animations for the Goomba King phase changes (idle/walk/kick/angry), and what triggers them in code?",
+        "What’s the typical iteration loop when an animation doesn’t sync with gameplay timing—do you adjust animation speed, code timing, or both?"
+      ],
+      "related_to": [
+        "kaze",
+        "zeina"
+      ]
+    },
+    {
+      "topic": "N64 rendering constraints: mipmaps, bloom, and ‘where it’s worth it’",
+      "context": "Kaze added mipmaps, prototyped bloom (unsatisfied with current look), and cites a bloom approach costing ~7ms RDP time, possibly usable only in sub-areas. He also fixed N64 light issues and some crashes off-stream.",
+      "questions": [
+        "What visual ‘upgrade’ targets do you prioritize that still feel authentic to N64 (e.g., mipmaps, lighting fixes) versus effects you consider too modern (bloom)?",
+        "When you see an effect costs ~7ms of RDP time, how do you decide whether it’s acceptable—do you budget per-room, per-scene, or per-camera angle?",
+        "What were the specific N64 crashes/lights bugs you fixed recently, and what did they teach you about building RTYI on real hardware constraints?"
+      ],
+      "related_to": [
+        "kaze"
+      ]
+    },
+    {
+      "topic": "UI redesign philosophy and practical limits",
+      "context": "Kaze says any UI change must be a natural evolution of Mario 64’s UI, and notes he can’t implement every suggested improvement due to time constraints.",
+      "questions": [
+        "What parts of Mario 64’s UI are you committed to preserving (icon language, fonts, layout), and what parts are you willing to modernize?",
+        "Do you have a written UI style guide for RTYI, or is it driven by ‘feel’ during implementation?",
+        "What UI changes have you explicitly rejected because they break the ‘respectful evolution’ rule, even if they’re popular suggestions?"
+      ],
+      "related_to": [
+        "kaze"
+      ]
+    },
+    {
+      "topic": "Public communication strategy vs ‘YouTube slop’ risk",
+      "context": "Kaze plans an explainer video to correct audience misunderstanding, while weighing aggressive titles that may boost views but risk brand dilution. He also mentions paying Zell for a Missing Link updates video.",
+      "questions": [
+        "How do you decide the line between ‘compelling title’ and ‘credibility damage’ for a technical/game-dev channel?",
+        "What evidence do you use to predict view counts from title/thumbnail changes—past experiments, analytics, or intuition?",
+        "Why outsource the Missing Link updates video to Zell—time savings, expertise, or a deliberate separation between dev work and channel operations?"
+      ],
+      "related_to": [
+        "kaze",
+        "biobak"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,184 @@
+{
+  "stream_context": {
+    "summary": "Kaze integrates Biobak’s new level art and prototypes a Wild West–style minecart chase setpiece, iterating on enemy minecart AI, spline following, and a forced cutscene to prevent unfair player behavior. He also locks in several game-wide design choices (red coins not ejecting you from a stage, no 100-coin stars, global coin counter) and tests new sound replacements (Mario Kart 64 / Smash Melee).",
+    "level": [],
+    "significance": "notable",
+    "significance_reason": "Introduces concrete, project-wide design rules (no 100-coin stars; global coin counter; selective ‘no-exit’ stars) while also capturing a full iteration loop on a minecart setpiece that forces a design pivot (cutscene + one large player cart) and uncovers a camera-flag logic bug."
+  },
+  "findings": [
+    {
+      "topic": "team",
+      "importance": "medium",
+      "summary": "Kaze spent roughly the last 1–2 weeks importing and integrating Biobak’s assets into the current level, and is happy with how closely the visuals read as ‘Mario’ while still feeling new.",
+      "quote": null
+    },
+    {
+      "topic": "technical",
+      "importance": "medium",
+      "summary": "Kaze reiterates that the project’s visuals can look ‘too good for N64,’ but the scenes still run on real hardware constraints (he frames it as surprising-but-working).",
+      "quote": null
+    },
+    {
+      "topic": "design",
+      "importance": "high",
+      "summary": "Kaze implemented a rule that red-coin stars do not kick the player out of the stage; he frames this as a ‘necessary change’ for flow and modernized pacing.",
+      "quote": "I actually made it so that red coin stars don't put you out of the stage anymore. I think that was a necessary change."
+    },
+    {
+      "topic": "design",
+      "importance": "high",
+      "summary": "Kaze does not want 100-coin stars in Return to Yoshi’s Island, and instead plans coins around a global coin counter system rather than per-course 100-coin objectives.",
+      "quote": "There's no 100 coin stars in this game. I don't think 100 coin stars should be in this game."
+    },
+    {
+      "topic": "design",
+      "importance": "high",
+      "summary": "He clarifies a broader philosophy: never ejecting the player after every star would be nice, but it becomes a restrictive constraint for linear sections; therefore he will selectively apply ‘no-exit’ to certain stars (red coins were easy to flag).",
+      "quote": "It'd be nice to have a Mario game where stuff like that doesn't boot you out at all. But that is a very limiting design thing."
+    },
+    {
+      "topic": "design",
+      "importance": "high",
+      "summary": "For the cowboy/mine setpiece: the chase setup is Snifits/Shy Guys running away, jumping into minecarts that fall in, and Mario needing to ride/dodge while they shoot. Kaze discovers that jumping between multiple small carts is too demanding/unreliable and starts pivoting the encounter design.",
+      "quote": "Swapping between minecarts is really, really difficult. Holy shit. I can't expect players to do that. How do we make this better?"
+    },
+    {
+      "topic": "technical",
+      "importance": "high",
+      "summary": "Kaze implements minecart path-following via splines, then adds per-cart speed shaping variables (faster at start, slower at end) to keep carts aligned so jumps are feasible; he describes these variables explicitly as a player-comfort alignment tool.",
+      "quote": "They make the minecart go faster or slower at the beginning, so that they stay more in line with each other, so that it's easier to jump between them."
+    },
+    {
+      "topic": "technical",
+      "importance": "high",
+      "summary": "To prevent the player from stepping onto tracks too early (and being unfairly crushed), Kaze decides the ‘enemies jump into carts’ moment should be a cutscene with player control disabled; he then debugs camera clipping and finds a logic error: what he treated as camera ‘flags’ were actually indices whose combination produced an unintended ‘free camera through walls’ state.",
+      "quote": "The only solution here is a cutscene... These are not flags. They're indices."
+    },
+    {
+      "topic": "technical",
+      "importance": "medium",
+      "summary": "He begins a pass on new sound effects: ground-pound jump from Mario Kart 64, spin-jump voice from Smash Melee, and a modified fall sound; chat feedback flags pitch/length issues, and Kaze notes the fall sound feels cut off at the start.",
+      "quote": null
+    }
+  ],
+  "contributor_findings": {
+    "biobak": [
+      {
+        "topic": "team",
+        "importance": "medium",
+        "summary": "Biobak provided level art/assets that Kaze spent the last 1–2 weeks importing and integrating, which significantly defines the look of the current level space.",
+        "quote": null
+      }
+    ],
+    "badub": [],
+    "zeina": [
+      {
+        "topic": "team",
+        "importance": "low",
+        "summary": "Kaze calls out to Zeina during the stream with an asset need: ‘milk bottles’ for the cowboy level/scene dressing.",
+        "quote": "Zeina, then you make milk bottles. I need them. We need milk bottles."
+      }
+    ],
+    "others": []
+  },
+  "memorable_quotes": [
+    {
+      "speaker": "Kaze",
+      "quote": "It'd be nice to have a Mario game where stuff like that doesn't boot you out at all. But that is a very limiting design thing.",
+      "context": "Explains the tradeoff between modern convenience (staying in-level after objectives) and the structural needs of linear, setpiece-driven design on an SM64-style course framework."
+    },
+    {
+      "speaker": "Kaze",
+      "quote": "They invented this in 1996 and there are still games out in 2023–2024 that don't use this... it's the joystick.",
+      "context": "A blunt design/UX philosophy moment: Kaze argues that ‘analog’ controls require deliberate programming and that many modern games still mishandle it."
+    }
+  ],
+  "key_stories": [
+    {
+      "title": "Minecart chase prototype forces a design pivot",
+      "summary": "Kaze prototypes a minecart chase where Snifits/Shy Guys flee into multiple minecarts and Mario must ride along while dodging shots. Playtesting reveals the core interaction—switching between multiple small carts—becomes too hard and inconsistent, especially on corners and with spacing drift.",
+      "challenge": "Make a cinematic chase that feels fair and readable on N64-era movement/camera constraints, without relying on unfair squish deaths or awkward track interactions.",
+      "process": "He tunes spline-following, decouples facing/movement angles to reduce jitter, and introduces per-cart speed-shaping variables to keep carts aligned. To stop players from jumping onto the tracks early and getting crushed, he converts the ‘enemies boarding carts’ moment into a cutscene and debugs camera clipping, discovering an indices-vs-flags bug that made the camera pass through walls.",
+      "outcome": "The chase becomes mechanically stable enough to proceed (carts align better, camera no longer clips), but Kaze concludes the multi-cart switching concept still needs rethinking and experiments with a new structure: one larger cart for Mario plus smaller enemy carts.",
+      "key_quote": "Swapping between minecarts is really, really difficult. Holy shit. I can't expect players to do that.",
+      "related_to": [
+        "kaze"
+      ]
+    },
+    {
+      "title": "Reframing coins and star flow (no ejection, no 100-coin stars)",
+      "summary": "Kaze locks in multiple systemic changes aimed at pacing and reducing friction: red-coin stars won’t eject the player from a stage, and 100-coin stars are removed entirely. He proposes a global coin counter as the underlying way coins ‘matter’ across the game.",
+      "challenge": "Modernize SM64’s mission loop without breaking level structure—particularly for linear sections that traditionally end with a star warp-out.",
+      "process": "He selectively applies ‘no-exit’ only to certain stars (starting with red coins because they’re easy to mark) and rejects the 100-coin star model as incompatible with his intended structure and progression.",
+      "outcome": "A clearer design direction emerges: fewer forced resets, less checklist coin grinding, and a coin system that supports broader progression via a global counter.",
+      "key_quote": "There's no 100 coin stars in this game. I don't think 100 coin stars should be in this game.",
+      "related_to": [
+        "kaze"
+      ]
+    }
+  ],
+  "open_questions": [
+    {
+      "topic": "Global coin counter implementation and player-facing purpose",
+      "context": "Kaze says regular coins will work via a ‘global coin counter’ and that there will be no 100-coin stars, implying coins now serve a different macro-progression role.",
+      "questions": [
+        "What does the global coin counter unlock or affect (moves, levels, shops, collectibles, difficulty assists)?",
+        "Is the global coin counter purely cumulative across the entire save file, or can it be spent/removed?",
+        "How do you prevent players from feeling like coins are pointless without 100-coin stars? What replaces that satisfaction loop?"
+      ],
+      "related_to": [
+        "kaze"
+      ]
+    },
+    {
+      "topic": "Selective ‘no-exit star’ rules and exceptions",
+      "context": "Kaze implemented ‘red coin stars don’t boot you out’ but says making all stars non-ejecting is too limiting for linear sections.",
+      "questions": [
+        "Which star types will (and won’t) keep you in the level besides red coins, and why those specifically?",
+        "When a linear section ends in a star, how do you return the player without awkward warps—do you ever ‘end’ a section inside the same course?",
+        "How do these rules interact with cutscenes, checkpoints, and course re-entry placement?"
+      ],
+      "related_to": [
+        "kaze"
+      ]
+    },
+    {
+      "topic": "Final design of the minecart chase encounter",
+      "context": "During the stream Kaze iterates from multiple small minecarts toward a design with one large Mario cart and enemy carts, and uses a cutscene to start the sequence safely.",
+      "questions": [
+        "What final version did you settle on (one big cart vs multiple), and what playtest feedback drove the decision?",
+        "How will the enemy shooting pattern work so that corners don’t create unavoidable hits or chaotic jumps?",
+        "What visual/animation work is still needed (minecart models, warning signs, enemy boarding animation, camera choreography)?"
+      ],
+      "related_to": [
+        "kaze",
+        "zeina"
+      ]
+    },
+    {
+      "topic": "Camera system bug: indices mistaken for flags",
+      "context": "Kaze believed he was combining camera ‘keep-in’ flags, but later realizes the values were indices; enabling multiple values produced an unintended ‘free camera through walls’ behavior.",
+      "questions": [
+        "Where in the engine/editor pipeline did the ‘flags vs indices’ misunderstanding originate (tools UI, documentation, legacy SM64 behavior)?",
+        "What changes did you make to prevent this class of bug from recurring (renaming, asserts, tooling constraints)?",
+        "Are there other cutscenes/areas that may have shipped with incorrect camera settings because of this?"
+      ],
+      "related_to": [
+        "kaze"
+      ]
+    },
+    {
+      "topic": "Zeina’s requested ‘milk bottles’ asset and how props are assigned",
+      "context": "Kaze directly requests Zeina make ‘milk bottles’ for the cowboy level, implying a prop/scene-dressing pipeline between them.",
+      "questions": [
+        "What’s the full context for the milk bottles—what scene, gag, or gameplay beat are they supporting?",
+        "What does the asset pipeline look like between Zeina and Kaze (formats, export steps, iteration cadence, who finalizes collision/placement)?",
+        "How do you decide when an asset request is worth it versus reusing existing props?"
+      ],
+      "related_to": [
+        "kaze",
+        "zeina"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,256 @@
+{
+  "stream_context": {
+    "summary": "Kaze iterates on the “Boshi duel” setpiece (a reaction-time shootout with a cork gun), experiments with how to present the countdown (HUD vs cutscene), and tackles multiple hardware-focused technical constraints: N64 stability/performance, triangle/RAM budgets, and animation limitations (no per-bone translation). He also discusses Nintendo takedowns and a proactive plan for copyright-free trailers, plus broad project status (near endgame, remaining levels, star count) and future business plans (Kickstarter for a post-release original game).",
+    "level": [
+      "Overworld",
+      "Course 5"
+    ],
+    "significance": "notable",
+    "significance_reason": "Contains concrete design decisions for a signature minigame (Boshi duel), multiple technical constraints that shape the project’s approach (hardware-first optimization, animation limitations, RAM/triangles), explicit near-completion status and release-window thinking, and substantial Nintendo/DMCA strategy discussion."
+  },
+  "findings": [
+    {
+      "topic": "design",
+      "importance": "high",
+      "summary": "The Boshi encounter is designed as a reaction-time duel: a 3-2-1 style lead-in (or an alternate “Fire” prompt) followed by a randomized suspense delay; the player must press B to shoot with a Mario Party 2-style cork gun.",
+      "quote": null
+    },
+    {
+      "topic": "design",
+      "importance": "medium",
+      "summary": "Kaze rejects the initial simple HUD “3 2 1” presentation as visually weak and shifts toward a more cinematic cutscene approach with improved camera framing (more over-the-shoulder/duel framing) and a single decisive prompt (“Fire”) instead of a static countdown.",
+      "quote": null
+    },
+    {
+      "topic": "design",
+      "importance": "medium",
+      "summary": "Difficulty tuning for the duel is explicitly based on human reaction time plus platform latency: Kaze cites top human reaction time (~210 ms) and console/display input lag (~80 ms), targeting a minimum ~300 ms window; he considers making the first attempt very hard (around 280 ms) and then slightly easing timing after each loss (adding a few frames).",
+      "quote": "You think I’m a scrub? … the top human reaction time is like 210 milliseconds, and the console itself also is like 80 milliseconds of input lag, so likely we have to go at least 300 milliseconds on this."
+    },
+    {
+      "topic": "community",
+      "importance": "medium",
+      "summary": "A viewer suggestion becomes a planned feature: after beating Boshi, he could reappear as optional bonus content, letting players replay the duel for fun while keeping records of reaction times (an in-world “results/record” loop).",
+      "quote": null
+    },
+    {
+      "topic": "technical",
+      "importance": "high",
+      "summary": "Kaze reports major N64-side progress: the game can now run around at ~40 FPS on real hardware before further optimization, but the overworld currently crashes/is unstable; he frames this as a known issue that still needs dedicated fixing.",
+      "quote": "I made sure it all works on N64 now… 40 FPS before we even optimized it. … Nooooo! … the overworld is fucked."
+    },
+    {
+      "topic": "technical",
+      "importance": "medium",
+      "summary": "He identifies a concrete performance optimization target in Course 5: certain beam meshes should be culled so their triangles are not processed when not visible; previously they were still being processed.",
+      "quote": null
+    },
+    {
+      "topic": "technical",
+      "importance": "high",
+      "summary": "Mario 64 animation limitations shape implementation: standard animations effectively provide rotations only (no per-bone translation/scale), forcing Kaze to manually compute/offset the thrown egg’s position over frames rather than embedding it as part of the rig animation.",
+      "quote": "Animations do not have translation in Mario 64 except for the first one… it’s all just rotations then."
+    },
+    {
+      "topic": "technical",
+      "importance": "high",
+      "summary": "To avoid expensive runtime matrix capture, Kaze chooses a rendering workaround for the gun: render an “invisible Mario” rig that follows Mario’s animation, with only the gun mesh weighted to the hand, so the gun inherits correct motion at effectively no ongoing performance cost outside the cutscene.",
+      "quote": "Mario’s hand position never exists… all that exists is Mario’s hand matrix… we could capture the matrix, but it’s gonna be expensive. So I’d rather just render an invisible Mario."
+    },
+    {
+      "topic": "legal-nintendo",
+      "importance": "high",
+      "summary": "Kaze outlines his lived experience with Nintendo enforcement: ~70 videos previously taken down (including non-Mario content like Blender tutorials), and multiple major Mario 64 projects removed shortly after release (he names The Missing Link, Last Impact, and Net64). He anticipates needing copyright-free versions of promotional videos/trailers.",
+      "quote": "They’ve already taken down 70 of my videos… I will have to release a copyright-free version. That is gonna happen and you know it."
+    },
+    {
+      "topic": "business",
+      "importance": "high",
+      "summary": "Project status and release thinking: only three levels remain unmade (he says he already finished one endgame area), total scope is ~180 stars with ~120–130 as “real content” and the remainder as Yoshi/bonus stars; he tentatively targets release before 2026 but avoids guarantees and is wary of releasing near a major Nintendo launch due to takedown risk. He also plans to bundle promotion with an ad for a Kickstarter for a new game after finishing Return to Yoshi’s Island.",
+      "quote": "Only three levels are missing… it’s the last fifth of the game… release before 2026 maybe… if you release your romhack around the same time as a big Nintendo game comes out you are going to get taken down 100%."
+    }
+  ],
+  "contributor_findings": {
+    "biobak": [
+      {
+        "topic": "team",
+        "importance": "medium",
+        "summary": "Kaze describes Biobak as a key review/iteration step on assets: Kaze often does a first pass on models, then Biobak ‘looks over it’ and improves them significantly.",
+        "quote": "After I’m done, we got Biobak looking over it and he makes them a lot better."
+      },
+      {
+        "topic": "community",
+        "importance": "low",
+        "summary": "Biobak flags a tone/wording issue (“gun word exchange” reference) and reacts to Kaze’s desire to keep real-world references (like Brazil) out of in-game rap text, prompting discussion of tone consistency.",
+        "quote": null
+      }
+    ],
+    "badub": [],
+    "zeina": [
+      {
+        "topic": "personal",
+        "importance": "medium",
+        "summary": "Kaze notes Zeina is currently occupied with babysitting instead of working alongside him on the project, highlighting real-life constraints on development time and collaboration.",
+        "quote": "Can you believe Zeina’s on babysitting instead of making games with me right now?"
+      }
+    ],
+    "others": [
+      {
+        "name": "Lilaa",
+        "findings": [
+          {
+            "topic": "technical",
+            "importance": "high",
+            "summary": "Lilaa is working on quaternions for the project’s animation pipeline; Kaze expects this to unlock “free translation” capability (even if unused), implying a future upgrade to the current rotation-only rig/animation limitations.",
+            "quote": "That’s likely going to change once Lilaa is finished with her quaternions, because they give us free translation as long as we don’t use it."
+          },
+          {
+            "topic": "technical",
+            "importance": "medium",
+            "summary": "Lilaa suggests capturing/copying Mario hand transforms for gun attachment, which Kaze rejects as too expensive at runtime; this exchange clarifies why Kaze prefers an invisible-rig rendering approach.",
+            "quote": null
+          }
+        ]
+      },
+      {
+        "name": "UED",
+        "findings": [
+          {
+            "topic": "team",
+            "importance": "medium",
+            "summary": "Kaze credits UED for sending a cork-gun model intended to be attached to Mario for the Boshi duel, establishing an external asset dependency for the setpiece.",
+            "quote": "Good thing UED has sent me a model of it."
+          }
+        ]
+      }
+    ]
+  },
+  "memorable_quotes": [
+    {
+      "speaker": "Kaze",
+      "quote": "I made sure it all works on N64 now… 40 FPS before we even optimized it.",
+      "context": "He frames real-hardware performance as a core bar for legitimacy, before even doing final optimization passes."
+    },
+    {
+      "speaker": "Kaze",
+      "quote": "They’ve already taken down 70 of my videos… I will have to release a copyright-free version. That is gonna happen and you know it.",
+      "context": "Blunt summary of his expectations for Nintendo enforcement and how it shapes his publishing strategy."
+    },
+    {
+      "speaker": "Kaze",
+      "quote": "Only three levels are missing… it’s the last fifth of the game… release before 2026 maybe.",
+      "context": "A rare, concrete project-completion status update and tentative timing."
+    }
+  ],
+  "key_stories": [
+    {
+      "title": "Designing the Boshi reaction-time duel",
+      "summary": "Kaze develops a signature Western-themed duel against Boshi using a Mario Party 2 cork gun. He iterates on presentation (HUD countdown vs cutscene), camera composition, and fairness (random delay, ‘Fire’ prompt, and reaction-time windows tuned to human + console latency).",
+      "challenge": "Making a duel that feels tense and readable on original N64 hardware without being unfair due to input/display latency, while also presenting the countdown in a visually appealing way.",
+      "process": "He references existing minigames (Mario Party shooting and Kirby-style samurai timing) and prototypes multiple UI/cutscene approaches. He adjusts camera framing through trial-and-error because the pipeline can’t be quickly previewed in-engine, and he plans difficulty scaling by incrementally adding reaction-time frames after failures.",
+      "outcome": "He settles on moving toward a cutscene-driven setup with improved duel framing and a single ‘Fire’ prompt, with planned tuning around ~300 ms minimum reaction window and replay/record ideas from chat.",
+      "key_quote": "The top human reaction time is like 210 milliseconds… the console itself also is like 80 milliseconds of input lag… so likely we have to go at least 300 milliseconds on this.",
+      "related_to": [
+        "kaze"
+      ]
+    },
+    {
+      "title": "Hardware-first stabilization and the overworld crash",
+      "summary": "Kaze reports that recent engine polishing enables stable free-roam gameplay on real N64 at strong framerates, but the overworld remains unstable and can crash on hardware. He treats overworld instability as a known outstanding problem while continuing course-level optimization work like mesh culling.",
+      "challenge": "Achieving reliable real-hardware stability and performance across all areas, especially the overworld hub, where remaining issues still cause crashes.",
+      "process": "He tests directly on N64, measures framerate headroom, identifies geometry that should be culled, and acknowledges known overworld problems without derailing the stream into a full fix.",
+      "outcome": "Course areas appear largely playable on N64 with good performance headroom; overworld is still “really wrong” and needs future dedicated debugging.",
+      "key_quote": "Don’t worry though about the overworld crash. We knew something was wrong with the overworld.",
+      "related_to": [
+        "kaze"
+      ]
+    },
+    {
+      "title": "Attaching the gun without expensive runtime transforms",
+      "summary": "To animate Mario holding a gun in cutscenes, Kaze considers copying Mario’s hand transforms but explains that Mario’s hand position/rotation only exists as a transient matrix and would be expensive to capture. He instead implements an invisible-Mario rig approach where only the gun mesh is visible, inheriting the correct animation for ‘free.’",
+      "challenge": "Making the gun follow Mario’s hand accurately without adding permanent performance cost or complex runtime matrix extraction.",
+      "process": "He evaluates transform-capture ideas from chat (notably Lilaa), rejects them for cost, then builds a Blender/rigging pipeline that uses a hidden Mario model with the gun weighted to the hand. He troubleshoots parenting/vertex groups/export issues until the gun renders correctly.",
+      "outcome": "Gun rendering works with the desired motion inheritance and minimal runtime overhead, and he ends the stream satisfied, deferring actual shooting mechanics to a later stream.",
+      "key_quote": "I got the gun to render for free. We did it.",
+      "related_to": [
+        "kaze"
+      ]
+    },
+    {
+      "title": "Planning around Nintendo takedowns",
+      "summary": "Kaze recounts extensive prior takedowns: dozens of videos removed and multiple high-profile hacks taken down shortly after release. He expects promotional material to be targeted, so he plans to ship ‘copyright-free’ versions and thinks timing near major Nintendo releases increases takedown probability.",
+      "challenge": "Releasing and promoting a high-visibility Mario 64 ROM hack in an environment where Nintendo has previously removed his content quickly and unpredictably.",
+      "process": "He references specific past incidents (removed videos, hacks taken down in days) and discusses strategies like dual uploads/copyright-free edits. He also connects promotion to future plans (a Kickstarter for a new game after this project).",
+      "outcome": "He accepts takedowns as likely and is actively designing a publishing/marketing workflow meant to survive removals and maintain momentum.",
+      "key_quote": "If you release your romhack around the same time as a big Nintendo game comes out you are going to get taken down 100%.",
+      "related_to": [
+        "kaze"
+      ]
+    }
+  ],
+  "open_questions": [
+    {
+      "topic": "Secret off-stream areas and the “ROM hack soon” side project",
+      "context": "Kaze mentions two off-stream areas he can’t show because they’re part of a collaboration with another ROM hacker, plus a “small ROM hack” release soon that uses his engine and prompted engine polishing.",
+      "questions": [
+        "What is the ‘small ROM hack’ project (scope, genre, why make it now), and how does it relate to Return to Yoshi’s Island’s pipeline?",
+        "Who is the collaborator, and what constraints/agreements shape what can be shown publicly?",
+        "What specific engine polish came from this side project that directly benefited Return to Yoshi’s Island?",
+        "Were these secret areas created as experiments, narrative reveals, or marketing beats (e.g., trailer moments)?"
+      ],
+      "related_to": [
+        "kaze"
+      ]
+    },
+    {
+      "topic": "Overworld crashes on real N64",
+      "context": "He demonstrates good N64 performance in a course but the overworld crashes and is described as ‘really wrong.’",
+      "questions": [
+        "What is currently understood about the overworld crash (memory corruption, object spawning, geometry, segmentation, save data, camera)?",
+        "How does debugging differ between emulator and real N64 for this issue, and what tooling do you rely on?",
+        "Is the overworld using different engine features (streaming, cutscenes, UI, memory pools) that make it uniquely fragile?"
+      ],
+      "related_to": [
+        "kaze"
+      ]
+    },
+    {
+      "topic": "Animation pipeline upgrade via Lilaa’s quaternions",
+      "context": "Kaze says quaternions may enable ‘free translation’ in the future, changing how he can implement animation-driven props like the egg/gun.",
+      "questions": [
+        "What exactly is Lilaa implementing (format, runtime interpolation, authoring workflow), and what limitations does it remove?",
+        "Will this change require re-exporting/re-authoring existing cutscenes/animations, or can it be adopted incrementally?",
+        "How big is the CPU/RAM cost of the quaternion system, and how will you keep it N64-friendly?"
+      ],
+      "related_to": [
+        "kaze"
+      ]
+    },
+    {
+      "topic": "Final design decisions for the Boshi duel presentation and fairness",
+      "context": "Kaze vacillates between HUD countdown vs cutscene, considers audio cues (muting music, ticking), random delay, and adaptive difficulty after failures.",
+      "questions": [
+        "Which final presentation did you ship (countdown, ‘Fire,’ audio cues), and what playtesting feedback decided it?",
+        "How did you validate timing fairness across real N64 on CRT vs emulator on modern displays?",
+        "Did you implement penalties for early shooting (e.g., gun exploding) or false starts, and why/why not?",
+        "Did the ‘records/reaction time’ replay feature make it in, and if so how is it framed in-world (Boshi redemption/arc)?"
+      ],
+      "related_to": [
+        "kaze"
+      ]
+    },
+    {
+      "topic": "Nintendo risk management and release timing",
+      "context": "Kaze believes launching near a major Nintendo release increases takedown likelihood; he anticipates needing copyright-free trailers and has prior takedown history across multiple projects.",
+      "questions": [
+        "What concrete signals do you watch to decide ‘safe’ release windows (Nintendo Directs, major launches, anniversaries)?",
+        "What does your ‘copyright-free’ trailer version remove/replace (music, models, logos, gameplay), and how do you keep it effective?",
+        "How did past takedowns (e.g., The Missing Link, Net64) change your current strategy—emotionally and practically?",
+        "Are there distribution choices (patch-only, no ROM hosting, mirrors) you consider essential this time?"
+      ],
+      "related_to": [
+        "kaze"
+      ]
+    }
+  ]
+}
