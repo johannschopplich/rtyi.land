@@ -14,7 +14,7 @@ This project serves as a comprehensive research and preparation platform for cre
 
 ### 🤖 AI-Powered Analysis
 
-- **Multi-Provider Support**: Anthropic Claude, Google Gemini, OpenAI models
+- **Multi-Provider Support**: Google Gemini, OpenAI models
 - **Structured Extraction**: Zod schemas ensure consistent data formatting
 - **Stream Processing**: Automated analysis of 100+ development streams
 - **Key Insights**: Development findings, team dynamics, and narrative arcs
@@ -31,7 +31,7 @@ This project serves as a comprehensive research and preparation platform for cre
 ### Prerequisites
 
 - Node.js 22+ and pnpm
-- AI API keys (Anthropic, Google, OpenAI)
+- AI API keys (Google, OpenAI)
 - Cloudflare account (for deployment)
 
 ### Installation

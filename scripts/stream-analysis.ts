@@ -1,3 +1,4 @@
+import type { TranscriptResult } from "../src/context/transcripts";
 import * as fsp from "node:fs/promises";
 import { join } from "node:path";
 import process from "node:process";
@@ -71,22 +72,52 @@ const processFile = createTranscriptProcessor(modelName);
 const bar = clack.progress({ max: files.length });
 bar.start("Processing transcripts");
 
+// Track results for post-run summary
+let completed = 0;
+let processed = 0;
+let skipped = 0;
+let failures = 0;
+
+// Update progress bar as files complete
+queue.on("completed", (result: TranscriptResult) => {
+  completed++;
+
+  if (result.status === "processed") {
+    processed++;
+  } else if (result.status === "skipped") {
+    skipped++;
+  } else {
+    failures++;
+    bar.stop(`Error processing ${result.fileName}`);
+    clack.log.error(
+      result.error instanceof Error
+        ? result.error.message
+        : String(result.error),
+    );
+    bar.start(
+      `Processing (${completed}/${files.length}) \u2013 ${result.fileName}`,
+    );
+  }
+
+  bar.advance(
+    completed,
+    `Processing (${completed}/${files.length}) \u2013 ${result.fileName}`,
+  );
+});
+
 for (const file of files) {
   queue.add(() => processFile(file));
 }
 
-// Update progress bar as files complete
-let completed = 0;
-queue.on("completed", () => {
-  completed++;
-  bar.advance(completed, `Processing (${completed}/${files.length})`);
-});
-
 // Wait for all tasks to complete
 await queue.onIdle();
-bar.stop(`Processed ${files.length} transcripts`);
 
-// Success message
+// Build a summary line for the stop message
+const parts: string[] = [`${processed} processed`];
+if (skipped > 0) parts.push(`${skipped} skipped`);
+if (failures > 0) parts.push(`${failures} failed`);
+bar.stop(`Done \u2014 ${parts.join(", ")} (${files.length} total)`);
+
 clack.outro(
   `Check the ${ansis.cyan(TRANSCRIPTS_OUTPUT_DIR)} directory for results.`,
 );
