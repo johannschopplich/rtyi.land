@@ -35,8 +35,8 @@ const concurrency = await clack.text({
   defaultValue: "1",
   placeholder: "1",
   validate(value) {
-    const num = Number.parseInt(value);
-    if (value && (Number.isNaN(num) || num < 1)) {
+    const parsedValue = value ? Number.parseInt(value) : undefined;
+    if (parsedValue != null && (Number.isNaN(parsedValue) || parsedValue < 1)) {
       return "Please enter a valid positive number";
     }
   },
