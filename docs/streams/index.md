@@ -6,11 +6,8 @@ description: Overview of all stream analyses processed by different AI models.
 <script setup>
 import { data as modelStreams } from "./model-streams.data";
 
-/// keep-sorted
 const MODEL_LABELS = {
-  "claude-opus-4-20250514": "Claude Opus 4",
-  o3: "o3",
-  "gemini-2-5-pro": "Gemini 2.5 Pro",
+  "gpt-5-2": "GPT-5.2",
 };
 
 const streamMap = Object.entries(modelStreams).reduce(
@@ -83,7 +80,7 @@ The [prompt for stream analysis](/prompts/2.stream-analysis) guarantees the cons
 
 ## Models Overview
 
-Google's Gemini model generates detailed summaries, while OpenAI's o3 model is notably more concise. My personal preference is o3 for its predictable clarity and brevity.
+All streams are processed by OpenAI's **GPT-5.2** model, chosen for its predictable clarity and brevity.
 
 <table>
   <thead>

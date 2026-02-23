@@ -1,7 +1,10 @@
 import * as path from "node:path";
 import { tryParseJSON } from "utilful";
 import { defineLoader } from "vitepress";
-import { TRANSCRIPTS_OUTPUT_DIR } from "../../src/constants";
+import {
+  STREAM_ANALYSIS_DIR,
+  TRANSCRIPTS_OUTPUT_DIR,
+} from "../../src/constants";
 import {
   formatDateFromYYYYMMDD,
   globAndProcessFiles,
@@ -22,6 +25,8 @@ export default defineLoader({
       TRANSCRIPTS_OUTPUT_DIR,
       ({ filePath, fileName, fileContent }) => {
         const modelDir = path.basename(path.dirname(filePath));
+        if (modelDir !== STREAM_ANALYSIS_DIR) return;
+
         const streamData = tryParseJSON<Record<string, any>>(fileContent);
 
         if (!streamData) return;

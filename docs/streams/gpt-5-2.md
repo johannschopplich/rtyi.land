@@ -1,18 +1,18 @@
 ---
-title: Gemini 2.5 Pro – Stream Analysis
-description: Comprehensive analysis of all streams processed by Gemini 2.5 Pro.
+title: GPT-5.2 – Stream Analysis
+description: Comprehensive analysis of all streams processed by GPT-5.2.
 ---
 
 <script setup>
 import { data as modelStreams } from "./model-streams.data.ts";
+import { STREAM_ANALYSIS_DIR } from "../../src/constants";
 
-const MODEL_NAME = "gemini-2-5-pro";
-const streams = modelStreams[MODEL_NAME] ?? [];
+const streams = modelStreams[STREAM_ANALYSIS_DIR] ?? [];
 </script>
 
-# Gemini 2.5 Pro – Stream Analysis
+# GPT-5.2 – Stream Analysis
 
-This page presents a systematic analysis of [Kaze's development streams](https://www.youtube.com/@KazeClips/streams) processed by Google's **Gemini 2.5 Pro** model after they were transcribed with Whisper.
+This page presents a systematic analysis of [Kaze's development streams](https://www.youtube.com/@KazeClips/streams) processed by OpenAI's **GPT-5.2** model after they were transcribed with Whisper.
 
 Each analysis results page provides key findings regarding development, context, and contributors. It also identifies key stories and open questions.
 

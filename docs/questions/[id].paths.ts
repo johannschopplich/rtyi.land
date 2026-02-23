@@ -1,6 +1,9 @@
 import * as path from "node:path";
 import { tryParseJSON } from "utilful";
-import { TRANSCRIPTS_OUTPUT_DIR } from "../../src/constants";
+import {
+  STREAM_ANALYSIS_DIR,
+  TRANSCRIPTS_OUTPUT_DIR,
+} from "../../src/constants";
 import {
   formatDateFromYYYYMMDD,
   globAndProcessFiles,
@@ -38,7 +41,7 @@ export default {
       TRANSCRIPTS_OUTPUT_DIR,
       ({ filePath, fileName, fileContent }) => {
         const modelDir = path.basename(path.dirname(filePath));
-        if (modelDir !== "o3") return;
+        if (modelDir !== STREAM_ANALYSIS_DIR) return;
 
         const streamData = tryParseJSON<Record<string, any>>(fileContent);
 
