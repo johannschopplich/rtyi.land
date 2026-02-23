@@ -43,7 +43,7 @@ export async function processTranscript(
       }),
       providerOptions: {
         openai: {
-          reasoningEffort: "xhigh",
+          reasoningEffort: "high",
         } satisfies OpenAILanguageModelChatOptions,
       },
     });

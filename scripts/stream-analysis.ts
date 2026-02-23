@@ -100,7 +100,7 @@ queue.on("completed", (result: TranscriptResult) => {
   }
 
   bar.advance(
-    completed,
+    1,
     `Processing (${completed}/${files.length}) \u2013 ${result.fileName}`,
   );
 });

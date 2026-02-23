@@ -1,3 +1,8 @@
+import type {
+  FindingTopic,
+  Significance,
+  StreamAnalysis,
+} from "../../src/schemas";
 import * as path from "node:path";
 import { tryParseJSON } from "utilful";
 import { defineLoader } from "vitepress";
@@ -5,10 +10,8 @@ import {
   STREAM_ANALYSIS_DIR,
   TRANSCRIPTS_OUTPUT_DIR,
 } from "../../src/constants";
-import {
-  formatDateFromYYYYMMDD,
-  globAndProcessFiles,
-} from "../.vitepress/utils";
+import { formatDateFromYYYYMMDD } from "../.vitepress/shared";
+import { globAndProcessFiles } from "../.vitepress/utils";
 
 export interface ModelStreamData {
   id: string;
@@ -16,6 +19,13 @@ export interface ModelStreamData {
   rawDate: string;
   model: string;
   excerpt: string;
+  significance: Significance;
+  significanceReason: string | null;
+  level: string[];
+  topicCounts: Partial<Record<FindingTopic, number>>;
+  quoteCount: number;
+  storyCount: number;
+  questionCount: number;
 }
 
 export default defineLoader({
@@ -27,7 +37,7 @@ export default defineLoader({
         const modelDir = path.basename(path.dirname(filePath));
         if (modelDir !== STREAM_ANALYSIS_DIR) return;
 
-        const streamData = tryParseJSON<Record<string, any>>(fileContent);
+        const streamData = tryParseJSON<StreamAnalysis>(fileContent);
 
         if (!streamData) return;
 
@@ -35,12 +45,28 @@ export default defineLoader({
         const formattedDate = formatDateFromYYYYMMDD(rawDate);
         const excerpt = streamData.stream_context?.summary || "";
 
+        const topicCounts: Partial<Record<FindingTopic, number>> = {};
+        const findings = streamData.findings ?? [];
+        for (const finding of findings) {
+          topicCounts[finding.topic] = (topicCounts[finding.topic] || 0) + 1;
+        }
+
+        const level = streamData.stream_context?.level ?? [];
+
         const streamInfo: ModelStreamData = {
           id: `${modelDir}-${rawDate}`,
           date: formattedDate,
           rawDate,
           model: modelDir,
           excerpt,
+          significance: streamData.stream_context?.significance || "routine",
+          significanceReason:
+            streamData.stream_context?.significance_reason || null,
+          level,
+          topicCounts,
+          quoteCount: streamData.memorable_quotes?.length ?? 0,
+          storyCount: streamData.key_stories?.length ?? 0,
+          questionCount: streamData.open_questions?.length ?? 0,
         };
 
         return streamInfo;
@@ -49,13 +75,11 @@ export default defineLoader({
 
     const streamsByModel: Record<string, ModelStreamData[]> = {};
 
-    // Group streams by model
     for (const stream of streamData) {
       streamsByModel[stream.model] ??= [];
       streamsByModel[stream.model].push(stream);
     }
 
-    // Sort streams within each model by date (newest first)
     for (const modelName of Object.keys(streamsByModel)) {
       streamsByModel[modelName].sort((a, b) =>
         b.rawDate.localeCompare(a.rawDate),

@@ -1,3 +1,4 @@
+import type { StreamAnalysis, TeamMember } from "../../src/schemas";
 import * as path from "node:path";
 import { tryParseJSON } from "utilful";
 import {
@@ -5,15 +6,16 @@ import {
   TRANSCRIPTS_OUTPUT_DIR,
 } from "../../src/constants";
 import {
+  capitalizeInitialLetter,
   formatDateFromYYYYMMDD,
-  globAndProcessFiles,
-} from "../.vitepress/utils";
+} from "../.vitepress/shared";
+import { globAndProcessFiles } from "../.vitepress/utils";
 
 export interface OpenQuestion {
   topic: string;
   context: string;
   questions: string[];
-  related_to: string[];
+  related_to: TeamMember[];
 }
 
 export interface QuestionStreamData {
@@ -25,13 +27,9 @@ export interface QuestionStreamData {
 }
 
 export interface TeamMemberQuestions {
-  name: string;
+  name: TeamMember;
   streams: QuestionStreamData[];
   totalQuestions: number;
-}
-
-function formatMemberName(name: string): string {
-  return name.charAt(0).toUpperCase() + name.slice(1);
 }
 
 export default {
@@ -43,7 +41,7 @@ export default {
         const modelDir = path.basename(path.dirname(filePath));
         if (modelDir !== STREAM_ANALYSIS_DIR) return;
 
-        const streamData = tryParseJSON<Record<string, any>>(fileContent);
+        const streamData = tryParseJSON<StreamAnalysis>(fileContent);
 
         if (!streamData) return;
 
@@ -116,12 +114,12 @@ export default {
         0,
       );
 
-      const markdownContent = `# Questions for ${formatMemberName(member.name)}
+      const markdownContent = `# Questions for ${capitalizeInitialLetter(member.name)}
 
-This page contains all open questions related to ${formatMemberName(member.name)}'s work and contributions across development streams. Questions are organized by stream date and grouped by topic.
+This page contains all open questions related to ${capitalizeInitialLetter(member.name)}'s work and contributions across development streams. Questions are organized by stream date and grouped by topic.
 
 ::: tip Summary
-**Team Member:** ${formatMemberName(member.name)}
+**Team Member:** ${capitalizeInitialLetter(member.name)}
 
 **Streams:** ${member.streams.length}
 
@@ -148,7 +146,7 @@ ${
   question.related_to.length > 1
     ? `**Also related to:** ${question.related_to
         .filter((name) => name !== member.name)
-        .map(formatMemberName)
+        .map(capitalizeInitialLetter)
         .join(", ")}`
     : ""
 }

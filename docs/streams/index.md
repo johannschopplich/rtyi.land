@@ -1,140 +1,141 @@
 ---
 title: Stream Analysis
-description: Overview of all stream analyses processed by different AI models.
+description: All analyzed development streams at a glance.
 ---
 
 <script setup>
 import { data as modelStreams } from "./model-streams.data";
+import { STREAM_ANALYSIS_DIR } from "../../src/constants";
+import { formatTopicLabel } from "../.vitepress/shared";
 
-const MODEL_LABELS = {
-  "gpt-5-2": "GPT-5.2",
-};
+const allStreams = modelStreams[STREAM_ANALYSIS_DIR] ?? [];
 
-const streamMap = Object.entries(modelStreams).reduce(
-  (map, [modelName, streams]) => {
-    for (const stream of streams) {
-      const currentStream = map.get(stream.rawDate);
-      if (currentStream) {
-        currentStream.models.push({
-          name: stream.model,
-          label: MODEL_LABELS[modelName],
-          id: stream.id,
-        });
-      } else {
-        map.set(stream.rawDate, {
-          date: stream.date,
-          rawDate: stream.rawDate,
-          models: [
-            {
-              name: stream.model,
-              label: MODEL_LABELS[modelName],
-              id: stream.id,
-            },
-          ],
-          excerpt: stream.excerpt,
-        });
-      }
-    }
-
-    return map;
-  },
-  new Map(),
-);
-
-// Convert to array and sort by date (newest first)
-const groupedStreams = [...streamMap.values()].sort((a, b) =>
-  b.rawDate.localeCompare(a.rawDate),
-);
-
-const modelStats = Object.entries(modelStreams)
-  .map(([modelName, streams]) => ({
-    name: modelName,
-    label: MODEL_LABELS[modelName],
-    count: streams.length,
-    latestDate: streams[0]?.date,
-    oldestDate: streams.at(-1)?.date,
-  }))
-  .sort((a, b) => a.label.localeCompare(b.label));
+// Sort newest first (already sorted from data loader)
+const recentStreams = allStreams.slice(0, 10);
 
 const dateRange =
-  groupedStreams.length > 0
-    ? `${groupedStreams.at(-1).date} – ${groupedStreams[0].date}`
+  allStreams.length > 0
+    ? `${allStreams.at(-1).date} – ${allStreams[0].date}`
     : "No streams available";
+
+// Significance breakdown
+const significanceCounts = allStreams.reduce((acc, stream) => {
+  acc[stream.significance] = (acc[stream.significance] || 0) + 1;
+  return acc;
+}, {});
+
+const topicTotals = allStreams.reduce((acc, stream) => {
+  for (const [topic, count] of Object.entries(stream.topicCounts || {})) {
+    acc[topic] = (acc[topic] || 0) + count;
+  }
+  return acc;
+}, {});
+
+const topTopics = Object.entries(topicTotals)
+  .sort((a, b) => b[1] - a[1])
+  .slice(0, 5);
+
+const SIGNIFICANCE_BADGES = {
+  pivotal: "🟠 Pivotal",
+  milestone: "🟢 Milestone",
+  notable: "🔵 Notable",
+  routine: "⚪ Routine",
+};
 </script>
 
-# Stream Analysis Overview
+# Stream Analysis Dashboard
 
-Most of [Kaze's development streams](https://www.youtube.com/@KazeClips/streams) have been transcribed with Whisper and afterwards analyzed by various AI models. This page provides an overview of all stream analyses.
-
-These summaries save me hours of watching and allow me to prepare for the interviews and discussions with Kaze and the team.
-
-The [prompt for stream analysis](/prompts/2.stream-analysis) guarantees the consistent extraction of key findings on development, context, and contributors. It also identifies key stories and open questions.
+Most of [Kaze's development streams](https://www.youtube.com/@KazeClips/streams) have been transcribed with Whisper and analyzed by AI. Each stream is broken down into findings, stories, quotes, and open questions – the raw material for interview prep.
 
 ::: tip Summary
-**Total Streams:** {{ groupedStreams.length }}
-
+**Total Streams:** {{ allStreams.length }} ·
 **Date Range:** {{ dateRange }}
 
-**Models:** {{ modelStats.length }}
+**Significance:** {{ significanceCounts.pivotal || 0 }} pivotal · {{ significanceCounts.milestone || 0 }} milestone · {{ significanceCounts.notable || 0 }} notable · {{ significanceCounts.routine || 0 }} routine
 :::
 
-## Models Overview
+## Quick Navigation
 
-All streams are processed by OpenAI's **GPT-5.2** model, chosen for its predictable clarity and brevity.
+| Page                                      | Description                                                            |
+| ----------------------------------------- | ---------------------------------------------------------------------- |
+| [**Highlights**](/streams/highlights)     | Milestone & pivotal streams only – start here                          |
+| [**By Topic**](/topics/index.md)          | Findings grouped by theme (design, technical, philosophy, etc.)        |
+| [**Team Profiles**](/team/index.md)       | What each team member did, said, and experienced across streams        |
+| [**Quotes**](/quotes/index.md)            | Standout quotes – good for narration, chapter titles, or trailer lines |
+| [**Open Questions**](/questions/index.md) | Follow-up questions for each person, sorted by involvement             |
+
+## Top Topics
 
 <table>
   <thead>
     <tr>
-      <th>Model</th>
-      <th>Streams</th>
-      <th>Date Range</th>
-      <th>Actions</th>
+      <th>Topic</th>
+      <th>Findings</th>
     </tr>
   </thead>
   <tbody>
-    <tr v-for="model in modelStats" :key="model.name">
+    <tr v-for="[topic, count] in topTopics" :key="topic">
       <td>
-        <strong>{{ model.label }}</strong>
+        <a :href="`/topics/${topic}`">{{ formatTopicLabel(topic) }}</a>
       </td>
-      <td>{{ model.count }}</td>
-      <td>
-        <span v-if="model.count > 0">
-          {{ model.oldestDate }} – {{ model.latestDate }}
-        </span>
-        <span v-else>No streams</span>
-      </td>
-      <td style="white-space: nowrap;">
-        <a :href="`/streams/${model.name}`" v-if="model.count > 0">
-          Details →
-        </a>
-      </td>
+      <td>{{ count }}</td>
     </tr>
   </tbody>
 </table>
 
-## Stream Overview
+[View all topics →](/topics/index.md)
+
+## Recent Streams
 
 <table>
   <thead>
     <tr>
       <th>Date</th>
-      <th>Models</th>
+      <th></th>
       <th>Summary</th>
     </tr>
   </thead>
   <tbody>
-    <tr v-for="streamGroup in groupedStreams" :key="streamGroup.rawDate">
-      <td>
-        <strong>{{ streamGroup.date }}</strong>
+    <tr v-for="stream in recentStreams" :key="stream.id">
+      <td style="white-space: nowrap;">
+        <a :href="`/streams/${stream.id}`">{{ stream.date }}</a>
       </td>
-      <td>
-        <div v-for="model in streamGroup.models" :key="model.id">
-          <a :href="`/streams/${model.id}`" style="white-space: nowrap;">
-            {{ model.label }} →
-          </a>
-        </div>
+      <td style="white-space: nowrap; font-size: 0.8em;">
+        {{ SIGNIFICANCE_BADGES[stream.significance] || "" }}
       </td>
-      <td>{{ streamGroup.excerpt }}</td>
+      <td>{{ stream.excerpt }}</td>
     </tr>
   </tbody>
 </table>
+
+## All Streams
+
+<details>
+<summary><strong>Browse all {{ allStreams.length }} streams</strong></summary>
+
+<table>
+  <thead>
+    <tr>
+      <th>Date</th>
+      <th></th>
+      <th>Level(s)</th>
+      <th>Summary</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr v-for="stream in allStreams" :key="stream.id">
+      <td style="white-space: nowrap;">
+        <a :href="`/streams/${stream.id}`">{{ stream.date }}</a>
+      </td>
+      <td style="white-space: nowrap; font-size: 0.8em;">
+        {{ SIGNIFICANCE_BADGES[stream.significance] || "" }}
+      </td>
+      <td style="white-space: nowrap; font-size: 0.85em;">
+        {{ stream.level.join(", ") || "—" }}
+      </td>
+      <td>{{ stream.excerpt }}</td>
+    </tr>
+  </tbody>
+</table>
+
+</details>

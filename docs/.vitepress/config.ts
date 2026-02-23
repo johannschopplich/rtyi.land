@@ -1,8 +1,10 @@
 import type { DefaultTheme } from "vitepress";
+import type { TeamMember } from "../../src/schemas";
 import { defineConfig } from "vitepress";
 import { description, name, ogImage, ogUrl, twitterImage } from "./meta";
+import { capitalizeInitialLetter } from "./shared";
 
-const RTYI_TEAM_MEMBERS = ["kaze", "biobak", "badub", "zeina"];
+const RTYI_TEAM_MEMBERS: TeamMember[] = ["kaze", "biobak", "badub", "zeina"];
 
 export default defineConfig({
   title: name,
@@ -55,6 +57,17 @@ export default defineConfig({
         text: "Interview Questions",
         items: teamMemberNavigationItems(),
       },
+      {
+        text: "Research",
+        items: [
+          { text: "Stream Dashboard", link: "/streams" },
+          { text: "Highlights", link: "/streams/highlights" },
+          { text: "By Topic", link: "/topics" },
+          { text: "Team Profiles", link: "/team" },
+          { text: "Quotes", link: "/quotes" },
+          { text: "Open Questions", link: "/questions" },
+        ],
+      },
     ],
 
     sidebar: [
@@ -72,19 +85,63 @@ export default defineConfig({
         items: teamMemberNavigationItems(),
       },
       {
-        text: "Research",
+        text: "Stream Research",
         items: [
           {
-            text: "Stream Analysis",
+            text: "Dashboard",
             link: "/streams",
+          },
+          {
+            text: "Highlights",
+            link: "/streams/highlights",
+          },
+          {
+            text: "By Topic",
+            link: "/topics",
+            collapsed: true,
+            items: [
+              { text: "Design", link: "/topics/design" },
+              { text: "Technical", link: "/topics/technical" },
+              { text: "Milestone", link: "/topics/milestone" },
+              { text: "Philosophy", link: "/topics/philosophy" },
+              { text: "Personal", link: "/topics/personal" },
+              { text: "Team", link: "/topics/team" },
+              { text: "Legal / Nintendo", link: "/topics/legal-nintendo" },
+              { text: "Community", link: "/topics/community" },
+              { text: "Business", link: "/topics/business" },
+            ],
+          },
+          {
+            text: "Team Profiles",
+            link: "/team",
+            collapsed: true,
+            items: [
+              { text: "Kaze", link: "/team/kaze" },
+              { text: "Biobak", link: "/team/biobak" },
+              { text: "Badub", link: "/team/badub" },
+              { text: "Zeina", link: "/team/zeina" },
+            ],
+          },
+          {
+            text: "Quotes",
+            link: "/quotes",
           },
           {
             text: "Open Questions",
             link: "/questions",
           },
+        ],
+      },
+      {
+        text: "Background",
+        items: [
           {
             text: "Video Game Documentaries",
             link: "/research/video-game-documentaries",
+          },
+          {
+            text: "All Streams (GPT-5.2)",
+            link: "/streams/gpt-5-2",
           },
         ],
       },
@@ -112,7 +169,7 @@ function teamMemberNavigationItems(): DefaultTheme.NavItemWithLink[] {
       link: "/interviews",
     },
     ...RTYI_TEAM_MEMBERS.map((member) => ({
-      text: member.charAt(0).toUpperCase() + member.slice(1),
+      text: capitalizeInitialLetter(member),
       link: `/interviews/${member}`,
     })),
     {

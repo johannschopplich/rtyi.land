@@ -3,11 +3,11 @@ import { z } from "zod";
 const QUOTE_INSTRUCTIONS =
   "Minor grammatical errors should be corrected and surrounding quotation marks must be omitted.";
 
-const TeamMemberSchema = z
+export const TeamMemberSchema = z
   .enum(["kaze", "biobak", "badub", "zeina"])
   .describe("Name of the team member");
 
-const FindingTopicSchema = z
+export const FindingTopicSchema = z
   .enum([
     "design",
     "technical",
@@ -168,3 +168,12 @@ export const StreamAnalysisSchema = z.object({
       "Unresolved topics or knowledge gaps that translate directly into interview questions",
     ),
 });
+
+export type TeamMember = z.output<typeof TeamMemberSchema>;
+export type FindingTopic = z.output<typeof FindingTopicSchema>;
+export type Finding = z.output<typeof FindingSchema>;
+export type MemorableQuote = z.output<typeof MemorableQuoteSchema>;
+export type Story = z.output<typeof StorySchema>;
+export type OpenQuestion = z.output<typeof OpenQuestionSchema>;
+export type StreamAnalysis = z.output<typeof StreamAnalysisSchema>;
+export type Significance = StreamAnalysis["stream_context"]["significance"];

@@ -1,3 +1,4 @@
+import type { StreamAnalysis, TeamMember } from "../../src/schemas";
 import * as path from "node:path";
 import { tryParseJSON } from "utilful";
 import { defineLoader } from "vitepress";
@@ -5,16 +6,14 @@ import {
   STREAM_ANALYSIS_DIR,
   TRANSCRIPTS_OUTPUT_DIR,
 } from "../../src/constants";
-import {
-  formatDateFromYYYYMMDD,
-  globAndProcessFiles,
-} from "../.vitepress/utils";
+import { formatDateFromYYYYMMDD } from "../.vitepress/shared";
+import { globAndProcessFiles } from "../.vitepress/utils";
 
 export interface OpenQuestion {
   topic: string;
   context: string;
   questions: string[];
-  related_to: string[];
+  related_to: TeamMember[];
 }
 
 export interface QuestionStreamData {
@@ -26,7 +25,7 @@ export interface QuestionStreamData {
 }
 
 export interface TeamMemberQuestions {
-  name: string;
+  name: TeamMember;
   streams: QuestionStreamData[];
   totalQuestions: number;
 }
@@ -40,7 +39,7 @@ export default defineLoader({
         const modelDir = path.basename(path.dirname(filePath));
         if (modelDir !== STREAM_ANALYSIS_DIR) return;
 
-        const streamData = tryParseJSON<Record<string, any>>(fileContent);
+        const streamData = tryParseJSON<StreamAnalysis>(fileContent);
 
         if (!streamData) return;
 
