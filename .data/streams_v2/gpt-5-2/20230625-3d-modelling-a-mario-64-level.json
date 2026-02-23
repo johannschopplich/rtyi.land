@@ -1,0 +1,351 @@
+{
+  "stream_context": {
+    "summary": "Kaze iterates on player-facing polish (jump/fall animation, a new animated health bar) and makes key design calls about progression (dropping cosmetic skins in favor of coin-based upgrades/house items). The main technical focus becomes a cement-pit mechanic where Mario leaves persistent footprints: after debating decal limits/fading, he pivots to a render-to-texture approach, debugs pixel math, fixes offset/bounds bugs, and ultimately chooses circular footprints to avoid implementing full sprite rotation. He also sketches NPC theming for an oil-rig construction level (worker Koopas/Goombas, hazard-themed Thwomps, Wiggler supervisor) and flags a separate temple level’s color palette as needing a rework.",
+    "level": [
+      "Course 11 – Oily Boily Bay"
+    ],
+    "significance": "notable",
+    "significance_reason": "Contains a concrete feature breakthrough (persistent footprints via render-to-texture) plus notable design-direction decisions (removing skins; shifting coins toward upgrades/house purchases) and playtesting-driven difficulty adjustments based on Zeina’s experience."
+  },
+  "findings": [
+    {
+      "topic": "design",
+      "summary": "Kaze introduced a new HUD behavior: the health bar starts centered, slides to a corner/center placement, and reappears in the middle when Mario takes damage to call attention to the hit state.",
+      "quote": null
+    },
+    {
+      "topic": "community",
+      "summary": "Biobak immediately feedbacked that the health bar’s movement felt too slow, and Kaze agreed it can be sped up quickly, showing HUD pacing is being tuned with external input.",
+      "quote": null
+    },
+    {
+      "topic": "design",
+      "summary": "Kaze decided to remove the planned player “skins” feature; instead, he wants coins to function as a progression currency for buying things (e.g., Mario’s house items) and optional assists/upgrades.",
+      "quote": "We used to think that we want skins. I decided we’re not gonna have skins."
+    },
+    {
+      "topic": "design",
+      "summary": "One proposed coin sink is a purchasable “safe power star” that grants temporary double jump and invincibility (example price: ~100 coins) to help players clear especially difficult stars without lowering the baseline difficulty for everyone.",
+      "quote": null
+    },
+    {
+      "topic": "design",
+      "summary": "Kaze is considering purchasable minigames as an optional path to reach a high total star count (he mentions targets around 175–180 stars), while acknowledging minigames in romhacks often have a poor reputation and need to be done carefully.",
+      "quote": null
+    },
+    {
+      "topic": "design",
+      "summary": "After watching Zeina play, Kaze identified a frustration point: falling into water causing repeated restarts. He plans to change that punishment so falling into the sea costs 1 HP instead, using “painful to watch” playtesting as his bar for difficulty.",
+      "quote": "My bar is usually: when I watch the player and it’s painful to watch them, I need to make it easier."
+    },
+    {
+      "topic": "design",
+      "summary": "Kaze criticized a separate temple area’s palette as “color vomit” (gray brick/sky/water mismatch) and wants to lock in a better color direction before deeper rework, testing quick swaps like gray-to-brown/golden brick to better match a “Yoshi temple” vibe.",
+      "quote": null
+    },
+    {
+      "topic": "team",
+      "summary": "Kaze explicitly asks for a quick color test from the person who modeled the temple (implied collaborator), indicating an iterative art workflow where palette adjustments precede larger structural rework to avoid redoing work multiple times.",
+      "quote": null
+    },
+    {
+      "topic": "design",
+      "summary": "For Course 11’s theming, Kaze plans construction/oil-rig NPCs: worker Koopas, Goombas with hardhats, hazard-tape set dressing, and Thwomps redesigned with safety/warning motifs (e.g., warning sign plates, vests, shields) to justify gameplay rules like stomp resistance.",
+      "quote": null
+    },
+    {
+      "topic": "design",
+      "summary": "A narrative gag is planned: a Wiggler “overseer” NPC who gets progressively angrier as the player causes mishaps, leveraging Wiggler’s color/emotion changes for readable escalation.",
+      "quote": null
+    },
+    {
+      "topic": "technical",
+      "summary": "For the cement pit, Kaze initially considered spawning footprint decals but rejected it due to N64 memory/performance limits and storage complexity (too many decals, persistence problems).",
+      "quote": null
+    },
+    {
+      "topic": "technical",
+      "summary": "He pivoted to a render-to-texture approach for footprints: stamping tiny footprint sprites into a dedicated texture so prints can accumulate without spawning many actors/triangles, and he can potentially inspect the texture later for gameplay logic.",
+      "quote": "This is actually just a texture. We are rendering to a texture. So there is no memory issue."
+    },
+    {
+      "topic": "technical",
+      "summary": "Implementing stamping required low-resolution sprite decisions (as small as 4x3 / 3x4), direct pixel writes in I4/I8 formats, and combiner/blend setup so the footprint reads as a darker decal rather than a full opaque overlay.",
+      "quote": null
+    },
+    {
+      "topic": "technical",
+      "summary": "He hit and resolved multiple bugs: incorrect coordinate scaling/mirroring (wrong multipliers), forgetting to apply an offset inside the stamping function, and out-of-bounds writes causing memory corruption (fixed by clamping Y ranges/guarding bounds).",
+      "quote": null
+    },
+    {
+      "topic": "design",
+      "summary": "To avoid writing a full arbitrary bitmap rotation algorithm (needed for directionally-correct prints), Kaze chose a design compromise: make standard footprints circular/symmetric so rotation is unnecessary; he then plans special multi-circle stamps for sliding and ground-pound/dive states.",
+      "quote": "I want to make the footsteps circular so I don’t have to deal with rotating them."
+    }
+  ],
+  "contributor_findings": {
+    "biobak": [
+      {
+        "topic": "community",
+        "summary": "Reacted to the new health bar and suggested doubling the animation speed, prompting Kaze to consider immediate HUD timing adjustments.",
+        "quote": "Your health bar movement is a bit slow. You could make it at least two times as fast."
+      }
+    ],
+    "badub": [],
+    "zeina": [
+      {
+        "topic": "design",
+        "summary": "Provided implicit usability testing: Kaze watched her play and used her repeated failures (water falls forcing restarts) to justify making the level more forgiving (lose HP instead of restart).",
+        "quote": null
+      },
+      {
+        "topic": "design",
+        "summary": "Answered Kaze’s sizing check on the footprint stamp (“looks about right”) and agreed the stamp reads as a footprint in-game, acting as quick visual validation during implementation.",
+        "quote": "Yeah, looks about right."
+      },
+      {
+        "topic": "design",
+        "summary": "Agreed to try creating additional stamp textures for other actions (ground pound/dive), though the “butt print” idea later gets traded off against the cost of implementing rotation.",
+        "quote": null
+      }
+    ],
+    "others": [
+      {
+        "name": "ZoroOrganic",
+        "findings": [
+          {
+            "topic": "design",
+            "summary": "Kaze credits ZoroOrganic with an earlier idea he’s implementing: a comedic fall/jump animation where Mario’s head/hat movement exaggerates during falling/landing.",
+            "quote": null
+          }
+        ]
+      },
+      {
+        "name": "Lilaa",
+        "findings": [
+          {
+            "topic": "technical",
+            "summary": "Tried to help Kaze with bitmap rotation guidance and later discussed VS Code/C language support configuration, though Kaze found the rotation suggestion unhelpful for non-90° rotations and remained frustrated with editor diagnostics.",
+            "quote": null
+          }
+        ]
+      },
+      {
+        "name": "Sauraen",
+        "findings": [
+          {
+            "topic": "technical",
+            "summary": "Mentioned as someone Kaze wants to ask about “custom microcode” work (F3DEX-related). Kaze implies he needs deeper understanding to do more advanced rendering features himself.",
+            "quote": "I’m gonna ask Sauraen more about the custom microcode stuff. I gotta make more of that myself."
+          }
+        ]
+      }
+    ]
+  },
+  "memorable_quotes": [
+    {
+      "speaker": "Kaze",
+      "quote": "My bar is usually: when I watch the player and it’s painful to watch them, I need to make it easier.",
+      "context": "Explains his playtest-driven difficulty philosophy while discussing changing water falls from restart punishment to HP loss after watching Zeina struggle."
+    },
+    {
+      "speaker": "Kaze",
+      "quote": "Man, this is so much work for just a single stupid star.",
+      "context": "Sums up the grind of implementing a bespoke cement-footprints mechanic under N64 constraints."
+    },
+    {
+      "speaker": "Kaze",
+      "quote": "Just have them be able to make the entire thing black. I think that’s cool.",
+      "context": "States the intended player fantasy for the footprint system: persistent, accumulating marks rather than fading/limited decals."
+    }
+  ],
+  "key_stories": [
+    {
+      "title": "Dropping skins in favor of coin-driven progression",
+      "summary": "Kaze reverses an earlier plan to include cosmetic character skins. He pivots toward using coins as a meaningful currency for optional purchases, like Mario house items and assist-style upgrades (e.g., a temporary star granting double jump/invincibility) to help with hard content.",
+      "challenge": "Skins didn’t feel like the right fit (or cost/benefit) for the project, and coins needed a more compelling purpose than simple collection.",
+      "process": "Kaze proposes a shop/economy where coins can buy house decorations and gameplay assists; he also floats purchasable minigames as optional content for high star totals.",
+      "outcome": "A new direction for progression/economy is set: fewer cosmetics, more gameplay/utility purchases—pending further design decisions on pricing, balance, and scope.",
+      "key_quote": "We used to think that we want skins. I decided we’re not gonna have skins.",
+      "related_to": [
+        "kaze"
+      ]
+    },
+    {
+      "title": "Playtesting Zeina’s frustration leads to softer failure states",
+      "summary": "Kaze watches Zeina play the oil-rig level and notices she would need to restart many times due to falling into water. He decides to reduce the penalty by making water falls cost 1 HP instead of forcing restarts.",
+      "challenge": "Repeated restarts from small mistakes were creating an unfun loop, especially visible in live observation of a player.",
+      "process": "Kaze uses a simple heuristic—if it’s painful to watch, it’s too punishing—and plans a rules change for the water hazard.",
+      "outcome": "Difficulty/forgiveness is adjusted based on real player behavior rather than theorycrafting, improving flow in the level.",
+      "key_quote": "When I watch the player and it’s painful to watch them, I need to make it easier.",
+      "related_to": [
+        "kaze",
+        "zeina"
+      ]
+    },
+    {
+      "title": "Temple palette crisis and rapid color testing",
+      "summary": "Kaze reviews a temple area and calls out the palette as incoherent (“color vomit”), focusing on gray brick, vegetation, sky/water mismatch. He asks for quick brick-color tests (gray to brown/golden) to establish a strong palette before any deeper remodel/rework.",
+      "challenge": "If the underlying color direction is wrong, any geometry rework risks being wasted or needing multiple passes.",
+      "process": "Kaze proposes small, fast tests: adjust brick hue/saturation and ensure edging matches, consider harmonizing sky and water tones, and only then proceed with larger changes.",
+      "outcome": "The team identifies a likely starting fix (more golden/brown bricks) and sets a palette-first workflow for the rework.",
+      "key_quote": null,
+      "related_to": [
+        "kaze"
+      ]
+    },
+    {
+      "title": "Cement footprints: from decals to render-to-texture breakthrough",
+      "summary": "Kaze wants a cement pit where Mario leaves footprints that persist and can accumulate. He initially considers spawning decals/geometry but worries about performance, memory, and storing many footprints; he then pivots to stamping into a texture (render-to-texture), debugs coordinate math and pixel formats, fixes offset/bounds bugs, and gets convincing results.",
+      "challenge": "N64 constraints make “many persistent decals” risky: too many triangles/actors, storage complexity, and potential frame drops.",
+      "process": "He prototypes multiple approaches (decals with fade/limits, large texture mode, tiny footprint sprites), then implements direct pixel stamping into a dedicated texture, resolves mirroring/multipliers/offset mistakes, and clamps to avoid memory corruption.",
+      "outcome": "Footprints convincingly appear and persist, enabling the intended player fantasy (making the cement darker over time). Rotation remains a challenge and is deferred/solved via design compromise.",
+      "key_quote": "We are rendering to a texture.",
+      "related_to": [
+        "kaze"
+      ]
+    },
+    {
+      "title": "Rotation problem solved by design compromise (circular footprints)",
+      "summary": "After getting stamping working, Kaze confronts directional footprint rotation (would require arbitrary bitmap rotation and handling dimension changes). He decides it’s not worth the engineering cost for a single star and chooses circular/symmetric footprints that don’t need rotation, with plans for special multi-circle stamps for sliding/ground pound.",
+      "challenge": "Proper rotation is non-trivial: algorithm complexity, texture dimension changes (3x4 vs 4x3), and more hardcoded stamping logic.",
+      "process": "He evaluates options (implement rotation, keep unrotated, make prints symmetric) and chooses the simplest that preserves the mechanic’s fun.",
+      "outcome": "The cement pit feature remains feasible and performant, trading realism for implementation time and reliability.",
+      "key_quote": "I want to make the footsteps circular so I don’t have to deal with rotating them.",
+      "related_to": [
+        "kaze",
+        "zeina"
+      ]
+    }
+  ],
+  "open_questions": [
+    {
+      "topic": "Shop economy replacing skins",
+      "context": "Kaze removed skins and proposed coin sinks: Mario’s house purchases and a “safe power star” assist (double jump + invincibility) priced around 100 coins.",
+      "questions": [
+        "What specifically made skins the wrong fit (time, cohesion, legal risk, design philosophy)?",
+        "What items/upgrades are planned for the shop, and how do you prevent them from trivializing level design?",
+        "How will coin economy be balanced across the full game (expected coin income per course, pricing tiers, repeatable earning)?",
+        "Is the assist-star intended as an accessibility feature, a speedrun tool, or an optional ‘easy mode’ mechanic?"
+      ],
+      "related_to": [
+        "kaze"
+      ]
+    },
+    {
+      "topic": "Minigames as optional content/purchases",
+      "context": "Kaze floated buying minigames with coins, acknowledging minigames in romhacks are often poor, and cited DK64/other games’ minigame fatigue risks.",
+      "questions": [
+        "How many minigames would you ship, and what quality bar/mechanics would make them feel ‘not romhack minigames’?",
+        "Are minigames required for completion, or purely optional for extra stars/coins?",
+        "Who would build them (Kaze vs collaborators), and what scope constraints are necessary to keep them from derailing production?"
+      ],
+      "related_to": [
+        "kaze"
+      ]
+    },
+    {
+      "topic": "Star count confusion and overall completion planning",
+      "context": "Kaze references lists showing 171 stars vs expectations of 180, and mentions targets like 175 stars while discussing minigames.",
+      "questions": [
+        "What is the confirmed planned total star count (and why)?",
+        "Which systems/content are driving the star count changes (new courses, minigames, bonus goals)?",
+        "How do you track star inventory and prevent desync between planning docs and builds?"
+      ],
+      "related_to": [
+        "kaze"
+      ]
+    },
+    {
+      "topic": "Course 11 NPC set and scripting scope",
+      "context": "Kaze brainstormed worker Koopas/Goombas, hazard-tape cement pit, warning-sign Thwomps, and a Wiggler supervisor who gets angrier when you cause accidents.",
+      "questions": [
+        "Which NPCs ended up being implemented, and what interactions/dialogue were added?",
+        "How is the Wiggler ‘anger escalation’ tracked—by triggers, star objectives, or global counters?",
+        "Who models/animates these NPC variants, and how do you keep the theme readable at N64 resolution?"
+      ],
+      "related_to": [
+        "kaze",
+        "biobak",
+        "zeina"
+      ]
+    },
+    {
+      "topic": "Cement footprints system on real hardware",
+      "context": "Kaze achieved a render-to-texture stamping prototype and expects it to be cheap, but he hasn’t validated behavior on actual N64 in this stream.",
+      "questions": [
+        "How did the footprint stamping perform on real N64 (frame time spikes, RDP/RSP load, texture upload cost)?",
+        "Were there hardware-specific artifacts (color combiner differences, precision, cache behavior) compared to emulator?",
+        "Did the system require microcode or F3DEX changes to be reliable/fast?"
+      ],
+      "related_to": [
+        "kaze",
+        "biobak"
+      ]
+    },
+    {
+      "topic": "Rotation and special action stamps (dive/ground pound/slide)",
+      "context": "Kaze avoided arbitrary rotation by making footprints circular; he still wants richer effects for ground pound/dive/slide (multi-circle trails) but worries about complexity.",
+      "questions": [
+        "Did you later implement true rotation, or keep the circular design permanently?",
+        "How did you decide what actions leave marks (walk/run/slide/dive/ground pound), and at what frequency?",
+        "Did you restore any form of ‘butt print’ ground-pound stamp, and how was it done without rotation?"
+      ],
+      "related_to": [
+        "kaze",
+        "zeina"
+      ]
+    },
+    {
+      "topic": "Temple rework ownership and pipeline",
+      "context": "Kaze strongly disliked the temple’s palette and wanted quick brick-color tests before rework; he implies someone else modeled it and can do fast material tweaks.",
+      "questions": [
+        "Who owns the temple rework (modeling, textures, lighting), and what concrete changes were made after this stream?",
+        "What references/inspirations define the intended ‘Yoshi temple’ look (e.g., El Dorado, specific Nintendo titles)?",
+        "What is your process for locking a palette early in an N64 project where lighting/skyboxes heavily affect perceived color?"
+      ],
+      "related_to": [
+        "kaze",
+        "biobak"
+      ]
+    },
+    {
+      "topic": "Custom microcode ambitions (Sauraen)",
+      "context": "Kaze says he wants to ask Sauraen about “custom microcode” and make more of it himself, implying future rendering ambitions beyond stock pipelines.",
+      "questions": [
+        "What specific rendering limitations are pushing you toward custom microcode (texture size, effects, throughput)?",
+        "What did Sauraen already deliver/help with (F3DEX3 features), and what do you still need to learn to continue independently?",
+        "How do you decide when an effect is worth microcode-level complexity vs a design compromise (like circular footprints)?"
+      ],
+      "related_to": [
+        "kaze"
+      ]
+    },
+    {
+      "topic": "Demo strategy revisiting early levels",
+      "context": "Kaze mentions a possible second demo: re-release the original three levels with improvements, but doesn’t want it to be “more banger” than that.",
+      "questions": [
+        "What’s the goal of a refreshed demo (community hype, playtesting, fundraising, proof-of-progress)?",
+        "Which improvements would be showcased (HUD, controls, animation polish, new mechanics like footprints)?",
+        "What risks do demos create for the project (scope pressure, spoilers, expectations, legal attention)?"
+      ],
+      "related_to": [
+        "kaze"
+      ]
+    },
+    {
+      "topic": "Difficulty philosophy formalization",
+      "context": "Kaze’s stated bar is “painful to watch” during playtests; he adjusted water penalties accordingly.",
+      "questions": [
+        "How often do you do observation playtests (Zeina, friends, community), and how do you record findings?",
+        "How do you balance ‘Kaze-hard’ challenges with broader accessibility without diluting the core identity?",
+        "Do you have explicit rules for punishment (restart vs HP loss vs time loss) across the game?"
+      ],
+      "related_to": [
+        "kaze",
+        "zeina"
+      ]
+    }
+  ]
+}

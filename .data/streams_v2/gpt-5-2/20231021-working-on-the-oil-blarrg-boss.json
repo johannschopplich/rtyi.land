@@ -1,0 +1,332 @@
+{
+  "stream_context": {
+    "summary": "Kaze iterates on course star-select/background scenes and set dressing for underwater and sky courses: tuning a Blargg boss intro cutscene, animating a submarine prop via sine waves, designing distant underwater \"lights\" with alpha blending, and integrating Biobak’s bird model/animations into a course-select scene. He also discusses upcoming overworld rework ideas, retro-section plans, and a move to a new streaming setup.",
+    "level": [
+      "Course 9 – Worms Fortress",
+      "Course 8 – Lofty Lumberleaf",
+      "Overworld"
+    ],
+    "significance": "notable",
+    "significance_reason": "Contains concrete production insights: a compiler/math-include bug causing broken sine animation, alpha/vertex-color blending tradeoffs for atmospheric lighting, a course-select transition that freezes object updates, plus a clear overworld re-theme direction and personal move impacting workflow/streaming setup."
+  },
+  "findings": [
+    {
+      "topic": "design",
+      "summary": "Kaze’s Blargg boss intro cutscene concept: after Blargg eats Mario and spits him out, the scene fades in from purple, reveals NPCs in cages, then reveals the Blargg to set context before gameplay starts.",
+      "quote": null
+    },
+    {
+      "topic": "design",
+      "summary": "He decides the Blargg should visibly spit Mario out after emerging, with Mario landing on the opposite side of the arena, to make the boss intro feel more coherent and readable.",
+      "quote": null
+    },
+    {
+      "topic": "team",
+      "summary": "Biobak is actively driving \"star select\"/course-select scene reworks; Kaze expects the stream to pivot when Biobak joins and repeatedly references implementing Biobak’s requested look/animation timing.",
+      "quote": null
+    },
+    {
+      "topic": "technical",
+      "summary": "Submarine movement will be driven procedurally (sine waves for bob/roll) rather than keyframed animation; Kaze measures the cycle timing (~40–45 frames) and tunes amplitude/speed for a harmonic motion.",
+      "quote": null
+    },
+    {
+      "topic": "technical",
+      "summary": "A broken sine-wave animation was traced to a build/include issue: missing math definitions caused the compiler/linker to pull incorrect/garbage sine data without warnings, producing non-sine behavior. Adding the proper math include / using the correct sine function restored sane values.",
+      "quote": "What even did it link? Because I did not include the sine function needed for this, and it still compiled the sine function somehow out of nothing."
+    },
+    {
+      "topic": "technical",
+      "summary": "Kaze identifies a simulation-rate pitfall: the same motion code behaved differently due to mixed update rates (90/60/30 FPS contexts), effectively doubling perceived speed; he adjusts multipliers based on the actual update frequency.",
+      "quote": null
+    },
+    {
+      "topic": "technical",
+      "summary": "Fast64 preview limitations affect art iteration: opacity/alpha blending doesn’t preview accurately, causing confusion until tested in the actual render path.",
+      "quote": null
+    },
+    {
+      "topic": "technical",
+      "summary": "Atmospheric underwater \"lights\" (distant glows) exposed vertex-color \"color bending\" artifacts; Kaze switches to using texture luminance as an alpha channel and changes light shapes/spacing (less overlap, edge fade) to reduce banding/bending.",
+      "quote": null
+    },
+    {
+      "topic": "technical",
+      "summary": "A visible \"X\" artifact on the lights was diagnosed as vertex shading behavior; Kaze removes it by remaking the light model/vertex shading approach rather than relying on texture tweaks alone.",
+      "quote": null
+    },
+    {
+      "topic": "technical",
+      "summary": "Kaze notes the RTYI engine intentionally drops support for some suboptimal/legacy animation rig features because supporting them costs performance; Biobak’s bird rig includes a translate/rotate bone that might or might not still be supported.",
+      "quote": null
+    },
+    {
+      "topic": "milestone",
+      "summary": "A new submarine model is considered a clear upgrade and is planned to replace an older placeholder; Kaze expresses confidence adding more ambient life (fish/jellyfish) thanks to strong performance headroom in that level.",
+      "quote": null
+    },
+    {
+      "topic": "technical",
+      "summary": "Performance status: the submarine level reportedly holds ~60 FPS on N64 hardware, giving room to \"go sicko mode\" with extra props/actors (fish, jellyfish, set dressing).",
+      "quote": null
+    },
+    {
+      "topic": "design",
+      "summary": "Overworld direction shift: Kaze wants to rework the entire overworld (existing teleports/layout not final) and is leaning toward a tropical-island theme inspired by a recent Mario Party session, potentially with sunset lighting.",
+      "quote": null
+    },
+    {
+      "topic": "design",
+      "summary": "Kaze shares a concrete placement guideline for collectables: in RTYI, stars are typically placed ~200 units above the floor for consistency/readability (boxes ~300), with occasional exceptions for visibility.",
+      "quote": "In RTYI I have the guideline that every star is exactly 200 units off the floor; boxes are 300."
+    },
+    {
+      "topic": "technical",
+      "summary": "Course-select scene issue: pressing A to confirm a star triggers a fade/transition that freezes object updates, preventing the bird’s takeoff animation from playing during the fade. Kaze plans to change the transition so animations advance during fade-out rather than hacking around it.",
+      "quote": null
+    }
+  ],
+  "contributor_findings": {
+    "biobak": [
+      {
+        "topic": "design",
+        "summary": "Provides star-select/course-select scene concepts and specific requests for underwater atmosphere (light beams) and motion; Kaze repeatedly checks if the visuals match \"the vibe\" Biobak wanted.",
+        "quote": null
+      },
+      {
+        "topic": "technical",
+        "summary": "Supplies a bird model/animation variant used in a course-select scene; this version contains a translate/rotate bone not present in Kaze’s usual bird rigs, prompting compatibility/performance considerations in the RTYI engine.",
+        "quote": null
+      }
+    ],
+    "badub": [],
+    "zeina": [
+      {
+        "topic": "personal",
+        "summary": "Brief on-stream interaction with Kaze about Donkey Donkey Mario 64 (a prior parody project), joking about being \"slightly traumatized\" by a character; shows their casual, collaborative presence during dev streams even when not directly working on RTYI assets.",
+        "quote": "I think I’m still slightly traumatized from the weeb toad."
+      }
+    ],
+    "others": [
+      {
+        "name": "Lilaa",
+        "findings": [
+          {
+            "topic": "community",
+            "summary": "Suggests technical fixes/ideas (buffers, prim color vs vertex color) and prompts Kaze to clarify the real problem being solved; Kaze pushes back when suggestions don’t address the underlying issue.",
+            "quote": null
+          },
+          {
+            "topic": "technical",
+            "summary": "Calls out that the bird animation \"did finish\" and that lack of fog made it look wrong, helping surface a rendering-consistency issue for the course-select scene.",
+            "quote": null
+          }
+        ]
+      }
+    ]
+  },
+  "memorable_quotes": [
+    {
+      "speaker": "Kaze",
+      "quote": "You can’t just be like, ‘Oh, it works good enough.’ You have to be like, ‘Why is it not doing what I expect?’",
+      "context": "Said while debugging the sine-wave submarine motion; captures his insistence on understanding root causes rather than accepting hacks."
+    },
+    {
+      "speaker": "Kaze",
+      "quote": "The player shouldn’t even know that I exist when he plays this game.",
+      "context": "Explaining why he avoids self-references/easter eggs; frames a design philosophy about immersion and separating creator identity from the work."
+    },
+    {
+      "speaker": "Kaze",
+      "quote": "The entire overworld will be reworked, so nothing you see in the overworld is going to be the same.",
+      "context": "Direct statement of scope for overworld redesign, useful for documentary structure and roadmap context."
+    }
+  ],
+  "key_stories": [
+    {
+      "title": "The submarine sine-wave that wasn’t a sine wave",
+      "summary": "While adding procedural bob/roll to a submarine prop, Kaze sees impossible motion that doesn’t match sine behavior. He suspects timing/FPS issues, then discovers the build is effectively using the wrong sine implementation due to missing math definitions, producing garbage-linked data.",
+      "challenge": "Submarine animation looks wildly incorrect; values appear not to follow a full sine wave and speed is inconsistent across update rates.",
+      "process": "Kaze prints/inspects input/output ranges, considers interpolation and FPS contexts (90/60/30), swaps to a different sine function, and realizes the math include/signature issue. He re-adds the correct math include and retunes multipliers.",
+      "outcome": "Motion becomes reasonable and tunable; Kaze retains strong suspicion/concern about the toolchain allowing garbage linkage without warnings, and the prop animation proceeds.",
+      "key_quote": "What the fuck—how can it just link garbage data and not tell me?",
+      "related_to": [
+        "kaze"
+      ]
+    },
+    {
+      "title": "Underwater distant lights: alpha blending vs vertex-color banding",
+      "summary": "Kaze implements Biobak’s idea for distant underwater light beams/glows, but sees heavy color bending/banding and an unexpected \"X\" artifact. Through iteration he changes how alpha is derived and how the light circles overlap, and remakes the model shading approach.",
+      "challenge": "Atmospheric lights look too bright, bend colors, and show a visible X due to vertex shading/artifacting; Fast64 preview makes opacity hard to judge.",
+      "process": "He tests layer/render approaches, switches to using texture luminance as alpha, reduces overlap by moving circles apart, adds edge fade-out, diagnoses the X as vertex shading, then remakes the model to eliminate the artifact.",
+      "outcome": "A more ominous, distant look that matches the intended vibe, with artifacts reduced/removed and a clearer path for future generic fixes.",
+      "key_quote": null,
+      "related_to": [
+        "kaze",
+        "biobak"
+      ]
+    },
+    {
+      "title": "Bird course-select animation breaks during fade-out",
+      "summary": "Integrating Biobak’s bird into a course-select scene works well for idle (including a tail twitch), but the takeoff animation fails to play correctly because the game’s star-confirm fade freezes object updates.",
+      "challenge": "On pressing A, the transition stops running object updates, so the bird appears to warp/freeze instead of taking off during the fade.",
+      "process": "Kaze experiments with shortening timing and adjusting fade duration, confirms the bird doesn’t fully disappear in the animation, and concludes the real fix is to advance animations during fade-out rather than relying on timing tricks.",
+      "outcome": "Scene is \"good enough\" for now because the level fade hides the incomplete disappearance, but the transition system needs a proper fix in a future session.",
+      "key_quote": "The solution here is to make it so that it advances while the fadeout is playing.",
+      "related_to": [
+        "kaze",
+        "biobak"
+      ]
+    },
+    {
+      "title": "Overworld re-theme sparked by a game night",
+      "summary": "Kaze states the overworld will be fully reworked and shares a new thematic direction: a tropical island overworld inspired by playing Mario Party the day before. He notes layout and fast travel decisions are not final.",
+      "challenge": "Existing overworld content/teleports are placeholders and not aligned with the desired identity of the game.",
+      "process": "He considers a single-island layout, tropical presentation, and atmospheric touches like sunsets; he rejects premature decisions about routes/fast travel until layout is known.",
+      "outcome": "A clear thematic north star is established (tropical island), but concrete layout remains an open design problem.",
+      "key_quote": null,
+      "related_to": [
+        "kaze"
+      ]
+    },
+    {
+      "title": "Moving house, moving the stream",
+      "summary": "Kaze announces an imminent move, a week off, and a new dedicated workspace he jokingly calls the \"Kaze dungeon.\" This changes where/how streams will be produced and suggests a short-term disruption followed by improved production conditions.",
+      "challenge": "Physical relocation interrupts routine streaming and development cadence.",
+      "process": "He communicates timing (moving tomorrow, week off), expectations (possible bonus streams), and a plan for a new streaming location and potential house tour content.",
+      "outcome": "Short pause in schedule; anticipation of a more stable/controlled dev environment afterward.",
+      "key_quote": null,
+      "related_to": [
+        "kaze"
+      ]
+    }
+  ],
+  "open_questions": [
+    {
+      "topic": "Compiler/linker failure around sine/math",
+      "context": "Kaze describes a case where missing math definitions still allowed compilation, but produced garbage sine behavior without warnings, implying toolchain fragility.",
+      "questions": [
+        "What exact toolchain/config caused the missing-math include to silently link the wrong sine data?",
+        "Was this specific to GCC version, build flags, or the decomp project’s build system?",
+        "Did this incident change any engineering practices (warnings-as-errors, CI checks, header hygiene) for RTYI?",
+        "Are there other similar silent-failure bugs you’ve hit in the RTYI engine/tooling?"
+      ],
+      "related_to": [
+        "kaze"
+      ]
+    },
+    {
+      "topic": "Transition system freezing object updates",
+      "context": "During course-select confirmation/fade-out, objects stop updating so animations can’t play through the fade (bird takeoff).",
+      "questions": [
+        "Where in the engine/state machine are object updates halted during star selection transitions?",
+        "What’s the intended behavior—should certain objects keep updating (UI mascots, ambient props) while others freeze?",
+        "How will you implement ‘advance animation during fade’ without breaking determinism or causing visual popping?"
+      ],
+      "related_to": [
+        "kaze"
+      ]
+    },
+    {
+      "topic": "RTYI engine dropping support for ‘suboptimal’ features",
+      "context": "Kaze mentions that some rig/animation features no longer work because supporting them costs performance; Biobak’s bird uses a translate/rotate bone that may be unsupported.",
+      "questions": [
+        "Which specific legacy SM64/decomp animation or rig features did RTYI stop supporting, and why?",
+        "How do you decide the cutoff between compatibility and performance?",
+        "Did any art have to be reauthored because the engine intentionally doesn’t support a feature anymore?"
+      ],
+      "related_to": [
+        "kaze",
+        "biobak"
+      ]
+    },
+    {
+      "topic": "Underwater lighting pipeline decisions",
+      "context": "Kaze battles vertex-color bending and alpha artifacts; he experiments with using texture luminance as alpha and remaking models.",
+      "questions": [
+        "What final rendering setup did you settle on for underwater ‘light beams’ (combine mode, vertex color usage, alpha source)?",
+        "How do you balance artistic needs (soft gradients) with N64 limitations (banding, combiner constraints)?",
+        "Do you have a standardized ‘atmospherics’ material pipeline now, or is it per-level experimentation?"
+      ],
+      "related_to": [
+        "kaze",
+        "biobak"
+      ]
+    },
+    {
+      "topic": "Performance headroom and ‘go sicko mode’ set dressing",
+      "context": "Kaze claims an underwater/submarine level runs ~60 FPS on real N64 and wants to add lots of fish/jellyfish.",
+      "questions": [
+        "Which level is the 60-FPS underwater/submarine stage, and what are its current poly/object budgets?",
+        "What profiling method/hardware test setup are you using to assert 60 FPS on N64?",
+        "How do you budget ‘ambient life’ AI/animation costs vs. geometry vs. effects?"
+      ],
+      "related_to": [
+        "kaze"
+      ]
+    },
+    {
+      "topic": "Overworld redesign scope and player navigation",
+      "context": "Kaze says the entire overworld will change and proposes a tropical island theme, but layout is unknown and fast travel is undecided.",
+      "questions": [
+        "What problems with the current overworld are motivating the full rework (pacing, readability, aesthetics, routing)?",
+        "How many ‘nodes’/sub-areas will the tropical island overworld have, and how will it gate progress?",
+        "Will fast travel exist, and if so how do you keep the overworld feeling coherent rather than menu-like?"
+      ],
+      "related_to": [
+        "kaze"
+      ]
+    },
+    {
+      "topic": "Course-select scene system and star-select ‘backscreens’",
+      "context": "The stream repeatedly references working on multiple star-select scenes that are ‘a lot of work,’ and course IDs shift as content is reorganized.",
+      "questions": [
+        "How many course-select/star-select scenes exist, and what’s the pipeline (Blender → Fast64 → custom exporter → engine integration)?",
+        "What does ‘star select backscreens hell’ mean in terms of workload—art creation, export friction, or engine glue code?",
+        "How do you track/organize course renumbering and moved content without breaking warps/scripts?"
+      ],
+      "related_to": [
+        "kaze",
+        "biobak"
+      ]
+    },
+    {
+      "topic": "Collectable placement rules (star height guideline)",
+      "context": "Kaze cites a guideline that stars sit ~200 units above floor for consistency and boxes ~300, with exceptions for visibility.",
+      "questions": [
+        "When did you adopt the 200/300-unit guideline, and what problem did it solve (camera readability, A-button challenge fairness, aesthetics)?",
+        "How often do levels intentionally break this rule, and what criteria justify exceptions?",
+        "Do you have other similar ‘hidden’ level design rules for RTYI (coin density, slope limits, enemy spacing)?"
+      ],
+      "related_to": [
+        "kaze"
+      ]
+    },
+    {
+      "topic": "Retro section lineup and how they’re used",
+      "context": "Kaze lists planned retro sections (Paper Mario 64 Goomba Town, Mario Paint, Dr. Mario, Mario Land 1, Smash 64, plus one more) and says he’s not fully happy with them yet.",
+      "questions": [
+        "What’s the design goal of retro sections—nostalgia breaks, mechanical variety, or narrative world-building?",
+        "How do you integrate these sections into RTYI without feeling like disconnected minigames?",
+        "Which retro section is still undecided, and what criteria decide the final pick?",
+        "What does ‘Paper Mario retro section’ actually look like mechanically (2D movement, shaders, dialogue, combat parody)?"
+      ],
+      "related_to": [
+        "kaze"
+      ]
+    },
+    {
+      "topic": "Production cadence changes due to the move",
+      "context": "Kaze is moving tomorrow, taking a week off, and changing streaming location to a dedicated workspace (‘dungeon’).",
+      "questions": [
+        "How did the move affect the project schedule and morale short-term?",
+        "Did the new workspace change how you collaborate with Biobak/Badub/Zeina (more regular hours, better capture, fewer interruptions)?",
+        "Was the house tour/‘dungeon’ setup also motivated by community engagement or purely workflow?"
+      ],
+      "related_to": [
+        "kaze",
+        "zeina"
+      ]
+    }
+  ]
+}

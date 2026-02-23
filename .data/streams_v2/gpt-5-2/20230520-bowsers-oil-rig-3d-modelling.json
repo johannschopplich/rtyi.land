@@ -1,0 +1,332 @@
+{
+  "stream_context": {
+    "summary": "Kaze builds out Course 11’s industrial oil-rig platforming kit (moving platforms, cranes, hooks), iterates heavily on fog/colors, and introduces a new camera-based lighting fill inspired by Mario Odyssey. Mid-stream he debugs a zipline regression caused by earlier collision optimizations, tests performance/graphics on real N64 (clip ratio change causing rendering glitches), and starts prototyping cannon travel—deciding to replace the cannon reticle due to inefficiency and libultra replacement side effects. Zeina briefly joins to show progress on a walk animation needed for an unfinished boss fight.",
+    "level": [
+      "Course 11 – Oil Rig"
+    ],
+    "significance": "notable",
+    "significance_reason": "Introduces a project-wide lighting change, captures a clear debugging story (zipline regression traced to an old collision optimization change), and contains concrete design philosophy about player freedom vs. developer guidance plus forward-looking plans (split-screen multiplayer during upcoming vacation, open-sourcing/backporting optimizations)."
+  },
+  "findings": [
+    {
+      "topic": "design",
+      "summary": "Course 11 is framed as Bowser’s (\"Balsa’s\") oil rig: a highly platform-focused, industrial vertical space with moving rig machinery and traversal between buildings via ziplines and cannons.",
+      "quote": null
+    },
+    {
+      "topic": "design",
+      "summary": "Kaze is building a reusable library of “basic assets” first (moving platforms, cranes, hooks, expanding/shrinking platforms, seesaws), then combining them into platforming challenges—treating the course as a mechanics sandbox assembled from modular parts.",
+      "quote": null
+    },
+    {
+      "topic": "design",
+      "summary": "Visual inspiration for the oil-rig course is Super Mario Sunshine’s Rico Harbor (including recolored Rico Harbor textures), though Kaze hoped the influence would not be immediately obvious.",
+      "quote": null
+    },
+    {
+      "topic": "technical",
+      "summary": "A major lighting change was added after watching Mario Odyssey footage: a camera-facing “fill light” that brightens moving objects/Mario to improve scene readability, addressing feedback that Mario looked too dark. Some level lights temporarily broke and need re-integration.",
+      "quote": null
+    },
+    {
+      "topic": "technical",
+      "summary": "Kaze discovered he had accidentally broken ziplines; the root cause was an earlier collision optimization change with incorrect brackets/logic, never properly tested. Fixing it restored ceiling detection needed for the hang/zipline state.",
+      "quote": "A few months ago, I found an optimization with collision… but when I did that, I messed up the code and I actually never tested it."
+    },
+    {
+      "topic": "technical",
+      "summary": "N64 hardware test showed strong performance (~42 FPS in a cave scene), but a “clip ratio” optimization causes severe rendering artifacts (far triangles “melting”) and can freeze the graphics thread; Kaze considers reverting the clip ratio change if needed.",
+      "quote": null
+    },
+    {
+      "topic": "technical",
+      "summary": "Cannon aiming UI/reticle is misaligned after engine changes; Kaze suspects issues from replacing libultra with a custom optimized implementation (e.g., matrix/message translation). He decides not to patch the old reticle and instead make a cheaper new one.",
+      "quote": "This is eight matrices and four display lists to render four triangles. There’s no way we need eight matrices to render four triangles."
+    },
+    {
+      "topic": "philosophy",
+      "summary": "Kaze is generally opposed to adding “purist vs. modern” options for core mechanics (example: toggling swim mechanics), preferring a single authored design unless it’s an accessibility/usability feature like button swapping.",
+      "quote": "I’m kind of against giving players options… to select how the fundamental thing like that works."
+    },
+    {
+      "topic": "philosophy",
+      "summary": "He rejects adding explicit trajectory/guide lines to cannon travel because it reduces player agency; he wants exploration to feel like freedom rather than following developer instructions.",
+      "quote": "If we give you the line to move along, you don’t have any freedom… I don’t want the dev telling me, ‘hey, do this.’"
+    },
+    {
+      "topic": "design",
+      "summary": "Course 11 traversal will use cannons to shoot between buildings, but Kaze wants them usable primarily when already high up (not from ground level). Cannon shots are positioned as optional convenience for faster exploration rather than mandatory progression.",
+      "quote": null
+    },
+    {
+      "topic": "design",
+      "summary": "Because N64 fog supports only a single fog color (no gradient), Kaze weighs orange fog (to match an orange background) vs. alternatives; he and chat iterate on saturation and palette to avoid “lava/ash” misreads for oil.",
+      "quote": null
+    },
+    {
+      "topic": "design",
+      "summary": "Kaze discusses UI placement logic: the swimming breath meter is placed around/near Mario (center area) so players notice it where attention naturally is, rather than as a conventional top-screen UI element.",
+      "quote": null
+    },
+    {
+      "topic": "milestone",
+      "summary": "Project progress snapshot: the most recently finished course is “Buzzer 2.” The Buzzer boss fight is still not finished, waiting on required animations; Zeina is working on a walk cycle and Kaze wants the boss to keep its head aimed at Mario to feel creepy/locked-on.",
+      "quote": null
+    },
+    {
+      "topic": "business",
+      "summary": "Kaze plans to open-source his engine/optimization work and may backport optimizations to the vanilla Mario 64 codebase later, but gives no guarantee and notes it would otherwise require significant compensation.",
+      "quote": "I’m gonna open source it and I might backport all my optimizations to the vanilla game. No 100% guarantee though."
+    },
+    {
+      "topic": "team",
+      "summary": "Zeina participates live: negotiates streaming cadence/household logistics if Kaze does a week-long “live my life on stream” push for multiplayer, and provides/solicits feedback on the boss walk animation (including constraints like keeping head locked to Mario).",
+      "quote": null
+    }
+  ],
+  "contributor_findings": {
+    "biobak": [
+      {
+        "topic": "design",
+        "summary": "Biobak previously suggested a red tint for the oil to read like “running red ash,” which influenced the level’s oil coloration; Kaze later revisits it due to player confusion with lava/ash.",
+        "quote": null
+      }
+    ],
+    "badub": [
+      {
+        "topic": "team",
+        "summary": "Kaze reiterates that the stream OST is custom made by Badub (with some Mario remixes), reducing typical copyright concerns for stream music while acknowledging remixes are inherently riskier.",
+        "quote": null
+      }
+    ],
+    "zeina": [
+      {
+        "topic": "team",
+        "summary": "Zeina shows a new walk animation iteration for an enemy/boss and discusses animation intent (arms-forward ‘Bowser-like’), while agreeing to keep head movement minimal so the character can always ‘look at Mario’ in-game.",
+        "quote": null
+      },
+      {
+        "topic": "personal",
+        "summary": "Zeina pushes back on Kaze’s idea of intensive daily streaming for a week (for multiplayer) by noting she’d need time to prepare and not be forced to cook every day, revealing practical work-life constraints around sprint-style dev streams.",
+        "quote": "If you gotta stream all day for a week, at least give me a moment to prepare, so I don’t have to cook every day."
+      }
+    ],
+    "others": [
+      {
+        "name": "Lilaa",
+        "findings": [
+          {
+            "topic": "technical",
+            "summary": "Lilaa reports quaternion animations work is “done” and tied to exporter changes; Kaze reacts positively but notes he still needs to understand how to use parts of the tooling (HandleGroups/HandleAnimationTables, path inputs).",
+            "quote": null
+          },
+          {
+            "topic": "community",
+            "summary": "Lilaa prompts N64 testing requests (Koopa Wave Cove lighting), offers feedback on fog color ideas, and engages in ongoing tooling/engine discussion (console printing usefulness, IntelliSense guide).",
+            "quote": null
+          }
+        ]
+      }
+    ]
+  },
+  "memorable_quotes": [
+    {
+      "speaker": "Kaze",
+      "quote": "If we give you the line to move along, you don’t have any freedom. You’re just kind of following instructions.",
+      "context": "Explaining why he won’t add trajectory-guide lines for cannon shots; captures his core design value of player agency."
+    },
+    {
+      "speaker": "Kaze",
+      "quote": "That’s the thing with me. I never test my code. I just assume it works.",
+      "context": "During the zipline regression debug story; revealing statement about his dev workflow tradeoffs and how long-tail bugs appear."
+    },
+    {
+      "speaker": "Zeina",
+      "quote": "If you gotta stream all day for a week, at least give me a moment to prepare, so I don’t have to cook every day.",
+      "context": "Personal/professional boundary-setting when Kaze proposes an intense multiplayer sprint on stream."
+    }
+  ],
+  "key_stories": [
+    {
+      "title": "Zipline regression traced to old collision optimization",
+      "summary": "While prototyping the Course 11 zipline, Kaze finds Mario no longer enters the hanging/zipline state. The investigation reveals ceiling detection/raycasting is failing, indicating a systemic collision issue rather than a level-script mistake.",
+      "challenge": "Ziplines suddenly stop working; ceiling is not detected and Mario falls through expected hang triggers.",
+      "process": "Kaze debugs by forcing ‘breakpoints’ via intentional Mario death, adds prints for ceiling height, inspects raycast offsets and ceiling-setting logic, and reviews previous edits to the collision optimization code.",
+      "outcome": "He finds a bracket/logic mistake in an earlier optimization made months prior and fixes it quickly, restoring the behavior—highlighting how untested optimizations can surface as regressions much later.",
+      "key_quote": "A few months ago, I found an optimization with collision… but when I did that, I messed up the code and I actually never tested it.",
+      "related_to": [
+        "kaze"
+      ]
+    },
+    {
+      "title": "Project-wide lighting upgraded using camera fill light",
+      "summary": "After watching Mario Odyssey footage and hearing readability complaints, Kaze implements a new lighting approach: adding a light component coming from the camera direction, brightening characters and moving objects.",
+      "challenge": "Players (and Kaze) felt scenes were too dark and Mario was hard to read against environments, especially in darker courses.",
+      "process": "He adds a camera-facing fill light on top of existing level lighting, tests in multiple scenes, and notes some areas have broken lighting until he finishes integrating the change.",
+      "outcome": "Overall game appears brighter and more readable; Kaze is excited because deeper shadows can now be used without losing clarity.",
+      "key_quote": null,
+      "related_to": [
+        "kaze"
+      ]
+    },
+    {
+      "title": "N64 hardware test reveals clip ratio tradeoff",
+      "summary": "Kaze boots the build on N64 to validate FPS and lighting, observing strong framerate but severe rendering artifacts when a clip ratio optimization is enabled.",
+      "challenge": "A performance tweak (clip ratio change) introduces far-geometry ‘melting’ visuals and can freeze the graphics thread on real hardware.",
+      "process": "He reproduces the issue during live testing, connects it to the clip ratio change, and considers reverting it while investigating the underlying cause.",
+      "outcome": "Decision pending: keep FPS gain or revert the change to restore rendering stability/visual correctness.",
+      "key_quote": "Clip ratio gives us a few more FPS, but it also causes all of this to happen.",
+      "related_to": [
+        "kaze"
+      ]
+    },
+    {
+      "title": "Cannon reticle breaks after replacing libultra; decision to rebuild",
+      "summary": "While adding cannons for building-to-building travel in Course 11, Kaze finds the cannon reticle is offset/misaligned. He suspects his custom ‘optimized libultra’ replacement is affecting transforms or messaging.",
+      "challenge": "Cannon targeting UI is wrong and the current implementation is also wasteful to render.",
+      "process": "He inspects the reticle rendering path, notes suspicious values and that nothing is centered, and concludes fixing the current approach isn’t worth it.",
+      "outcome": "Kaze plans a new, cheaper reticle implementation rather than patching the old one.",
+      "key_quote": "There’s no way we need eight matrices to render four triangles.",
+      "related_to": [
+        "kaze"
+      ]
+    },
+    {
+      "title": "Palette iteration to avoid ‘lava’ misread in oil-rig course",
+      "summary": "The oil in Course 11 reads as lava/ash for many viewers, partly due to red/orange tinting and the warm background. Kaze iterates on fog, ambient, and material colors to keep an industrial/oil mood without confusing players.",
+      "challenge": "Communicating ‘oil rig’ clearly with limited N64 rendering constraints (single fog color, simple highlights) while maintaining a strong palette.",
+      "process": "Kaze tests alternative primitive/ambient colors, reduces/reshapes the palette (purple/yellow/blue/gray), and explicitly weighs viewer ‘stupidness’ as a design constraint (clarity over intention).",
+      "outcome": "He’s more satisfied by stream end, calling the level “beautiful again,” but flags remaining work to finalize some ugly assets and convert a major structure into an object.",
+      "key_quote": "You have to account for stupid people playing your game.",
+      "related_to": [
+        "kaze",
+        "biobak"
+      ]
+    }
+  ],
+  "open_questions": [
+    {
+      "topic": "Split-screen multiplayer plan",
+      "context": "Kaze says he may add split-screen multiplayer during two weeks of vacation at the end of June, potentially doing daily or all-day streams to ‘finish it.’",
+      "questions": [
+        "What exact multiplayer scope do you envision (2P only? 4P? co-op vs competitive)?",
+        "What are the biggest technical blockers (camera, culling, memory, CPU/RSP load, input, netcode not needed)?",
+        "Do you expect multiplayer to work on real N64 hardware or emulator only?",
+        "How would multiplayer interact with custom physics changes and level scripting?"
+      ],
+      "related_to": [
+        "kaze",
+        "zeina"
+      ]
+    },
+    {
+      "topic": "Camera fill light system",
+      "context": "Kaze added camera-facing light to improve readability inspired by Odyssey; some lights are currently ‘broken’ until he finishes integration.",
+      "questions": [
+        "How is the camera light implemented in SM64’s lighting pipeline (per-vertex? per-object? dynamic light slots)?",
+        "What tradeoffs did it introduce (art direction, performance, unintended flattening)?",
+        "How did you validate readability improvements (specific levels, player feedback)?"
+      ],
+      "related_to": [
+        "kaze"
+      ]
+    },
+    {
+      "topic": "Clip ratio optimization causing N64 rendering artifacts",
+      "context": "On N64, enabling clip ratio changes improves FPS but creates far-geometry glitches and can freeze graphics thread.",
+      "questions": [
+        "What specific clip/viewport parameter was changed, and why did it improve FPS?",
+        "What is the suspected root cause of the ‘melting’ triangles and thread freeze?",
+        "Will you keep a per-level/per-scene toggle or revert globally?"
+      ],
+      "related_to": [
+        "kaze"
+      ]
+    },
+    {
+      "topic": "Custom libultra replacement and regressions",
+      "context": "Kaze suspects cannon reticle misalignment is due to his ‘own optimized libultra’ and messaging/transform differences.",
+      "questions": [
+        "Which parts of libultra did you replace, and what motivated the rewrite?",
+        "How do you test correctness across hardware/emulators when swapping low-level libs?",
+        "What other subtle regressions have appeared from the replacement?"
+      ],
+      "related_to": [
+        "kaze"
+      ]
+    },
+    {
+      "topic": "Collision optimization philosophy vs. testing discipline",
+      "context": "Zipline bug came from an old optimization Kaze didn’t test; he frames skipping tests as a time-saver with occasional delayed costs.",
+      "questions": [
+        "How do you decide when to optimize vs. keep stable code in a ROM hack context?",
+        "Do you have any regression test maps/scenarios now, given issues like ziplines?",
+        "How do you document/track engine-level changes so future bugs are traceable?"
+      ],
+      "related_to": [
+        "kaze"
+      ]
+    },
+    {
+      "topic": "Course 11 traversal readability (ziplines and cannons)",
+      "context": "Kaze worries players may not identify what is/isn’t a zipline if it’s integrated into scaffolding; cannons are optional but can still cause deaths.",
+      "questions": [
+        "What visual language will you use to clearly mark interactable ziplines on N64?",
+        "How will you tutorialize cannon/zipline usage without explicit ‘guide lines’?",
+        "What death/respawn penalties feel acceptable for optional traversal tools?"
+      ],
+      "related_to": [
+        "kaze"
+      ]
+    },
+    {
+      "topic": "Buzzer 2 boss fight delayed by animation dependencies",
+      "context": "Kaze says the boss fight isn’t finished because he’s waiting on animations; Zeina shows a walk-cycle iteration and notes head should stay aimed at Mario.",
+      "questions": [
+        "What enemy/boss is this (Buzzer), and what is the full animation list needed to finish the fight?",
+        "How do you coordinate animation iteration between design needs (telegraphs) and Zeina’s production constraints?",
+        "What gameplay behaviors are blocked specifically by missing animations?"
+      ],
+      "related_to": [
+        "kaze",
+        "zeina"
+      ]
+    },
+    {
+      "topic": "Remaining course roadmap",
+      "context": "Kaze mentions four remaining levels: comic book world, Wild West Valley (Course 12), casino world, and one more he can’t recall; overworld work planned ‘last.’",
+      "questions": [
+        "What are the final four courses (names/themes) and how locked are they?",
+        "Why are overworlds scheduled last—dependency reasons or motivation/design reasons?",
+        "What makes Course 12 ‘Wild West Valley’ puzzle-forward compared to Course 11’s platform focus?"
+      ],
+      "related_to": [
+        "kaze"
+      ]
+    },
+    {
+      "topic": "Open-sourcing and potential backport to vanilla",
+      "context": "Kaze states intent to open-source and possibly backport optimizations to vanilla SM64 later, with no guarantee.",
+      "questions": [
+        "What license/repo structure do you plan for open-sourcing (and what will be excluded)?",
+        "What criteria would make you commit to a full vanilla backport?",
+        "How do you weigh community benefit vs. time cost vs. legal/copyright risk?"
+      ],
+      "related_to": [
+        "kaze"
+      ]
+    },
+    {
+      "topic": "Design stance on options (e.g., swim mechanic toggle)",
+      "context": "Kaze rejects offering a toggle for ‘purist vs modern’ swim mechanics, preferring a single authored experience, while allowing some options like button swapping.",
+      "questions": [
+        "Where is your boundary between accessibility options and ‘diluting’ authored mechanics?",
+        "How do you handle conflicting feedback from purists vs. new players?",
+        "Are there any other mechanics you’ve considered making optional but decided against?"
+      ],
+      "related_to": [
+        "kaze"
+      ]
+    }
+  ]
+}

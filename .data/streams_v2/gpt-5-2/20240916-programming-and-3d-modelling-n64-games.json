@@ -1,0 +1,324 @@
+{
+  "stream_context": {
+    "summary": "Kaze blocks out and iterates on a craft-material-themed level layout (spawn placement, multiple traversal paths, planned paper airplane transport), prototypes new platform props like toilet-paper-roll \"paper mushrooms\" with gift-wrap shine and staple details, and repeatedly tests performance on real N64 hardware to diagnose overdraw/RDP bottlenecks. He also shares upcoming demo plans and notable low-level renderer optimizations (instruction savings) in the decomp-based engine.",
+    "level": [
+      "Course 14"
+    ],
+    "significance": "notable",
+    "significance_reason": "Introduces concrete level-layout intentions for a craft diorama course, establishes an imminent public demo scope, and contains unusually specific N64 performance diagnostics (RSP/RDP timing, overdraw causes) plus engine instruction-count optimization work."
+  },
+  "findings": [
+    {
+      "topic": "design",
+      "summary": "Kaze is actively fighting a too-linear first draft by explicitly drawing intended walking paths onto the layout and moving the spawn point toward the level’s center to better support branching routes and optional objectives.",
+      "quote": null
+    },
+    {
+      "topic": "design",
+      "summary": "The level’s traversal plan includes at least one paper-airplane transport that the player steps on to fly to a separate island containing a 'bit pipe' destination.",
+      "quote": null
+    },
+    {
+      "topic": "design",
+      "summary": "Course theming is a \"cardboard diorama\" of craft materials (cardboard, rulers, crayons, toothpicks, glue, gift wrap, toilet paper rolls), intended to evoke locations from Yoshi’s Island while still being an original space built from real-world materials.",
+      "quote": null
+    },
+    {
+      "topic": "philosophy",
+      "summary": "Visual authenticity is treated as a core constraint: because the world is made of recognizable real materials, small inaccuracies break the illusion more than in abstract styles.",
+      "quote": "Because we’re working with the real-world materials here, if it looks off just a little bit it’s going to be very obvious that it’s wrong."
+    },
+    {
+      "topic": "design",
+      "summary": "Kaze wants visible seams and imperfections (e.g., folds, edges, \"seams\" in cardboard/toilet-roll structures) so players immediately read objects as crafted, not as generic low-poly scenery.",
+      "quote": "The seam is very important to me."
+    },
+    {
+      "topic": "design",
+      "summary": "He prototypes a new recurring platform type: a paper-mushroom platform built from a toilet paper roll stem, a gift-wrap cap (with shader-driven shine), and a modeled staple/staple-needle detail to sell the craft construction.",
+      "quote": null
+    },
+    {
+      "topic": "design",
+      "summary": "Gameplay difficulty is being tuned deliberately: Kaze expects the hack to be harder than vanilla SM64, adds optional 'evil' challenge (pin platforming for a Yoshi coin, wall-kick section), but wants to avoid forcing constant long jumps or overly punishing mandatory gaps.",
+      "quote": null
+    },
+    {
+      "topic": "technical",
+      "summary": "Kaze identifies a key N64 rendering pitfall: tiny triangles can be disproportionately expensive because the N64 effectively draws in long stripes (1x64 regions), making certain micro-geometry patterns very costly.",
+      "quote": "The N64 doesn’t actually draw in 2x2 pixel areas; it draws in 1x64 areas."
+    },
+    {
+      "topic": "technical",
+      "summary": "Real-hardware profiling shows the level is currently RDP-bound from overdraw, not triangle count: ~18 ms RSP vs ~36.8 ms RDP, with roughly half the polygon budget used but exceeding the fill/overdraw budget due to unoptimized cutouts/background and Z-buffer usage.",
+      "quote": null
+    },
+    {
+      "topic": "technical",
+      "summary": "Kaze expects major performance recovery once he \"cuts everything out\" (reducing overdraw) and optimizes the background rendering (currently still uses Z-buffer and is \"not optimized at all yet\").",
+      "quote": null
+    },
+    {
+      "topic": "technical",
+      "summary": "An N64 issue appears where geometry is missing in a specific spot (no triangles emitted), creating an 'invisible wall'/hole-like behavior; Kaze notes they’ve seen a similar export/geometry-generation issue before and flags it as important to diagnose.",
+      "quote": null
+    },
+    {
+      "topic": "milestone",
+      "summary": "Kaze states a public demo is coming soon, but it will be limited in scope to Course 1 only (not a larger slice of the game).",
+      "quote": null
+    },
+    {
+      "topic": "technical",
+      "summary": "He reports saving ~30 RSP instructions in 'graph render' work (plus additional small wins) by caching a GMAT stack index instead of recomputing in loops, saving instructions across multiple functions, inlining parts of Wiseguy’s MTXF shadow function (including VAC3F cross), and using the C 'restrict' keyword; he also considers replacing GMAT stack index usage with a GMAT stack add approach for further savings.",
+      "quote": null
+    },
+    {
+      "topic": "technical",
+      "summary": "Shipping/performance options: the final build will default to a 30 FPS cap, with an option to uncap FPS for players who want it.",
+      "quote": null
+    },
+    {
+      "topic": "personal",
+      "summary": "Kaze anticipates streaming less due to returning-to-work constraints and references being self-employed/contracting; he also mentions ongoing commission work only at a high price point.",
+      "quote": null
+    }
+  ],
+  "contributor_findings": {
+    "biobak": [],
+    "badub": [],
+    "zeina": [
+      {
+        "topic": "team",
+        "summary": "Kaze indicates Zeina will act as 'chat mom' (moderation/community presence) during the stream, implying an ongoing supportive role even when not co-hosting vocally.",
+        "quote": null
+      }
+    ],
+    "others": [
+      {
+        "name": "Lilaa",
+        "findings": [
+          {
+            "topic": "technical",
+            "summary": "Kaze hits a Fast64-related error and jokingly assigns blame to Lilaa; later Lilaa appears to send Kaze a texture/link via Discord that he attempts to adapt into a tiling texture.",
+            "quote": null
+          },
+          {
+            "topic": "community",
+            "summary": "Kaze references Lilaa’s age (now 18) in a joking chat exchange, reflecting the long-running community familiarity around the project’s streams.",
+            "quote": null
+          }
+        ]
+      },
+      {
+        "name": "Rocco",
+        "findings": [
+          {
+            "topic": "community",
+            "summary": "Rocco donates $11 during layout planning; Kaze reacts strongly and continues outlining the level-path drawing approach.",
+            "quote": null
+          }
+        ]
+      }
+    ]
+  },
+  "memorable_quotes": [
+    {
+      "speaker": "Kaze",
+      "quote": "Because we’re working with the real-world materials here, if it looks off just a little bit it’s going to be very obvious that it’s wrong.",
+      "context": "Explaining why craft-material realism (paper, cardboard, gift wrap) is harder than typical stylized game art and why he’s picky about textures/shaders."
+    },
+    {
+      "speaker": "Kaze",
+      "quote": "The seam is very important to me.",
+      "context": "Stating a core aesthetic rule: visible construction details help sell the handmade diorama style."
+    },
+    {
+      "speaker": "Kaze",
+      "quote": "The N64 doesn’t actually draw in 2x2 pixel areas; it draws in 1x64 areas.",
+      "context": "Describing a hardware-specific rendering quirk that makes certain small-triangle patterns disproportionately expensive, guiding asset/geometry decisions."
+    }
+  ],
+  "key_stories": [
+    {
+      "title": "Reworking a linear layout into a multi-path course",
+      "summary": "Kaze reviews a first-pass blockout and dislikes how the player is funneled forward. He starts drawing the intended routes directly on the level and relocates the spawn point toward the center to better distribute choices and objectives.",
+      "challenge": "Early layout reads as too linear/obvious, risking boring traversal and weak exploration.",
+      "process": "He sketches multiple 'main paths,' evaluates what each route is for (shortest routes to areas like red coins/Yoshi doodle), and iterates on spawn placement and connective segments.",
+      "outcome": "A clearer plan for branching traversal emerges, but he keeps the layout flexible and continues to adjust major elements to support gameplay.",
+      "key_quote": null,
+      "related_to": [
+        "kaze"
+      ]
+    },
+    {
+      "title": "Building the toilet-paper-roll mushroom platform asset",
+      "summary": "To fill empty space with platforming props that match the craft theme, Kaze prototypes a 'paper mushroom' made from a toilet paper roll and gift wrap. He hunts for usable textures, creates a tiling texture from an image, and adds a modeled staple detail plus shader shine to sell the material.",
+      "challenge": "Need convincing craft-material platforms under tight poly/performance budgets; many reference textures look too fake or too complex.",
+      "process": "He experiments with simple geometry, searches for/edits textures to tile, debates craft 'believability' (e.g., whether staples are valid), and tunes highlights/shine so gift wrap reads correctly.",
+      "outcome": "The mushroom platform concept works visually enough to use as a recurring prop, though he notes some surfaces (top paper texture) still need improvement.",
+      "key_quote": "We all know wrap paper has a little bit of a shine to it.",
+      "related_to": [
+        "kaze"
+      ]
+    },
+    {
+      "title": "Diagnosing N64 slowdown as overdraw, not triangle count",
+      "summary": "Kaze tests the level on N64 and emulators and observes that performance issues come primarily from RDP overdraw. He identifies unoptimized background rendering and lack of cutouts as major contributors, expecting easy wins once geometry is cleaned up.",
+      "challenge": "Framerate on N64 is 'not great' in current state; must ensure the craft-heavy visuals remain performant on original hardware.",
+      "process": "He measures RSP/RDP frame times, toggles anti-aliasing, estimates triangle counts, and visually inspects overdraw-heavy views (background still Z-buffered, no optimization yet).",
+      "outcome": "He concludes polygon budget is fine (~half used), but overdraw must be reduced; he plans to cut out geometry/optimize background for substantial gains.",
+      "key_quote": null,
+      "related_to": [
+        "kaze"
+      ]
+    },
+    {
+      "title": "Renderer micro-optimizations: saving instructions in graph render",
+      "summary": "Parallel to level building, Kaze reports low-level engine work to reduce instruction counts. He describes multiple changes that collectively saved ~30 instructions, with further ideas still to try.",
+      "challenge": "Tight N64 CPU/RSP budgets require constant micro-optimizations to keep ambitious visuals feasible.",
+      "process": "Caches GMAT stack index, removes recomputation inside loops, saves instructions across several functions, improves Wiseguy’s MTXF shadow function via inlining, and uses 'restrict' for compiler optimization; considers replacing index logic with GMAT stack add.",
+      "outcome": "~30-instruction improvement achieved with a plausible path to more savings if the GMAT stack add refactor works.",
+      "key_quote": null,
+      "related_to": [
+        "kaze"
+      ]
+    },
+    {
+      "title": "Defining the public demo scope",
+      "summary": "Kaze briefly outlines release intentions: a demo will be released soon and be somewhat public, but limited to the first course.",
+      "challenge": "Balancing the desire to show progress publicly with the need to keep the demo manageable and polished.",
+      "process": "He states the demo will only include Course 1, implying a curated vertical slice rather than broad access.",
+      "outcome": "A clear near-term milestone is set for community and documentary timeline: Course 1 demo release.",
+      "key_quote": null,
+      "related_to": [
+        "kaze"
+      ]
+    }
+  ],
+  "open_questions": [
+    {
+      "topic": "Course numbering and the 'intro level is Course 14' statement",
+      "context": "Kaze calls the current craft diorama level 'the intro level' while also labeling it Course 14, which is unusual relative to typical SM64 structure.",
+      "questions": [
+        "Why is this 'intro level' designated as Course 14—what is the intended course/world ordering in Return to Yoshi’s Island?",
+        "Is Course 14 a hub/introduction later in the game, or is numbering temporary during development?",
+        "How does this course connect narratively/mechanically to Course 1 (the upcoming demo level)?"
+      ],
+      "related_to": [
+        "kaze"
+      ]
+    },
+    {
+      "topic": "Paper airplane traversal mechanic",
+      "context": "A paper airplane is planned as an interactable transport to fly between islands/areas.",
+      "questions": [
+        "How does the paper airplane control (auto-flight vs player-controlled)?",
+        "Is it a one-off setpiece or a recurring movement tool across the game?",
+        "What technical constraints (camera, collision, speed) shaped the design?"
+      ],
+      "related_to": [
+        "kaze"
+      ]
+    },
+    {
+      "topic": "Craft-material authenticity rules",
+      "context": "Kaze repeatedly filters ideas based on whether 'normal people would use this in crafts' and whether materials read as real (seams, shine, roughness).",
+      "questions": [
+        "Do you have a written 'material bible' (allowed materials, forbidden materials) for the craft world?",
+        "How do you decide between realism vs readability when the two conflict?",
+        "Did any real-life craft references (books, dioramas, Yoshi’s Crafted World) directly influence your rules?"
+      ],
+      "related_to": [
+        "kaze",
+        "zeina"
+      ]
+    },
+    {
+      "topic": "Planned enemies and interactions in the craft world",
+      "context": "Kaze mentions possible enemies that shoot buttons and enemies with googly eyes, but defers enemy design while focusing on platforms and space filling.",
+      "questions": [
+        "What enemy behaviors best fit the craft theme (buttons, googly eyes, office supplies)?",
+        "Are enemies mostly reskins, or are new behaviors planned to match the diorama premise?",
+        "How do you balance enemy density vs platforming in this course?"
+      ],
+      "related_to": [
+        "kaze"
+      ]
+    },
+    {
+      "topic": "Performance pipeline for N64 overdraw reduction",
+      "context": "Kaze identifies overdraw as the dominant bottleneck (RDP ~36.8 ms) and expects improvements after cutouts/background optimization.",
+      "questions": [
+        "What concrete steps are in your overdraw-fixing checklist (mesh cutouts, occlusion, render order, Z-buffer strategy)?",
+        "How do you measure progress—specific tooling, on-hardware profiling routines, or automated metrics?",
+        "What was the biggest past win you’ve had reducing overdraw in other courses?"
+      ],
+      "related_to": [
+        "kaze"
+      ]
+    },
+    {
+      "topic": "Geometry/export bug causing missing triangles",
+      "context": "A section has 'no more geometry' / missing triangles, producing an invisible barrier/hole; Kaze says it happened before.",
+      "questions": [
+        "What caused the missing-triangles issue previously (Fast64 export, Blender settings, engine importer)?",
+        "How do you detect these issues systematically before hardware testing?",
+        "Did it ever cause a game crash or just collision/visual gaps?"
+      ],
+      "related_to": [
+        "kaze",
+        "biobak"
+      ]
+    },
+    {
+      "topic": "Renderer optimization collaboration (Wiseguy, Sauraen, others)",
+      "context": "Kaze mentions improving 'Wiseguy’s MTXF shadow function' and low-level math/inlining changes.",
+      "questions": [
+        "Who is Wiseguy in your pipeline, and how do you coordinate performance patches?",
+        "Have Sauraen or other N64 specialists reviewed these changes or suggested alternatives?",
+        "What optimization tradeoffs (readability, portability) are you willing to accept for N64 performance?"
+      ],
+      "related_to": [
+        "kaze"
+      ]
+    },
+    {
+      "topic": "30 FPS cap default with uncap option",
+      "context": "Kaze says the final product will ship with CapNet30 by default but include an option to unlimit FPS.",
+      "questions": [
+        "Why choose 30 FPS as the default (authenticity, stability, RDP limits, emulator parity)?",
+        "What breaks or changes at higher FPS (physics, timers, camera, difficulty)?",
+        "Will uncap be available on real hardware builds or only emulator/PC?"
+      ],
+      "related_to": [
+        "kaze"
+      ]
+    },
+    {
+      "topic": "Demo strategy and release logistics",
+      "context": "Kaze plans a public-ish demo that is only Course 1.",
+      "questions": [
+        "What is the target platform for the demo (patch, ROM, emulator package, hardware-friendly build)?",
+        "What determines 'ready' for demo release—bug threshold, performance, polish, or content completeness?",
+        "How will you gather and triage demo feedback without derailing the roadmap?"
+      ],
+      "related_to": [
+        "kaze"
+      ]
+    },
+    {
+      "topic": "Zeina’s ongoing role ('chat mom') and production support",
+      "context": "Kaze notes Zeina will be 'chat mom,' implying community/production support even when not speaking on stream.",
+      "questions": [
+        "What parts of the project does Zeina own day-to-day (art, animation, production triage, community)?",
+        "How do you two divide decisions when art/style constraints collide with gameplay/performance?",
+        "How has working as spouses affected scheduling, conflict resolution, and motivation over the project?"
+      ],
+      "related_to": [
+        "kaze",
+        "zeina"
+      ]
+    }
+  ]
+}

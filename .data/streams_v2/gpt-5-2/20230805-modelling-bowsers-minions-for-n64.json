@@ -1,0 +1,382 @@
+{
+  "stream_context": {
+    "summary": "Kaze iterates on Return to Yoshi’s Island’s engine feel (physics/camera) and begins building Course 11’s NPC-driven setpiece: an oil-rig “Overseer” Wiggler who reacts to the player sabotaging four workers. He implements an efficient texture-sampling system to track how much “cement” the player dirties with footprints, enabling an Easter-egg state where a builder Koopa becomes depressed and cries (with a new animation from Zeina). The stream also includes N64-performance considerations, Blender/Fast64 pipeline issues, and Kaze’s decision to move streaming from Twitch to YouTube due to ads.",
+    "level": [
+      "Course 11"
+    ],
+    "significance": "notable",
+    "significance_reason": "Introduces a concrete, performance-minded gameplay/Easter-egg system (cement dirtiness → crying Koopa) and lays out Course 11’s core narrative interaction loop (Overseer Wiggler escalating reactions), plus reveals engine polish strategy informed by recent playtest data."
+  },
+  "findings": [
+    {
+      "topic": "milestone",
+      "summary": "Kaze says recent playtest data from Only Up 64 was \"really really useful\" and is convincing him the team should ship 1–2 additional small hacks on the RTYI engine before releasing RTYI, to harden and improve the engine.",
+      "quote": null
+    },
+    {
+      "topic": "technical",
+      "summary": "He tuned RTYI movement feel by reducing an \"outer rotate force\" and changing multiple physics parameters; he reports the changes feel better and a tester (Biobak) confirms the physics now feel nice.",
+      "quote": null
+    },
+    {
+      "topic": "technical",
+      "summary": "He changed ceiling interactions: diving into a ceiling now causes a consistent “wonk” response, and he claims there is no longer a way to get “another ceiling,” implying a fix to ceiling-related collision exploits/oddities.",
+      "quote": null
+    },
+    {
+      "topic": "design",
+      "summary": "Kaze acknowledges mixed reception to the current RTYI engine feel (some love it, some hate it) and notes many complaints are actually about vanilla SM64 behaviors—especially steep slopes and slope-jump oddities.",
+      "quote": null
+    },
+    {
+      "topic": "technical",
+      "summary": "Warp transitions are flagged as \"definitely not right\"; Kaze plans to rework warps so player input is held through the warp and Mario’s normal action continues while the warp happens, to avoid awkward 60fps visual discontinuity.",
+      "quote": null
+    },
+    {
+      "topic": "technical",
+      "summary": "He argues perceived input lag differences are likely perception/frame-rate effects: 60fps reduces input lag, while N64 30fps inherently has more due to framebuffer/triple buffering; further improvement would require rewriting Mario physics and running collision twice (not considered reasonable).",
+      "quote": null
+    },
+    {
+      "topic": "technical",
+      "summary": "Kaze refactored engine constants: he replaced many “magic numbers” with named defines and added structured comments for Mario physics and camera tuning, making parameters easier to modify and review.",
+      "quote": null
+    },
+    {
+      "topic": "design",
+      "summary": "Course 11’s main interaction loop is outlined: an oil-rig Overseer Wiggler comments on work progress; the player sabotages/harasses four workers (Koopas), triggering cutscenes where the Overseer grows redder/angrier; after all four are messed with, the Overseer gives up and runs off/disappears (explicitly not a boss fight).",
+      "quote": null
+    },
+    {
+      "topic": "technical",
+      "summary": "Kaze implemented a “cement ruined percentage” system based on a footprint/dirt texture. To avoid iterating all 16,384 pixels, he samples a diagonally-distributed subset (incrementing by 176) to approximate dirtiness, claiming roughly a ~15× computation reduction while still decreasing reliably no matter where the player steps.",
+      "quote": null
+    },
+    {
+      "topic": "design",
+      "summary": "The cement system drives an Easter egg: if the player dirties the cement heavily enough (threshold tuned during the stream), a builder Koopa’s dialogue changes to “Do you want to make me cry?” and he enters a depressed/crying state with a dedicated animation.",
+      "quote": null
+    },
+    {
+      "topic": "team",
+      "summary": "Zeina creates/iterates on a new crying animation for the builder Koopa (including a sit-down setup and a looping cry), while Kaze integrates it and debates whether the NPC should interrupt the player to ensure the Easter egg is noticed.",
+      "quote": null
+    },
+    {
+      "topic": "technical",
+      "summary": "Asset optimization is a recurring constraint: Kaze criticizes past SM64 hacking culture of bragging about huge polygon counts, and he identifies an R64DS-derived Wiggler model as overly dense (hundreds of triangles, likely from default icospheres), pushing toward decimation and simpler geometry/texture reuse.",
+      "quote": null
+    },
+    {
+      "topic": "philosophy",
+      "summary": "Kaze frames difficulty tuning as audience-dependent: expert devs can miss friction casuals will hit (e.g., slope behavior), but making content primarily for experienced romhack players can still earn strong reception; knowing the target audience is presented as central.",
+      "quote": null
+    },
+    {
+      "topic": "technical",
+      "summary": "He reiterates N64-compatibility as a major constraint/virtue: he tests on real N64 mostly for performance changes, mentions reducing visual noise via backface scaling (DKR-related setting), and argues N64 support is much harder than emulator/PC builds but adds “bonus points.”",
+      "quote": null
+    },
+    {
+      "topic": "business",
+      "summary": "Kaze switches streaming from Twitch to YouTube due to Twitch ad overload (even for subscribers), notes he’s getting meaningful YouTube Super Chats for the first time, and expresses interest in filtering chat to people focused on the project.",
+      "quote": null
+    }
+  ],
+  "contributor_findings": {
+    "biobak": [
+      {
+        "topic": "technical",
+        "summary": "Biobak reports the updated physics “feels so nice,” providing a direct confirmation after Kaze’s physics tuning pass.",
+        "quote": null
+      },
+      {
+        "topic": "design",
+        "summary": "Biobak suggests escalating Overseer feedback (e.g., turning red with each worker harmed) and encourages a very high cement-ruin threshold (e.g., ~95%) so the crying/depression Easter egg is hard-earned but reliable when pursued.",
+        "quote": null
+      },
+      {
+        "topic": "design",
+        "summary": "Biobak contributes a visual concept for the Overseer Wiggler resembling a worker vest/service-dog vest/belt; Kaze worries about added polygons or awkwardness if the Wiggler stands upright.",
+        "quote": null
+      }
+    ],
+    "badub": [
+      {
+        "topic": "milestone",
+        "summary": "Kaze references an unreleased Course 11 music track from Badub; Kaze can’t show it on stream but indicates Badub recently improved it (a “version two” Kaze considers better).",
+        "quote": null
+      },
+      {
+        "topic": "design",
+        "summary": "Kaze notes the track contains a recognizable Melee menu sound, implying Badub is blending game-referential audio elements into the OST direction for this level.",
+        "quote": null
+      }
+    ],
+    "zeina": [
+      {
+        "topic": "milestone",
+        "summary": "Zeina is assigned to finish the penguin idle animation (adding subtle flappy movement), after Kaze realizes it wasn’t completed.",
+        "quote": null
+      },
+      {
+        "topic": "design",
+        "summary": "Zeina creates a builder Koopa crying sequence (sit-down setup plus looping sob), and Kaze reviews how it compares to the existing angry stomp so the emotional states read distinctly.",
+        "quote": null
+      },
+      {
+        "topic": "team",
+        "summary": "Zeina and Kaze coordinate live: Kaze asks for animation changes quickly, then decides to postpone further Overseer Wiggler face/texture work to another day due to time.",
+        "quote": null
+      }
+    ],
+    "others": [
+      {
+        "name": "Lilaa",
+        "findings": [
+          {
+            "topic": "design",
+            "summary": "Lilaa suggests costume/prop ideas (e.g., heavy boots, hiding parts under a jacket/tube) as Kaze experiments with making the Overseer Wiggler’s silhouette work under strict triangle limits.",
+            "quote": null
+          }
+        ]
+      },
+      {
+        "name": "Devi",
+        "findings": [
+          {
+            "topic": "design",
+            "summary": "Devi sends a Wiggler concept image via DM (a belt/vest-like worker design). Kaze evaluates it as a possible direction but worries it won’t work with an upright/standing Wiggler and may add too many polygons.",
+            "quote": null
+          }
+        ]
+      },
+      {
+        "name": "Cozy (Fast64 script author)",
+        "findings": [
+          {
+            "topic": "technical",
+            "summary": "Kaze calls out using a Fast64-related script credited to “cozy,” implying reliance on community tooling to speed Blender → SM64 decomp asset export workflows.",
+            "quote": null
+          }
+        ]
+      },
+      {
+        "name": "Robert (referenced)",
+        "findings": [
+          {
+            "topic": "technical",
+            "summary": "Kaze references “Robert” having written a dedicated mirror-breaking engine for a prior effect, as an example of heavy one-off engineering for visual polish that could be repurposed (e.g., for glass breaking).",
+            "quote": null
+          }
+        ]
+      }
+    ]
+  },
+  "memorable_quotes": [
+    {
+      "speaker": "Kaze",
+      "quote": "A lot of people were looking at some of the oddities in the collision in RTYI and it was just like: yeah, this is a vanilla thing. That’s just how Mario 64 works.",
+      "context": "Kaze reframes player complaints about RTYI movement/collision as inherited SM64 behavior (especially slopes), setting up the documentary’s theme of respecting vs. rewriting the classic."
+    },
+    {
+      "speaker": "Kaze",
+      "quote": "You have to know your target audience. That’s always the key.",
+      "context": "Said while discussing difficulty, expert-player expectations, and why some hacks deliberately cater to highly experienced romhack players."
+    },
+    {
+      "speaker": "Kaze",
+      "quote": "Twitch has gone ad crazy. It’s unusable. I even get ads when I’m subscribed to people.",
+      "context": "Explains his platform shift from Twitch to YouTube and hints at sustainability and community-building choices around RTYI development."
+    }
+  ],
+  "key_stories": [
+    {
+      "title": "Cement dirtiness system becomes a crying Koopa Easter egg",
+      "summary": "Kaze wants the builder Koopa’s cement to show progressive ruin from footprints and to unlock an Easter egg if the player goes far enough. Computing a real pixel-accurate “ruined percentage” would be expensive on N64, so he engineers an approximation that still feels consistent and fair.",
+      "challenge": "Track how much of a footprint texture has been dirtied without iterating every pixel (performance/N64 constraints), while making the Easter egg neither trivial nor missable when intentionally pursued.",
+      "process": "He samples a small, diagonally-distributed subset of pixels (choosing an increment like 176 for spread and cache friendliness), tests how the dirt value decreases regardless of where the player walks, then tunes the threshold and adjusts visuals (alpha/brightness) for readability.",
+      "outcome": "The Koopa now switches to a depressed dialogue (“Do you want to make me cry?”) when the threshold is crossed; Zeina supplies a sit-down + looping cry animation that Kaze integrates and verifies in-game.",
+      "key_quote": "Doesn’t this look perfect? Like we just cut computation costs into like basically a 15th.",
+      "related_to": [
+        "kaze",
+        "zeina",
+        "biobak"
+      ]
+    },
+    {
+      "title": "Course 11’s Overseer Wiggler is designed as escalation, not a boss",
+      "summary": "Kaze outlines the narrative structure of an oil-rig scene centered on an Overseer Wiggler. Instead of a traditional boss fight, the setpiece is about the player antagonizing workers and watching the Overseer’s reactions escalate.",
+      "challenge": "Create a memorable level centerpiece that fits Mario 64’s constraints and tone, while avoiding the expectation that every large character is a boss fight.",
+      "process": "Kaze defines a four-step loop: talk to Overseer, sabotage a worker, trigger a cutscene where the Overseer gets redder/angrier, repeat until all four workers are affected. He explores visual communication (red tint, puff/anger animation) and considers props/pose options (standing like Mario Tennis, booth/desk, vest).",
+      "outcome": "The intended end-state is the Overseer abandoning the job—running along the rig and disappearing—signaling story progress rather than combat victory. Implementation and additional animations are deferred to the next stream.",
+      "key_quote": null,
+      "related_to": [
+        "kaze",
+        "biobak"
+      ]
+    },
+    {
+      "title": "Engine polish informed by Only Up 64 playtesting",
+      "summary": "Kaze treats Only Up 64 as a stress test for RTYI’s engine feel and player perception. Based on the feedback, he begins formalizing physics/camera constants and rethinks which features should be validated via additional smaller releases before RTYI ships.",
+      "challenge": "Mixed player reception to RTYI physics/camera and conflicting feedback about what feels “right,” compounded by the fact that many quirks are inherited from vanilla SM64.",
+      "process": "He adjusts physics parameters (e.g., outer rotate force), fixes ceiling interaction behavior, and refactors the code by replacing magic numbers with defines and comments so tuning is faster and safer across the project.",
+      "outcome": "Kaze feels the updated physics are improved and more maintainable, and he proposes releasing 1–2 more engine-based hacks before RTYI to further stabilize and validate changes.",
+      "key_quote": null,
+      "related_to": [
+        "kaze"
+      ]
+    },
+    {
+      "title": "Blender/Fast64 pipeline hits a bone ordering limitation",
+      "summary": "While rigging/exporting, Kaze runs into a technical limitation where function/GeoASM bones are sorted alphabetically, preventing him from forcing a specific execution/order relative to the root bone. He troubleshoots live but can’t find a clean solution within the tool’s constraints.",
+      "challenge": "Ensure GeoASM/function-bone behavior executes in the required order when the exporter/toolchain sorts bones alphabetically.",
+      "process": "He inspects the generated geo layout, experiments with naming (e.g., “AAAA” bone), discusses parenting/root ordering, and considers manually editing output as a workaround.",
+      "outcome": "The issue remains unresolved during the stream; Kaze implies manual intervention may be necessary.",
+      "key_quote": null,
+      "related_to": [
+        "kaze"
+      ]
+    },
+    {
+      "title": "Leaving Twitch for YouTube to protect focus and viewer experience",
+      "summary": "Kaze explains he no longer enjoys Twitch due to aggressive ads and chooses to stream RTYI development on YouTube instead. He also hints at wanting a smaller, more invested audience for focused dev work rather than broad, off-topic traffic.",
+      "challenge": "Maintain a sustainable, enjoyable streaming environment that supports deep development work and community quality.",
+      "process": "He stops streaming on Twitch (though some subscribers remain) and continues on YouTube, reacting to early Super Chat support and discussing chat filtering goals.",
+      "outcome": "YouTube becomes the primary live-dev venue; community/support dynamics shift immediately via donations and a different audience flow.",
+      "key_quote": null,
+      "related_to": [
+        "kaze"
+      ]
+    }
+  ],
+  "open_questions": [
+    {
+      "topic": "Pre-release hacks before RTYI",
+      "context": "Kaze says Only Up 64 playtests were so useful that he now wants to ship 1–2 more engine-based hacks before RTYI releases to improve engine quality.",
+      "questions": [
+        "What specific issues did Only Up 64 playtesting reveal (physics, camera, collision, UX)?",
+        "What criteria would determine that the RTYI engine is ‘ready’ after 1–2 more hacks?",
+        "Were these extra hacks always part of the plan, or did the playtest data change the release strategy?"
+      ],
+      "related_to": [
+        "kaze"
+      ]
+    },
+    {
+      "topic": "RTYI physics changes and validation",
+      "context": "Kaze reduced an “outer rotate force,” altered ceiling interactions, and heard mixed feedback about RTYI’s feel.",
+      "questions": [
+        "What are the major differences between RTYI physics and vanilla SM64 physics today (list of intentional deviations)?",
+        "How does the team collect and prioritize movement/feel feedback (experienced players vs casuals)?",
+        "What tools/metrics do you use to verify physics changes don’t introduce new exploits or N64-only glitches?"
+      ],
+      "related_to": [
+        "kaze",
+        "biobak"
+      ]
+    },
+    {
+      "topic": "Warp transition redesign at 60fps",
+      "context": "Kaze dislikes current warp behavior and wants Mario’s action/input to continue through warps to avoid looking odd at 60fps.",
+      "questions": [
+        "What exactly looks wrong in the current warps (camera snap, animation stutter, input reset)?",
+        "How will you preserve player input—do you buffer stick direction, full controller state, or action state?",
+        "How will the new warp behavior interact with cutscenes, dialogue triggers, and loading transitions?"
+      ],
+      "related_to": [
+        "kaze"
+      ]
+    },
+    {
+      "topic": "What to keep ‘vanilla’ vs what to modernize",
+      "context": "Kaze notes many complaints (steep slopes, slope jumps) are just SM64 behavior, but he also considers potentially changing the steep-slope threshold behavior.",
+      "questions": [
+        "Where is the line between respectful authenticity and necessary modernization for RTYI?",
+        "Are there specific vanilla quirks you consider ‘sacred’ and won’t touch?",
+        "Did you ever regret changing a vanilla behavior because it broke player expectations?"
+      ],
+      "related_to": [
+        "kaze"
+      ]
+    },
+    {
+      "topic": "Cement/footprint system scope and player communication",
+      "context": "Kaze built a performance-friendly dirtiness approximation and tuned a threshold to gate a crying Koopa Easter egg; he debates whether the NPC should interrupt the player so it’s noticed.",
+      "questions": [
+        "Is cement dirtiness purely an Easter egg, or does it affect objectives/rewards?",
+        "How do you ensure players understand cause-and-effect (footprints → ruined cement → NPC mood) without tutorials?",
+        "How did you decide the threshold and sampling strategy would feel fair rather than random?"
+      ],
+      "related_to": [
+        "kaze",
+        "zeina",
+        "biobak"
+      ]
+    },
+    {
+      "topic": "Course 11 Overseer Wiggler narrative implementation",
+      "context": "Kaze outlines the Overseer escalation loop (four workers, cutscenes, red tint, final run-away).",
+      "questions": [
+        "What are the four worker interactions specifically, and how do they differ mechanically?",
+        "How are the cutscenes staged technically (script system, camera control, animation blending)?",
+        "How will you prevent players from thinking the Overseer is a boss (hitboxes, dialogue, staging, level flow)?"
+      ],
+      "related_to": [
+        "kaze"
+      ]
+    },
+    {
+      "topic": "Art direction under tight polygon budgets",
+      "context": "Kaze rejects overly high-poly models, calls out R64DS Wiggler density, and debates adding vest/props vs keeping geometry simple.",
+      "questions": [
+        "What are your triangle budgets for main characters/NPCs in RTYI on real N64?",
+        "How do you decide when to spend polygons vs rely on textures/vertex colors?",
+        "How do you handle style consistency when pulling from sources like R64DS vs custom models?"
+      ],
+      "related_to": [
+        "kaze",
+        "biobak",
+        "zeina"
+      ]
+    },
+    {
+      "topic": "Badub’s Course 11 music and audio constraints",
+      "context": "Kaze references an updated Badub track he can’t show yet, and talks about mechanical sounds and strike/DMCA concerns on stream.",
+      "questions": [
+        "What creative brief did you give Badub for Course 11 (mood, references, instrumentation)?",
+        "Why can’t you show it yet—licensing concerns, spoiler policy, or revision status?",
+        "How do streaming/DMCA realities influence how you preview music and sound design during development?"
+      ],
+      "related_to": [
+        "kaze",
+        "badub"
+      ]
+    },
+    {
+      "topic": "N64 compatibility strategy vs PC/simulated ports",
+      "context": "Kaze positions true N64 compatibility as a key differentiator and criticizes PC ports that simulate graphics rather than emulate the RDP accurately.",
+      "questions": [
+        "What are the top recurring emulator-vs-console differences you design around (graphics, timing, memory)?",
+        "How often do you test on real hardware and what is your test checklist?",
+        "What would you say to players who argue a PC port is ‘good enough’ compared to true N64 behavior?"
+      ],
+      "related_to": [
+        "kaze"
+      ]
+    },
+    {
+      "topic": "Fast64 exporter limitations and custom tooling",
+      "context": "Kaze encounters a bone ordering limitation (alphabetical sort) affecting GeoASM/function bone execution order and considers manual edits.",
+      "questions": [
+        "How often do toolchain limitations (Fast64, Blender, exporters) drive design compromises?",
+        "Do you maintain custom forks/scripts for Fast64 exports, and who on the team owns that pipeline?",
+        "Did this bone-order issue affect shipped content already, or is it newly discovered during Course 11 work?"
+      ],
+      "related_to": [
+        "kaze"
+      ]
+    }
+  ]
+}

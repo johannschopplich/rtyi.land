@@ -1,0 +1,326 @@
+{
+  "stream_context": {
+    "summary": "Kaze spends most of the stream trying to create a convincing styrofoam material for a mountain area, aiming for view-dependent highlights that mimic real styrofoam. After many failed texture/shader experiments (Photoshop sources, Blender displacement/normal workflows, AI texture generation), he lands on a concrete N64-feasible plan: CPU-side ‘normal map’ style lighting using a small set of quantized normals and pre-rotated normal-map variants, with highlights controlled by the angle between light and camera. The stream also includes a small but meaningful engine optimization credited to Lilaa, plus an emotional moment where Kaze expresses exhaustion with off-topic chat demands and a desire to focus purely on development.",
+    "level": [],
+    "significance": "notable",
+    "significance_reason": "Contains a clear technical direction for achieving bump/shine-like styrofoam on N64 hardware (CPU-precomputed normal-map lighting with rotation constraints) and an emotional/creative frustration moment that reveals Kaze’s process and streaming pressures."
+  },
+  "findings": [
+    {
+      "topic": "design",
+      "summary": "Kaze confirms the hack is planned to have 15 courses total and is currently building a mountain area that he wants to read as ‘arts-and-crafts’ styrofoam, likely as a distinctive material theme for an upcoming course.",
+      "quote": null
+    },
+    {
+      "topic": "technical",
+      "summary": "Goal for the material is specifically view-dependent highlights: when the surface/light/camera align, bright highlights should appear on the ‘bubble’ rims like real styrofoam; when rotated away, highlights should fade out, creating a fake bump-mapping illusion on N64.",
+      "quote": null
+    },
+    {
+      "topic": "technical",
+      "summary": "Early plan uses two textures: (1) an unlit base ‘bubble’ texture and (2) a highlights-only texture. Kaze intends to modulate highlight intensity per-vertex (via vertex alpha) based on reflection alignment between light direction and Mario/camera view.",
+      "quote": null
+    },
+    {
+      "topic": "technical",
+      "summary": "Kaze concludes that most found styrofoam/polystyrene photos are unusable because they have lighting direction baked in; he needs either a neutral-light texture or a generated texture pipeline where he controls lighting separately.",
+      "quote": null
+    },
+    {
+      "topic": "technical",
+      "summary": "He attempts a Blender-based workflow (displacement/normal/bump nodes, Eevee vs Cycles, subdivision) but struggles with unfamiliar tooling; this reinforces that the bottleneck is not just technique but obtaining the right source texture inputs.",
+      "quote": "Learning new tech is always so goddamn annoying."
+    },
+    {
+      "topic": "community",
+      "summary": "Chat suggestions meaningfully steer exploration: bubble-wrap as a candidate base pattern, photographing real styrofoam with a flashlight from multiple angles, and multiple Blender node recommendations; Kaze tests many of these live but rejects most as not matching the target look.",
+      "quote": null
+    },
+    {
+      "topic": "technical",
+      "summary": "Kaze pivots to a more advanced N64-appropriate plan inspired by an existing technique (“Daryl did before”): encode a normal map with a limited palette (e.g., 16 quantized normal vectors) and compute per-pixel brightness on the CPU each frame, producing a grayscale ‘lit’ texture that the N64 can then render normally.",
+      "quote": null
+    },
+    {
+      "topic": "technical",
+      "summary": "Key constraint of the CPU-normal-map approach: without tangents/shaders, the normal map must assume a fixed facing direction, so Kaze proposes generating multiple rotated/axis-swizzled variants of the normal map (e.g., ~6–8 orientations) and restricting styrofoam geometry rotations in-level accordingly.",
+      "quote": null
+    },
+    {
+      "topic": "technical",
+      "summary": "Kaze estimates performance cost as manageable: roughly 128 vector dot products (or similar multiplications) for the chosen set of orientations—framed as cheaper than some existing expensive effect (“Shy Guy Google …”).",
+      "quote": null
+    },
+    {
+      "topic": "design",
+      "summary": "To fit the rotation restriction, Kaze considers limiting styrofoam pieces to a small number of discrete orientations (e.g., cube-like pieces needing ~5–6 primary directions, plus a few extra for sideways/angled pieces like triangles).",
+      "quote": null
+    },
+    {
+      "topic": "team",
+      "summary": "Kaze credits Lilaa with an optimization idea he applied across the entire game, saving roughly ~30 instructions, but notes it results in “cursed” code (including divisions and matrix-related logic) that will later be revisited once final matrices are implemented.",
+      "quote": null
+    },
+    {
+      "topic": "personal",
+      "summary": "Kaze expresses mounting frustration with streaming interruptions and off-topic questions, describing social engagement during dev as exhausting and emphasizing a desire to focus solely on building the game.",
+      "quote": "I really don’t want to talk about things. I want to just talk about making my game. That’s all I want."
+    },
+    {
+      "topic": "technical",
+      "summary": "Kaze’s final intended implementation sequence: generate several rotated normal-map variants from one source; store/load these into memory; each frame, overwrite/convert them into a grayscale highlight/brightness map based on light reflection vs camera angle; then combine with base texture and vertex-controlled intensity in the N64 combiner.",
+      "quote": null
+    },
+    {
+      "topic": "community",
+      "summary": "AI texture generation (DALL·E) is tested and quickly dismissed for this use-case (non-neutral lighting, wrong material/structure), reinforcing that this problem needs either controlled capture (photographing styrofoam) or procedural/handmade assets.",
+      "quote": null
+    },
+    {
+      "topic": "milestone",
+      "summary": "By the end of the stream, Kaze declares he has a workable plan and will implement it next stream, expecting the result to look significantly better than current attempts.",
+      "quote": "I know what to do now, though, and it will look really good."
+    }
+  ],
+  "contributor_findings": {
+    "biobak": [],
+    "badub": [],
+    "zeina": [],
+    "others": [
+      {
+        "name": "Lilaa",
+        "findings": [
+          {
+            "topic": "technical",
+            "summary": "Provided an optimization idea that Kaze applied game-wide, saving ~30 instructions; Kaze implies it affects matrix/transform code and includes divisions that make the codebase ‘cursed’ but faster.",
+            "quote": null
+          },
+          {
+            "topic": "technical",
+            "summary": "Actively attempts to guide Kaze through a Blender displacement/height workflow to generate better styrofoam textures, including node-graph manipulation advice (connections, color space, renderer switching).",
+            "quote": null
+          }
+        ]
+      },
+      {
+        "name": "X-Linx",
+        "findings": [
+          {
+            "topic": "community",
+            "summary": "Works in parallel (‘cooking’) on generating/improving a styrofoam texture and sends results for Kaze to evaluate, effectively acting as an on-call asset helper during the stream.",
+            "quote": null
+          }
+        ]
+      },
+      {
+        "name": "Danik",
+        "findings": [
+          {
+            "topic": "community",
+            "summary": "Sends shader/material-related resources via Discord that Kaze references when refining the plan for styrofoam texture generation and evaluation.",
+            "quote": null
+          }
+        ]
+      },
+      {
+        "name": "Cookie Resortzman",
+        "findings": [
+          {
+            "topic": "community",
+            "summary": "Echoes/clarifies the core technical limitation: N64 can’t do normal maps in a modern sense, motivating Kaze’s CPU-precompute approach.",
+            "quote": null
+          }
+        ]
+      },
+      {
+        "name": "Daryl (referenced)",
+        "findings": [
+          {
+            "topic": "technical",
+            "summary": "Kaze attributes the underlying ‘palette/quantized normal map’ trick to Daryl, noting Daryl implemented a version for one direction; Kaze’s planned extension is supporting multiple orientations via rotated normal-map variants.",
+            "quote": null
+          }
+        ]
+      }
+    ]
+  },
+  "memorable_quotes": [
+    {
+      "speaker": "Kaze",
+      "quote": "I really don’t want to talk about things. I want to just talk about making my game. That’s all I want.",
+      "context": "Kaze vents about streaming fatigue and off-topic questions interrupting development focus."
+    },
+    {
+      "speaker": "Kaze",
+      "quote": "I did not think making styrofoam would turn into this much of a disaster.",
+      "context": "Captures the reality of small-looking art problems becoming multi-hour technical rabbit holes on N64."
+    },
+    {
+      "speaker": "Kaze",
+      "quote": "We don’t have a shader. We have to implement normal maps without a shader.",
+      "context": "A concise statement of the project’s core constraint—building modern visual ideas on N64-era tooling and pipelines."
+    }
+  ],
+  "key_stories": [
+    {
+      "title": "The styrofoam material rabbit hole",
+      "summary": "Kaze sets out to make a mountain look like carved styrofoam with realistic, angle-dependent highlights. The stream becomes an extended investigation across Photoshop textures, Blender displacement/normal setups, and even AI-generated textures, repeatedly blocked by ‘lighting baked into photos’ and tool friction.",
+      "challenge": "Achieve convincing styrofoam on N64 with limited texture resolution and no modern shaders, while avoiding obvious tiling and baked lighting artifacts.",
+      "process": "Iterates on texture sources (sponge/foam/polystyrene photos, bubble wrap), experiments with N64 combiner ideas (base + shade/highlight modulation), tries Blender displacement/normal workflows, and evaluates AI-generated textures. Ultimately reframes the solution as a CPU-side precomputed lighting problem rather than purely a texture problem.",
+      "outcome": "Kaze ends with a specific plan: quantized normal map(s) + CPU-computed per-pixel highlight/brightness maps with restricted surface orientations, to be implemented next stream.",
+      "key_quote": "We don’t have a shader. We have to implement normal maps without a shader.",
+      "related_to": [
+        "kaze"
+      ]
+    },
+    {
+      "title": "A game-wide micro-optimization from Lilaa",
+      "summary": "Mid-stream, Kaze confirms that a suggestion from Lilaa was adopted across the project, saving about 30 instructions. He notes the tradeoff is ‘cursed’ looking code, tied to matrix handling and divisions, but considers it worth it for performance.",
+      "challenge": "Reducing instruction count/performance overhead in a constrained N64 codebase.",
+      "process": "Kaze integrates Lilaa’s suggestion broadly, then acknowledges the resulting code complexity and mentions it will interact with future ‘final matrices’ work.",
+      "outcome": "Immediate instruction savings at the cost of code readability/maintainability; a potential future refactor point once matrix systems are finalized.",
+      "key_quote": null,
+      "related_to": [
+        "kaze"
+      ]
+    },
+    {
+      "title": "Streaming friction vs. deep work",
+      "summary": "As chat offers frequent tangents and unrelated questions, Kaze becomes visibly frustrated and explains that constant social context-switching is exhausting when he’s trying to build the game. This moment frames the emotional cost of developing a technically demanding ROM hack in public.",
+      "challenge": "Maintaining focus and motivation while streaming complicated dev work live with active audience input.",
+      "process": "Kaze explicitly asks chat to stay on topic, explains his boundaries, then returns to experimentation and later pivots to programming the solution instead of continuing pure texture searching.",
+      "outcome": "A candid articulation of why streaming can slow development even while it helps community involvement.",
+      "key_quote": "I really don’t want to talk about things. I want to just talk about making my game.",
+      "related_to": [
+        "kaze"
+      ]
+    },
+    {
+      "title": "From ‘two textures and vertex alpha’ to CPU normal-map lighting",
+      "summary": "Kaze’s initial approach is a classic N64 trick: a base texture plus a highlight texture, with per-vertex alpha controlling highlight visibility by view angle. He then escalates to a more robust technique based on quantized normal maps and CPU-side per-pixel brightness computation, trading artistic freedom (rotation constraints) for a closer-to-real look.",
+      "challenge": "Getting highlights to appear only when reflection conditions are correct, without real-time per-pixel lighting on N64 hardware.",
+      "process": "Analyzes real styrofoam reference video; identifies highlight behavior; considers environment mapping; then adopts a quantized-normal method inspired by Daryl’s earlier work. Plans multiple rotated normal-map variants to account for surface orientation.",
+      "outcome": "A concrete implementation roadmap that could generalize beyond styrofoam into a reusable ‘fake normal map’ pipeline for other materials.",
+      "key_quote": "By getting the light reflection angle… we have to compute the output of the normal map before we pass this to the renderer on the CPU.",
+      "related_to": [
+        "kaze"
+      ]
+    }
+  ],
+  "open_questions": [
+    {
+      "topic": "15-course structure and where the styrofoam mountain fits",
+      "context": "Kaze mentions ‘There’s going to be 15 courses in total’ and is working on a mountain he wants to look like styrofoam, but he doesn’t identify the course number/theme or how it supports the game’s broader Yoshi’s Island-inspired identity.",
+      "questions": [
+        "Which course is this styrofoam mountain in, and what is the level’s narrative/theme goal?",
+        "How did you decide on 15 courses—scope, pacing, and variety targets?",
+        "Is ‘arts-and-crafts’ (styrofoam/cardboard) a recurring aesthetic pillar across the hack or specific to a single course?"
+      ],
+      "related_to": [
+        "kaze"
+      ]
+    },
+    {
+      "topic": "Lilaa’s optimization and the ‘cursed code’ tradeoff",
+      "context": "Kaze says Lilaa’s idea saved ~30 instructions when applied across the whole game, but created ‘very cursed code’ involving divisions and references to matrices and microsecond timings.",
+      "questions": [
+        "What exactly was Lilaa’s optimization (what system did it affect)?",
+        "Why did it require divisions (e.g., by 12) and how did you verify it was safe/correct?",
+        "How do you decide when to accept uglier code for performance in this project?",
+        "What are ‘final matrices,’ and how will that upcoming work change or clean up the optimization?"
+      ],
+      "related_to": [
+        "kaze",
+        "biobak"
+      ]
+    },
+    {
+      "topic": "CPU normal-map lighting technique details (Daryl’s original vs Kaze’s extension)",
+      "context": "Kaze attributes the concept to Daryl and describes extending it from ‘one direction’ to multiple by rotating/swizzling normal maps and restricting surface orientations.",
+      "questions": [
+        "Who is Daryl in the project/community context, and what exactly did his original implementation do?",
+        "What are the exact constraints (palette size, number of normals, texture formats like CI4/RGBA32) you’re targeting?",
+        "How will you generate rotated normal-map variants (offline at build-time vs at boot in-game)?",
+        "How do you plan to handle non-axis-aligned geometry (slopes, curved surfaces) with this approach?"
+      ],
+      "related_to": [
+        "kaze"
+      ]
+    },
+    {
+      "topic": "Lighting model assumptions (light position, specular behavior, camera relation)",
+      "context": "Kaze discusses computing reflection alignment between the light, the surface normal, and Mario/camera, then using that to modulate highlight intensity.",
+      "questions": [
+        "What is the in-game ‘light’ for this effect (fixed sun direction, point light, per-level settings)?",
+        "Are you using Mario’s head/camera position or the actual camera vector for the specular alignment?",
+        "How will you prevent popping/aliasing when the highlight threshold changes across vertices/pixels?",
+        "Will this system become a general engine feature for other shiny materials?"
+      ],
+      "related_to": [
+        "kaze"
+      ]
+    },
+    {
+      "topic": "Rotation constraints as a design tradeoff",
+      "context": "To make the normal-map trick work without tangents, Kaze considers limiting styrofoam surfaces to ~6–8 discrete orientations in-level.",
+      "questions": [
+        "How do you decide when an engine constraint should change level design vs when the engine should be made more flexible?",
+        "Will you enforce orientation constraints in your asset pipeline (export rules/tools) or manually in level layout?",
+        "Did this constraint affect the mountain’s shape/composition (e.g., more blocky forms)?"
+      ],
+      "related_to": [
+        "kaze",
+        "biobak"
+      ]
+    },
+    {
+      "topic": "Texture pipeline ownership and tooling gaps",
+      "context": "Kaze struggles with Blender shader/material workflows and mentions only using Blender via Fast64. This implies a pipeline gap between desired visuals and comfortable tools.",
+      "questions": [
+        "What does your current art/asset pipeline look like end-to-end (Blender/Fast64/Photoshop/etc.)?",
+        "Which parts of the pipeline are most fragile or time-consuming right now?",
+        "Would you consider delegating material/texture authoring to a dedicated artist, or do you prefer to keep it in-house for engine reasons?"
+      ],
+      "related_to": [
+        "kaze",
+        "zeina"
+      ]
+    },
+    {
+      "topic": "Reference capture approach (photographing real styrofoam)",
+      "context": "Several times Kaze considers buying styrofoam and photographing it with controlled lighting to get neutral base and highlight textures.",
+      "questions": [
+        "Did you end up doing real-world capture, and if so what setup worked (lighting, camera, exposure, angle sweeps)?",
+        "How do you turn real photos into tileable 64x64 textures without obvious repetition?",
+        "What’s the threshold where ‘just capture it’ beats procedural generation or painting?"
+      ],
+      "related_to": [
+        "kaze"
+      ]
+    },
+    {
+      "topic": "“Shy Guy Google …” performance comparison",
+      "context": "Kaze compares the planned ~128 vector multiplications to an existing effect he implies is expensive (“It’s definitely cheaper than the Shy Guy Google …”).",
+      "questions": [
+        "What feature/effect were you referring to there, and why is it expensive?",
+        "How do you profile performance in your Mario 64 decomp-based engine (tools/metrics)?",
+        "What is your frame budget philosophy for adding ‘wow’ effects vs keeping gameplay smooth?"
+      ],
+      "related_to": [
+        "kaze"
+      ]
+    },
+    {
+      "topic": "ChatGPT optimization ideas video (off-stream content)",
+      "context": "Kaze mentions he recorded a video discussing Mario 64 optimization with ChatGPT: mostly wrong, but with a few good ideas.",
+      "questions": [
+        "What were the few useful optimization ideas AI suggested, and did any ship into the project?",
+        "How do you evaluate correctness/safety of optimization suggestions, especially from non-expert sources?",
+        "Does AI have any role in your pipeline now (documentation, brainstorming, tooling), or was this a one-off experiment?"
+      ],
+      "related_to": [
+        "kaze"
+      ]
+    }
+  ]
+}

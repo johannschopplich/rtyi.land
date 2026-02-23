@@ -1,0 +1,310 @@
+{
+  "stream_context": {
+    "summary": "Kaze iterates on a scripted-yet-physics-inspired paper airplane flight mechanic used to reach a pyramid, debugs instability caused by a bad/uninitialized variable, and completes the associated “target mission.” He also shows off recent N64-specific rendering/performance fixes for the demo (AA toggle, coverage/alpha artifact removal, HUD correctness), adds/validates a Toad-like NPC that dispenses a star, and prototypes/repairs a rubber-band slingshot animation pipeline in Blender/Fast64 (discovering an export quirk that dropped the first frame).",
+    "level": [
+      "Course 14"
+    ],
+    "significance": "milestone",
+    "significance_reason": "He declares the paper airplane feature “done” (completing the target mission), shows the demo as “all done” with multiple N64 bug fixes, and establishes a workable workflow for rubber-band animation after diagnosing an export-frame issue."
+  },
+  "findings": [
+    {
+      "topic": "technical",
+      "summary": "A major cause of the paper airplane instability was an uninitialized/random stack value being used in the physics code; fixing it immediately made the behavior more coherent.",
+      "quote": null
+    },
+    {
+      "topic": "design",
+      "summary": "Kaze explicitly prefers a physically-motivated (even if heavily “fudged”) flight model over a fully precomputed spline path, because he wants a physical basis for the motion and to avoid adding/maintaining spline tooling.",
+      "quote": "Of course, I can just put it on a spline, but then I just have to add a spline… I prefer [computations], because there’s some kind of physical basis for it."
+    },
+    {
+      "topic": "design",
+      "summary": "The desired paper airplane feel is a repeated “swoop/swoop” wave with regained speed—interesting, slightly chaotic, and not a straight line—while still reliably landing on/into the pyramid where it should stop on contact.",
+      "quote": "We want it to move like a real paper plane… we want it to go swoop, swoop… and… as soon as you touch the pyramid, it stops there."
+    },
+    {
+      "topic": "technical",
+      "summary": "To stabilize and shape the plane’s oscillation, he experiments with clamping pitch ranges, making pitch acceleration depend on face angle pitch (rather than only velocity), and adds friction/resistance to avoid runaway rotation while retaining controlled chaos.",
+      "quote": null
+    },
+    {
+      "topic": "community",
+      "summary": "Kaze’s stream dynamic includes pushing back hard when chat asks rapid-fire implementation questions during early prototyping; he frames the work as iterative tuning where answers will emerge after the system exists.",
+      "quote": "The answer to every single one of your questions so far is just shut up and wait."
+    },
+    {
+      "topic": "milestone",
+      "summary": "He finishes the paper targets off-stream: Mario can break them by colliding (\"with Mario’s face\"), though they still need an animation; he considers this completion enough to call the paper airplane/target mission finished.",
+      "quote": "I finished programming the paper targets off stream… They still need an animation… Either way, the Paper Airplane is done. That finishes the target mission."
+    },
+    {
+      "topic": "technical",
+      "summary": "He discovers a reproducible cannon-related bug: pressing A immediately on the first frame after exiting a cannon causes a bug; waiting even briefly avoids it.",
+      "quote": "Immediately pressing A out of a cannon leads to a bug… Pressing A on the first frame bugs me."
+    },
+    {
+      "topic": "milestone",
+      "summary": "Kaze states the demo is “all done” and claims he fixed all N64 bugs he was tracking, with final console testing still pending (he plans a playthrough-style verification).",
+      "quote": "The demo is all done, by the way. I fixed all the N64 bugs… I have not fully tested the demo on console yet."
+    },
+    {
+      "topic": "technical",
+      "summary": "N64 rendering/performance improvements shown: anti-aliasing can be toggled off for a big FPS increase (~50 FPS in a shown area), and a prior artifact (a visible line) was fixed by addressing a coverage*alpha interaction; HUD presentation on N64 is shown and called “beautiful.”",
+      "quote": null
+    },
+    {
+      "topic": "technical",
+      "summary": "Texture flicker/offset issues in a “retro world” segment are identified as emulator (Glide) bugs rather than N64 behavior; mipmapping is framed as the real solution for distance flicker, not anti-aliasing.",
+      "quote": "The offset textures are Glide bug… Mipmap is the only thing that works."
+    },
+    {
+      "topic": "technical",
+      "summary": "Fast64 currently limits mipmap level support (two levels), and adding more would require manually writing display lists—work Kaze avoids because it would complicate iteration (re-insertion after each export).",
+      "quote": null
+    },
+    {
+      "topic": "technical",
+      "summary": "He contextualizes larger engine evolution: F3DEX3 is now in the project, improving performance (triangle strips/fans/occlusion-plane-related changes), but also shifting bottlenecks—his current build is RSP-bottlenecked.",
+      "quote": null
+    },
+    {
+      "topic": "design",
+      "summary": "The Course 14 stage is described as multi-biome (desert with pyramid, mountains with “styrofoam,” a castle area, and grasslands), and a tentative working title is floated (“Handmade Heights”).",
+      "quote": null
+    },
+    {
+      "topic": "team",
+      "summary": "Zeina briefly joins mid-stream as Kaze demonstrates progress; Kaze notes he’s not the project’s animator and is mainly producing a workable base for others to refine.",
+      "quote": "It’s technically fine because I’m not the animator for this game anyway. Really, I just need a decent base so that we can make this work."
+    },
+    {
+      "topic": "technical",
+      "summary": "A rubber-band slingshot animation export issue is traced to a “smart animation range” behavior that trimmed away the first frame because there was no keyframe before frame 1; adding an earlier keyframe restores proper timing.",
+      "quote": "The first animation frame wasn’t exporting because there’s a smart animation range feature… it just cut the first frame."
+    }
+  ],
+  "contributor_findings": {
+    "biobak": [],
+    "badub": [],
+    "zeina": [
+      {
+        "topic": "team",
+        "summary": "Zeina appears briefly and asks what’s happening; Kaze uses the moment to showcase completed paper airplane work and mentions remaining work on the slingshot to fling Mario.",
+        "quote": null
+      }
+    ],
+    "others": [
+      {
+        "name": "Lilaa",
+        "findings": [
+          {
+            "topic": "community",
+            "summary": "Lilaa is referenced jokingly during the rubber-band animation debugging segment (no concrete dev contribution mentioned in this transcript).",
+            "quote": null
+          }
+        ]
+      }
+    ]
+  },
+  "memorable_quotes": [
+    {
+      "speaker": "Kaze",
+      "quote": "I thought what made you insane when you romhack is the romhacking itself. But no, it’s Twitch chat like watching you romhack.",
+      "context": "Frustration/comedy beat while chat questions pile up during paper airplane physics tuning."
+    },
+    {
+      "speaker": "Kaze",
+      "quote": "Of course, I can just put it on a spline, but… I prefer [doing] these computations… there’s some kind of physical basis for it.",
+      "context": "Explains why he’s building a “physics-ish” system rather than a fully scripted flight path."
+    },
+    {
+      "speaker": "Kaze",
+      "quote": "I think the bar for 3D platformers is so incredibly low that making a 3D platformer is easy at this point.",
+      "context": "Broader design/business philosophy about why a solid, non-bad platformer can stand out today."
+    }
+  ],
+  "key_stories": [
+    {
+      "title": "Paper airplane mechanic: from chaos to controllable swoops",
+      "summary": "Kaze builds a paper airplane flight behavior intended to oscillate (“swoop/swoop”) and land onto a pyramid as a traversal tool. Early attempts produce runaway rotation, wrong velocity recovery, and inconsistent tipping behavior.",
+      "challenge": "Creating motion that feels paper-plane-like (chaotic but readable) while still being reliable enough for platforming and landing precisely at a pyramid target.",
+      "process": "He iterates on equations tying pitch to forward velocity/face angle pitch, adds friction/resistance, clamps pitch ranges, and repeatedly tunes constants. He also chooses a physically-motivated simulation instead of a precomputed spline to preserve a ‘real’ basis for motion.",
+      "outcome": "He reaches a flight pattern he calls “good shit,” then adjusts landing position and stop-on-contact behavior, and ultimately declares the paper airplane complete for the target mission.",
+      "key_quote": "We just kind of need to fudge the equations in a way that we get the result we want.",
+      "related_to": [
+        "kaze"
+      ]
+    },
+    {
+      "title": "Hidden root cause: random stack value breaks the plane physics",
+      "summary": "After prolonged instability, Kaze identifies that a value used by the system wasn’t initialized and was effectively random. Correcting it immediately improves behavior and makes subsequent tuning meaningful.",
+      "challenge": "Unpredictable, irreproducible-feeling behavior during physics tuning.",
+      "process": "He investigates variable behavior and recognizes a stack garbage value (“random value on stack”) was being read and applied.",
+      "outcome": "System becomes more stable/understandable, enabling progress to a ‘good base’ flight model.",
+      "key_quote": "It was a random value on stack that we used.",
+      "related_to": [
+        "kaze"
+      ]
+    },
+    {
+      "title": "Demo polish on real hardware: AA toggle and coverage/alpha artifact fix",
+      "summary": "Kaze shows N64 demo improvements: correct anti-aliasing options, a large FPS boost when AA is off, and removal of a visible line artifact traced to coverage multiplied by alpha. He also highlights HUD correctness on console.",
+      "challenge": "Hardware-accurate rendering issues and performance constraints on N64.",
+      "process": "He implements AA toggles, tracks down a coverage/alpha interaction causing visual seams/lines, and validates output on N64 while noting remaining z-order issues.",
+      "outcome": "He calls the demo “all done” with N64 bugs fixed, pending full playthrough testing on console.",
+      "key_quote": null,
+      "related_to": [
+        "kaze"
+      ]
+    },
+    {
+      "title": "Rubber-band slingshot animation pipeline breaks due to trimmed first frame",
+      "summary": "While animating the rubber bands in Blender/Fast64, Kaze sees timing/pose issues and realizes the exported animation effectively starts late. The cause is an export feature that trims frames until the first keyed frame—cutting frame 1 when there’s no earlier keyframe.",
+      "challenge": "Mismatch between intended rubber-band motion (snap forward then fling back) and what appears in-game.",
+      "process": "He diagnoses the export behavior (“smart animation range”), adds a keyframe before the first frame to prevent trimming, and retests the animation timing.",
+      "outcome": "Rubber-band animation becomes smooth and usable as a base for final polish (sound effects still needed).",
+      "key_quote": "The first animation frame wasn’t exporting… because I didn’t have a keyframe before the first frame.",
+      "related_to": [
+        "kaze"
+      ]
+    },
+    {
+      "title": "A cannon edge-case bug becomes a known constraint",
+      "summary": "While testing the airplane/cannon interaction, Kaze finds that pressing A immediately on the first frame after firing causes a bug; delaying input avoids it. He recognizes it as a recurring issue he’s encountered before.",
+      "challenge": "Input timing causing a reproducible bug at the exact moment of cannon exit.",
+      "process": "He intentionally re-tests the ‘press immediately’ case, compares it to ‘press nothing,’ and isolates the trigger as the first (or first two) frames.",
+      "outcome": "Bug is documented as a known edge case to handle or design around.",
+      "key_quote": "It’s only there if you press it on the first frame.",
+      "related_to": [
+        "kaze"
+      ]
+    }
+  ],
+  "open_questions": [
+    {
+      "topic": "Paper airplane ‘physics-ish’ design vs scripted path",
+      "context": "Kaze prefers computed motion over splines but still ‘fudges’ constants heavily to achieve a fun wave-like swoop while landing reliably on the pyramid.",
+      "questions": [
+        "What was the initial design target for the airplane (player fantasy + gameplay purpose) and how did it evolve during prototyping?",
+        "Where did you draw the line between ‘realistic enough’ and ‘fun/readable’ for platforming?",
+        "Did you consider giving the player steering control, and why was it rejected/paused?",
+        "How did you decide on the ‘stop immediately when touching the pyramid’ rule—was it to prevent exploits or reduce frustration?"
+      ],
+      "related_to": [
+        "kaze"
+      ]
+    },
+    {
+      "topic": "Uninitialized stack value: debugging practices on N64-era-style codebases",
+      "context": "A random stack value caused major instability until identified.",
+      "questions": [
+        "How did you detect it was stack garbage rather than bad math/parameters?",
+        "What tooling/logging do you rely on in this decomp-based workflow to catch uninitialized data?",
+        "How often do bugs like this appear when mixing decomp code, new features, and toolchains?"
+      ],
+      "related_to": [
+        "kaze"
+      ]
+    },
+    {
+      "topic": "Demo readiness and console validation plan",
+      "context": "Kaze says the demo is done and N64 bugs are fixed, but he hasn’t fully tested the demo on console yet and plans a playthrough test video.",
+      "questions": [
+        "What’s your definition of ‘done’ for the demo—content lock, performance lock, bug threshold?",
+        "What remains in the console test pass (crashes, memory, timing, controller edge cases)?",
+        "How do you triage emulator-only bugs (e.g., Glide) vs real-hardware issues?"
+      ],
+      "related_to": [
+        "kaze"
+      ]
+    },
+    {
+      "topic": "Fast64 limitations and the decision not to hand-write display lists",
+      "context": "He avoids adding more mipmap levels because Fast64 exports only two and manual display-list edits would slow iteration.",
+      "questions": [
+        "How much do tool limitations (Fast64) shape art direction and level complexity?",
+        "Have you considered building internal tooling or patches to Fast64 for mipmap support?",
+        "What are the biggest iteration bottlenecks in your current asset pipeline?"
+      ],
+      "related_to": [
+        "kaze"
+      ]
+    },
+    {
+      "topic": "F3DEX3 adoption and RSP bottlenecking",
+      "context": "Kaze notes F3DEX3 is now in the game, helping performance, with mentions of occlusion plane/triangle strips; he says the project is now RSP-bottlenecked.",
+      "questions": [
+        "What specific gains did F3DEX3 deliver (FPS, draw distance, triangle budgets)?",
+        "What new design/level ambitions became possible after the performance uplift?",
+        "What does ‘RSP-bottlenecked’ mean in practice for RTYI content targets, and how do you optimize around it?"
+      ],
+      "related_to": [
+        "kaze"
+      ]
+    },
+    {
+      "topic": "Course 14 identity and naming (Handmade Heights)",
+      "context": "The course is described as multi-biome with deserts/pyramids, mountains with ‘styrofoam,’ castle, and grasslands; name is not finalized.",
+      "questions": [
+        "What’s the narrative/theme rationale for combining these biomes into one course?",
+        "How do you ensure the course still feels coherent and readable despite biome shifts?",
+        "What does the final name need to communicate—tone, craft motif, Yoshi’s Island reference?"
+      ],
+      "related_to": [
+        "kaze",
+        "biobak"
+      ]
+    },
+    {
+      "topic": "NPC presentation: ‘mechanical’ Toad voice and star dispense animation",
+      "context": "Kaze experiments with making Toad’s dialogue sound ‘mechanical’ and notes the need for an animation when giving a star.",
+      "questions": [
+        "What’s the intended emotional tone of NPCs in RTYI—cozy, funny, uncanny, storybook?",
+        "Will NPC voice/text styling vary by biome/theme?",
+        "Who is responsible for the final NPC animations and dialogue pass, and what’s the pipeline?"
+      ],
+      "related_to": [
+        "kaze",
+        "zeina"
+      ]
+    },
+    {
+      "topic": "Cannon input timing bug (pressing A on frame 1)",
+      "context": "He identifies a reproducible bug triggered by immediate input after cannon exit.",
+      "questions": [
+        "Is this a vanilla SM64 behavior or introduced by RTYI changes (custom cannon logic, new states)?",
+        "Will you fix it in code (state gating) or design around it (input lockout window)?",
+        "Are there other first-frame input edge cases (A, B, stick) in your custom movement/actions?"
+      ],
+      "related_to": [
+        "kaze"
+      ]
+    },
+    {
+      "topic": "Rubber-band slingshot: final animation ownership and sound design",
+      "context": "Kaze gets a smooth base but notes he’s not the animator and that sound effects are still missing; the slingshot still needs to actually fling Mario (functionality not completed in this stream).",
+      "questions": [
+        "Who will finalize the rubber-band animation and how many variations are planned (tension levels, failure states)?",
+        "What’s the final gameplay: does it launch Mario forward, upward, both, and is it player-timed?",
+        "How will audio sell the tactile craft materials (rubber snap, paper rustle, cardboard thud)?"
+      ],
+      "related_to": [
+        "kaze",
+        "zeina"
+      ]
+    },
+    {
+      "topic": "Project-after-project: moving from ROM hack to an original game",
+      "context": "Kaze states he plans to make his own game after the hack, likely in Unreal Engine 5, possibly a 3D platformer.",
+      "questions": [
+        "How has building RTYI on N64 constraints shaped what you want to do next creatively?",
+        "What parts of RTYI’s pipeline/tech do you want to carry into an original project (movement feel, level design approach, performance discipline)?",
+        "Will RTYI serve as a portfolio/vertical slice for a future independent studio effort?"
+      ],
+      "related_to": [
+        "kaze"
+      ]
+    }
+  ]
+}

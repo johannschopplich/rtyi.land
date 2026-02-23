@@ -1,0 +1,341 @@
+{
+  "stream_context": {
+    "summary": "Kaze prototypes and finishes a new “soap bar” rideable collectible mechanic (with bubble trail particles) for a level, discusses ROM/visual constraints for a redesigned star select screen, and begins designing an “oil slick” cleanup interaction that will likely require dynamic texture/alpha-mask editing. He also mentions recent OnlyUp64 bugfixes and reacts to an abusive message he received.",
+    "level": [
+      "Overworld"
+    ],
+    "significance": "milestone",
+    "significance_reason": "Kaze states they “programmed the whole soap bar just today,” completing a new interactable mechanic plus custom bubble particle visuals, then outlines the next major interaction (oil slick cleanup) and validates a new direction for the star select UI."
+  },
+  "findings": [
+    {
+      "topic": "design",
+      "summary": "Overworld concept may include water-level manipulation over time to support the narrative premise of “rescuing” an island and having water return gradually; Kaze frames it as plausible but not committed.",
+      "quote": null
+    },
+    {
+      "topic": "design",
+      "summary": "A new star select screen is planned: each course will display a small panorama capturing the level’s “vibe,” replacing/expanding on the traditional static UI approach; Kaze dislikes his current prototype but likes Biobak’s concept direction.",
+      "quote": null
+    },
+    {
+      "topic": "technical",
+      "summary": "Kaze weighs pre-rendered images vs 3D scenes for the star select panoramas, citing ROM size and emulator appearance: per-course 320x240 images could cost roughly 0.3–0.5MB each and look blurry, while a small 3D scene can be cheaper and scale better on emulator.",
+      "quote": null
+    },
+    {
+      "topic": "technical",
+      "summary": "Kaze notes removing original MK64 background assets saved about ~0.3MB of ROM space (example: grass planes), underscoring tight ROM budgeting and a willingness to cut legacy assets for space.",
+      "quote": null
+    },
+    {
+      "topic": "technical",
+      "summary": "The project uses Fast64 (a Blender extension) to export assets into Super Mario 64-compatible format, described as “pretty helpful” for their workflow.",
+      "quote": null
+    },
+    {
+      "topic": "technical",
+      "summary": "While implementing a rideable “soap bar,” Kaze discovers/leans on existing SM64 infrastructure (ride interaction types / ridden-object pointer behavior) and reuses the Koopa-shell-like action state (actRidingShell) to accelerate implementation.",
+      "quote": null
+    },
+    {
+      "topic": "design",
+      "summary": "Soap bar behavior: Mario can stand on and ride it like a Koopa shell for a limited time; depending on speed, Mario may shift to a falling-forward animation (a comedic/readable feedback choice). Kaze is mindful of preventing unintended tech (e.g., potential star-dance cancels).",
+      "quote": null
+    },
+    {
+      "topic": "technical",
+      "summary": "A debugging dead-end came from camera logic being synced to Mario’s update, which prevented expected position-offset changes; removing the debug hook restores correct behavior. Kaze also flags a potential edge case: exiting a course while riding might carry the ride state across scenes.",
+      "quote": null
+    },
+    {
+      "topic": "technical",
+      "summary": "Kaze uses and extends a custom particle system because the original SM64 particle system is inefficient (it reloads textures repeatedly), making even small particle counts expensive; his system supports heavier effects like dense bubble trails.",
+      "quote": null
+    },
+    {
+      "topic": "team",
+      "summary": "Biobak provides actionable art direction: (1) a better star select concept mockup, and (2) a request for soap bubbles to fade from pink to white over their lifetime; Kaze implements this via color-combiner/“nth color” style logic and iteration on alpha/visibility issues.",
+      "quote": null
+    },
+    {
+      "topic": "technical",
+      "summary": "Kaze notes “nthcolor” is disabled in his repo due to fuzz64 compatibility, requiring alternate graphics commands/state (he adjusts away from gsp.add.setnthcolor) and highlighting how toolchain/platform constraints directly shape rendering features.",
+      "quote": null
+    },
+    {
+      "topic": "milestone",
+      "summary": "Kaze considers the soap feature essentially done for the day: ride logic + timed disappearance + bubble trail visuals; next planned step is an oil slick “sploosh/puddle” that the soap can clean.",
+      "quote": null
+    },
+    {
+      "topic": "design",
+      "summary": "Oil slick cleanup design direction: rather than a mesh that deforms, Kaze leans toward a texture/alpha-mask approach where Mario ‘erases’ (deletes alpha) and darkens/blackens pixels he traverses, creating a cleanable puddle footprint; he accepts losing a realistic shine for simplicity/performance.",
+      "quote": null
+    },
+    {
+      "topic": "design",
+      "summary": "For a ‘final puzzle level’ (referenced as later in the project), Kaze states it should feel epic but not be extremely difficult—prioritizing completion accessibility over hardcore challenge.",
+      "quote": null
+    },
+    {
+      "topic": "personal",
+      "summary": "Kaze describes receiving a rape threat (as a male) for the first time, expressing shock and framing it as unusually extreme compared to the more common death threats; he speculates it may be an immature viewer reacting to a philosophy-related disagreement.",
+      "quote": null
+    }
+  ],
+  "contributor_findings": {
+    "biobak": [
+      {
+        "topic": "design",
+        "summary": "Proposed a star select direction using small course panoramas to convey each level’s vibe; Kaze cites it as working better than his own attempt.",
+        "quote": null
+      },
+      {
+        "topic": "design",
+        "summary": "Requested soap bubble visuals that fade from pink toward white; Kaze actively tries to satisfy this via rendering/combiner changes and texture tweaks.",
+        "quote": null
+      },
+      {
+        "topic": "community",
+        "summary": "Provides final real-time validation on the oil slick look after Kaze’s shader/HSV experimentation: Biobak says it “looks fantastic,” helping Kaze lock the direction before ending stream.",
+        "quote": "Looks fantastic."
+      }
+    ],
+    "badub": [],
+    "zeina": [
+      {
+        "topic": "personal",
+        "summary": "Briefly joins mid-stream; Kaze summarizes the stream’s current focus to her as “making soap and discussing microwaves,” illustrating casual behind-the-scenes domestic overlap with development time.",
+        "quote": null
+      }
+    ],
+    "others": [
+      {
+        "name": "Lilaa",
+        "findings": [
+          {
+            "topic": "technical",
+            "summary": "Suggests image compression approaches for potential star select backgrounds; also pushes back on over-complex solutions for the oil puddle (e.g., model-based) and raises practical implementation alternatives.",
+            "quote": null
+          },
+          {
+            "topic": "community",
+            "summary": "Kaze references an earlier incident where Lilaa encouraged fixing ‘steel beams,’ attempted a fix herself, and it didn’t work—an example of collaborative iteration and occasional frustration.",
+            "quote": null
+          }
+        ]
+      },
+      {
+        "name": "Sauraen",
+        "findings": []
+      },
+      {
+        "name": "ZeroVolt",
+        "findings": []
+      }
+    ]
+  },
+  "memorable_quotes": [
+    {
+      "speaker": "Kaze",
+      "quote": "We programmed the whole soap bar just today—that’s not that bad, with a pretty sick effect.",
+      "context": "End-of-session reflection framing the day as a productive milestone (new mechanic + visuals)."
+    },
+    {
+      "speaker": "Kaze",
+      "quote": "Adding visual flare is important to the game. You can’t just not add visual flare to the game. Your game would just look like a shadow of a game and not a real game.",
+      "context": "Explains why he spends time polishing particles/textures instead of only implementing mechanics."
+    },
+    {
+      "speaker": "Kaze",
+      "quote": "It’s going to feel epic, but it’s not going to be super difficult because people need to be able to beat it.",
+      "context": "Design philosophy for the game’s eventual final puzzle level: spectacle with accessibility."
+    }
+  ],
+  "key_stories": [
+    {
+      "title": "Building the rideable soap bar mechanic",
+      "summary": "Kaze designs a new rideable ‘soap bar’ object, iterating on collision, timing, animations, and readability. He then adds a dense bubble trail using his custom particle system and tunes color/alpha behavior based on feedback.",
+      "challenge": "Create a new interactable that reads as collectible/rideable, behaves consistently, and doesn’t introduce unintended exploits or state bugs (e.g., carrying across course exit).",
+      "process": "Reuses SM64’s riding infrastructure (Koopa-shell-like action), debugs state/offset issues (including camera-synced update interference), then builds and tunes a bubble particle trail and fade behavior.",
+      "outcome": "Soap bar is considered complete for the day, with ‘sick’ bubble visuals; remaining concerns include edge cases like course exit while riding.",
+      "key_quote": "We programmed the whole soap bar just today—that’s not that bad, with a pretty sick effect.",
+      "related_to": [
+        "kaze"
+      ]
+    },
+    {
+      "title": "Star select redesign constrained by ROM budget",
+      "summary": "Kaze commits to a new star select concept where each course has a small panorama to communicate mood and identity. He rejects large pre-rendered images due to ROM cost and poor emulator scaling, favoring 3D scenes and careful asset budgeting.",
+      "challenge": "Make a visually distinctive star select UI for many courses on N64 ROM limits without it looking blurry on emulator.",
+      "process": "Compares memory cost of 320x240 images per course against 3D scene approaches; references earlier ROM savings from removing unused legacy backgrounds; uses Fast64 workflow for exports.",
+      "outcome": "Direction is set conceptually (panoramas), with constraints and implementation approach clarified; Kaze still dislikes his current prototype but prefers Biobak’s idea.",
+      "key_quote": null,
+      "related_to": [
+        "kaze",
+        "biobak"
+      ]
+    },
+    {
+      "title": "Designing an oil slick that can be cleaned",
+      "summary": "After finishing soap, Kaze prototypes an ‘oil puddle’ concept that the soap can clean up. He experiments with hue-shifted/iridescent looks but leans toward a simpler black puddle plus alpha-mask erasing due to realism doubts and complexity.",
+      "challenge": "Represent oil visually and allow it to be ‘cleaned’ dynamically under N64 constraints without excessive geometry or expensive effects.",
+      "process": "Explores modeling vs texture-based solutions; tests HSV/hue shifting tied to camera/vertex context; considers dynamic alpha-mask editing where Mario erases/darkens pixels along his path.",
+      "outcome": "Chooses to proceed with a simpler approach first; gets Biobak approval on current look and ends stream with an implementation plan note.",
+      "key_quote": "Guys, I think I want to go with just black.",
+      "related_to": [
+        "kaze",
+        "biobak"
+      ]
+    },
+    {
+      "title": "Post-release OnlyUp64 support and engine improvements",
+      "summary": "Kaze reports that during the week he fixed all bugs found in OnlyUp64 and highlights new tech: ledge grabbing and consistent wall-jump behavior on surfaces that previously rejected jumps in SM64.",
+      "challenge": "Address community criticism and bug reports quickly while balancing motivation to avoid revisiting finished projects.",
+      "process": "Implements fixes, demonstrates ledge grab, and changes collision/jump response so certain walls can be jumped onto rather than rejecting Mario.",
+      "outcome": "OnlyUp64 becomes a testbed for tech improvements that can inform Return to Yoshi’s Island mechanics and movement feel.",
+      "key_quote": "Look at that. You can ledge grab.",
+      "related_to": [
+        "kaze"
+      ]
+    },
+    {
+      "title": "Harassment as background noise to creation",
+      "summary": "Mid-development, Kaze shares that he received a rape threat for the first time and processes it live, comparing it to the more common death threats. He speculates on the sender’s immaturity and ties it to a possible argument about philosophy.",
+      "challenge": "Emotional/psychological toll and distraction from extreme viewer harassment.",
+      "process": "He contextualizes the message, hypothesizes about the sender’s motivations, and then returns to development tasks (bubble textures/particles).",
+      "outcome": "No direct project change, but it reveals the environment creators operate in and how Kaze compartmentalizes to keep working.",
+      "key_quote": "I as a male have gotten a rape threat. That’s insane.",
+      "related_to": [
+        "kaze"
+      ]
+    }
+  ],
+  "open_questions": [
+    {
+      "topic": "Overworld progression and water-level manipulation",
+      "context": "Kaze floats the idea that the overworld island could regain water over time; he references having water manipulation in ‘All Alone Bubble Dome’ but not like ‘World Dry World.’",
+      "questions": [
+        "What is the narrative/structural role of the overworld island in Return to Yoshi’s Island—hub, story vehicle, or progression map?",
+        "How would water-level changes be triggered (stars collected, story beats, time-based, player choice)?",
+        "What is ‘World Dry World’ in your internal timeline, and what would it take to port that water system into this project later?"
+      ],
+      "related_to": [
+        "kaze"
+      ]
+    },
+    {
+      "topic": "Star select panoramas: final implementation plan",
+      "context": "Star select will show a miniature panorama per course; Kaze is concerned about ROM cost and blurry scaling if using static images.",
+      "questions": [
+        "How many courses are planned, and how does that scale the star select panorama memory budget?",
+        "Will panoramas be real-time rendered 3D scenes, limited-geo dioramas, or pre-rendered textures with compression?",
+        "What is the art pipeline (Fast64/Blender) for producing these panoramas, and who owns producing them (Kaze vs Biobak)?",
+        "What are the acceptance criteria for ‘vibe’—what must a panorama communicate to the player?"
+      ],
+      "related_to": [
+        "kaze",
+        "biobak"
+      ]
+    },
+    {
+      "topic": "Unnamed ‘really useful tool’ being remade",
+      "context": "Kaze mentions a developer who made a very useful tool ~20 years ago contacted him about making a new one, but Kaze won’t name it on stream.",
+      "questions": [
+        "What tool was it, and why is it important to modern SM64 decomp/hack workflows?",
+        "What limitations in today’s toolchain is this new tool meant to solve?",
+        "Did this change your roadmap or unblock any specific Return to Yoshi’s Island features?"
+      ],
+      "related_to": [
+        "kaze"
+      ]
+    },
+    {
+      "topic": "Soap bar mechanic: level role and player learning",
+      "context": "Soap bar is rideable, temporary, and now has a bubble trail; Kaze worries about exploits and state carryover on course exit.",
+      "questions": [
+        "Which level/course is the soap bar in, and what player problem does it solve (movement, puzzle, combat, cleanup)?",
+        "How will players learn the soap bar’s rules (timer, speed threshold, disappearing) without UI?",
+        "Did you add safeguards for leaving the course while riding (state reset), and what other edge cases remain?"
+      ],
+      "related_to": [
+        "kaze"
+      ]
+    },
+    {
+      "topic": "Custom particle engine vs vanilla SM64 particles",
+      "context": "Kaze says the original particle system reloads textures repeatedly and can’t handle many bubbles efficiently; his engine enables dense bubble trails.",
+      "questions": [
+        "What are the core architectural differences of your particle engine (batching, texture state caching, display lists)?",
+        "How broadly is it used across RTYI (fog, sparkles, fluids, debris), and what are its performance limits on real hardware?",
+        "Did any of this particle tech come from OnlyUp64 or other side projects?"
+      ],
+      "related_to": [
+        "kaze"
+      ]
+    },
+    {
+      "topic": "fuzz64 compatibility vs rendering features (nthcolor disabled)",
+      "context": "Kaze indicates nthcolor is disabled in his repo because of fuzz64, forcing alternate rendering approaches for the bubble fade.",
+      "questions": [
+        "What specifically breaks with fuzz64 when nthcolor is enabled, and how did you detect/diagnose it?",
+        "What emulator/hardware targets do you optimize for first, and how do those constraints influence your visual goals?",
+        "Do these constraints meaningfully affect other planned materials (water, oil shine, fog)?"
+      ],
+      "related_to": [
+        "kaze"
+      ]
+    },
+    {
+      "topic": "Dynamic ‘cleanable’ oil slick implementation",
+      "context": "Kaze plans an oil puddle where Mario ‘erases’ alpha and darkens pixels he touches, implying runtime modification of a mask/texture.",
+      "questions": [
+        "How do you plan to store and update the cleanup state (per-puddle mask in RAM, texture streaming, vertex colors, tile map)?",
+        "What resolution/format will the mask use (IA-16, grayscale), and what are the CPU/RSP/RDP costs?",
+        "Will the cleaned state persist (until leaving course), and can multiple puddles exist at once?",
+        "What gameplay purpose does cleaning serve—progress gate, optional reward, or thematic flair?"
+      ],
+      "related_to": [
+        "kaze"
+      ]
+    },
+    {
+      "topic": "Difficulty philosophy for the endgame",
+      "context": "Kaze says the final puzzle level should feel epic but not be too difficult; mentions ‘rocket world’ learning but denies a brutal gauntlet.",
+      "questions": [
+        "What audience are you balancing (casual nostalgia players vs SM64 hack veterans)?",
+        "How do you define ‘epic’ without difficulty—setpieces, music, spectacle, story beats?",
+        "What are your internal rules for difficulty spikes across the campaign?"
+      ],
+      "related_to": [
+        "kaze"
+      ]
+    },
+    {
+      "topic": "OnlyUp64 as a tech incubator for RTYI",
+      "context": "Kaze fixed bugs and added movement tech (ledge grab, improved wall interaction) and notes he dislikes going back to update old projects.",
+      "questions": [
+        "Which OnlyUp64 improvements are planned to migrate into RTYI, if any (ledge grab, wall logic, camera changes)?",
+        "How do you decide when a side project’s tech is ‘stable enough’ to port into the main hack?",
+        "What did community feedback on OnlyUp64 change about your priorities or testing approach?"
+      ],
+      "related_to": [
+        "kaze"
+      ]
+    },
+    {
+      "topic": "Team feedback loops and decision making with Biobak/Lilaa",
+      "context": "Biobak steers UI and VFX decisions; Lilaa offers technical/art constraints suggestions; Kaze references a prior ‘steel beams’ attempt that failed.",
+      "questions": [
+        "How do you collect and triage feedback from core team vs community—Discord, chat, PRs, asset dropoffs?",
+        "Can you describe a time Biobak’s or Lilaa’s feedback changed a feature direction (like star select or visual materials)?",
+        "What kinds of tasks do you prefer to keep solo vs hand off to collaborators, and why?"
+      ],
+      "related_to": [
+        "kaze",
+        "biobak"
+      ]
+    }
+  ]
+}

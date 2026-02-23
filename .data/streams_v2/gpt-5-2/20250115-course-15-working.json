@@ -1,0 +1,358 @@
+{
+  "stream_context": {
+    "summary": "Kaze iterates on the Space City/space hub visuals and traversal, focusing on a concert hall shaped like a gramophone, a space taxi connection, and several shader-driven effects (projector light, star-reflection wall, pulsing floor tiles that also light Mario). He discusses performance profiling on N64, a crash that lost progress, and gives a strong stance against pursuing a PC port—arguing emulation/RT64 already provides most benefits and that PC-port feature requests create noise.",
+    "level": [
+      "Course 14"
+    ],
+    "significance": "notable",
+    "significance_reason": "Introduces/clarifies multi-act level structure (Shy Guys hide → boss beaten → cars unlock traversal), documents key shader/rendering tricks and profiling approach, and captures a strong philosophical/strategic position against a PC port that affects community expectations and release planning."
+  },
+  "findings": [
+    {
+      "topic": "design",
+      "summary": "Course 14’s Space City is being structured around a concert hall area (gramophone-shaped building) and a space taxi that transports the player across an intentional gap that should not be jumpable.",
+      "quote": null
+    },
+    {
+      "topic": "design",
+      "summary": "Kaze wants the level’s first-star platforming finished before investing heavily in visual polish, treating gameplay layout as the priority and visuals as a later pass.",
+      "quote": null
+    },
+    {
+      "topic": "design",
+      "summary": "A planned visual centerpiece is a walkway with glowing floor tiles; the floor will pulse and Kaze wants Mario’s lighting to respond to that pulse for a synchronized ‘floor lights the character’ effect.",
+      "quote": null
+    },
+    {
+      "topic": "technical",
+      "summary": "Kaze implemented and debugged a ‘projector/movie light’ effect by building a render matrix derived from the Lakitu camera position and pushing that matrix before drawing the relevant display list; incorrect light direction was fixed by adjusting the light’s orientation.",
+      "quote": null
+    },
+    {
+      "topic": "technical",
+      "summary": "He experimented with a fake star-reflection effect on walls by moving textures based on camera direction/position (to mimic reflections), while acknowledging real reflections are too expensive; cube-map style refraction/reflection is technically possible on N64 but would be extremely low resolution.",
+      "quote": null
+    },
+    {
+      "topic": "technical",
+      "summary": "He cannot simply ‘stretch’ the reflection UVs to better sell the illusion because the effect sits over an underlying window texture; stretching would visibly break the UV mapping unless additional geometry/subdivision is added.",
+      "quote": null
+    },
+    {
+      "topic": "technical",
+      "summary": "Kaze shows an in-game performance/profiling overlay reporting FPS plus RSP/RDP timings and per-system costs (e.g., level/GML around ~2ms; other categories like CMD/TMM tracked separately), using it to guide optimization decisions.",
+      "quote": null
+    },
+    {
+      "topic": "technical",
+      "summary": "A crash occurred during shader/level iteration, causing lost progress; he restarts and waits for shaders to reload, implying shader iteration can destabilize the current build/tools.",
+      "quote": null
+    },
+    {
+      "topic": "design",
+      "summary": "Course 14 includes a two-act progression hook: initially Shy Guys are scared and hide in houses, limiting traversal; after the boss is beaten, Shy Guys come out and drive flying cars, which then enable the player to get around the level.",
+      "quote": null
+    },
+    {
+      "topic": "design",
+      "summary": "Kaze is actively reducing frustration in platforming routes (e.g., a climb to a high area felt too difficult given you can’t fall, so it should be made easier/raised/adjusted).",
+      "quote": null
+    },
+    {
+      "topic": "technical",
+      "summary": "He avoids adding complex shadow systems because if shadows appear in only one area they look stylistically inconsistent; adding them ‘everywhere’ would be too much work for the project’s current bandwidth.",
+      "quote": null
+    },
+    {
+      "topic": "team",
+      "summary": "Kaze describes Biobak’s workflow as polishing Kaze’s models after the fact and bringing new ideas/concepts, acting as a quality and art-direction amplifier on top of Kaze’s rough passes.",
+      "quote": "Biobak goes over my models after I'm done and polishes them up, and brings a lot of ideas and new concepts to the table."
+    },
+    {
+      "topic": "team",
+      "summary": "Badub is confirmed as the music creator; Kaze states he cannot do music at all, reinforcing dependency on external composition.",
+      "quote": null
+    },
+    {
+      "topic": "business",
+      "summary": "Kaze discusses finances and sustainability: recent YouTube revenue cited around $940 with ~$500 to an editor, with Patreon described as the majority of his ROM-hack income; he pushes back on the narrative that he has ‘no budget’ or ‘works alone.’",
+      "quote": null
+    },
+    {
+      "topic": "community",
+      "summary": "Camera-control feedback is contradictory: for nearly every requested camera change, an opposite request exists, making it hard to act without redesigning the system; Kaze believes the current system is near its practical ceiling.",
+      "quote": null
+    }
+  ],
+  "contributor_findings": {
+    "biobak": [
+      {
+        "topic": "team",
+        "summary": "Kaze relies on Biobak to polish models and improve visual design after Kaze’s initial modeling pass, often saving rough-looking assets (e.g., the flying car detailing).",
+        "quote": "We got Biobak. Biobak will bail me out."
+      }
+    ],
+    "badub": [
+      {
+        "topic": "team",
+        "summary": "Badub is the project’s composer; Kaze explicitly positions Badub’s work as essential because Kaze cannot produce music himself.",
+        "quote": "Badub is doing the music. I can't do music at all."
+      }
+    ],
+    "zeina": [
+      {
+        "topic": "design",
+        "summary": "Zeina contributed concept art for a ‘mutant Yoshi’ boss/enemy for the Space Yoshi section Kaze references from a prior stream/day.",
+        "quote": null
+      },
+      {
+        "topic": "team",
+        "summary": "Zeina appears live during the stream, coordinating asset needs (e.g., texture size guidance like importing at 64x32 and requesting unscaled originals) and engaging in discussions about community pressure (PC port requests).",
+        "quote": null
+      }
+    ],
+    "others": [
+      {
+        "name": "Alexado (Alo)",
+        "findings": [
+          {
+            "topic": "technical",
+            "summary": "Alexado proposed attempting a PC port of RTYI and suggested keeping it in a separate repository to avoid cluttering the main repo with platform-specific conditionals; Kaze is skeptical but allows experimentation before release while disavowing ownership of the effort.",
+            "quote": "My idea was to make a separate repo for PC port so the main repo doesn't get cluttered with if-defs."
+          }
+        ]
+      },
+      {
+        "name": "Aeza",
+        "findings": [
+          {
+            "topic": "community",
+            "summary": "Aeza influenced the stream’s working soundtrack by suggesting the GoldenEye OST the previous day; Kaze uses it as default when no new music is suggested.",
+            "quote": null
+          }
+        ]
+      },
+      {
+        "name": "someone2639",
+        "findings": [
+          {
+            "topic": "community",
+            "summary": "Referenced as having pointed out an example of a ‘PC port on N64’ video, used in discussion to argue PC ports are not inherently efficient/advantageous compared to accurate emulation.",
+            "quote": null
+          }
+        ]
+      },
+      {
+        "name": "Dory (unclear identity)",
+        "findings": [
+          {
+            "topic": "team",
+            "summary": "Kaze mentions a contributor named Dory in the context of a separate ‘comp/compact’ effort, attributing major workload to them (graphics updates, combiners, UV work, and later programming). It’s unclear how directly this relates to RTYI versus another adjacent project.",
+            "quote": null
+          }
+        ]
+      }
+    ]
+  },
+  "memorable_quotes": [
+    {
+      "speaker": "Kaze",
+      "quote": "You want to make something that is linear, but isn't.",
+      "context": "Kaze articulates a core design principle: guided progression without making the player feel constrained—relevant to how RTYI modernizes SM64-style exploration."
+    },
+    {
+      "speaker": "Kaze",
+      "quote": "If I had the ability to just snap my fingers and the PC port would be out of existence, I would do it.",
+      "context": "A blunt statement of his frustration with PC-port discourse and the distractions/expectations it creates for the project."
+    },
+    {
+      "speaker": "Kaze",
+      "quote": "If I add complex shadows in one place, I need them everywhere.",
+      "context": "Explains why certain graphical features are avoided: stylistic consistency and production workload matter as much as technical possibility."
+    }
+  ],
+  "key_stories": [
+    {
+      "title": "Designing Space City’s signature route and landmarks",
+      "summary": "Kaze lays out the near-term vision for Course 14’s Space City: a gramophone-shaped concert hall, a non-jumpable gap, and a space taxi that ferries the player between major points. He treats platforming completion as the prerequisite before heavy visual polish.",
+      "challenge": "Creating a navigable, readable hub-like space that feels cohesive and ‘spacey’ while controlling traversal (preventing unintended jumps across the gap).",
+      "process": "Block out platforming for the first star; validate movement constraints; plan landmark buildings (concert hall) and traversal tool (taxi); iterate on props/lighting placement (lamps, walkway).",
+      "outcome": "Clear direction is set for the level’s macro layout; the taxi and concert hall are now concrete next build targets while platforming tuning continues.",
+      "key_quote": null,
+      "related_to": [
+        "kaze"
+      ]
+    },
+    {
+      "title": "Shader-driven ambience: projector light, reflections, and pulsing floor lighting",
+      "summary": "Kaze implements and debugs a projector-style light using camera-derived matrices and explores a fake star-reflection wall effect by shifting textures relative to camera movement. He plans a pulsing floor tile system that also affects Mario’s lighting for a synchronized visual rhythm.",
+      "challenge": "Achieving modern-looking effects on N64 constraints without true reflections/lighting and without breaking underlying UV layouts.",
+      "process": "Write rendering code that allocates/pushes matrices during rendering; fix light direction; test camera-based texture motion for reflections; reject UV stretching due to visible artifacts over window textures; consider performance and visual coherence.",
+      "outcome": "Projector light works as intended; reflection approach is narrowed by practical constraints; pulsing floor + character lighting becomes a defined upcoming effect.",
+      "key_quote": "It's pretty easy for me to do it because I wrote the rendering engine basically.",
+      "related_to": [
+        "kaze"
+      ]
+    },
+    {
+      "title": "Course 14’s two-act progression: Shy Guys unlock traversal after the boss",
+      "summary": "Kaze reveals a story/gameplay structure where the level changes state after the boss: Shy Guys begin hidden and fearful, limiting access, then emerge and drive flying cars that allow wider movement. The flying cars become both set dressing and a traversal unlock tied to narrative beats.",
+      "challenge": "Making the level feel alive and story-driven while gating movement in a way that feels earned rather than arbitrary.",
+      "process": "Plan initial ‘locked down’ act with NPCs hiding; design boss as the turning point; populate post-boss act with active Shy Guys and vehicles that enable transport around the space.",
+      "outcome": "A clear progression framework is established; remaining work is implementing cars/NPC behaviors and ensuring the cars’ design meets polycount and style targets.",
+      "key_quote": "After you beat the boss, the Shy Guys are out and they're gonna drive these cars here. So at that point you will be able to get around the level.",
+      "related_to": [
+        "kaze"
+      ]
+    },
+    {
+      "title": "The PC-port debate and why Kaze doesn’t want it attached to RTYI",
+      "summary": "A community discussion about a potential PC port triggers a strong response from Kaze: he sees it as a distraction and argues most touted benefits are actually emulator features (RT64/frame interpolation/ray tracing) rather than inherent to a native port. He doubts a PC port can render RTYI’s custom shaders correctly without substantial work.",
+      "challenge": "Managing community expectations and repeated requests while protecting the project’s focus and technical identity (N64-first).",
+      "process": "Kaze explains differences between emulation, RT64 features, and native recompilation; argues performance isn’t a bottleneck (N64 frame costs are small); permits a third party to experiment in a separate repo but refuses responsibility.",
+      "outcome": "Kaze’s stance is clearly defined: PC port is not an official priority and may create support burden; any attempt should be isolated and not drive core decisions.",
+      "key_quote": "The confusion comes because people are often confusing what the PC port even is.",
+      "related_to": [
+        "kaze"
+      ]
+    },
+    {
+      "title": "Tooling reality: profiling on N64 vs PC and a crash that cost progress",
+      "summary": "Kaze demonstrates an in-game profiling overlay that breaks down rendering/CPU components and mentions how profiling on PC can be noisy because background processes affect performance. During shader iteration the game crashes, losing progress and requiring reload.",
+      "challenge": "Maintaining stability and trustworthy performance data while pushing visual experimentation.",
+      "process": "Use a custom on-device timing overlay (RSP/RDP breakdowns); compare to PC profiling drawbacks; continue iteration despite occasional crashes.",
+      "outcome": "Profiling remains integral to daily work; the crash underscores the need for workflow safeguards when editing shaders/levels.",
+      "key_quote": null,
+      "related_to": [
+        "kaze"
+      ]
+    }
+  ],
+  "open_questions": [
+    {
+      "topic": "Course 14 structure and content scope",
+      "context": "Kaze describes Space City’s landmarks (concert hall/gramophone, space taxi) and the two-act Shy Guy progression, but details are still conceptual.",
+      "questions": [
+        "What are the full objectives/stars in Course 14, and how does each star interact with the ‘two-act’ state change?",
+        "How is the space taxi presented to the player (automatic ride, interaction prompt, cutscene), and how does it fit the tone of RTYI?",
+        "What is the boss in this level (is it the ‘mutant Yoshi’), and what are its mechanics and narrative role?"
+      ],
+      "related_to": [
+        "kaze",
+        "zeina"
+      ]
+    },
+    {
+      "topic": "Dynamic lighting plan: pulsing floor tiles lighting Mario",
+      "context": "Kaze wants the floor to pulse and for Mario to brighten/dim accordingly, implying a custom lighting pipeline on N64.",
+      "questions": [
+        "How will the pulsing-floor light affect Mario technically (vertex lighting, environment color, custom shader/combiners, per-room light state)?",
+        "How expensive is this effect in RSP/RDP time, and what compromises are acceptable if it’s too costly?",
+        "Will this be used elsewhere as a ‘signature’ visual language, or is it unique to Space City?"
+      ],
+      "related_to": [
+        "kaze"
+      ]
+    },
+    {
+      "topic": "Fake reflection wall effect constraints and art direction",
+      "context": "He moves textures with camera to mimic reflection but rejects UV stretching due to underlying window textures and limited geometry.",
+      "questions": [
+        "What final rule-set will define when RTYI uses ‘fake reflections’ versus simpler materials?",
+        "Would it be worth authoring dedicated geometry/UVs for reflective surfaces so the trick can be sold better?",
+        "How do you decide when an effect becomes ‘too disorienting’ (e.g., moving skybox idea)?"
+      ],
+      "related_to": [
+        "kaze",
+        "biobak"
+      ]
+    },
+    {
+      "topic": "Camera system conflicts and decision-making",
+      "context": "Kaze says camera requests conflict (add vs remove), and redesigning the system might be the only way to satisfy both sides, but he thinks it’s near optimal already.",
+      "questions": [
+        "What is RTYI’s camera philosophy compared to vanilla SM64 and modern platformers?",
+        "How do you evaluate camera complaints—telemetry, playtesters, or gut feel?",
+        "What camera changes were attempted and rolled back due to conflicting feedback?"
+      ],
+      "related_to": [
+        "kaze"
+      ]
+    },
+    {
+      "topic": "PC port: boundaries, permissions, and messaging",
+      "context": "Alexado proposed a PC port in a separate repo; Kaze strongly opposes making it an official effort and argues emulation already covers most benefits.",
+      "questions": [
+        "What is the team’s official policy on forks/ports using RTYI assets/code, especially before release?",
+        "Is the main concern support burden, legal exposure, preservation of N64 identity, or community expectation creep?",
+        "What would a ‘non-annoying’ PC port look like from Kaze’s perspective (if any)?"
+      ],
+      "related_to": [
+        "kaze"
+      ]
+    },
+    {
+      "topic": "Crash/lost progress and development workflow safeguards",
+      "context": "A crash during shader iteration lost progress; Kaze resumes after shader reload.",
+      "questions": [
+        "What caused the crash (shader compiler, memory, display list overflow), and how often does this happen?",
+        "Do you have auto-save/versioning practices for level edits and shader tweaks to prevent loss?",
+        "How do crashes influence willingness to experiment with risky visual effects?"
+      ],
+      "related_to": [
+        "kaze"
+      ]
+    },
+    {
+      "topic": "Team pipeline for assets (Kaze → Biobak polish)",
+      "context": "Kaze describes a recurring pattern: he rough-models and Biobak refines/polishes and adds ideas.",
+      "questions": [
+        "What does the handoff look like (file formats, naming conventions, checklists, review cycles)?",
+        "How do you resolve disagreements on style or scope when polish reveals deeper issues?",
+        "Which assets in RTYI best illustrate the ‘Kaze rough pass → Biobak final’ transformation?"
+      ],
+      "related_to": [
+        "kaze",
+        "biobak"
+      ]
+    },
+    {
+      "topic": "Zeina’s role in creatures/boss concepts and character work",
+      "context": "Zeina provided the mutant Yoshi concept and is referenced around asset sizing and prior character work (Peach/Toad).",
+      "questions": [
+        "How does Zeina’s concept process work (sketch → model → animation), and what constraints does N64 impose on her designs?",
+        "What is the full concept behind ‘mutant Yoshi’ and how does it connect to the Yoshi’s Island theme?",
+        "Which characters/animations are Zeina’s primary ownership areas in RTYI?"
+      ],
+      "related_to": [
+        "zeina",
+        "kaze"
+      ]
+    },
+    {
+      "topic": "Visual feature consistency decisions (e.g., shadows)",
+      "context": "Kaze rejects complex shadows largely due to the ‘if once, then everywhere’ consistency burden.",
+      "questions": [
+        "What is the project’s formal ‘style bible’ for effects—what is allowed, discouraged, or banned?",
+        "Are there any effects Kaze regrets adding because they forced consistency work elsewhere?",
+        "How do you decide a feature is worth ‘going all in’ on across the whole game?"
+      ],
+      "related_to": [
+        "kaze",
+        "biobak"
+      ]
+    },
+    {
+      "topic": "Upcoming shader-focused YouTube video and its relationship to RTYI",
+      "context": "Kaze is preparing a long video explaining SM64 shaders, noting Goddard’s intro shaders were far ahead of the main team’s work.",
+      "questions": [
+        "Did researching SM64/Goddard shaders change RTYI’s rendering direction or priorities?",
+        "Which original SM64 shader ideas were ‘months/years ahead,’ and how do those discoveries influence RTYI’s respect-for-the-classic ethos?",
+        "Does the educational content creation (videos) accelerate or slow RTYI development overall?"
+      ],
+      "related_to": [
+        "kaze"
+      ]
+    }
+  ]
+}

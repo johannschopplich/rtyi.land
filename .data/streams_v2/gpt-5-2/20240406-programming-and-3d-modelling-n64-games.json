@@ -1,0 +1,354 @@
+{
+  "stream_context": {
+    "summary": "Kaze implements and polishes a coin-stealing bandit NPC used to award the last Yoshi Coin in the level, debugs cutscene/pathing issues, fixes train spline behavior and audio falloff, and does performance/cleanup work. He also discusses the broader design goal of Yoshi Coins replacing 100-coin stars, upcoming 100%/champion-route ideas, and practical constraints around real hardware, payments, and anti-bootleg measures.",
+    "level": [
+      "Course 12"
+    ],
+    "significance": "milestone",
+    "significance_reason": "Kaze finishes the coin-stealing bandit interaction and completes all five Yoshi Coins for the level, stating the course is essentially done except for remaining animations (Zeina), signage, collision/sound polish, and a few bug fixes."
+  },
+  "findings": [
+    {
+      "topic": "design",
+      "summary": "A new bandit NPC steals coins directly from Mario’s inventory when the player looks away; when caught, he reacts and runs away, ultimately dropping/spawning a Yoshi Coin as the reward for this special interaction.",
+      "quote": null
+    },
+    {
+      "topic": "design",
+      "summary": "The bandit includes an alternate ‘broke’ easter egg: if Mario has zero coins, the bandit comments on it and gives the Yoshi Coin out of pity instead of robbing the player.",
+      "quote": "If you have no coins here, he should say something like, wow, you're broke… I take pity on you. Here's a Yoshi coin for you."
+    },
+    {
+      "topic": "technical",
+      "summary": "The stolen-coin visual initially failed to render because a coin-specific render/config flag was missing; adding the correct coin flag and billboard/render setup made the stolen coin appear correctly.",
+      "quote": "There is a flag for if you are a coin."
+    },
+    {
+      "topic": "design",
+      "summary": "Kaze avoids overusing chase mechanics: viewers suggested forcing players to catch the thief, but he rejects it because the level already has two bandits to catch, so this interaction stays simpler (turning to ‘catch’ him) rather than a full chase.",
+      "quote": null
+    },
+    {
+      "topic": "milestone",
+      "summary": "Kaze states Course 12 is effectively finished: all five Yoshi Coins are implemented, with remaining work limited to a few animations (being made by Zeina), a sign, and some collision/sound interactions (e.g., climbable surfaces and wood SFX).",
+      "quote": "We’re done with the level… all that will be missing is some animations… and the sign… and the collision… and some things need to be climbable."
+    },
+    {
+      "topic": "design",
+      "summary": "Yoshi Coins are confirmed as the project’s replacement for 100-coin stars; collecting five Yoshi Coins in a level grants a star. Kaze’s goal is to tie them to creative environmental interactions to encourage exploration, similar to how Mario Sunshine’s 100-coin shines reward varied interactions (but without requiring one continuous run).",
+      "quote": "The Yoshi coins are our replacement for the 100 coin stars… tying reward to [creative interaction] hopefully fuels that sense of exploration."
+    },
+    {
+      "topic": "design",
+      "summary": "A ‘radar’ system will reveal special actions/interactions so players can discover obscure Yoshi Coin triggers without brute-forcing; Kaze expects some coins will be difficult to find without it.",
+      "quote": "There’s some Yoshi coins that [people] will need the radar for… you will see all the special actions."
+    },
+    {
+      "topic": "technical",
+      "summary": "Train hazards have a custom sound render radius and falloff behavior (not possible in vanilla SM64), and Kaze continues tuning the audio/experience of approaching trains.",
+      "quote": "They have a sound render radius… a different sound falloff… this was not something that the original Mario 64 could do."
+    },
+    {
+      "topic": "technical",
+      "summary": "Train pathing was bugged: placed trains were snapping/falling to the floor instead of adhering to spline tracks. Kaze resolves it by adjusting spline/path setup so trains follow tracks correctly.",
+      "quote": "It is following the path, but it also always snaps to the floor… That’s much better. There we go."
+    },
+    {
+      "topic": "technical",
+      "summary": "Kaze identifies and flags a critical bug: particle effects do not despawn on area transitions, requiring a global fix to timers/state cleanup across warps.",
+      "quote": "Remind me to fix the bug we just found… particles do not despawn when you area transition."
+    },
+    {
+      "topic": "technical",
+      "summary": "Performance audit insight: the vanilla Pokey enemy uses an excessive number of raycasts (~31) due to per-segment checks and shadow checks; Kaze reduces it to one raycast to be more reasonable.",
+      "quote": "Turns out it's more like 31… I reduced it to one."
+    },
+    {
+      "topic": "technical",
+      "summary": "He hits a stubborn GCC ‘note’ spam related to floating-point register usage across multiple threads (race-condition/context switching concerns). He concludes Stack Overflow help is impractical because reproducing it requires an N64/MIPS/libultra multithreaded build environment.",
+      "quote": "Do you have an N64? Do you have the MIPS compiler set up… I need to include libultra… that’s completely unreasonable."
+    },
+    {
+      "topic": "business",
+      "summary": "Kaze mentions exploring copy-protection/anti-bootleg measures for physical/bootleg cartridges, including ideas around a ‘new IPL’ check (suggested by community member Rusky). He expects the hack will be bootlegged eventually and wants deterrence/detection for false carts.",
+      "quote": "I do wanna put some copy protection on against bootleg carts… there is the idea of having a new IPL thing."
+    },
+    {
+      "topic": "personal",
+      "summary": "After ~1.5 years, Patreon payments finally work again for Kaze; PayPal remains frozen and unusable, affecting donations and finances. He advises creators to consider alternatives like Ko-fi due to Patreon support issues.",
+      "quote": "After one and a half years… Patreon works again… PayPal still doesn't work… any money you send me on PayPal, I can't use."
+    },
+    {
+      "topic": "business",
+      "summary": "He is holding a clip upload to time it with securing a YouTube sponsor, indicating sponsorship planning as part of sustaining the project financially.",
+      "quote": "I was being smart about this. I'm looking for a YouTube sponsor and then as soon as I have a sponsor I'll upload this."
+    }
+  ],
+  "contributor_findings": {
+    "biobak": [
+      {
+        "topic": "design",
+        "summary": "Kaze credits early external feedback (including showing the level before finalizing) with improving Course 12’s platforming/geometry; he notes Biobak still has remaining work to do on the level and that Biobak can expect to spot issues like missing trains/placement artifacts that Kaze plans to fix near the end-of-polish pass.",
+        "quote": "It was a good thing I showed this to people before I started making this because people had a lot of really good feedback… Biobak still has some work to do after."
+      }
+    ],
+    "badub": [
+      {
+        "topic": "team",
+        "summary": "Badub is actively composing a new track for the ‘Western duel’ scene; Kaze describes the intended vibe as similar to existing cave music (but adjusted).",
+        "quote": "Badub is also currently making a song for the Western duel scene."
+      }
+    ],
+    "zeina": [
+      {
+        "topic": "team",
+        "summary": "Zeina is responsible for remaining animations needed to finalize Course 12; Kaze treats these animations as the main blocker to calling the level fully complete.",
+        "quote": "All that will be missing is some animations… Zeina's currently working on."
+      }
+    ],
+    "others": [
+      {
+        "name": "Lilaa",
+        "findings": [
+          {
+            "topic": "community",
+            "summary": "Lilaa is active in chat and influences stream flow with questions and channel-point redemptions; Kaze also responds directly to Lilaa about gameplay/technical questions and jokes, reflecting an interactive development cadence with regulars.",
+            "quote": null
+          }
+        ]
+      },
+      {
+        "name": "Rusky (\"Rusky the death of the dragon\")",
+        "findings": [
+          {
+            "topic": "technical",
+            "summary": "Rusky suggests an ‘IPL’-related approach to help detect false/bootleg cartridges, which Kaze references as a possible anti-bootleg measure.",
+            "quote": null
+          }
+        ]
+      },
+      {
+        "name": "Donna",
+        "findings": [
+          {
+            "topic": "community",
+            "summary": "Donna’s donation highlights that Kaze’s donation/payment setup is currently error-prone (wrong email routing), reinforcing his statement that PayPal is bugged/frozen for him.",
+            "quote": null
+          }
+        ]
+      }
+    ]
+  },
+  "memorable_quotes": [
+    {
+      "speaker": "Kaze",
+      "quote": "The Yoshi coins are our replacement for the 100 coin stars… tying reward to that hopefully fuels that sense of exploration.",
+      "context": "Kaze explains the core design shift away from 100-coin stars and toward exploration-driven, environment-linked rewards."
+    },
+    {
+      "speaker": "Kaze",
+      "quote": "Do you have an N64? Do you have the MIPS compiler set up… I need to include libultra… that’s completely unreasonable.",
+      "context": "His frustration with getting help for N64-specific toolchain/threading issues illustrates the ‘building new things on old hardware’ challenge."
+    },
+    {
+      "speaker": "Kaze",
+      "quote": "After one and a half years of being unable to get payments from Patreon, they finally made it so that my account works again… PayPal still doesn't work.",
+      "context": "Personal/business reality moment about funding friction and platform dependencies during long development."
+    }
+  ],
+  "key_stories": [
+    {
+      "title": "Building the coin-stealing bandit and the final Yoshi Coin interaction",
+      "summary": "Kaze designs a sassy bandit who steals coins when the player looks away and reacts when spotted. The interaction culminates in the bandit fleeing and dropping/spawning a Yoshi Coin, with a hidden alternate case where the bandit pities a broke player and hands over the coin.",
+      "challenge": "Make a memorable ‘special action’ Yoshi Coin reward that feels playful, readable, and not overlong, while integrating inventory coin theft and on-screen visuals.",
+      "process": "He implements coin removal from inventory, debugs invisible coin rendering via coin flags/billboard settings, tunes speed and cutscene timing, writes cowboy-flavored dialogue, and adds an optional trip-and-drop beat for comedic payoff (requiring new animation).",
+      "outcome": "Kaze declares the stealing guy finished and confirms the level’s five Yoshi Coins are complete; remaining dependency is the needed animation work and final polish (signage/collision).",
+      "key_quote": "If you have no coins here, he should say something like, wow, you're broke… I take pity on you. Here's a Yoshi coin for you.",
+      "related_to": [
+        "kaze",
+        "zeina"
+      ]
+    },
+    {
+      "title": "Train system polish: audio radius and spline adherence",
+      "summary": "Kaze demonstrates train hazards with improved audio falloff/radius and debugs a major placement/pathing issue where trains snapped to the floor rather than staying on tracks. He adjusts path/spline handling until trains follow the track correctly.",
+      "challenge": "Ensure trains behave consistently as moving hazards/transport, staying aligned to track splines and not grounding incorrectly.",
+      "process": "He tests in-level, finds trains on the floor/off-track, identifies that objects snap to floor even while following a path, and adjusts spline/path configuration until motion is stable.",
+      "outcome": "Trains appear to follow the tracks correctly again; Kaze flags missing/placement issues to be fixed in end-of-polish.",
+      "key_quote": "It is following the path, but it also always snaps to the floor… That’s much better. There we go.",
+      "related_to": [
+        "kaze",
+        "biobak"
+      ]
+    },
+    {
+      "title": "Hidden technical cost in vanilla SM64 enemies: Pokey raycasts",
+      "summary": "While discussing technical oddities, Kaze reveals how expensive the vanilla Pokey implementation is, using ~31 raycasts due to per-piece and shadow checks. He reduces the behavior to one raycast for performance sanity.",
+      "challenge": "Reduce unnecessary per-frame physics queries to keep performance stable as the hack adds more complex systems.",
+      "process": "He audits the Pokey’s collision/shadow logic, counts raycasts, and refactors to a single raycast per update tick.",
+      "outcome": "Pokey is significantly cheaper to simulate, freeing CPU budget for new features and richer levels.",
+      "key_quote": "Turns out it's more like 31… I reduced it to one.",
+      "related_to": [
+        "kaze"
+      ]
+    },
+    {
+      "title": "The ‘unanswerable’ compiler note: asking Stack Overflow about N64 multithreading",
+      "summary": "Kaze describes posting a toolchain question and receiving requests for a minimal reproducible example that would require distributing an entire N64/MIPS multithreaded build environment. The issue is a GCC ‘note’ related to floating-point register usage across threads—spammy but not breaking the build.",
+      "challenge": "Eliminate persistent GCC note spam tied to thread/FPU register behavior without a feasible way to reproduce the issue on typical desktop setups.",
+      "process": "He tries pragmas and code adjustments; concludes Stack Overflow’s expectations don’t fit N64 development realities because reproducing requires libultra and the specific register/thread context.",
+      "outcome": "Temporary workaround found for one casting/line-level issue, but the broader lesson is the friction of legacy-platform tooling and mismatch with mainstream support communities.",
+      "key_quote": "I need to set up a project that compiles an N64 rom that is multi-threaded… that's completely unreasonable.",
+      "related_to": [
+        "kaze"
+      ]
+    },
+    {
+      "title": "Course 12 reaches ‘content complete’ with remaining dependencies",
+      "summary": "By the end of the stream, Kaze frames Course 12 as basically done: Yoshi Coin set complete and major setpieces functioning. Remaining tasks are primarily animation assets from Zeina, plus signage, collision behaviors, climbability, and sound effects.",
+      "challenge": "Cross the finish line from ‘playable’ to ‘shippable’ through polish tasks that depend on other team members and systematic QA passes.",
+      "process": "He completes the final Yoshi Coin mechanic, verifies trains and missions, identifies lingering bugs (particles persisting across transitions), and outlines a final polish sweep (ambient audio consistency across the game).",
+      "outcome": "Course 12 moves out of main production and toward polish/bugfix; next stream likely shifts focus (Course 13 or general bug fixing).",
+      "key_quote": "We’re done with the level… all that will be missing is some animations… and the sign… and the collision.",
+      "related_to": [
+        "kaze",
+        "zeina",
+        "biobak"
+      ]
+    }
+  ],
+  "open_questions": [
+    {
+      "topic": "Yoshi Coin ‘radar’ implementation and player UX",
+      "context": "Kaze references a radar that will reveal ‘special actions’ so players can find obscure Yoshi Coin triggers, implying a meta-layer of hinting/telemetry.",
+      "questions": [
+        "How exactly does the radar communicate ‘special actions’ (UI, audio, proximity, checklist)?",
+        "When did you decide players would need a radar—was it driven by playtests or by your own difficulty expectations?",
+        "Will the radar be optional (assist mode) or core to 100% completion?",
+        "How do you balance ‘mystery’ vs ‘discoverability’ for hidden interaction-based rewards?"
+      ],
+      "related_to": [
+        "kaze"
+      ]
+    },
+    {
+      "topic": "100% completion structure and ‘champion route’",
+      "context": "Kaze briefly mentions wanting a ‘champion’s route’ and asks what 100% should mean overall, but doesn’t define it.",
+      "questions": [
+        "What is your current definition of 100% for Return to Yoshi’s Island (stars, Yoshi Coins, secrets, time trials)?",
+        "What would a ‘champion route’ look like—new missions, harder versions, gauntlets, or optional worlds?",
+        "How do you plan to reward mastery without bloating the main campaign?",
+        "Is this inspired by any specific games (e.g., Sunshine’s secret stages, Galaxy’s Luigi, Hollow Knight’s Pantheons)?"
+      ],
+      "related_to": [
+        "kaze"
+      ]
+    },
+    {
+      "topic": "Ambient audio final pass across the entire game",
+      "context": "Kaze wants to revisit every level with music off to ensure ambient sound is ‘perfect,’ suggesting a deliberate sound-direction philosophy.",
+      "questions": [
+        "What rules do you use to place/shape ambience to guide players (navigation, mood, threat telegraphing)?",
+        "Are there technical constraints (channel limits, CPU) that shape ambience decisions on N64?",
+        "Who on the team owns ambience decisions—Kaze alone or in collaboration with Badub?",
+        "Do you have examples where ambience changed how players explored a space?"
+      ],
+      "related_to": [
+        "kaze",
+        "badub"
+      ]
+    },
+    {
+      "topic": "Train tech details: sound radius, collision, and performance budget",
+      "context": "Kaze notes trains have sound falloff not possible in vanilla SM64 and he fixes spline adherence issues, but doesn’t detail how this is implemented in the decomp engine.",
+      "questions": [
+        "How did you implement per-object sound radius/falloff in the SM64 decomp base (engine changes vs object behavior tricks)?",
+        "What was the root cause of trains snapping to the floor while following a path?",
+        "How do you test train hazards for fairness (camera, reaction time, audio cue distance)?",
+        "What performance constraints did trains introduce, and how did you mitigate them?"
+      ],
+      "related_to": [
+        "kaze"
+      ]
+    },
+    {
+      "topic": "Particle system lifetime across area transitions",
+      "context": "Kaze flags a serious bug: particles persist across warps/area transitions, implying lifecycle/state reset problems.",
+      "questions": [
+        "What particle system are you using (custom vs extended SM64), and where does lifetime/despawn live?",
+        "What are the worst visible failures from persistent particles (visual noise, memory leak, crashes)?",
+        "How do you plan to audit other cross-area state bugs (sound handles, timers, object pools)?"
+      ],
+      "related_to": [
+        "kaze"
+      ]
+    },
+    {
+      "topic": "Zeina’s animation pipeline and integration bottlenecks",
+      "context": "Kaze repeatedly positions remaining animations as the last major dependency for Course 12 completion (bandit trip/tumble, etc.).",
+      "questions": [
+        "What animations are still missing for Course 12, and which are critical-path?",
+        "How do you hand off animation requirements—does Kaze provide scripts/storyboards, or does Zeina propose timing/poses?",
+        "What tools/export pipeline do you use to get animations into the SM64 decomp workflow?",
+        "How do you iterate when animation timing changes require code/cutscene adjustments?"
+      ],
+      "related_to": [
+        "kaze",
+        "zeina"
+      ]
+    },
+    {
+      "topic": "Badub’s ‘Western duel’ music direction",
+      "context": "Kaze says the duel track will be similar to cave music and not a specific reference, but doesn’t elaborate on creative brief or implementation constraints.",
+      "questions": [
+        "What reference tracks or instrumentation define the ‘Western duel’ identity for this game?",
+        "How do you ensure N64/sequence constraints don’t flatten Badub’s compositions?",
+        "What is the approval/iteration process—does Kaze request changes based on gameplay timing or scene beats?",
+        "How early do you lock music vs adjust levels around it?"
+      ],
+      "related_to": [
+        "kaze",
+        "badub"
+      ]
+    },
+    {
+      "topic": "Targeting real hardware vs emulator/modern platforms",
+      "context": "Kaze states most hacks choose early whether to target real hardware; he implies many techniques won’t work on real N64 and that his project likely isn’t hardware-first.",
+      "questions": [
+        "Did you decide early not to target real N64 hardware for Return to Yoshi’s Island? Why?",
+        "Which features/optimizations specifically break on hardware (memory, RSP/RDP assumptions, timing)?",
+        "What would it take to make a ‘hardware-compatible’ build, and is that desirable?",
+        "How do you communicate these constraints to players to set expectations?"
+      ],
+      "related_to": [
+        "kaze"
+      ]
+    },
+    {
+      "topic": "Anti-bootleg strategy and ‘IPL’ idea feasibility",
+      "context": "Kaze wants some copy protection against bootleg carts and mentions an IPL-based idea suggested by Rusky, but he’s unsure what it fully entails.",
+      "questions": [
+        "What bootlegging scenarios worry you most (resellers, bad carts causing crashes, reputation damage)?",
+        "What is the ‘new IPL’ approach in practical terms, and how would it detect false cartridges?",
+        "How will you avoid false positives (legit flashcarts/everdrives)?",
+        "Is the goal deterrence, attribution, or quality control?"
+      ],
+      "related_to": [
+        "kaze"
+      ]
+    },
+    {
+      "topic": "Sustainability: Patreon/PayPal failures and sponsorship timing",
+      "context": "Kaze’s Patreon was broken for 1.5 years and PayPal is frozen; he’s timing uploads around sponsorship to offset financial risk.",
+      "questions": [
+        "What happened with Patreon and what finally fixed it after 1.5 years?",
+        "How has PayPal being frozen affected development decisions or release planning?",
+        "How do you balance sponsor needs with community expectations for uploads/updates?",
+        "Would you change your funding stack (Ko-fi, merch, paid builds) for future projects?"
+      ],
+      "related_to": [
+        "kaze"
+      ]
+    }
+  ]
+}

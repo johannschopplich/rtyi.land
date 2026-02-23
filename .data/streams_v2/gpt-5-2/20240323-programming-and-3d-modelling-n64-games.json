@@ -1,0 +1,344 @@
+{
+  "stream_context": {
+    "summary": "Kaze works on the Boshi (Yoshi-with-a-gun) duel concept, iterating on the countdown/\"fire\" prompt, camera framing, and cutscene timing. He tests performance on real N64 hardware (noting a major overworld crash), discusses engine optimizations, and solves how to render/attach a cork gun to Mario efficiently for a cutscene. He also talks about Nintendo takedowns, release/timing risk, and overall project progress (only a few levels remaining).",
+    "level": [
+      "Overworld",
+      "Course 5"
+    ],
+    "significance": "milestone",
+    "significance_reason": "Kaze states the project is in the final stretch (only three levels missing), demonstrates strong real-hardware performance (~40 FPS pre-optimization), and lands a key technical solution for rendering the gun “for free” in cutscenes while discussing concrete anti-takedown release tactics."
+  },
+  "findings": [
+    {
+      "topic": "design",
+      "summary": "The Boshi encounter is being built as a duel/reaction-time minigame: a 3-2-1 style lead-in followed by a randomized delay and a “go/fire” prompt where the player must press B to shoot first.",
+      "quote": null
+    },
+    {
+      "topic": "design",
+      "summary": "Kaze considers a penalty for shooting early (gun “blows up in your face”), and shifts from a plain HUD countdown toward a more cinematic cutscene-based presentation because the HUD approach looked unexpressive and was painful to implement.",
+      "quote": null
+    },
+    {
+      "topic": "design",
+      "summary": "He targets fairness using real-world reaction time and console latency: he cites ~210 ms top human reaction time plus ~80 ms console input lag, implying minimum ~300 ms windows for reasonable difficulty.",
+      "quote": "Who do you think I am… the top human reaction time is something like 210 milliseconds, and the console itself is like 80 milliseconds of input lag, so likely we have to go at least 300 milliseconds on this."
+    },
+    {
+      "topic": "design",
+      "summary": "Difficulty tuning plan: the first attempt should be very hard (he suggests ~280 ms), then each loss gradually increases the allowed reaction time by a few frames.",
+      "quote": null
+    },
+    {
+      "topic": "design",
+      "summary": "A chat-suggested extension becomes a concrete plan: after beating Boshi, he could get a “redemption arc,” reappear later as an optional rematch NPC, and keep records of the player’s reaction times (repeatable bonus content).",
+      "quote": null
+    },
+    {
+      "topic": "technical",
+      "summary": "Kaze reports substantial off-stream engine polish and “random optimizations all over the place,” aimed at supporting an upcoming small “secret” ROM hack release built on the same engine.",
+      "quote": null
+    },
+    {
+      "topic": "technical",
+      "summary": "Real N64 testing shows strong framerate in a test area (~40 FPS before further optimization), but the overworld currently crashes reliably; Kaze says they already suspected something was wrong with overworld and defers fixing it.",
+      "quote": "Nooooo! Okay, you know what? The overworld is fucked."
+    },
+    {
+      "topic": "technical",
+      "summary": "He identifies a concrete course-level optimization idea: aggressively cull certain beam geometry so triangles are not processed when out of view (they were previously still being processed).",
+      "quote": null
+    },
+    {
+      "topic": "technical",
+      "summary": "Mario 64 animation constraints shape implementation: standard animations lack translation/scale channels (beyond a limited case), forcing him to compute egg (projectile/prop) offsets manually relative to animation frames rather than embedding translation in the animation.",
+      "quote": "Animations do not have translation in Mario 64 except for the first one."
+    },
+    {
+      "topic": "technical",
+      "summary": "To keep rendering efficient, Kaze rejects capturing Mario’s hand matrix each frame (exists only briefly and would be expensive). Instead, he chooses a performant workaround: render an “invisible Mario” rig that only contains the gun/hand so the gun inherits Mario animation without runtime matrix reads.",
+      "quote": "Mario's hand position never exists… all that exists is Mario's hand matrix… we could capture the matrix, but it's gonna be expensive. So I'd rather just render an invisible Mario with nothing on it."
+    },
+    {
+      "topic": "team",
+      "summary": "Kaze notes that he models some assets himself but relies on Biobak to review and improve them after initial completion; he cites this as a typical quality-improvement step in their pipeline.",
+      "quote": "I don't do all the models by myself… after I'm done, we got Biobak looking over it and he makes them a lot better."
+    },
+    {
+      "topic": "team",
+      "summary": "Lilaa’s ongoing quaternion work is expected to unlock “free translation” capabilities (even if unused), implying a future upgrade to the project’s animation/transform pipeline.",
+      "quote": "It's likely going to change once Lilaa is finished with her Quaternions, because they give us free translation as long as we don't use it."
+    },
+    {
+      "topic": "legal-nintendo",
+      "summary": "Kaze downplays fears of Nintendo “deleting the game off his PC,” but acknowledges extensive past takedowns (he says ~70 videos). He expects to need a copyright-free version of trailers and plans redundant uploads to reduce downtime from takedowns.",
+      "quote": "They've already taken down 70 of my videos… they will absolutely take it down and I will have to release a copyright-free version."
+    },
+    {
+      "topic": "business",
+      "summary": "He reveals endgame scope and timeline: only three levels are missing (one endgame area already finished), total scope around ~180 stars with ~120–130 as “real content.” He tentatively hopes for release before 2026 but avoids guarantees, and worries about timing a release near a major Nintendo launch because he believes that increases takedown risk.",
+      "quote": "Only three levels are missing… release before 2026 maybe… if you release your romhack around the same time as a big Nintendo game comes out you are going to get taken down 100%."
+    },
+    {
+      "topic": "personal",
+      "summary": "Zeina is not present because she’s babysitting; Kaze frames it as a life constraint pulling time away from development. He also mentions eye twitching/stress during the stream’s iteration-heavy cutscene work.",
+      "quote": "Can you believe Zeina's on babysitting instead of making games with me right now?"
+    }
+  ],
+  "contributor_findings": {
+    "biobak": [
+      {
+        "topic": "team",
+        "summary": "Biobak checks in after being absent; Kaze jokes about him being sent to the “Lilaa farm.” Kaze reiterates Biobak’s usual role: reviewing Kaze’s models and making them better after initial work.",
+        "quote": null
+      },
+      {
+        "topic": "technical",
+        "summary": "Biobak points out a specific issue Kaze instantly recognizes (the gun material/wording issue Kaze references: “I know exactly what you're referencing to, Biobak. This gun's fucked up.”), indicating active art/asset feedback even via chat.",
+        "quote": "I know exactly what you're referencing to, Biobak. This gun's fucked up."
+      }
+    ],
+    "badub": [],
+    "zeina": [
+      {
+        "topic": "personal",
+        "summary": "Zeina is unavailable during the stream due to babysitting, highlighting the couple’s real-life scheduling constraints against dev time.",
+        "quote": null
+      }
+    ],
+    "others": [
+      {
+        "name": "Lilaa",
+        "findings": [
+          {
+            "topic": "technical",
+            "summary": "Lilaa is credited with quaternion work that may expand transform/animation capabilities (translation support). Lilaa also participates in technical back-and-forth on attachment/rendering strategy and micro-optimization philosophy.",
+            "quote": null
+          }
+        ]
+      },
+      {
+        "name": "UED",
+        "findings": [
+          {
+            "topic": "team",
+            "summary": "Kaze says UED sent him a model of the cork gun, implying external asset contribution feeding directly into a key setpiece (Boshi duel).",
+            "quote": "Good thing UED has sent me a model of it."
+          }
+        ]
+      },
+      {
+        "name": "Unidentified German literature student (chat)",
+        "findings": [
+          {
+            "topic": "community",
+            "summary": "A viewer explains “Zweigreime” (forced rhymes) and offers to rewrite Kaze’s save-state Yoshi rap lyrics; Kaze invites them to send rewrites via Discord, showing willingness to accept writing help for comedic/dialog content.",
+            "quote": null
+          }
+        ]
+      }
+    ]
+  },
+  "memorable_quotes": [
+    {
+      "speaker": "Kaze",
+      "quote": "No, I don't optimize for emulator at all. I just do for hardware and then the emulator is hopefully good enough to play my ROM hack.",
+      "context": "Captures Kaze’s priority: authenticity and performance on original N64 hardware, not emulator-first development."
+    },
+    {
+      "speaker": "Kaze",
+      "quote": "Do you guys actually realize how crazy it is how close we're done to being done? Only three levels are missing.",
+      "context": "A clear late-project status update that can anchor a documentary ‘final stretch’ chapter."
+    },
+    {
+      "speaker": "Kaze",
+      "quote": "Mario's hand position never exists… we could capture the matrix, but it's gonna be expensive. So I'd rather just render an invisible Mario with nothing on it.",
+      "context": "A strong example of how N64-era engine constraints force creative, performance-driven solutions."
+    }
+  ],
+  "key_stories": [
+    {
+      "title": "Designing the Boshi duel: from HUD countdown to a cutscene-driven “fire” prompt",
+      "summary": "Kaze prototypes a Boshi duel minigame built around reaction timing and a randomized ‘go’ signal. He discovers a basic 3-2-1 HUD countdown looks unexpressive and is cumbersome to implement, so he pivots toward making it a cutscene with improved camera framing and a single clear ‘fire’ moment.",
+      "challenge": "Communicating timing and tension clearly (and fairly) while keeping implementation feasible within Mario 64’s HUD/cutscene systems.",
+      "process": "He references Mario Party/Kirby Samurai-style duels, tests HUD countdown rendering, experiments with animated/scaled numbers, then decides a cutscene approach will look better. He iterates camera position, widescreen safety, and timing (including random waits).",
+      "outcome": "He lands on a cutscene-first plan (focus Boshi → focus Mario → zoom out → random wait → ‘fire’) and begins adjusting framing/timing, but notes remaining cutscene glitches and polish to complete later.",
+      "key_quote": null,
+      "related_to": [
+        "kaze"
+      ]
+    },
+    {
+      "title": "Proving real N64 viability while discovering an overworld crash",
+      "summary": "Kaze demonstrates that a major portion of the game now runs on original N64 hardware at high framerate before further optimization. However, he immediately hits a severe overworld crash, reinforcing that hardware stability is still uneven depending on area/system.",
+      "challenge": "Ensuring stable operation and acceptable performance on original hardware across all areas, not just isolated levels.",
+      "process": "He boots builds on N64, tests runtime stability and FPS, then attempts to load the overworld and specific courses (e.g., Course 5), diagnosing that the overworld is “really wrong.” He also proposes triangle culling optimizations for beam geometry.",
+      "outcome": "He confirms strong performance in one test case (~40 FPS) but flags the overworld as a known, unresolved crash point to fix later.",
+      "key_quote": "Nooooo! Okay, you know what? The overworld is fucked.",
+      "related_to": [
+        "kaze"
+      ]
+    },
+    {
+      "title": "Making the cork gun move with Mario without paying a runtime cost",
+      "summary": "To support the Boshi duel, Kaze needs Mario to hold and animate a cork gun. Reading Mario’s hand transform directly is impractical/expensive due to how the engine computes matrices, so he chooses a render-time trick that reuses animation data rather than sampling it at runtime.",
+      "challenge": "Attach/animate a gun to Mario’s hand for a cutscene without adding persistent render or CPU overhead.",
+      "process": "He evaluates capturing the hand matrix (too expensive), then implements a workaround: create an invisible Mario rig where only the gun/hand is visible, rendered in sync with Mario’s animation frames. He troubleshoots parenting/vertex groups/export issues until the gun appears correctly.",
+      "outcome": "He succeeds: “the gun renders for free,” and he ends the stream satisfied, deferring the actual shooting gameplay logic to next time.",
+      "key_quote": "I got the gun to render for free. We did it.",
+      "related_to": [
+        "kaze",
+        "zeina"
+      ]
+    },
+    {
+      "title": "Preparing for Nintendo takedowns with ‘copyright-free’ parallel releases",
+      "summary": "Kaze reflects on past Nintendo takedowns and expects similar issues for future trailers/releases. He outlines a practical mitigation plan: release alternate ‘copyright-free’ versions and reupload strategies, tying promotion into a future Kickstarter for his next post-RTYI game.",
+      "challenge": "Maintaining visibility and momentum despite likely DMCA actions against videos/trailers and possibly the hack if timing is bad.",
+      "process": "He recounts prior takedowns (including non-Mario content) and an example reupload with all Nintendo content removed. He discusses uploading multiple versions and bundling advertising with a future Kickstarter plan.",
+      "outcome": "A concrete promotional/release approach emerges: expect takedowns, prepare alternate versions, and plan marketing around what survives on platforms.",
+      "key_quote": "They will absolutely take it down and I will have to release a copyright-free version that is gonna happen.",
+      "related_to": [
+        "kaze"
+      ]
+    },
+    {
+      "title": "The ‘space-time Yoshi’ anti-save-state rap and tone concerns",
+      "summary": "Kaze describes a system where the game detects emulator save states and spawns a ‘space-time Yoshi’ who warns the player—via rap lyrics—not to save state. The bit is funny but Kaze calls it cringe and suggests it needs rewriting, while also debating whether real-world references (e.g., Brazil) belong in the game.",
+      "challenge": "Balancing humor/meta-systems with the game’s tone and avoiding immersion-breaking real-world references.",
+      "process": "He reads multiple rap drafts aloud, critiques some lines, and invites a chat member (literature student) to rewrite and send improved rhymes over Discord.",
+      "outcome": "Decision point: keep the mechanic but rewrite/retone the rap content for quality and tone consistency.",
+      "key_quote": "We stumbled upon the Yoshi raps again, and they're very cringe. We will need to have them remade.",
+      "related_to": [
+        "kaze",
+        "biobak"
+      ]
+    }
+  ],
+  "open_questions": [
+    {
+      "topic": "The secret collab ROM hack and withheld off-stream areas",
+      "context": "Kaze says he made two areas off-stream he cannot show because it’s a collaboration with another ROM maker and he was asked to keep it secret; he also mentions a small upcoming ROM hack release using his engine.",
+      "questions": [
+        "Who is the collaborator, and what are the boundaries/agreements around secrecy and crediting?",
+        "Are the two secret areas part of Return to Yoshi’s Island, or a separate ‘small ROM hack’ release?",
+        "What did Kaze change in the engine specifically to support this secret project, and will those improvements roll back into RTYI?",
+        "What is the release plan/timeline for the small ROM hack relative to RTYI?"
+      ],
+      "related_to": [
+        "kaze"
+      ]
+    },
+    {
+      "topic": "Overworld crash on real N64 hardware",
+      "context": "He reports the overworld is currently broken/crashing on N64, while other areas run well at ~40 FPS. He indicates this was already a known issue.",
+      "questions": [
+        "What is the suspected root cause of the overworld crash (memory, display list overflow, segmented addresses, level script, etc.)?",
+        "Is the overworld crash new (introduced by recent optimizations) or longstanding?",
+        "What’s the triage plan: fix overworld first or finish remaining levels first?"
+      ],
+      "related_to": [
+        "kaze"
+      ]
+    },
+    {
+      "topic": "Boshi duel final design and fairness targets",
+      "context": "Kaze iterates on countdown vs ‘fire’ prompt, random delay, and mentions specific reaction-time numbers (280–300 ms) plus adaptive easing by frames after losses.",
+      "questions": [
+        "What is the final timing model (random window distribution, minimum/maximum delay, audio cues)?",
+        "How does difficulty scale—by attempts, by star count, by accessibility options?",
+        "Will shooting early always punish the player (explosion/stun), and how will it be communicated?",
+        "Will Boshi become a recurring character with reaction-time records as suggested?"
+      ],
+      "related_to": [
+        "kaze"
+      ]
+    },
+    {
+      "topic": "Cutscene system limitations and camera polish (60 FPS + widescreen)",
+      "context": "Kaze struggles with cutscene ‘jumpy’ behavior and text not rendering during cutscenes. He also mentions needing to verify camera transitions work at 60 FPS and across widescreen/aspect ratios.",
+      "questions": [
+        "What exactly causes the cutscene camera ‘jump’ and how do you debug it in the decomp engine?",
+        "What’s the approach for ensuring cutscenes and HUD elements behave correctly at 60 FPS?",
+        "How are you handling widescreen/4:3 safe framing across the whole game (guidelines, tools, Blender previews)?"
+      ],
+      "related_to": [
+        "kaze"
+      ]
+    },
+    {
+      "topic": "Animation pipeline upgrades via quaternions",
+      "context": "Kaze says Lilaa’s quaternion work may provide ‘free translation,’ changing what’s possible for animation/props like the egg and gun without manual offsets.",
+      "questions": [
+        "What problem is the quaternion system solving (gimbal lock, interpolation quality, transform storage, performance)?",
+        "What will ‘free translation’ practically enable in RTYI (moving props, character locomotion in cutscenes, scaling)?",
+        "Will it require re-exporting/re-authoring existing animations or remain backwards compatible?"
+      ],
+      "related_to": [
+        "kaze"
+      ]
+    },
+    {
+      "topic": "Gun attachment/rendering architecture",
+      "context": "Kaze chooses an ‘invisible Mario’ rig method so the gun inherits animation without reading the hand matrix, to keep it performant and limited to cutscenes.",
+      "questions": [
+        "Will the gun ever be used in gameplay (beyond cutscenes/minigames), and if so does this approach scale?",
+        "How does your rendering pipeline make matrix reads expensive—what data is intentionally not retained?",
+        "What other props/characters have needed similar ‘invisible rig’ tricks?"
+      ],
+      "related_to": [
+        "kaze"
+      ]
+    },
+    {
+      "topic": "Nintendo takedown risk and release timing strategy",
+      "context": "Kaze expects trailer takedowns and believes releasing near a big Nintendo launch triggers immediate takedowns. He plans copyright-free versions and possibly bundling with a future Kickstarter ad.",
+      "questions": [
+        "What evidence/experience makes you confident Nintendo targets hacks more aggressively around their releases?",
+        "What will a ‘copyright-free’ trailer/version contain (original music, original visuals, no Nintendo marks)?",
+        "How do you plan to distribute the hack safely (patcher, source-based build, mirrors), and what is the contingency if key videos are removed?"
+      ],
+      "related_to": [
+        "kaze"
+      ]
+    },
+    {
+      "topic": "Project scope: 180 stars vs ‘real content’ stars",
+      "context": "He estimates ~180 total stars, but only ~120–130 are ‘real content’ while the remainder are ‘Yoshi stars’ or similar meta/bonus content.",
+      "questions": [
+        "What are ‘Yoshi stars’ specifically—collectibles, difficulty modifiers, completion tracking, or speedrun incentives?",
+        "How do you prevent filler perception while still supporting 180-star pacing?",
+        "How does this star structure map onto levels/areas (stars per stage, hub progression)?"
+      ],
+      "related_to": [
+        "kaze"
+      ]
+    },
+    {
+      "topic": "Email about new sine/cosine approximation",
+      "context": "Kaze received an unsolicited email proposing a sine/cos approximation that ‘looks kinda cool’ and might be worth it, but he doesn’t test it on stream.",
+      "questions": [
+        "What approximation was proposed and what would it replace in the engine (math library, trig tables, rotations)?",
+        "What are the tradeoffs (speed, precision, edge cases) on real N64 hardware?",
+        "Have you historically accepted similar external micro-optimization contributions, and how do you validate them?"
+      ],
+      "related_to": [
+        "kaze"
+      ]
+    },
+    {
+      "topic": "Meta mechanic: save-state detection and the ‘space-time Yoshi’ raps",
+      "context": "Kaze says the game detects save states and spawns a warning character who raps at the player; he calls the current writing cringe and invites rewrites, and he debates avoiding real-world references for escapism.",
+      "questions": [
+        "Is save-state detection a core philosophy choice (encouraging authentic play) or a joke/optional feature?",
+        "How will you avoid false positives/negatives across emulators and flashcarts?",
+        "What tone do you want for meta humor in RTYI, and where is the line on real-world references?"
+      ],
+      "related_to": [
+        "kaze",
+        "biobak",
+        "zeina"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,324 @@
+{
+  "stream_context": {
+    "summary": "Kaze showcases new progress on Course 13’s castle/ice interior (platforming largely finished, now polishing visuals and encounter density), then brings on Sauraen for an extended technical session about adopting F3DEX3 (X3) microcode for major performance gains. They profile RSP/RDP bottlenecks, test optimizations like display-list “hints” and material auto-batching, debug corrupted on-screen profiler text (traced to an unused “rainbow text” feature), and discuss emulator compatibility (EX3 mostly backwards-compatible except lighting).",
+    "level": [
+      "Course 13"
+    ],
+    "significance": "milestone",
+    "significance_reason": "Includes a major tech direction lock-in (commitment to ship RTYI on F3DEX3/X3), measured performance improvements, and resolves a concrete rendering/profiler bug while clarifying emulator-compatibility requirements (lighting commands)."
+  },
+  "findings": [
+    {
+      "topic": "milestone",
+      "summary": "Kaze reports that all core platforming inside the Course 13 castle is finished; remaining work is primarily art/visual polish and adding needed enemies to address a ‘barren’ feel.",
+      "quote": "I finished all the platforming inside the castle. Right now we just have to make the castle look good."
+    },
+    {
+      "topic": "design",
+      "summary": "Course 13’s interior design emphasizes escalating precision: narrowing toxic-ice paths, fireball hazards, and a planned mirror wall-kick section intended to look like Mario is fighting his reflection (Mirror Mario).",
+      "quote": null
+    },
+    {
+      "topic": "design",
+      "summary": "Kaze designs fail-safes for difficult traversal (slides and narrow paths) using coin lines as guidance and healing points, aiming for difficulty that feels fair for Course 13.",
+      "quote": null
+    },
+    {
+      "topic": "technical",
+      "summary": "Kaze uses doors as render-culling boundaries: rooms are separate areas so the engine can avoid rendering the next room until the player enters, improving performance and stability.",
+      "quote": null
+    },
+    {
+      "topic": "technical",
+      "summary": "A new transparency/decal pipeline is described: Layer 6 is used for transparent decals, while Layer 5 is used to invert transparency order so decals render first (better Z-order behavior for decals sitting behind other geometry).",
+      "quote": null
+    },
+    {
+      "topic": "design",
+      "summary": "Visual experimentation continues in Course 13: a fog/ice-mist look, texture-fade transitions into clouds, a ‘twinkly’ ambience, and small decorative setpieces (e.g., a sunflower). Kaze notes some textures still look ‘poopy’ and the room needs more enemy presence.",
+      "quote": null
+    },
+    {
+      "topic": "team",
+      "summary": "Kaze confirms an exterior ‘village with penguin huts’ is planned and says Zeina is actively building assets for it while the baby is with grandparents (hinting at current family/work balancing).",
+      "quote": null
+    },
+    {
+      "topic": "business",
+      "summary": "Kaze indicates a near-term production cadence: an edited video is in progress, followed by the demo release in ‘a few more weeks,’ suggesting demo is a short-term milestone gating other work.",
+      "quote": null
+    },
+    {
+      "topic": "technical",
+      "summary": "Sauraen joins as a guest to deliver an updated F3DEX3 build and profiling results; Kaze observes ~300 microseconds improvement in graphics (RSP-side) and up to ~1 millisecond RDP improvement in the profiled scene, describing it as ‘for free’ performance that can help globally.",
+      "quote": null
+    },
+    {
+      "topic": "technical",
+      "summary": "They discuss why RTYI has become RSP-bound in some scenes: Kaze’s prior RDP optimizations shift the bottleneck to microcode (vertex processing/command dispatch), making F3DEX3’s RSP-side improvements newly important.",
+      "quote": null
+    },
+    {
+      "topic": "technical",
+      "summary": "A key F3DEX3 optimization is ‘display list hints’: instead of refilling a 21-command buffer on every call/return, hints can request loading only a small number (Kaze tests hard-coding ‘2’), reducing wasted DMA and improving end-to-end frame time (~100–250 microseconds observed).",
+      "quote": null
+    },
+    {
+      "topic": "technical",
+      "summary": "F3DEX3 ‘material auto-batching’ (a finite-state approach that detects repeated material blocks by address and skips redundant texture loads) produces large gains in a test case where a bunny/rabbit model reloads the same texture many times; disabling it spikes texture time dramatically while overall RDP time changes less than expected depending on scene composition.",
+      "quote": null
+    },
+    {
+      "topic": "technical",
+      "summary": "They identify and fix corrupted on-screen profiler text under EX3: the issue is traced to an unused ‘rainbow text’ feature that reloads extra TLUT/tiles; removing/commenting out that block resolves the corruption.",
+      "quote": null
+    },
+    {
+      "topic": "technical",
+      "summary": "EX3 emulator compatibility: EX3 is largely binary backwards-compatible with EX2 display lists except for lighting-related commands. Kaze plans to implement runtime detection (emulator vs console) and emit EX2 lighting commands on emulators while using EX3 lighting on hardware; he mentions possibly using self-modifying code to avoid instruction cache disruption.",
+      "quote": null
+    },
+    {
+      "topic": "technical",
+      "summary": "Sauraen outlines an occlusion-plane vs no-occlusion-plane microcode tradeoff: occlusion planes cost extra vertex-processing cycles but can save significant RSP/RDP work by rejecting occluded triangles early. Kaze considers swapping microcode per-area (loading zones) rather than per-frame to manage overhead.",
+      "quote": null
+    }
+  ],
+  "contributor_findings": {
+    "biobak": [
+      {
+        "topic": "design",
+        "summary": "Biobak provides light feedback/interaction early in the stream (presence acknowledged; minimal direct design decisions attributed in this transcript).",
+        "quote": null
+      }
+    ],
+    "badub": [],
+    "zeina": [
+      {
+        "topic": "team",
+        "summary": "Zeina is mentioned as working on exterior village assets (penguin huts) while also caring for their newborn (baby with grandparents during stream).",
+        "quote": null
+      }
+    ],
+    "others": [
+      {
+        "name": "Lilaa",
+        "findings": [
+          {
+            "topic": "community",
+            "summary": "Lilaa (noted by Kaze as a Fast64 dev) comments on Fast64 workflow differences (main vs release builds) and debates how ‘map bleed’/batching interacts with repeated materials, surfacing a real pipeline friction point between exporter behavior and microcode-level batching.",
+            "quote": null
+          }
+        ]
+      },
+      {
+        "name": "Mitten",
+        "findings": [
+          {
+            "topic": "community",
+            "summary": "Mentioned in passing (unrelated to RTYI core work) as messaging Kaze about Banjo decomp becoming ‘shiftable’; not acted on for RTYI.",
+            "quote": null
+          }
+        ]
+      },
+      {
+        "name": "Vaisky",
+        "findings": [
+          {
+            "topic": "community",
+            "summary": "Mentioned in passing (unrelated to RTYI core work) for work on Banjo decomp ‘shiftable’ changes; Kaze reiterates he is not switching projects.",
+            "quote": null
+          }
+        ]
+      },
+      {
+        "name": "rad/live (raid)",
+        "findings": [
+          {
+            "topic": "community",
+            "summary": "A small raid occurs during the microcode discussion; no development impact beyond stream context.",
+            "quote": null
+          }
+        ]
+      }
+    ]
+  },
+  "memorable_quotes": [
+    {
+      "speaker": "Kaze",
+      "quote": "I finished all the platforming inside the castle. Right now we just have to make the castle look good.",
+      "context": "Marks Course 13’s shift from gameplay implementation to art/atmosphere/enemy polish."
+    },
+    {
+      "speaker": "Sauraen",
+      "quote": "The fact that I was able to get this any faster is because of mistakes on the part of Nintendo.",
+      "context": "A candid framing of reverse-engineering and outperforming original microcode via overlooked optimizations."
+    },
+    {
+      "speaker": "Kaze",
+      "quote": "I’m just gonna add the lighting support off stream… and then I think we’re all good.",
+      "context": "Signals commitment to shipping on EX3 and identifies the remaining blocker: emulator lighting compatibility."
+    }
+  ],
+  "key_stories": [
+    {
+      "title": "Course 13 castle interior reaches gameplay-complete state",
+      "summary": "Kaze tours recent Course 13 changes: new rooms, ice-mist ambience, tightening traversal challenges, and planned setpieces like a mirror wall-kick segment. He states the platforming is finished and the remaining task is visual polish and filling in enemy presence to avoid emptiness.",
+      "challenge": "Finish a high-difficulty late-game castle/ice interior that feels fair and readable while maintaining strong atmosphere.",
+      "process": "Iterated on room layout and hazards; added coin-guides and heal points as fail-safes; used door-separated rooms to control rendering; reviewed textures and lighting for readability and vibe.",
+      "outcome": "Platforming is declared complete; next steps are art polish, texture replacement, and enemy density tuning.",
+      "key_quote": "I finished all the platforming inside the castle. Right now we just have to make the castle look good.",
+      "related_to": [
+        "kaze"
+      ]
+    },
+    {
+      "title": "Decision to ship on F3DEX3 after performance profiling with Sauraen",
+      "summary": "Sauraen joins to provide updated F3DEX3 microcode builds and walk through where time is spent (RSP vs RDP), demonstrating measurable improvements in Kaze’s scene. By the end, Kaze confirms he will adopt EX3 and only needs to finish lighting support for emulator compatibility.",
+      "challenge": "RTYI scenes have become RSP-bound in places; Kaze needs performance headroom while preserving visuals and console compatibility.",
+      "process": "Profile comparisons between EX2 and EX3; test hint-based command-buffer loading; validate material auto-batching impact; evaluate occlusion-plane tradeoffs and microcode swapping strategy.",
+      "outcome": "Kaze commits to EX3 for RTYI; remaining work is implementing EX2-vs-EX3 lighting command selection on emulator/hardware and continuing performance refinement (occlusion-plane build later).",
+      "key_quote": "Are you… going to use EX3? Oh yeah, for sure.",
+      "related_to": [
+        "kaze",
+        "biobak",
+        "badub",
+        "zeina"
+      ]
+    },
+    {
+      "title": "Profiler text corruption traced to ‘rainbow text’ feature",
+      "summary": "Kaze’s on-screen performance text appears corrupted under EX3. Sauraen and Kaze isolate the issue to a block that reloads additional palettes/tiles for a ‘rainbow’ text effect, which Kaze copied unknowingly from a shared repo.",
+      "challenge": "Diagnose a rendering corruption bug that persists even after unrelated microcode fixes, risking confusion in performance validation.",
+      "process": "Inspect the text drawing path; test adding syncs; then comment out the suspect secondary TLUT/multi-tile load block and retest.",
+      "outcome": "Corruption is resolved by removing the rainbow feature; Sauraen plans to investigate upstream and possibly PR a fix.",
+      "key_quote": null,
+      "related_to": [
+        "kaze"
+      ]
+    },
+    {
+      "title": "Rabbit model reveals material/armature batching pitfalls",
+      "summary": "When testing EX3’s material auto-batching, the bunny/rabbit actor repeatedly reloads the same material due to limb separation and exporter behavior. They discuss strategies: rely on EX3 batching, reduce material count, consolidate textures, or adopt an OoT-like skeletal rendering approach.",
+      "challenge": "Repeated texture/material loads inflate texture time; exporter ‘map bleed’ behavior may not optimize across armature parts as expected in the SM64 pipeline.",
+      "process": "Measure texture time with/without auto-batching; inspect model material breakdown; Kaze reduces one material and considers consolidating to one texture; Sauraen explains OoT’s skeletal draw strategy and how a future mesh compiler could restructure draw order.",
+      "outcome": "Short-term mitigation: Kaze simplifies the bunny materials; long-term: mesh compiler / pipeline changes remain open.",
+      "key_quote": null,
+      "related_to": [
+        "kaze"
+      ]
+    }
+  ],
+  "open_questions": [
+    {
+      "topic": "Course 13 final goals and identity",
+      "context": "Kaze shows major parts of Course 13 and calls it appropriately difficult, but the full star objectives and narrative framing aren’t described.",
+      "questions": [
+        "What is Course 13’s final name/theme, and what are the 7 stars (objectives) in it?",
+        "How do you decide ‘appropriate’ difficulty for a late-game course—any specific player skill targets or reference hacks?",
+        "What is the intended emotional beat of the mirror wall-kick sequence (mechanical spectacle, story symbolism, or both)?"
+      ],
+      "related_to": [
+        "kaze"
+      ]
+    },
+    {
+      "topic": "Crash during room transition/testing",
+      "context": "Kaze hits an unexpected crash while moving through a door-separated room and flags it as a problem but doesn’t diagnose it.",
+      "questions": [
+        "What caused the crash—rendering layers, room streaming/culling, memory, or collision?",
+        "How often do these crashes occur late in development, and what tools/logging do you use to track them down?",
+        "Did this influence how aggressively you use door-based culling across the game?"
+      ],
+      "related_to": [
+        "kaze"
+      ]
+    },
+    {
+      "topic": "Layer 5/6 transparency and decals pipeline",
+      "context": "Kaze explains Layer 6 as transparent decals and Layer 5 as a transparency-order inversion to render decals first; Sauraen later mentions upcoming ‘Z-fighting decal’ changes that may alter GBI support.",
+      "questions": [
+        "How do Layer 5/6 integrate with the rest of RTYI’s renderer (materials, sorting, Z buffer settings)?",
+        "What specific visual problems were you seeing (Z fighting, wrong draw order), and what tests confirmed the new approach works on console?",
+        "What are the upcoming ‘Z-fighting decal’ fixes Sauraen referenced, and what content depends on them?"
+      ],
+      "related_to": [
+        "kaze"
+      ]
+    },
+    {
+      "topic": "Emulator compatibility plan for EX3 lighting",
+      "context": "Kaze states EX3 is backwards compatible except lighting; he plans emulator detection and possibly self-modifying code to avoid i-cache impact, but details are not covered.",
+      "questions": [
+        "How will RTYI detect emulator vs console reliably (per-emulator heuristics, timing tests, RSP feature checks)?",
+        "Which emulators are you targeting for acceptable behavior, and what’s your fallback if lighting still differs?",
+        "What does the self-modifying-code approach look like in practice, and what risks does it introduce?"
+      ],
+      "related_to": [
+        "kaze"
+      ]
+    },
+    {
+      "topic": "Pipeline/exporter friction: Fast64 map bleed vs microcode batching",
+      "context": "Kaze and Lilaa debate how map bleed/inlining interacts with EX3’s address-based material batching, especially for armatures.",
+      "questions": [
+        "What is the current Fast64 export behavior for skinned/armature meshes in RTYI, and where exactly does it duplicate loads?",
+        "Do you plan to change RTYI’s skeletal pipeline toward an OoT-like approach, or build a mesh compiler that restructures display lists?",
+        "Who owns this problem (engine side vs exporter side), and what would ‘done’ look like?"
+      ],
+      "related_to": [
+        "kaze"
+      ]
+    },
+    {
+      "topic": "Occlusion-plane microcode usage strategy",
+      "context": "Sauraen explains occlusion plane tradeoffs; Kaze considers swapping microcodes by area/level load rather than dynamically.",
+      "questions": [
+        "Which specific RTYI areas benefit most from occlusion planes (heavy overdraw, lots of hidden geometry)?",
+        "What is the user-visible risk of swapping microcode at load zones (hitches, compatibility)?",
+        "Did you consider runtime switching based on profiler counters, and why reject/avoid it?"
+      ],
+      "related_to": [
+        "kaze"
+      ]
+    },
+    {
+      "topic": "Demo scope and timeline",
+      "context": "Kaze mentions an edited video is imminent and then ‘the demo’ in a few weeks, but doesn’t specify content or criteria.",
+      "questions": [
+        "What content is planned for the demo (levels, stars, features, polish level)?",
+        "What is the internal definition of ‘demo-ready’ for RTYI (performance targets, bug thresholds, art completion)?",
+        "How does the video release relate to demo timing—marketing beat, community expectation management, or milestone celebration?"
+      ],
+      "related_to": [
+        "kaze"
+      ]
+    },
+    {
+      "topic": "Exterior penguin village (Zeina’s asset work)",
+      "context": "Kaze confirms an outside area: a village with penguin huts; Zeina is building assets, but gameplay purpose is unclear.",
+      "questions": [
+        "What gameplay role does the penguin village serve (hub, narrative space, tutorial, secrets)?",
+        "What specific assets is Zeina creating, and how do you coordinate asset integration (formats, iteration loop, approvals)?",
+        "How does new parenthood affect your production schedule and division of labor right now?"
+      ],
+      "related_to": [
+        "kaze",
+        "zeina"
+      ]
+    },
+    {
+      "topic": "Movement/animation polish (grind animation, spin loop)",
+      "context": "Kaze wants a new grind animation and confirms he added a looping spin animation; no detail on who animates or how it ships.",
+      "questions": [
+        "What move uses the grind animation (rail grind? sliding? sunflower section?), and what’s wrong with the current one?",
+        "Who creates/implements animation changes (Zeina vs Kaze), and what does the toolchain look like for animation iteration?",
+        "Do animation changes ever force level redesign (timing, readability, player expectation)?"
+      ],
+      "related_to": [
+        "kaze",
+        "zeina"
+      ]
+    }
+  ]
+}

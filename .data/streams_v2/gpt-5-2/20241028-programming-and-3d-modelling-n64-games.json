@@ -1,0 +1,328 @@
+{
+  "stream_context": {
+    "summary": "Kaze iterates on a Course 14 set-piece where Mario opens a cardboard box (leading into a “hell” interior) by pulling a box-opening tab/strip. He refines the strip’s animation for consistent speed and visual readability, considers alternatives to a zipper/tape for thematic fit, and troubleshoots a level-specific bug where holding Bowser causes Mario’s actionArg to be overwritten—behaving differently across emulators. He also discovers a major performance issue was self-inflicted (infinite draw distance) and fixes it, then discusses demo scope and the planned Yoshi bonus-mission star system.",
+    "level": [
+      "Course 14"
+    ],
+    "significance": "notable",
+    "significance_reason": "Contains concrete design decisions for a signature set-piece (box-opening-to-hell), a meaningful performance breakthrough (infinite draw distance), and a deep technical debugging segment involving emulator differences and a core state-variable misuse (actionArg vs actionState)."
+  },
+  "findings": [
+    {
+      "topic": "design",
+      "summary": "Course 14’s main interactive gimmick is shifting from a “zipper to hell” concept toward a more thematically consistent cardboard box-opening mechanism (a pull-tab/strip like real packaging) so the world feels handcrafted rather than “random technology.”",
+      "quote": "A zipper feels so unfitting… Don’t want to make a romhack exhibiting random technology."
+    },
+    {
+      "topic": "technical",
+      "summary": "Kaze prototypes the pull-strip as a segmented animated actor and manually retimes keyframes/frames to achieve a more constant pull speed, balancing satisfaction (longer pull) against N64 render cost (more segments/triangles).",
+      "quote": null
+    },
+    {
+      "topic": "technical",
+      "summary": "A major performance problem in the level was caused by leftover settings from an older hack: draw distance for everything was set to infinite. Reducing draw distance immediately made the stage “a lot more acceptable.”",
+      "quote": "The reason it ran poorly is because… I still had the drawing distance for everything set at infinite."
+    },
+    {
+      "topic": "design",
+      "summary": "Kaze wants the floor/terrain materials to read as “paper on paper” and avoid a plastic/toy look; he adjusts materials (e.g., mountains using one material instead of two/decals) for both aesthetics and performance.",
+      "quote": null
+    },
+    {
+      "topic": "technical",
+      "summary": "He identifies a visual/geometry issue in the pull-strip animation where triangles “curl” unexpectedly, implying a deformation/rigging/export issue that doesn’t match his intended behavior and likely requires toolchain investigation.",
+      "quote": null
+    },
+    {
+      "topic": "technical",
+      "summary": "A level-specific gameplay bug occurs when Mario holds Bowser: actionArg is unexpectedly overwritten to 0, preventing expected behavior (e.g., letting go), and it manifests differently between emulators (works in Nemu but not Project64).",
+      "quote": "Something is overwriting the actionArg only in this level… and only when you’re holding Bowser."
+    },
+    {
+      "topic": "technical",
+      "summary": "Using a debugger, Kaze traces a crash/softlock to logic involving resetting an intro cutscene even when a level has no intro scene. This produces multi-frame behavior that “shouldn’t” happen and is especially problematic on Project64.",
+      "quote": "It should just not even call the intro scene if there is none."
+    },
+    {
+      "topic": "technical",
+      "summary": "Kaze realizes part of the bug stems from vanilla-style code treating actionArg and actionState interchangeably; his fix direction is to use actionState where appropriate instead of relying on actionArg semantics.",
+      "quote": "They really just use actionArg and actionState interchangeably."
+    },
+    {
+      "topic": "design",
+      "summary": "The ‘hell’ inside the box is intended to have an “evil glow”/red-lit look, with a deliberate small gap at the seam so players can visually read that the box is opening and there is an interior.",
+      "quote": null
+    },
+    {
+      "topic": "technical",
+      "summary": "Texture fidelity limitations are constrained by N64 realities: if a texture is already 1:1 pixel-to-screen, higher apparent detail isn’t possible without increasing render/framebuffer size, which would be “disastrous” for performance.",
+      "quote": "It is physically not possible to render higher detail than that on the N64… unless I increase the frame size, which performance wise would be disastrous."
+    },
+    {
+      "topic": "design",
+      "summary": "Kaze lists remaining planned set-pieces/actors for the project/area as still pending (Bowser, flap, Peach-to-the-rescue, and previously discussed “zipper to hell,” now being reinterpreted as a box-opening).",
+      "quote": null
+    },
+    {
+      "topic": "milestone",
+      "summary": "He describes the broader meta-collectible system: Yoshi ‘comet-like’ bonus missions inspired by Mario Galaxy, where a Yoshi appears to give special-condition challenges that reward an extra star; he plans ~45 total of these.",
+      "quote": "I’m planning 45 of those in total… tacked on as bonus stars."
+    },
+    {
+      "topic": "milestone",
+      "summary": "For the next demo release, Kaze states Yoshi mission-givers will not be included (the system exists conceptually/partially but is being held back from the demo build).",
+      "quote": "Yoshi will not be in the demo I’m releasing this time."
+    },
+    {
+      "topic": "team",
+      "summary": "Kaze notes a real-life scheduling constraint affecting stream/dev time: Zeina’s friends are visiting, so he needs to stop by a certain time, reinforcing how personal life interrupts or shapes dev sessions.",
+      "quote": null
+    },
+    {
+      "topic": "business",
+      "summary": "He reports strong Twitter monetization momentum and metrics growth (hitting 250k), while also noting YouTube Shorts have been a poor ROI experiment for his channel and he has many queued shorts left.",
+      "quote": "The shorts… investment wise, has not been a wise decision."
+    }
+  ],
+  "contributor_findings": {
+    "biobak": [
+      {
+        "topic": "design",
+        "summary": "Biobak originally proposed the ‘zipper attached to the box’ idea for opening the stage entrance; Kaze later reevaluates it as thematically unfitting and explores packaging-accurate alternatives (tape, staples, pull-tab strip).",
+        "quote": null
+      },
+      {
+        "topic": "community",
+        "summary": "Biobak comments on optimizing social metrics; Kaze responds that Twitter impressions are something they “min-max,” implying ongoing attention to distribution/visibility alongside development.",
+        "quote": null
+      }
+    ],
+    "badub": [],
+    "zeina": [
+      {
+        "topic": "personal",
+        "summary": "Zeina does not speak in this transcript, but Kaze mentions hosting ‘Zeina’s friends’ during the day, impacting his available time and suggesting shared household scheduling around streams.",
+        "quote": null
+      }
+    ],
+    "others": [
+      {
+        "name": "Lilaa",
+        "findings": [
+          {
+            "topic": "community",
+            "summary": "Lilaa is referenced in chat (Kaze notes someone greeted her earlier) and later prompts a clarification about a ‘yellow paint’ reference/joke, indicating active community banter during dev.",
+            "quote": null
+          }
+        ]
+      },
+      {
+        "name": "Arthur",
+        "findings": [
+          {
+            "topic": "community",
+            "summary": "Arthur participates in chat; Kaze responds to comments and notes Arthur had been looking for Lilaa earlier, reflecting the recurring community presence during dev streams.",
+            "quote": null
+          }
+        ]
+      },
+      {
+        "name": "CTF",
+        "findings": [
+          {
+            "topic": "community",
+            "summary": "CTF appears in chat while Kaze is brainstorming the cardboard-opening mechanic; Kaze acknowledges them while continuing ideation.",
+            "quote": null
+          }
+        ]
+      }
+    ]
+  },
+  "memorable_quotes": [
+    {
+      "speaker": "Kaze",
+      "quote": "Most mods never get finished. It’s very rare that a mod gets finished. You guys are just spoiled because you are watching me.",
+      "context": "Kaze contrasts his consistent progress with the broader modding scene, framing persistence/finishability as a defining trait of the project."
+    },
+    {
+      "speaker": "Kaze",
+      "quote": "If you want a hard mode, just play risky. That’s the beauty of Mario 64.",
+      "context": "Design philosophy moment about emergent difficulty and self-imposed challenge rather than explicit difficulty modes."
+    },
+    {
+      "speaker": "Kaze",
+      "quote": "It is physically not possible to render higher detail than that on the N64… unless I increase the frame size, which performance wise would be disastrous.",
+      "context": "A clear statement of platform constraints shaping visual choices and technical tradeoffs."
+    }
+  ],
+  "key_stories": [
+    {
+      "title": "Replacing the zipper with a real cardboard box-opening tab",
+      "summary": "While building Course 14’s entrance-to-hell set-piece, Kaze questions whether a zipper makes sense in a crafted cardboard world. He pivots toward a packaging-accurate pull-tab/strip opener that can be animated as Mario pulls it, keeping the world’s materials and logic cohesive.",
+      "challenge": "A zipper mechanic reads as modern/foreign tech and clashes with the handcrafted cardboard aesthetic; tape/staples also raise animation/gameplay concerns.",
+      "process": "He brainstorms alternatives (tape peel/cut, staples, box opener), discovers the real-world pull-tab concept, and prototypes it as a segmented animated actor, adjusting length, segment count, and pull height for both performance and readability.",
+      "outcome": "A promising pull-tab animation works end-to-end but still needs polish (early frames and speed consistency) and may require fixes for unexpected curling/triangle behavior.",
+      "key_quote": "A zipper feels so unfitting… Don’t want to make a romhack exhibiting random technology.",
+      "related_to": [
+        "kaze"
+      ]
+    },
+    {
+      "title": "Performance crisis traced to infinite draw distance",
+      "summary": "Kaze worries the stage runs poorly and talks about ‘budget cuts,’ then realizes the root cause is a leftover global setting: everything’s draw distance is infinite from a prior hack. After disabling that, performance improves dramatically and materials are simplified to reduce overhead further.",
+      "challenge": "Severe frame rate issues threatened the level’s feasibility and forced consideration of cutting visual detail.",
+      "process": "He inspects rendering settings, toggles draw distance behavior, and also consolidates materials (mountains use one material instead of a decal/material split).",
+      "outcome": "The stage becomes “a lot more acceptable” performance-wise, changing the trajectory from cutting content to continuing iteration on visuals and gameplay.",
+      "key_quote": "The reason it ran poorly is because… I still had the drawing distance for everything set at infinite.",
+      "related_to": [
+        "kaze"
+      ]
+    },
+    {
+      "title": "The Bowser hold bug that only breaks on one emulator",
+      "summary": "While testing an interaction involving holding Bowser, Kaze hits a baffling state bug where Mario’s actionArg is overwritten to 0, preventing expected behavior. The issue behaves differently across emulators (Nemu vs Project64), pushing him into debugger-driven investigation.",
+      "challenge": "Core player state changes unpredictably only in a specific context (holding Bowser) and with emulator-dependent behavior, making reproduction and confidence difficult.",
+      "process": "He uses breakpoints/debugger inspection, tracks reads/writes to actionArg, and discovers logic that resets intro cutscenes even when none exist; he also recognizes the underlying ‘vanilla’ pattern of mixing up actionArg and actionState.",
+      "outcome": "He isolates likely causes (unconditional first-frame logic; misuse of actionArg vs actionState) and identifies a direction for a proper fix, though the bug isn’t fully resolved within the stream.",
+      "key_quote": "They really just use actionArg and actionState interchangeably.",
+      "related_to": [
+        "kaze"
+      ]
+    },
+    {
+      "title": "Bonus star system inspired by Galaxy’s comets",
+      "summary": "Kaze outlines a meta system planned for the full game: periodic Yoshi-given bonus missions, analogous to Galaxy comets, awarding extra stars for special constraints (e.g., red coins with ≤2 A presses).",
+      "challenge": "Adding substantial optional content without bloating core levels or compromising pacing.",
+      "process": "He frames them as ‘tacked on’ bonus stars delivered by Yoshi mission-givers and sets a target quantity (~45).",
+      "outcome": "System is planned for the full release, but he confirms it will not be present in the next demo build.",
+      "key_quote": "I’m planning 45 of those in total… tacked on as bonus stars.",
+      "related_to": [
+        "kaze"
+      ]
+    }
+  ],
+  "open_questions": [
+    {
+      "topic": "Course 14 box-opening set-piece final design",
+      "context": "Kaze is mid-pivot from a zipper concept to a pull-tab strip opener, balancing thematic consistency, animation feel, and N64 render budget.",
+      "questions": [
+        "What final interaction did you choose for opening the ‘box to hell’—pull-tab, tape, staples, flap—and why?",
+        "How did you prototype/test whether players would understand the interaction without explicit tutorial text?",
+        "What were the performance/triangle/segmentation limits that shaped the final animation?"
+      ],
+      "related_to": [
+        "kaze",
+        "biobak"
+      ]
+    },
+    {
+      "topic": "Toolchain and deformation bugs in the pull-strip animation",
+      "context": "Kaze sees unexpected curling/triangle behavior that he didn’t program, suggesting export/rigging/vertex animation pitfalls.",
+      "questions": [
+        "What caused the strip geometry to curl—Blender export, vertex ordering, skinning, or the game’s rendering pipeline?",
+        "What debugging workflow do you use when something looks wrong but the code seems correct?",
+        "Did you implement custom vertex animation support for this, or rely on pre-baked keyframes?"
+      ],
+      "related_to": [
+        "kaze"
+      ]
+    },
+    {
+      "topic": "Emulator discrepancies (Nemu vs Project64)",
+      "context": "Holding Bowser and some intro-scene reset logic behaves differently across emulators, complicating debugging and correctness.",
+      "questions": [
+        "How often do emulator differences change your development approach or testing matrix?",
+        "Do you consider hardware-accurate emulators (or real N64) as the final authority, and how do you validate behavior?",
+        "What’s your policy for fixing ‘Project64-only’ bugs versus ignoring them?"
+      ],
+      "related_to": [
+        "kaze"
+      ]
+    },
+    {
+      "topic": "actionArg/actionState misuse and engine refactors",
+      "context": "Kaze discovers vanilla-style logic that treats actionArg and actionState interchangeably, producing fragile interactions.",
+      "questions": [
+        "How much of your work is ‘rewriting Mario 64’ versus patching around legacy assumptions like actionArg usage?",
+        "Do you maintain internal documentation for Mario state variables to prevent future regressions?",
+        "What’s the scariest part of refactoring core state logic in a decades-old engine?"
+      ],
+      "related_to": [
+        "kaze"
+      ]
+    },
+    {
+      "topic": "Intro cutscene reset bug and level-start pipeline",
+      "context": "A crash/softlock is linked to resetting an intro scene even when no intro exists, and the logic spans multiple frames unexpectedly.",
+      "questions": [
+        "What is the intended architecture for level-start initialization in Return to Yoshi’s Island?",
+        "How do you decide which vanilla behaviors to keep, modify, or delete when they cause edge-case corruption?",
+        "Was this bug introduced by custom level scripting, or was it always latent in the base code?"
+      ],
+      "related_to": [
+        "kaze"
+      ]
+    },
+    {
+      "topic": "Performance methodology after discovering infinite draw distance",
+      "context": "Kaze’s frame rate issues were largely self-inflicted; after fixing draw distance, he also reduces materials for performance.",
+      "questions": [
+        "What are your standing performance budgets (triangles, materials, draw distance) for RTYI levels?",
+        "Do you have profiling tools or heuristics you rely on while building scenes?",
+        "How do performance constraints influence the game’s ‘crafted’ visual style decisions?"
+      ],
+      "related_to": [
+        "kaze"
+      ]
+    },
+    {
+      "topic": "Scope and content of the next demo",
+      "context": "Kaze lists remaining tasks (Bowser, flap, Peach-to-the-rescue) and confirms Yoshi mission-givers won’t be in the upcoming demo.",
+      "questions": [
+        "What is the exact target content for the next demo, and what’s being intentionally held back?",
+        "Why exclude Yoshi mission stars from the demo—stability, pacing, spoilers, or incomplete system UX?",
+        "Which ‘must ship’ features define a demo-ready build for you?"
+      ],
+      "related_to": [
+        "kaze"
+      ]
+    },
+    {
+      "topic": "Yoshi bonus mission stars (45 planned)",
+      "context": "Kaze describes a Galaxy-comet-like system where Yoshis give constraint-based missions for bonus stars.",
+      "questions": [
+        "How do you prevent 45 bonus missions from feeling repetitive—do they remix mechanics, routes, or physics?",
+        "How do you communicate constraints (like A-press limits) to players diegetically in-world?",
+        "At what point in development did you commit to 45, and what made that number feel right?"
+      ],
+      "related_to": [
+        "kaze"
+      ]
+    },
+    {
+      "topic": "Team ideation loop with Biobak on level theming",
+      "context": "Biobak’s zipper idea triggers a design reconsideration; Kaze iterates toward a more fitting solution.",
+      "questions": [
+        "How do you and Biobak iterate on ideas—quick mockups, screenshots, written feedback, or live playtests?",
+        "What makes you decide ‘this idea is cool but thematically wrong’ versus keeping it for novelty?",
+        "Are there other Biobak-originated concepts that substantially changed a level’s direction?"
+      ],
+      "related_to": [
+        "kaze",
+        "biobak"
+      ]
+    },
+    {
+      "topic": "Content strategy alongside development (Twitter vs Shorts)",
+      "context": "Kaze reports strong Twitter monetization/metrics while calling Shorts a bad ROI experiment and discusses video title strategy for a ‘rewriting Mario 64’ video.",
+      "questions": [
+        "How does the need to fund/market the project affect what you choose to build on-stream?",
+        "What’s your current strategy for devlogs vs technical explainers vs showcases, and how do you measure success?",
+        "Did social platform performance ever change development priorities (what to polish first, what to demo)?"
+      ],
+      "related_to": [
+        "kaze"
+      ]
+    }
+  ]
+}
