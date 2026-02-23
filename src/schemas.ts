@@ -1,13 +1,30 @@
 import { z } from "zod";
 
 const QUOTE_INSTRUCTIONS =
-  "Minor grammatical errors should be corrected and surrounding quotation marks must be ommitted.";
+  "Minor grammatical errors should be corrected and surrounding quotation marks must be omitted.";
 
 const TeamMemberSchema = z
   .enum(["kaze", "biobak", "badub", "zeina"])
   .describe("Name of the team member");
 
+const FindingTopicSchema = z
+  .enum([
+    "design-decision",
+    "technical-breakthrough",
+    "creative-process",
+    "milestone",
+    "philosophy",
+    "influence",
+    "personal",
+    "team-dynamics",
+    "legal-nintendo",
+    "community",
+    "business",
+  ])
+  .describe("Primary topic category for filtering");
+
 const FindingSchema = z.object({
+  topic: FindingTopicSchema,
   summary: z
     .string()
     .describe("A concise, factual statement of what was discussed or revealed"),
@@ -17,6 +34,29 @@ const FindingSchema = z.object({
     .describe(
       `An optional, supporting quote if particularly insightful. ${QUOTE_INSTRUCTIONS}`,
     ),
+});
+
+const MemorableQuoteSchema = z.object({
+  speaker: z
+    .string()
+    .describe(
+      'Who said this (usually "Kaze", but could be Zeina or a chat participant)',
+    ),
+  quote: z
+    .string()
+    .describe(
+      `The quote itself, verbatim or lightly cleaned up. ${QUOTE_INSTRUCTIONS}`,
+    ),
+  context: z
+    .string()
+    .describe("Brief context for why this quote matters or what prompted it"),
+});
+
+const OtherContributorSchema = z.object({
+  name: z.string().describe("Name or username of the contributor"),
+  findings: z
+    .array(FindingSchema)
+    .describe("Notable contributions or insights from this person"),
 });
 
 const StorySchema = z.object({
@@ -72,6 +112,13 @@ export const StreamAnalysisSchema = z.object({
       .describe(
         'Specific game level(s) or area(s) being worked on (e.g. "Course 1", "Overworld")',
       ),
+    significance: z
+      .enum(["routine", "notable", "milestone", "pivotal"])
+      .describe("How significant this stream is for the documentary narrative"),
+    significance_reason: z
+      .string()
+      .nullable()
+      .describe("Why this stream is notable, if not routine"),
   }),
 
   development_findings: z
@@ -97,8 +144,20 @@ export const StreamAnalysisSchema = z.object({
       zeina: z
         .array(FindingSchema)
         .describe("Contributions and insights from Zeina"),
+      others: z
+        .array(OtherContributorSchema)
+        .describe(
+          "Notable contributions from other community members (e.g. Lilaa, Sauraen, ZeroVolt)",
+        ),
     })
     .describe("Findings about the core contributors or team dynamics"),
+
+  memorable_quotes: z
+    .array(MemorableQuoteSchema)
+    .max(3)
+    .describe(
+      "The most character-defining, emotional, or insightful standalone quotes from this stream – quotes that could serve as documentary narration or chapter titles",
+    ),
 
   key_stories: z
     .array(StorySchema)
