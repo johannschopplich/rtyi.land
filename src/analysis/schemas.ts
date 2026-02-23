@@ -21,8 +21,15 @@ export const FindingTopicSchema = z
   ])
   .describe("Primary topic category for filtering");
 
+export const FindingImportanceSchema = z
+  .enum(["high", "medium", "low"])
+  .describe(
+    "How important this finding is for the documentary narrative. High: project-defining decisions, emotional turning points, major revelations. Medium: meaningful context or insight. Low: minor or routine details included for completeness.",
+  );
+
 const FindingSchema = z.object({
   topic: FindingTopicSchema,
+  importance: FindingImportanceSchema,
   summary: z
     .string()
     .describe("A concise, factual statement of what was discussed or revealed"),
@@ -30,7 +37,7 @@ const FindingSchema = z.object({
     .string()
     .nullable()
     .describe(
-      `An optional, supporting quote if particularly insightful. ${QUOTE_INSTRUCTIONS}`,
+      `A supporting quote, if particularly insightful. ${QUOTE_INSTRUCTIONS}`,
     ),
 });
 
@@ -75,7 +82,7 @@ const StorySchema = z.object({
     .string()
     .nullable()
     .describe(
-      `The most revealing quote from this story, if one exists. ${QUOTE_INSTRUCTIONS}`,
+      `The most revealing quote from this story. ${QUOTE_INSTRUCTIONS}`,
     ),
   related_to: z
     .array(TeamMemberSchema)
@@ -86,11 +93,7 @@ const OpenQuestionSchema = z.object({
   topic: z
     .string()
     .describe("The subject that was mentioned but not fully explained"),
-  context: z
-    .string()
-    .describe(
-      "A brief summary of the information that was provided in the stream",
-    ),
+  context: z.string().describe("A brief summary of the information provided"),
   questions: z
     .array(z.string())
     .min(1)
@@ -125,9 +128,7 @@ export const StreamAnalysisSchema = z.object({
   findings: z
     .array(FindingSchema)
     .max(15)
-    .describe(
-      "Key findings from this stream: development progress, design decisions, technical insights, creative process, personal context, philosophy, emotions, community dynamics, legal concerns, and business considerations",
-    ),
+    .describe("Key findings from the stream, tagged by topic and importance"),
 
   contributor_findings: z
     .object({
@@ -142,9 +143,9 @@ export const StreamAnalysisSchema = z.object({
         .describe("Contributions and insights from Zeina"),
       others: z
         .array(OtherContributorSchema)
-        .max(5)
+        .max(2)
         .describe(
-          "Notable contributions from other community members (e.g. Lilaa, Sauraen, ZeroVolt)",
+          "Only community members who directly influenced a design decision, contributed a concrete asset, or revealed information not available from the core team (e.g. Sauraen, ZeroVolt, Diablox)",
         ),
     })
     .describe("Findings about the core contributors or team dynamics"),
@@ -153,7 +154,7 @@ export const StreamAnalysisSchema = z.object({
     .array(MemorableQuoteSchema)
     .max(3)
     .describe(
-      "The most character-defining, emotional, or insightful standalone quotes from this stream – quotes that could serve as documentary narration or chapter titles",
+      "The most character-defining, emotional, or insightful standalone quotes – ones that could serve as documentary narration or chapter titles",
     ),
 
   key_stories: z
@@ -163,14 +164,15 @@ export const StreamAnalysisSchema = z.object({
 
   open_questions: z
     .array(OpenQuestionSchema)
-    .max(10)
+    .max(5)
     .describe(
-      "Unresolved topics or knowledge gaps that translate directly into interview questions",
+      "Newly introduced, surprising, or decision-driven topics that warrant interview follow-up. Skip generic questions. Depth over breadth.",
     ),
 });
 
 export type TeamMember = z.output<typeof TeamMemberSchema>;
 export type FindingTopic = z.output<typeof FindingTopicSchema>;
+export type FindingImportance = z.output<typeof FindingImportanceSchema>;
 export type Finding = z.output<typeof FindingSchema>;
 export type MemorableQuote = z.output<typeof MemorableQuoteSchema>;
 export type Story = z.output<typeof StorySchema>;

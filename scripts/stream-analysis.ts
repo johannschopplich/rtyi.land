@@ -1,32 +1,20 @@
-import type { TranscriptResult } from "../src/context/transcripts";
+import type { TranscriptResult } from "../src/analysis/runner";
 import * as fsp from "node:fs/promises";
 import { join } from "node:path";
 import process from "node:process";
 import * as clack from "@clack/prompts";
 import * as ansis from "ansis";
 import PQueue from "p-queue";
-import {
-  MODEL_LABELS,
-  TRANSCRIPTS_INPUT_DIR,
-  TRANSCRIPTS_OUTPUT_DIR,
-} from "../src/constants";
-import { createTranscriptProcessor } from "../src/context/transcripts";
+import { analyzeTranscript } from "../src/analysis/runner";
+import { STREAM_ANALYSIS_DIR, TRANSCRIPTS_INPUT_DIR } from "../src/constants";
 import { ensureDirectoryExists } from "../src/utils";
 
 clack.intro("Transcript Extractor");
 
-await ensureDirectoryExists(TRANSCRIPTS_OUTPUT_DIR);
+await ensureDirectoryExists(STREAM_ANALYSIS_DIR);
 
-const { modelName, concurrency } = await clack.group(
+const { concurrency } = await clack.group(
   {
-    modelName: () =>
-      clack.select({
-        message: "Select AI model:",
-        options: Object.entries(MODEL_LABELS).map(([value, label]) => ({
-          value,
-          label,
-        })),
-      }),
     concurrency: () =>
       clack.text({
         message: "Enter maximum concurrent processes (recommended: 3-5):",
@@ -67,7 +55,6 @@ clack.log.info(`Found ${ansis.bold(files.length)} transcript files to process`);
 
 // Create a queue with concurrency limit
 const queue = new PQueue({ concurrency: concurrencyLimit });
-const processFile = createTranscriptProcessor(modelName);
 
 const bar = clack.progress({ max: files.length });
 bar.start("Processing transcripts");
@@ -106,7 +93,7 @@ queue.on("completed", (result: TranscriptResult) => {
 });
 
 for (const file of files) {
-  queue.add(() => processFile(file));
+  queue.add(() => analyzeTranscript(file));
 }
 
 // Wait for all tasks to complete
@@ -119,5 +106,5 @@ if (failures > 0) parts.push(`${failures} failed`);
 bar.stop(`Done \u2014 ${parts.join(", ")} (${files.length} total)`);
 
 clack.outro(
-  `Check the ${ansis.cyan(TRANSCRIPTS_OUTPUT_DIR)} directory for results.`,
+  `Check the ${ansis.cyan(STREAM_ANALYSIS_DIR)} directory for results.`,
 );

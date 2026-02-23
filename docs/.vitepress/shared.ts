@@ -1,4 +1,4 @@
-import type { FindingTopic } from "../../src/schemas";
+import type { FindingTopic } from "../../src/analysis/schemas";
 
 const TOPIC_LABELS: Record<FindingTopic, string> = {
   design: "Design",

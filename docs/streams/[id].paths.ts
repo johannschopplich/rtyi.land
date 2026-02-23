@@ -3,7 +3,7 @@ import type {
   FindingTopic,
   Significance,
   StreamAnalysis,
-} from "../../src/schemas";
+} from "../../src/analysis/schemas";
 import {
   capitalizeInitialLetter,
   formatTopicLabel,

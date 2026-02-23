@@ -1,12 +1,9 @@
-import type { StreamAnalysis } from "../../src/schemas";
+import type { StreamAnalysis } from "../../src/analysis/schemas";
 import * as fsp from "node:fs/promises";
 import * as path from "node:path";
 import { glob } from "tinyglobby";
 import { tryParseJSON } from "utilful";
-import {
-  STREAM_ANALYSIS_DIR,
-  TRANSCRIPTS_OUTPUT_DIR,
-} from "../../src/constants";
+import { STREAM_ANALYSIS_DIR } from "../../src/constants";
 import { formatDateFromYYYYMMDD } from "./shared";
 
 export interface FileHandlerOptions {
@@ -50,12 +47,9 @@ export async function globAndProcessFiles<T>(
  */
 export async function loadStreamAnalyses(): Promise<ParsedStream[]> {
   return globAndProcessFiles(
-    "**/*.json",
-    TRANSCRIPTS_OUTPUT_DIR,
-    ({ filePath, fileName, fileContent }) => {
-      const modelDir = path.basename(path.dirname(filePath));
-      if (modelDir !== STREAM_ANALYSIS_DIR) return;
-
+    "*.json",
+    STREAM_ANALYSIS_DIR,
+    ({ fileName, fileContent }) => {
       const analysis = tryParseJSON<StreamAnalysis>(fileContent);
       if (!analysis) return;
 
@@ -65,7 +59,7 @@ export async function loadStreamAnalyses(): Promise<ParsedStream[]> {
         analysis,
         rawDate,
         date: formatDateFromYYYYMMDD(rawDate),
-        streamId: `${STREAM_ANALYSIS_DIR}-${rawDate}`,
+        streamId: rawDate,
       };
     },
   );

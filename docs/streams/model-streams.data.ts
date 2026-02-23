@@ -1,4 +1,4 @@
-import type { FindingTopic, Significance } from "../../src/schemas";
+import type { FindingTopic, Significance } from "../../src/analysis/schemas";
 import { defineLoader } from "vitepress";
 import { loadStreamAnalyses } from "../.vitepress/utils";
 

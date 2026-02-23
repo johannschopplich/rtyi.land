@@ -58,7 +58,7 @@ pnpm docs:preview
 Create a `.env` file in the repository root with the API keys you use for transcript analysis.
 
 ```bash
-# Analyze transcripts and write structured output into .data/streams_v2/
+# Analyze transcripts and write structured output into .data/streams/
 pnpm stream-analysis
 ```
 
@@ -90,16 +90,20 @@ rtyi-doc/
 ├── scripts/
 │   └── stream-analysis.ts        # Batch transcript analysis CLI
 ├── src/
+│   ├── analysis/
+│   │   ├── prompt.ts             # Prompt template for per-stream extraction
+│   │   └── runner.ts             # Transcript processing and output writing
+│   ├── aggregation/
+│   │   ├── prompts.ts            # Prompt templates for aggregation tasks
+│   │   ├── schemas.ts            # Zod schemas for aggregation output
+│   │   └── runner.ts             # Aggregation task execution
+│   ├── schemas.ts                # Shared Zod schemas and type definitions
+│   ├── stt-corrections.ts        # Speech-to-text cleanup rules
 │   ├── constants.ts              # Paths and model labels/defaults
-│   ├── prompts.ts                # Prompt templates for extraction
-│   ├── schemas.ts                # Zod schemas for structured output
-│   ├── utils.ts                  # Provider and model helpers
-│   └── context/
-│       ├── transcripts.ts        # Transcript processing and output writing
-│       └── stt-corrections.ts    # Speech-to-text cleanup rules
+│   └── utils.ts                  # Provider and model helpers
 ├── transcripts/                  # Raw stream transcript files (.txt)
 ├── .data/                        # Generated analysis artifacts
-│   └── streams_v2/               # Structured transcript output by model
+│   └── streams/                  # Structured transcript output by model
 ├── package.json
 ├── pnpm-workspace.yaml
 ├── wrangler.toml
@@ -108,7 +112,7 @@ rtyi-doc/
 
 ## Transcript Analysis Output
 
-Running `pnpm stream-analysis` generates structured JSON artifacts in `.data/streams_v2/`.
+Running `pnpm stream-analysis` generates structured JSON artifacts in `.data/streams/`.
 
 Typical output includes:
 

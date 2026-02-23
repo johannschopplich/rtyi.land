@@ -1,30 +1,27 @@
 import type { OpenAILanguageModelChatOptions } from "@ai-sdk/openai";
 import * as fsp from "node:fs/promises";
 import { basename, extname, join } from "node:path";
-import slugify from "@sindresorhus/slugify";
 import { generateText, Output } from "ai";
 import { template } from "utilful";
-import { TRANSCRIPTS_OUTPUT_DIR } from "../constants";
-import { STREAM_ANALYSIS_PROMPT } from "../prompts";
-import { StreamAnalysisSchema } from "../schemas";
-import { ensureDirectoryExists, resolveProviderLanguageModel } from "../utils";
-import { STT_CORRECTIONS } from "./stt-corrections";
+import { STREAM_ANALYSIS_DIR } from "../constants";
+import { STT_CORRECTIONS } from "../stt-corrections";
+import { ensureDirectoryExists, resolveLanguageModel } from "../utils";
+import { STREAM_ANALYSIS_PROMPT } from "./prompt";
+import { StreamAnalysisSchema } from "./schemas";
 
 export type TranscriptResult =
   | { status: "processed"; fileName: string }
   | { status: "skipped"; fileName: string }
   | { status: "error"; fileName: string; error: unknown };
 
-export async function processTranscript(
+export async function analyzeTranscript(
   filePath: string,
-  model: string,
 ): Promise<TranscriptResult> {
   const fileName = basename(filePath);
   const fileNameWithoutExt = basename(filePath, extname(filePath));
-  const modelDir = join(TRANSCRIPTS_OUTPUT_DIR, slugify(model));
-  const outputPath = join(modelDir, `${fileNameWithoutExt}.json`);
+  const outputPath = join(STREAM_ANALYSIS_DIR, `${fileNameWithoutExt}.json`);
 
-  await ensureDirectoryExists(modelDir);
+  await ensureDirectoryExists(STREAM_ANALYSIS_DIR);
 
   if (await fileExists(outputPath)) {
     return { status: "skipped", fileName };
@@ -33,7 +30,7 @@ export async function processTranscript(
   try {
     const rawTranscript = await fsp.readFile(filePath, "utf-8");
     const transcriptContent = applyTranscriptCorrections(rawTranscript);
-    const languageModel = resolveProviderLanguageModel(model);
+    const languageModel = resolveLanguageModel();
 
     const { output } = await generateText({
       model: languageModel,
@@ -58,10 +55,6 @@ export async function processTranscript(
   } catch (error) {
     return { status: "error", fileName, error };
   }
-}
-
-export function createTranscriptProcessor(model: string) {
-  return (filePath: string) => processTranscript(filePath, model);
 }
 
 function applyTranscriptCorrections(text: string) {

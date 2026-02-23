@@ -1,4 +1,4 @@
-import type { FindingTopic, TeamMember } from "../../src/schemas";
+import type { FindingTopic, TeamMember } from "../../src/analysis/schemas";
 import { defineLoader } from "vitepress";
 import { capitalizeInitialLetter } from "../.vitepress/shared";
 import { loadStreamAnalyses } from "../.vitepress/utils";

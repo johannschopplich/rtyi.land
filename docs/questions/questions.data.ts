@@ -1,4 +1,4 @@
-import type { TeamMember } from "../../src/schemas";
+import type { TeamMember } from "../../src/analysis/schemas";
 import { defineLoader } from "vitepress";
 import { loadStreamAnalyses } from "../.vitepress/utils";
 

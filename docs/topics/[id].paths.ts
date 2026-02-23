@@ -1,4 +1,4 @@
-import type { FindingTopic } from "../../src/schemas";
+import type { FindingTopic } from "../../src/analysis/schemas";
 import { formatTopicLabel, TOPIC_KEYS } from "../.vitepress/shared";
 import { loadStreamAnalyses } from "../.vitepress/utils";
 

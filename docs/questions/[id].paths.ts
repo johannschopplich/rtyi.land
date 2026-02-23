@@ -1,4 +1,4 @@
-import type { TeamMember } from "../../src/schemas";
+import type { TeamMember } from "../../src/analysis/schemas";
 import { capitalizeInitialLetter } from "../.vitepress/shared";
 import { loadStreamAnalyses } from "../.vitepress/utils";
 
