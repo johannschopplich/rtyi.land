@@ -3,7 +3,7 @@ import * as fsp from "node:fs/promises";
 import { basename, extname, join } from "node:path";
 import * as clack from "@clack/prompts";
 import slugify from "@sindresorhus/slugify";
-import { generateObject } from "ai";
+import { generateText, Output } from "ai";
 import { template } from "utilful";
 import { TRANSCRIPTS_OUTPUT_DIR } from "../constants";
 import { STREAM_ANALYSIS_PROMPT_v2 } from "../prompts";
@@ -20,7 +20,7 @@ export async function processTranscript(filePath: string, model: string) {
   await ensureDirectoryExists(modelDir);
 
   if (await isFileProcessed(outputPath)) {
-    clack.note(`${fileName} is already processed. Skipping…`);
+    clack.log.info(`${fileName} is already processed. Skipping…`);
     return;
   }
 
@@ -28,11 +28,9 @@ export async function processTranscript(filePath: string, model: string) {
     const transcriptContent = await fsp.readFile(filePath, "utf-8");
     const languageModel = resolveProviderLanguageModel(model);
 
-    const { object } = await generateObject({
+    const { output } = await generateText({
       model: languageModel,
-      temperature: 0.5,
-      schema: StreamAnalysisSchema,
-      output: "object",
+      output: Output.object({ schema: StreamAnalysisSchema }),
       prompt: template(STREAM_ANALYSIS_PROMPT_v2, {
         transcript: transcriptContent,
       }),
@@ -40,14 +38,14 @@ export async function processTranscript(filePath: string, model: string) {
 
     await fsp.writeFile(
       outputPath,
-      JSON.stringify(object, undefined, 2),
+      JSON.stringify(output, undefined, 2),
       "utf-8",
     );
-    clack.note(`Processed ${fileName}`);
+    clack.log.success(`Processed ${fileName}`);
 
-    return object;
+    return output;
   } catch (error) {
-    clack.cancel(`Error processing ${fileName}`);
+    clack.log.error(`Error processing ${fileName}`);
     console.error(error);
   }
 }

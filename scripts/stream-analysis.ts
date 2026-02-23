@@ -2,7 +2,7 @@ import * as fsp from "node:fs/promises";
 import { join } from "node:path";
 import process from "node:process";
 import * as clack from "@clack/prompts";
-import ansis from "ansis";
+import * as ansis from "ansis";
 import PQueue from "p-queue";
 import {
   MODEL_LABELS,
@@ -16,36 +16,39 @@ clack.intro("Transcript Extractor");
 
 await ensureDirectoryExists(TRANSCRIPTS_OUTPUT_DIR);
 
-const modelName = await clack.select({
-  message: "Enter AI model name:",
-  options: Object.entries(MODEL_LABELS).map(([value, label]) => ({
-    value,
-    label,
-  })),
-});
-
-if (clack.isCancel(modelName)) {
-  clack.cancel("Operation cancelled");
-  process.exit(0);
-}
-
-// Get concurrency limit from user
-const concurrency = await clack.text({
-  message: "Enter maximum concurrent processes (recommended: 3-5):",
-  defaultValue: "1",
-  placeholder: "1",
-  validate(value) {
-    const parsedValue = value ? Number.parseInt(value) : undefined;
-    if (parsedValue != null && (Number.isNaN(parsedValue) || parsedValue < 1)) {
-      return "Please enter a valid positive number";
-    }
+const { modelName, concurrency } = await clack.group(
+  {
+    modelName: () =>
+      clack.select({
+        message: "Select AI model:",
+        options: Object.entries(MODEL_LABELS).map(([value, label]) => ({
+          value,
+          label,
+        })),
+      }),
+    concurrency: () =>
+      clack.text({
+        message: "Enter maximum concurrent processes (recommended: 3-5):",
+        defaultValue: "1",
+        placeholder: "1",
+        validate(value) {
+          const parsedValue = value ? Number.parseInt(value) : undefined;
+          if (
+            parsedValue != null &&
+            (Number.isNaN(parsedValue) || parsedValue < 1)
+          ) {
+            return "Please enter a valid positive number";
+          }
+        },
+      }),
   },
-});
-
-if (clack.isCancel(concurrency)) {
-  clack.cancel("Operation cancelled");
-  process.exit(0);
-}
+  {
+    onCancel: () => {
+      clack.cancel("Operation cancelled");
+      process.exit(0);
+    },
+  },
+);
 
 const concurrencyLimit = Number.parseInt(concurrency);
 
@@ -59,27 +62,31 @@ if (files.length === 0) {
   process.exit(1);
 }
 
-clack.note(`Found ${ansis.bold(files.length)} transcript files to process`);
+clack.log.info(`Found ${ansis.bold(files.length)} transcript files to process`);
 
 // Create a queue with concurrency limit
 const queue = new PQueue({ concurrency: concurrencyLimit });
 const processFile = createTranscriptProcessor(modelName);
 
+const bar = clack.progress({ max: files.length });
+bar.start("Processing transcripts");
+
 for (const file of files) {
   queue.add(() => processFile(file));
 }
 
-// Add event listeners to show queue progress
+// Update progress bar as files complete
 let completed = 0;
 queue.on("completed", () => {
   completed++;
-  clack.log.info(`Progress: ${completed}/${files.length} files processed`);
+  bar.advance(completed, `Processing (${completed}/${files.length})`);
 });
 
 // Wait for all tasks to complete
 await queue.onIdle();
+bar.stop(`Processed ${files.length} transcripts`);
 
 // Success message
 clack.outro(
-  `All transcripts processed successfully! Check the ${ansis.cyan(TRANSCRIPTS_OUTPUT_DIR)} directory for results.`,
+  `Check the ${ansis.cyan(TRANSCRIPTS_OUTPUT_DIR)} directory for results.`,
 );
