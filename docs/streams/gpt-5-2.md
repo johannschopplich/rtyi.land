@@ -4,10 +4,7 @@ description: Comprehensive analysis of all streams processed by GPT-5.2.
 ---
 
 <script setup>
-import { data as modelStreams } from "./model-streams.data.ts";
-import { STREAM_ANALYSIS_DIR } from "../../src/constants";
-
-const streams = modelStreams[STREAM_ANALYSIS_DIR] ?? [];
+import { data as streams } from "./model-streams.data.ts";
 </script>
 
 # GPT-5.2 – Stream Analysis

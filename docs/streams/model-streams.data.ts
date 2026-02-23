@@ -73,19 +73,8 @@ export default defineLoader({
       },
     );
 
-    const streamsByModel: Record<string, ModelStreamData[]> = {};
+    streamData.sort((a, b) => b.rawDate.localeCompare(a.rawDate));
 
-    for (const stream of streamData) {
-      streamsByModel[stream.model] ??= [];
-      streamsByModel[stream.model].push(stream);
-    }
-
-    for (const modelName of Object.keys(streamsByModel)) {
-      streamsByModel[modelName].sort((a, b) =>
-        b.rawDate.localeCompare(a.rawDate),
-      );
-    }
-
-    return streamsByModel;
+    return streamData;
   },
 });

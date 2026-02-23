@@ -4,11 +4,8 @@ description: All analyzed development streams at a glance.
 ---
 
 <script setup>
-import { data as modelStreams } from "./model-streams.data";
-import { STREAM_ANALYSIS_DIR } from "../../src/constants";
+import { data as allStreams } from "./model-streams.data";
 import { formatTopicLabel } from "../.vitepress/shared";
-
-const allStreams = modelStreams[STREAM_ANALYSIS_DIR] ?? [];
 
 // Sort newest first (already sorted from data loader)
 const recentStreams = allStreams.slice(0, 10);
@@ -100,7 +97,7 @@ Most of [Kaze's development streams](https://www.youtube.com/@KazeClips/streams)
       <td style="white-space: nowrap;">
         <a :href="`/streams/${stream.id}`">{{ stream.date }}</a>
       </td>
-      <td style="white-space: nowrap; font-size: 0.8em;">
+      <td style="white-space: nowrap;">
         {{ SIGNIFICANCE_BADGES[stream.significance] || "" }}
       </td>
       <td>{{ stream.excerpt }}</td>
@@ -127,10 +124,10 @@ Most of [Kaze's development streams](https://www.youtube.com/@KazeClips/streams)
       <td style="white-space: nowrap;">
         <a :href="`/streams/${stream.id}`">{{ stream.date }}</a>
       </td>
-      <td style="white-space: nowrap; font-size: 0.8em;">
+      <td style="white-space: nowrap;">
         {{ SIGNIFICANCE_BADGES[stream.significance] || "" }}
       </td>
-      <td style="white-space: nowrap; font-size: 0.85em;">
+      <td style="white-space: nowrap;">
         {{ stream.level.join(", ") || "—" }}
       </td>
       <td>{{ stream.excerpt }}</td>

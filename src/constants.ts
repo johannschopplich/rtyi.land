@@ -15,8 +15,7 @@ export const DEFAULT_OPENAI_REASONING_MODEL = "gpt-5.2" as const;
 export const DEFAULT_GOOGLE_MODEL = "gemini-3-flash-preview" as const;
 export const DEFAULT_GOOGLE_REASONING_MODEL = "gemini-3.1-pro-preview" as const;
 
-export const STREAM_ANALYSIS_MODEL = DEFAULT_OPENAI_REASONING_MODEL;
-export const STREAM_ANALYSIS_DIR = slugify(STREAM_ANALYSIS_MODEL);
+export const STREAM_ANALYSIS_DIR = slugify(DEFAULT_OPENAI_REASONING_MODEL);
 
 export const MODEL_LABELS: Record<string, string> = {
   [DEFAULT_OPENAI_REASONING_MODEL]: "GPT-5.2",

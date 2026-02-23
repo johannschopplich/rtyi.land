@@ -59,7 +59,7 @@ See also: [Team Profiles](/team/index.md) for a per-person view, or [Highlights]
       </td>
       <td style="text-align: center;">{{ topic.findings.length }}</td>
       <td style="text-align: center;">{{ topic.streamCount }}</td>
-      <td style="font-size: 0.85em; color: var(--vp-c-text-2);">
+      <td>
         {{ TOPIC_DESCRIPTIONS[topic.topic] || "" }}
       </td>
     </tr>

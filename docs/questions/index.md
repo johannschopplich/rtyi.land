@@ -1,6 +1,6 @@
 <script setup>
 import { data as teamMemberQuestions } from "./questions.data.ts";
-import { capitalizeInitialLetter } from "../.vitepress/shared.js";
+import { capitalizeInitialLetter } from "../.vitepress/shared.ts";
 
 const teamMembers = Object.values(teamMemberQuestions);
 const totalQuestions = teamMembers.reduce(

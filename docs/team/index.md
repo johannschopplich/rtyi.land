@@ -60,7 +60,7 @@ See also: [By Topic](/topics/index.md) for a thematic view, or [Open Questions](
       <td>
         <strong>{{ member.label }}</strong>
       </td>
-      <td style="font-size: 0.85em;">
+      <td>
         {{ ROLES[member.name] || "Team Member" }}
       </td>
       <td style="text-align: center;">{{ member.streams.length }}</td>

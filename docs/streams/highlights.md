@@ -4,10 +4,7 @@ description: Milestone and pivotal streams – the most significant moments in R
 ---
 
 <script setup>
-import { data as modelStreams } from "./model-streams.data";
-import { STREAM_ANALYSIS_DIR } from "../../src/constants";
-
-const allStreams = modelStreams[STREAM_ANALYSIS_DIR] ?? [];
+import { data as allStreams } from "./model-streams.data";
 
 const pivotalStreams = allStreams.filter((s) => s.significance === "pivotal");
 const milestoneStreams = allStreams.filter(
@@ -44,7 +41,6 @@ Project-defining decisions, major emotional moments, or creative breakthroughs.
   <thead>
     <tr>
       <th>Date</th>
-      <th>Level(s)</th>
       <th>Summary</th>
       <th>Why</th>
     </tr>
@@ -54,11 +50,8 @@ Project-defining decisions, major emotional moments, or creative breakthroughs.
       <td style="white-space: nowrap;">
         <a :href="`/streams/${stream.id}`">{{ stream.date }}</a>
       </td>
-      <td style="white-space: nowrap; font-size: 0.85em;">
-        {{ stream.level.join(", ") || "—" }}
-      </td>
       <td>{{ stream.excerpt }}</td>
-      <td style="font-size: 0.85em; color: var(--vp-c-text-2);">
+      <td style="color: var(--vp-c-text-2);">
         {{ stream.significanceReason || "—" }}
       </td>
     </tr>
@@ -75,7 +68,6 @@ Major features completed, levels finished, or significant project phases.
   <thead>
     <tr>
       <th>Date</th>
-      <th>Level(s)</th>
       <th>Summary</th>
       <th>Why</th>
     </tr>
@@ -85,11 +77,8 @@ Major features completed, levels finished, or significant project phases.
       <td style="white-space: nowrap;">
         <a :href="`/streams/${stream.id}`">{{ stream.date }}</a>
       </td>
-      <td style="white-space: nowrap; font-size: 0.85em;">
-        {{ stream.level.join(", ") || "—" }}
-      </td>
       <td>{{ stream.excerpt }}</td>
-      <td style="font-size: 0.85em; color: var(--vp-c-text-2);">
+      <td style="color: var(--vp-c-text-2);">
         {{ stream.significanceReason || "—" }}
       </td>
     </tr>
@@ -106,7 +95,6 @@ Interesting insights, good quotes, or minor revelations worth exploring.
   <thead>
     <tr>
       <th>Date</th>
-      <th>Level(s)</th>
       <th>Summary</th>
       <th>Why</th>
     </tr>
@@ -116,11 +104,8 @@ Interesting insights, good quotes, or minor revelations worth exploring.
       <td style="white-space: nowrap;">
         <a :href="`/streams/${stream.id}`">{{ stream.date }}</a>
       </td>
-      <td style="white-space: nowrap; font-size: 0.85em;">
-        {{ stream.level.join(", ") || "—" }}
-      </td>
       <td>{{ stream.excerpt }}</td>
-      <td style="font-size: 0.85em; color: var(--vp-c-text-2);">
+      <td style="color: var(--vp-c-text-2);">
         {{ stream.significanceReason || "—" }}
       </td>
     </tr>
