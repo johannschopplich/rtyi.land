@@ -52,7 +52,7 @@ You bring RTYI's characters to life through animation and art, but you're also K
 
 <style scoped>
 .custom-block.info {
-  background-color: var(--vp-sidebar-bg-color);
+  background-color: var(--vp-c-bg-alt);
 }
 
 .custom-block ul li + li {

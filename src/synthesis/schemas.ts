@@ -1,10 +1,8 @@
 import { z } from "zod";
 import { FindingTopicSchema, TeamMemberSchema } from "../analysis/schemas";
+import { QUOTE_FORMATTING_INSTRUCTIONS } from "../constants";
 
-const QUOTE_INSTRUCTIONS =
-  "Minor grammatical errors should be corrected and surrounding quotation marks must be omitted.";
-
-// #region interview-questions
+// #region questions
 
 const InterviewQuestionSchema = z.object({
   question: z.string().describe("A clear, open-ended interview question"),
@@ -15,6 +13,7 @@ const InterviewQuestionSchema = z.object({
     ),
   evidence: z
     .array(z.string())
+    .min(1)
     .max(3)
     .describe(
       "Brief references to specific stream evidence (e.g. 'June 2024: Kaze mentioned…')",
@@ -53,13 +52,19 @@ export const InterviewQuestionsSchema = z.object({
     ),
 });
 
-// #endregion interview-questions
+// #endregion questions
 
-// #region curated-quotes
+// #region quotes
 
 const CuratedQuoteSchema = z.object({
-  speaker: z.string().describe("Who said this"),
-  quote: z.string().describe(`The quote itself. ${QUOTE_INSTRUCTIONS}`),
+  speaker: z
+    .string()
+    .describe(
+      'Who said this (usually "Kaze", but could be Zeina or a chat participant)',
+    ),
+  quote: z
+    .string()
+    .describe(`The quote itself. ${QUOTE_FORMATTING_INSTRUCTIONS}`),
   context: z
     .string()
     .describe("Brief context for why this quote matters or what prompted it"),
@@ -84,16 +89,20 @@ export const CuratedQuotesSchema = z.object({
     ),
 });
 
-// #endregion curated-quotes
+// #endregion quotes
 
-// #region story-highlights
+// #region stories
 
 const RankedStorySchema = z.object({
   title: z.string().describe("A short, descriptive title for the story"),
-  summary: z.string().describe("A 2–4 sentence overview of the narrative arc"),
+  summary: z
+    .string()
+    .describe("A 2–4 sentence factual overview of what happened in this arc"),
   narrative_value: z
     .string()
-    .describe("Why this story matters for the documentary"),
+    .describe(
+      "Why this story matters for the documentary – what it reveals about the creator, the process, or the project",
+    ),
   challenge: z.string().describe("The problem or tension that initiated this"),
   process: z
     .string()
@@ -103,7 +112,7 @@ const RankedStorySchema = z.object({
     .string()
     .nullable()
     .describe(
-      `The most revealing quote from this story. ${QUOTE_INSTRUCTIONS}`,
+      `The most revealing quote from this story. ${QUOTE_FORMATTING_INSTRUCTIONS}`,
     ),
   related_to: z
     .array(TeamMemberSchema)
@@ -122,11 +131,11 @@ export const StoryHighlightsSchema = z.object({
     ),
 });
 
-// #endregion story-highlights
+// #endregion stories
 
-// #region topic-arcs
+// #region topics
 
-const TopicArcSchema = z.object({
+export const TopicArcSchema = z.object({
   topic: FindingTopicSchema,
   narrative_summary: z
     .string()
@@ -142,6 +151,8 @@ const TopicArcSchema = z.object({
       z.object({
         summary: z.string().describe("The finding itself"),
         stream_date: z.string().describe("YYYYMMDD format"),
+        // Intentionally excludes "low" – only high/medium findings are worth
+        // surfacing in the curated synthesis layer.
         importance: z.enum(["high", "medium"]),
       }),
     )
@@ -163,38 +174,14 @@ export const TopicArcsSchema = z.object({
     .describe("One narrative arc per topic category"),
 });
 
-// #endregion topic-arcs
+// #endregion topics
 
-// #region project-timeline
+// #region types
 
-const TimelinePhaseSchema = z.object({
-  title: z.string().describe("A short name for this development phase"),
-  date_range: z
-    .string()
-    .describe("Human-readable range, e.g. 'April–August 2023'"),
-  summary: z
-    .string()
-    .describe(
-      "A 2–4 sentence summary of what happened during this phase of development",
-    ),
-  key_milestones: z
-    .array(
-      z.object({
-        date: z.string().describe("YYYYMMDD format"),
-        event: z.string().describe("What happened"),
-      }),
-    )
-    .describe("Specific dated milestones within this phase"),
-  mood: z.string().describe("The emotional tone of this phase"),
-});
+export type InterviewQuestions = z.output<typeof InterviewQuestionsSchema>;
+export type CuratedQuotes = z.output<typeof CuratedQuotesSchema>;
+export type StoryHighlights = z.output<typeof StoryHighlightsSchema>;
+export type TopicArcs = z.output<typeof TopicArcsSchema>;
+export type TopicArc = z.output<typeof TopicArcSchema>;
 
-export const ProjectTimelineSchema = z.object({
-  overview: z
-    .string()
-    .describe(
-      "A 200–400 word overview of the project's evolution, written as a documentary researcher's summary",
-    ),
-  phases: z.array(TimelinePhaseSchema).describe("Chronological project phases"),
-});
-
-// #endregion project-timeline
+// #endregion types

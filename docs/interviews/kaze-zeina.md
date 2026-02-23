@@ -57,7 +57,7 @@ These questions are for Kaze and Zeina together, focusing on their unique dynami
 
 <style scoped>
 .custom-block.info {
-  background-color: var(--vp-sidebar-bg-color);
+  background-color: var(--vp-c-bg-alt);
 }
 
 .custom-block ul li + li {

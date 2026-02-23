@@ -58,14 +58,23 @@ export default defineConfig({
         items: teamMemberNavigationItems(),
       },
       {
-        text: "Research",
+        text: "Documentary Prep",
+        items: [
+          { text: "Overview", link: "/synthesis" },
+          { text: "Interview Prep", link: "/synthesis/interview-prep" },
+          { text: "Story Highlights", link: "/synthesis/stories" },
+          { text: "Curated Quotes", link: "/synthesis/quotes" },
+          { text: "Topic Narratives", link: "/synthesis/topics" },
+        ],
+      },
+      {
+        text: "Stream Archive",
         items: [
           { text: "Stream Dashboard", link: "/streams" },
           { text: "Highlights", link: "/streams/highlights" },
           { text: "By Topic", link: "/topics" },
           { text: "Team Profiles", link: "/team" },
-          { text: "Quotes", link: "/quotes" },
-          { text: "Open Questions", link: "/questions" },
+          { text: "All Quotes", link: "/quotes" },
         ],
       },
     ],
@@ -85,7 +94,32 @@ export default defineConfig({
         items: teamMemberNavigationItems(),
       },
       {
-        text: "Stream Research",
+        text: "Documentary Prep",
+        items: [
+          {
+            text: "Overview",
+            link: "/synthesis",
+          },
+          {
+            text: "Interview Prep",
+            link: "/synthesis/interview-prep",
+          },
+          {
+            text: "Story Highlights",
+            link: "/synthesis/stories",
+          },
+          {
+            text: "Curated Quotes",
+            link: "/synthesis/quotes",
+          },
+          {
+            text: "Topic Narratives",
+            link: "/synthesis/topics",
+          },
+        ],
+      },
+      {
+        text: "Stream Archive",
         items: [
           {
             text: "Dashboard",
@@ -96,7 +130,7 @@ export default defineConfig({
             link: "/streams/highlights",
           },
           {
-            text: "By Topic",
+            text: "Raw Findings by Topic",
             link: "/topics",
             collapsed: true,
             items: [
@@ -123,12 +157,8 @@ export default defineConfig({
             ],
           },
           {
-            text: "Quotes",
+            text: "All Quotes",
             link: "/quotes",
-          },
-          {
-            text: "Open Questions",
-            link: "/questions",
           },
         ],
       },

@@ -35,6 +35,9 @@ This page contains various prompts and analyses used for research and interview 
   border-radius: 8px;
   padding: 20px 24px;
   background: var(--vp-c-bg-soft);
+  transition:
+    border-color 0.25s,
+    background-color 0.5s;
 }
 
 .prompt-item h3 {

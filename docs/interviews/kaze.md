@@ -112,7 +112,7 @@ Tell me about your role in creating RTYI – you're not just modding Mario 64, y
 
 <style scoped>
 .custom-block.info {
-  background-color: var(--vp-sidebar-bg-color);
+  background-color: var(--vp-c-bg-alt);
 }
 
 .custom-block ul li + li {

@@ -53,13 +53,15 @@ Most of [Kaze's development streams](https://www.youtube.com/@KazeClips/streams)
 
 ## Quick Navigation
 
-| Page                                      | Description                                                            |
-| ----------------------------------------- | ---------------------------------------------------------------------- |
-| [**Highlights**](/streams/highlights)     | Milestone & pivotal streams only – start here                          |
-| [**By Topic**](/topics/index.md)          | Findings grouped by theme (design, technical, philosophy, etc.)        |
-| [**Team Profiles**](/team/index.md)       | What each team member did, said, and experienced across streams        |
-| [**Quotes**](/quotes/index.md)            | Standout quotes – good for narration, chapter titles, or trailer lines |
-| [**Open Questions**](/questions/index.md) | Follow-up questions for each person, sorted by involvement             |
+| Page                                          | Description                                                     |
+| --------------------------------------------- | --------------------------------------------------------------- |
+| [**Documentary Prep**](/synthesis/)           | Curated synthesis – interview prep, stories, quotes, topic arcs |
+| [**Highlights**](/streams/highlights)         | Milestone & pivotal streams only – start here                   |
+| [**Topic Narratives**](/synthesis/topics)     | AI-synthesized narrative summaries per topic                    |
+| [**Raw Findings by Topic**](/topics/index.md) | Every finding from every stream, grouped by theme               |
+| [**Team Profiles**](/team/index.md)           | What each team member did, said, and experienced across streams |
+| [**Curated Quotes**](/synthesis/quotes)       | Top documentary quotes tagged by use case                       |
+| [**All Quotes**](/quotes/index.md)            | Every quote from every stream                                   |
 
 ## Top Topics
 

@@ -1,4 +1,4 @@
-// #region analysis-prompt
+// #region prompt
 export const STREAM_ANALYSIS_PROMPT = `
 You are an expert documentary researcher. Analyze the transcript from Kaze Emanuar's YouTube game development stream. Your goal is to extract concrete, actionable information about the development of "Return to Yoshi's Island," a ROM hack based on the Mario 64 decompilation. This information will be used to prepare comprehensive 1-2 hour interviews with the development team for a documentary about the game.
 
@@ -92,4 +92,4 @@ Generate a single, valid JSON object that conforms to the provided schema.
 {transcript}
 </transcript>
 `;
-// #endregion analysis-prompt
+// #endregion prompt

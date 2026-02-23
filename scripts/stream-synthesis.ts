@@ -1,38 +1,19 @@
 import type { StreamAnalysis } from "../src/analysis/schemas";
-import type { ParsedStream } from "../src/synthesis/runner";
+import type { ParsedStream, SynthesisTask } from "../src/synthesis/runner";
 import * as fsp from "node:fs/promises";
 import { basename, extname, join } from "node:path";
 import process from "node:process";
 import * as clack from "@clack/prompts";
 import * as ansis from "ansis";
-import { glob } from "tinyglobby";
 import { ROOT_DIR, STREAM_ANALYSIS_DIR, SYNTHESIS_DIR } from "../src/constants";
 import { runSynthesisTask } from "../src/synthesis/runner";
 import { ensureDirectoryExists, resolveLanguageModel } from "../src/utils";
 
 clack.intro("Stream Synthesis");
 
-const { force } = await clack.group(
-  {
-    force: () =>
-      clack.confirm({
-        message: "Overwrite existing synthesis files?",
-        initialValue: false,
-      }),
-  },
-  {
-    onCancel: () => {
-      clack.cancel("Operation cancelled");
-      process.exit(0);
-    },
-  },
-);
-
-// Load all stream analysis JSONs
-const files = await glob("*.json", {
-  cwd: STREAM_ANALYSIS_DIR,
-  absolute: true,
-});
+const files = (await fsp.readdir(STREAM_ANALYSIS_DIR))
+  .filter((file) => file.endsWith(".json"))
+  .map((file) => join(STREAM_ANALYSIS_DIR, file));
 
 if (files.length === 0) {
   clack.cancel(
@@ -43,7 +24,6 @@ if (files.length === 0) {
 
 clack.log.info(`Loading ${ansis.bold(files.length)} stream analyses`);
 
-// Parse all stream JSONs
 const streams: ParsedStream[] = [];
 
 for (const file of files.sort()) {
@@ -87,43 +67,44 @@ const dateRange = `${firstDate} to ${lastDate}`;
 await ensureDirectoryExists(SYNTHESIS_DIR);
 
 // Define synthesis tasks
-const tasks = [
+const tasks: {
+  name: string;
+  outputFile: string;
+  promptKey: SynthesisTask;
+}[] = [
   {
     name: "Interview Questions",
     outputFile: "interview-questions.json",
-    promptKey: "interview-questions" as const,
+    promptKey: "interview-questions",
   },
   {
     name: "Curated Quotes",
     outputFile: "curated-quotes.json",
-    promptKey: "curated-quotes" as const,
+    promptKey: "curated-quotes",
   },
   {
     name: "Story Highlights",
     outputFile: "story-highlights.json",
-    promptKey: "story-highlights" as const,
+    promptKey: "story-highlights",
   },
   {
     name: "Topic Arcs",
     outputFile: "topic-arcs.json",
-    promptKey: "topic-arcs" as const,
-  },
-  {
-    name: "Project Timeline",
-    outputFile: "project-timeline.json",
-    promptKey: "project-timeline" as const,
+    promptKey: "topic-arcs",
   },
 ];
 
 // Check which tasks need running
-const tasksToRun = [];
+const tasksToRun: typeof tasks = [];
 
 for (const task of tasks) {
   const outputPath = join(SYNTHESIS_DIR, task.outputFile);
   const exists = await fileExists(outputPath);
 
-  if (exists && !force) {
-    clack.log.info(`Skipping ${ansis.bold(task.name)} (already exists)`);
+  if (exists) {
+    clack.log.info(
+      `Skipping ${ansis.bold(task.name)} (already exists, delete file to re-run)`,
+    );
   } else {
     tasksToRun.push(task);
   }
@@ -131,7 +112,7 @@ for (const task of tasks) {
 
 if (tasksToRun.length === 0) {
   clack.log.info(
-    "All synthesis files already exist. Use --force to overwrite.",
+    "All synthesis files already exist. Delete a file to trigger re-generation.",
   );
   clack.outro("Nothing to do.");
   process.exit(0);
@@ -144,20 +125,22 @@ clack.log.info(
 const languageModel = resolveLanguageModel();
 
 // Run tasks sequentially to manage API load and provide clear progress
-const bar = clack.progress({ max: tasksToRun.length });
-bar.start("Running synthesis tasks");
-
 let completed = 0;
 let failures = 0;
 
 for (const task of tasksToRun) {
+  const s = clack.spinner();
+
   try {
+    s.start(task.name);
+
     const result = await runSynthesisTask({
       task: task.promptKey,
       model: languageModel,
       streams,
       existingQuestions,
       dateRange,
+      onProgress: (msg) => s.message(`${task.name}: ${msg}`),
     });
 
     const outputPath = join(SYNTHESIS_DIR, task.outputFile);
@@ -168,24 +151,22 @@ for (const task of tasksToRun) {
     );
 
     completed++;
-    bar.advance(1, `Completed: ${task.name}`);
+    s.stop(`${task.name} ${ansis.green("✓")}`);
   } catch (error) {
     failures++;
-    bar.stop(`Error: ${task.name}`);
+    s.stop(`${task.name} ${ansis.red("✗")}`);
     clack.log.error(error instanceof Error ? error.message : String(error));
-    bar.start(`Continuing (${completed + failures}/${tasksToRun.length})`);
-    bar.advance(1, `Failed: ${task.name}`);
   }
 }
 
 // Summary
 const parts: string[] = [`${completed} completed`];
 if (failures > 0) parts.push(`${failures} failed`);
-bar.stop(`Done — ${parts.join(", ")}`);
 
-clack.outro(`Results written to ${ansis.cyan(SYNTHESIS_DIR)}`);
+clack.outro(
+  `Done — ${parts.join(", ")}. Results in ${ansis.cyan(SYNTHESIS_DIR)}`,
+);
 
-// Utilities
 function formatDate(yyyymmdd: string): string {
   const year = yyyymmdd.slice(0, 4);
   const month = yyyymmdd.slice(4, 6);

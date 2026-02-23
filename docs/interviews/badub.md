@@ -54,7 +54,7 @@ Music is the soul of any game, and your rich compositions for RTYI have this abi
 
 <style scoped>
 .custom-block.info {
-  background-color: var(--vp-sidebar-bg-color);
+  background-color: var(--vp-c-bg-alt);
 }
 
 .custom-block ul li + li {

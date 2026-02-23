@@ -1,7 +1,5 @@
 import { z } from "zod";
-
-const QUOTE_INSTRUCTIONS =
-  "Minor grammatical errors should be corrected and surrounding quotation marks must be omitted.";
+import { QUOTE_FORMATTING_INSTRUCTIONS } from "../constants";
 
 export const TeamMemberSchema = z
   .enum(["kaze", "biobak", "badub", "zeina"])
@@ -37,7 +35,7 @@ const FindingSchema = z.object({
     .string()
     .nullable()
     .describe(
-      `A supporting quote, if particularly insightful. ${QUOTE_INSTRUCTIONS}`,
+      `A supporting quote, if particularly insightful. ${QUOTE_FORMATTING_INSTRUCTIONS}`,
     ),
 });
 
@@ -50,7 +48,7 @@ const MemorableQuoteSchema = z.object({
   quote: z
     .string()
     .describe(
-      `The quote itself, verbatim or lightly cleaned up. ${QUOTE_INSTRUCTIONS}`,
+      `The quote itself, verbatim or lightly cleaned up. ${QUOTE_FORMATTING_INSTRUCTIONS}`,
     ),
   context: z
     .string()
@@ -82,7 +80,7 @@ const StorySchema = z.object({
     .string()
     .nullable()
     .describe(
-      `The most revealing quote from this story. ${QUOTE_INSTRUCTIONS}`,
+      `The most revealing quote from this story. ${QUOTE_FORMATTING_INSTRUCTIONS}`,
     ),
   related_to: z
     .array(TeamMemberSchema)

@@ -66,7 +66,7 @@ You're the visual artist behind many RTYI levels – when people see those moder
 
 <style scoped>
 .custom-block.info {
-  background-color: var(--vp-sidebar-bg-color);
+  background-color: var(--vp-c-bg-alt);
 }
 
 .custom-block ul li + li {

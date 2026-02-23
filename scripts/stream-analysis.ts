@@ -96,7 +96,6 @@ for (const file of files) {
   queue.add(() => analyzeTranscript(file));
 }
 
-// Wait for all tasks to complete
 await queue.onIdle();
 
 // Build a summary line for the stop message

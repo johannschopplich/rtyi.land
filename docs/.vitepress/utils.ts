@@ -2,8 +2,7 @@ import type { StreamAnalysis } from "../../src/analysis/schemas";
 import * as fsp from "node:fs/promises";
 import * as path from "node:path";
 import { glob } from "tinyglobby";
-import { tryParseJSON } from "utilful";
-import { STREAM_ANALYSIS_DIR } from "../../src/constants";
+import { STREAM_ANALYSIS_DIR, SYNTHESIS_DIR } from "../../src/constants";
 import { formatDateFromYYYYMMDD } from "./shared";
 
 export interface FileHandlerOptions {
@@ -40,18 +39,17 @@ export async function globAndProcessFiles<T>(
   return results.filter((result) => result != null) as T[];
 }
 
-/**
- * Load and parse all stream analysis JSON files for the active model.
- * Returns pre-parsed entries so consumers don't need to repeat the
- * glob → filter → parse → date-extract boilerplate.
- */
 export async function loadStreamAnalyses(): Promise<ParsedStream[]> {
   return globAndProcessFiles(
     "*.json",
     STREAM_ANALYSIS_DIR,
     ({ fileName, fileContent }) => {
-      const analysis = tryParseJSON<StreamAnalysis>(fileContent);
-      if (!analysis) return;
+      let analysis: StreamAnalysis;
+      try {
+        analysis = JSON.parse(fileContent) as StreamAnalysis;
+      } catch {
+        return;
+      }
 
       const [rawDate] = fileName.split("-");
 
@@ -63,4 +61,16 @@ export async function loadStreamAnalyses(): Promise<ParsedStream[]> {
       };
     },
   );
+}
+
+export async function loadSynthesisFile<T>(
+  filename: string,
+): Promise<T | null> {
+  const filePath = path.join(SYNTHESIS_DIR, filename);
+  try {
+    const content = await fsp.readFile(filePath, "utf-8");
+    return JSON.parse(content) as T;
+  } catch {
+    return null;
+  }
 }

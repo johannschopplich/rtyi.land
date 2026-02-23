@@ -35,7 +35,7 @@ const ROLES = {
 
 Each profile collects everything said about or by a team member across all streams – contributor findings, key stories they were part of, and their memorable quotes. Useful for preparing individual interviews.
 
-See also: [By Topic](/topics/index.md) for a thematic view, or [Open Questions](/questions/index.md) for interview follow-ups.
+See also: [By Topic](/topics/index.md) for a thematic view, or [Interview Prep](/synthesis/interview-prep) for curated questions.
 
 ::: tip Summary
 **Total Findings:** {{ totalFindings }} ·
@@ -79,4 +79,4 @@ See also: [By Topic](/topics/index.md) for a thematic view, or [Open Questions](
 For each team member, you can also view:
 
 - **[Interview Questions](/interviews/index.md)** – hand-crafted questions for each interview
-- **[Open Questions](/questions/index.md)** – automatically generated follow-up questions from stream analysis
+- **[Interview Prep](/synthesis/interview-prep)** – curated questions synthesized from all stream analyses

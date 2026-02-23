@@ -81,6 +81,9 @@ See also: [Team Profiles](/team/index.md) for full per-person context.
   color: var(--vp-c-text-1);
   font-size: 14px;
   line-height: 24px;
+  transition:
+    border-color 0.25s,
+    background-color 0.25s;
 }
 
 .quote-count {
@@ -93,6 +96,7 @@ See also: [Team Profiles](/team/index.md) for full per-person context.
   margin-bottom: 24px;
   padding-left: 16px;
   border-left: 2px solid var(--vp-c-brand-1);
+  transition: border-color 0.5s;
 }
 
 .quote-text {
