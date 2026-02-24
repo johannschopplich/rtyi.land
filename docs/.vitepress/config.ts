@@ -6,8 +6,6 @@ import { capitalizeInitialLetter } from "./shared";
 
 const RTYI_TEAM_MEMBERS: TeamMember[] = ["kaze", "biobak", "badub", "zeina"];
 
-const interviewNavItems = teamMemberNavigationItems();
-
 export default defineConfig({
   title: name,
   description,
@@ -54,10 +52,12 @@ export default defineConfig({
 
     nav: [
       { text: "Home", link: "/" },
-      { text: "Narrative Arcs", link: "/drafts/narrative-arcs" },
       {
-        text: "Interview Questions",
-        items: teamMemberNavigationItems(),
+        text: "My Research",
+        items: [
+          { text: "Narrative Arcs", link: "/drafts/narrative-arcs" },
+          ...teamMemberNavigationItems(),
+        ],
       },
       {
         text: "Documentary Prep",
@@ -83,17 +83,14 @@ export default defineConfig({
 
     sidebar: [
       {
-        text: "Drafts",
+        text: "My Research",
         items: [
           {
             text: "Narrative Arcs",
             link: "/drafts/narrative-arcs",
           },
+          ...teamMemberNavigationItems(),
         ],
-      },
-      {
-        text: "Interview Questions",
-        items: interviewNavItems,
       },
       {
         text: "Documentary Prep",

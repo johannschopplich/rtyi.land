@@ -7,9 +7,7 @@
 
 ## About
 
-This repository is the working hub for a long-form documentary about **Return to Yoshi's Island**, the Mario 64 ROM hack led by Kaze Emanuar.
-
-It is built to support real interview and writing work: preparing question sets, tracking open questions, reviewing stream evidence, collecting quotes, and shaping narrative arcs.
+This repository is the working hub for a long-form documentary about **Return to Yoshi's Island**, the Mario 64 ROM hack led by Kaze Emanuar. It holds everything needed to prepare for filming: interview question sets, narrative planning, stream evidence, contributor profiles, and curated quotes.
 
 Planned interviews include:
 
@@ -17,13 +15,6 @@ Planned interviews include:
 - Biobak
 - Badub
 - Kaze and Zeina together
-
-## What This Repository Is For
-
-- Maintain a single source of truth for documentary research notes
-- Build interview question sets per contributor
-- Analyze development streams and extract reusable findings
-- Connect quotes, themes, and timeline context for story development
 
 ## Quick Start
 
@@ -40,26 +31,23 @@ cd rtyi-doc
 pnpm install
 ```
 
-### Local Documentation Workflow
+### Documentation Site
 
 ```bash
-# Start the VitePress research site
-pnpm docs:dev
-
-# Build the docs site
-pnpm docs:build
-
-# Preview the built site locally
-pnpm docs:preview
+pnpm docs:dev       # Start local dev server
+pnpm docs:build     # Build the site
+pnpm docs:preview   # Preview the built site
 ```
 
-### Transcript Analysis Workflow
+### Transcript Analysis
 
-Create a `.env` file in the repository root with the API keys you use for transcript analysis.
+Raw stream transcripts live in `transcripts/`. Running the analysis pipeline extracts structured findings from each one and writes them to `.data/streams/` as JSON. The synthesis step then aggregates those findings into documentary-ready content.
+
+Create a `.env` file in the repository root with your API keys, then:
 
 ```bash
-# Analyze transcripts and write structured output into .data/streams/
-pnpm stream-analysis
+pnpm stream-analysis    # Per-stream extraction → .data/streams/
+pnpm stream-synthesis   # Cross-stream aggregation → .data/synthesis/
 ```
 
 ### Quality Checks
@@ -74,57 +62,61 @@ pnpm test:types
 
 ```text
 rtyi-doc/
-├── docs/                         # VitePress documentary research workspace
+├── docs/                         # VitePress documentary research site
 │   ├── .vitepress/               # Site config, theme, data loaders
-│   ├── drafts/                   # Narrative drafts and chapter planning
-│   ├── interviews/               # Interview questions by person and topic
-│   ├── streams/                  # Stream pages, summaries, and dashboards
+│   ├── drafts/                   # Narrative arcs and chapter planning
+│   ├── interviews/               # Per-person interview question sets
+│   ├── synthesis/                # Documentary prep (generated from analysis)
+│   ├── streams/                  # Stream pages and dashboard
 │   ├── topics/                   # Findings grouped by documentary theme
-│   ├── team/                     # Contributor profiles and per-person context
+│   ├── team/                     # Contributor profiles
 │   ├── quotes/                   # Quote collections for narration and trailers
-│   ├── questions/                # Open question tracking
 │   ├── prompts/                  # Prompt and extraction documentation
-│   ├── research/                 # External documentary and background research
+│   ├── research/                 # Background research on documentary craft
 │   ├── public/                   # Static assets
 │   └── index.md
 ├── scripts/
-│   └── stream-analysis.ts        # Batch transcript analysis CLI
+│   ├── stream-analysis.ts        # Per-stream transcript extraction
+│   └── stream-synthesis.ts       # Cross-stream aggregation
 ├── src/
 │   ├── analysis/
-│   │   ├── prompt.ts             # Prompt template for per-stream extraction
-│   │   └── runner.ts             # Transcript processing and output writing
-│   ├── aggregation/
-│   │   ├── prompts.ts            # Prompt templates for aggregation tasks
-│   │   ├── schemas.ts            # Zod schemas for aggregation output
-│   │   └── runner.ts             # Aggregation task execution
-│   ├── schemas.ts                # Shared Zod schemas and type definitions
+│   │   ├── prompt.ts             # Prompt template for stream extraction
+│   │   ├── schemas.ts            # Zod schemas for analysis output
+│   │   └── runner.ts             # Transcript processing and JSON output
+│   ├── synthesis/
+│   │   ├── prompts.ts            # Prompt templates for aggregation
+│   │   ├── schemas.ts            # Zod schemas for synthesis output
+│   │   └── runner.ts             # Aggregation execution
+│   ├── schemas.ts                # Shared Zod schemas and types
 │   ├── stt-corrections.ts        # Speech-to-text cleanup rules
-│   ├── constants.ts              # Paths and model labels/defaults
+│   ├── constants.ts              # Paths and model defaults
 │   └── utils.ts                  # Provider and model helpers
 ├── transcripts/                  # Raw stream transcript files (.txt)
 ├── .data/                        # Generated analysis artifacts
-│   └── streams/                  # Structured transcript output by model
+│   ├── streams/                  # Per-stream extraction output (JSON)
+│   └── synthesis/                # Aggregated documentary prep (JSON)
 ├── package.json
 ├── pnpm-workspace.yaml
 ├── wrangler.toml
 └── README.md
 ```
 
-## Transcript Analysis Output
+## Analysis Pipeline
 
-Running `pnpm stream-analysis` generates structured JSON artifacts in `.data/streams/`.
+The pipeline has two stages. The first reads each raw transcript and extracts structured findings – development decisions, context and motivation, contributor roles, key stories, and open questions for follow-up interviews. Output goes to `.data/streams/` as one JSON file per stream.
 
-Typical output includes:
+The second stage aggregates all per-stream output into documentary-ready material in `.data/synthesis/`:
 
-- Development findings (technical decisions and implementation details)
-- Context findings (motivation, emotions, philosophy)
-- Contributor findings (roles, collaboration, ownership)
-- Key stories (self-contained narrative arcs)
-- Open questions (targets for follow-up interviews)
+- **Interview Questions** – per-person question sets with supporting stream evidence
+- **Story Highlights** – narrative arcs worth capturing on camera
+- **Curated Quotes** – quotes tagged for narration, trailers, and chapter titles
+- **Topic Narratives** – how each theme evolved across streams
 
-## Optional Deployment
+VitePress data loaders in `docs/synthesis/` read these JSON files and render them as browsable pages on the research site.
 
-The project can be deployed to Cloudflare as a static docs site. Routing and asset settings live in `wrangler.toml`.
+## Deployment
+
+The site deploys to Cloudflare as a static build. Routing and asset configuration live in `wrangler.toml`, serving the site at [rtyi.land](https://rtyi.land).
 
 ## License
 

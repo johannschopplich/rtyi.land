@@ -12,7 +12,7 @@ const arcs = topicArcsData?.arcs ?? [];
 
 # Topic Narratives
 
-Each documentary topic summarized as a narrative arc – how it evolved across 2+ years of development streams. Includes key findings and interview conversation starters.
+Each documentary topic summarized as a narrative arc – how it evolved across 3+ years of development streams. Includes key findings and interview conversation starters.
 
 For the full per-stream findings drill-down, see [Raw Findings by Topic](/topics/).
 

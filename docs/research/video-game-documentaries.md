@@ -2,12 +2,6 @@
 
 I have transcribed and analyzed my favorite video game making-of documentaries to create a summary that captures their common structure, patterns, and themes.
 
-::: tip Variations
-
-- [Analysis with o3](/research/video-game-documentaries-o3) running the same prompt on the same set of documentaries.
-
-:::
-
 ## Sources & Credits
 
 Credit is due to the original creators of the documentaries analyzed in this research. Their work has been invaluable in understanding the nuances of video game development narratives. Special thanks to:

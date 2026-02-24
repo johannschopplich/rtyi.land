@@ -10,6 +10,12 @@ This document outlines key main storylines and themes to explore during intervie
 This outline serves only as a roadmap for filming, while allowing the actual story to emerge organically from the interview and editing process. It helps ensure all the essential narrative beats are covered.
 :::
 
+## Documentary Approach
+
+The central question driving this film is: how and why do you deconstruct a beloved classic and build something entirely new yet respectful on a 30-year-old console? The answer lives in the people – Kaze, Biobak, Badub, and Zeina – their passion, their challenges, and how they perceive each other's contributions. Every interview should feel like a conversation, not a formal Q&A: start with open-ended questions to establish themes, then follow up with specifics. Anchor abstract ideas in concrete game assets – a particular level, a specific bug, a moment on stream – to create opportunities for detailed stories and visual storytelling.
+
+My own curiosity will shape the narrative. What I find fascinating is what the audience will find fascinating. At the same time, this needs to be accessible: viewers who have never heard of a ROM hack should still emotionally resonate with the story. Use B-roll to show the team's personality and make the process tangible – Kaze sketching in MS Paint, Biobak modeling in Blender, stream footage of breakthrough moments. The collaborative spirit between creator and community is itself a story worth telling.
+
 ## Project Origins & Philosophies
 
 **Main Focus:** Understanding the vision, passion and mindset required to begin a project of this scale.
