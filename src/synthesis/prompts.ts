@@ -118,7 +118,12 @@ You are given candidate quote selections from multiple analysis batches. Each ba
 
 - Remove duplicates: The same quote (or near-identical wording from different streams) should appear only once. Pick the best version.
 - Ensure variety: Cover different emotional registers, project phases, and speakers.
-- Apply the same selection criteria as the original task.
+- Selection criteria:
+  - Standalone power: Should resonate without needing 5 minutes of context.
+  - Character revelation: Shows who Kaze (or the speaker) really is – values, fears, humor, obsession.
+  - Emotional impact: Makes viewers feel something – determination, wonder, vulnerability, joy.
+  - Variety: Cover different emotional registers, project phases, and speakers where available.
+  - Deduplication: If Kaze says the same thing in 3 streams, pick the single best version.
 - Re-evaluate use cases: A quote that was labeled "character-moment" in one batch might actually work better as a "trailer" quote when you see the full picture.
 
 ### Use Case Definitions
@@ -166,7 +171,12 @@ You are given candidate story selections from multiple analysis batches. Each ba
 
 - Merge duplicate stories: Many stories span multiple streams and will appear in multiple batches. Combine them into a single, richer entry.
 - Re-rank holistically: Now that you have candidates from the full timeline, rank by overall documentary value.
-- Apply the same selection criteria as the original task.
+- Selection criteria:
+  - Narrative completeness: Stories with emotional weight and clear structure rank higher.
+  - Documentary relevance: Stories that illuminate why someone builds something this ambitious on decade-old hardware.
+  - Character depth: Stories involving multiple team members, or showing unexpected sides of a person.
+  - Cross-stream arcs: Some stories span multiple streams (e.g., a boss fight that took 5 weeks). Merge these into single, richer stories.
+  - Deduplication: Many stories recur across adjacent streams. Merge duplicates into one entry, combining the best elements.
 - Preserve cross-stream arcs: Stories that build across batches (e.g., a boss fight spanning weeks) should be merged into one entry.
 
 ### Candidate Stories
@@ -197,5 +207,26 @@ You are given all findings tagged under the "{topic}" topic across the full set 
 <findings>
 {findings}
 </findings>
+`;
+
+export const TOPIC_ARC_REDUCE_PROMPT = `
+${DOCUMENTARY_CONTEXT}
+
+## Task: Merge Narrative Arc Summaries for the "{topic}" Topic
+
+You are given multiple narrative arc summaries for the same topic, each generated from a different chunk of findings. Merge them into a single, definitive narrative arc.
+
+### Guidelines
+
+- Merge, don't concatenate: Produce one cohesive narrative summary that traces the full evolution of this topic, not a patchwork of chunk summaries.
+- Combine top findings: Deduplicate and select the strongest findings across all chunks. Keep the most important ones up to the schema limit.
+- Merge key themes: Unify overlapping themes into a single set.
+- Combine interview angles: Deduplicate and keep the most insightful conversation starters.
+
+### Candidate Summaries
+
+<candidate_arcs>
+{candidate_arcs}
+</candidate_arcs>
 `;
 // #endregion topics

@@ -7,6 +7,7 @@ import type {
   InterviewQuestions,
   StoryHighlights,
   TopicArc,
+  TopicArcs,
 } from "./schemas";
 import { generateText, Output } from "ai";
 import { template } from "utilful";
@@ -17,6 +18,7 @@ import {
   INTERVIEW_QUESTIONS_REDUCE_PROMPT,
   STORY_HIGHLIGHTS_PROMPT,
   STORY_HIGHLIGHTS_REDUCE_PROMPT,
+  TOPIC_ARC_REDUCE_PROMPT,
   TOPIC_ARC_SINGLE_PROMPT,
 } from "./prompts";
 import {
@@ -36,6 +38,7 @@ const OPENAI_PROVIDER_OPTIONS = {
 
 const CORE_CONTRIBUTORS = ["biobak", "badub", "zeina"] as const;
 const CHUNK_CHAR_BUDGET = 300_000;
+const MAX_QUOTES_PER_CHUNK = 300;
 
 // #endregion config
 
@@ -123,13 +126,19 @@ async function runInterviewQuestions(options: SynthesisOptions) {
 async function runCuratedQuotes(options: SynthesisOptions) {
   const { model, streams, onProgress } = options;
 
+  // Keep chunks at ~300 quotes max to avoid context dilution.
+  // At 150 streams (~450 quotes) → 2 chunks. At 250 → 3. At 500 → 5.
+  const totalQuotes = streams.reduce(
+    (sum, s) => sum + s.analysis.memorable_quotes.length,
+    0,
+  );
+  const minChunks = Math.max(2, Math.ceil(totalQuotes / MAX_QUOTES_PER_CHUNK));
+
   return mapReduce<CuratedQuotes>({
     streams,
     payloadSizeFn: quotePayloadSize,
     onProgress,
-    // Always chunk quotes – even when the payload fits, 400+ quotes
-    // cause too much context dilution for quality curation.
-    minChunks: 2,
+    minChunks,
     mapFn: (chunk) => {
       const quotes = extractQuotePayload(chunk);
 
@@ -187,18 +196,25 @@ async function runStoryHighlights(options: SynthesisOptions) {
 
 // #region topics
 
-async function runTopicArcs(options: SynthesisOptions) {
+interface TopicFinding {
+  stream_date: string;
+  summary: string;
+  quote: string | null;
+}
+
+const TOPIC_FINDINGS_CHUNK_THRESHOLD = 500;
+
+async function runTopicArcs(options: SynthesisOptions): Promise<TopicArcs> {
   const { model, streams, onProgress } = options;
 
   // Group all findings by topic (main + contributor findings)
-  const findingsByTopic: Record<
-    string,
-    Array<{ stream_date: string; summary: string; quote: string | null }>
-  > = {};
+  const findingsByTopic = new Map<string, TopicFinding[]>();
 
   for (const stream of streams) {
     for (const finding of stream.analysis.findings) {
-      (findingsByTopic[finding.topic] ??= []).push({
+      if (!findingsByTopic.has(finding.topic))
+        findingsByTopic.set(finding.topic, []);
+      findingsByTopic.get(finding.topic)!.push({
         stream_date: stream.rawDate,
         summary: finding.summary,
         quote: finding.quote,
@@ -207,7 +223,9 @@ async function runTopicArcs(options: SynthesisOptions) {
 
     for (const member of CORE_CONTRIBUTORS) {
       for (const finding of stream.analysis.contributor_findings[member]) {
-        (findingsByTopic[finding.topic] ??= []).push({
+        if (!findingsByTopic.has(finding.topic))
+          findingsByTopic.set(finding.topic, []);
+        findingsByTopic.get(finding.topic)!.push({
           stream_date: stream.rawDate,
           summary: `[${member}] ${finding.summary}`,
           quote: finding.quote,
@@ -216,22 +234,68 @@ async function runTopicArcs(options: SynthesisOptions) {
     }
   }
 
-  // Process each topic independently – each topic's payload is small enough
-  const topics = Object.keys(findingsByTopic).sort();
-  onProgress?.(`Processing ${topics.length} topics individually`);
+  const topics = [...findingsByTopic.keys()].sort();
+  onProgress?.(`Processing ${topics.length} topics`);
 
   const arcs: TopicArc[] = [];
   for (let i = 0; i < topics.length; i++) {
     const topic = topics[i]!;
-    onProgress?.(`  Topic ${i + 1}/${topics.length}: ${topic}`);
+    const findings = findingsByTopic.get(topic)!;
 
-    const prompt = template(TOPIC_ARC_SINGLE_PROMPT, {
-      topic,
-      findings: JSON.stringify(findingsByTopic[topic]),
-    });
+    if (findings.length <= TOPIC_FINDINGS_CHUNK_THRESHOLD) {
+      // Small enough for a single call
+      onProgress?.(
+        `  Topic ${i + 1}/${topics.length}: ${topic} (${findings.length} findings)`,
+      );
 
-    const result = await generateObject(model, TopicArcSchema, prompt);
-    if (result) arcs.push(result);
+      const prompt = template(TOPIC_ARC_SINGLE_PROMPT, {
+        topic,
+        findings: JSON.stringify(findings),
+      });
+
+      const result = await generateObject(model, TopicArcSchema, prompt);
+      if (result) arcs.push(result);
+    } else {
+      // Chunk large topics and merge via reduce
+      const chunkCount = Math.ceil(
+        findings.length / TOPIC_FINDINGS_CHUNK_THRESHOLD,
+      );
+      const chunkSize = Math.ceil(findings.length / chunkCount);
+      onProgress?.(
+        `  Topic ${i + 1}/${topics.length}: ${topic} (${findings.length} findings → ${chunkCount} chunks)`,
+      );
+
+      const chunkResults: TopicArc[] = [];
+      for (let c = 0; c < chunkCount; c++) {
+        const chunk = findings.slice(c * chunkSize, (c + 1) * chunkSize);
+        onProgress?.(`    Chunk ${c + 1}/${chunkCount}…`);
+
+        const prompt = template(TOPIC_ARC_SINGLE_PROMPT, {
+          topic,
+          findings: JSON.stringify(chunk),
+        });
+
+        const result = await generateObject(model, TopicArcSchema, prompt);
+        if (result) chunkResults.push(result);
+      }
+
+      if (chunkResults.length === 1) {
+        arcs.push(chunkResults[0]!);
+      } else if (chunkResults.length > 1) {
+        onProgress?.(`    Reducing ${chunkResults.length} chunks…`);
+        const reducePrompt = template(TOPIC_ARC_REDUCE_PROMPT, {
+          topic,
+          candidate_arcs: JSON.stringify(chunkResults),
+        });
+
+        const merged = await generateObject(
+          model,
+          TopicArcSchema,
+          reducePrompt,
+        );
+        if (merged) arcs.push(merged);
+      }
+    }
   }
 
   return { arcs };
@@ -269,7 +333,7 @@ function extractInterviewPayload(streams: ParsedStream[]) {
   return { openQuestions, findings, keyStories };
 }
 
-function interviewPayloadSize(streams: ParsedStream[]): number {
+function interviewPayloadSize(streams: ParsedStream[]) {
   const { openQuestions, findings, keyStories } =
     extractInterviewPayload(streams);
   return (
@@ -288,7 +352,7 @@ function extractQuotePayload(streams: ParsedStream[]) {
   );
 }
 
-function quotePayloadSize(streams: ParsedStream[]): number {
+function quotePayloadSize(streams: ParsedStream[]) {
   return JSON.stringify(extractQuotePayload(streams)).length;
 }
 
@@ -301,7 +365,7 @@ function extractStoryPayload(streams: ParsedStream[]) {
   );
 }
 
-function storyPayloadSize(streams: ParsedStream[]): number {
+function storyPayloadSize(streams: ParsedStream[]) {
   return JSON.stringify(extractStoryPayload(streams)).length;
 }
 
@@ -320,6 +384,7 @@ async function generateObject<T extends z.ZodType>(
     prompt,
     providerOptions: OPENAI_PROVIDER_OPTIONS,
   });
+
   return output as z.output<T> | undefined;
 }
 
@@ -369,18 +434,14 @@ interface MapReduceConfig<T> {
  * Splits streams into budget-aware chunks, runs the map function on each,
  * then merges results with the reduce function.
  */
-async function mapReduce<T>(
-  config: MapReduceConfig<T>,
-): Promise<T | undefined> {
-  const {
-    streams,
-    payloadSizeFn,
-    mapFn,
-    reduceFn,
-    onProgress,
-    minChunks = 1,
-  } = config;
-
+async function mapReduce<T>({
+  streams,
+  payloadSizeFn,
+  mapFn,
+  reduceFn,
+  onProgress,
+  minChunks = 1,
+}: MapReduceConfig<T>): Promise<T | undefined> {
   let chunks = chunkByBudget(streams, payloadSizeFn);
 
   // Force minimum chunk count if quality requires it
