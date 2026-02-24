@@ -23,23 +23,22 @@ export default defineLoader({
     const streamData: ModelStreamData[] = entries.map(
       ({ analysis, rawDate, date, streamId }) => {
         const topicCounts: Partial<Record<FindingTopic, number>> = {};
-        for (const finding of analysis.findings ?? []) {
-          topicCounts[finding.topic] = (topicCounts[finding.topic] || 0) + 1;
+        for (const finding of analysis.findings) {
+          topicCounts[finding.topic] = (topicCounts[finding.topic] ?? 0) + 1;
         }
 
         return {
           id: streamId,
           date,
           rawDate,
-          excerpt: analysis.stream_context?.summary || "",
-          significance: analysis.stream_context?.significance || "routine",
-          significanceReason:
-            analysis.stream_context?.significance_reason || null,
-          level: analysis.stream_context?.level ?? [],
+          excerpt: analysis.stream_context.summary,
+          significance: analysis.stream_context.significance,
+          significanceReason: analysis.stream_context.significance_reason,
+          level: analysis.stream_context.level,
           topicCounts,
-          quoteCount: analysis.memorable_quotes?.length ?? 0,
-          storyCount: analysis.key_stories?.length ?? 0,
-          questionCount: analysis.open_questions?.length ?? 0,
+          quoteCount: analysis.memorable_quotes.length,
+          storyCount: analysis.key_stories.length,
+          questionCount: analysis.open_questions.length,
         };
       },
     );

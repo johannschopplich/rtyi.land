@@ -20,7 +20,7 @@ const USE_CASE_LABELS = {
 };
 
 const quotes = computed(() => {
-  if (!quotesData?.quotes) return [];
+  if (!quotesData) return [];
   return quotesData.quotes.filter((q) => {
     if (selectedUseCase.value !== "all" && q.use_case !== selectedUseCase.value)
       return false;
@@ -31,19 +31,19 @@ const quotes = computed(() => {
 });
 
 const useCaseCounts = computed(() => {
-  if (!quotesData?.quotes) return {};
+  if (!quotesData) return {};
   const counts = {};
-  for (const q of quotesData.quotes) {
-    counts[q.use_case] = (counts[q.use_case] || 0) + 1;
+  for (const quote of quotesData.quotes) {
+    counts[quote.use_case] = (counts[quote.use_case] || 0) + 1;
   }
   return counts;
 });
 
 const speakers = computed(() => {
-  if (!quotesData?.quotes) return [];
+  if (!quotesData) return [];
   const counts = {};
-  for (const q of quotesData.quotes) {
-    counts[q.speaker] = (counts[q.speaker] || 0) + 1;
+  for (const quote of quotesData.quotes) {
+    counts[quote.speaker] = (counts[quote.speaker] || 0) + 1;
   }
   return Object.entries(counts)
     .sort((a, b) => b[1] - a[1])
@@ -72,30 +72,28 @@ Run `pnpm stream-synthesis` to generate curated quotes from stream data.
 **Speakers:** {{ speakers.length }}
 :::
 
-<div class="filter-row">
-  <div>
-    <label class="filter-label">Use case:</label>
-    <select v-model="selectedUseCase" class="filter-select">
+<div class="vp-filter-bar">
+  <VPInput id="use-case" label="Use case">
+    <select id="use-case" v-model="selectedUseCase">
       <option value="all">All ({{ quotesData.quotes.length }})</option>
       <option v-for="(label, key) in USE_CASE_LABELS" :key="key" :value="key">
         {{ label }} ({{ useCaseCounts[key] || 0 }})
       </option>
     </select>
-  </div>
-  <div>
-    <label class="filter-label">Speaker:</label>
-    <select v-model="selectedSpeaker" class="filter-select">
+  </VPInput>
+  <VPInput id="speaker" label="Speaker">
+    <select id="speaker" v-model="selectedSpeaker">
       <option value="all">All</option>
       <option v-for="s in speakers" :key="s.name" :value="s.name">
         {{ s.name }} ({{ s.count }})
       </option>
     </select>
-  </div>
+  </VPInput>
 </div>
 
-<p class="result-count">Showing {{ quotes.length }} quotes</p>
+<p class="vp-muted">Showing {{ quotes.length }} quotes</p>
 
-<div v-for="(quote, index) in quotes" :key="index" class="quote-card">
+<div v-for="quote in quotes" :key="quote.stream_date + quote.quote.slice(0, 30)" class="quote-card">
 
 <p class="quote-text">"{{ quote.quote }}"</p>
 
@@ -108,8 +106,8 @@ Run `pnpm stream-synthesis` to generate curated quotes from stream data.
 </p>
 
 <div class="quote-footer">
-  <span class="use-case-tag" :class="quote.use_case">{{
-    USE_CASE_LABELS[quote.use_case] || quote.use_case
+  <span class="vp-pill use-case-tag" :class="quote.use_case">{{
+    USE_CASE_LABELS[quote.use_case]
   }}</span>
   <span v-if="quote.context" class="quote-context">{{ quote.context }}</span>
 </div>
@@ -119,37 +117,6 @@ Run `pnpm stream-synthesis` to generate curated quotes from stream data.
 </template>
 
 <style scoped>
-.filter-row {
-  display: flex;
-  gap: 20px;
-  flex-wrap: wrap;
-  margin-bottom: 16px;
-}
-
-.filter-label {
-  font-size: 13px;
-  color: var(--vp-c-text-2);
-  margin-right: 6px;
-}
-
-.filter-select {
-  padding: 4px 8px;
-  border: 1px solid var(--vp-input-border-color);
-  border-radius: 4px;
-  background: var(--vp-input-bg-color);
-  color: var(--vp-c-text-1);
-  font-size: 14px;
-  transition:
-    border-color 0.25s,
-    background-color 0.25s;
-}
-
-.result-count {
-  color: var(--vp-c-text-2);
-  font-size: 14px;
-  margin-bottom: 20px;
-}
-
 .quote-card {
   margin-bottom: 24px;
   padding-left: 16px;
@@ -176,14 +143,6 @@ Run `pnpm stream-synthesis` to generate curated quotes from stream data.
   flex-wrap: wrap;
 }
 
-.use-case-tag {
-  font-size: 12px;
-  padding: 2px 8px;
-  border-radius: 4px;
-  background: var(--vp-c-bg-soft);
-  border: 1px solid var(--vp-c-divider);
-}
-
 .use-case-tag.narration {
   border-color: var(--vp-c-indigo-1);
   color: var(--vp-c-indigo-1);
@@ -206,7 +165,8 @@ Run `pnpm stream-synthesis` to generate curated quotes from stream data.
 }
 
 .quote-context {
-  color: var(--vp-c-text-3);
+  color: var(--vp-c-text-2);
   font-size: 13px;
+  line-height: 20px;
 }
 </style>

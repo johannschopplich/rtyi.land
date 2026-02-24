@@ -35,10 +35,8 @@ Quotes worth remembering – potential narration lines, chapter titles, or trail
 See also: [Team Profiles](/team/index.md) for full per-person context.
 :::
 
-**Filter by speaker:**
-
-<div class="quote-filter">
-  <select v-model="selectedSpeaker" class="quote-select">
+<VPInput id="speaker" label="Speaker">
+  <select id="speaker" v-model="selectedSpeaker">
     <option value="all">All ({{ allQuotes.length }})</option>
     <option
       v-for="speaker in speakers"
@@ -48,9 +46,9 @@ See also: [Team Profiles](/team/index.md) for full per-person context.
       {{ speaker.name }} ({{ speaker.count }})
     </option>
   </select>
-</div>
+</VPInput>
 
-<p class="quote-count">Showing {{ filteredQuotes.length }} quotes</p>
+<p class="vp-muted">Showing {{ filteredQuotes.length }} quotes</p>
 
 <div v-for="quote in filteredQuotes" :key="quote.streamId + quote.quote.slice(0, 30)" class="quote-card">
 
@@ -69,29 +67,6 @@ See also: [Team Profiles](/team/index.md) for full per-person context.
 </div>
 
 <style scoped>
-.quote-filter {
-  margin-bottom: 16px;
-}
-
-.quote-select {
-  padding: 4px 8px;
-  border: 1px solid var(--vp-input-border-color);
-  border-radius: 4px;
-  background: var(--vp-input-bg-color);
-  color: var(--vp-c-text-1);
-  font-size: 14px;
-  line-height: 24px;
-  transition:
-    border-color 0.25s,
-    background-color 0.25s;
-}
-
-.quote-count {
-  color: var(--vp-c-text-2);
-  font-size: 14px;
-  line-height: 24px;
-}
-
 .quote-card {
   margin-bottom: 24px;
   padding-left: 16px;

@@ -1,11 +1,11 @@
 ---
 title: Documentary Prep
-description: AI-synthesized briefing layer – curated interview questions, story highlights, quotes, and topic narratives.
+description: Curated interview questions, story highlights, quotes, and topic narratives.
 ---
 
 # Documentary Prep
 
-This section contains **curated, cross-stream synthesis** – the AI read all 152 stream analyses and produced focused briefings for documentary work. Think of this as the distilled intelligence layer on top of the raw per-stream data.
+This section contains **curated, cross-stream synthesis** – focused briefings distilled from all 152 stream analyses for documentary work.
 
 ::: tip How this works
 Run `pnpm stream-synthesis` to generate synthesis files from the per-stream extraction data. The results are written to `.data/synthesis/` and loaded by these pages.

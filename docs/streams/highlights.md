@@ -15,7 +15,7 @@ const notableStreams = allStreams.filter((s) => s.significance === "notable");
 
 # Stream Highlights
 
-The most significant streams for the documentary, filtered from {{ allStreams.length }} total. If you're short on time, start here – these are the streams where something important happened.
+The most significant streams for the documentary, filtered from {{ allStreams.length }} total. These are the streams where something important happened – project-defining decisions, breakthroughs, and emotional beats.
 
 [← Back to Dashboard](/streams/index.md)
 

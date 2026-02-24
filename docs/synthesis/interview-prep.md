@@ -34,17 +34,16 @@ const PRIORITY_ORDER = { essential: 0, important: 1, "nice-to-have": 2 };
 
 const currentQuestions = computed(() => {
   if (!questionsData) return [];
-  const questions = questionsData[selectedMember.value] ?? [];
+  const questions = questionsData[selectedMember.value];
   return [...questions].sort(
-    (a, b) =>
-      (PRIORITY_ORDER[a.priority] ?? 3) - (PRIORITY_ORDER[b.priority] ?? 3),
+    (a, b) => PRIORITY_ORDER[a.priority] - PRIORITY_ORDER[b.priority],
   );
 });
 
 const priorityCounts = computed(() => {
   const counts = { essential: 0, important: 0, "nice-to-have": 0 };
-  for (const q of currentQuestions.value) {
-    counts[q.priority] = (counts[q.priority] || 0) + 1;
+  for (const question of currentQuestions.value) {
+    counts[question.priority]++;
   }
   return counts;
 });
@@ -52,7 +51,7 @@ const priorityCounts = computed(() => {
 const totalQuestions = computed(() => {
   if (!questionsData) return 0;
   return Object.values(questionsData).reduce(
-    (sum, questions) => sum + (questions?.length ?? 0),
+    (sum, questions) => sum + questions.length,
     0,
   );
 });
@@ -78,18 +77,18 @@ Run `pnpm stream-synthesis` to generate interview questions from stream data.
 **Total Questions:** {{ totalQuestions }} across {{ members.length }} interview sessions
 :::
 
-**Select interviewee:**
-
-<div class="member-tabs">
-  <button
-    v-for="member in members"
-    :key="member.key"
-    :class="['member-tab', { active: selectedMember === member.key }]"
-    @click="selectedMember = member.key"
-  >
-    {{ member.label }}
-  </button>
-</div>
+<VPInput label="Interviewee">
+  <div class="vp-tab-group">
+    <button
+      v-for="member in members"
+      :key="member.key"
+      :class="['vp-tab', { active: selectedMember === member.key }]"
+      @click="selectedMember = member.key"
+    >
+      {{ member.label }}
+    </button>
+  </div>
+</VPInput>
 
 <p class="member-role">
   {{ members.find((m) => m.key === selectedMember)?.role }}
@@ -102,11 +101,11 @@ Run `pnpm stream-synthesis` to generate interview questions from stream data.
   {{ priorityCounts["nice-to-have"] }} nice to have
 </p>
 
-<div v-for="(question, index) in currentQuestions" :key="index" class="question-card">
+<div v-for="(question, index) in currentQuestions" :key="question.question" class="vp-card question-card">
 
 <p class="question-header">
   <span class="question-number">{{ index + 1 }}.</span>
-  <span class="priority-badge" :class="question.priority">{{
+  <span class="vp-pill priority-badge" :class="question.priority">{{
     PRIORITY_BADGES[question.priority]
   }}</span>
 </p>
@@ -115,7 +114,7 @@ Run `pnpm stream-synthesis` to generate interview questions from stream data.
 
 <p class="question-context">{{ question.context }}</p>
 
-<div v-if="question.evidence?.length" class="question-evidence">
+<div v-if="question.evidence.length" class="question-evidence">
   <p class="evidence-label">Stream evidence:</p>
   <ul>
     <li v-for="(ev, i) in question.evidence" :key="i">{{ ev }}</li>
@@ -127,39 +126,6 @@ Run `pnpm stream-synthesis` to generate interview questions from stream data.
 </template>
 
 <style scoped>
-.member-tabs {
-  display: flex;
-  gap: 8px;
-  flex-wrap: wrap;
-  margin-bottom: 16px;
-}
-
-.member-tab {
-  padding: 6px 14px;
-  border: 1px solid var(--vp-c-divider);
-  border-radius: 8px;
-  background: var(--vp-c-bg-soft);
-  color: var(--vp-c-text-2);
-  cursor: pointer;
-  font-size: 14px;
-  transition:
-    color 0.25s,
-    border-color 0.25s,
-    background-color 0.25s;
-}
-
-.member-tab:hover {
-  border-color: var(--vp-c-brand-1);
-  color: var(--vp-c-text-1);
-}
-
-.member-tab.active {
-  background: var(--vp-c-brand-soft);
-  border-color: var(--vp-c-brand-1);
-  color: var(--vp-c-brand-1);
-  font-weight: 600;
-}
-
 .member-role {
   color: var(--vp-c-text-2);
   font-size: 14px;
@@ -174,18 +140,6 @@ Run `pnpm stream-synthesis` to generate interview questions from stream data.
 
 .question-card {
   margin-bottom: 24px;
-  padding: 16px 16px 8px;
-  border: 1px solid var(--vp-c-divider);
-  border-radius: 8px;
-  background: var(--vp-c-bg-soft);
-}
-
-.question-card > :first-child {
-  margin-top: 0;
-}
-
-.question-card > :last-child {
-  margin-bottom: 0;
 }
 
 .question-header {
@@ -201,25 +155,22 @@ Run `pnpm stream-synthesis` to generate interview questions from stream data.
   color: var(--vp-c-text-2);
 }
 
-.priority-badge {
-  font-size: 12px;
-  padding: 2px 8px;
-  border-radius: 4px;
-}
-
 .priority-badge.essential {
-  background: var(--vp-c-danger-soft);
-  color: var(--vp-c-danger-1);
+  border-color: var(--vp-badge-danger-border);
+  color: var(--vp-badge-danger-text);
+  background-color: var(--vp-badge-danger-bg);
 }
 
 .priority-badge.important {
-  background: var(--vp-c-warning-soft);
-  color: var(--vp-c-warning-1);
+  border-color: var(--vp-badge-warning-border);
+  color: var(--vp-badge-warning-text);
+  background-color: var(--vp-badge-warning-bg);
 }
 
 .priority-badge.nice-to-have {
-  background: var(--vp-c-success-soft);
-  color: var(--vp-c-success-1);
+  border-color: var(--vp-badge-info-border);
+  color: var(--vp-badge-info-text);
+  background-color: var(--vp-badge-info-bg);
 }
 
 .question-text {
@@ -232,13 +183,14 @@ Run `pnpm stream-synthesis` to generate interview questions from stream data.
 .question-context {
   color: var(--vp-c-text-2);
   font-size: 14px;
-  line-height: 1.5;
+  line-height: 24px;
   margin-bottom: 8px;
 }
 
 .question-evidence {
   font-size: 13px;
-  color: var(--vp-c-text-3);
+  line-height: 20px;
+  color: var(--vp-c-text-2);
 }
 
 .evidence-label {

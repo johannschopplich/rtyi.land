@@ -14,7 +14,7 @@ import {
 const selectedPerson = ref("all");
 
 const stories = computed(() => {
-  if (!storiesData?.stories) return [];
+  if (!storiesData) return [];
   if (selectedPerson.value === "all") return storiesData.stories;
   return storiesData.stories.filter((s) =>
     s.related_to.includes(selectedPerson.value),
@@ -22,7 +22,7 @@ const stories = computed(() => {
 });
 
 const relatedPeople = computed(() => {
-  if (!storiesData?.stories) return [];
+  if (!storiesData) return [];
   const people = new Set();
   for (const story of storiesData.stories) {
     for (const person of story.related_to) {
@@ -53,17 +53,20 @@ Run `pnpm stream-synthesis` to generate story highlights from stream data.
 
 **Filter by person:**
 
-<div class="filter-bar">
-  <select v-model="selectedPerson" class="filter-select">
-    <option value="all">All ({{ storiesData.stories.length }})</option>
-    <option v-for="person in relatedPeople" :key="person" :value="person">
-      {{ capitalizeInitialLetter(person) }}
-    </option>
-  </select>
-  <span class="filter-count">Showing {{ stories.length }} stories</span>
+<div class="vp-filter-bar">
+  <VPInput id="person" label="Person">
+    <select id="person" v-model="selectedPerson">
+      <option value="all">All ({{ storiesData.stories.length }})</option>
+      <option v-for="person in relatedPeople" :key="person" :value="person">
+        {{ capitalizeInitialLetter(person) }}
+      </option>
+    </select>
+  </VPInput>
 </div>
 
-<div v-for="(story, index) in stories" :key="index" class="story-card">
+<p class="vp-muted">Showing {{ stories.length }} stories</p>
+
+<div v-for="(story, index) in stories" :key="story.title" class="vp-card story-card">
 
 <h3 class="story-title">{{ index + 1 }}. {{ story.title }}</h3>
 
@@ -73,7 +76,7 @@ Run `pnpm stream-synthesis` to generate story highlights from stream data.
   <strong>Why it matters:</strong> {{ story.narrative_value }}
 </p>
 
-<details class="story-details">
+<details class="vp-details story-details">
 <summary>Full arc details</summary>
 
 <p><strong>Challenge:</strong> {{ story.challenge }}</p>
@@ -87,10 +90,10 @@ Run `pnpm stream-synthesis` to generate story highlights from stream data.
 </details>
 
 <div class="story-meta">
-  <span v-if="story.related_to?.length" class="meta-people">
+  <span v-if="story.related_to.length" class="meta-people">
     {{ story.related_to.map(capitalizeInitialLetter).join(", ") }}
   </span>
-  <span v-if="story.source_streams?.length" class="meta-streams">
+  <span v-if="story.source_streams.length" class="meta-streams">
     {{ story.source_streams.length }} source stream{{
       story.source_streams.length !== 1 ? "s" : ""
     }}
@@ -102,45 +105,8 @@ Run `pnpm stream-synthesis` to generate story highlights from stream data.
 </template>
 
 <style scoped>
-.filter-bar {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  margin-bottom: 24px;
-}
-
-.filter-select {
-  padding: 4px 8px;
-  border: 1px solid var(--vp-input-border-color);
-  border-radius: 4px;
-  background: var(--vp-input-bg-color);
-  color: var(--vp-c-text-1);
-  font-size: 14px;
-  transition:
-    border-color 0.25s,
-    background-color 0.25s;
-}
-
-.filter-count {
-  color: var(--vp-c-text-2);
-  font-size: 14px;
-}
-
 .story-card {
   margin-bottom: 24px;
-  padding: 16px 16px 8px;
-  border: 1px solid var(--vp-c-divider);
-  border-radius: 8px;
-  background: var(--vp-c-bg-soft);
-  transition: background-color 0.5s;
-}
-
-.story-card > :first-child {
-  margin-top: 0;
-}
-
-.story-card > :last-child {
-  margin-bottom: 0;
 }
 
 .story-title {
@@ -169,13 +135,6 @@ Run `pnpm stream-synthesis` to generate story highlights from stream data.
   line-height: 1.6;
 }
 
-.story-details summary {
-  cursor: pointer;
-  color: var(--vp-c-brand-1);
-  font-weight: 500;
-  margin-bottom: 8px;
-}
-
 .story-quote {
   font-style: italic;
   border-left: 2px solid var(--vp-c-divider);
@@ -189,7 +148,8 @@ Run `pnpm stream-synthesis` to generate story highlights from stream data.
   display: flex;
   gap: 16px;
   font-size: 13px;
-  color: var(--vp-c-text-3);
+  line-height: 20px;
+  color: var(--vp-c-text-2);
 }
 
 .meta-people::before {

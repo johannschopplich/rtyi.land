@@ -1,8 +1,14 @@
 import type { Theme } from "vitepress";
 import DefaultTheme from "vitepress/theme";
+import VPInput from "./components/VPInput.vue";
 import "../style/main.css";
 import "../style/vars.css";
 
-export default {
+const config: Theme = {
   extends: DefaultTheme,
-} satisfies Theme;
+  enhanceApp({ app }) {
+    app.component("VPInput", VPInput);
+  },
+};
+
+export default config;

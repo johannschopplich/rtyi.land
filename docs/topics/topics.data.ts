@@ -29,7 +29,7 @@ export default defineLoader({
     const entries = await loadStreamAnalyses();
 
     for (const { analysis, rawDate, date, streamId } of entries) {
-      for (const finding of analysis.findings ?? []) {
+      for (const finding of analysis.findings) {
         const currentTopic = topicMap[finding.topic];
         if (!currentTopic) continue;
 
@@ -45,8 +45,7 @@ export default defineLoader({
 
     const result: Partial<Record<FindingTopic, TopicData>> = {};
     for (const [topic, findings] of Object.entries(topicMap)) {
-      if (!findings) continue;
-      findings.sort((a, b) => a.streamRawDate.localeCompare(b.streamRawDate));
+      findings!.sort((a, b) => a.streamRawDate.localeCompare(b.streamRawDate));
 
       const uniqueStreams = new Set(
         findings.map((finding) => finding.streamId),

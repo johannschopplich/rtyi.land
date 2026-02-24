@@ -67,11 +67,13 @@ const dateRange = `${firstDate} to ${lastDate}`;
 await ensureDirectoryExists(SYNTHESIS_DIR);
 
 // Define synthesis tasks
-const tasks: {
+interface SynthesisTaskConfig {
   name: string;
   outputFile: string;
   promptKey: SynthesisTask;
-}[] = [
+}
+
+const tasks: SynthesisTaskConfig[] = [
   {
     name: "Interview Questions",
     outputFile: "interview-questions.json",
@@ -95,7 +97,7 @@ const tasks: {
 ];
 
 // Check which tasks need running
-const tasksToRun: typeof tasks = [];
+const tasksToRun: SynthesisTaskConfig[] = [];
 
 for (const task of tasks) {
   const outputPath = join(SYNTHESIS_DIR, task.outputFile);
@@ -151,10 +153,10 @@ for (const task of tasksToRun) {
     );
 
     completed++;
-    s.stop(`${task.name} ${ansis.green("✓")}`);
+    s.stop(`${task.name} ${ansis.green("done")}`);
   } catch (error) {
     failures++;
-    s.stop(`${task.name} ${ansis.red("✗")}`);
+    s.stop(`${task.name} ${ansis.red("failed")}`);
     clack.log.error(error instanceof Error ? error.message : String(error));
   }
 }

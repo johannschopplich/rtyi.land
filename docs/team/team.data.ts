@@ -66,9 +66,7 @@ export default defineLoader({
         const quotes: TeamQuote[] = [];
 
         const contributorFindings =
-          member !== "kaze"
-            ? analysis.contributor_findings?.[member]
-            : undefined;
+          member !== "kaze" ? analysis.contributor_findings[member] : undefined;
         if (Array.isArray(contributorFindings)) {
           for (const finding of contributorFindings) {
             findings.push({
@@ -79,8 +77,8 @@ export default defineLoader({
           }
         }
 
-        for (const story of analysis.key_stories ?? []) {
-          if (story.related_to?.includes(member)) {
+        for (const story of analysis.key_stories) {
+          if (story.related_to.includes(member)) {
             stories.push({
               title: story.title,
               summary: story.summary,
@@ -94,7 +92,7 @@ export default defineLoader({
           }
         }
 
-        for (const memorableQuote of analysis.memorable_quotes ?? []) {
+        for (const memorableQuote of analysis.memorable_quotes) {
           if (memorableQuote.speaker.toLowerCase() === member) {
             quotes.push({
               speaker: memorableQuote.speaker,

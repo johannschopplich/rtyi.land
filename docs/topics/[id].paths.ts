@@ -21,7 +21,7 @@ export default {
     const entries = await loadStreamAnalyses();
 
     for (const { analysis, rawDate, date, streamId } of entries) {
-      for (const finding of analysis.findings ?? []) {
+      for (const finding of analysis.findings) {
         const currentTopic = topicMap[finding.topic];
         if (!currentTopic) continue;
 
@@ -36,7 +36,7 @@ export default {
     }
 
     return TOPIC_KEYS.map((topic) => {
-      const findings = topicMap[topic] ?? [];
+      const findings = topicMap[topic]!;
       findings.sort((a, b) => a.streamRawDate.localeCompare(b.streamRawDate));
 
       const label = formatTopicLabel(topic);

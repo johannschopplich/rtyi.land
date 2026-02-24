@@ -61,7 +61,7 @@ See also: [By Topic](/topics/index.md) for a thematic view, or [Interview Prep](
         <strong>{{ member.label }}</strong>
       </td>
       <td>
-        {{ ROLES[member.name] || "Team Member" }}
+        {{ ROLES[member.name] }}
       </td>
       <td style="text-align: center;">{{ member.streams.length }}</td>
       <td style="text-align: center;">{{ member.totalFindings }}</td>

@@ -22,7 +22,7 @@ const significanceCounts = allStreams.reduce((acc, stream) => {
 }, {});
 
 const topicTotals = allStreams.reduce((acc, stream) => {
-  for (const [topic, count] of Object.entries(stream.topicCounts || {})) {
+  for (const [topic, count] of Object.entries(stream.topicCounts)) {
     acc[topic] = (acc[topic] || 0) + count;
   }
   return acc;
@@ -56,8 +56,8 @@ Most of [Kaze's development streams](https://www.youtube.com/@KazeClips/streams)
 | Page                                          | Description                                                     |
 | --------------------------------------------- | --------------------------------------------------------------- |
 | [**Documentary Prep**](/synthesis/)           | Curated synthesis – interview prep, stories, quotes, topic arcs |
-| [**Highlights**](/streams/highlights)         | Milestone & pivotal streams only – start here                   |
-| [**Topic Narratives**](/synthesis/topics)     | AI-synthesized narrative summaries per topic                    |
+| [**Highlights**](/streams/highlights)         | Milestone & pivotal streams – the key moments                   |
+| [**Topic Narratives**](/synthesis/topics)     | Narrative summaries per documentary topic                       |
 | [**Raw Findings by Topic**](/topics/index.md) | Every finding from every stream, grouped by theme               |
 | [**Team Profiles**](/team/index.md)           | What each team member did, said, and experienced across streams |
 | [**Curated Quotes**](/synthesis/quotes)       | Top documentary quotes tagged by use case                       |
@@ -100,7 +100,7 @@ Most of [Kaze's development streams](https://www.youtube.com/@KazeClips/streams)
         <a :href="`/streams/${stream.id}`">{{ stream.date }}</a>
       </td>
       <td style="white-space: nowrap;">
-        {{ SIGNIFICANCE_BADGES[stream.significance] || "" }}
+        {{ SIGNIFICANCE_BADGES[stream.significance] }}
       </td>
       <td>{{ stream.excerpt }}</td>
     </tr>
@@ -127,7 +127,7 @@ Most of [Kaze's development streams](https://www.youtube.com/@KazeClips/streams)
         <a :href="`/streams/${stream.id}`">{{ stream.date }}</a>
       </td>
       <td style="white-space: nowrap;">
-        {{ SIGNIFICANCE_BADGES[stream.significance] || "" }}
+        {{ SIGNIFICANCE_BADGES[stream.significance] }}
       </td>
       <td style="white-space: nowrap;">
         {{ stream.level.join(", ") || "—" }}

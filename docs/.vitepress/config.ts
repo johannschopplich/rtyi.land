@@ -1,10 +1,12 @@
 import type { DefaultTheme } from "vitepress";
-import type { TeamMember } from "../../src/schemas";
+import type { TeamMember } from "../../src/analysis/schemas";
 import { defineConfig } from "vitepress";
 import { description, name, ogImage, ogUrl, twitterImage } from "./meta";
 import { capitalizeInitialLetter } from "./shared";
 
 const RTYI_TEAM_MEMBERS: TeamMember[] = ["kaze", "biobak", "badub", "zeina"];
+
+const interviewNavItems = teamMemberNavigationItems();
 
 export default defineConfig({
   title: name,
@@ -91,7 +93,7 @@ export default defineConfig({
       },
       {
         text: "Interview Questions",
-        items: teamMemberNavigationItems(),
+        items: interviewNavItems,
       },
       {
         text: "Documentary Prep",

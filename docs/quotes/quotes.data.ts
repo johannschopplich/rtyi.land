@@ -16,7 +16,7 @@ export default defineLoader({
     const quotes: QuoteEntry[] = [];
 
     for (const { analysis, rawDate, date, streamId } of entries) {
-      for (const memorableQuote of analysis.memorable_quotes ?? []) {
+      for (const memorableQuote of analysis.memorable_quotes) {
         quotes.push({
           speaker: memorableQuote.speaker,
           quote: memorableQuote.quote,

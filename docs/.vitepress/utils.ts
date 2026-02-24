@@ -36,7 +36,9 @@ export async function globAndProcessFiles<T>(
     }),
   );
 
-  return results.filter((result) => result != null) as T[];
+  return results.filter(
+    (result): result is Awaited<T> => result != null,
+  );
 }
 
 export async function loadStreamAnalyses(): Promise<ParsedStream[]> {

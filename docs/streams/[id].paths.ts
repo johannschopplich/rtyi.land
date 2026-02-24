@@ -11,7 +11,7 @@ import {
 import { loadStreamAnalyses } from "../.vitepress/utils";
 
 function renderFindingsByTopic(findings: Finding[]): string {
-  if (!findings?.length) return "_No findings._";
+  if (!findings.length) return "_No findings._";
 
   const byTopic: Partial<Record<FindingTopic, Finding[]>> = {};
   for (const finding of findings) {
@@ -35,15 +35,13 @@ ${topicFindings!
 }
 
 function renderContributorFindings(
-  contributorFindings: StreamAnalysis["contributor_findings"] | undefined,
+  contributorFindings: StreamAnalysis["contributor_findings"],
 ): string {
-  if (!contributorFindings) return "_No contributor findings._";
-
   const sections: string[] = [];
 
   for (const member of ["biobak", "badub", "zeina"] as const) {
     const findings = contributorFindings[member];
-    if (!findings?.length) continue;
+    if (!findings.length) continue;
     sections.push(`
 ### ${capitalizeInitialLetter(member)}
 
@@ -52,9 +50,9 @@ ${findings.map((finding) => `- ${finding.summary}${finding.quote ? `\n  > ${find
   }
 
   const others = contributorFindings.others;
-  if (others?.length) {
+  if (others.length) {
     for (const other of others) {
-      if (!other.findings?.length) continue;
+      if (!other.findings.length) continue;
       sections.push(`
 ### ${other.name}
 
@@ -78,12 +76,11 @@ export default {
     const entries = await loadStreamAnalyses();
 
     const results = entries.map(({ analysis, rawDate, date, streamId }) => {
-      const significance = analysis.stream_context?.significance;
-      const significanceBadge =
-        SIGNIFICANCE_BADGES[significance] || significance || "Unknown";
-      const significanceReason = analysis.stream_context?.significance_reason;
+      const significance = analysis.stream_context.significance;
+      const significanceBadge = SIGNIFICANCE_BADGES[significance];
+      const significanceReason = analysis.stream_context.significance_reason;
 
-      const level = analysis.stream_context?.level ?? [];
+      const level = analysis.stream_context.level;
       const levelDisplay = level.join(", ") || "Unknown";
 
       const markdownContent = `# Development Stream Analysis
@@ -98,10 +95,10 @@ export default {
 
 ## Stream Context
 
-${analysis.stream_context?.summary || "No summary available."}
+${analysis.stream_context.summary}
 
 ${
-  analysis.memorable_quotes?.length
+  analysis.memorable_quotes.length
     ? `## Memorable Quotes
 
 ${analysis.memorable_quotes
@@ -124,7 +121,7 @@ ${renderContributorFindings(analysis.contributor_findings)}
 ## Key Stories
 
 ${
-  analysis.key_stories?.length
+  analysis.key_stories.length
     ? analysis.key_stories
         .map(
           (story) => `
@@ -151,7 +148,7 @@ ${story.related_to.length ? `**Related to:** ${story.related_to.map(capitalizeIn
 ## Open Questions
 
 ${
-  analysis.open_questions?.length
+  analysis.open_questions.length
     ? analysis.open_questions
         .map(
           (item) => `
@@ -163,7 +160,7 @@ ${
 
 **Questions:**
 
-${item.questions.map((question: string, index: number) => `${index + 1}. ${question}`).join("\n")}
+${item.questions.map((question, index) => `${index + 1}. ${question}`).join("\n")}
 `,
         )
         .join("")
