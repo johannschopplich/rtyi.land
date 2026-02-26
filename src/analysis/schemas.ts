@@ -17,7 +17,9 @@ export const FindingTopicSchema = z
     "community",
     "business",
   ])
-  .describe("Primary topic category for filtering");
+  .describe(
+    "Primary topic category. design: creative decisions, influences. technical: challenges, solutions, performance. milestone: level/feature completions. philosophy: game design principles. personal: life, emotions, health. team: collaboration, dynamics. legal-nintendo: takedowns, DMCA. community: viewer feedback, chat-driven decisions. business: release strategy, monetization.",
+  );
 
 export const FindingImportanceSchema = z
   .enum(["high", "medium", "low"])
@@ -65,8 +67,12 @@ const OtherContributorSchema = z.object({
 const StorySchema = z.object({
   title: z
     .string()
-    .describe("A short, non-catchy title for this story or incident"),
-  summary: z.string().describe("A 2-3 sentence overview of the story"),
+    .describe("A short, factual title for this story or incident (not clickbait)"),
+  summary: z
+    .string()
+    .describe(
+      "A 2-3 sentence overview focusing on why this story matters for the documentary",
+    ),
   challenge: z
     .string()
     .describe("The problem or challenge that initiated the story"),
@@ -96,7 +102,9 @@ const OpenQuestionSchema = z.object({
     .array(z.string())
     .min(1)
     .max(5)
-    .describe("Follow-up questions to ask in the interview"),
+    .describe(
+      "Follow-up questions framed for a documentary interviewer (open-ended, inviting storytelling)",
+    ),
   related_to: z
     .array(TeamMemberSchema)
     .describe("Team members who can provide more information on this topic"),

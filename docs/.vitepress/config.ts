@@ -61,9 +61,8 @@ export default defineConfig({
         text: "Documentary Prep",
         items: [
           { text: "Overview", link: "/synthesis" },
-          { text: "Interview Prep", link: "/synthesis/interview-prep" },
-          { text: "Story Highlights", link: "/synthesis/stories" },
-          { text: "Curated Quotes", link: "/synthesis/quotes" },
+          { text: "Narrative Arcs", link: "/synthesis/narrative-arcs" },
+          { text: "Story Arcs", link: "/synthesis/story-arcs" },
           { text: "Topic Narratives", link: "/synthesis/topics" },
         ],
       },
@@ -97,16 +96,12 @@ export default defineConfig({
             link: "/synthesis",
           },
           {
-            text: "Interview Prep",
-            link: "/synthesis/interview-prep",
+            text: "Narrative Arcs",
+            link: "/synthesis/narrative-arcs",
           },
           {
-            text: "Story Highlights",
-            link: "/synthesis/stories",
-          },
-          {
-            text: "Curated Quotes",
-            link: "/synthesis/quotes",
+            text: "Story Arcs",
+            link: "/synthesis/story-arcs",
           },
           {
             text: "Topic Narratives",

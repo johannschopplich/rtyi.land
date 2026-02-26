@@ -3,30 +3,27 @@ import type { LanguageModelV3 } from "@ai-sdk/provider";
 import type { z } from "zod";
 import type { StreamAnalysis } from "../analysis/schemas";
 import type {
-  CuratedQuotes,
-  InterviewQuestions,
-  StoryHighlights,
+  NarrativeArcs,
+  StoryArcs,
   TopicArc,
   TopicArcs,
 } from "./schemas";
 import { generateText, Output } from "ai";
 import pMap from "p-map";
+import { estimateTokenCount } from "tokenx";
 import { template } from "utilful";
 import { CORE_CONTRIBUTORS } from "../constants";
 import {
-  CURATED_QUOTES_PROMPT,
-  CURATED_QUOTES_REDUCE_PROMPT,
-  INTERVIEW_QUESTIONS_PROMPT,
-  INTERVIEW_QUESTIONS_REDUCE_PROMPT,
-  STORY_HIGHLIGHTS_PROMPT,
-  STORY_HIGHLIGHTS_REDUCE_PROMPT,
+  DOCUMENTARY_CONTEXT,
+  NARRATIVE_ARCS_PROMPT,
+  STORY_ARCS_PROMPT,
+  STORY_ARCS_REDUCE_PROMPT,
   TOPIC_ARC_REDUCE_PROMPT,
   TOPIC_ARC_SINGLE_PROMPT,
 } from "./prompts";
 import {
-  CuratedQuotesSchema,
-  InterviewQuestionsSchema,
-  StoryHighlightsSchema,
+  NarrativeArcsSchema,
+  StoryArcsSchema,
   TopicArcSchema,
 } from "./schemas";
 
@@ -38,23 +35,25 @@ const OPENAI_PROVIDER_OPTIONS = {
   } satisfies OpenAILanguageModelChatOptions,
 };
 const CHUNK_CHAR_BUDGET = 300_000;
-const MAX_QUOTES_PER_CHUNK = 150;
 const DEFAULT_CONCURRENCY = 1;
+
+/**
+ * Token budget for the narrative arcs single-prompt path.
+ * GPT-5.2 supports ~400K tokens; leave headroom for output + system.
+ */
+const NARRATIVE_ARCS_TOKEN_BUDGET = 300_000;
 
 // #endregion config
 
 // #region api
 
-export type SynthesisTask =
-  | "interview-questions"
-  | "curated-quotes"
-  | "story-highlights"
-  | "topic-arcs";
+export type SynthesisTask = "story-arcs" | "narrative-arcs" | "topic-arcs";
 
 export type ProgressEvent =
   | { phase: "map-start"; total: number }
   | { phase: "map-chunk-done"; index: number; total: number }
   | { phase: "reduce-start"; batches: number }
+  | { phase: "single-prompt-start"; tokens: number }
   | { phase: "topic-start"; total: number }
   | { phase: "topic-done"; index: number; total: number; name: string };
 
@@ -68,7 +67,6 @@ export interface SynthesisOptions {
   task: SynthesisTask;
   model: LanguageModelV3;
   streams: ParsedStream[];
-  existingQuestions: string;
   dateRange: string;
   concurrency?: number;
   onProgress?: (event: ProgressEvent) => void;
@@ -78,12 +76,10 @@ export async function runSynthesisTask(options: SynthesisOptions) {
   const { task } = options;
 
   switch (task) {
-    case "interview-questions":
-      return runInterviewQuestions(options);
-    case "curated-quotes":
-      return runCuratedQuotes(options);
-    case "story-highlights":
-      return runStoryHighlights(options);
+    case "story-arcs":
+      return runStoryArcs(options);
+    case "narrative-arcs":
+      return runNarrativeArcs(options);
     case "topic-arcs":
       return runTopicArcs(options);
   }
@@ -91,127 +87,139 @@ export async function runSynthesisTask(options: SynthesisOptions) {
 
 // #endregion api
 
-// #region questions
+// #region story-arcs
 
-async function runInterviewQuestions(options: SynthesisOptions) {
-  const {
-    model,
-    streams,
-    existingQuestions,
-    dateRange,
-    concurrency,
-    onProgress,
-  } = options;
-  const existingOrDefault =
-    existingQuestions || "(No existing questions provided)";
+async function runStoryArcs(options: SynthesisOptions) {
+  const { model, streams, dateRange, concurrency, onProgress } = options;
 
-  return mapReduce<InterviewQuestions>({
+  return mapReduce<StoryArcs>({
     streams,
-    payloadSizeFn: interviewPayloadSize,
+    payloadSizeFn: storyArcsPayloadSize,
     concurrency,
     onProgress,
     mapFn: (chunk) => {
-      const { openQuestions, findings, keyStories } =
-        extractInterviewPayload(chunk);
+      const { stories, quotes, openQuestions, findings } =
+        extractStoryArcsPayload(chunk);
 
-      const prompt = template(INTERVIEW_QUESTIONS_PROMPT, {
+      const prompt = template(STORY_ARCS_PROMPT, {
         date_range: dateRange,
-        existing_questions: existingOrDefault,
+        stories: JSON.stringify(stories),
+        quotes: JSON.stringify(quotes),
         open_questions: JSON.stringify(openQuestions),
         findings: JSON.stringify(findings),
-        key_stories: JSON.stringify(keyStories),
       });
 
-      return generateObject(model, InterviewQuestionsSchema, prompt);
+      return generateObject(model, StoryArcsSchema, prompt, DOCUMENTARY_CONTEXT);
     },
     reduceFn: (batchResults) => {
-      const prompt = template(INTERVIEW_QUESTIONS_REDUCE_PROMPT, {
+      const allArcs = batchResults.flatMap((batch) => batch.arcs);
+
+      const prompt = template(STORY_ARCS_REDUCE_PROMPT, {
         date_range: dateRange,
-        existing_questions: existingOrDefault,
-        candidate_questions: JSON.stringify(batchResults),
+        candidate_arcs: JSON.stringify(allArcs),
       });
 
-      return generateObject(model, InterviewQuestionsSchema, prompt);
+      return generateObject(model, StoryArcsSchema, prompt, DOCUMENTARY_CONTEXT);
     },
   });
 }
 
-// #endregion questions
+// #endregion story-arcs
 
-// #region quotes
+// #region narrative-arcs
 
-async function runCuratedQuotes(options: SynthesisOptions) {
-  const { model, streams, concurrency, onProgress } = options;
+async function runNarrativeArcs(
+  options: SynthesisOptions,
+): Promise<NarrativeArcs | undefined> {
+  const { model, streams, dateRange, onProgress } = options;
 
-  // Keep chunks at ~300 quotes max to avoid context dilution.
-  // At 150 streams (~450 quotes) → 2 chunks. At 250 → 3. At 500 → 5.
-  const totalQuotes = streams.reduce(
-    (sum, s) => sum + s.analysis.memorable_quotes.length,
-    0,
+  // Collect all data for a single holistic prompt
+  const streamSummaries = streams.map((stream) => ({
+    stream_date: stream.rawDate,
+    summary: stream.analysis.stream_context.summary,
+    significance: stream.analysis.stream_context.significance,
+    significance_reason: stream.analysis.stream_context.significance_reason,
+  }));
+
+  const findings = streams.flatMap((stream) =>
+    stream.analysis.findings
+      .filter((finding) => finding.importance !== "low")
+      .map((finding) => ({
+        stream_date: stream.rawDate,
+        topic: finding.topic,
+        summary: finding.summary,
+      })),
   );
-  const minChunks = Math.max(2, Math.ceil(totalQuotes / MAX_QUOTES_PER_CHUNK));
 
-  return mapReduce<CuratedQuotes>({
-    streams,
-    payloadSizeFn: quotePayloadSize,
-    concurrency,
-    onProgress,
-    minChunks,
-    mapFn: (chunk) => {
-      const quotes = extractQuotePayload(chunk);
+  const stories = streams.flatMap((stream) =>
+    stream.analysis.key_stories.map((story) => ({
+      stream_date: stream.rawDate,
+      title: story.title,
+      summary: story.summary,
+      related_to: story.related_to,
+    })),
+  );
 
-      const prompt = template(CURATED_QUOTES_PROMPT, {
-        quotes: JSON.stringify(quotes),
-      });
+  const quotes = streams.flatMap((stream) =>
+    stream.analysis.memorable_quotes.map((quote) => ({
+      stream_date: stream.rawDate,
+      speaker: quote.speaker,
+      quote: quote.quote,
+      context: quote.context,
+    })),
+  );
 
-      return generateObject(model, CuratedQuotesSchema, prompt);
-    },
-    reduceFn: (batchResults) => {
-      const allQuotes = batchResults.flatMap((batch) => batch.quotes);
+  let promptData = {
+    stream_summaries: JSON.stringify(streamSummaries),
+    findings: JSON.stringify(findings),
+    stories: JSON.stringify(stories),
+    quotes: JSON.stringify(quotes),
+  };
 
-      const prompt = template(CURATED_QUOTES_REDUCE_PROMPT, {
-        candidate_quotes: JSON.stringify(allQuotes),
-      });
-
-      return generateObject(model, CuratedQuotesSchema, prompt);
-    },
+  // Check token count; if too large, pre-summarize
+  let fullPrompt = template(NARRATIVE_ARCS_PROMPT, {
+    date_range: dateRange,
+    ...promptData,
   });
+
+  const tokenCount = estimateTokenCount(fullPrompt);
+
+  if (tokenCount > NARRATIVE_ARCS_TOKEN_BUDGET) {
+    // Pre-summarize: drop low-importance findings, trim quotes
+    const condensedFindings = findings.filter(
+      (finding) =>
+        // Keep only high-importance when over budget
+        streams.some(
+          (stream) =>
+            stream.rawDate === finding.stream_date &&
+            stream.analysis.findings.some(
+              (streamFinding) =>
+                streamFinding.summary === finding.summary
+                && streamFinding.importance === "high",
+            ),
+        ),
+    );
+
+    promptData = {
+      stream_summaries: JSON.stringify(streamSummaries),
+      findings: JSON.stringify(condensedFindings),
+      stories: JSON.stringify(stories),
+      quotes: JSON.stringify(quotes),
+    };
+
+    fullPrompt = template(NARRATIVE_ARCS_PROMPT, {
+      date_range: dateRange,
+      ...promptData,
+    });
+  }
+
+  const finalTokenCount = estimateTokenCount(fullPrompt);
+  onProgress?.({ phase: "single-prompt-start", tokens: finalTokenCount });
+
+  return generateObject(model, NarrativeArcsSchema, fullPrompt, DOCUMENTARY_CONTEXT);
 }
 
-// #endregion quotes
-
-// #region stories
-
-async function runStoryHighlights(options: SynthesisOptions) {
-  const { model, streams, concurrency, onProgress } = options;
-
-  return mapReduce<StoryHighlights>({
-    streams,
-    payloadSizeFn: storyPayloadSize,
-    concurrency,
-    onProgress,
-    mapFn: (chunk) => {
-      const stories = extractStoryPayload(chunk);
-
-      const prompt = template(STORY_HIGHLIGHTS_PROMPT, {
-        stories: JSON.stringify(stories),
-      });
-
-      return generateObject(model, StoryHighlightsSchema, prompt);
-    },
-    reduceFn: (batchResults) => {
-      const allStories = batchResults.flatMap((batch) => batch.stories);
-
-      const prompt = template(STORY_HIGHLIGHTS_REDUCE_PROMPT, {
-        candidate_stories: JSON.stringify(allStories),
-      });
-
-      return generateObject(model, StoryHighlightsSchema, prompt);
-    },
-  });
-}
-
-// #endregion stories
+// #endregion narrative-arcs
 
 // #region topics
 
@@ -273,7 +281,7 @@ async function runTopicArcs(options: SynthesisOptions): Promise<TopicArcs> {
           topic,
           findings: JSON.stringify(findings),
         });
-        arc = await generateObject(model, TopicArcSchema, prompt);
+        arc = await generateObject(model, TopicArcSchema, prompt, DOCUMENTARY_CONTEXT);
       } else {
         // Chunk large topics and merge via reduce
         const chunkCount = Math.ceil(
@@ -288,7 +296,7 @@ async function runTopicArcs(options: SynthesisOptions): Promise<TopicArcs> {
             topic,
             findings: JSON.stringify(chunk),
           });
-          const result = await generateObject(model, TopicArcSchema, prompt);
+          const result = await generateObject(model, TopicArcSchema, prompt, DOCUMENTARY_CONTEXT);
           if (result) chunkResults.push(result);
         }
 
@@ -299,7 +307,7 @@ async function runTopicArcs(options: SynthesisOptions): Promise<TopicArcs> {
             topic,
             candidate_arcs: JSON.stringify(chunkResults),
           });
-          arc = await generateObject(model, TopicArcSchema, reducePrompt);
+          arc = await generateObject(model, TopicArcSchema, reducePrompt, DOCUMENTARY_CONTEXT);
         }
       }
 
@@ -322,7 +330,21 @@ async function runTopicArcs(options: SynthesisOptions): Promise<TopicArcs> {
 
 // #region extractors
 
-function extractInterviewPayload(streams: ParsedStream[]) {
+function extractStoryArcsPayload(streams: ParsedStream[]) {
+  const stories = streams.flatMap((stream) =>
+    stream.analysis.key_stories.map((story) => ({
+      stream_date: stream.rawDate,
+      ...story,
+    })),
+  );
+
+  const quotes = streams.flatMap((stream) =>
+    stream.analysis.memorable_quotes.map((quote) => ({
+      stream_date: stream.rawDate,
+      ...quote,
+    })),
+  );
+
   const openQuestions = streams.flatMap((stream) =>
     stream.analysis.open_questions.map((question) => ({
       stream_date: stream.rawDate,
@@ -338,52 +360,18 @@ function extractInterviewPayload(streams: ParsedStream[]) {
     })),
   );
 
-  const keyStories = streams.flatMap((stream) =>
-    stream.analysis.key_stories.map((story) => ({
-      stream_date: stream.rawDate,
-      title: story.title,
-      summary: story.summary,
-      related_to: story.related_to,
-    })),
-  );
-
-  return { openQuestions, findings, keyStories };
+  return { stories, quotes, openQuestions, findings };
 }
 
-function interviewPayloadSize(streams: ParsedStream[]) {
-  const { openQuestions, findings, keyStories } =
-    extractInterviewPayload(streams);
+function storyArcsPayloadSize(streams: ParsedStream[]) {
+  const { stories, quotes, openQuestions, findings } =
+    extractStoryArcsPayload(streams);
   return (
+    JSON.stringify(stories).length +
+    JSON.stringify(quotes).length +
     JSON.stringify(openQuestions).length +
-    JSON.stringify(findings).length +
-    JSON.stringify(keyStories).length
+    JSON.stringify(findings).length
   );
-}
-
-function extractQuotePayload(streams: ParsedStream[]) {
-  return streams.flatMap((stream) =>
-    stream.analysis.memorable_quotes.map((quote) => ({
-      stream_date: stream.rawDate,
-      ...quote,
-    })),
-  );
-}
-
-function quotePayloadSize(streams: ParsedStream[]) {
-  return JSON.stringify(extractQuotePayload(streams)).length;
-}
-
-function extractStoryPayload(streams: ParsedStream[]) {
-  return streams.flatMap((stream) =>
-    stream.analysis.key_stories.map((story) => ({
-      stream_date: stream.rawDate,
-      ...story,
-    })),
-  );
-}
-
-function storyPayloadSize(streams: ParsedStream[]) {
-  return JSON.stringify(extractStoryPayload(streams)).length;
 }
 
 // #endregion extractors
@@ -394,10 +382,12 @@ async function generateObject<T extends z.ZodType>(
   model: LanguageModelV3,
   schema: T,
   prompt: string,
+  system?: string,
 ): Promise<z.output<T> | undefined> {
   const { output } = await generateText({
     model,
     output: Output.object({ schema }),
+    ...(system ? { system } : {}),
     prompt,
     providerOptions: OPENAI_PROVIDER_OPTIONS,
   });

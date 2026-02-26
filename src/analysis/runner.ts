@@ -6,7 +6,7 @@ import { template } from "utilful";
 import { STREAM_ANALYSIS_DIR } from "../constants";
 import { STT_CORRECTIONS } from "../stt-corrections";
 import { ensureDirectoryExists, resolveLanguageModel } from "../utils";
-import { STREAM_ANALYSIS_PROMPT } from "./prompts";
+import { STREAM_ANALYSIS_PROMPT, STREAM_ANALYSIS_SYSTEM } from "./prompts";
 import { StreamAnalysisSchema } from "./schemas";
 
 export type TranscriptResult =
@@ -35,6 +35,7 @@ export async function analyzeTranscript(
     const { output } = await generateText({
       model: languageModel,
       output: Output.object({ schema: StreamAnalysisSchema }),
+      system: STREAM_ANALYSIS_SYSTEM,
       prompt: template(STREAM_ANALYSIS_PROMPT, {
         transcript: transcriptContent,
       }),

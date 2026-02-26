@@ -6,7 +6,7 @@ import { basename, extname, join } from "node:path";
 import process from "node:process";
 import * as clack from "@clack/prompts";
 import * as ansis from "ansis";
-import { ROOT_DIR, STREAM_ANALYSIS_DIR, SYNTHESIS_DIR } from "../src/constants";
+import { STREAM_ANALYSIS_DIR, SYNTHESIS_DIR } from "../src/constants";
 import { runSynthesisTask } from "../src/synthesis/runner";
 import { ensureDirectoryExists, resolveLanguageModel } from "../src/utils";
 
@@ -41,25 +41,8 @@ for (const file of files.sort()) {
 
 clack.log.info(`Parsed ${ansis.bold(streams.length)} streams`);
 
-// Load existing interview questions for context
-const interviewDir = join(ROOT_DIR, "docs", "interviews");
-let existingQuestions = "";
-
-try {
-  const interviewFiles = (await fsp.readdir(interviewDir))
-    .filter((f) => f.endsWith(".md"))
-    .sort();
-
-  for (const file of interviewFiles) {
-    const content = await fsp.readFile(join(interviewDir, file), "utf-8");
-    existingQuestions += `\n### ${file}\n\n${content}\n`;
-  }
-} catch {
-  clack.log.warn("Could not load existing interview questions");
-}
-
 // Compute date range
-const dates = streams.map((s) => s.rawDate).sort();
+const dates = streams.map((stream) => stream.rawDate).sort();
 const firstDate = formatDate(dates[0]!);
 const lastDate = formatDate(dates[dates.length - 1]!);
 const dateRange = `${firstDate} to ${lastDate}`;
@@ -76,19 +59,14 @@ interface SynthesisTaskConfig {
 
 const tasks: SynthesisTaskConfig[] = [
   {
-    name: "Interview Questions",
-    outputFile: "interview-questions.json",
-    promptKey: "interview-questions",
+    name: "Story Arcs",
+    outputFile: "story-arcs.json",
+    promptKey: "story-arcs",
   },
   {
-    name: "Curated Quotes",
-    outputFile: "curated-quotes.json",
-    promptKey: "curated-quotes",
-  },
-  {
-    name: "Story Highlights",
-    outputFile: "story-highlights.json",
-    promptKey: "story-highlights",
+    name: "Narrative Arcs",
+    outputFile: "narrative-arcs.json",
+    promptKey: "narrative-arcs",
   },
   {
     name: "Topic Arcs",
@@ -141,7 +119,6 @@ for (let ti = 0; ti < tasksToRun.length; ti++) {
       task: task.promptKey,
       model: languageModel,
       streams,
-      existingQuestions,
       dateRange,
       onProgress: (event) => {
         switch (event.phase) {
@@ -154,6 +131,12 @@ for (let ti = 0; ti < tasksToRun.length; ti++) {
             break;
           case "reduce-start":
             p?.message(`Reducing ${event.batches} batches`);
+            break;
+          case "single-prompt-start":
+            p = clack.progress({ max: 1 });
+            p.start(
+              `Single-prompt synthesis (~${Math.round(event.tokens / 1000)}K tokens)`,
+            );
             break;
           case "topic-start":
             p = clack.progress({ max: event.total });

@@ -2,10 +2,29 @@ import { z } from "zod";
 import { FindingTopicSchema, TeamMemberSchema } from "../analysis/schemas";
 import { QUOTE_FORMATTING_INSTRUCTIONS } from "../constants";
 
-// #region questions
+// #region story-arcs
 
-const InterviewQuestionSchema = z.object({
-  question: z.string().describe("A clear, open-ended interview question"),
+const StoryArcQuoteSchema = z.object({
+  speaker: z
+    .string()
+    .describe(
+      'Who said this (usually "Kaze", but could be Zeina or a chat participant)',
+    ),
+  quote: z
+    .string()
+    .describe(`The quote itself. ${QUOTE_FORMATTING_INSTRUCTIONS}`),
+  stream_date: z.string().describe("YYYYMMDD format of the source stream"),
+});
+
+const StoryArcQuestionSchema = z.object({
+  question: z
+    .string()
+    .describe(
+      "An open-ended, storytelling-oriented interview question about this arc",
+    ),
+  target: z
+    .enum(["kaze", "biobak", "badub", "kaze_zeina"])
+    .describe("Who to ask this question"),
   context: z
     .string()
     .describe(
@@ -18,122 +37,104 @@ const InterviewQuestionSchema = z.object({
     .describe(
       "Brief references to specific stream evidence (e.g. 'June 2024: Kaze mentioned…')",
     ),
-  priority: z
-    .enum(["essential", "important", "nice-to-have"])
-    .describe(
-      "How critical this question is: essential = must-ask in a 1–2 hour interview, important = strong value, nice-to-have = ask if time permits",
-    ),
 });
 
-export const InterviewQuestionsSchema = z.object({
-  kaze: z
-    .array(InterviewQuestionSchema)
-    .max(35)
-    .describe(
-      "Questions for Kaze Emanuar's solo interview – covering vision, technical mastery, creative process, and personal journey",
-    ),
-  biobak: z
-    .array(InterviewQuestionSchema)
-    .max(25)
-    .describe(
-      "Questions for Biobak's solo interview – covering visual identity, level design, collaboration with Kaze",
-    ),
-  badub: z
-    .array(InterviewQuestionSchema)
-    .max(25)
-    .describe(
-      "Questions for Badub's solo interview – covering musical identity, N64 audio constraints, creative process",
-    ),
-  kaze_zeina: z
-    .array(InterviewQuestionSchema)
-    .max(25)
-    .describe(
-      "Questions for the joint Kaze & Zeina interview – covering their creative/personal partnership, animation work, life/art balance",
-    ),
-});
-
-// #endregion questions
-
-// #region quotes
-
-const CuratedQuoteSchema = z.object({
-  speaker: z
+const StoryArcSchema = z.object({
+  title: z
     .string()
     .describe(
-      'Who said this (usually "Kaze", but could be Zeina or a chat participant)',
+      'A vivid, narrative title for this arc (e.g. "The Zoo Catalyst: From Lag to Engine Rewrite")',
     ),
-  quote: z
-    .string()
-    .describe(`The quote itself. ${QUOTE_FORMATTING_INSTRUCTIONS}`),
-  context: z
-    .string()
-    .describe("Brief context for why this quote matters or what prompted it"),
-  stream_date: z.string().describe("YYYYMMDD format of the source stream"),
-  use_case: z
-    .enum([
-      "narration",
-      "trailer",
-      "chapter-title",
-      "character-moment",
-      "emotional-beat",
-    ])
-    .describe("The documentary use case this quote is best suited for"),
-});
-
-export const CuratedQuotesSchema = z.object({
-  quotes: z
-    .array(CuratedQuoteSchema)
-    .min(30)
-    .max(80)
-    .describe(
-      "A generous selection pool of the strongest quotes across all streams, ranked by documentary impact – surface enough variety for the filmmaker to choose from",
-    ),
-});
-
-// #endregion quotes
-
-// #region stories
-
-const RankedStorySchema = z.object({
-  title: z.string().describe("A short, descriptive title for the story"),
   summary: z
     .string()
-    .describe("A 2–4 sentence factual overview of what happened in this arc"),
+    .describe("A 2–3 sentence narrative summary of this arc"),
   narrative_value: z
     .string()
     .describe(
-      "Why this story matters for the documentary – what it reveals about the creator, the process, or the project",
+      "Why this arc matters for the documentary – what it reveals about the creator, the process, or the project",
     ),
   challenge: z.string().describe("The problem or tension that initiated this"),
   process: z
     .string()
     .describe("How Kaze or the team worked through the challenge"),
   outcome: z.string().describe("The resolution, learning, or current state"),
-  key_quote: z
-    .string()
-    .nullable()
+  key_quotes: z
+    .array(StoryArcQuoteSchema)
+    .min(1)
+    .max(5)
     .describe(
-      `The most revealing quote from this story. ${QUOTE_FORMATTING_INSTRUCTIONS}`,
+      "The strongest verbatim quotes that bring this arc to life – evidence, not decoration",
+    ),
+  interview_questions: z
+    .array(StoryArcQuestionSchema)
+    .min(1)
+    .max(5)
+    .describe(
+      "The best interview questions to ask about this arc – designed to elicit storytelling, not yes/no answers",
     ),
   related_to: z
     .array(TeamMemberSchema)
-    .describe("Team members involved in or relevant to this story"),
+    .describe("Team members involved in or relevant to this arc"),
   source_streams: z
     .array(z.string())
-    .describe("YYYYMMDD dates of streams that contain this story"),
+    .describe("YYYYMMDD dates of streams that contain this arc"),
 });
 
-export const StoryHighlightsSchema = z.object({
-  stories: z
-    .array(RankedStorySchema)
+export const StoryArcsSchema = z.object({
+  arcs: z
+    .array(StoryArcSchema)
     .min(15)
-    .max(50)
+    .max(40)
     .describe(
-      "A broad selection of narrative arcs across all streams, ranked by documentary potential – surface enough for the filmmaker to choose which stories to pursue",
+      "Story arcs ranked by documentary potential – each arc is a self-contained narrative unit with embedded questions and quotes",
     ),
 });
 
-// #endregion stories
+// #endregion story-arcs
+
+// #region narrative-arcs
+
+const NarrativeArcSchema = z.object({
+  title: z
+    .string()
+    .describe(
+      'A vivid title for this narrative arc (e.g. "The Zoo Catalyst: The Real Origin Story")',
+    ),
+  narrative_goal: z
+    .string()
+    .describe(
+      "What this arc achieves in the documentary – the emotional or thematic payoff",
+    ),
+  topics_to_cover: z
+    .array(z.string())
+    .min(3)
+    .max(8)
+    .describe(
+      "Specific topics, moments, or questions to address when filming this arc",
+    ),
+  b_roll: z
+    .array(z.string())
+    .min(2)
+    .max(6)
+    .describe(
+      "Visual storytelling suggestions – concrete B-roll ideas to make this arc cinematic",
+    ),
+  team_members: z
+    .array(TeamMemberSchema)
+    .describe("Team members central to this arc"),
+});
+
+export const NarrativeArcsSchema = z.object({
+  arcs: z
+    .array(NarrativeArcSchema)
+    .min(8)
+    .max(20)
+    .describe(
+      "Thematic arcs that together form the documentary's filming roadmap – ordered to tell a coherent story",
+    ),
+});
+
+// #endregion narrative-arcs
 
 // #region topics
 
@@ -174,9 +175,8 @@ export const TopicArcsSchema = z.object({
 
 // #region types
 
-export type InterviewQuestions = z.output<typeof InterviewQuestionsSchema>;
-export type CuratedQuotes = z.output<typeof CuratedQuotesSchema>;
-export type StoryHighlights = z.output<typeof StoryHighlightsSchema>;
+export type StoryArcs = z.output<typeof StoryArcsSchema>;
+export type NarrativeArcs = z.output<typeof NarrativeArcsSchema>;
 export type TopicArcs = z.output<typeof TopicArcsSchema>;
 export type TopicArc = z.output<typeof TopicArcSchema>;
 
