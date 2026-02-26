@@ -1,0 +1,259 @@
+{
+  "stream_context": {
+    "summary": "Kaze continues overworld development: implements a gated Dorrie (Dory) traversal mechanic tied to beating the first Bowser level, debugs her AI target selection, and starts placing/validating early overworld minigame interactions (silver-star timer challenge). He also discusses ROM size being dominated by audio samples, explores engine-level performance ideas (failed Z-buffer clear split, future collision BVH), and shares broader project status (all 15 main courses integrated; overworld now the focus) plus team progress updates.",
+    "level": [
+      "Overworld"
+    ],
+    "significance": "milestone",
+    "significance_reason": "Kaze explicitly marks a phase transition: all 15 main courses are now in-game and programmed, shifting primary effort to building/programming the overworld layer and its progression gates."
+  },
+  "findings": [
+    {
+      "topic": "milestone",
+      "importance": "high",
+      "summary": "Kaze states that all 15 main courses are now in the game and fully programmed; development focus has shifted to overworld programming and progression gating.",
+      "quote": "We have all 15 main courses now in the game and programmed. And now we're working on the overworld."
+    },
+    {
+      "topic": "design",
+      "importance": "high",
+      "summary": "Overworld progression is being structured around hard locks/unlocks: Dory is physically chained/anchored until the player beats the first Bowser level, after which she becomes the traversal method to reach the other side of the overworld.",
+      "quote": "After you beat the first Bowser level, Yoshi frees her and rides on her back."
+    },
+    {
+      "topic": "technical",
+      "importance": "high",
+      "summary": "Kaze adds an in-engine save file editor/debug tool to grant stars/unlocks for testing overworld events, but his intended input (L+R same frame) fails due to a bug he identifies and begins correcting.",
+      "quote": "I programmed the save file editor into this thing here."
+    },
+    {
+      "topic": "technical",
+      "importance": "high",
+      "summary": "Dory pathing bug diagnosis: she incorrectly targets a spinning star inside a save block (a static behavior object) instead of the intended target point, causing her to swim toward the wrong location; solution is to use a different “dot actor”/target object.",
+      "quote": "This save block spawns a star that's spinning inside... she's finding that instead of the target point."
+    },
+    {
+      "topic": "design",
+      "importance": "medium",
+      "summary": "Kaze’s design goal for the overworld is a cohesive “place” with long-term visual foreshadowing: early on the player sees landmarks (lighthouse/volcano) they cannot reach, then later unlocks routes (e.g., cave traversal) to arrive there.",
+      "quote": "When you first get here, you see this lighthouse and the volcano... then after you play through the game a little bit... you come out on the other side of the cave, and now you're by the lighthouse."
+    },
+    {
+      "topic": "design",
+      "importance": "medium",
+      "summary": "Kaze characterizes the overworld as “almost kind of like a Zelda game,” implying a hub that supports exploration, gated traversal, and multi-step route discovery rather than a simple course-select space.",
+      "quote": "The overworld of this game is actually almost kind of like a Zelda game in a way."
+    },
+    {
+      "topic": "business",
+      "importance": "medium",
+      "summary": "ROM size constraint is currently driven overwhelmingly by audio: the build totals ~60MB, with ~46.3MB being sound samples (only ~13.7MB is game data). Kaze is not worried about the limit because he can trade sample rate/MIDI conversions, but audio compression would be the most valuable ROM-size win.",
+      "quote": "46.3 of those megabytes is just sound samples."
+    },
+    {
+      "topic": "technical",
+      "importance": "medium",
+      "summary": "A proposed audio compression approach from the “Dragon” group could reduce audio size by ~11% (8/9), freeing ~5.1MB, but Kaze says he’d likely spend the recovered space on more music unless it improves quality without drawbacks.",
+      "quote": "If we can gain those 5 megabytes without ruining the audio quality."
+    },
+    {
+      "topic": "technical",
+      "importance": "high",
+      "summary": "Kaze is considering upgrading collision from Mario 64’s cell-based lookup to a BVH system to speed collision queries; he notes BVH generation cost, extra ROM footprint (he estimates ~1MB), and tradeoffs between build-time vs runtime generation.",
+      "quote": "I'm actually thinking of adding collision BVH to the engine... Mario 64 currently uses cells, and I'm thinking of moving to BVH."
+    },
+    {
+      "topic": "technical",
+      "importance": "high",
+      "summary": "Engine performance experiment failed: splitting Z-buffer clear work between RSP and RDP made performance worse as RSP took on more of the clearing; Kaze suspects shared memory/bus contention and notes Ocarina of Time may benefit because it clears the framebuffer differently (he does not clear the framebuffer in his pipeline).",
+      "quote": "The more work I made the RSP do, the worse it got."
+    },
+    {
+      "topic": "technical",
+      "importance": "medium",
+      "summary": "Kaze explains an important rendering optimization philosophy: he avoids clearing large parts of the framebuffer (relying on watertight geometry and Z-buffer clear) to improve performance, but this creates artifacts if geometry isn't airtight.",
+      "quote": "We just clear the Z-buffer and then demand that the game has watertight geometry... That way you can stop clearing half the framebuffer."
+    },
+    {
+      "topic": "technical",
+      "importance": "high",
+      "summary": "Kaze claims leaked pre-release Mario 64 code did not help his engine work and he avoided it; he argues Nintendo’s original Mario 64 code quality is poor and leaked, non-shipping code would be even less useful.",
+      "quote": "The code that Nintendo wrote for Mario 64 is abysmal garbage... leaked code... would be even more abysmal garbage."
+    },
+    {
+      "topic": "team",
+      "importance": "medium",
+      "summary": "Team status: Marty has been building a side level “this whole time” and it looks very cool; Isa’s side level is behind and may be unusable because Kaze feels Isa did not put in the work expected.",
+      "quote": "The side level Marty is working on looks amazing... Isa... kinda didn't put in the work I hoped he would."
+    },
+    {
+      "topic": "design",
+      "importance": "medium",
+      "summary": "Overworld content planning includes numerous scripted “events” and named beats (e.g., 'Boobla infestation', 'Bone Dragon', 'message in a bottle'); Kaze also mentions current planned star total is ~193 but expects to land on a rounder final number (190/195/200).",
+      "quote": "Currently there's 193 stars planned... it might turn out 190, 195 or 200."
+    },
+    {
+      "topic": "philosophy",
+      "importance": "high",
+      "summary": "Kaze articulates a modern-quality bar: unlike 1996, players won’t tolerate 'bullshit' stars; he expects RTYI will be judged more harshly than vanilla Mario 64 and designs must respect modern attention/choice (players can quit/complain/look up solutions).",
+      "quote": "We'll be held to a much higher standard than the vanilla Mario 64 game... Back then, you could make bullshit... But now people don't do that."
+    }
+  ],
+  "contributor_findings": {
+    "biobak": [
+      {
+        "topic": "design",
+        "importance": "high",
+        "summary": "Kaze imports and reacts to a new Yoshi model from Biobak for the Dory rider/NPC Yoshi system; he notes it immediately looks more 'legit' and then fixes a rendering/material issue (primitive color state) to display it correctly.",
+        "quote": "We still need to import Biobak's new Yoshi... Oh my god, he immediately looks so much more legit."
+      }
+    ],
+    "badub": [],
+    "zeina": [
+      {
+        "topic": "design",
+        "importance": "medium",
+        "summary": "Zeina (appearing in chat; transcript renders as 'Zainab') suggests beach dressing/environment details for the overworld area (beach towels left behind, sandcastles, possibly parasols), which Kaze adds to his task list.",
+        "quote": "Oh yeah, we should have beach towels that were left behind and sandcastles. I'm going to add that to the list here."
+      }
+    ],
+    "others": [
+      {
+        "name": "Marty",
+        "findings": [
+          {
+            "topic": "team",
+            "importance": "medium",
+            "summary": "Marty is developing a side level in parallel; Kaze highlights it as notably elaborate and 'so cool,' suggesting it may become a showcase optional/side course.",
+            "quote": "Marty has been working on a side level this whole time. And it's looking so cool."
+          }
+        ]
+      },
+      {
+        "name": "Isa",
+        "findings": [
+          {
+            "topic": "team",
+            "importance": "medium",
+            "summary": "Isa’s side level appears stalled; Kaze expresses disappointment in the effort and uncertainty about whether or when it can be used, indicating a potential contributor management/content pipeline risk.",
+            "quote": "I'm not sure if I can use it or when I can get to it or if I can use it."
+          }
+        ]
+      }
+    ]
+  },
+  "memorable_quotes": [
+    {
+      "speaker": "Kaze",
+      "quote": "We'll be held to a much higher standard than the vanilla Mario 64 game... Back then, you could make bullshit... But now people don't do that.",
+      "context": "Kaze explains why RTYI must be designed to modern expectations and cannot rely on the tolerance players had in 1996."
+    },
+    {
+      "speaker": "Kaze",
+      "quote": "The code that Nintendo wrote for Mario 64 is abysmal garbage.",
+      "context": "In rejecting the value of leaked Mario 64 source for his work, Kaze stakes a provocative claim about the quality of the original code and why he chose to build cleanly from the decomp ecosystem."
+    },
+    {
+      "speaker": "Kaze",
+      "quote": "46.3 of those megabytes is just sound samples.",
+      "context": "A concrete data point that reveals what 'big' means on N64-era constraints and where RTYI’s ROM budget is actually going."
+    }
+  ],
+  "key_stories": [
+    {
+      "title": "Chaining Dory to gate the overworld and then freeing her",
+      "summary": "Kaze implements an overworld traversal gate where Dory is anchored and chained until the player beats the first Bowser level. After that milestone, Dory becomes a traversal vehicle with a Yoshi rider, enabling access to previously unreachable overworld regions.",
+      "challenge": "Create a clear, story-motivated lock that prevents early access while making the unlock feel meaningful and integrated into the overworld's geography.",
+      "process": "He adds a chain/anchor visual, uses a save-editor tool to simulate unlocks, and begins copying base Dory movement logic (circular movement, speed-up near stops) for convenience. He then debugs unexpected movement by tracing Dory’s target selection and discovering she was homing in on a static-behavior star spawned by a save block.",
+      "outcome": "Core binding/unbinding logic works (animation states still placeholder); remaining work includes finishing rider animations, placing Dory’s patrol/interaction points, and polishing the 'talk to Yoshi' behavior and dialogue.",
+      "key_quote": "This save block spawns a star that's spinning inside... she's finding that instead of the target point.",
+      "related_to": [
+        "kaze"
+      ]
+    },
+    {
+      "title": "ROM size reality: the game is small, the audio is huge",
+      "summary": "While asked about ROM limits, Kaze reveals RTYI’s ROM is ~60MB, but the vast majority is audio samples (~46.3MB). The practical constraint is not geometry or code but the cost of high-quality sample libraries.",
+      "challenge": "Maintain high perceived production value (music/audio) on a strict cartridge-era budget without sacrificing performance or shipping scope.",
+      "process": "He discusses a potential compression technique (approx. 11% savings), but frames it as optional because he can also reduce sample rates or convert tracks to MIDI if needed. He identifies audio compression as the most valuable 'new tech' for ROM savings if it preserves quality.",
+      "outcome": "ROM limit is not considered a blocker; audio compression is a 'nice-to-have' that could free ~5MB, likely reinvested into more music unless it materially improves quality/headroom.",
+      "key_quote": "So really there's only 13.7 megabytes of game and 46.3 megabytes of audio.",
+      "related_to": [
+        "kaze"
+      ]
+    },
+    {
+      "title": "A promising N64 optimization idea that failed in practice",
+      "summary": "Kaze attempts an optimization: split Z-buffer clearing between RSP and RDP to parallelize early-frame work. Contrary to expectations (and reports that similar ideas help Zelda), it gets strictly worse as more of the clear is moved to the RSP.",
+      "challenge": "Increase frame throughput by reducing time spent on mandatory per-frame clears without sacrificing image correctness.",
+      "process": "He implements a sweep where the RSP does varying percentages of the clear and measures microsecond counters. He then reasons about bus contention and differences from Ocarina of Time (framebuffer clear behavior, pipeline assumptions).",
+      "outcome": "He abandons the approach for now; the experiment informs his understanding that the 'two processors' are not independent enough under his current pipeline to yield gains on the same task.",
+      "key_quote": "Turns out apparently I only have one.",
+      "related_to": [
+        "kaze"
+      ]
+    }
+  ],
+  "open_questions": [
+    {
+      "topic": "Overworld progression structure and required unlocks",
+      "context": "Kaze references overworld features he can’t show without unlocks, mentions gating via Bowser completion, and alludes to many planned overworld events and ~20 stars inside the overworld itself.",
+      "questions": [
+        "What are the exact overworld 'unlock' milestones (e.g., first Bowser level, first puzzle level) and what new traversal options or areas do each unlock?",
+        "How did you decide which progression beats belong in the overworld versus in the 15 main courses?",
+        "What is the intended first-hour player path through the overworld, and where are you deliberately trying to create curiosity/teasing?"
+      ],
+      "related_to": [
+        "kaze"
+      ]
+    },
+    {
+      "topic": "Dory narrative motivation and emotional setup",
+      "context": "Chat suggests the player may not care about Dory unless she does something kind before being trapped; Kaze floats an idea where Dory could save Mario in an intro cutscene after a boat crash.",
+      "questions": [
+        "Did you end up adding an intro/cutscene moment that establishes Dory as sympathetic before she’s chained? If so, what does it look like technically on N64 (camera, animation, scripting)?",
+        "Why make Dory the key overworld traversal 'vehicle' instead of a warp, bridge, or Yoshi ability?",
+        "How do you balance 'evil Bowser did this' tone with keeping the overworld cozy and exploration-driven?"
+      ],
+      "related_to": [
+        "kaze"
+      ]
+    },
+    {
+      "topic": "Collision BVH: scope, memory budget, and toolchain implications",
+      "context": "Kaze considers moving from Mario 64’s cell-based collision to BVH, debating build-time vs runtime generation, ROM footprint (~1MB estimate), and compression.",
+      "questions": [
+        "What collision scenarios in RTYI are currently slow enough to justify BVH (large overworld, complex meshes, moving objects, dense triangles)?",
+        "What BVH structure are you envisioning (node layout, quantization, splitting heuristic), and how would it integrate with existing collision APIs from the decomp base?",
+        "If BVH generation is build-time, what tooling did you need (Makefile, asset pipeline), and what team help were you looking for?"
+      ],
+      "related_to": [
+        "kaze"
+      ]
+    },
+    {
+      "topic": "Libultra replacement plan and what it enables",
+      "context": "Kaze mentions DeathWizard working on a complete Libultra replacement, and outlines plans like an always-on OS thread in K0, eliminating 64-bit assumptions, and aggressive cache strategies (e.g., cache-as-stack idea).",
+      "questions": [
+        "What are the biggest pain points with Libultra in a modern decomp-based project like RTYI (performance, thread model, cache behavior, toolchain constraints)?",
+        "What features or optimizations become possible once Libultra is replaced that you cannot safely do today?",
+        "How do you manage stability risk when swapping foundational OS/runtime components late in a long project?"
+      ],
+      "related_to": [
+        "kaze"
+      ]
+    },
+    {
+      "topic": "Overworld as 'two courses' and streaming/asset banking decisions",
+      "context": "Kaze says the overworld is effectively 'two courses' and discusses awkwardness like duplicate silver-star switch objects across different banks/courses, considering loading the overworld bank elsewhere to avoid duplication.",
+      "questions": [
+        "How is the overworld technically structured (one or multiple courses/areas), and why did you choose that architecture?",
+        "What is your current object bank strategy for the overworld versus regular courses, and where are you hitting duplication or compatibility issues (like the silver-star switch)?",
+        "How do these banking decisions constrain art/design iteration (e.g., reuse vs unique set pieces)?"
+      ],
+      "related_to": [
+        "kaze"
+      ]
+    }
+  ]
+}

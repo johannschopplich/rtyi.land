@@ -1,0 +1,257 @@
+{
+  "stream_context": {
+    "summary": "Kaze updates the project to a new F3DEX3 build (temporarily breaking Project64 text rendering), then focuses on the Overworld entrance that unlocks Crystal Caves/Rainbow Grotto. He builds a reusable NPC dialogue/trade system, tunes the economy (300-coin gate), scripts the mice trade-and-mining cutscene to destroy a crystal wall, and iterates on shatter/dust VFX and save-state correctness. He also discusses collision-engine bugs, plans for BVH collision, N64 constraints for sound effects, and shows new third‑party models from a volunteer contributor (Graham).",
+    "level": [
+      "Overworld",
+      "Course 3 – Crystal Caves (Rainbow Grotto)"
+    ],
+    "significance": "milestone",
+    "significance_reason": "A major Overworld gate is implemented end-to-end (coin economy + trade + cutscene + destruction VFX + saving), and Kaze marks the entrance task as completed in his production tracker; also includes a pipeline shift due to F3DEX3/Project64 compatibility issues and onboarding of a new model contributor."
+  },
+  "findings": [
+    {
+      "topic": "technical",
+      "importance": "high",
+      "summary": "Updating to a newer F3DEX3 version breaks Project64 rendering (notably in-game text/dialogue), forcing development testing on NEMU/Real Land 64 until an emulator-side fix is made.",
+      "quote": null
+    },
+    {
+      "topic": "design",
+      "importance": "high",
+      "summary": "The Crystal Caves/Rainbow Grotto entrance is designed as an economy gate: the mice offer a trade costing 300 coins to open the third course by breaking a crystal wall.",
+      "quote": null
+    },
+    {
+      "topic": "technical",
+      "importance": "high",
+      "summary": "Kaze is building a reusable system so any NPC can initiate dialogue with Mario more easily, refactoring repeated dialogue/UI logic into functions for reuse across the game (shops and other NPCs).",
+      "quote": null
+    },
+    {
+      "topic": "design",
+      "importance": "medium",
+      "summary": "He notices NPC interaction pacing issues (NPC “talks too fast”) and identifies an action/state bug where an NPC’s action status doesn’t reset, affecting conversation timing/triggering.",
+      "quote": null
+    },
+    {
+      "topic": "technical",
+      "importance": "high",
+      "summary": "A collision-engine bug was found and partially fixed: ceilings failing to collide are now fixed, but excessive triangle iteration remains; Kaze postpones further optimization because he intends to replace collision with a BVH approach soon.",
+      "quote": null
+    },
+    {
+      "topic": "design",
+      "importance": "medium",
+      "summary": "Kaze validates/defends the platforming density in an existing area after viewer criticism, framing it as a misconception given the intended movement challenge.",
+      "quote": null
+    },
+    {
+      "topic": "technical",
+      "importance": "high",
+      "summary": "The “mice mining the wall” sequence required coordinating multiple NPC behaviors (both mice entering the mining action), camera shake considerations, and syncing VFX to specific animation frames; Kaze iteratively fixes wrong behavior IDs, wrong coordinates/axes, and action numbers.",
+      "quote": null
+    },
+    {
+      "topic": "technical",
+      "importance": "high",
+      "summary": "Kaze prototypes several wall-destruction VFX options and rejects approaches that make the wall look like a thin plane (e.g., simple cracks/lines or the wall lowering). He iterates toward a shatter effect using spawned triangle debris plus dust-like particles, adding gravity/opacity/velocity/randomness and adjusting distribution (grid arrangement) and axis rotation.",
+      "quote": null
+    },
+    {
+      "topic": "technical",
+      "importance": "medium",
+      "summary": "He addresses cutscene/VFX timing issues (effects firing “way delayed”) and compensates by subtracting the cutscene startup delay rather than rewriting the whole sequencing system mid-stream.",
+      "quote": null
+    },
+    {
+      "topic": "technical",
+      "importance": "medium",
+      "summary": "Sound effects are planned for the mining/shatter moment, but Kaze highlights N64 ROM/memory constraints and prefers “composed” (synthesized/sequence-like) SFX over recorded audio to save space.",
+      "quote": null
+    },
+    {
+      "topic": "milestone",
+      "importance": "high",
+      "summary": "End-to-end test confirms the gate works and saves correctly: after paying, the wall opens, the mice despawn, and the state persists on save/load. Kaze marks the entrance task as completed in his production tracker.",
+      "quote": null
+    },
+    {
+      "topic": "design",
+      "importance": "medium",
+      "summary": "He considers alternate unlock paths/edge cases: if the player already has the required item/state, the mice should instantly acknowledge it; he also floats an optional 70-star “easter egg” unlock for the same entrance.",
+      "quote": null
+    },
+    {
+      "topic": "design",
+      "importance": "medium",
+      "summary": "A secondary unlock method is planned but not yet implemented: the ‘bomb flower’ (bomb flow) can also blow open these rock/wall “stacks,” providing a non-economy bypass in some cases.",
+      "quote": null
+    },
+    {
+      "topic": "personal",
+      "importance": "medium",
+      "summary": "Kaze reiterates his stance on release dates (“when it’s done”) and describes constant release-date questions as persistent background noise during development streams.",
+      "quote": null
+    },
+    {
+      "topic": "personal",
+      "importance": "high",
+      "summary": "He explicitly connects new life circumstances to project choices: having a family/child means he expects to prioritize work that brings the most money, even when it’s not exactly what he wants creatively.",
+      "quote": null
+    }
+  ],
+  "contributor_findings": {
+    "biobak": [
+      {
+        "topic": "team",
+        "importance": "medium",
+        "summary": "Kaze references an upcoming “Biobak rework” of the Crystal Caves/Rainbow Grotto level, implying Biobak may revise or veto visual elements (including the wall-break VFX) if it doesn’t meet his standards.",
+        "quote": null
+      }
+    ],
+    "badub": [],
+    "zeina": [],
+    "others": [
+      {
+        "name": "Graham",
+        "findings": [
+          {
+            "topic": "team",
+            "importance": "high",
+            "summary": "A new volunteer contributor (Graham) reaches out to help with 3D models for RTYI; Kaze showcases multiple delivered models and evaluates their N64 suitability (triangle counts, texturing, shader/transparency constraints).",
+            "quote": null
+          },
+          {
+            "topic": "technical",
+            "importance": "medium",
+            "summary": "Kaze notes transparency/shader limitations on N64 as a practical integration constraint, specifically calling out that a transparent model will likely need shader adjustments because N64 transparency is “messed up.”",
+            "quote": null
+          },
+          {
+            "topic": "design",
+            "importance": "medium",
+            "summary": "Kaze reviews a detailed Blooper + Baby Blooper model (~348 triangles) but decides to keep his older ~88-triangle Blooper due to performance concerns in an already laggy area, prioritizing budget/perf over fidelity.",
+            "quote": null
+          }
+        ]
+      }
+    ]
+  },
+  "memorable_quotes": [
+    {
+      "speaker": "Kaze",
+      "quote": "I’m not shooting for anything; it comes out when it’s done.",
+      "context": "Response to repeated release-date pressure; clarifies his schedule philosophy for RTYI."
+    },
+    {
+      "speaker": "Kaze",
+      "quote": "Making video games is suffering.",
+      "context": "A blunt, character-revealing moment while juggling technical setbacks and constant audience questions."
+    },
+    {
+      "speaker": "Kaze",
+      "quote": "Now that I have a family and a child, money is always going to be a consideration. So most likely I am going to not necessarily do what I want to do, but rather what is going to bring me the most money.",
+      "context": "Personal turning point statement about how real-life obligations reshape creative priorities and project decisions."
+    }
+  ],
+  "key_stories": [
+    {
+      "title": "F3DEX3 upgrade disrupts emulator workflow",
+      "summary": "Kaze updates the project to a newer F3DEX3 version and immediately runs into a major tooling regression: Project64 can run the game but fails to render text correctly, breaking dialogue and UI readability. For the stream, he switches to NEMU/Real Land 64 and notes that a collaborator (Eclab) is working on restoring compatibility.",
+      "challenge": "A rendering/toolchain change (F3DEX3) breaks a core debugging/testing path (Project64), impacting dialogue-heavy development tasks.",
+      "process": "He confirms the symptoms (missing/garbled text), acknowledges the limitation during testing, and relies on alternative emulators while waiting for a fix from Eclab.",
+      "outcome": "Short-term: development proceeds on NEMU; medium-term: expectation of a Project64 fix once emulator support catches up.",
+      "key_quote": "We updated to a new version of F3DEX 3 today, which unfortunately means that we can no longer use Project 64 to play our game.",
+      "related_to": [
+        "kaze"
+      ]
+    },
+    {
+      "title": "Building the Crystal Caves entrance as an economy-driven gate",
+      "summary": "Kaze implements the Overworld entrance that unlocks Crystal Caves/Rainbow Grotto through a paid trade with mice NPCs. The sequence includes checking coin requirements, taking payment, triggering coordinated NPC mining animations, spawning shatter/dust effects, removing the wall, and verifying save persistence.",
+      "challenge": "Make a satisfying, readable ‘pay-to-unlock’ moment on N64 hardware constraints without making the wall feel like a flat paper plane or the cutscene feel out of sync.",
+      "process": "He refactors dialogue/trade logic into reusable functions for broader NPC use, scripts the trade state machine, then iterates on VFX (triangle shatter, dust, gravity, color, distribution, timing offsets) and tests save/load to confirm the gate remains open.",
+      "outcome": "Entrance is functionally complete and marked done in his production tracker; remaining enhancements include sound polish and an alternate bomb-flower blow-up method.",
+      "key_quote": "Ultimate test, does it save?",
+      "related_to": [
+        "kaze",
+        "biobak"
+      ]
+    },
+    {
+      "title": "Choosing not to over-fix collision until BVH replaces it",
+      "summary": "Kaze finds a significant collision bug affecting ceilings and fixes it, but also discovers performance waste from iterating too many triangles. He deliberately leaves the second issue unfixed because he plans a broader collision overhaul using BVH, making a partial optimization feel like wasted effort.",
+      "challenge": "Balancing short-term bugfixes with long-term engine rewrites in a multi-year N64 project with limited time and motivation.",
+      "process": "Fixes the user-facing collision break (ceilings), documents the remaining perf issue, and decides to defer until the BVH collision system is implemented.",
+      "outcome": "Gameplay correctness improves immediately; performance improvements are intentionally postponed pending the BVH milestone.",
+      "key_quote": "I didn’t fix that part yet. And the reason I didn’t fix that part is because I want to do a BVH collision soon anyway, so my fix would be a wasted effort.",
+      "related_to": [
+        "kaze"
+      ]
+    }
+  ],
+  "open_questions": [
+    {
+      "topic": "F3DEX3 + Project64 incompatibility",
+      "context": "After updating F3DEX3, Project64 still runs the game but text/dialogue rendering breaks, forcing testing on NEMU/Real Land 64; Kaze says Eclab is working on it.",
+      "questions": [
+        "What specific F3DEX3 change caused Project64’s text rendering to fail (combiner state, microcode expectations, RDP/RSP differences, display list format changes)?",
+        "What is Eclab’s planned fix path—patching Project64, maintaining a fork, or adding a compatibility mode/toolchain toggle in RTYI?",
+        "How does emulator fragmentation affect your QA workflow (e.g., which emulator/hardware is ‘authoritative’ for graphics and timing)?"
+      ],
+      "related_to": [
+        "kaze"
+      ]
+    },
+    {
+      "topic": "NPC talk/trade system architecture",
+      "context": "Kaze is refactoring to make it easier for any NPC to talk to Mario and to reuse dialogue/trade logic for multiple NPCs/shops.",
+      "questions": [
+        "What’s the interface for an RTYI NPC ‘conversation’ now—data-driven tables, behavior params, or hard-coded logic per NPC?",
+        "How do you prevent common state bugs (like the action/status not resetting) across many NPCs?",
+        "Will this system support branching choices, conditional text based on flags/items, and localization later?"
+      ],
+      "related_to": [
+        "kaze"
+      ]
+    },
+    {
+      "topic": "Economy design for Overworld gates",
+      "context": "The mice charge 300 coins to open the third course, and Kaze debates tone (cheese references), fairness, and alternate unlocks (70 stars).",
+      "questions": [
+        "How did you decide 300 coins was ‘fair’—based on expected coin density, time-to-farm, or pacing targets in the Overworld?",
+        "Do you want coin gates to feel optional (luxury shortcuts) or mandatory progression beats?",
+        "What is the design intent behind a possible 70-star easter-egg unlock—speedrunning support, veteran reward, or accessibility?",
+        "How will you handle edge cases (player already unlocked it, already owns the traded item/state) so interactions don’t feel broken or repetitive?"
+      ],
+      "related_to": [
+        "kaze"
+      ]
+    },
+    {
+      "topic": "Wall destruction VFX and ‘solid volume’ readability",
+      "context": "Kaze rejects VFX that read as a flat plane (lowering wall, crack lines) and experiments with shatter triangles and dust; he mentions Biobak may rework the level and potentially reject ugly effects.",
+      "questions": [
+        "What’s your ‘visual bar’ for RTYI effects—closer to stock SM64 readability or closer to modern ‘juice’ while staying plausible on N64?",
+        "What performance budget do you allocate to one-off VFX moments (particle count, overdraw, extra geo) in a busy area?",
+        "How much influence does Biobak have in final calls on visuals—does he have veto power on effects that clash with the art direction?"
+      ],
+      "related_to": [
+        "kaze",
+        "biobak"
+      ]
+    },
+    {
+      "topic": "BVH collision rewrite scope and schedule",
+      "context": "Kaze plans BVH collision and avoids intermediate triangle-iteration optimizations to prevent wasted work.",
+      "questions": [
+        "What’s the concrete target for BVH—broadphase only, or full replacement of SM64 collision queries?",
+        "How will BVH interact with moving geometry, dynamic objects, and per-area streaming?",
+        "Is BVH mainly for performance headroom (more complex levels) or to enable new gameplay (denser geometry, more interactables)?"
+      ],
+      "related_to": [
+        "kaze"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,221 @@
+{
+  "stream_context": {
+    "summary": "Kaze outlines several core collectible/mechanic ideas (four caps, persistent one-time “rare” coins) and then spends most of the stream implementing and tuning koi fish AI for a pond/village area. Alongside the technical work (movement, line-of-sight checks, RNG validation, anti-stuck logic), he iterates on a star objective concept involving a crab encounter, and he discusses uncertain plans for Luigi (unlock vs multiplayer) and the importance of hardware/region compatibility and byte-matching.",
+    "level": [],
+    "significance": "notable",
+    "significance_reason": "Contains multiple concrete design decisions (four-cap set, one-time coins, koi-saving objective, crab fight concept), plus notable production philosophy (multiplayer unlock skepticism) and technical insights about persistence (EEP) and emulator vs hardware behavior."
+  },
+  "findings": [
+    {
+      "topic": "design",
+      "importance": "high",
+      "summary": "The hack’s power-up system includes four caps: Wing Cap (classic SM64), Ice Cap (Galaxy-like but without shooting ice), Bomb Cap (throw bombs), and Cloud Cap (spawn clouds). Kaze explicitly rejects keeping Metal/Vanish caps because he considers them unfun.",
+      "quote": null
+    },
+    {
+      "topic": "design",
+      "importance": "high",
+      "summary": "“Rare”/secret coins are designed as one-time collectibles that persist via save data: when collected, a bit is written to the EEPROM, and on revisits that coin is replaced by a normal small coin. Kaze frames this partly as an intentional ‘trolling’ moment for players sharing secrets.",
+      "quote": null
+    },
+    {
+      "topic": "design",
+      "importance": "medium",
+      "summary": "Kaze states a structural rule for side levels: each side level has exactly one star, with no exceptions.",
+      "quote": null
+    },
+    {
+      "topic": "design",
+      "importance": "high",
+      "summary": "He shifts a planned star objective from a too-simple solution (crab appears and you ground pound once for a star) toward a more involved encounter: a crab (or multiple crabs) threatening the saved fish, requiring repeated/structured interaction rather than a single hit.",
+      "quote": null
+    },
+    {
+      "topic": "design",
+      "importance": "high",
+      "summary": "The crab-star concept evolves into a multi-target/timed challenge: several crabs around the fish retreat into their shells when ground-pounded; the player likely must ground-pound all of them within a time limit before they re-emerge (Koopa-like), creating a clearer win condition than an open-ended chase.",
+      "quote": null
+    },
+    {
+      "topic": "design",
+      "importance": "medium",
+      "summary": "Kaze considers staging for readability: placing the crab/fight near the pond area where the fish are visible (and potentially showing the crab ‘fishing’/netting fish) to better telegraph the objective and reduce confusion.",
+      "quote": null
+    },
+    {
+      "topic": "team",
+      "importance": "high",
+      "summary": "Luigi’s inclusion is still undecided in scope: Kaze says Luigi may be temporary or permanent, and he is unsure whether Luigi is an endgame unlock or part of full-on multiplayer. He strongly dislikes the idea of locking multiplayer behind beating the game once, calling it harmful to player experience.",
+      "quote": null
+    },
+    {
+      "topic": "technical",
+      "importance": "high",
+      "summary": "Kaze implements koi behavior using randomized goal points and flocking-like following, adds line-of-sight checks, and then iteratively tunes turning/swaying to look more natural. He identifies and fixes a logic error (misusing min/max) that affected motion smoothing, showing that small math mistakes significantly change perceived animation quality.",
+      "quote": null
+    },
+    {
+      "topic": "technical",
+      "importance": "medium",
+      "summary": "He diagnoses koi pathing edge cases: fish sometimes get stuck (likely due to unreachable generated goals or collision/geometry edge cases), prompting plans for protective logic (limits/guards so they can’t target unreachable positions) and constraints to prevent clipping into land/floors.",
+      "quote": null
+    },
+    {
+      "topic": "technical",
+      "importance": "medium",
+      "summary": "He checks whether emulator behavior is skewing randomness (RNG distribution) and notes that some perceived non-randomness/erratic behavior could be emulator-specific, though prints suggest values are “randomish.” This reflects a workflow of validating gameplay logic across emulation vs real targets.",
+      "quote": null
+    },
+    {
+      "topic": "technical",
+      "importance": "medium",
+      "summary": "He references platform/region build concerns: the game “runs fine on the iQue player” with help from a collaborator (named ‘Jinjo’ in the transcript), and he mentions building a ROM that works on NTSC and China. He also emphasizes byte-matching as important for confidence that behavior remains identical across builds.",
+      "quote": null
+    },
+    {
+      "topic": "technical",
+      "importance": "low",
+      "summary": "Kaze briefly revisits an older stability issue: physics interpolation never produced a ‘broken Mario’ for him; prior corruption was likely graphics threads reading temporary data, which he says hasn’t happened in a long time.",
+      "quote": null
+    },
+    {
+      "topic": "design",
+      "importance": "medium",
+      "summary": "Kaze’s intent for the koi is environmental/world-building rather than a fishing minigame: he explicitly says there will be no fishing game and that the koi exist ‘for the sake of it,’ implying a focus on making the village feel alive and purposeful through small systems.",
+      "quote": null
+    },
+    {
+      "topic": "design",
+      "importance": "medium",
+      "summary": "End-of-stream koi TODO list becomes feature definition: before being “saved,” koi should swim away when Mario approaches; they must not clip through floors onto land; and they need animations to feel elegant (he notes limited model ‘bones’ may constrain fish-like motion).",
+      "quote": null
+    }
+  ],
+  "contributor_findings": {
+    "biobak": [],
+    "badub": [],
+    "zeina": [],
+    "others": [
+      {
+        "name": "Jinjo (as mentioned)",
+        "findings": [
+          {
+            "topic": "technical",
+            "importance": "medium",
+            "summary": "Kaze credits ‘Jinjo’ with helping verify the ROM works on iQue hardware, reinforcing that external testers/collaborators are used to validate console-specific behavior.",
+            "quote": null
+          }
+        ]
+      }
+    ]
+  },
+  "memorable_quotes": [
+    {
+      "speaker": "Kaze",
+      "quote": "People will find one of those secret coins… and they’ll tell their friends… and they go there again. Please, get trolled!",
+      "context": "He explains the EEPROM-backed ‘rare coin’ system that turns the coin into a normal coin after first collection, intentionally creating a prank-like moment for players revisiting shared secrets."
+    },
+    {
+      "speaker": "Kaze",
+      "quote": "Luigi might be temporary, he might be permanent. We have yet to see.",
+      "context": "He summarizes ongoing uncertainty about Luigi’s role, framing it as a major open design decision rather than a settled feature."
+    },
+    {
+      "speaker": "Kaze",
+      "quote": "What would be the most evil thing is if there is a multiplayer but you have to unlock it by beating the game once. God, I hate when games do that.",
+      "context": "He articulates a clear player-experience principle: avoid locking high-value features behind completion gates that reduce accessibility and fun."
+    }
+  ],
+  "key_stories": [
+    {
+      "title": "Designing ‘rare’ coins as persistent one-time secrets",
+      "summary": "Kaze describes a system where special coins can appear anywhere he chooses, but after the player collects one, the game sets a bit in the EEPROM so that coin never returns in that form. On revisits it becomes a normal coin, turning shared ‘secret locations’ into a surprise for friends who come later.",
+      "challenge": "How to make secrets feel meaningful and persistent in a ROM hack, while also creating memorable player-to-player stories.",
+      "process": "He implements a save-backed flag per coin (EEP bit) and changes the spawn behavior based on whether it has been collected before.",
+      "outcome": "A concrete mechanic that supports exploration and replay, plus an intentional social ‘gotcha’ moment that Kaze expects to pay off years later.",
+      "key_quote": "Please, get trolled!",
+      "related_to": [
+        "kaze"
+      ]
+    },
+    {
+      "title": "Koi pond objective and evolving crab-star encounter",
+      "summary": "While programming koi AI, Kaze rethinks an earlier star idea where the player simply ground-pounds a crab once. He iterates toward a more structured multi-crab challenge (crabs retreat into shells; player must hit them all within a time limit), aiming for a star objective that fits the village tone without feeling like an out-of-place boss fight.",
+      "challenge": "Creating a star challenge that is neither trivial nor tonally mismatched for a peaceful village/pond setting.",
+      "process": "He brainstorms encounter staging (where the crab appears, how the fish telegraph danger), rejects counterintuitive solutions, and converges on a repeatable mechanic (multiple targets + re-emerge timer).",
+      "outcome": "A clearer direction for the star mission design, with implementation planned after finishing koi behaviors/animations and anti-clipping protections.",
+      "key_quote": null,
+      "related_to": [
+        "kaze"
+      ]
+    }
+  ],
+  "open_questions": [
+    {
+      "topic": "Luigi’s final purpose (unlock vs multiplayer, and when)",
+      "context": "Kaze says Luigi may be temporary or permanent and is undecided between an endgame unlock and full multiplayer; he also dislikes locking multiplayer behind completion.",
+      "questions": [
+        "What was the original reason to add Luigi (narrative, novelty, multiplayer ambition, or ‘because we can’)?",
+        "What constraints (technical, design, schedule, N64 performance) determine whether Luigi becomes permanent?",
+        "If multiplayer exists, what are the best ‘unlocked from the start’ alternatives that still preserve progression satisfaction?",
+        "How would Luigi change level design (camera, enemy counts, star challenges) if multiplayer is real? (e.g., co-op vs competitive)"
+      ],
+      "related_to": [
+        "kaze"
+      ]
+    },
+    {
+      "topic": "Exact implementation and scale of the EEPROM-backed ‘rare coin’ system",
+      "context": "Kaze describes setting a bit in the EEPROM so a special coin becomes a normal coin after collection, but details (how many exist, how they’re indexed, and player messaging) aren’t explained.",
+      "questions": [
+        "How many ‘rare coins’ are planned across the whole game, and how are they indexed in save data (per-level arrays, global flags, etc.)?",
+        "Are rare coins purely an easter egg, or do they feed into progression/unlocks (stars, caps, cosmetics)?",
+        "How do you prevent players from permanently missing content if a rare coin is ‘spent’ on first pickup?",
+        "Will the game ever communicate that a coin is ‘one-time’ or is the ambiguity intentional?"
+      ],
+      "related_to": [
+        "kaze"
+      ]
+    },
+    {
+      "topic": "Final crab encounter design and telegraphing",
+      "context": "Kaze moves toward a multi-crab timed mechanic (retreat into shells; re-emerge if you take too long) and considers staging the fight where fish are visible or where the crab is ‘fishing.’",
+      "questions": [
+        "What makes this star ‘feel like Yoshi’s Island’ rather than a generic enemy gauntlet?",
+        "How will the player learn the rules (time limit, re-emerge behavior) without explicit tutorials?",
+        "Will the crab encounter vary depending on whether the koi have been ‘saved’ already (states/phases)?",
+        "What constraints keep the crab in water while still enabling readable combat interactions?"
+      ],
+      "related_to": [
+        "kaze"
+      ]
+    },
+    {
+      "topic": "Koi movement quality vs model/rig constraints",
+      "context": "Kaze notes the fish currently lack animations and may not have enough bones for elegant ‘fishy’ motion; he hacks in sway via angle/turning logic and plans further animation work.",
+      "questions": [
+        "What is the intended ‘quality bar’ for ambient creature animation on N64 hardware (bones, vertex animation, texture animation)?",
+        "Who is responsible for koi animation/rig updates, and what pipeline/tools are used (Blender → exporter → SM64 decomp assets)?",
+        "Will the koi ever need deterministic motion (for gameplay) versus purely ambient behavior?",
+        "How do you decide when a creature is ‘good enough’ vs a time sink, given hack scope?"
+      ],
+      "related_to": [
+        "kaze",
+        "zeina"
+      ]
+    },
+    {
+      "topic": "Emulator vs hardware differences (RNG and behavior)",
+      "context": "Kaze suspects some erratic koi behavior might be emulator-related, and he validates RNG distribution by printing values; he also emphasizes byte-matching and mentions iQue/NTSC builds.",
+      "questions": [
+        "Which emulators (and which settings) have caused the most misleading behavior during development?",
+        "What’s the team’s test matrix (console, EverDrive, iQue, emulators), and how often do you test on real hardware?",
+        "What parts of the engine/hack are most sensitive to non-byte-matching changes (physics, RNG, rendering)?",
+        "How did iQue/China compatibility affect technical decisions (toolchain, ROM layout, region timing)?"
+      ],
+      "related_to": [
+        "kaze"
+      ]
+    }
+  ]
+}

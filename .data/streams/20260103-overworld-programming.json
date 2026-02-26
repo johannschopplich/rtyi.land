@@ -1,0 +1,237 @@
+{
+  "stream_context": {
+    "summary": "Kaze builds and tunes a “watermelon defense” mission (Shy Guys invade and attack a single surviving melon while Yoshi pleads for help), including spawner logic, movement/jump behavior, difficulty scaling, hitbox/interaction bugs, and respawn/death-warp behavior. He also shows an in-progress snowy village area made off-stream with Zeina and discusses broader difficulty philosophy, playtesting feedback, remaining engine work (music), and potential legal distinctness steps before release.",
+    "level": [
+      "Overworld"
+    ],
+    "significance": "notable",
+    "significance_reason": "Contains concrete progress on a full mission loop (spawn→defend→lose/win→respawn), shows new area work with Zeina, and includes meaningful design philosophy about difficulty and accessibility plus an update that the overworld and 15 main courses are already done."
+  },
+  "findings": [
+    {
+      "topic": "design",
+      "importance": "high",
+      "summary": "The stream’s main task is implementing a “watermelon defense” mission: Shy Guys spawn, run to the last remaining melon in a field, and the player must stop them (initially planned as killing 20 Shy Guys). Kaze frames it as a short, readable objective with a cutscene setup and a clear fail state (melon destroyed / player death warp).",
+      "quote": null
+    },
+    {
+      "topic": "technical",
+      "importance": "high",
+      "summary": "Kaze implements and debugs the Shy Guy spawner/AI behavior: ensuring they spawn reliably, target the melon, jump a gap, and change speed using sub-action/state logic. Several issues came from missing action initialization and incorrect goal/index data causing them to move toward the wrong target or fall into other areas and crash the game.",
+      "quote": null
+    },
+    {
+      "topic": "design",
+      "importance": "high",
+      "summary": "Difficulty tuning becomes the core design problem: the mission is initially “very difficult” because one player hit can spiral into repeated hits, especially due to lingering spear hitboxes. Kaze iterates on knobs (spawn delay, enemy speed after first hit, spawn grouping) to find a challenging-but-manageable pacing.",
+      "quote": null
+    },
+    {
+      "topic": "technical",
+      "importance": "high",
+      "summary": "A major fairness bug is identified: Shy Guy spear/hitbox interactions can persist (“lingering hitbox”) after the enemy is hurt or dead, leading to unavoidable damage. Kaze explicitly targets immediate deactivation/reset of interaction state to prevent phantom hits.",
+      "quote": null
+    },
+    {
+      "topic": "technical",
+      "importance": "medium",
+      "summary": "Randomized group spawning is added to make waves feel more interesting while reducing total mission time; however, Kaze observes an emulator-specific failure where Project64 appears to emulate a hardware-dependent RNG incorrectly, producing repeated/absurd outcomes (e.g., a massive group spawn). This implies certain RNG implementations may not be portable across emulators without safeguards.",
+      "quote": null
+    },
+    {
+      "topic": "technical",
+      "importance": "medium",
+      "summary": "Kaze troubleshoots mission lose-state handling: a death-warp/respawn intended to place Mario back near Yoshi fails until he reinstates a needed action state (he returns to using “Action 4”). Once corrected, the watermelon can respawn correctly and the loop (lose → restart mission) largely works, though the win/ending/star award still fails by stream end.",
+      "quote": null
+    },
+    {
+      "topic": "design",
+      "importance": "medium",
+      "summary": "Kaze adds feedback/juice to the objective: the melon gets a hit reaction (jiggle/shake), rotting-looking green/orange particles on damage, and he plans a cutscene-style explosion on failure. He considers having Mario visually blue/decolored in cold areas and proposes a “freeze to death” animation where Mario locks in his current pose and drops.",
+      "quote": "What if he just freezes in place whatever animation frame he had and just drops? That would look so cool."
+    },
+    {
+      "topic": "design",
+      "importance": "medium",
+      "summary": "He shows an off-stream snowy “cozy village” area made with Zeina. Core mechanic: the player takes cold damage outside warm lamp zones unless they pick up/wear an ice cap. Kaze critiques the current set dressing as too “placed” (e.g., a random table) and wants it to feel more abandoned, snowed-in, and integrated (icicles, deeper snow burial).",
+      "quote": null
+    },
+    {
+      "topic": "milestone",
+      "importance": "high",
+      "summary": "Project status update: Kaze states the overworld is done and “all 15 main courses are done,” implying the project is in late-stage polishing/mission scripting rather than core course creation.",
+      "quote": null
+    },
+    {
+      "topic": "legal-nintendo",
+      "importance": "medium",
+      "summary": "Kaze raises the possibility of making the project “legally distinct” and says he’s “definitely” going to talk to a lawyer, noting it could add significant time depending on the chosen approach.",
+      "quote": "Who knows, maybe I want to make this legally distinct. I'm definitely going to talk to a lawyer."
+    },
+    {
+      "topic": "technical",
+      "importance": "medium",
+      "summary": "Kaze says the major missing engine component is the music engine: he considers his current version mostly finished but mentions a possible full rewrite “in our own words” for better optimization. He also expects RTYI to be playable on Android via emulators and implies an engine-only release could happen separately.",
+      "quote": null
+    },
+    {
+      "topic": "philosophy",
+      "importance": "high",
+      "summary": "Difficulty philosophy: Kaze argues most ROM hacks are too hard for average players and worries more about unintended difficulty than intended challenge. He emphasizes “excitement” and “wonder” over raw difficulty and points to Mario 64’s freedom as the core soul—players can self-select risk by choosing harder movement routes.",
+      "quote": "That's freedom, man. That's the point of Mario 64. This is where the soul of the game is."
+    },
+    {
+      "topic": "community",
+      "importance": "medium",
+      "summary": "External playtest feedback: Kaze reports a recent Course 12 playtest with one of Zeina’s friends (not into ROM hacks) who beat the course without issues, loved it, and even liked the camera—supporting the team’s push for predictability and accessibility.",
+      "quote": null
+    }
+  ],
+  "contributor_findings": {
+    "biobak": [
+      {
+        "topic": "design",
+        "importance": "medium",
+        "summary": "Biobak is directly consulted for feedback on the snowy village area’s look/feel; Kaze asks for an opinion and discusses how to make the environment read as abandoned/snowed-in rather than “props placed on top.”",
+        "quote": null
+      },
+      {
+        "topic": "technical",
+        "importance": "low",
+        "summary": "Biobak discusses tooling/view modes (Fast64 render modes) in relation to how certain exports will display correctly, indicating ongoing back-and-forth on art pipeline verification.",
+        "quote": null
+      },
+      {
+        "topic": "design",
+        "importance": "medium",
+        "summary": "Biobak participates in the difficulty conversation about classic hacks (e.g., Star Road) and whether difficulty spikes are intended vs accidental, reinforcing the team’s focus on avoiding unintentional frustration.",
+        "quote": null
+      }
+    ],
+    "badub": [],
+    "zeina": [
+      {
+        "topic": "design",
+        "importance": "medium",
+        "summary": "Zeina collaborates off-stream with Kaze on building the snowy village area (environment art/layout).",
+        "quote": null
+      },
+      {
+        "topic": "team",
+        "importance": "medium",
+        "summary": "A non-ROMhack player in Zeina’s circle playtests Course 12 and gives strong positive feedback (difficulty and camera), providing an outside-of-community validation point.",
+        "quote": null
+      }
+    ],
+    "others": []
+  },
+  "memorable_quotes": [
+    {
+      "speaker": "Kaze",
+      "quote": "That's freedom, man. That's the point of Mario 64. This is where the soul of the game is.",
+      "context": "Kaze explains why RTYI should preserve Mario 64’s player-driven movement freedom and why difficulty can be self-selected by taking riskier routes."
+    },
+    {
+      "speaker": "Kaze",
+      "quote": "Who knows, maybe I want to make this legally distinct. I'm definitely going to talk to a lawyer.",
+      "context": "Late-stage release considerations: he acknowledges possible legal risk mitigation that could affect schedule."
+    }
+  ],
+  "key_stories": [
+    {
+      "title": "Building the watermelon defense mission loop",
+      "summary": "Kaze implements a defend-the-object scenario where Shy Guys invade and attack the last surviving melon while Yoshi calls for help. The mission requires reliable spawning, pathing to the objective, gap-jumping behavior, fair interaction/hitbox handling, and a clean lose/win loop that resets correctly.",
+      "challenge": "The mission was initially unstable (spawns/targets wrong, crashes) and felt unfairly hard due to lingering spear hitboxes and punishing player stun/damage flow; respawn/warp logic also behaved incorrectly.",
+      "process": "He adds explicit state/action signaling for invasion start, builds movement state transitions (including slowing after jump), adds wave logic (including group spawns), instruments the objective with shake + particles, and repeatedly tests lose/win cases while debugging interaction reset and warp action requirements.",
+      "outcome": "By stream end, the core behavior largely works (spawn, run to melon, combat feels closer to manageable), but the mission still fails to properly award the star/ending reliably and needs final polish next stream.",
+      "key_quote": null,
+      "related_to": [
+        "kaze"
+      ]
+    },
+    {
+      "title": "Late-stage philosophy check: excitement without ROM-hack difficulty",
+      "summary": "Kaze reflects on how ROM hacks often alienate normal players by being too hard, and he wants RTYI to be fun even when easy. He frames Mario 64’s soul as movement freedom that lets players choose their own risk level, rather than forcing everyone into high-difficulty execution.",
+      "challenge": "Balancing respect for the original with new mechanics and setpieces without falling into the genre trap of difficulty spikes and accidental frustration.",
+      "process": "He compares baseline Mario 64 difficulty, cites external playtesters who aren’t ROM-hack fans, and uses the current melon mission as an example where he must tune for fairness and readability (remove lingering hitboxes, adjust pacing) instead of simply “making it hard.”",
+      "outcome": "A clearer design target emerges: avoid unintended difficulty, keep controls/camera predictable, and pursue excitement through scenarios, feedback, and player choice rather than punishing execution.",
+      "key_quote": "Honestly, do players really want difficulty, though? Do they not just want excitement?",
+      "related_to": [
+        "kaze"
+      ]
+    },
+    {
+      "title": "Release-adjacent risks: music engine optimization and legal distinctness",
+      "summary": "While doing mission scripting, Kaze zooms out to note that major remaining work includes the music engine (possibly a full rewrite for optimization) and potential legal mitigation steps (consulting a lawyer and possibly making the project more legally distinct).",
+      "challenge": "Finishing polish while managing risks that can expand scope late (engine rewrites, legal review).",
+      "process": "He describes the music engine as mostly finished on his side but considers rewriting it “in our own words” for performance; he also flags that a legal strategy decision may add significant time.",
+      "outcome": "The project is close in content (overworld + 15 courses done) but still exposed to “endgame” schedule extensions driven by engine and legal decisions.",
+      "key_quote": "The major thing missing though right now is the music engine... [there’s a] plan to maybe remake the whole thing in our own words to be more optimal altogether.",
+      "related_to": [
+        "kaze"
+      ]
+    }
+  ],
+  "open_questions": [
+    {
+      "topic": "Watermelon defense mission ending/star award logic",
+      "context": "The mission becomes playable (including losing and restarting), but even after defeating the required number of Shy Guys, the star doesn’t reliably award by the end of the stream.",
+      "questions": [
+        "What exact conditions constitute ‘win’ for this mission (kills, timer, melon HP remaining), and how are those conditions represented in save/state?",
+        "What system is responsible for star awarding in RTYI’s mission structure (custom scripting layer vs SM64 star logic), and where did the integration break here?",
+        "How do you validate mission completion across emulators/hardware to ensure the star can’t softlock due to state bugs?"
+      ],
+      "related_to": [
+        "kaze"
+      ]
+    },
+    {
+      "topic": "Fairness fixes for lingering spear/hitbox interactions",
+      "context": "Kaze identifies that Shy Guys can leave behind active interaction/hitboxes, causing unavoidable damage and making the mission feel unfair.",
+      "questions": [
+        "What is the root cause of the lingering hitbox (object death not clearing collider, interaction flags not resetting, spear as separate object not being destroyed)?",
+        "Do you have a general-purpose ‘safe despawn’ pattern for enemies/objects now, and will it be applied across the game to prevent similar bugs?",
+        "How do you test ‘unavoidable hit’ cases during playtesting—do you use debug visualization for hitboxes or rely on feel-based iteration?"
+      ],
+      "related_to": [
+        "kaze"
+      ]
+    },
+    {
+      "topic": "Emulator-specific RNG behavior (Project64)",
+      "context": "Group spawning sometimes degenerates into absurd repeated results (e.g., huge groups), which Kaze suspects is due to Project64 emulating hardware-dependent RNG behavior incorrectly.",
+      "questions": [
+        "What RNG method are you using that depends on ‘deep hardware behavior,’ and why was it chosen over a deterministic PRNG?",
+        "Will RTYI ship with a deterministic RNG implementation to ensure consistent behavior across emulators and original hardware?",
+        "Do you maintain a compatibility matrix (EverDrive + common emulators) for critical gameplay scripts like spawners?"
+      ],
+      "related_to": [
+        "kaze"
+      ]
+    },
+    {
+      "topic": "Music engine rewrite decision",
+      "context": "Kaze says his music engine is basically finished, but there’s consideration of rewriting it ‘in our own words’ for better optimization.",
+      "questions": [
+        "What is the current music engine architecture (sequence parsing, channel mixing, memory strategy), and what performance/feature limitations motivate a rewrite?",
+        "Who is involved in the decision (Kaze alone vs consultation with ZeroVolt/others), and what would be the acceptance criteria to avoid scope creep?",
+        "Would an engine-only release happen before RTYI content release, and what purpose would it serve (community adoption, testing, credibility, tooling)?"
+      ],
+      "related_to": [
+        "kaze"
+      ]
+    },
+    {
+      "topic": "‘Legally distinct’ strategy and lawyer consultation",
+      "context": "Kaze flags that he may pursue a ‘legally distinct’ direction and will talk to a lawyer, implying possible late changes to assets/presentation.",
+      "questions": [
+        "What specific legal risk is the team most concerned about (title/branding, character likeness, soundtrack similarities, distribution method, patching vs full ROM)?",
+        "What concrete changes are on the table to become ‘legally distinct’ (renaming, asset replacement, story framing), and which of those would meaningfully affect development time?",
+        "At what point in the project did legal concerns become serious enough to consider lawyer involvement, and what triggered that reassessment?"
+      ],
+      "related_to": [
+        "kaze"
+      ]
+    }
+  ]
+}

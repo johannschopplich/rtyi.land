@@ -1,0 +1,204 @@
+{
+  "stream_context": {
+    "summary": "Kaze implements and polishes an overworld/NPC-style star encounter centered on destroying sandcastles (\"Sandbump\"), including hit detection, star spawning without triggering a level-exit, and post-mission dialogue/state logic. He also iterates on sand/dust particle effects (color, velocity/drag, fade behavior) and discusses coding-style debates (magic numbers/enums) in the wake of the \"pirate software\" discourse. The stream ends with early design brainstorming for a post-mission Goomba King NPC gag (retired, fishing on the beach).",
+    "level": [
+      "Overworld"
+    ],
+    "significance": "notable",
+    "significance_reason": "Contains a complete mini-arc where a new star/mission (Sandbump) is brought to a working state, plus concrete insight into how mission completion is tracked, how stars are spawned without standard exits, and how Kaze balances code cleanliness vs. speed—useful for interview scaffolding."
+  },
+  "findings": [
+    {
+      "topic": "technical",
+      "importance": "high",
+      "summary": "Kaze needs a way to spawn/award a star without the usual Mario 64 level-exit behavior; initial implementation accidentally triggered level exit behavior, forcing him to find/adjust the correct star-spawn path and star ID handling for overworld-style missions.",
+      "quote": null
+    },
+    {
+      "topic": "design",
+      "importance": "high",
+      "summary": "The \"Sandbump\" encounter is built around clearing sandcastles (and a thwomp-related endpoint) before awarding a star, with additional logic to prevent the NPC from interrupting the action via dialogue for ~10 seconds.",
+      "quote": null
+    },
+    {
+      "topic": "technical",
+      "importance": "medium",
+      "summary": "He discovers a collision/hit-detection problem during testing that ultimately comes down to an incorrect height value; once corrected, the interaction starts behaving consistently.",
+      "quote": null
+    },
+    {
+      "topic": "technical",
+      "importance": "high",
+      "summary": "Mission state is (at least in this encounter) effectively tracked by whether the player has collected the star; Kaze uses that as the condition to branch subsequent NPC dialogue.",
+      "quote": "A star is whether you've done the mission by checking whether you've collected a star."
+    },
+    {
+      "topic": "design",
+      "importance": "medium",
+      "summary": "Kaze explicitly sanity-checks \"content density\" against vanilla Mario 64, arguing that even small interactions can still be faithful because many original stars were similarly lightweight.",
+      "quote": "Think about Mario 64. How many stars in Mario 64 can you think of that are less content than what we just did?"
+    },
+    {
+      "topic": "technical",
+      "importance": "medium",
+      "summary": "While tuning sand/dust effects, he identifies why an explosion-like particle preset looked awful: drag strength and a missing flag caused unnatural movement; reducing forward velocity, fixing physics parameters (including a 0.5 factor), and adding an RGB fade produces a much better result.",
+      "quote": null
+    },
+    {
+      "topic": "philosophy",
+      "importance": "medium",
+      "summary": "He pushes back on rigid coding standards (e.g., banning magic numbers everywhere), arguing that single-use values for purely visual tuning often should remain inline, while multi-use values should be named/defined; he frames excessive rules as a productivity drag.",
+      "quote": "You shouldn't be so rigid in them."
+    },
+    {
+      "topic": "team",
+      "importance": "medium",
+      "summary": "Kaze mentions recent merged pull requests: Zell contributed a new font, and Sauraen contributed a new song—evidence of the project actively integrating external contributions through PRs.",
+      "quote": null
+    },
+    {
+      "topic": "milestone",
+      "importance": "medium",
+      "summary": "Kaze reaches a working end-to-end state for the encounter and declares \"Sandbump\" done, after verifying correct dialogue progression before/after completing the sandcastle objective and star reward.",
+      "quote": "Sandbump is done."
+    },
+    {
+      "topic": "design",
+      "importance": "medium",
+      "summary": "He brainstorms a recurring overworld NPC bit: the Goomba King appears after completing his earlier mission in \"Bunny Brushwoods\"—now \"retired,\" fishing on the shore, still complaining about his minions, and never catching anything; Kaze considers adding a small gag interaction like a coin on the fishing line.",
+      "quote": null
+    }
+  ],
+  "contributor_findings": {
+    "biobak": [],
+    "badub": [],
+    "zeina": [],
+    "others": [
+      {
+        "name": "Sauraen",
+        "findings": [
+          {
+            "topic": "team",
+            "importance": "medium",
+            "summary": "Kaze states Sauraen submitted a pull request that was merged for a new song, indicating music/content integration via the repo workflow.",
+            "quote": null
+          }
+        ]
+      },
+      {
+        "name": "Zell",
+        "findings": [
+          {
+            "topic": "team",
+            "importance": "low",
+            "summary": "Kaze mentions Zell made a pull request for a new font that was merged.",
+            "quote": null
+          }
+        ]
+      }
+    ]
+  },
+  "memorable_quotes": [
+    {
+      "speaker": "Kaze",
+      "quote": "Think about Mario 64. How many stars in Mario 64 can you think of that are less content than what we just did?",
+      "context": "He defends a relatively small, overworld-style star interaction as still faithful to the original game's pacing and star design."
+    },
+    {
+      "speaker": "Kaze",
+      "quote": "A star is whether you've done the mission by checking whether you've collected a star.",
+      "context": "He describes a concrete, implementation-level philosophy: mission completion logic can be grounded in star collection state, which then drives dialogue/state branching."
+    },
+    {
+      "speaker": "Kaze",
+      "quote": "You shouldn't be so rigid in them.",
+      "context": "Kaze reacts to strict coding-rule culture (magic-number discourse) and frames flexibility as necessary for fast iteration, especially for visual tuning."
+    }
+  ],
+  "key_stories": [
+    {
+      "title": "Building the Sandbump star encounter end-to-end",
+      "summary": "Kaze iterates on an overworld mission where the player clears sandcastles and is rewarded with a star. The work spans collision/hit detection fixes, star spawning that avoids normal level-exit behavior, and dialogue/state changes before and after completion.",
+      "challenge": "Make a new star interaction feel like Mario 64 while working within (and sometimes around) the engine’s default assumptions—especially the tendency for star collection to trigger level-exit/cutscene flows.",
+      "process": "He tests hit detection, discovers a height-related bug, then focuses on spawning/assigning the star with the correct ID and behavior. He adds a time window where the NPC cannot initiate dialogue, then uses star-collection state to switch dialogue to post-mission lines and verifies it by leaving/returning.",
+      "outcome": "\"Sandbump\" reaches a working state with correct reward and dialogue progression, though the stream reveals how fragile/default star and dialogue systems can be when used for overworld events.",
+      "key_quote": "A star is whether you've done the mission by checking whether you've collected a star.",
+      "related_to": [
+        "kaze"
+      ]
+    },
+    {
+      "title": "Making sand particles not look terrible",
+      "summary": "Kaze tries multiple particle presets and parameters to get a convincing sand/dust burst. Early tests look \"horrendous\" until he identifies physics/flag issues and tunes drag, velocity, and fade/color behavior.",
+      "challenge": "Achieve good-looking feedback effects on N64-era constraints where small parameter mistakes (flags, drag, lifetime, dispersion) produce visibly wrong results.",
+      "process": "He experiments with presets (mist vs. squiggly dust), adjusts scale and randomness, adds RGB fade behavior, and traces why fade/lifetime or movement looks wrong. He eventually finds a key physics parameter (including a 0.5 factor) and a missing flag that caused odd bidirectional motion.",
+      "outcome": "The sand burst becomes visually acceptable and more controllable; he also realizes some particle parameters may be globally wrong if they share the same underlying physics behavior.",
+      "key_quote": null,
+      "related_to": [
+        "kaze"
+      ]
+    }
+  ],
+  "open_questions": [
+    {
+      "topic": "Overworld star rewards without level exits",
+      "context": "Kaze explicitly needs to spawn a star \"without level exits\" and runs into behavior where collecting/triggering the star tries to exit the level.",
+      "questions": [
+        "What is the project’s intended rule for overworld stars—do they ever kick you out like vanilla courses, or should overworld rewards always keep you in-place?",
+        "What code path or object type did you end up using to award the star without the exit behavior, and did that require creating a new \"overworld star\" variant?",
+        "How do you ensure star IDs remain consistent across overworld vs. course contexts, especially when content expands beyond the initial plan?"
+      ],
+      "related_to": [
+        "kaze"
+      ]
+    },
+    {
+      "topic": "Dialogue/cutscene system conflicts during mission gameplay",
+      "context": "NPC dialogue was triggering at unwanted times (including via a cutscene), and Kaze adds a \"no talking\" time window to prevent interruptions during the sandcastle objective.",
+      "questions": [
+        "What specifically was opening the dialogue—an NPC proximity trigger, a cutscene state machine, or shared interaction flags?",
+        "Do you have a general framework for \"mission-critical no-interrupt windows,\" or was this a one-off fix for Sandbump?",
+        "How do you keep post-mission dialogue updated reliably when the mission is completed mid-session (e.g., without leaving and re-entering an area)?"
+      ],
+      "related_to": [
+        "kaze"
+      ]
+    },
+    {
+      "topic": "Mission completion tracking via star collection",
+      "context": "Kaze uses collected-star state as the primary condition for determining whether the mission has been completed and what dialogue should display.",
+      "questions": [
+        "Is 'star collected' the universal completion flag across Return to Yoshi’s Island, or do some missions need separate flags because they can be 'completed' without immediately awarding/collecting a star?",
+        "How do you handle missions where the reward is delayed, optional, or can be failed/reset—does star-state still work cleanly?",
+        "Did using star-state create any edge cases (e.g., players completing objectives out of order, or triggering completion logic without the intended narrative beat)?"
+      ],
+      "related_to": [
+        "kaze"
+      ]
+    },
+    {
+      "topic": "Expanding scope beyond the planned star count",
+      "context": "Kaze says ~193 stars are planned but expects more to be added opportunistically during overworld and general development.",
+      "questions": [
+        "What was the reasoning behind initially planning 193 stars—was it based on a world map structure, a content budget, or a 'more than Mario 64 but not absurd' target?",
+        "When you 'add random more stars,' what’s the decision trigger—new mechanic ideas, pacing problems, playtest feedback, or asset reuse opportunities?",
+        "How do you prevent scope creep from turning 'just add a few' into a major schedule risk?"
+      ],
+      "related_to": [
+        "kaze"
+      ]
+    },
+    {
+      "topic": "Goomba King as persistent overworld character after Bunny Brushwoods",
+      "context": "Kaze positions the Goomba King as a follow-up gag NPC: retired, fishing, still complaining, never catching fish; considers a coin-on-line interaction.",
+      "questions": [
+        "Is the Goomba King meant to be pure flavor, a quest hub, or a recurring reward loop (e.g., fishing minigame stars)?",
+        "How do you decide when an overworld NPC should be 'just a joke' versus providing gameplay value—especially in a project trying to respect Mario 64’s tone?",
+        "What’s the broader plan for continuity—do other bosses/NPCs 'move' into the overworld after defeat to make the world feel persistent?"
+      ],
+      "related_to": [
+        "kaze"
+      ]
+    }
+  ]
+}

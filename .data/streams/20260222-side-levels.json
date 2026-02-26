@@ -1,0 +1,233 @@
+{
+  "stream_context": {
+    "summary": "Kaze finishes a small side level by adding the exit warp, then switches to integrating Marty’s updated side level. He reviews performance/collision constraints (triangle counts, texture cost, microcode-switch overhead), fixes several “illegal” material setups (notably light color usage), and implements a new enemy behavior (chain-chomp lawn-mower “lawn chomper” patrolling via splines, with chase/containment logic and a late design change to allow riding). He closes by outlining remaining work: texture animations (water/wind/turbine), VFX/SFX, and finishing the level over the next few streams.",
+    "level": [],
+    "significance": "notable",
+    "significance_reason": "Contains a clear mini-milestone (one side level finished), substantial technical constraints explained (materials/lighting legality, texture vs triangle tradeoffs, libdragon microcode-switch overhead), meaningful personal context (wrist injury, house purchase stress), and a full enemy behavior implemented plus a player-facing design pivot (allow riding the enemy)."
+  },
+  "findings": [
+    {
+      "topic": "milestone",
+      "importance": "medium",
+      "summary": "Kaze finishes a side level by adding and validating an exit/warp-out, then declares that side level complete pending minor visuals (e.g., tree UVs and potentially a better water shader).",
+      "quote": null
+    },
+    {
+      "topic": "technical",
+      "importance": "medium",
+      "summary": "He demonstrates a UV-unwrapping workflow where he marks seams, unwraps, then overlaps seam edges to share identical UV coordinates, producing seamless texture transitions more quickly.",
+      "quote": null
+    },
+    {
+      "topic": "technical",
+      "importance": "low",
+      "summary": "Kaze flags uncertainty around an unused face attribute/value (0xEE) and reiterates a safety rule for unknown engine/render flags: avoid using features you don’t understand in production assets.",
+      "quote": "I don’t know what it is—don’t use it."
+    },
+    {
+      "topic": "personal",
+      "importance": "medium",
+      "summary": "Kaze reports his wrist is improving after seeing a Canadian doctor; he believes it may heal in 2–3 weeks and notes he’s trying to reduce strain (e.g., fewer hotkeys, slower keypresses).",
+      "quote": "Canadian doctors are actually insane—they actually listen to you."
+    },
+    {
+      "topic": "personal",
+      "importance": "medium",
+      "summary": "He describes being extremely stressed and busy due to actively buying a house while parenting (mentions his baby and family context), which also caused delays in downloading/reviewing Marty’s files.",
+      "quote": "I was so busy the last few days… I’m officially buying the house right now."
+    },
+    {
+      "topic": "technical",
+      "importance": "high",
+      "summary": "While discussing Pyro64, Kaze identifies a major libdragon rendering inefficiency: each new material can trigger multiple microcode switches, costing significant frame time (he estimates a single multi-material enemy could consume ~5% of the render budget). He is waiting for initial optimizations (including a ~30% FPS issue) before making a promotional video about the project.",
+      "quote": "There’s also one massive unoptimization in libdragon that is costing you easily 30% of FPS."
+    },
+    {
+      "topic": "technical",
+      "importance": "high",
+      "summary": "Kaze enforces RTYI’s rendering/material rules: certain lighting features (specifically setting light color) are “illegal” in their pipeline because RTYI’s lighting semantics differ from vanilla Mario 64. He rebuilds materials to comply, often substituting vertex colors/primitive color approaches.",
+      "quote": "Setting light color is illegal—can’t do that."
+    },
+    {
+      "topic": "technical",
+      "importance": "high",
+      "summary": "He explains a core performance tradeoff for N64 content: textures are expensive, triangles are relatively cheap, so he sometimes prefers adding geometry over using additional textures—especially in already performance-stressed levels.",
+      "quote": "Textures are very expensive… the triangles are way cheaper than the texture."
+    },
+    {
+      "topic": "technical",
+      "importance": "medium",
+      "summary": "Reviewing Marty’s level, Kaze notes the collision mesh is ~5000 triangles and begins simplifying, pointing out large flat areas that can be represented with far fewer triangles.",
+      "quote": null
+    },
+    {
+      "topic": "milestone",
+      "importance": "high",
+      "summary": "Kaze implements the “lawn chomper” enemy in Marty’s level: a chain-chomp lawn-mower that patrols along a spline, chases Mario upon detection, and is constrained so it can’t leave the garden area. He debugs hitbox offsets (including a lateral/forward mix-up) and model orientation issues (Z-down requirement).",
+      "quote": null
+    },
+    {
+      "topic": "design",
+      "importance": "medium",
+      "summary": "He makes a player-experience pivot after testing: riding the lawn chompers looks fun, so he decides to allow riding them (instead of always punishing contact), while keeping damage behavior (e.g., 1 damage when jumping from behind before the change).",
+      "quote": "Riding them looks fun. Maybe I should allow people to ride them. I guess let’s do it."
+    },
+    {
+      "topic": "technical",
+      "importance": "medium",
+      "summary": "He identifies upcoming level-polish tasks as primarily texture animations (water, wind, turbine), likely using 60fps and color-index animations rather than Fast64’s built-in animation tooling, plus a later VFX/SFX pass.",
+      "quote": null
+    },
+    {
+      "topic": "philosophy",
+      "importance": "medium",
+      "summary": "Kaze argues that listening to music while working reduces focus and that boredom can be harnessed as a productivity tool; he considers streaming separately (music on-stream to satisfy viewers, silence off-stream for productivity).",
+      "quote": "I think boredom is very important… you can do two things at once: work and be bored."
+    }
+  ],
+  "contributor_findings": {
+    "biobak": [
+      {
+        "topic": "team",
+        "importance": "low",
+        "summary": "Biobak participates in the stream’s “music vs silence” debate and is referenced in a moment of concern about team awareness of RTYI material constraints (light color being disallowed).",
+        "quote": null
+      }
+    ],
+    "badub": [],
+    "zeina": [],
+    "others": [
+      {
+        "name": "Marty",
+        "findings": [
+          {
+            "topic": "team",
+            "importance": "high",
+            "summary": "Marty delivers updated level files and an image-based to-do list that drives Kaze’s implementation order (e.g., OOB exit placement, enemies like scarecrow/lawn chomper, texture animation needs). Kaze integrates Marty’s content while enforcing RTYI performance/material rules.",
+            "quote": null
+          },
+          {
+            "topic": "design",
+            "importance": "medium",
+            "summary": "Marty’s design intent includes mechanical-feeling enemy movement (patrol routes) and environmental animation (wind/water/turbine), which Kaze translates into spline patrol logic and a planned texture-animation pass.",
+            "quote": null
+          }
+        ]
+      }
+    ]
+  },
+  "memorable_quotes": [
+    {
+      "speaker": "Kaze",
+      "quote": "Setting light color is illegal—can’t do that.",
+      "context": "Kaze explains RTYI’s stricter/altered material system compared to vanilla Mario 64 and why some common Fast64/material settings can’t be used."
+    },
+    {
+      "speaker": "Kaze",
+      "quote": "Textures are very expensive… the triangles are way cheaper than the texture.",
+      "context": "He justifies performance-driven art decisions in Marty’s level, preferring geometry over extra textures in constrained render budgets."
+    },
+    {
+      "speaker": "Kaze",
+      "quote": "I think boredom is very important… you can do two things at once: work and be bored.",
+      "context": "A broader creative/philosophical moment about how he structures focus and productivity during long development stretches."
+    }
+  ],
+  "key_stories": [
+    {
+      "title": "Finishing a side level, then shifting into Marty’s level integration",
+      "summary": "Kaze wraps a small side level by adding its warp-out and validating that exiting works. He then pivots to Marty’s level, using Marty’s to-do list to guide implementation from the start of the stage forward.",
+      "challenge": "Closing a deliverable cleanly while context-switching to a new contributor-provided level with performance and materials issues.",
+      "process": "Adds/validates the warp-out, then audits collision complexity, material legality, and enemy placement/behavior in Marty’s level in the order the player encounters them.",
+      "outcome": "Side level is declared finished; Marty’s level has a major enemy implemented and a clear list of remaining tasks (texture animations, scarecrow, polish) for the next streams.",
+      "key_quote": "Side level finished, that feels good.",
+      "related_to": [
+        "kaze"
+      ]
+    },
+    {
+      "title": "The ‘illegal’ material pass: enforcing RTYI’s rendering rules",
+      "summary": "While importing enemy/level assets, Kaze repeatedly encounters materials using features that don’t translate into RTYI’s pipeline (especially setting light color). He rebuilds materials to match RTYI’s constraints while aiming to preserve the intended look.",
+      "challenge": "Keeping contributor assets visually faithful while preventing invalid or expensive render state usage on N64.",
+      "process": "Audits per-material settings, removes prohibited light-color operations, replaces with vertex/primitive color approaches, and weighs texture usage against performance cost.",
+      "outcome": "Assets render correctly under RTYI’s rules, and the team’s constraints become an explicit part of the integration workflow.",
+      "key_quote": "Setting light color is illegal—can’t do that.",
+      "related_to": [
+        "kaze"
+      ]
+    },
+    {
+      "title": "Building the lawn-chomper enemy and changing the design mid-test",
+      "summary": "Kaze implements a chain-chomp lawn-mower enemy that patrols via splines and becomes dangerous in confined garden spaces. While testing, he notices riding the enemy looks enjoyable and decides to support it rather than strictly punishing contact.",
+      "challenge": "Create a mechanically readable enemy (patrol/chase/containment) that feels good and doesn’t break the level’s intended flow.",
+      "process": "Implements spline patrol, debugs hitbox offsets and model orientation (Z-down), tunes speed/behavior, then rethinks interaction rules based on playfeel.",
+      "outcome": "Enemy behavior is essentially complete, including ride interaction; remaining work is VFX/SFX and broader level polish.",
+      "key_quote": "Riding them looks fun. Maybe I should allow people to ride them.",
+      "related_to": [
+        "kaze"
+      ]
+    }
+  ],
+  "open_questions": [
+    {
+      "topic": "RTYI material system constraints vs vanilla Mario 64",
+      "context": "Kaze repeatedly calls certain lighting operations (notably setting light color) “illegal,” explaining that RTYI’s lighting semantics differ from Mario 64’s and that some common Fast64 setups won’t work.",
+      "questions": [
+        "What are the exact render/material rules RTYI enforces (e.g., which combiner ops, lighting parameters, env color, cycles) and why were these constraints chosen?",
+        "When did the team first realize vanilla SM64 assumptions (like ‘light color’) would mislead contributors, and how did that change the asset pipeline/docs?",
+        "What is the best ‘safe’ material template contributors should start from to avoid illegal states while still achieving stylized looks?"
+      ],
+      "related_to": [
+        "kaze"
+      ]
+    },
+    {
+      "topic": "Libdragon microcode-switch overhead and its impact on content creation",
+      "context": "Kaze claims libdragon currently pays a heavy cost per new material (multiple microcode switches), and that this can consume meaningful render budget for multi-material models (also relevant to Pyro64 performance).",
+      "questions": [
+        "What does RTYI use for rendering (stock SM64 display lists, custom, hybrid), and how do microcode switches/state changes translate into measurable FPS loss?",
+        "Did this performance reality change art direction (fewer materials, atlas strategies, vertex-color emphasis) or level scope decisions?",
+        "What tooling/metrics do you use to catch ‘too many materials/state changes’ early (before assets are finalized)?"
+      ],
+      "related_to": [
+        "kaze"
+      ]
+    },
+    {
+      "topic": "Enemy detection/chase implementation details (raycast reuse)",
+      "context": "Kaze says he needs a raycast for enemies spotting Mario and believes it exists in another level (‘zoo level’).",
+      "questions": [
+        "What does ‘spotting Mario’ mean technically in RTYI (FOV cone, distance, line-of-sight raycast, area constraints)?",
+        "How often do you reuse behavior modules across levels, and how do you keep them from becoming brittle or overly coupled to a specific stage?",
+        "What edge cases did you hit when restricting enemies to a ‘garden’ boundary (nav limits, spline constraints, collision quirks)?"
+      ],
+      "related_to": [
+        "kaze"
+      ]
+    },
+    {
+      "topic": "Texture animation pipeline choices (60fps, color-index animations)",
+      "context": "For wind/water/turbine, Kaze suggests avoiding Fast64 built-in animations, aiming for 60fps, and mentions color-index animations.",
+      "questions": [
+        "What is the final intended texture-animation system for RTYI (CI cycling, palette swaps, UV scroll, frame swap), and why is it better than Fast64’s export for this project?",
+        "How do you budget memory/ROM space for animated textures across many levels while keeping the look cohesive?",
+        "Which visual elements are prioritized for animation to sell ‘Yoshi’s Island’ style on N64 hardware?"
+      ],
+      "related_to": [
+        "kaze"
+      ]
+    },
+    {
+      "topic": "Health/workflow constraints affecting production pace",
+      "context": "Kaze links wrist pain to heavy hotkey use and mentions slowing inputs; he’s optimistic after medical advice but is also juggling a house purchase and parenting stress.",
+      "questions": [
+        "How did the wrist injury change your day-to-day dev workflow (tools, scheduling, delegating, stream length) and what did you stop doing because of it?",
+        "Did you create any pipeline changes to reduce repetitive manual work (more automation, stricter contributor guidelines, reusable templates)?",
+        "In hindsight, what were the biggest ‘hidden costs’ of streaming development while managing health and life milestones?"
+      ],
+      "related_to": [
+        "kaze"
+      ]
+    }
+  ]
+}

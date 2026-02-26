@@ -1,0 +1,250 @@
+{
+  "stream_context": {
+    "summary": "Kaze fixes a memory-related crash, then discusses major engine refactors aimed at removing original Mario 64 actor code. The stream’s core design work is rethinking how Overworld Part 8 is gated so players aren’t overwhelmed, leading to a new comedic “sleepy Bob-omb guard” concept that launches Mario into a prerequisite side level. In parallel, Kaze explores a dark, dynamically-lit cave/maze side level concept (per-vertex lighting requiring hex-like tessellation) and runs into decomp-level plumbing issues when trying to add/define more courses, briefly breaking the save’s star count.",
+    "level": [
+      "Overworld"
+    ],
+    "significance": "notable",
+    "significance_reason": "Contains project-wide technical progress (nearly fully removing SM64 actor code), a key overworld progression/gating redesign for Part 8, and a concrete new side-level concept tied to caps plus dynamic lighting constraints; also reveals pain points in extending the decomp’s course/star infrastructure."
+  },
+  "findings": [
+    {
+      "topic": "technical",
+      "importance": "high",
+      "summary": "Kaze fixed a recurring crash related to the “safe block,” identifying it as an out-of-memory issue rather than a logic bug.",
+      "quote": null
+    },
+    {
+      "topic": "technical",
+      "importance": "high",
+      "summary": "After weeks of refactoring, Kaze reports that almost all original Mario 64 actor code has been removed; remaining legacy actors are primarily Chain Chomp, Pokey, and Whirlpool, with plans to replace them as well.",
+      "quote": "Guys, you have no idea how much time I spent in the last few weeks refactoring stuff."
+    },
+    {
+      "topic": "team",
+      "importance": "medium",
+      "summary": "Kaze’s plan is to remove the original Whirlpool actor after Biobak finishes the Ice Cap rework, then implement a custom Whirlpool specific to RTYI.",
+      "quote": null
+    },
+    {
+      "topic": "technical",
+      "importance": "medium",
+      "summary": "Kaze calls out Pokey as “very buggy” and expects to remake the actor rather than patch it, reinforcing the broader strategy of replacing inherited SM64 behaviors instead of maintaining them.",
+      "quote": null
+    },
+    {
+      "topic": "design",
+      "importance": "high",
+      "summary": "Kaze re-evaluates the intended method for opening access to Overworld Part 8: the original concept involved discovering underwater tunnels and breaking something that triggers a change elsewhere in the overworld, but he now dislikes it because it would likely be found too early, feel overwhelming, and seem unintuitive (action far away causing a change here).",
+      "quote": null
+    },
+    {
+      "topic": "philosophy",
+      "importance": "high",
+      "summary": "Kaze explicitly frames overworld gating as an anti-overwhelm measure: he wants players to unlock only one or two major areas/levels at a time, not three at once, to keep exploration readable and progression paced.",
+      "quote": "I don't want the player to get to every overworld part at once… one or two is the absolute most we can do, otherwise it's going to be overwhelming."
+    },
+    {
+      "topic": "design",
+      "importance": "high",
+      "summary": "A new gating approach emerges: a simple, funny NPC barrier (a sleepy Bob-omb-like guard) that escalates into being launched into a prerequisite side level (via the guard’s “son”) before Part 8 becomes accessible.",
+      "quote": null
+    },
+    {
+      "topic": "design",
+      "importance": "medium",
+      "summary": "Kaze explores tying this gate to cap progression: he proposes requiring a cap (he debates Cloud Cap vs Wing Cap, noting the Wing Cap is obtained in this overworld) to complete the prerequisite side level, making Part 8 access a mechanical milestone rather than a paywall or arbitrary star count.",
+      "quote": "I don't want to do any more pay barriers if I can avoid it. The pay barrier is the absolute last resort if you have no other idea."
+    },
+    {
+      "topic": "technical",
+      "importance": "high",
+      "summary": "For a planned dark side level with dynamic lighting, Kaze explains a hard art/tech constraint: per-vertex lighting will look wrong unless the environment is built with relatively even vertex spacing (“hex tessellated”-like topology), influencing the entire level’s geometry style.",
+      "quote": null
+    },
+    {
+      "topic": "design",
+      "importance": "medium",
+      "summary": "The dark-level concept shifts toward a short, atmosphere-forward maze where the player follows a moving light (inspired by a “Dampé-like” follow-the-guide setup), potentially with failure pressure (e.g., poison gas) to prevent getting stuck and to keep the section brief.",
+      "quote": "The gameplay is just atmosphere and vibes."
+    },
+    {
+      "topic": "team",
+      "importance": "medium",
+      "summary": "Kaze describes his collaboration loop with Biobak: Kaze produces a rough “V1” concept and sends it; Biobak executes with significant creative freedom and typically shares work only when it’s nearly finished, asking viability questions when needed; Kaze says it’s rare he has to undo Biobak’s changes.",
+      "quote": null
+    },
+    {
+      "topic": "technical",
+      "importance": "high",
+      "summary": "While preparing to add/import new side levels, Kaze discovers he has never added new side levels/courses in this codebase before and has to modify multiple decomp tables (level-to-course mappings, course defines/counts, EEPROM bytes). His attempt to clean up “hacky” decomp macros briefly corrupts the save’s star count (10 stars becomes 7), forcing a rollback and postponing the cleanup.",
+      "quote": "I'mma be honest, I need to figure out how to add more stars to this without fucking everything up."
+    },
+    {
+      "topic": "business",
+      "importance": "low",
+      "summary": "When asked about Steam, Kaze says he might make a custom-IP version someday, implying he’s at least considering a non-ROMhack distribution path separate from Nintendo’s IP.",
+      "quote": null
+    },
+    {
+      "topic": "legal-nintendo",
+      "importance": "low",
+      "summary": "Kaze speculates Nintendo may follow his progress, joking that they could be watching streams; no concrete takedown or direct contact is mentioned in this stream.",
+      "quote": null
+    }
+  ],
+  "contributor_findings": {
+    "biobak": [
+      {
+        "topic": "design",
+        "importance": "medium",
+        "summary": "Biobak proposes/aligns with an “escape room with platforming puzzles” framing for the dark section and contributes to converging on a simple follow-the-guide-light concept (later framed as a Dampé-like ‘follow a Boo’ event).",
+        "quote": null
+      },
+      {
+        "topic": "design",
+        "importance": "medium",
+        "summary": "Biobak’s feedback helps keep the solution simple and bounded in scope (a small section rather than an overcomplicated multi-mechanic level), which Kaze repeatedly emphasizes as necessary for pacing and feasibility.",
+        "quote": null
+      }
+    ],
+    "badub": [],
+    "zeina": [],
+    "others": []
+  },
+  "memorable_quotes": [
+    {
+      "speaker": "Kaze",
+      "quote": "Guys, you have no idea how much time I spent in the last few weeks refactoring stuff.",
+      "context": "Said while describing the sweeping removal of inherited SM64 actor code—captures the invisible labor of making the project truly ‘new’ on old hardware."
+    },
+    {
+      "speaker": "Kaze",
+      "quote": "There will be so many secrets in this goddamn game.",
+      "context": "Said during the overworld layout discussion, underscoring the team’s intent to reward exploration and build a dense, discovery-driven world."
+    },
+    {
+      "speaker": "Kaze",
+      "quote": "What is managing to keep working on this project for so long? I guess, what else would I do?",
+      "context": "A candid moment about motivation and persistence during a stream dominated by refactors, plumbing work, and design iteration."
+    }
+  ],
+  "key_stories": [
+    {
+      "title": "Removing nearly all original Mario 64 actor code",
+      "summary": "Kaze explains that he has spent weeks refactoring and stripping out SM64 actor behaviors to make RTYI functionally its own game rather than a mod that rides on inherited logic. Only a few legacy actors remain (Chain Chomp, Pokey, Whirlpool), and he outlines plans to remove or remake them.",
+      "challenge": "Inherited SM64 actor code is either unnecessary for RTYI’s design goals or too buggy/limiting to maintain long-term, and some components (e.g., Pokey) are unreliable.",
+      "process": "Kaze refactors the behavior/actor system file-by-file, removes unused actors, and schedules replacements (custom Whirlpool; Pokey remake). He coordinates timing with Biobak’s Ice Cap rework to avoid disrupting dependent content.",
+      "outcome": "RTYI is close to being ‘basically all custom code,’ with a clear remaining checklist of legacy actors to replace.",
+      "key_quote": "With that, all actor code in R64 is removed from the game… it’s basically all gone.",
+      "related_to": [
+        "kaze",
+        "biobak"
+      ]
+    },
+    {
+      "title": "Rethinking how Overworld Part 8 opens (anti-overwhelm gating)",
+      "summary": "Kaze revisits the planned unlock for Overworld Part 8 and rejects the earlier underwater-tunnel ‘break something far away’ trigger. He prioritizes readability and pacing so players don’t accidentally open too much content during initial exploration, then ideates toward a simple comedic ‘sleepy guard’ barrier that launches the player into a prerequisite side level.",
+      "challenge": "The original unlock path would likely be discovered too early, feel unintuitive (remote cause/effect), and risk overwhelming players by opening multiple areas/levels at once.",
+      "process": "Kaze evaluates barrier types (star-gate Womp, disguise gag, paywall), rejects pay barriers as a last resort, and develops a new gate that doubles as a side-level insertion point. He considers tying access to cap progression (debating which cap is obtained here).",
+      "outcome": "A concrete direction: a sleepy Bob-omb-style NPC triggers a side level (via ‘calling his son’ to launch Mario), and beating that side level becomes the justification for Part 8 access—keeping progression controlled while integrating planned side content.",
+      "key_quote": "I don't want the player to get to every overworld part at once… one or two is the absolute most we can do.",
+      "related_to": [
+        "kaze"
+      ]
+    },
+    {
+      "title": "Dynamic-lighting side level meets geometry constraints (hex-like tessellation)",
+      "summary": "To build a dark cave/maze side level, Kaze outlines an engine/art constraint: per-vertex lighting requires evenly distributed vertices, pushing the level’s environment toward hex-like tessellation rather than typical cubic architecture. He and chat converge on a short ‘follow the moving light’ maze (Dampé-like), with ideas for light sources ranging from Bob-ombs to a glowing companion.",
+      "challenge": "Dynamic lighting can look wrong or uneven if geometry has inconsistent vertex spacing; meanwhile, the level must remain simple and not frustrating in darkness.",
+      "process": "Kaze experiments with tessellation patterns, evaluates scale/claustrophobia, and debates light-source mechanics (glowing Boos, escort-like glowing baby Yoshi on Mario’s head, torches/Bob-ombs). He considers fail-safes to prevent getting stuck (guide light always at next node; fade-out/kick-out behavior).",
+      "outcome": "A feasible concept direction is chosen (small maze section guided by a moving light), but Kaze flags remaining unknowns: exact tessellation approach, light behavior, and anti-stuck logic.",
+      "key_quote": null,
+      "related_to": [
+        "kaze",
+        "biobak"
+      ]
+    },
+    {
+      "title": "Extending the decomp’s course/star system breaks the save (star count drops)",
+      "summary": "While trying to add new courses/side levels, Kaze digs into decomp-defined tables and macros (course enums/counts, level-to-course mappings, EEPROM bytes). Attempted cleanup causes unexpected side effects: the save’s star count changes from 10 to 7, and he has to undo changes and defer the cleanup.",
+      "challenge": "The decomp’s infrastructure for courses/stages is ‘hacky’ and difficult to extend safely; Kaze needs more courses/stars/side levels without corrupting save data or breaking mappings.",
+      "process": "He locates multiple mapping tables (including a forgotten second table), modifies course count logic, searches for where EEPROM bytes are assigned, validates by checking star totals, then rolls back when counts change.",
+      "outcome": "He pauses the cleanup and decides to revisit later, acknowledging this as a prerequisite to importing the new side level cleanly.",
+      "key_quote": "I have 7 stars… Okay, wait, let me undo that.",
+      "related_to": [
+        "kaze"
+      ]
+    }
+  ],
+  "open_questions": [
+    {
+      "topic": "Actor code purge: what’s left and why",
+      "context": "Kaze says nearly all SM64 actors are removed, with Chain Chomp, Pokey, and Whirlpool remaining (and some minor Mario/Goomba parts). He plans to remove Whirlpool after the Ice Cap rework and remake Pokey due to bugs.",
+      "questions": [
+        "What specific problems did inherited SM64 actor code cause (bugs, performance, design constraints), and what was the tipping point for deciding to remove it wholesale?",
+        "Which parts of Mario and Goomba are still ‘legacy,’ and what would it take to call the codebase 100% custom?",
+        "Why is Whirlpool removal dependent on the Ice Cap rework—what is the dependency (level scripting, visuals, collision, behavior hooks)?",
+        "What were the worst refactor regressions during this purge, and how did you validate you didn’t break unrelated levels?"
+      ],
+      "related_to": [
+        "kaze",
+        "biobak"
+      ]
+    },
+    {
+      "topic": "Overworld Part 8 gating: final design and pacing targets",
+      "context": "Kaze rejects the underwater tunnel ‘break something’ trigger due to overwhelm and unintuitive cause/effect. He leans toward a comedic sleepy Bob-omb guard who launches Mario into a prerequisite side level, potentially cap-gated.",
+      "questions": [
+        "Where exactly is Part 8 in the intended progression (star count range / course order), and what player skills should it assume?",
+        "What is the final intended gate: beat-a-side-level, have-a-cap, star-count, or a combination—and why?",
+        "How will the game communicate the gate diegetically (NPC dialog, visual cues like a rock wall hiding the path) so it feels ‘earned’ rather than arbitrary?",
+        "How do you decide when it’s okay to open 2 levels at once versus 1—do you have a pacing rubric or playtest feedback driving that?"
+      ],
+      "related_to": [
+        "kaze"
+      ]
+    },
+    {
+      "topic": "Dark ‘follow-the-light’ side level: mechanics, fail states, and accessibility",
+      "context": "Kaze develops a Dampé-like follow-a-glowing-entity maze in darkness with per-vertex dynamic lighting constraints. He considers poison gas, fade-out kick-outs, or guide behavior to avoid softlocks.",
+      "questions": [
+        "What is the exact ‘loss condition’ for the dark maze (poison gas timer, getting lost, falling), and how do you prevent it from feeling unfair?",
+        "Will the guiding light be a Boo, a different entity, or a custom character—and why is that choice thematically tied to RTYI’s world?",
+        "How do you plan to handle exploration vs. guidance—do you want secrets in the darkness, and if so, how do you prevent players from getting trapped?",
+        "Will Mario himself emit light, and how will that interact with stealth/visibility and performance on N64 hardware?"
+      ],
+      "related_to": [
+        "kaze"
+      ]
+    },
+    {
+      "topic": "Hex tessellation requirement: production impact on level art pipeline",
+      "context": "Kaze claims even vertex spacing is needed for good-looking per-vertex lighting, making certain architectural styles (cubic mineshaft) hard to light consistently.",
+      "questions": [
+        "How often do engine constraints like vertex-lighting tessellation force you to redesign an environment concept? Any other major examples besides this dark cave?",
+        "Do artists (Biobak/Zeina) build geometry with these constraints in mind from the start, or do you retrofit tessellation after concepts are made?",
+        "What tooling (Blender scripts, exporters, in-engine checks) do you use to enforce or validate ‘even’ vertex spacing?",
+        "What’s the performance tradeoff between denser tessellation for smoother lighting versus triangle budget in these side levels?"
+      ],
+      "related_to": [
+        "kaze",
+        "biobak",
+        "zeina"
+      ]
+    },
+    {
+      "topic": "Adding courses/side levels in the decomp: why it broke star count",
+      "context": "Kaze modifies decomp course tables/defines and observes star count changing from 10 to 7, implying he touched something linked to save data or course indexing (EEP bytes).",
+      "questions": [
+        "What exactly caused the star count to drop—was it course enum reordering, EEPROM byte offsets, or a mapping table mismatch?",
+        "How do you plan to add new courses safely going forward (e.g., stable ID assignments, migration scripts for saves, hard versioning)?",
+        "What is your current ‘side level system’ architecture (course-less levels vs. course-numbered), and why is it ‘upper side level system’ still pending?",
+        "Do you have automated tests or a checklist to catch these regressions earlier than ‘load save and count stars’?"
+      ],
+      "related_to": [
+        "kaze"
+      ]
+    }
+  ]
+}

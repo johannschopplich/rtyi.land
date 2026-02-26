@@ -1,0 +1,203 @@
+{
+  "stream_context": {
+    "summary": "Kaze iterates on an enemy concept for a fish-and-crab mission: he abandons an earlier crab asset (bad texture/readability and unclear defeat interaction), models a new 3D crab inspired by a Mario Kart design, optimizes it for N64 constraints, and plans a full animation set to be produced by Zeina. He also debugs koi fish behavior (velocity parameter not being read) and discusses general engine facts like spawn timing, per-enemy CPU costs, curve limits, and culling radius behavior.",
+    "level": [
+      "Course 5"
+    ],
+    "significance": "notable",
+    "significance_reason": "Contains a concrete design pivot (scrapping the old crab and committing to a new 3D crab asset with a defined interaction concept), a clear handoff to Zeina for a specific animation list, and a meaningful gameplay bug fix for the koi AI (velocity setting not being read)."
+  },
+  "findings": [
+    {
+      "topic": "design",
+      "importance": "high",
+      "summary": "Kaze questions whether the original crab concept works because the player interaction is unclear (how you attack/defeat it), especially given the crab’s shell/claw design that doesn’t read as something you can ground-pound or break.",
+      "quote": null
+    },
+    {
+      "topic": "design",
+      "importance": "high",
+      "summary": "He decides to scrap the current crab asset entirely and instead model a different, more ‘menacing/cool’ Mario Kart-style crab design, because the previous model’s texture/efficiency/readability are unacceptable for the N64 target.",
+      "quote": "Yeah, fuck this crab. We’re making a new one."
+    },
+    {
+      "topic": "technical",
+      "importance": "medium",
+      "summary": "Kaze treats polygon count and memory as first-class constraints for small actors; he targets roughly Goomba-scale complexity (~170–180 triangles) and notes that making the crab 3D may also save RAM versus the previous approach in this level.",
+      "quote": null
+    },
+    {
+      "topic": "philosophy",
+      "importance": "medium",
+      "summary": "He frames 2D enemies on N64 as aesthetically/marketing-wise ‘wrong’ for a project positioning itself as true N64-era 3D, motivating the move from 2D crabs to scalable 3D crabs (including larger variants).",
+      "quote": "We marketed this as the 3D console and then we’re putting in 2D enemies?"
+    },
+    {
+      "topic": "design",
+      "importance": "high",
+      "summary": "Mission concept clarified: a ‘gang of crabs’ will circle/bother koi fish; the player ground-pounds crabs to ‘save’ the fish, earning a star, and the fish then provide a hint that leads toward a secret level.",
+      "quote": null
+    },
+    {
+      "topic": "design",
+      "importance": "medium",
+      "summary": "Planned interaction/readability: instead of ‘killing’ small crabs, Kaze leans toward a defensive ‘curl into shell’ behavior when jumped on (or ground-pounded), with an eventual pop-out/unfurl, supporting both small and scaled-up big crabs.",
+      "quote": "We should make it so that you can jump onto the back of their shells to make them go inside, like curl up."
+    },
+    {
+      "topic": "team",
+      "importance": "high",
+      "summary": "Kaze explicitly plans to hand the crab model to Zeina for animation, listing a full animation set needed to finish the enemy (walk, idle/look-around, threatening dance/idle, defensive curl/unfurl, and possibly an attack).",
+      "quote": null
+    },
+    {
+      "topic": "technical",
+      "importance": "high",
+      "summary": "Koi fish bug: Kaze realizes the koi velocity parameter wasn’t being read at all, explaining why tuning attempts didn’t change behavior; after fixing, fish correctly react by swimming away from Mario and can be tuned (turn rate/velocity) to feel calm but responsive.",
+      "quote": "Oh my god. The whole time we have not been reading the koi velocity."
+    },
+    {
+      "topic": "technical",
+      "importance": "medium",
+      "summary": "He explains general runtime behavior: enemies spawn when the level loads (all at once), and far-away/offscreen enemies can be cheap if their main loop doesn’t run when not drawn; he gives an order-of-magnitude cost estimate (~1 microsecond) depending on enemy implementation.",
+      "quote": null
+    },
+    {
+      "topic": "technical",
+      "importance": "low",
+      "summary": "Kaze mentions engine/content limits and performance practices: roughly ~40 spline curves is a safe ballpark; actor scale affects shadow size but not culling radius (kept fixed to improve performance even if it complicates authoring).",
+      "quote": null
+    },
+    {
+      "topic": "legal-nintendo",
+      "importance": "medium",
+      "summary": "He briefly weighs whether leaving VODs up is strategically risky: Nintendo could potentially comb streams for evidence of using copyrighted assets, but leaving them public also signals confidence that the project isn’t doing anything illegal.",
+      "quote": "I’m thinking maybe it’s tactically not smart of me to upload VODs... because what if Nintendo somehow tries to say that some of the stuff I’m using in my game is stolen from them?"
+    },
+    {
+      "topic": "team",
+      "importance": "medium",
+      "summary": "Zeina is also working on a completely new HUD for the project; Kaze says it looks promising so far.",
+      "quote": null
+    },
+    {
+      "topic": "personal",
+      "importance": "medium",
+      "summary": "Kaze describes being unusually exhausted and notes his speech fluency has worsened, attributing it to spending years largely alone while focusing on making the ROM hack.",
+      "quote": "Spending four years alone in a room without talking kind of murdered that. But I had the romhack to make, so it was worth it."
+    }
+  ],
+  "contributor_findings": {
+    "biobak": [],
+    "badub": [],
+    "zeina": [
+      {
+        "topic": "team",
+        "importance": "high",
+        "summary": "Kaze plans to send Zeina the newly created crab model specifically so she can produce a defined set of animations (walk, idle/look-around, threatening dance/idle, defensive curl/unfurl, plus possibly an attack/other action).",
+        "quote": null
+      },
+      {
+        "topic": "design",
+        "importance": "medium",
+        "summary": "Zeina is building a completely new HUD for Return to Yoshi’s Island; Kaze reports early results look decent.",
+        "quote": null
+      }
+    ],
+    "others": []
+  },
+  "memorable_quotes": [
+    {
+      "speaker": "Kaze",
+      "quote": "We marketed this as the 3D console and then we’re putting in 2D enemies?",
+      "context": "His aesthetic/era-respect argument for replacing 2D crab enemies with true 3D models, despite the added production cost."
+    },
+    {
+      "speaker": "Kaze",
+      "quote": "Spending four years alone in a room without talking kind of murdered that. But I had the romhack to make, so it was worth it.",
+      "context": "A rare personal reflection linking lifestyle sacrifice and long-term dedication to finishing the hack."
+    },
+    {
+      "speaker": "Kaze",
+      "quote": "Oh my god. The whole time we have not been reading the koi velocity.",
+      "context": "The key debugging breakthrough that explains why koi behavior tuning wasn’t working and unlocks correct fish reactions."
+    }
+  ],
+  "key_stories": [
+    {
+      "title": "Abandoning the original crab and committing to a new 3D enemy",
+      "summary": "Kaze starts uncertain whether the crab concept is fun/readable because it’s unclear how the player should defeat it, and the existing crab texture/model is both ugly and inefficient for N64 constraints. He pivots to a different Mario Kart-inspired crab design, rapidly models and textures it under a strict triangle budget, and ends the stream confident it will replace the old crab and support both small and scaled-up ‘big’ variants.",
+      "challenge": "The original crab didn’t communicate a clear interaction (ground-pound/punch?) and the asset quality/efficiency was not acceptable.",
+      "process": "He evaluates the existing model’s readability and texture issues, decides to discard it, block-models a new silhouette with bilateral symmetry, optimizes triangles, rebuilds textures/material look, then defines the behavioral hook (defensive curl) and the animation requirements.",
+      "outcome": "A new crab model is effectively ‘locked in’ and will be shipped to Zeina for animation; this unblocks the crab-and-koi mission design.",
+      "key_quote": "Yeah, fuck this crab. We’re making a new one.",
+      "related_to": [
+        "kaze",
+        "zeina"
+      ]
+    },
+    {
+      "title": "Koi fish behavior tuning was impossible because velocity wasn’t wired in",
+      "summary": "While testing koi reactions to Mario, Kaze notices velocity tweaks don’t match what he’s seeing in-game. He discovers the code never actually reads the koi velocity value, fixes it, and then can meaningfully tune turning speed and base velocity to achieve calm movement that still flees when approached.",
+      "challenge": "Fish movement looked wrong (too slow/odd), and changing parameters didn’t produce expected results.",
+      "process": "He tests proximity reaction, inspects why observed speed doesn’t match configured values, then finds and corrects the missing read of the koi velocity parameter; he iterates on turn rate and speed afterward.",
+      "outcome": "Koi now properly respond to Mario (swim away) and can be balanced for feel; he also notes remaining polish issues like bubbles popping/disappearing abruptly.",
+      "key_quote": "The whole time we have not been reading the koi velocity.",
+      "related_to": [
+        "kaze"
+      ]
+    }
+  ],
+  "open_questions": [
+    {
+      "topic": "Crab mission mechanics and ‘defeat’ language (kill vs disable)",
+      "context": "Kaze oscillates between ideas: ground-pounding crabs to save koi, not being able to kill them, and/or making them curl defensively when jumped on. The mission reward/hint structure is stated, but the exact interaction loop is still in flux.",
+      "questions": [
+        "In the final design, what is the player’s verb against crabs: ground-pound, jump, or something else—and why is that the most ‘Mario 64’ feeling choice?",
+        "Are crabs ‘defeated’ (removed), temporarily disabled (curl/unfurl timer), or do they have health/phases—especially for the scaled-up big versions?",
+        "How do you communicate to players that crabs are the objective (save koi) without making them think they must touch/catch the fish themselves?",
+        "How exactly do the saved fish deliver the hint that leads to the secret level (dialog, camera cue, new path, collectible)?"
+      ],
+      "related_to": [
+        "kaze"
+      ]
+    },
+    {
+      "topic": "Animation pipeline and ownership of enemy personality",
+      "context": "Kaze defines six crab animations and intends to hand off to Zeina. This is a key moment where the enemy’s ‘character’ will likely be determined by animation choices.",
+      "questions": [
+        "When you hand a model to Zeina, how much direction do you give versus letting her define personality through animation (e.g., ‘threatening dance’)?",
+        "What constraints (bone count/CPU/RAM) most affect how expressive the crab can be on N64 hardware?",
+        "Do you prototype behavior first (curl timing, hit reactions) or do you let available animations shape the behavior design?"
+      ],
+      "related_to": [
+        "kaze",
+        "zeina"
+      ]
+    },
+    {
+      "topic": "Performance rules of thumb for custom enemies in decomp-based Mario 64",
+      "context": "Kaze gives informal numbers about offscreen enemy costs and notes that culling radius does not scale with actor scale (chosen for performance). These are practical engineering heuristics worth formalizing for the documentary.",
+      "questions": [
+        "What concrete profiling tools or heuristics do you use to decide an enemy is ‘too expensive’ (per-frame time, RAM, display list size)?",
+        "How often do design ideas get cut specifically because of culling radius, draw distance, or actor scale interactions?",
+        "When you say some enemies don’t run their main loop when not drawn—what patterns in your codebase enforce that, and is it something you had to retrofit?"
+      ],
+      "related_to": [
+        "kaze"
+      ]
+    },
+    {
+      "topic": "Nintendo risk posture around public dev streams/VODs",
+      "context": "Kaze wonders whether keeping VODs public provides Nintendo ‘ammunition’ to claim stolen assets, but also notes that leaving them up signals confidence. This implies an internal legal/PR strategy decision.",
+      "questions": [
+        "Have you ever changed your asset pipeline (e.g., ripping vs recreating, reference usage, naming) specifically because you worried streams could be used against you?",
+        "Did you ever take down or edit streams/VODs for legal safety—or decide explicitly not to because transparency helps?",
+        "What’s your internal standard for ‘inspired by’ (Mario Kart crab design) versus ‘copied,’ and how do you document that line for yourself/team?"
+      ],
+      "related_to": [
+        "kaze"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,238 @@
+{
+  "stream_context": {
+    "summary": "Kaze redesigns and implements the overworld entrance to the Zoo/Wario’s Wildlife World, replacing an overcomplicated ticket/penguin concept with a crawlspace-based gate. He prototypes new entrance geometry, adds a warp trigger to transition into the Zoo, programs Wario as a physical “goalkeeper” NPC that blocks jumping past the gate, and fixes an engine bug where cutscene flags were written to the wrong course/slot.",
+    "level": [
+      "Overworld",
+      "Course 4 – Wario's Wildlife World (Zoo)"
+    ],
+    "significance": "milestone",
+    "significance_reason": "A key overworld progression mechanic is locked in (crawlspace entry + Wario blocker + warp transition), and a non-trivial engine bug affecting cutscene flags across courses is discovered and fixed."
+  },
+  "findings": [
+    {
+      "topic": "design",
+      "importance": "high",
+      "summary": "Kaze abandons the earlier Zoo entrance concept (Wario charging coins equal to your coins+1 plus a ticket-penguin side objective) because it feels overly complicated, random, and inelegant for an overworld gate.",
+      "quote": null
+    },
+    {
+      "topic": "design",
+      "importance": "high",
+      "summary": "He converges on a new entrance solution: a visible crawlspace/tunnel that lets the player slip into the Zoo, paired with Wario physically blocking the main gate so the objective is clear and diegetic rather than menu- or item-driven.",
+      "quote": null
+    },
+    {
+      "topic": "design",
+      "importance": "medium",
+      "summary": "To make crawlspaces readable, he plans explicit environmental cues (coin trail leading into the hole, potentially a mouse NPC going in/out, and improving floor visibility/contrast inside the tunnel) rather than adding a journal/tutorial prompt.",
+      "quote": null
+    },
+    {
+      "topic": "design",
+      "importance": "medium",
+      "summary": "He intentionally allows a skill-based bypass: if players (or speedrunners) can manage to jump/clip around Wario or exploit movement velocity, he’s okay with them entering without crawling, as an emergent high-skill alternative.",
+      "quote": null
+    },
+    {
+      "topic": "technical",
+      "importance": "high",
+      "summary": "Kaze implements an overworld warp volume near the Zoo gate so approaching the entrance cleanly transitions the player to the correct Zoo spawn/warp ID, effectively making the gate area a controlled ‘warp zone.’",
+      "quote": null
+    },
+    {
+      "topic": "technical",
+      "importance": "high",
+      "summary": "He programs Wario as an active blocker NPC who tracks Mario laterally and prevents jumping over/around the gate, then adds safeguards to prevent Wario from pushing the player into walls (including adjusting collision response and adding an invisible blocking plane).",
+      "quote": null
+    },
+    {
+      "topic": "technical",
+      "importance": "high",
+      "summary": "A core engine bug is identified: during cutscenes, the game wrote the cutscene/‘entered level’ flag to the wrong course slot, so Wario wouldn’t disappear after the first Zoo visit. Fixing this restores correct per-course persistence behavior.",
+      "quote": "There was a bug all along in the engine, where if you were watching a cutscene, it would set the cutscene flag in the wrong place."
+    },
+    {
+      "topic": "technical",
+      "importance": "medium",
+      "summary": "Kaze relates the cutscene-flag issue to a known vanilla SM64 quirk (opening a cannon in Bob-omb Battlefield can set a cannon flag in another level), implying he’s rebuilding or replacing similar global-flag indexing behavior in his decomp-based framework.",
+      "quote": null
+    },
+    {
+      "topic": "technical",
+      "importance": "medium",
+      "summary": "He notes ongoing engine instability: a collision issue sometimes allows phasing through geometry, which he frames as “equally annoying as invisible walls,” and he wants it fixed as part of making traversal feel fair.",
+      "quote": null
+    },
+    {
+      "topic": "technical",
+      "importance": "medium",
+      "summary": "He calls out production constraints: the Zoo entrance area is already ~29,000 triangles before collision is finished, signaling that triangle/geo budgeting is becoming a real consideration.",
+      "quote": null
+    },
+    {
+      "topic": "technical",
+      "importance": "low",
+      "summary": "He states remaining “engine rework” tasks before full content production freedom: operating system work and collision BVH (which he also ties to future plans like AI training needing BVH for speed).",
+      "quote": null
+    },
+    {
+      "topic": "team",
+      "importance": "medium",
+      "summary": "Kaze expects Biobak to rework parts of the overworld/entrance visually later; for now he prioritizes gameplay functionality and blockers over final art polish.",
+      "quote": null
+    },
+    {
+      "topic": "technical",
+      "importance": "low",
+      "summary": "He mentions Sauraen’s new F3DEX3 update yields a small RSP-time performance win (on the order of ~100–200 microseconds), reinforcing that the project is still collecting micro-optimizations where possible.",
+      "quote": null
+    },
+    {
+      "topic": "personal",
+      "importance": "medium",
+      "summary": "Kaze shares unusually candid anxiety about filing taxes as a self-employed creator, describing stress and reduced ability to think clearly despite believing his filings are correct; he links this to having “more to lose” after becoming a parent.",
+      "quote": null
+    },
+    {
+      "topic": "philosophy",
+      "importance": "low",
+      "summary": "He states a strong design aversion to cosmetic-only rewards, citing negative experiences in Tears of the Kingdom where cosmetic chest rewards felt like wasted player time; he prefers rewards to be functional or optional/out-of-the-way.",
+      "quote": "I hate cosmetics in video games."
+    }
+  ],
+  "contributor_findings": {
+    "biobak": [
+      {
+        "topic": "team",
+        "importance": "medium",
+        "summary": "Kaze describes Biobak as responsible for visual reworks of the area later, and as a source of additional Wario animations/moves as needed (Kaze implements behavior logic; Biobak expands the animation set).",
+        "quote": "Biobak does that for me. He can make more and more of Wario's moves."
+      }
+    ],
+    "badub": [],
+    "zeina": [],
+    "others": [
+      {
+        "name": "Sauraen",
+        "findings": [
+          {
+            "topic": "technical",
+            "importance": "low",
+            "summary": "Kaze reports Sauraen pushed an F3DEX3 update the same day, improving RSP performance by roughly ~100–200 microseconds; once integrated into Fast64, it should save small but meaningful time.",
+            "quote": null
+          }
+        ]
+      }
+    ]
+  },
+  "memorable_quotes": [
+    {
+      "speaker": "Kaze",
+      "quote": "There was a bug all along in the engine, where if you were watching a cutscene, it would set the cutscene flag in the wrong place.",
+      "context": "He realizes why Wario didn’t disappear after the first Zoo visit and ties the fix to correctness of persistent overworld gating."
+    },
+    {
+      "speaker": "Kaze",
+      "quote": "I hate cosmetics in video games.",
+      "context": "A strong, values-driven stance that reflects how he thinks about rewards, respect for player time, and what he does not want RTYI to become."
+    }
+  ],
+  "key_stories": [
+    {
+      "title": "Replacing the Zoo ticket quest with a crawlspace gate",
+      "summary": "Kaze evaluates the planned Zoo entrance quest (coin-gated ticket pricing plus a penguin ticket subplot) and decides it’s too messy and arbitrary for the overworld. He pivots to a more physical, readable gate: Wario blocks the main entrance, while a crawl tunnel provides the intended entry route.",
+      "challenge": "The original entrance logic felt complicated, inelegant, and tonally random, risking player confusion for a core overworld progression step.",
+      "process": "He brainstorms alternatives (open entrance, coin booth, secret entrance), lands on a crawlspace, iterates entrance geometry, and plans environmental affordances (coin trail, mice) to teach the mechanic without explicit tutorials.",
+      "outcome": "A new gate design is implemented and tested: warp trigger into the Zoo + crawlspace plan + Wario as an in-world blocker; the area is now ready for later polish and signposting.",
+      "key_quote": "I don't want that because I think that's too over complicated and there's just too much shit happening there.",
+      "related_to": [
+        "kaze"
+      ]
+    },
+    {
+      "title": "Cutscene persistence bug prevents Wario from disappearing",
+      "summary": "After implementing a ‘Wario disappears once you’ve entered the Zoo’ rule, Kaze finds it doesn’t work even after watching the intro cutscene and dying. He traces the issue to a cutscene flag being stored in the wrong course index/slot during cutscenes—similar to a known SM64 cannon flag bug—and fixes the engine logic.",
+      "challenge": "Progress-state persistence (whether the player has ‘officially been in the Zoo’) was incorrect, breaking the intended one-time gate behavior.",
+      "process": "He reproduces the issue in-game, inspects the star/flag bits, notices a type/size mismatch (U8 vs S16) and indexing anomalies, then identifies that cutscenes write flags to the wrong place.",
+      "outcome": "Wario correctly disappears after the first Zoo visit, validating both the new entrance flow and the underlying save/flag logic.",
+      "key_quote": "There was a bug all along in the engine, where if you were watching a cutscene, it would set the cutscene flag in the wrong place.",
+      "related_to": [
+        "kaze"
+      ]
+    },
+    {
+      "title": "Anxiety spike over self-employment taxes while building the game",
+      "summary": "Mid-stream, Kaze derails into a candid account of being unusually nervous about taxes despite believing everything is correct. He attributes the intensity to being self-employed and having ‘more to lose,’ especially after having a child.",
+      "challenge": "Background life stress disrupts focus and confidence during technical problem-solving.",
+      "process": "He talks it out live, acknowledges the fear is disproportionate, and continues working while describing his mental fog.",
+      "outcome": "The stream documents the emotional load behind sustained indie development—especially when the creator’s personal responsibilities increase.",
+      "key_quote": "My brain is so nerfed from the stress of the taxes that are like 99% correct that it is fucking me up.",
+      "related_to": [
+        "kaze"
+      ]
+    }
+  ],
+  "open_questions": [
+    {
+      "topic": "Final intended ‘teaching’ of crawlspaces in the overworld",
+      "context": "Kaze decides against a journal/tutorial prompt and instead plans environmental cues (coin trail, possibly mice) to communicate crawlspaces as a mechanic.",
+      "questions": [
+        "Where is the first crawlspace in the intended player route, and what is the earliest moment you expect players to learn crawling?",
+        "Did playtesting ever show players missing crawl tunnels, and what signals (coins, NPC movement, lighting, floor color) proved most effective?",
+        "Are crawlspaces meant to be a recurring ‘language’ in the overworld (secret routing), or mostly a one-off gate solution here?"
+      ],
+      "related_to": [
+        "kaze"
+      ]
+    },
+    {
+      "topic": "Design intent behind allowing a skill-based bypass of Wario",
+      "context": "Kaze expresses openness to speedrunners entering the Zoo without crawling if they can pull it off, while also noting current movement can generate excessive velocity.",
+      "questions": [
+        "What kinds of ‘sequence breaks’ do you consider healthy for RTYI, and where do you draw the line between fun tech and broken routing?",
+        "Will you intentionally preserve at least one hard bypass route here as a reward for mastery, or will it depend on whether it destabilizes other systems?",
+        "How will you tune movement/velocity so bypassing is skillful rather than accidental jank?"
+      ],
+      "related_to": [
+        "kaze"
+      ]
+    },
+    {
+      "topic": "Cutscene flag indexing and persistence architecture",
+      "context": "A cutscene wrote the ‘entered level’ flag to the wrong course slot, reminiscent of vanilla SM64 cannon flag misindexing; Kaze fixes it after Wario fails to disappear.",
+      "questions": [
+        "What is your new persistence model for RTYI (entered-level flags, cutscene flags, star bits), and how does it differ from vanilla SM64’s quirks?",
+        "How did this bug survive until now—was it masked by earlier content not relying on ‘first visit’ logic?",
+        "Are there other known ‘global flag index’ hazards still in the engine that could cause cross-level side effects?"
+      ],
+      "related_to": [
+        "kaze"
+      ]
+    },
+    {
+      "topic": "Collision reliability and the ‘phasing through geometry’ regression",
+      "context": "Kaze flags a current engine issue where the player can sometimes phase through collision, and he frames collision correctness as difficult but essential.",
+      "questions": [
+        "What changed that made phasing appear (new collision representation, numerical precision, broadphase changes, BVH work-in-progress)?",
+        "How do you test collision correctness on real hardware versus emulator, and what ‘worst case’ scenarios are you designing against?",
+        "Do you expect the collision BVH rewrite to fix phasing directly, or is BVH mainly a performance enabler while correctness needs separate constraints?"
+      ],
+      "related_to": [
+        "kaze"
+      ]
+    },
+    {
+      "topic": "Wario NPC: animation needs and behavioral ‘feel’ targets",
+      "context": "Kaze uses existing animations as stand-ins (even repurposing a non-jump animation) and plans a shuffle animation; he also adjusts turning logic and wall-response to keep Wario centered and non-janky.",
+      "questions": [
+        "What was your target ‘vibe’ for Wario here (Mido-like gatekeeper, comedic annoyance, morally gray bouncer), and how did that shape the behavior tuning?",
+        "What specific animations did you request from Biobak for Wario to sell the blocking behavior (shuffle, hop, laugh, taunt), and what’s still missing?",
+        "How did you balance physical blocking (hitboxes, invisible planes) against player frustration when returning to the gate repeatedly?"
+      ],
+      "related_to": [
+        "kaze",
+        "biobak"
+      ]
+    }
+  ]
+}

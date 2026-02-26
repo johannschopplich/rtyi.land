@@ -1,0 +1,232 @@
+{
+  "stream_context": {
+    "summary": "Kaze continues polishing the Part 3/Platform 9 overworld area: verifies EEPROM saving, ports and debugs a custom water system (waves + fog), adds environmental set-dressing (abandoned beach towels, parasols), and implements a swing set that conditionally spawns two Yoshis after Bowser 1. He also discusses workflow changes for Fast64 updates, beta-testing strategy, and looming ROM-size constraints due to new quaternion-based animation data.",
+    "level": [
+      "Overworld"
+    ],
+    "significance": "notable",
+    "significance_reason": "Contains concrete technical revelations (water waves driven by vertex color channels; fog/blending issues), production workflow details (batch-export scripts + incremental external playtests), and project-constraint philosophy (staying under 64MB for authenticity) alongside new overworld progression beats (Bowser 1 gating Yoshis; message-in-a-bottle puzzle leading to Ice Cap)."
+  },
+  "findings": [
+    {
+      "topic": "technical",
+      "importance": "medium",
+      "summary": "Kaze confirms star progress is saving correctly to EEPROM in the current build, using a 30-star state as a sanity check.",
+      "quote": "There we go! Okay, it saves to the EEPROM. Perfect."
+    },
+    {
+      "topic": "technical",
+      "importance": "high",
+      "summary": "The overworld water system’s wave height is (unusually) driven by per-vertex color data: Kaze discovers he previously used the vertex red channel to control wave displacement amplitude across subdivided water geometry.",
+      "quote": "Oh, we’re using the vertex red channel to decide the height of the waves? What? I forgot about that completely."
+    },
+    {
+      "topic": "technical",
+      "importance": "high",
+      "summary": "Water rendering needs to work under fog, but applying fog naively causes major visual artifacts (e.g., ship not fogged, unexpected black fog, water not whitening with screen effects). Kaze considers a two-waterplane approach (one fogged, one not) to blend near/far water behavior.",
+      "quote": "What if we have two separate waterplanes, one with fog and one without?"
+    },
+    {
+      "topic": "technical",
+      "importance": "medium",
+      "summary": "Kaze tracks a fog-related visual issue to a texture/state interaction (he references a “Mario Party texture” setting fog to zero), highlighting how shared render state can create surprising cross-asset bugs.",
+      "quote": "It’s setting my fog to zero, and it’s this Mario Party texture."
+    },
+    {
+      "topic": "business",
+      "importance": "high",
+      "summary": "ROM space is becoming a production constraint: a quaternion-based BVH animation format (being implemented by a collaborator named Arthur) is expected to cost ~1.2MB, pushing the ROM to ~61.2MB. Kaze plans to reclaim space by compressing the code/engine segment (~0.5–1MB), and he strongly prefers staying ≤64MB for authenticity.",
+      "quote": "The problem is, you kinda lose style points if you go beyond 64MB… I would feel that we lose a little bit of soul if we go beyond that."
+    },
+    {
+      "topic": "technical",
+      "importance": "medium",
+      "summary": "Kaze compares numeric representations for animation/runtime math (bfloats/bit-floats vs converting/multiplying floats), discussing cycle counts, instruction count, and precision tradeoffs; he leans toward bfloats being worthwhile despite precision loss.",
+      "quote": "Bfloats are an instruction more, but also less cycles… Oh, but you lose a lot of precision doing it that way."
+    },
+    {
+      "topic": "team",
+      "importance": "high",
+      "summary": "Kaze describes a systematic QA pipeline: he revisits already-built levels to ensure they’re fully playable and sends them to beta testers as isolated course tests (about ~20 so far). This front-loads playtesting before the whole game is complete, speeding iteration and reducing late-stage rework.",
+      "quote": "We’ve had so far I think 20 little tests of people just testing an individual course… so we already have a lot of gameplay tests done before the game is ever finished."
+    },
+    {
+      "topic": "technical",
+      "importance": "high",
+      "summary": "Fast64 updates are frequent enough that Kaze is rebuilding his pipeline: he must reimport actors to benefit from bugfixes, and he’s writing per-level scripts to batch-export all actors at once, so future Fast64 changes can be re-exported quickly and consistently.",
+      "quote": "I’m currently working on making scripts for every level… that export all the actors in a level at the same time."
+    },
+    {
+      "topic": "design",
+      "importance": "medium",
+      "summary": "Environmental storytelling pass: Kaze adds abandoned beach towels to make the beach feel like the Yoshis “are just gone,” using prop placement to imply narrative absence without explicit cutscenes.",
+      "quote": "They make it look a lot more like the Yoshis are just gone."
+    },
+    {
+      "topic": "design",
+      "importance": "high",
+      "summary": "Overworld progression detail: a swing set is empty on first arrival, but after beating Bowser 1 two Yoshis appear swinging. Kaze implements the conditional spawn (star/flag gated), tests that they do not appear prematurely, and notes remaining work is primarily animation alignment.",
+      "quote": "You are supposed to beat the first Bowser level for the Yoshis to appear… that means they didn’t appear… Okay, it works!"
+    },
+    {
+      "topic": "design",
+      "importance": "high",
+      "summary": "Kaze outlines a planned hint/puzzle: a message in a bottle will appear only after the player has enough stars; reading it gives specific movement instructions (e.g., backflips then ground pound) to reveal a secret entrance to the Ice Cap level.",
+      "quote": "There is going to be a message in a bottle that just randomly appears if you have enough stars… and then you will find the secret entrance to the ice cap level."
+    }
+  ],
+  "contributor_findings": {
+    "biobak": [
+      {
+        "topic": "team",
+        "importance": "low",
+        "summary": "Kaze postpones creating foamy-water geometry around smaller islands because Biobak may still change the island shapes, making early foam work likely wasted effort.",
+        "quote": "There’s a good chance Biobak will change a lot of the shapes. So doing it right now would be a huge waste of time."
+      }
+    ],
+    "badub": [],
+    "zeina": [],
+    "others": [
+      {
+        "name": "Lilaa",
+        "findings": [
+          {
+            "topic": "team",
+            "importance": "high",
+            "summary": "Lilaa rapidly resolves a Fast64 issue for Kaze (fix in ~2 minutes) and pushes him to test a PR, demonstrating real-time tooling support that unblocks development.",
+            "quote": "I had an issue in Fast64, Lilaa fixed it in two minutes… she was like, test the PR. Why haven’t you done it yet?"
+          },
+          {
+            "topic": "technical",
+            "importance": "medium",
+            "summary": "Lilaa helps Kaze navigate Fast64 limitations/workarounds around attaching GeoASM and cleaning up persistent editor/geo elements (Kaze asks her how to attach GeoASM and remove an always-present element).",
+            "quote": null
+          }
+        ]
+      },
+      {
+        "name": "Arthur",
+        "findings": [
+          {
+            "topic": "technical",
+            "importance": "medium",
+            "summary": "Kaze credits a collaborator named Arthur with implementing a quaternion-based animation format (Quaternion BVH), but notes it increases ROM usage by ~1.2MB.",
+            "quote": "Arthur is doing the Quaternion format… we’re working on a Quaternion BVH, which is going to cost just over 1MB."
+          }
+        ]
+      }
+    ]
+  },
+  "memorable_quotes": [
+    {
+      "speaker": "Kaze",
+      "quote": "All the commercial games from back in the day were 64MB or below. So, I would feel that we lose a little bit of soul if we go beyond that.",
+      "context": "Explains why he treats N64-era constraints as part of the project’s artistic identity, not just a technical hurdle."
+    },
+    {
+      "speaker": "Kaze",
+      "quote": "We’ve had so far I think 20 little tests of people just testing an individual course… so we already have a lot of gameplay tests done before the game is ever finished.",
+      "context": "Captures his production philosophy of modular playtesting to iterate faster and avoid late-stage surprises."
+    }
+  ],
+  "key_stories": [
+    {
+      "title": "Water waves via vertex color channels and fog integration problems",
+      "summary": "Kaze ports water into the Part 3 overworld and realizes his wave system depends on vertex data (specifically the red channel) combined with heavy subdivision. Once waves work, fog integration becomes the major blocker: the water/ship scene exhibits severe artifacts and unexpected fog state changes.",
+      "challenge": "Get moving water that looks good while remaining compatible with fog and screen-wide effects, under N64 performance constraints.",
+      "process": "He debugs why height variation is missing, discovers the red-channel amplitude scheme, tunes parameters, and then investigates fog/render-state issues (including a texture seemingly forcing fog to black/zero). He considers splitting the water into separate fogged/unfogged planes as a workaround.",
+      "outcome": "Waves become visibly correct, but fog behavior remains a design/engineering problem to solve, likely requiring render-structure changes (two planes or different blending strategy).",
+      "key_quote": "What if we have two separate waterplanes, one with fog and one without?",
+      "related_to": [
+        "kaze"
+      ]
+    },
+    {
+      "title": "Swing set becomes a progression-gated ‘life returns’ moment",
+      "summary": "Kaze adds a swing set that is empty at first, then populates with two swinging Yoshis after Bowser 1 is beaten. He verifies the gating logic by giving himself stars and checking that the Yoshis do not appear prematurely.",
+      "challenge": "Make the overworld feel reactive to player progress without adding expensive cutscenes, and do it within Fast64/engine limitations.",
+      "process": "He imports the swing as an actor, manipulates vertex motion, integrates conditional spawning, troubleshoots linking/compilation mistakes, fixes collision linkage, and diagnoses that remaining visual oddities come from animation origin misalignment (to be fixed in Zeina/animation work rather than code).",
+      "outcome": "Conditional appearance works; remaining tasks are animation cleanup and better seated pose alignment.",
+      "key_quote": "You are supposed to beat the first Bowser level for the Yoshis to appear… Okay, it works!",
+      "related_to": [
+        "kaze"
+      ]
+    },
+    {
+      "title": "Tooling support as production leverage (Lilaa fixes Fast64 issue immediately)",
+      "summary": "During development, Kaze mentions being blocked by a Fast64 issue; Lilaa resolves it in minutes and prompts him to test the pull request. Kaze frames this kind of support as a major productivity multiplier.",
+      "challenge": "Fast64 changes and bugs can halt asset iteration, forcing slow debugging or workarounds.",
+      "process": "Lilaa identifies and fixes the issue quickly; Kaze tests the PR and continues asset work. He also starts scripting batch exports to reduce future Fast64 friction.",
+      "outcome": "Immediate unblock and a longer-term pipeline shift toward automation and repeatability.",
+      "key_quote": "Lilaa fixed it in two minutes… test the PR.",
+      "related_to": [
+        "kaze"
+      ]
+    }
+  ],
+  "open_questions": [
+    {
+      "topic": "Quaternion BVH adoption and ROM budget policy",
+      "context": "Kaze says quaternion BVH animation data will add ~1.2MB and brings the ROM to ~61.2MB; he wants to stay under 64MB for “soul,” and may compress the code/engine segment to claw back space.",
+      "questions": [
+        "What specific animation problem(s) forced the move to quaternion BVH (e.g., gimbal lock, blending quality, authoring workflow), and what alternatives were rejected?",
+        "Who is Arthur in the project structure (contractor, volunteer, core team), and how does Kaze specify/validate Arthur’s technical deliverables?",
+        "What is the project’s hard policy if the ROM crosses 64MB: cut content, improve compression, bank-switch, or accept >64MB?",
+        "What parts of the code/engine segment are candidates for compression, and what are the risks (load time, complexity, new bugs)?"
+      ],
+      "related_to": [
+        "kaze"
+      ]
+    },
+    {
+      "topic": "Water rendering architecture under fog and screen-wide effects",
+      "context": "The water now has visible waves but behaves badly with fog and whitening effects; Kaze suspects render-state interactions (including a texture forcing fog values) and considers two separate waterplanes to blend fogged vs non-fogged looks.",
+      "questions": [
+        "What is the intended artistic target for water under fog (visibility falloff, color shift, foam), and how does it differ between near and far water?",
+        "What exactly is the ‘water turns white like the rest of the screen’ effect (damage flash, screen fade, post-process), and why must water obey it?",
+        "What caused the ship to ignore fog—material setup, render order, display-list state leakage, or environment color overrides?",
+        "Did the two-waterplane solution end up shipping, and if so, how did you avoid z-fighting, seams, and performance cost?"
+      ],
+      "related_to": [
+        "kaze"
+      ]
+    },
+    {
+      "topic": "Fast64 limitations shaping final in-game animation/poses",
+      "context": "Kaze calls certain sitting/attachment behaviors ‘an impossibility in Fast64’ and attributes Yoshi swing weirdness to animation origin offset; he frames the fix as an animation task rather than code.",
+      "questions": [
+        "Which specific behaviors are impossible in Fast64 (geo attachments, per-bone materials, actor-relative animation origins), and what engine-side workarounds do you rely on?",
+        "How does the team coordinate between exporter constraints (Fast64) and final in-engine behavior (GeoASM, actor code)?",
+        "What is Zeina’s animation pipeline for aligning animation origins so props like swings ‘just work’ without per-level code hacks?"
+      ],
+      "related_to": [
+        "kaze",
+        "zeina"
+      ]
+    },
+    {
+      "topic": "Overworld progression beats: message-in-a-bottle and Ice Cap entrance",
+      "context": "Kaze proposes a bottle that appears after enough stars, giving a specific movement instruction puzzle that reveals a secret Ice Cap entrance.",
+      "questions": [
+        "Why use an instruction-heavy movement puzzle (backflips + ground pound) instead of environmental clues—what player experience are you aiming for?",
+        "How do you ensure players discover the bottle naturally (spawn location, camera framing, NPC hints) without feeling arbitrary?",
+        "Will the instructions be diegetic (written like a story clue) or explicit ‘game hint’ text, and how do you keep it respectful to SM64’s tone?"
+      ],
+      "related_to": [
+        "kaze"
+      ]
+    },
+    {
+      "topic": "Beta testing structure and feedback integration",
+      "context": "Kaze describes ~20 isolated course tests and a process of revisiting completed levels to make them ‘100% playable’ before wider release.",
+      "questions": [
+        "Who are the beta testers (skills, speedrunners vs casuals), and how are they selected/managed?",
+        "What format does feedback take (written notes, video clips, bug tracker), and what criteria decide whether a suggestion becomes a change?",
+        "What is the biggest level-design change that came directly from these early isolated playtests?"
+      ],
+      "related_to": [
+        "kaze"
+      ]
+    }
+  ]
+}

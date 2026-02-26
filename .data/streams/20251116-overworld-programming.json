@@ -1,0 +1,266 @@
+{
+  "stream_context": {
+    "summary": "Kaze implements and debugs a new crab NPC/enemy set for the overworld, dealing with animation export/name collisions (Fast64 + a quaternion conversion tool), movement/collision tuning (floor offsets, sideways walking, sliding), interactions (jump-on-to-shell), and claw hitboxes. He also outlines an overworld progression event: crabs appear around ~65 stars, chase away koi fish, and rescuing the fish leads to a hint/route to a secret level. Along the way he discusses music-track selection constraints (space/fit), playtesting cadence and anti-frustration goals, and secure beta-testing practices to prevent ROM leaks.",
+    "level": [
+      "Overworld"
+    ],
+    "significance": "notable",
+    "significance_reason": "Ships a complete new overworld actor (crabs) with interaction + hitboxes and sketches a late-game overworld event leading to a secret level, while also revealing key production philosophy (avoid frustration/slop, heavy playtesting) and practical constraints (music space, safe beta distribution, tooling issues)."
+  },
+  "findings": [
+    {
+      "topic": "technical",
+      "importance": "high",
+      "summary": "Animation export for the crab actor breaks due to naming collisions and toolchain quirks: Fast64 appears to extern animations with generic names (e.g., anim_idle_values), causing cross-actor conflicts when multiple actors share animation names like \"idle\"; additionally, including \"crab\" in the animation title can cause mis-splitting/duplication of the name during export.",
+      "quote": null
+    },
+    {
+      "topic": "team",
+      "importance": "medium",
+      "summary": "Kaze attributes part of the animation pipeline trouble to Arthur’s quaternion conversion/export tooling (conflicting types / name mangling), but ultimately suspects Fast64’s naming/extern behavior is the core conflict driver.",
+      "quote": null
+    },
+    {
+      "topic": "technical",
+      "importance": "medium",
+      "summary": "Crab placement and movement required tuning the graph Y-offset/floor offset and correcting physics flags: buoyancy/gravity mistakes initially caused incorrect behavior; after correction the crab sits properly on the floor and animates cleanly.",
+      "quote": null
+    },
+    {
+      "topic": "technical",
+      "importance": "medium",
+      "summary": "Kaze updates crab movement to support sideways locomotion (crab-like strafe), reduces post-goal sliding by adjusting the step-off collision/step function behavior, and scales walk animation speed based on forward velocity for better feel.",
+      "quote": null
+    },
+    {
+      "topic": "design",
+      "importance": "medium",
+      "summary": "Crabs are framed as largely non-lethal overworld NPC antagonists (“NPCs… don’t care about you”), with a readable response loop: running into them triggers an attack reaction; jumping on them puts them into a defensive shell/curl state.",
+      "quote": null
+    },
+    {
+      "topic": "technical",
+      "importance": "medium",
+      "summary": "Kaze implements claw hitboxes as child hitboxes and discovers initialization/order issues (hitboxes seeming inconsistent until properly initialized after spawning). He calibrates offsets/radius using the actor’s scale and corrects inverted forward offsets and oversized radii.",
+      "quote": null
+    },
+    {
+      "topic": "design",
+      "importance": "high",
+      "summary": "Overworld event design: heavy/big crabs will appear in the overworld “randomly” around ~65 stars (late game), bully/chase away the koi fish from the river area, and after resolving the crab problem, the returning fish will guide the player to a secret level by having the player follow their circular swimming path around a building (the loop count is tuned so it won’t be triggered accidentally).",
+      "quote": null
+    },
+    {
+      "topic": "technical",
+      "importance": "medium",
+      "summary": "Kaze flags a practical N64-hardware blocker: he found a crash somewhere in RTYI, which prevents him from putting the current build onto his N64 (e.g., for testing on the train) until fixed.",
+      "quote": null
+    },
+    {
+      "topic": "business",
+      "importance": "medium",
+      "summary": "Music scope is very large: Badub has a 62-track “bonus playlist” of RTYI songs that didn’t make the game (often due to ROM space limits or fit/complexity), while the game itself has ~100 tracks; Kaze notes this implies nearly ~200 total tracks in orbit for the project.",
+      "quote": null
+    },
+    {
+      "topic": "philosophy",
+      "importance": "high",
+      "summary": "Kaze’s current production focus is sustained playtesting and reducing frustration without \"dumbing down\" movement: he worries about archaic/over-punishing design, rejects the idea of making the game “digestible slop” via adding a double jump, and emphasizes charm plus fun while avoiding frustration.",
+      "quote": null
+    },
+    {
+      "topic": "community",
+      "importance": "medium",
+      "summary": "Playtesting is ongoing every 1–2 weeks with strong reliance on readily available fans, but Kaze also seeks more “random testers” to catch issues outside the core fan mindset.",
+      "quote": null
+    },
+    {
+      "topic": "legal-nintendo",
+      "importance": "high",
+      "summary": "Kaze avoids sending full ROM builds to remote beta testers; he only sends the specific segment they need to test. Full-game tests happen in-person at his house so the ROM is never distributed.",
+      "quote": null
+    },
+    {
+      "topic": "personal",
+      "importance": "high",
+      "summary": "Kaze contrasts RTYI’s long dev cycle with his prior hack: despite ~5 years on RTYI, he says he is not “suffering completely,” whereas the last ~18 months of Last Impact felt like sustained suffering; he frames this as a meaningful improvement in the process and sustainability.",
+      "quote": "I've been working on this for like 5 years now and I'm not suffering completely. When I was working on Last Impact, the entire last 18 months of the process was suffering."
+    }
+  ],
+  "contributor_findings": {
+    "biobak": [
+      {
+        "topic": "team",
+        "importance": "low",
+        "summary": "Biobak is present in chat; Kaze reacts to at least one message strongly (repeating “That is fucked up, Biobak”), indicating casual, active back-and-forth during development, though the specific design impact is unclear from the transcript.",
+        "quote": null
+      }
+    ],
+    "badub": [
+      {
+        "topic": "business",
+        "importance": "medium",
+        "summary": "Badub maintains and shares a large backlog/bonus catalog of RTYI music; Kaze browses Badub’s SoundCloud playlists live and describes many tracks being cut due to limited space or because a different track fit better.",
+        "quote": null
+      },
+      {
+        "topic": "team",
+        "importance": "low",
+        "summary": "Badub checks in socially; Kaze reads/addresses Badub’s encouragement about people enjoying the work, reinforcing that music feedback and morale signals flow through chat.",
+        "quote": "That's very good to hear, Badub. Dang, that's great that everyone's enjoying the work on this."
+      }
+    ],
+    "zeina": [
+      {
+        "topic": "team",
+        "importance": "low",
+        "summary": "Zeina briefly comments that the game is not close to release yet, implicitly pushing back on any “soon” framing during stream banter.",
+        "quote": "Sure, Zeina, but the game is not even that close to release yet."
+      }
+    ],
+    "others": [
+      {
+        "name": "Arthur (tool author)",
+        "findings": [
+          {
+            "topic": "technical",
+            "importance": "medium",
+            "summary": "Arthur is credited with a quaternion conversion tool used in the animation pipeline; Kaze references it when diagnosing animation export/type conflicts and name-mangling issues.",
+            "quote": null
+          }
+        ]
+      },
+      {
+        "name": "Marky/Marty (level designer)",
+        "findings": [
+          {
+            "topic": "design",
+            "importance": "medium",
+            "summary": "Kaze mentions an unlock/event tying into “Marty’s level” and offers to show how the star/event works for inspiration; he also notes Marky is nearly done with a spiral-themed level and sends/mentions progress updates.",
+            "quote": null
+          }
+        ]
+      }
+    ]
+  },
+  "memorable_quotes": [
+    {
+      "speaker": "Kaze",
+      "quote": "I've been working on this for like 5 years now and I'm not suffering completely. When I was working on Last Impact, the entire last 18 months of the process was suffering.",
+      "context": "A rare, candid comparison of emotional sustainability between RTYI and his previous flagship hack, useful for documentary framing about long-term creative endurance."
+    },
+    {
+      "speaker": "Kaze",
+      "quote": "If we wanted to make slop, I'd add a double jump to this game. You can just take any 3D platformer, add a double jump and turn it into slop.",
+      "context": "A sharp statement of design philosophy: keeping Mario 64’s movement identity and challenge while resisting “modernizing” changes that flatten the experience."
+    },
+    {
+      "speaker": "Kaze",
+      "quote": "I don't send people the whole game when I make them beta test. I only send them the part that they need to test.",
+      "context": "Concrete operational detail about how the team mitigates leak/takedown risk while still doing widespread playtesting."
+    }
+  ],
+  "key_stories": [
+    {
+      "title": "Crab animation export breaks due to naming conflicts",
+      "summary": "While integrating crab animations, Kaze hits repeated failures in the export/compile pipeline: certain animation names fail, conflicts appear between actors, and tool outputs mangle names. He iterates by removing unnecessary bones, renaming animations, and isolating which part of the toolchain (Fast64 vs. the quaternion tool) is responsible.",
+      "challenge": "Fast64 appears to extern animation data using non-namespaced symbols (e.g., anim_idle_values), causing collisions across actors; additionally, certain substrings (like “crab”) in titles trigger unexpected name splitting/duplication in the pipeline.",
+      "process": "He tests animation sets in-game, renames assets to avoid collisions, and reasons about how symbols are generated. He considers removing/adding “static,” stripping bones, and changing naming patterns to force unique exported identifiers.",
+      "outcome": "Animations begin working reliably after renaming and avoiding problematic title patterns, but Kaze still considers the root cause an upstream tooling problem that could resurface with more actors.",
+      "key_quote": "If one actor has an animation called idle, then another actor can't also have an animation named idle, because of Fast64.",
+      "related_to": [
+        "kaze"
+      ]
+    },
+    {
+      "title": "Overworld crabs as a late-game event that unlocks a secret-level hint",
+      "summary": "Kaze outlines a progression-driven overworld incident: around ~65 stars, crabs take over the river area and drive away the koi fish. Once the player resolves the crab issue, the fish return and effectively act as living guidance toward a secret level by having the player follow their swimming loop around a building.",
+      "challenge": "Create an overworld event that feels organic and story-like, provides a discoverable hint path (without explicit UI spam), and can’t be triggered accidentally by random movement.",
+      "process": "He completes the crab actor’s movement/interactions/hitboxes first, then plans to program koi AI states that react to the crabs’ presence/absence. He also tunes the fish loop (reducing turns) so the secret path is intentional.",
+      "outcome": "Crabs are implemented and working by stream end; koi reaction logic and the rest of the star/event are queued for next stream.",
+      "key_quote": "These crabs appear at the overworld randomly. I was thinking around 65 stars… and after you save the fish, the fish are going to give you a hint on how to get to the secret level.",
+      "related_to": [
+        "kaze"
+      ]
+    },
+    {
+      "title": "A sustainable 5-year dev cycle (and why it isn’t suffering like Last Impact)",
+      "summary": "Kaze reflects that RTYI has been in development for about five years, yet he doesn’t feel the prolonged burnout he felt during the final stretch of Last Impact. He links this to better process: frequent playtests, focus on charm/fun, and systematically eliminating frustration points rather than endlessly piling on features.",
+      "challenge": "Maintaining creative momentum and quality control across a multi-year ROM-hack project with a team, huge content scope, and constant technical constraints.",
+      "process": "He runs playtests every 1–2 weeks, uses fans for quick iteration, seeks random testers for broader feedback, and makes targeted revisions (e.g., improving boss readability from 60% discovery to ~99%).",
+      "outcome": "He reports positive feedback and growing confidence, with frustration reduction identified as the primary remaining design risk.",
+      "key_quote": "We just have to make sure that the game won't be frustrating. That is my biggest worry.",
+      "related_to": [
+        "kaze"
+      ]
+    }
+  ],
+  "open_questions": [
+    {
+      "topic": "Animation pipeline fragility (Fast64 + quaternion conversion tool)",
+      "context": "Crab animations failed due to symbol/name collisions across actors and possible name mangling when certain words appear in titles; Kaze suspects Fast64’s extern naming is fundamentally unsafe at scale.",
+      "questions": [
+        "What exactly does Fast64 generate for animation symbol names, and is there a clean way to namespace per-actor (or per-folder) to avoid collisions?",
+        "What specific bugs exist in Arthur’s quaternion conversion/export tool (e.g., conflicting types, duplicated name segments), and what would it take to harden it for dozens of actors?",
+        "How often have toolchain issues like this blocked RTYI progress compared to pure gameplay coding/design work?",
+        "Did these issues influence how the team names assets or structures repos going forward?"
+      ],
+      "related_to": [
+        "kaze"
+      ]
+    },
+    {
+      "topic": "N64 hardware crash blocking on-console travel testing",
+      "context": "Kaze mentions a crash that prevents him from putting the current build on N64 “on the train.”",
+      "questions": [
+        "What is the crash (symptoms, reproduction steps), and how did it get discovered?",
+        "Is it related to the new engine/overhaul work (e.g., actor system, interactions), or a content bug in a specific area?",
+        "How do you triage crashes differently when the target is real N64 hardware vs emulator?",
+        "How important is “on-the-go N64 testing” to your iteration speed and confidence?"
+      ],
+      "related_to": [
+        "kaze"
+      ]
+    },
+    {
+      "topic": "Secure beta testing vs. distribution risk",
+      "context": "Kaze avoids distributing full ROMs; remote testers get only the segment they need, and full-game tests are done in-person.",
+      "questions": [
+        "How do you technically package “only the part they need to test” (separate ROM builds, warps, stripped courses, feature flags)?",
+        "What criteria decide who gets access to what, and how do you recruit/rotate testers without expanding leak risk?",
+        "Has this policy ever caused missed bugs that only appear in full-game context (save progression, star counts, unlock chains)?",
+        "Was this approach adopted because of a specific past incident (leak, takedown fears, community drama)?"
+      ],
+      "related_to": [
+        "kaze"
+      ]
+    },
+    {
+      "topic": "Music scope, cuts, and storage constraints",
+      "context": "Kaze describes ~100 tracks in-game plus 62 bonus tracks; cuts happen due to space limits or fit/complexity. He also speculates about an OST cartridge and mentions Opus compression on homebrew side but not used in RTYI due to memory bandwidth concerns.",
+      "questions": [
+        "What is the actual audio format/pipeline RTYI uses today, and what are the concrete bottlenecks (ROM space, RAM, CPU decode time, DMA bandwidth)?",
+        "How do Kaze and Badub decide whether a track is “too complicated” or “doesn’t fit”—is there a style bible per area/level?",
+        "What would an “OST cartridge” entail legally and technically (custom ROM, separate homebrew product, how playback would work on hardware)?",
+        "Has the team considered dynamic/streamed audio, or is that incompatible with the N64 constraints and RTYI’s engine goals?"
+      ],
+      "related_to": [
+        "kaze",
+        "badub"
+      ]
+    },
+    {
+      "topic": "Design philosophy: resisting ‘modernizing’ movement while reducing frustration",
+      "context": "Kaze explicitly rejects adding a double jump as a way to make the game easier/digestible, while emphasizing anti-frustration tuning and clearer hints (e.g., Goomba boss tell improvements).",
+      "questions": [
+        "What are the top 3 “frustration vectors” you’re actively hunting (camera, punishments, unclear goals, movement tech demands, health/damage tuning)?",
+        "How do you decide when ‘challenge’ becomes ‘archaic’—is there a specific tester feedback signal you trust most?",
+        "Can you give examples where you removed/softened a mechanic because it felt like ‘slop’ vs examples where you kept something hard because it preserved Mario 64’s identity?",
+        "What specific changes did you make after the demo to raise boss solution discoverability from ~60% to ~99%?"
+      ],
+      "related_to": [
+        "kaze"
+      ]
+    }
+  ]
+}

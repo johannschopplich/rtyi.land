@@ -1,0 +1,209 @@
+{
+  "stream_context": {
+    "summary": "Kaze works on Overworld Part 5 set-dressing and readability: building a fruit basket prop, iterating heavily on a convincing N64-friendly fruit tree (geometry + texture + palette constraints), and testing the overworld in-game. He also shares overall project status (beta testing nearing 100% across courses) and outlines upcoming overworld content beats (dojo, gated entrances, 65-star pirate raid event).",
+    "level": [
+      "Overworld"
+    ],
+    "significance": "notable",
+    "significance_reason": "Contains concrete project-status updates (beta-test completion nearing 100%), a substantial overworld roadmap (dojo/gates/65-star raid), a real debugging incident (camera-dependent crash tied to an object), and a strong philosophy rant about crediting code/assets in the ROMhacking scene."
+  },
+  "findings": [
+    {
+      "topic": "milestone",
+      "importance": "high",
+      "summary": "Kaze reports the game is approaching 100% beta-test completion overall; courses 10 and 11 are expected to reach 100% soon, while courses 12–15 will still require significant testing/updates. After that, remaining work is primarily finishing the overworld and side levels.",
+      "quote": null
+    },
+    {
+      "topic": "design",
+      "importance": "high",
+      "summary": "Overworld Part 5 prop needs are explicitly listed: fruit baskets, fruit trees, and adding Yoshis; Kaze frames this stream as building the asset set needed to make the islands feel alive and readable.",
+      "quote": null
+    },
+    {
+      "topic": "design",
+      "importance": "high",
+      "summary": "Kaze describes upcoming overworld content and progression beats: a dojo area to build next, an entrance/seal gate for an area referred to as 'Koopa with Kof,' optional blue-coin jumping/easter egg content, and a planned 'pirate raid' overworld event that triggers at 65 stars with a pirate ship, enemies, and a boss encounter.",
+      "quote": null
+    },
+    {
+      "topic": "design",
+      "importance": "medium",
+      "summary": "He notices an important scale/space perception effect: once trees are placed, the overworld feels noticeably smaller/denser than before, implying foliage density is a major lever for perceived world size and navigation tone.",
+      "quote": "The trees make the level feel so much smaller. Do you notice that? Like it felt big before—now the trees are here it feels small."
+    },
+    {
+      "topic": "technical",
+      "importance": "medium",
+      "summary": "A confusing crash occurs that seems camera-direction dependent: tilting the camera left causes the game to crash when looking at something in the scene. Kaze isolates it to one of a small set of objects and narrows it specifically to the save block; the bug then disappears and later reappears, suggesting nondeterminism or an emulator/toolchain edge case rather than a simple content error.",
+      "quote": "There seems to be something here that's crashing the game when looked at... It was the save block."
+    },
+    {
+      "topic": "technical",
+      "importance": "medium",
+      "summary": "Tree production is constrained by N64 render realities (overdraw and triangle counts) and N64 texture format limits (CI4 palette). Kaze repeatedly balances denser leaves (looks better) against rendering cost ('very expensive to render tree').",
+      "quote": null
+    },
+    {
+      "topic": "technical",
+      "importance": "medium",
+      "summary": "Kaze hits a CI4 palette/pipeline discrepancy: GIMP reports the texture as indexed to 16 colors, yet Fast64/Blender claims it uses more than 16. He theorizes the transparent pixels carry an underlying RGB value that GIMP doesn’t count as a palette entry but Blender/Fast64 effectively does, making palette compliance unexpectedly fragile.",
+      "quote": "It doesn't count the transparency as a color in GIMP but it does count it as a color in Blender... this is infuriating."
+    },
+    {
+      "topic": "team",
+      "importance": "medium",
+      "summary": "Kaze flags dissatisfaction with the current Yoshi house design because it will be repeated across islands; he asks Zeina to make new ones soon, highlighting how repeated overworld motifs require a higher quality bar than one-off props.",
+      "quote": "If we're gonna spam a design all over the islands, we better make sure it's decent at least."
+    },
+    {
+      "topic": "philosophy",
+      "importance": "high",
+      "summary": "Kaze gives a candid philosophy statement about crediting: credits are 'mandatory,' and uncredited use of advanced assembly/code implicitly misleads players about the hack creator’s skill, which he believes devalues the craft and community status earned through hard technical work.",
+      "quote": "Credits are mandatory on day one... when people use the Assembly code without credits... it devalues the skill."
+    },
+    {
+      "topic": "technical",
+      "importance": "low",
+      "summary": "He mentions wanting a proper Fast64 renderer and notes current tool lag; he implies performance improvements exist but aren’t available in his setup yet, affecting iteration speed during modeling/previewing.",
+      "quote": null
+    }
+  ],
+  "contributor_findings": {
+    "biobak": [
+      {
+        "topic": "team",
+        "importance": "low",
+        "summary": "Kaze references the quality bar implicitly by noting that if Biobak sent a model with certain flaws, he likely wouldn’t complain—suggesting Biobak’s contributions generally meet or exceed Kaze’s internal expectations and that Kaze is harsher on his own work.",
+        "quote": "If Biobak sent me something like this in a model, I wouldn't really complain."
+      }
+    ],
+    "badub": [],
+    "zeina": [
+      {
+        "topic": "design",
+        "importance": "medium",
+        "summary": "Zeina provides tree-related textures that Kaze tries to use to improve the bald-looking foliage; Kaze discovers a blue background/alpha handling issue and edits around it, illustrating iteration friction between art export and N64 indexing constraints.",
+        "quote": null
+      },
+      {
+        "topic": "team",
+        "importance": "high",
+        "summary": "Kaze asks Zeina to revise core overworld assets that will be repeated (new Yoshi house designs) and requests a denser/smaller-leaf texture (3–4x as many leaves) to solve the tree scale/readability issue.",
+        "quote": "Do you think we can get like three or four times as many leaves on here? I think that would solve it."
+      }
+    ],
+    "others": []
+  },
+  "memorable_quotes": [
+    {
+      "speaker": "Kaze",
+      "quote": "Credits are mandatory on day one.",
+      "context": "Said during a broader rant about why uncredited code/assets misrepresent skill and harm the ROMhacking craft culture."
+    },
+    {
+      "speaker": "Kaze",
+      "quote": "We need to gatekeep the ranks of Assembly Hacker; we can't let everyone think everyone else is an Assembly Hacker.",
+      "context": "Kaze explains his frustration with people using his released assembly/code without attribution, framing it as protection of hard-won expertise."
+    }
+  ],
+  "key_stories": [
+    {
+      "title": "Making an N64 fruit tree that doesn’t look like a toupee",
+      "summary": "Kaze spends much of the stream iterating on a fruit tree, repeatedly reacting to it looking bald, paper-flat, or unnatural. Through trial, he finds that layering/branch-attached leaf clusters and denser foliage improves believability, but it increases render cost and overdraw risk.",
+      "challenge": "Creating a tree that reads well in motion and from below, fits the project’s art bar, and still respects N64 constraints (triangles/overdraw/palette limits).",
+      "process": "He tries different leaf cluster shapes, considers reference trees from other games, tests in-game for silhouette/readability, experiments with denser geometry, and evaluates texture/palette indexing (CI4). He also solicits/improvises texture improvements (including Zeina’s textures and a request for a denser leaf texture).",
+      "outcome": "A ‘good enough for now’ tree is produced and placed to evaluate scale; Kaze concludes smaller/denser leaves are needed long-term and plans a texture revision while temporarily copy-pasting the current tree for layout.",
+      "key_quote": "Trees are one of the hardest things to make for me.",
+      "related_to": [
+        "kaze",
+        "zeina"
+      ]
+    },
+    {
+      "title": "Camera-dependent save-block crash that vanishes and returns",
+      "summary": "While testing the overworld, the game crashes when Kaze tilts the camera left, suggesting a render/culling/object interaction. He narrows it down to the save block, but the crash disappears, then later reappears, making it feel nondeterministic and hard to trust as ‘fixed.’",
+      "challenge": "Unreliable crash behavior blocks confident iteration and raises fear of memory or content instability late in development.",
+      "process": "Kaze reproduces the crash via camera movement, isolates candidate objects (including 'Poochie' and others), identifies the save block as the trigger, then re-tests after changes; he also briefly worries about being out of RAM before ruling it out.",
+      "outcome": "Root cause remains unclear by stream end; the save block crash is acknowledged as unresolved/unstable, requiring deeper investigation.",
+      "key_quote": "That is scary that we have a random crash like that that just disappeared.",
+      "related_to": [
+        "kaze"
+      ]
+    },
+    {
+      "title": "Why credits matter: preserving the meaning of technical skill",
+      "summary": "Kaze argues that uncredited reuse of advanced assembly/code doesn’t just omit a name; it changes what audiences believe the hack author can do. He frames crediting as essential to honesty about authorship and to maintaining respect for difficult technical work in the community.",
+      "challenge": "Community norms where code/assets get reused without attribution, blurring authorship and undermining the perceived value of hard skills.",
+      "process": "He explains his emotional motivation (not personal recognition, but accurate representation of who can actually program), uses an analogy about everyone claiming they can prove the Riemann Hypothesis, and emphasizes that credit can be as simple as admitting code was sourced online.",
+      "outcome": "A clear principle is stated: credits should be present immediately, and attribution is about integrity and preserving the signal of real expertise.",
+      "key_quote": "They don't even need to say Kaze made this, they just need to say I stole this code online.",
+      "related_to": [
+        "kaze"
+      ]
+    }
+  ],
+  "open_questions": [
+    {
+      "topic": "Beta testing structure and what '100%' means per course",
+      "context": "Kaze cites partial test data across early courses and course 8, with courses 10 and 11 nearing 100%, and courses 12–15 being rougher.",
+      "questions": [
+        "What is the definition of “100% beta test completion” for a course (all stars, all missions, all edge cases, performance targets, or bug thresholds)?",
+        "Who is doing the testing (internal team vs community testers), and how are bugs tracked and prioritized?",
+        "Why are courses 13–15 expected to be particularly rough—complexity, scripting, performance, or design volatility?"
+      ],
+      "related_to": [
+        "kaze"
+      ]
+    },
+    {
+      "topic": "The save-block crash tied to camera direction",
+      "context": "The game crashes when the camera tilts left; Kaze isolates the trigger to the save block, but the crash disappears and later returns.",
+      "questions": [
+        "What was ultimately causing the save-block crash—display list corruption, invalid texture/palette, object memory pool issues, culling bounds, or emulator-specific behavior?",
+        "Did the crash reproduce on real hardware, or only in a specific emulator/build?",
+        "Was this related to being near memory limits (RAM, segment, display list size), even if the immediate RAM check looked fine?"
+      ],
+      "related_to": [
+        "kaze"
+      ]
+    },
+    {
+      "topic": "Overworld event design: 65-star pirate raid",
+      "context": "Kaze outlines a planned overworld raid event at 65 stars involving a pirate ship, enemies, ownership takeover, and a boss.",
+      "questions": [
+        "Why choose 65 stars specifically—pacing, difficulty gating, narrative midpoint, or to ensure players have learned certain mechanics?",
+        "How is the raid represented technically in the overworld (conditional spawns, map swaps, cutscene, persistent state)?",
+        "What is the intended player experience: surprise spectacle, challenge gauntlet, or a story beat that recontextualizes the overworld?"
+      ],
+      "related_to": [
+        "kaze"
+      ]
+    },
+    {
+      "topic": "Yoshi house redesign as a repeated motif",
+      "context": "Kaze is uneasy about the current Yoshi house design because it will be used across multiple islands and wants Zeina to redesign them soon.",
+      "questions": [
+        "What specifically feels wrong about the current Yoshi houses—silhouette, texture style, scale, readability, or thematic fit with Yoshi’s Island?",
+        "What constraints does Zeina have to design within (poly budget, CI4/CI8 textures, modularity, collision needs)?",
+        "How do you decide which overworld assets can be ‘good enough’ versus which must be elevated because they repeat everywhere?"
+      ],
+      "related_to": [
+        "kaze",
+        "zeina"
+      ]
+    },
+    {
+      "topic": "Tree pipeline: resolving CI4 palette/alpha disagreement between GIMP and Fast64/Blender",
+      "context": "Kaze indexes to 16 colors in GIMP but Fast64 reports too many colors, likely due to how transparent pixels carry a hidden RGB value that gets exported and counted differently.",
+      "questions": [
+        "What final workflow did you adopt to guarantee CI4 compliance (alpha handling, palette locking, export settings, texture cleaning scripts)?",
+        "Did this issue affect other assets besides trees (flowers, UI, signs), and did you build any tooling to prevent it?",
+        "How do you test and budget overdraw-heavy assets like trees across the whole overworld so performance doesn’t silently degrade?"
+      ],
+      "related_to": [
+        "kaze"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,214 @@
+{
+  "stream_context": {
+    "summary": "Kaze prototypes and implements a new in-level rope/spool setpiece: the player pushes a spool and the rope visually “unfurls” into existence via a dynamic alpha/combiner trick rather than heavy vertex animation. Along the way he discusses nearing the end of major engine refactors, removes unused legacy SM64 code to reduce legal/copyright claims, and diagnoses N64 texture-memory constraints (RGBA32 multitexture) that force changes to an existing lighthouse asset.",
+    "level": [],
+    "significance": "notable",
+    "significance_reason": "Introduces a distinctive interactive/cinematic setpiece (rope unfurling) with concrete implementation details, plus a clearly stated legal-risk mitigation step (removing unused SM64 code) and several engine/graphics constraints that affect asset/level decisions."
+  },
+  "findings": [
+    {
+      "topic": "technical",
+      "importance": "medium",
+      "summary": "Kaze implemented additional analog stick/input optimizations off-stream and says he’s close to finishing the engine changes he still wants, naming remaining items: Kotlin animations, OS work, and Geoarrays.",
+      "quote": "I'm very much looking forward to the engine just being done, because when the engine is done, that means we are no longer gonna break our old stuff all the time."
+    },
+    {
+      "topic": "legal-nintendo",
+      "importance": "high",
+      "summary": "He spent most of the day removing almost all unused Mario 64 code and unused behaviors to reduce the risk of accusations that he is using or distributing Nintendo/SM64 code.",
+      "quote": "Today I spent most of the day removing almost all the unused Mario64 code, all the unused behaviors, so that no one can claim I am using Mario64 code, or distributing it, or whatever."
+    },
+    {
+      "topic": "design",
+      "importance": "high",
+      "summary": "The stream’s main deliverable is a rope mechanic/setpiece: a spool drops/pushes and the rope appears dynamically as if unfurling, intended to look like a bespoke in-game animation rather than a static reveal.",
+      "quote": "We need this rope to appear dynamically... We're going to have the rope appear by a spool unfurling."
+    },
+    {
+      "topic": "team",
+      "importance": "medium",
+      "summary": "Kaze explicitly adopts Biobak’s proposed visual solution for the rope reveal: using an alpha transition/gradient so the rope appears progressively as the spool moves, after briefly exploring an alternative approach and rejecting it as a bad idea.",
+      "quote": null
+    },
+    {
+      "topic": "technical",
+      "importance": "high",
+      "summary": "Implementation detail for the unfurl effect: Kaze prefers driving visibility via Blend Color alpha (set through a geo comment) over scrolling UVs, because it’s easier to set up with Fast64 and avoids direct display-list writes; he notes Blend Color alpha has low precision but can be visually hidden by level geometry.",
+      "quote": "If I just set the blend color via a geocomment, it's easier."
+    },
+    {
+      "topic": "technical",
+      "importance": "medium",
+      "summary": "Kaze runs into tooling/export friction: Fast64 fails to export something “correctly” in his current setup, and he flags a modeling workflow mistake (triangulating too early) affecting editability/UV work.",
+      "quote": null
+    },
+    {
+      "topic": "design",
+      "importance": "medium",
+      "summary": "He reinforces a level-building workflow: keep meshes maximally editable and only fuse/optimize late, specifically saying he now fuses geometry after Biobak’s rework is done; he also aims to minimize GeoDisplayList comments for performance as a final step.",
+      "quote": "You want to maximize editability until the very last step. I only fuse stuff after Biobak's rework is done nowadays."
+    },
+    {
+      "topic": "technical",
+      "importance": "high",
+      "summary": "He explains an N64 texture-memory constraint: RGBA32 textures effectively consume texture memory in a way that halves remaining space for multitexturing because components are split across upper/lower TMEM, forcing him to change how a “yellow lighthouse” asset/approach is done.",
+      "quote": null
+    },
+    {
+      "topic": "technical",
+      "importance": "medium",
+      "summary": "While making the spool pushable, he finds a collision/positioning mismatch: the collision appears offset because the ograph Y offset is not respected by collision logic; he considers manually setting collision distance and acknowledges he may have used this offset system broadly, making a fix risky.",
+      "quote": null
+    },
+    {
+      "topic": "community",
+      "importance": "low",
+      "summary": "Kaze checks “F3” progress and reports 19 submissions/responses, noting some promising names—suggesting an ongoing community call (likely for contributors/assets/testing) that he is monitoring.",
+      "quote": null
+    }
+  ],
+  "contributor_findings": {
+    "biobak": [
+      {
+        "topic": "design",
+        "importance": "medium",
+        "summary": "Biobak proposed using an alpha transition/gradient to sell the rope ‘unfurling’ visually, which Kaze implements via Blend Color alpha and ties to the spool animation.",
+        "quote": null
+      },
+      {
+        "topic": "team",
+        "importance": "low",
+        "summary": "Kaze describes a newer workflow dependency: he delays mesh fusing/optimization until after Biobak’s rework passes, implying Biobak’s iteration stage is now treated as a gating step.",
+        "quote": null
+      }
+    ],
+    "badub": [],
+    "zeina": [
+      {
+        "topic": "personal",
+        "importance": "low",
+        "summary": "Zeina messages Kaze about schedule/pickup timing, which affects stream length and indicates coordination around family/social obligations.",
+        "quote": null
+      }
+    ],
+    "others": [
+      {
+        "name": "Lilaa",
+        "findings": [
+          {
+            "topic": "community",
+            "importance": "low",
+            "summary": "Lilaa is present in chat during key moments (reacting to the rope/combiner work); Kaze addresses them directly while demonstrating effects, reflecting an informal feedback/banter loop but no clear design change beyond the Biobak-driven one.",
+            "quote": null
+          }
+        ]
+      }
+    ]
+  },
+  "memorable_quotes": [
+    {
+      "speaker": "Kaze",
+      "quote": "Today I spent most of the day removing almost all the unused Mario64 code, all the unused behaviors, so that no one can claim I am using Mario64 code, or distributing it, or whatever.",
+      "context": "He frames code removal as proactive legal/PR risk management for a decomp-based ROM hack project."
+    },
+    {
+      "speaker": "Kaze",
+      "quote": "I'm very much looking forward to the engine just being done, because when the engine is done, that means we are no longer gonna break our old stuff all the time.",
+      "context": "Captures the cost of ongoing engine refactors and why ‘stabilizing’ the tech base matters for a long project."
+    },
+    {
+      "speaker": "Kaze",
+      "quote": "You can have it fast, or you can do it correctly.",
+      "context": "Said while discussing billboard/offset approaches and performance sensitivity—summarizes his pragmatic engineering tradeoffs."
+    }
+  ],
+  "key_stories": [
+    {
+      "title": "Designing the rope-spool unfurling setpiece",
+      "summary": "Kaze builds a new interactive moment where the player pushes a rope spool and the rope appears as if it’s being unrolled into the level. He explores approaches (camera cuts, UV scrolling, vertex animation) and lands on a Blend Color alpha-driven reveal that can be synchronized to spool motion.",
+      "challenge": "Make a dynamic rope appearance that looks like an unfurling animation without expensive/complex vertex animation and without fighting tool limitations (Fast64) too much.",
+      "process": "He prototypes the spool model/placement, tests how to reveal the rope, discusses options with chat, adopts Biobak’s alpha-gradient idea, and implements a Blend Color alpha approach via geo comments. He then tweaks physics/bounce, alignment, and plans additional wrapping details (rope around spool/pole/wall).",
+      "outcome": "A working prototype is in-game: pushing the spool triggers a convincing unfurl effect, with remaining tasks being polish (alignment, bounciness, adding visible rope wraps).",
+      "key_quote": "We need this rope to appear dynamically... We're going to have the rope appear by a spool unfurling.",
+      "related_to": [
+        "kaze",
+        "biobak"
+      ]
+    },
+    {
+      "title": "Proactive removal of unused SM64 behaviors to reduce legal exposure",
+      "summary": "Kaze describes spending a day stripping unused legacy Mario 64 code/behaviors from the project. He frames it as a way to prevent people from claiming the hack distributes or relies on Nintendo’s original code.",
+      "challenge": "Operating in a legally sensitive space (decomp-based hacks) where accusations of distributing Nintendo code could threaten the project’s legitimacy or safety.",
+      "process": "He audits and removes unused code paths/behaviors, aiming to minimize what could be construed as “Mario64 code” included in the deliverable beyond what’s necessary for the new game.",
+      "outcome": "The codebase is leaner and, in his view, harder to attack on the claim that it contains/distributes SM64 content (at least in unused form).",
+      "key_quote": "So that no one can claim I am using Mario64 code, or distributing it, or whatever.",
+      "related_to": [
+        "kaze"
+      ]
+    }
+  ],
+  "open_questions": [
+    {
+      "topic": "What exactly remains to finish Kaze’s engine refactor phase",
+      "context": "Kaze lists remaining items—Kotlin animations, OS work, and Geoarrays—and says he’s close to finishing engine changes, motivated by stopping the project from constantly breaking old content.",
+      "questions": [
+        "What are “Kotlin animations” in this context—an internal animation system, a toolchain component, or a port of an existing system?",
+        "What OS-level work remains, and why is it required for Return to Yoshi’s Island specifically?",
+        "What are “Geoarrays,” and how do they change level/actor rendering or authoring compared to earlier streams?",
+        "What past breakages (levels/assets/scripts) made you decide the engine needed to be stabilized before further content work?"
+      ],
+      "related_to": [
+        "kaze"
+      ]
+    },
+    {
+      "topic": "Legal risk strategy for a decomp-based ROM hack deliverable",
+      "context": "Kaze removed almost all unused SM64 code/behaviors so others can’t claim he’s using/distributing SM64 code.",
+      "questions": [
+        "What criteria did you use to decide which SM64-originated code was safe/necessary to keep versus remove?",
+        "Was this prompted by a specific incident (commentary, prior takedowns, community debate), or a general precaution?",
+        "How does this change the way you plan to distribute the project (patch format, source release, binaries, assets separation)?"
+      ],
+      "related_to": [
+        "kaze"
+      ]
+    },
+    {
+      "topic": "Rope unfurl implementation details and why Blend Color alpha was chosen",
+      "context": "Kaze implements the rope reveal by varying Blend Color alpha via a geo comment, noting low precision but easier setup than UV scrolling or direct display-list writes.",
+      "questions": [
+        "How is the rope reveal parameter (alpha) synchronized to the spool’s movement—time-based, distance-based, or state machine-driven?",
+        "What made Blend Color alpha preferable to UV scrolling for your pipeline—was Fast64 the main blocker or were there other constraints?",
+        "You mentioned direct display-list writes can cause a race condition ‘one frame early’—where have you seen that happen, and how do you normally guard against it?"
+      ],
+      "related_to": [
+        "kaze",
+        "biobak"
+      ]
+    },
+    {
+      "topic": "RGBA32 texture-memory constraint affecting the ‘yellow lighthouse’/cloud level visuals",
+      "context": "Kaze explains RGBA32 TMEM layout reducing effective remaining memory for multitextures, forcing him to “do the lighthouse differently,” and he discusses cloud-level lighting/shadowing approaches (vertex alpha vs vertex colors).",
+      "questions": [
+        "What was the original lighthouse material setup (number of textures/combiner steps), and what specifically breaks once RGBA32 is used?",
+        "What alternative did you choose for the lighthouse: different texture format (IA/CI), reduced multitexturing, different mesh split, or a new combiner?",
+        "For the cloud level, what lighting model did you settle on—camera-based lighting, no vertex colors, vertex alpha fake shadows—and why?"
+      ],
+      "related_to": [
+        "kaze"
+      ]
+    },
+    {
+      "topic": "Collision/offset system limitation discovered while making the spool pushable",
+      "context": "Kaze finds collision is offset because ograph offset Y isn’t respected by collision, considers manual collision distance, and worries because the offset system may be used widely.",
+      "questions": [
+        "Where in the engine does the divergence occur between rendering offsets (ograph) and collision evaluation, and is it intentional or a bug?",
+        "How many existing objects/levels depend on the current behavior, and what would be the safest migration plan if you change it?",
+        "Did this issue influence how you design interactive setpieces (like the spool) to avoid offset-heavy setups?"
+      ],
+      "related_to": [
+        "kaze"
+      ]
+    }
+  ]
+}

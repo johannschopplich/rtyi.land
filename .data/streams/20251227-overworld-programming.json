@@ -1,0 +1,265 @@
+{
+  "stream_context": {
+    "summary": "Kaze imports and integrates a gifted side level, “The Observatory,” built by Marty. He fixes Fast64/material issues (decals, transparency, vertex color tri-count doubling), builds a simplified collision mesh, corrects scale, sets up an infinite skybox render approach, and then performance-profiles on real N64 hardware. The stream becomes a deep optimization pass: overdraw-aware draw-order sorting, camera-based culling volumes, and Sauraen’s per-triangle occlusion planes via F3DEX3. He also checks ROM size (now ~62.2MB of a 64MB target) and discusses how having a child and a job slows overworld progress.",
+    "level": [
+      "Course 2 – Observatory"
+    ],
+    "significance": "milestone",
+    "significance_reason": "A complete pipeline moment: a new side level is imported, visually fixed, scaled, skyboxed, tested on real N64 hardware, and optimized with new culling/occlusion tooling; ROM budget is also reassessed with the project nearing the 64MB ceiling."
+  },
+  "findings": [
+    {
+      "topic": "milestone",
+      "importance": "high",
+      "summary": "A new side level, “The Observatory,” created by Marty as a Christmas gift after ~9 months of work, is officially brought into RTYI and treated as a secret level unlocked from an overworld goldfish quest chain.",
+      "quote": "This is the secret level you get."
+    },
+    {
+      "topic": "technical",
+      "importance": "high",
+      "summary": "Kaze identifies that the visual mesh (~11.5k+ triangles) is too expensive to use directly for collision, so he creates a separate simplified collision-only duplicate mesh and selectively removes interaction from detail props (e.g., bamboo/trees) to prevent snagging and reduce collision complexity.",
+      "quote": null
+    },
+    {
+      "topic": "technical",
+      "importance": "high",
+      "summary": "Multiple Fast64/material pitfalls are addressed: transparent textures are converted to alpha cutouts due to N64 draw-order constraints, decals cannot exist without underlying geometry, and environment-color alpha is avoided because it can “randomly bug out.”",
+      "quote": null
+    },
+    {
+      "topic": "technical",
+      "importance": "medium",
+      "summary": "Kaze discovers vertex coloring can unexpectedly double triangle count in the export pipeline, triggering additional cleanup to keep geometry within N64 limits.",
+      "quote": "Why does vertex coloring double the tri-count?"
+    },
+    {
+      "topic": "design",
+      "importance": "medium",
+      "summary": "He makes small readability-driven art tweaks (e.g., darkening the inner faces of staircases so the front edges pop) and tries to keep the level’s look consistent with Mario 64/RTYI’s “design language.”",
+      "quote": null
+    },
+    {
+      "topic": "design",
+      "importance": "medium",
+      "summary": "Kaze rejects a custom-looking switch in favor of the iconic pink Mario 64 floor button to preserve recognizability and consistent interaction language across the hack.",
+      "quote": "This is just because, like, design language."
+    },
+    {
+      "topic": "design",
+      "importance": "medium",
+      "summary": "He explicitly values “liminal” optional space: an explorable area with no objective can still be worth keeping for atmosphere, curiosity, and a sense of place.",
+      "quote": "It’s kind of cool that we have a liminal kind of useless type space where you can just go and experience the world."
+    },
+    {
+      "topic": "technical",
+      "importance": "high",
+      "summary": "Skybox rendering is implemented as an infinitely-far illusion: draw the skybox first with Z-buffer off/no depth, keep it small, and move it with the camera because the N64 cannot render far geometry precisely.",
+      "quote": "We draw it first with no depth at all... We draw it much smaller. We just move it around the camera."
+    },
+    {
+      "topic": "technical",
+      "importance": "high",
+      "summary": "On real N64 hardware, initial performance without culling is measured around ~25 FPS in worst views (with drops as low as ~16 FPS in extreme settings). Major culprit is overdraw (bridge/cliff drawing over previously drawn pixels), so Kaze reorders material draw order to reduce overdraw and gain FPS where platforming occurs.",
+      "quote": null
+    },
+    {
+      "topic": "technical",
+      "importance": "high",
+      "summary": "Kaze implements camera-based culling volumes for specific heavy structures (e.g., aqueduct) by toggling display lists on/off depending on whether the camera is within a defined region; he notes Fast64’s axis-aligned bounding boxes complicate ideal culling shapes.",
+      "quote": null
+    },
+    {
+      "topic": "technical",
+      "importance": "high",
+      "summary": "Texture-load strategy directly affects optimization: to make a structure cullable without duplicating texture loads, he swaps shared textures so the culled display list uses unique textures, preventing the same texture from being loaded twice in different draw chunks.",
+      "quote": "I make very sure that each texture is only used once."
+    },
+    {
+      "topic": "technical",
+      "importance": "high",
+      "summary": "Kaze explains N64 buffering constraints: with double-buffer + V-sync, dropping below 30 FPS snaps to 20 FPS; triple-buffer behaves differently. This drives his priority to keep critical platforming areas stable at 30 FPS.",
+      "quote": "If you double buffer and V-Sync and you ever drop below 30, you're in 20."
+    },
+    {
+      "topic": "technical",
+      "importance": "high",
+      "summary": "Occlusion planes (anti-portals) are used to cull geometry per triangle in microcode. Kaze credits Sauraen’s F3DEX3 microcode for enabling this and other features (larger vertex buffer, fewer cycles, ambient occlusion, combined shading + vertex color).",
+      "quote": "Sauraen basically invented [occlusion planes]."
+    },
+    {
+      "topic": "technical",
+      "importance": "medium",
+      "summary": "He notes practical issues/bugs in the toolchain: “white apple” as a Fast64 bug, and occasional engine regressions because he frequently refactors core code, sometimes breaking existing features like lens flares.",
+      "quote": "I refactor my engine, like, a lot... there is a good chance that I break all the features."
+    },
+    {
+      "topic": "design",
+      "importance": "medium",
+      "summary": "Because a hard-to-reach archway area is both laggy and not intended for gameplay, Kaze prefers making it inaccessible (e.g., slippery or blocked) rather than over-optimizing to support unintended exploration routes.",
+      "quote": "The first is to make this inaccessible... and the other is to fuck ourselves over and try to make this not laggy."
+    }
+  ],
+  "contributor_findings": {
+    "biobak": [
+      {
+        "topic": "technical",
+        "importance": "low",
+        "summary": "Kaze references Biobak encountering the same Fast64-export issue around primitive color alpha, implying this is a recurring toolchain problem across team assets.",
+        "quote": null
+      }
+    ],
+    "badub": [],
+    "zeina": [
+      {
+        "topic": "team",
+        "importance": "low",
+        "summary": "Kaze mentions he had to perform more extensive fixes on one of Zeina’s models in a previous session, framing Marty’s level fixes as comparatively minor.",
+        "quote": "This is nothing compared to the fixes I had to do on Zeina's model yesterday."
+      }
+    ],
+    "others": [
+      {
+        "name": "Marty",
+        "findings": [
+          {
+            "topic": "milestone",
+            "importance": "high",
+            "summary": "Marty delivers “The Observatory” as a polished side-level gift after ~9 months of work; Kaze positions it as a secret unlock and coordinates with Marty on gameplay-critical changes (scale, catwalk simplification, star placement, and enemy plans).",
+            "quote": null
+          },
+          {
+            "topic": "team",
+            "importance": "medium",
+            "summary": "Marty is expected to author/handle enemies for the level; Kaze pauses finalization until enemy work is ready, suggesting level completion is gated by collaborator deliverables.",
+            "quote": "We now need enemies. Marty, you wanted to make the enemies too, right?"
+          }
+        ]
+      },
+      {
+        "name": "Sauraen",
+        "findings": [
+          {
+            "topic": "technical",
+            "importance": "high",
+            "summary": "Kaze credits Sauraen’s F3DEX3 microcode as a major enabling technology for RTYI’s modern N64 visuals/performance (occlusion planes, efficiency gains, larger vertex buffer, AO). He contrasts this with Nintendo’s original microcode effort.",
+            "quote": "It is actually crazy how much better F3DEX3 is compared to F3DEX2."
+          }
+        ]
+      }
+    ]
+  },
+  "memorable_quotes": [
+    {
+      "speaker": "Kaze",
+      "quote": "It’s kind of cool that we have a liminal kind of useless type space where you can just go and experience the world.",
+      "context": "He argues for keeping non-objective exploration areas because they add atmosphere and a lived-in feeling, even if they are not mechanically necessary."
+    },
+    {
+      "speaker": "Kaze",
+      "quote": "If you double buffer and V-Sync and you ever drop below 30, you're in 20.",
+      "context": "A concise explanation of why hitting stable performance targets on original N64 hardware is a design requirement, not just a technical preference."
+    },
+    {
+      "speaker": "Kaze",
+      "quote": "I refactor my engine, like, a lot... there is a good chance that I break all the features.",
+      "context": "Reveals his development style and the risk inherent in rapidly evolving an engine while shipping content—useful for documentary tension around stability vs ambition."
+    }
+  ],
+  "key_stories": [
+    {
+      "title": "Importing a gifted side level into a real N64 performance budget",
+      "summary": "Kaze receives Marty’s Observatory level and immediately treats it as a real production asset: fixing materials, simplifying collision, correcting scale, adding a skybox, and running the map on original hardware. The stream shows the moment creative generosity meets strict N64 constraints—triangle counts, overdraw, and tooling limitations.",
+      "challenge": "A visually rich map must fit within N64 rendering limits and RTYI’s interaction/design language, without breaking performance in platforming-critical areas.",
+      "process": "Kaze duplicates meshes for collision, converts transparency to alpha cutouts, removes decals that cannot render properly, reorders draw calls to reduce overdraw, and iterates scale/catwalk geometry to better match Mario’s movement.",
+      "outcome": "The level runs on N64 with identified hotspots (~mid-20s FPS in worst cases), and a clear optimization plan emerges (culling, occlusion planes, collision cleanup, actorizing props like apples).",
+      "key_quote": "This is literally just crunching 12,000 triangles.",
+      "related_to": [
+        "kaze"
+      ]
+    },
+    {
+      "title": "Optimization as design: making areas inaccessible to avoid expensive viewpoints",
+      "summary": "While profiling, Kaze finds a laggy archway area that players aren’t intended to traverse. Instead of spending large effort to optimize an optional/edge-case view, he considers making the surface slippery or otherwise preventing entry.",
+      "challenge": "Supporting unintended exploration routes increases rendering cost and risks unstable platforming due to frame drops and input lag.",
+      "process": "He evaluates two paths—optimize heavily versus restrict access—and favors restricting access while ensuring the intended route remains performant and readable.",
+      "outcome": "A concrete content/performance tradeoff is made: optimize what players must do, and design away what would be expensive and unfun.",
+      "key_quote": "The first is to make this inaccessible... and the other is to fuck ourselves over and try to make this not laggy.",
+      "related_to": [
+        "kaze"
+      ]
+    },
+    {
+      "title": "Microcode-era occlusion planes as a modern tool",
+      "summary": "Kaze explains and applies Sauraen’s occlusion plane system (anti-portals) that culls triangles behind a plane at the microcode level. He positions it as a uniquely N64-native technique that doesn’t map cleanly to modern engines and reflects the team’s approach: modernize the pipeline without abandoning authentic hardware constraints.",
+      "challenge": "Achieving near-30 FPS with AA on in complex scenes requires more than generic object culling—per-triangle occlusion can be more effective when overdraw dominates.",
+      "process": "He places planes, tests different orientations, explains how the game selects the best plane per frame, and re-profiles performance in key viewpoints.",
+      "outcome": "Performance improves (reported ~1–2 FPS gains in targeted views), and occlusion planes become part of the optimization toolkit for RTYI levels.",
+      "key_quote": "It is something akin to occlusion culling, but it is per triangle.",
+      "related_to": [
+        "kaze"
+      ]
+    }
+  ],
+  "open_questions": [
+    {
+      "topic": "Marty’s intended gameplay for Observatory (enemies, maze, objectives)",
+      "context": "Kaze frames the level as a secret unlock and says finalization is on hold until enemies are added; he also mentions an unimplemented maze that may change or be removed.",
+      "questions": [
+        "What was Marty’s original gameplay pitch for the Observatory—what are the star missions, and what is the intended critical path versus optional exploration?",
+        "What is the “maze” Kaze mentions—where is it, what mechanic drives it, and why might it be removed?",
+        "What enemies are being designed/redesigned, and what behaviors or themes are they meant to communicate (magical observatory ‘appliances’ protecting the garden)?"
+      ],
+      "related_to": [
+        "kaze"
+      ]
+    },
+    {
+      "topic": "Tooling constraints shaping level layout (Fast64 decals, transparency, AABB culling)",
+      "context": "Kaze repeatedly adjusts Marty’s materials because decals need underlying surfaces, transparent ordering fails, and Fast64 uses axis-aligned bounding boxes that limit culling accuracy.",
+      "questions": [
+        "Which Fast64 limitations most often force level design changes (e.g., decals, alpha, AABB bounds), and how early do designers account for them?",
+        "Do you have a documented ‘asset checklist’ for collaborators (how to avoid decals-without-geometry, how to author foliage alpha, triangle budgets for collision)?",
+        "How much geometry/material rework is typical when importing a collaborator’s level into the RTYI pipeline?"
+      ],
+      "related_to": [
+        "kaze"
+      ]
+    },
+    {
+      "topic": "Culling system productization for the whole project",
+      "context": "Kaze prototypes camera-region-based culling toggles for display lists (aqueduct) and discusses making culling opt-in, cheap, and robust despite tooling limitations.",
+      "questions": [
+        "Will camera-region culling become a standard tool available to all levels, or will it remain hand-authored per problem area?",
+        "How do you plan to prevent noticeable pop-in (like the aqueduct) when culling toggles on/off—hysteresis, expanded volumes, or design masking?",
+        "What criteria decides whether you solve a lag hotspot with draw-order/material sorting, culling, occlusion planes, or geometry simplification?"
+      ],
+      "related_to": [
+        "kaze"
+      ]
+    },
+    {
+      "topic": "ROM size nearing the 64MB ceiling",
+      "context": "Kaze checks ROM size at the end: ~62.2MB, with a 64MB maximum budget, implying looming content/quality tradeoffs.",
+      "questions": [
+        "What content categories are most likely to be cut or downscaled to stay under 64MB (textures, music, cutscenes, extra levels)?",
+        "Do you have a compression/asset-sharing strategy planned (shared texture banks, palette reuse infrastructure), or will you manage size manually per level?",
+        "How early do you want collaborators to target specific memory/ROM budgets when producing levels?"
+      ],
+      "related_to": [
+        "kaze"
+      ]
+    },
+    {
+      "topic": "Sustaining development pace with new life constraints",
+      "context": "Kaze states the overworld takes longer now and explicitly attributes slowdown to having a child and a job; he also mentions wrist pain and needing time off.",
+      "questions": [
+        "How did having a child and a job change your scheduling, delegation, and willingness to take on large engine refactors?",
+        "What parts of RTYI are most affected by reduced uninterrupted time (overworld scripting, debugging on hardware, asset integration)?",
+        "How do you manage health risks (wrist pain) during long optimization or content-integration pushes?"
+      ],
+      "related_to": [
+        "kaze"
+      ]
+    }
+  ]
+}

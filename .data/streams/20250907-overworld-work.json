@@ -1,0 +1,267 @@
+{
+  "stream_context": {
+    "summary": "Kaze builds the “crystal” mechanic that reveals an otherwise invisible secret path/bridge in the first overworld, iterating on N64 combiner/shader ideas and gameplay constraints to prevent players from bypassing the intended interaction. Mid-stream he also reveals a large ongoing refactor: removing remaining Nintendo-origin code from the decomp-based project (aiming for 0% Nintendo code), with measurable memory/performance gains, while discussing Nintendo legal risk and why he continues to post publicly. He closes by marking the first overworld complete through part 5, outlining polish/NPC decoration plans, and planning a small beta handoff after Bowser-level bugfixes.",
+    "level": [
+      "Overworld – Overworld 1 (Area 1)"
+    ],
+    "significance": "milestone",
+    "significance_reason": "Implements and (mostly) finishes a key overworld gating mechanic (crystal-revealed secret path), announces a major legal/technical refactor to remove Nintendo code with performance/memory improvements, and declares the first overworld complete up through “part 5” with a plan to ship a 5-level beta to a tester."
+  },
+  "findings": [
+    {
+      "topic": "design",
+      "importance": "high",
+      "summary": "The crystal mechanic is intended to reveal and make usable a previously invisible secret bridge/path; Kaze explores multiple approaches and settles on a vertex-color/alpha-driven “appearing path” effect rather than duplicating meshes or using generic platforms that would unintentionally reveal other geometry.",
+      "quote": null
+    },
+    {
+      "topic": "technical",
+      "importance": "high",
+      "summary": "Kaze’s implementation uses N64 combiner/shader-style tricks (alpha ramps, clamping, cycle logic, vertex colors) to create a visible edge/line during fade-in so the appearing platform doesn’t look “fake” or visually muddy.",
+      "quote": null
+    },
+    {
+      "topic": "technical",
+      "importance": "medium",
+      "summary": "Due to technical constraints, the secret-path platforms remain tangible even when not visible; Kaze judges this acceptable because it doesn’t substantially change intended gameplay (and may create interesting speedrun tech), but it’s a compromise rather than the ideal behavior.",
+      "quote": "They are tangible even when not visible. This is due to technical limitations mostly, but it's fine."
+    },
+    {
+      "topic": "design",
+      "importance": "high",
+      "summary": "After testing, Kaze notices players can bypass the secret-path interaction too easily (jumping without really engaging the revealed bridge). He moves/repositions elements so players must interact with the secret path to progress, while still allowing “blind” execution for skilled players.",
+      "quote": "If you skip the secret path by knowing where it is, fine. If you skip the secret path by not even interacting with it, I'm not fine with that."
+    },
+    {
+      "topic": "technical",
+      "importance": "medium",
+      "summary": "Debugging reveals the secret-path crystal initially fails because the object list/category was wrong (it needed an object list appropriate for level interaction rather than default), preventing interaction/collision behavior from functioning as expected.",
+      "quote": null
+    },
+    {
+      "topic": "technical",
+      "importance": "high",
+      "summary": "The crystal has two major bugs during iteration: it doesn’t respawn correctly and it jitters. Kaze traces respawn logic to distance-from-home and whether Mario is holding it, then discovers a surprising root cause: an implicitly declared function that GCC did not warn about despite warnings being enabled, leading to incorrect behavior until fixed.",
+      "quote": "It was an implicitly declared function. And GCC didn't warn me."
+    },
+    {
+      "topic": "milestone",
+      "importance": "high",
+      "summary": "Kaze states the “secret path”/crystal feature is effectively finished (with glow added), and he treats the associated star as “done for now,” pending possible later layout tweaks with Biobak.",
+      "quote": null
+    },
+    {
+      "topic": "technical",
+      "importance": "high",
+      "summary": "Kaze reveals significant recent work done off-stream: he is systematically removing remaining Nintendo-origin code from the project by re-implementing functions from scratch. He reports ~30% average size reduction in replaced functions, saving kilobytes of memory and slightly improving performance and maintainability.",
+      "quote": "I'm going through every single file again, and I'm deleting every function I find, and I'm re-implementing this from scratch, basically."
+    },
+    {
+      "topic": "technical",
+      "importance": "medium",
+      "summary": "He measures performance in Overworld/Area 1 and reports an improvement from roughly ~50.02 FPS previously to ~50.3 FPS under heavier profiling conditions (asserts on + profiler sampling), implying real FPS is higher in normal builds.",
+      "quote": null
+    },
+    {
+      "topic": "technical",
+      "importance": "high",
+      "summary": "A refactor introduced a serious regression: going through an area and then returning causes a crash. Kaze flags this as a must-fix issue caused by his ongoing code cleanup.",
+      "quote": "Right now, for some reason, when you go through an area and then back, the game just crashes, which is something that broke during my refactors that I definitely need to fix."
+    },
+    {
+      "topic": "technical",
+      "importance": "medium",
+      "summary": "He also reports progress on a major engine/system feature: instant warps now work with his new system and are “a lot easier” to implement in RTYI, after dealing with many crashes earlier.",
+      "quote": "I was working on making instant warps work with my new system. And they do work now, it's now a lot easier to do instant warps in RTYI."
+    },
+    {
+      "topic": "legal-nintendo",
+      "importance": "high",
+      "summary": "Kaze articulates a clear stance against the “stay quiet or Nintendo will destroy you” mentality. He argues not posting yields the same practical outcome as being silenced by a DMCA (you can’t post either way), and he views fear-driven silence as irrational and unproductive for creators.",
+      "quote": null
+    },
+    {
+      "topic": "legal-nintendo",
+      "importance": "high",
+      "summary": "He states a strategic goal of reaching “0% Nintendo code” in the project. If he were properly C&D’d, he expects he’d need to remove Mario and other Nintendo IP elements, but he frames a takedown as potentially beneficial because it would justify pivoting RTYI into an original IP that could earn more money.",
+      "quote": "If Nintendo does take me down... that is probably the best thing that could happen to me."
+    },
+    {
+      "topic": "technical",
+      "importance": "medium",
+      "summary": "Kaze plans a major character/rig optimization: reducing Mario from 20 bones to 15. He and Sauraen discussed a new armature format to save time, and Kaze wants that finalized before reworking Mario’s armature to avoid doing the work twice.",
+      "quote": null
+    },
+    {
+      "topic": "team",
+      "importance": "medium",
+      "summary": "Kaze and Zeina discuss public reaction to a previous video segment featuring Zeina’s animation (the “petting animation”), including transphobic comments alongside more numerous positive reactions; the exchange shows how community response affects morale and the public face of the team.",
+      "quote": null
+    }
+  ],
+  "contributor_findings": {
+    "biobak": [
+      {
+        "topic": "design",
+        "importance": "medium",
+        "summary": "Kaze notes the secret-path layout may still change later based on Biobak’s input, implying Biobak will review/iterate on the overworld path design after the initial implementation is complete.",
+        "quote": "The path might still change with Biobak later, so I'm not too worried about it."
+      }
+    ],
+    "badub": [],
+    "zeina": [
+      {
+        "topic": "personal",
+        "importance": "medium",
+        "summary": "Zeina and Kaze address transphobic comments directed at Zeina following a prior video, while also noting that many viewers found her animation work (the “petting animation”) funny and memorable; Kaze frames the overall response as more positive than negative.",
+        "quote": "There were more positive comments than transphobic comments about you."
+      },
+      {
+        "topic": "milestone",
+        "importance": "low",
+        "summary": "Zeina’s animation work is referenced as nearing completion (“almost done, very nice”), suggesting parallel asset/animation progress while Kaze works on overworld mechanics.",
+        "quote": null
+      }
+    ],
+    "others": [
+      {
+        "name": "Lilaa",
+        "findings": [
+          {
+            "topic": "technical",
+            "importance": "low",
+            "summary": "Kaze asks Lilaa directly whether there is a newer Fast64 Render version he can use, because Blender/Fast64 rendering lag and crashes are slowing down iteration on level assets and textures.",
+            "quote": "Lilaa, is there a new version of Fast64 Render that maybe I can use?"
+          }
+        ]
+      },
+      {
+        "name": "Sauraen",
+        "findings": [
+          {
+            "topic": "technical",
+            "importance": "medium",
+            "summary": "Kaze references discussions with Sauraen about a new armature/animation format intended to save time and support planned bone-count reduction for Mario (20 → 15 bones).",
+            "quote": null
+          }
+        ]
+      }
+    ]
+  },
+  "memorable_quotes": [
+    {
+      "speaker": "Kaze",
+      "quote": "If Nintendo does take me down... that is probably the best thing that could happen to me.",
+      "context": "Kaze reframes a potential C&D as an opportunity to pivot from a Mario-based hack to an original IP with fewer constraints and better monetization prospects."
+    },
+    {
+      "speaker": "Kaze",
+      "quote": "What do you gain out of not posting about your game? Think about it for a second.",
+      "context": "His rebuttal to the advice that fangame creators should stay silent to avoid Nintendo attention; this captures his philosophy about visibility, fear, and creative work."
+    },
+    {
+      "speaker": "Kaze",
+      "quote": "I'm going through every single file again, and I'm deleting every function I find, and I'm re-implementing this from scratch, basically.",
+      "context": "A concrete description of the project’s “decomp-to-original” transition—rebuilding systems to remove Nintendo code, improve maintainability, and optimize."
+    }
+  ],
+  "key_stories": [
+    {
+      "title": "Building the crystal-revealed secret path",
+      "summary": "Kaze prototypes a crystal item that makes an invisible bridge/path visible using vertex colors and alpha effects, searching for a look that feels magical rather than “fake.” After initial success, he discovers interaction and respawn issues and iterates until the mechanic mostly works, then adjusts level layout so players must meaningfully engage with the revealed path.",
+      "challenge": "Make a secret platform that appears only when carrying a crystal without accidentally revealing other geometry, while also making the appearance effect look good on N64-era rendering constraints.",
+      "process": "He explores generic-platform and distance-based visibility ideas, then pivots to an always-collidable but initially invisible path with a vertex-color/alpha fade. He debugs object list/interaction setup, adds glow, fixes respawn logic, and reviews player bypass routes to enforce intended interaction.",
+      "outcome": "The secret-path crystal is considered “done” for now with remaining polish (jitter, minor look tweaks) possible later; the associated star is marked complete pending future design feedback.",
+      "key_quote": "If you skip the secret path by knowing where it is, fine. If you skip the secret path by not even interacting with it, I'm not fine with that.",
+      "related_to": [
+        "kaze"
+      ]
+    },
+    {
+      "title": "Refactoring toward 0% Nintendo code",
+      "summary": "Kaze reveals that in the days before this stream he has been systematically removing remaining Nintendo-origin code and re-implementing it from scratch. This improves maintainability, reduces code size, and marginally improves performance, but also introduces regressions that need fixing.",
+      "challenge": "Reduce legal exposure and increase control/maintainability by eliminating Nintendo-origin functions while keeping the game stable and performant.",
+      "process": "He audits files, deletes non-original functions, re-implements them, and uses the process to find small optimizations. He benchmarks performance and tracks memory savings, while noting a crash regression when re-entering an area.",
+      "outcome": "He reports ~30% size reduction on replaced functions and a small FPS improvement; a re-entry crash remains an urgent bug to fix.",
+      "key_quote": "So far, I found every function that wasn't written by me... roughly on average, like a 30% reduction in size.",
+      "related_to": [
+        "kaze"
+      ]
+    },
+    {
+      "title": "Rejecting fear-based silence about Nintendo takedowns",
+      "summary": "Kaze reacts strongly to advice that fangame creators should stop publicly posting progress to avoid Nintendo. He argues that silence doesn’t materially improve outcomes and that the legal gray zone is strategically advantageous for Nintendo but also too risky for them to fully litigate.",
+      "challenge": "Navigating the psychological and practical impact of Nintendo’s enforcement reputation while continuing public development and community-building.",
+      "process": "He compares outcomes of staying silent versus being DMCA’d, references the anonymous decomp release, and reasons about Nintendo’s risk/reward if they attempted to set a precedent in court. He also notes a contingency: if forced, he’d remove Mario and pivot to original IP.",
+      "outcome": "He recommits to open development and frames a takedown as potentially freeing rather than purely catastrophic.",
+      "key_quote": "What is the difference between Nintendo sending you a DMCA... and you never having posted about your game in the first place?",
+      "related_to": [
+        "kaze"
+      ]
+    }
+  ],
+  "open_questions": [
+    {
+      "topic": "‘0% Nintendo code’ roadmap and verification",
+      "context": "Kaze says he is actively deleting and re-implementing Nintendo-origin functions and aims to reach 0% Nintendo code, suggesting a major structural shift in how RTYI relates to the decomp base.",
+      "questions": [
+        "What is Kaze’s definition of “0% Nintendo code” (no copied functions, no matching structure, no assets, no animation data, etc.)?",
+        "How does the team track or audit what is “Nintendo code” versus rewritten/original—any tooling, diffing, or review process?",
+        "Which subsystems are the hardest to replace (animation, camera, object step, rendering setup, physics), and what’s still remaining?",
+        "At what milestone would Kaze feel comfortable claiming the project is legally/technically independent enough to ship widely?"
+      ],
+      "related_to": [
+        "kaze"
+      ]
+    },
+    {
+      "topic": "Crystal secret-path technical compromise (tangible while invisible)",
+      "context": "Kaze states invisible platforms remain collidable due to technical limitations, but he considers the gameplay impact acceptable.",
+      "questions": [
+        "What exact limitation prevents disabling collision when the path is invisible (engine architecture, object lists, collision caching/BVH, or N64 display-list constraints)?",
+        "Was the decision driven by performance, complexity, or reliability (e.g., avoiding desync between render and collision)?",
+        "Did Kaze consider alternative puzzle gating (switches, time windows, camera hints) to avoid “invisible collision” altogether?"
+      ],
+      "related_to": [
+        "kaze"
+      ]
+    },
+    {
+      "topic": "Respawn/jitter bug root cause and prevention",
+      "context": "A major respawn issue came from an implicitly declared function that GCC did not warn about even though Kaze expected it to; jitter also remains a concern.",
+      "questions": [
+        "Which build flags/configuration allowed the implicit declaration to slip through, and how will Kaze prevent this class of bug (CI, stricter flags, compiler switch, linting)?",
+        "What was the implicit function supposed to be, and what did it compile to that caused the “impossible” behavior?",
+        "What is causing the crystal jitter—physics integration, object step function, or precision/quantization issues?"
+      ],
+      "related_to": [
+        "kaze"
+      ]
+    },
+    {
+      "topic": "Instant warp system redesign",
+      "context": "Kaze says instant warps now work under his new system and are much easier to implement, after earlier crashes.",
+      "questions": [
+        "What changed in the new warp system (data format, state reset, transition logic), and why does it reduce crash risk?",
+        "How do instant warps interact with memory management/object spawning and the new ‘no Nintendo code’ refactors?",
+        "Are instant warps a core design tool for overworld/levels (Metroid-like routing, speedrun tech), and how did that influence level structure?"
+      ],
+      "related_to": [
+        "kaze"
+      ]
+    },
+    {
+      "topic": "Mario skeleton reduction and new armature format with Sauraen",
+      "context": "Kaze wants to reduce Mario’s bones from 20 to 15 and mentions a new armature format discussed with Sauraen to save time.",
+      "questions": [
+        "What is “Nintendo’s stupid animation conversion” doing that forces 20 bones today?",
+        "What does the proposed new armature format look like (data layout, compression, runtime evaluation), and what constraints come from N64 performance?",
+        "How will reducing bones affect animation quality, compatibility with existing animations, and Zeina’s animation workflow?"
+      ],
+      "related_to": [
+        "kaze",
+        "zeina"
+      ]
+    }
+  ]
+}
