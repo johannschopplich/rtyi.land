@@ -28,25 +28,25 @@ const InterviewQuestionSchema = z.object({
 export const InterviewQuestionsSchema = z.object({
   kaze: z
     .array(InterviewQuestionSchema)
-    .max(50)
+    .max(35)
     .describe(
       "Questions for Kaze Emanuar's solo interview – covering vision, technical mastery, creative process, and personal journey",
     ),
   biobak: z
     .array(InterviewQuestionSchema)
-    .max(40)
+    .max(25)
     .describe(
       "Questions for Biobak's solo interview – covering visual identity, level design, collaboration with Kaze",
     ),
   badub: z
     .array(InterviewQuestionSchema)
-    .max(40)
+    .max(25)
     .describe(
       "Questions for Badub's solo interview – covering musical identity, N64 audio constraints, creative process",
     ),
   kaze_zeina: z
     .array(InterviewQuestionSchema)
-    .max(40)
+    .max(25)
     .describe(
       "Questions for the joint Kaze & Zeina interview – covering their creative/personal partnership, animation work, life/art balance",
     ),
@@ -83,9 +83,10 @@ const CuratedQuoteSchema = z.object({
 export const CuratedQuotesSchema = z.object({
   quotes: z
     .array(CuratedQuoteSchema)
+    .min(30)
     .max(80)
     .describe(
-      "The absolute best quotes across all streams, ranked by documentary impact",
+      "A generous selection pool of the strongest quotes across all streams, ranked by documentary impact – surface enough variety for the filmmaker to choose from",
     ),
 });
 
@@ -125,9 +126,10 @@ const RankedStorySchema = z.object({
 export const StoryHighlightsSchema = z.object({
   stories: z
     .array(RankedStorySchema)
+    .min(15)
     .max(50)
     .describe(
-      "The strongest narrative arcs across all streams, ranked by documentary potential",
+      "A broad selection of narrative arcs across all streams, ranked by documentary potential – surface enough for the filmmaker to choose which stories to pursue",
     ),
 });
 
@@ -159,12 +161,6 @@ export const TopicArcSchema = z.object({
     .max(20)
     .describe(
       "The most important findings for this topic across all streams – the essential reference for interview prep",
-    ),
-  interview_angles: z
-    .array(z.string())
-    .max(5)
-    .describe(
-      "Best angles to explore this topic in interviews – framed as conversation starters, not questions",
     ),
 });
 

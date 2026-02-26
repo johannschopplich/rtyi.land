@@ -61,7 +61,6 @@ Most of [Kaze's development streams](https://www.youtube.com/@KazeClips/streams)
 | [**Raw Findings by Topic**](/topics/index.md) | Every finding from every stream, grouped by theme               |
 | [**Team Profiles**](/team/index.md)           | What each team member did, said, and experienced across streams |
 | [**Curated Quotes**](/synthesis/quotes)       | Top documentary quotes tagged by use case                       |
-| [**All Quotes**](/quotes/index.md)            | Every quote from every stream                                   |
 
 ## Top Topics
 

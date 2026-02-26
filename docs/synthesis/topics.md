@@ -1,6 +1,6 @@
 ---
 title: Topic Narratives
-description: Narrative summaries per topic with key findings and interview angles.
+description: Narrative summaries per topic with key findings.
 ---
 
 <script setup>
@@ -12,7 +12,7 @@ const arcs = topicArcsData?.arcs ?? [];
 
 # Topic Narratives
 
-Each documentary topic summarized as a narrative arc – how it evolved across 3+ years of development streams. Includes key findings and interview conversation starters.
+Each documentary topic summarized as a narrative arc – how it evolved across 3+ years of development streams. Includes key findings for quick reference.
 
 For the full per-stream findings drill-down, see [Raw Findings by Topic](/topics/).
 
@@ -27,7 +27,7 @@ Run `pnpm stream-synthesis` to generate topic narratives from stream data.
 <template v-else>
 
 ::: tip Summary
-**Topics:** {{ arcs.length }} · Each with narrative summary, key themes, top findings, and interview angles.
+**Topics:** {{ arcs.length }} · Each with narrative summary, key themes, and top findings.
 :::
 
 <div v-for="arc in arcs" :key="arc.topic" class="topic-arc">
@@ -73,15 +73,6 @@ Run `pnpm stream-synthesis` to generate topic narratives from stream data.
     </tr>
   </tbody>
 </table>
-
-</details>
-
-<details class="vp-details arc-details">
-<summary>Interview Angles ({{ arc.interview_angles.length }})</summary>
-
-<ul>
-  <li v-for="(angle, i) in arc.interview_angles" :key="i">{{ angle }}</li>
-</ul>
 
 </details>
 

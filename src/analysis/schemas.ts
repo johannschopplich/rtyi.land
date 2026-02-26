@@ -1,8 +1,8 @@
 import { z } from "zod";
-import { QUOTE_FORMATTING_INSTRUCTIONS } from "../constants";
+import { QUOTE_FORMATTING_INSTRUCTIONS, TEAM_MEMBERS } from "../constants";
 
 export const TeamMemberSchema = z
-  .enum(["kaze", "biobak", "badub", "zeina"])
+  .enum(TEAM_MEMBERS)
   .describe("Name of the team member");
 
 export const FindingTopicSchema = z

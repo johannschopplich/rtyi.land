@@ -10,7 +10,9 @@ import type {
   TopicArcs,
 } from "./schemas";
 import { generateText, Output } from "ai";
+import pMap from "p-map";
 import { template } from "utilful";
+import { CORE_CONTRIBUTORS } from "../constants";
 import {
   CURATED_QUOTES_PROMPT,
   CURATED_QUOTES_REDUCE_PROMPT,
@@ -35,10 +37,9 @@ const OPENAI_PROVIDER_OPTIONS = {
     reasoningEffort: "high",
   } satisfies OpenAILanguageModelChatOptions,
 };
-
-const CORE_CONTRIBUTORS = ["biobak", "badub", "zeina"] as const;
 const CHUNK_CHAR_BUDGET = 300_000;
-const MAX_QUOTES_PER_CHUNK = 300;
+const MAX_QUOTES_PER_CHUNK = 150;
+const DEFAULT_CONCURRENCY = 1;
 
 // #endregion config
 
@@ -49,6 +50,13 @@ export type SynthesisTask =
   | "curated-quotes"
   | "story-highlights"
   | "topic-arcs";
+
+export type ProgressEvent =
+  | { phase: "map-start"; total: number }
+  | { phase: "map-chunk-done"; index: number; total: number }
+  | { phase: "reduce-start"; batches: number }
+  | { phase: "topic-start"; total: number }
+  | { phase: "topic-done"; index: number; total: number; name: string };
 
 export interface ParsedStream {
   rawDate: string;
@@ -62,7 +70,8 @@ export interface SynthesisOptions {
   streams: ParsedStream[];
   existingQuestions: string;
   dateRange: string;
-  onProgress?: (message: string) => void;
+  concurrency?: number;
+  onProgress?: (event: ProgressEvent) => void;
 }
 
 export async function runSynthesisTask(options: SynthesisOptions) {
@@ -85,13 +94,21 @@ export async function runSynthesisTask(options: SynthesisOptions) {
 // #region questions
 
 async function runInterviewQuestions(options: SynthesisOptions) {
-  const { model, streams, existingQuestions, dateRange, onProgress } = options;
+  const {
+    model,
+    streams,
+    existingQuestions,
+    dateRange,
+    concurrency,
+    onProgress,
+  } = options;
   const existingOrDefault =
     existingQuestions || "(No existing questions provided)";
 
   return mapReduce<InterviewQuestions>({
     streams,
     payloadSizeFn: interviewPayloadSize,
+    concurrency,
     onProgress,
     mapFn: (chunk) => {
       const { openQuestions, findings, keyStories } =
@@ -124,7 +141,7 @@ async function runInterviewQuestions(options: SynthesisOptions) {
 // #region quotes
 
 async function runCuratedQuotes(options: SynthesisOptions) {
-  const { model, streams, onProgress } = options;
+  const { model, streams, concurrency, onProgress } = options;
 
   // Keep chunks at ~300 quotes max to avoid context dilution.
   // At 150 streams (~450 quotes) → 2 chunks. At 250 → 3. At 500 → 5.
@@ -137,6 +154,7 @@ async function runCuratedQuotes(options: SynthesisOptions) {
   return mapReduce<CuratedQuotes>({
     streams,
     payloadSizeFn: quotePayloadSize,
+    concurrency,
     onProgress,
     minChunks,
     mapFn: (chunk) => {
@@ -165,11 +183,12 @@ async function runCuratedQuotes(options: SynthesisOptions) {
 // #region stories
 
 async function runStoryHighlights(options: SynthesisOptions) {
-  const { model, streams, onProgress } = options;
+  const { model, streams, concurrency, onProgress } = options;
 
   return mapReduce<StoryHighlights>({
     streams,
     payloadSizeFn: storyPayloadSize,
+    concurrency,
     onProgress,
     mapFn: (chunk) => {
       const stories = extractStoryPayload(chunk);
@@ -205,7 +224,12 @@ interface TopicFinding {
 const TOPIC_FINDINGS_CHUNK_THRESHOLD = 500;
 
 async function runTopicArcs(options: SynthesisOptions): Promise<TopicArcs> {
-  const { model, streams, onProgress } = options;
+  const {
+    model,
+    streams,
+    concurrency = DEFAULT_CONCURRENCY,
+    onProgress,
+  } = options;
 
   // Group all findings by topic (main + contributor findings)
   const findingsByTopic = new Map<string, TopicFinding[]>();
@@ -235,70 +259,63 @@ async function runTopicArcs(options: SynthesisOptions): Promise<TopicArcs> {
   }
 
   const topics = [...findingsByTopic.keys()].sort();
-  onProgress?.(`Processing ${topics.length} topics`);
+  onProgress?.({ phase: "topic-start", total: topics.length });
 
-  const arcs: TopicArc[] = [];
-  for (let i = 0; i < topics.length; i++) {
-    const topic = topics[i]!;
-    const findings = findingsByTopic.get(topic)!;
+  let completed = 0;
+  const results = await pMap(
+    topics,
+    async (topic) => {
+      const findings = findingsByTopic.get(topic)!;
+      let arc: TopicArc | undefined;
 
-    if (findings.length <= TOPIC_FINDINGS_CHUNK_THRESHOLD) {
-      // Small enough for a single call
-      onProgress?.(
-        `  Topic ${i + 1}/${topics.length}: ${topic} (${findings.length} findings)`,
-      );
-
-      const prompt = template(TOPIC_ARC_SINGLE_PROMPT, {
-        topic,
-        findings: JSON.stringify(findings),
-      });
-
-      const result = await generateObject(model, TopicArcSchema, prompt);
-      if (result) arcs.push(result);
-    } else {
-      // Chunk large topics and merge via reduce
-      const chunkCount = Math.ceil(
-        findings.length / TOPIC_FINDINGS_CHUNK_THRESHOLD,
-      );
-      const chunkSize = Math.ceil(findings.length / chunkCount);
-      onProgress?.(
-        `  Topic ${i + 1}/${topics.length}: ${topic} (${findings.length} findings → ${chunkCount} chunks)`,
-      );
-
-      const chunkResults: TopicArc[] = [];
-      for (let c = 0; c < chunkCount; c++) {
-        const chunk = findings.slice(c * chunkSize, (c + 1) * chunkSize);
-        onProgress?.(`    Chunk ${c + 1}/${chunkCount}…`);
-
+      if (findings.length <= TOPIC_FINDINGS_CHUNK_THRESHOLD) {
         const prompt = template(TOPIC_ARC_SINGLE_PROMPT, {
           topic,
-          findings: JSON.stringify(chunk),
+          findings: JSON.stringify(findings),
         });
-
-        const result = await generateObject(model, TopicArcSchema, prompt);
-        if (result) chunkResults.push(result);
-      }
-
-      if (chunkResults.length === 1) {
-        arcs.push(chunkResults[0]!);
-      } else if (chunkResults.length > 1) {
-        onProgress?.(`    Reducing ${chunkResults.length} chunks…`);
-        const reducePrompt = template(TOPIC_ARC_REDUCE_PROMPT, {
-          topic,
-          candidate_arcs: JSON.stringify(chunkResults),
-        });
-
-        const merged = await generateObject(
-          model,
-          TopicArcSchema,
-          reducePrompt,
+        arc = await generateObject(model, TopicArcSchema, prompt);
+      } else {
+        // Chunk large topics and merge via reduce
+        const chunkCount = Math.ceil(
+          findings.length / TOPIC_FINDINGS_CHUNK_THRESHOLD,
         );
-        if (merged) arcs.push(merged);
-      }
-    }
-  }
+        const chunkSize = Math.ceil(findings.length / chunkCount);
 
-  return { arcs };
+        const chunkResults: TopicArc[] = [];
+        for (let c = 0; c < chunkCount; c++) {
+          const chunk = findings.slice(c * chunkSize, (c + 1) * chunkSize);
+          const prompt = template(TOPIC_ARC_SINGLE_PROMPT, {
+            topic,
+            findings: JSON.stringify(chunk),
+          });
+          const result = await generateObject(model, TopicArcSchema, prompt);
+          if (result) chunkResults.push(result);
+        }
+
+        if (chunkResults.length === 1) {
+          arc = chunkResults[0];
+        } else if (chunkResults.length > 1) {
+          const reducePrompt = template(TOPIC_ARC_REDUCE_PROMPT, {
+            topic,
+            candidate_arcs: JSON.stringify(chunkResults),
+          });
+          arc = await generateObject(model, TopicArcSchema, reducePrompt);
+        }
+      }
+
+      completed++;
+      onProgress?.({
+        phase: "topic-done",
+        index: completed,
+        total: topics.length,
+        name: topic,
+      });
+      return arc;
+    },
+    { concurrency },
+  );
+
+  return { arcs: results.filter((a): a is TopicArc => a !== undefined) };
 }
 
 // #endregion topics
@@ -421,7 +438,8 @@ interface MapReduceConfig<T> {
   payloadSizeFn: (streams: ParsedStream[]) => number;
   mapFn: (chunk: ParsedStream[]) => Promise<T | undefined>;
   reduceFn: (results: T[]) => Promise<T | undefined>;
-  onProgress?: (msg: string) => void;
+  onProgress?: (event: ProgressEvent) => void;
+  concurrency?: number;
   /**
    * Force at least this many chunks even if the data fits in one call.
    * Useful when context dilution hurts curation quality (e.g. quotes).
@@ -431,8 +449,8 @@ interface MapReduceConfig<T> {
 
 /**
  * Generic map-reduce orchestration for synthesis tasks.
- * Splits streams into budget-aware chunks, runs the map function on each,
- * then merges results with the reduce function.
+ * Splits streams into budget-aware chunks, runs the map function on each
+ * with configurable concurrency, then merges results with the reduce function.
  */
 async function mapReduce<T>({
   streams,
@@ -440,6 +458,7 @@ async function mapReduce<T>({
   mapFn,
   reduceFn,
   onProgress,
+  concurrency = DEFAULT_CONCURRENCY,
   minChunks = 1,
 }: MapReduceConfig<T>): Promise<T | undefined> {
   let chunks = chunkByBudget(streams, payloadSizeFn);
@@ -453,25 +472,36 @@ async function mapReduce<T>({
     }
   }
 
+  onProgress?.({ phase: "map-start", total: chunks.length });
+
   // Single pass – everything fits in one call
   if (chunks.length === 1) {
-    onProgress?.("Single pass (data fits in context)");
-    return mapFn(chunks[0]!);
+    const result = await mapFn(chunks[0]!);
+    onProgress?.({ phase: "map-chunk-done", index: 1, total: 1 });
+    return result;
   }
 
-  onProgress?.(`Map-reduce: ${chunks.length} chunks`);
-
+  let completed = 0;
   const chunkResults: T[] = [];
-  for (let i = 0; i < chunks.length; i++) {
-    onProgress?.(`  Map ${i + 1}/${chunks.length}…`);
-    const result = await mapFn(chunks[i]!);
-    if (result) chunkResults.push(result);
-  }
+  await pMap(
+    chunks,
+    async (chunk) => {
+      const result = await mapFn(chunk);
+      if (result) chunkResults.push(result);
+      completed++;
+      onProgress?.({
+        phase: "map-chunk-done",
+        index: completed,
+        total: chunks.length,
+      });
+    },
+    { concurrency },
+  );
 
   if (chunkResults.length === 0) return undefined;
   if (chunkResults.length === 1) return chunkResults[0];
 
-  onProgress?.(`  Reduce: merging ${chunkResults.length} batches…`);
+  onProgress?.({ phase: "reduce-start", batches: chunkResults.length });
   return reduceFn(chunkResults);
 }
 

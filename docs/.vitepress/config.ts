@@ -1,10 +1,8 @@
 import type { DefaultTheme } from "vitepress";
-import type { TeamMember } from "../../src/analysis/schemas";
 import { defineConfig } from "vitepress";
+import { TEAM_MEMBERS } from "../../src/constants";
 import { description, name, ogImage, ogUrl, twitterImage } from "./meta";
 import { capitalizeInitialLetter } from "./shared";
-
-const RTYI_TEAM_MEMBERS: TeamMember[] = ["kaze", "biobak", "badub", "zeina"];
 
 export default defineConfig({
   title: name,
@@ -76,7 +74,6 @@ export default defineConfig({
           { text: "Highlights", link: "/streams/highlights" },
           { text: "By Topic", link: "/topics" },
           { text: "Team Profiles", link: "/team" },
-          { text: "All Quotes", link: "/quotes" },
         ],
       },
     ],
@@ -155,10 +152,6 @@ export default defineConfig({
               { text: "Zeina", link: "/team/zeina" },
             ],
           },
-          {
-            text: "All Quotes",
-            link: "/quotes",
-          },
         ],
       },
       {
@@ -193,7 +186,7 @@ function teamMemberNavigationItems(): DefaultTheme.NavItemWithLink[] {
       text: "Overview & Team",
       link: "/interviews",
     },
-    ...RTYI_TEAM_MEMBERS.map((member) => ({
+    ...TEAM_MEMBERS.map((member) => ({
       text: capitalizeInitialLetter(member),
       link: `/interviews/${member}`,
     })),

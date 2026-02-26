@@ -4,6 +4,7 @@ import type {
   Significance,
   StreamAnalysis,
 } from "../../src/analysis/schemas";
+import { CORE_CONTRIBUTORS } from "../../src/constants";
 import {
   capitalizeInitialLetter,
   formatTopicLabel,
@@ -39,7 +40,7 @@ function renderContributorFindings(
 ): string {
   const sections: string[] = [];
 
-  for (const member of ["biobak", "badub", "zeina"] as const) {
+  for (const member of CORE_CONTRIBUTORS) {
     const findings = contributorFindings[member];
     if (!findings.length) continue;
     sections.push(`

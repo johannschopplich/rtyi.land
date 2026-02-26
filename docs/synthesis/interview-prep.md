@@ -1,6 +1,6 @@
 ---
 title: Interview Prep
-description: Curated interview questions per team member, synthesized from 152 stream analyses.
+description: Curated interview questions per team member, synthesized from 205 stream analyses.
 ---
 
 <script setup>

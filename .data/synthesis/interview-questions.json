@@ -1,1122 +1,809 @@
 {
   "kaze": [
     {
-      "question": "Across the whole project, when did you realize that “engine improvements break old levels” wasn’t an occasional annoyance but a core production problem—and what workflow did you build (test hubs, checklists, hardware testing, tooling) to stop regressions from snowballing?",
-      "context": "This is a central, filmable reason RTYI takes years: it’s not just making content, it’s maintaining a moving engine while keeping dozens of levels playable. It also turns “optimization” into a human story about stability, paranoia, and discipline.",
+      "question": "Course 1 had to teach a whole new movement set. When did you realize onboarding had to be a *designed system*—not just a couple of signs—and how did things like the tutorial bunnies, ring-gates, and on-screen prompts evolve into a coherent “teaching language” for players?",
+      "context": "Course 1 is the player’s first impression that RTYI is a real authored game. This question reveals Kaze’s player empathy, “show-don’t-tell” instincts, and the craft behind seemingly simple tutorial moments.",
       "evidence": [
-        "May 20, 2023: zipline/ceiling-grab regression traced to an old collision optimization that wasn’t tested",
-        "Jul 9, 2023: “runs well on N64 when stable but still has a lot of crashes,” desire for better crash tooling",
-        "Sep 2, 2023: underwater raycast/swimming regression caused instant death/no movement; NEMU used as hardware-accurate debugger proxy discovery/usage mentioned in this era of debugging pain points"
+        "2023-04-13: Course 1 framed as a “beginning playground” teaching dive-jump, wall slide/kick, spin jump via tutorial bunnies.",
+        "2023-04-13: Ring-gate reward triggers only if Mario passes through in the correct action/state; rings activate only after talking to the bunny.",
+        "2023-04-13: Billboarded ZA/AA/ZB prompt textures constrained by indexed palettes + binary alpha; clarity improvements requested."
       ],
       "priority": "essential"
     },
     {
-      "question": "You sometimes replaced the real overworld with a debug/test hub just to speed up iteration. What did that change in your day-to-day—what became easier to test, and what did you lose creatively when you weren’t “living” in the real island?",
-      "context": "Explains how professional QA habits emerge inside a fan project—and provides a strong visual motif (debug hub vs beautiful overworld).",
+      "question": "You’ve been strict about camera predictability, but you also kept iterating controls (instant C-rotations, R-to-center, D-pad slow rotate). What did you learn about camera feel from real player feedback, and what were the hardest camera “rules” you had to bend to make the game readable?",
+      "context": "Camera is the most universal “game feel” topic for non-technical viewers. The question gives a concrete arc: principle → complaints → redesign → new doctrine.",
       "evidence": [
-        "Jun 29, 2024: first overworld temporarily replaced with a debug overworld after refactors for iteration speed",
-        "Jul 6, 2024: test hub described as rapid QA across stages"
+        "2023-04-13: Strong rule against unexpected camera rotations due to reaction-time fairness.",
+        "2023-06-03: Camera-control redesign (instant C-left/right rotation, R-to-center, D-pad slow rotate) responding to input-lag complaints.",
+        "2024-06-08 to 2025-01-12: Course 1 demo/survey loop used to tune camera/controls; camera speed options discussed."
+      ],
+      "priority": "essential"
+    },
+    {
+      "question": "The Star Select became a mini real-time 3D scene per course—and then it triggered bugs like one-frame pop-in, tiling seams, and even real-N64 coordinate-range crashes. Tell me the story of how a “simple menu” turned into engine work, and why you insisted on 3D panoramas anyway.",
+      "context": "It’s a surprising “Ship of Theseus” moment: even menus become a craft problem. Also extremely filmable (broken builds → final scenes).",
+      "evidence": [
+        "2023-08-12: Avoid 2D prerenders due to ROM size and emulator blur; preference for 3D panoramas.",
+        "2023-09-30: Models appear for one frame then disappear due to loading order; custom menu segment handling considered.",
+        "2023-10-14: Act-select background crashes real N64 when geometry extends too far (~33,000 coordinate danger zone)."
+      ],
+      "priority": "essential"
+    },
+    {
+      "question": "You set two big authenticity constraints—staying under the 64MB cartridge limit, and keeping certain retro references pre–Mario 64. Why are those rules emotionally important to you, and what concrete content decisions did they force as the ROM crept toward the ceiling?",
+      "context": "This frames RTYI as “alternate-history N64 development,” not just modding. It also naturally tees up audio, texture, cutscene, and feature tradeoffs.",
+      "evidence": [
+        "2023-10-07 to 2023-10-14: ROM ~45–46MB with sound data ~35MB; concern 15 courses won’t fit without audio changes.",
+        "2023-12-26: Hard commitment to staying within 64MB.",
+        "2024-09-06: Retro-section rule—only pre–Mario 64 references allowed; SML1 non-negotiable (rule articulated explicitly)."
+      ],
+      "priority": "essential"
+    },
+    {
+      "question": "By 2025–2026 the ROM math got extreme: audio samples dominating the cartridge while “game data” stayed relatively small. When the project is near 64MB and audio is the biggest lever, how do you decide what you refuse to compromise on—and what you’re willing to cut, compress, or redesign?",
+      "context": "This is the clearest “constraints create drama” thread spanning the whole timeline, and it connects directly to Badub/ZeroVolt’s work.",
+      "evidence": [
+        "2023-04-22: ROM ~44.6MB with ~32.1MB music; streamed tracks dominate budget.",
+        "2024-11-10: Music imports push ROM near ~62MB; four songs deleted to regain headroom.",
+        "2025-09-28 to 2025-12-27: ~62MB+ builds approaching 64MB ceiling; “music is ~80% of ROM” framing appears in late-stage budgeting."
+      ],
+      "priority": "essential"
+    },
+    {
+      "question": "You’ve talked about engine improvements breaking older content again and again. What was the most demoralizing regression cascade you hit, and what changed (tools, testing discipline, “sweeps,” or architecture) that finally made you feel the ground was stabilizing?",
+      "context": "This is a core “why this took years” emotional arc: the invisible cost of building a custom engine inside a game.",
+      "evidence": [
+        "2023-05-20: Zipline broke months later due to an earlier collision optimization not tested immediately.",
+        "2023-11-11 to 2023-12-02: Notes optimizations/reworks regularly break old content; sequential repair plan stalls; fixes done off-stream.",
+        "2025-02-09: Plans a post–Course 15 polish/beta phase to fix regressions after engine evolution broke older content."
+      ],
+      "priority": "essential"
+    },
+    {
+      "question": "A lot of RTYI’s worst bugs only show up on real hardware—DMA alignment weirdness, floating-point exceptions, divide-by-zero in a branch delay slot. What’s the most memorable “hardware humbled me” moment, and how did it change your debugging workflow?",
+      "context": "It turns low-level engineering into character: persistence, frustration, and the archaeology of N64 debugging.",
+      "evidence": [
+        "2023-06-18: DMA copy bug depended on 16-byte stack alignment; only failed on real N64.",
+        "2023-07-16: Compiler scheduled a divide-by-zero into the branch delay slot; required restructuring.",
+        "2023-09-02: Floating point exceptions on real N64 (e.g., Goomba scale hitting exactly zero)."
+      ],
+      "priority": "essential"
+    },
+    {
+      "question": "You’ve described “player guidance” as a toolset: progress-reactive NPC dialogue, mandatory pop-up text, hint pricing, and layered failsafes—without turning the game into a checklist. Can you walk me through one mission (like the “sabotage multiple workers” quest) and how you made it readable while staying diegetic?",
+      "context": "This is RTYI design philosophy as a single concrete case study: humor + readability + restraint.",
+      "evidence": [
+        "2023-07-22: Concern players sabotage one target but don’t realize it’s “all five”; layered failsafes + overseer hints proposed.",
+        "2023-07-29: A sabotage gag cut (oil barrel spill) because it was too cryptic for the payoff.",
+        "2025-11-30: Conditional dialogue trees tied to star totals/specific events + pop-up dialogue for mandatory info."
+      ],
+      "priority": "essential"
+    },
+    {
+      "question": "Course 11’s theme pivot (volcano valley → offshore oil rig) is a classic “kill your darlings” moment. What was the exact signal that the volcano concept wasn’t working, and how did the pivot change your rules for when it’s worth abandoning a theme?",
+      "context": "A mid-production pivot is documentary gold: sunk cost, taste, and protecting the player experience.",
+      "evidence": [
+        "2023-05-06: Pivot rationale—visual monotony/palette repetition; shift to oil rig/refinery concept.",
+        "2023-05-06: Biobak suggests black/dark oil with orange highlights; direction adopted."
       ],
       "priority": "important"
     },
     {
-      "question": "Walk me through your toolchain reality today—Blender/Fast64/exporters/custom scripts—and name the top two things you trust completely versus the top two that still routinely betray you.",
-      "context": "The audience will assume “modding” is straightforward; this question reveals hidden labor and the fragility of the pipeline that makes a polished result hard to sustain.",
+      "question": "The train became one of the project’s signature setpieces—fast travel, visible spectacle, and gameplay—but it was blocked by collision baking, editor/game mismatches, and path-follow stability. How did it evolve from “cool visual” to a reliable system?",
+      "context": "A non-technical audience instantly understands “making a train work in Mario 64,” and it demonstrates the project’s ambition and polish bar.",
       "evidence": [
-        "Sep 2, 2023: rejects switch bones; uses multiple discrete models due to Fast64/armature issues",
-        "Oct 14, 2023: exporter/tooling injected unwanted water/skybox segments that can break builds",
-        "Dec 9, 2023: Fast64 viewport not reliable for transparency; requires in-game trial-and-error"
+        "2023-12-16: Train envisioned as visible fast travel; explores sky tracks to avoid boring tunnels.",
+        "2023-12-23: Train movement blocked until track collision is finalized/baked; mismatch issues.",
+        "2024-04-06: Train polish—debugging drift/snap-to-floor and stabilizing spline/path-follow."
       ],
       "priority": "essential"
     },
     {
-      "question": "Nintendo pressure didn’t just threaten the finished game—your tutorial videos got removed. What did that break practically for your own pipeline and for the community’s ability to learn what you’re doing?",
-      "context": "This reframes Nintendo risk as a knowledge-supply-chain problem, not just a release/marketing fear—perfect documentary stakes for “building in public.”",
+      "question": "Memory limits weren’t theoretical—they caused crashes even when overlays suggested free space. Tell me one “we hit the ceiling” incident (like Wild West crashing after adding an NPC), and what it taught you about budgeting levels and diagnosing hidden allocations.",
+      "context": "A detective story that makes RAM/allocators legible and shows why “looks fine” can still crash on N64.",
       "evidence": [
-        "Dec 16, 2023: Kaze says Fast64/decomp tutorial videos were removed and he doesn’t explain the toolchain publicly anymore",
-        "Dec 16, 2023: Blender + Fast64 exporting directly into decomp described as the core workflow"
+        "2024-03-09: Wild West starts crashing after adding the piano NPC; suspected RAM overflow/near ceiling.",
+        "2024-04-05: Memory overlay suggests free space yet crashes occur; suspects accounting blind spots/allocator issue.",
+        "2024-07-20: Course 13 slide crashed due to collision surface-node allocations; rework improved performance ~400 microseconds."
       ],
       "priority": "essential"
     },
     {
-      "question": "Tell me the full story of the Star Select panoramas—trying to make level entry feel like physical travel—and the “gotchas” that forced redesign (segments not loaded yet, models appearing for a frame, real-N64 coordinate crash limits).",
-      "context": "A contained “microcosm” story where presentation ambition turns into engine architecture, memory, and hardware limits—highly visual for the film.",
+      "question": "You created a temporary debug overworld just to keep development moving. What was going wrong in the real overworld that made it uniquely fragile compared to standalone courses, and what did that “emergency hub” change about your QA process?",
+      "context": "It reframes a debug convenience as a production crisis response, and spotlights the overworld as a system-level challenge.",
       "evidence": [
-        "Aug 12, 2023: per-course panorama Star Select concept; rejects 2D images due to ROM size and emulator blur",
-        "Sep 30, 2023: menu runs before segments are loaded; backgrounds appear for one frame then disappear; render architecture rethought",
-        "Oct 14, 2023: real N64 can crash if background geometry is too far (~33,000 coordinates); forces scaling/shortening"
-      ],
-      "priority": "essential"
-    },
-    {
-      "question": "You’ve built policies where hardware and emulators intentionally don’t match. Where do you draw that line—what do emulator players get as a convenience, and what do you refuse to compromise on because the real N64 is the “truth”?",
-      "context": "This is the project’s identity in one question: authenticity vs accessibility. It also naturally sets up why some bugs are “fixed” only when hardware says so.",
-      "evidence": [
-        "Jul 16, 2023: N64-only backface culling idea to rescue performance while keeping nicer emulator look",
-        "Dec 23, 2023: emulator detection enables unlimited draw distance and defaults to 60 FPS",
-        "Jul 27, 2024: anti-aliasing toggle shown on real N64 with performance impact (~45–46 FPS with AA)"
-      ],
-      "priority": "essential"
-    },
-    {
-      "question": "You hit repeated “it only breaks on real hardware” moments. What’s your most memorable hardware-only crash hunt, and what’s your actual method for diagnosing something you can’t reliably reproduce on an emulator?",
-      "context": "Keeps the interview grounded in story and emotion while explaining why real-console testing is slow and scary.",
-      "evidence": [
-        "Sep 2, 2023: NEMU discussed as hardware-accurate debugger proxy during a swimming regression period",
-        "Jul 9, 2023: ongoing instability/crashes on N64 when not stable; desire for better crash tooling"
+        "2024-03-23: Courses run well but overworld crashes/is “really wrong.”",
+        "2024-06-29: First overworld replaced with a debug overworld after refactors.",
+        "2024-07-06: Official overworld removed temporarily to accelerate QA across all stages."
       ],
       "priority": "important"
     },
     {
-      "question": "Tell me about the day fog became “worth the tax”—when it made the Western level click—and then the day you remembered fog can force 2‑cycle materials and blow up performance.",
-      "context": "Fog is a perfect example of how RTYI’s atmosphere is engineered, not just painted—great for showing art-direction choices colliding with hard rendering costs.",
+      "question": "You’ve now talked about splitting the overworld into many sub-levels (while keeping the illusion of one continuous island with no visible warp transitions). What tricks preserve that seamless feeling, and what compromises were you absolutely unwilling to make even if it got harder?",
+      "context": "This is the project’s “open-world on N64” thesis colliding with RAM limits—perfect third-act engineering/design material.",
       "evidence": [
-        "Dec 16, 2023: Course 12 breakthrough via skybox + fog color tests; blue fog becomes identity",
-        "Dec 16, 2023: fog forcing 2‑cycle materials called “really, really bad,” citing prior pain in Oily Boily Bay",
-        "Mar 16, 2024: fog saturation mismatch between level fog and fade fog breaks Blender→in-game matching; technical fix needed"
+        "2025-10-20: Goal stated—continuous overworld with no visible warp transitions; current transitions treated as scaffolding.",
+        "2026-02-01: Formal plan to split overworld into ~14 levels and eliminate visible transitions.",
+        "2025-12-31: Memory pressure prompts splitting discussion; worries about duplicated actors."
       ],
       "priority": "essential"
     },
     {
-      "question": "Tell me the full journey of the train set piece—when it went from “cool spectacle” to “can’t even program it until tracks/collision are final,” and then into spline/path-follow bugs like snapping to the floor or drifting off-track.",
-      "context": "This captures the painful dependency chain between art, collision baking, scripting, and camera—an iconic feature that reveals how production really works.",
+      "question": "You called the overworld a “suspense treadmill”—planting distant landmarks early, then paying them off via loopbacks and new routes. What are the concrete payoffs you’re designing for, and how do you turn “I can see it” into “I earned it”?",
+      "context": "A clean, cinematic way to explain Kaze’s open-world pacing philosophy in human terms.",
       "evidence": [
-        "Dec 16, 2023: train planned as spectacle + fast travel (visible sky tracks)",
-        "Dec 23, 2023: train movement can’t be scripted because track collision isn’t final/baked",
-        "Apr 6, 2024: trains snapping to floor/drifting off track; spline/path-follow fixes"
+        "2025-03-09: Arrival dock/cutscene redesigned to frame distant landmarks without boring traversal.",
+        "2025-03-19: “Suspense treadmill” named; lighthouse payoff via cave loopback described.",
+        "2025-03-31: Visible-but-unreachable rewards placed early as long-term teases."
       ],
       "priority": "essential"
     },
     {
-      "question": "Walk me through the moment you committed to rewriting collision/step logic even though the game was already far along. What did the old collision look like to a normal player, and what did you refuse to tolerate anymore?",
-      "context": "This is one of the clearest “quality over schedule” choices and explains why RTYI is closer to engine development than modding.",
+      "question": "The Ghost Ship reveal through the lighthouse beam is the perfect example of “unlocking something earlier by doing something later.” How did you land on that solution, and how did you stage cause-and-effect so players understand what happened without a menu-style lock?",
+      "context": "A signature RTYI setpiece that embodies “placeness,” progression clarity, and cinematic payoff.",
       "evidence": [
-        "Feb 3, 2024: ground-up collision/step rewrite begins mid-development; demo crashes because it’s unfinished",
-        "Feb 10, 2024: vanilla collision called “unusable,” replacement affects BLJ/tech",
-        "Apr 13, 2024: water is dangerous/crashy because it hasn’t been migrated to the new step function"
+        "2025-02-23: Lighthouse beam reveal called “the right solution.”",
+        "2025-03-10: Multi-state fog/warp-denial plan and lighthouse activation rules detailed.",
+        "2025-03-19: Overworld loopback to lighthouse framed as an emotional payoff."
       ],
       "priority": "essential"
     },
     {
-      "question": "Later you went even deeper: fixing the “quarter-frame randomness” feel. What exactly was happening, how did you prove it to yourself, and what tradeoffs did you accept to make movement predictable?",
-      "context": "Turns a subtle engineering change into a player-trust story: Mario’s feel becomes a design value, not just a technical outcome.",
+      "question": "Overworld gating is a constant tension: you want clear requirements, but you hate cheap-feeling locks. What “language of gates” did you settle on across the island so progress stays fair without breaking immersion?",
+      "context": "This turns many scattered design debates into a single, high-level authorial statement with concrete examples.",
       "evidence": [
-        "Jun 22, 2025: demonstrates and fixes subframe-dependent sticking/flying-off behavior; aims for near-continuous collision",
-        "Jun 22, 2025: remaining landing snap issues discussed (PerformStep raycast end position)"
+        "2025-02-23: Diegetic gates (NPC requests, currents, seals) discussed alongside explicit requirements.",
+        "2025-03-12: Zoo gate pivot away from dead-end-feeling progression.",
+        "2025-04-02: Late-game gating needed to prevent “choice paralysis.”"
       ],
       "priority": "essential"
     },
     {
-      "question": "At one point you said you essentially rewrote the N64 OS/runtime layer—better than SM64’s runtime and even libultra. Explain what that means in plain language, and name one concrete RTYI feature or optimization it made possible.",
-      "context": "This is a signature “you’re rebuilding the console” moment—powerful if explained simply and tied to a tangible payoff.",
+      "question": "You’ve designed one-time overworld events that permanently change the island (pirate attacks, eruptions, construction). How do you make those transformations exciting and readable—so they feel like story payoff, not “unfinished chores”?",
+      "context": "Persistent world-state is a major RTYI differentiator and a strong documentary motif: the island as a character that remembers.",
       "evidence": [
-        "May 4, 2024: says he’s writing a better N64 OS/runtime layer than SM64’s original and libultra",
-        "May 11, 2024: says the OS rewrite is finished and should enable future optimizations/features"
+        "2025-03-31: One-time overworld events award a star and leave permanent aftermath (pirate attack example).",
+        "2025-04-06: Rule set—every secret overworld star must transform the world.",
+        "2025-05-04: Volcano eruption planned as permanent overworld evolution with new platforming + NPC payoff."
+      ],
+      "priority": "essential"
+    },
+    {
+      "question": "You replaced classic SM64 completion logic (no 100-coin stars, different boot-out rules, global coins/currency, special collectible acts). What player frustration were you targeting, and what new rulebook did you write to replace SM64’s structure?",
+      "context": "This is one of the clearest “this is a new game” shifts—about flow and player respect, not just features.",
+      "evidence": [
+        "2024-01-27: Red-coin stars don’t eject; no 100-coin stars; global coin counter planned.",
+        "2024-02-17: Bootless-star philosophy; lives don’t make sense in SM64.",
+        "2024-10-12 to 2024-10-22: Act structure formalized; dedicated collectible act with radar; boot-out rules clarified."
+      ],
+      "priority": "essential"
+    },
+    {
+      "question": "Coins became a real economy—donations, shops, service fees, and even ultra-rare “giant/rare coins” meant to reward exploration without becoming a grind. What player behavior are you trying to create, and how do you prevent the economy from turning into busywork?",
+      "context": "A long-running system arc with clear stakes: motivation, pacing, and replayability.",
+      "evidence": [
+        "2025-03-31 to 2025-04-13: Coin sinks and service fees discussed (e.g., paid cannon use; big joke sinks).",
+        "2025-09-21: Ultra-rare giant coin concept (Odyssey-scale value, not tracked for 100%).",
+        "2025-11-01: “Rare coins” write EEPROM bits then become normal coins on revisit."
+      ],
+      "priority": "essential"
+    },
+    {
+      "question": "The Course 1 demo was treated as “research,” not marketing. What did the demo teach you—about camera, movement feel, audio, and player behavior—that actually changed RTYI’s core systems afterward?",
+      "context": "A modern “instrumentation/iteration” arc applied to retro development—highly accessible to general audiences.",
+      "evidence": [
+        "2024-06-08 to 2024-08-17: Course 1 demo + questionnaire framed as tuning camera/physics.",
+        "2025-01-05: Post-demo iteration—audio “noisiness” feedback and an infinite-coin bug fixed immediately.",
+        "2025-01-12: Demo kept to Course 1 for focus/low maintenance; camera speed options discussed via survey feedback."
+      ],
+      "priority": "essential"
+    },
+    {
+      "question": "You described a Course 3 playtest where a player found a secret early, got stuck, wandered, and quit. What did that moment change in your thinking about “hidden but fair” secrets and aggressive early guidance?",
+      "context": "A single player story becomes a turning point—perfect documentary anecdote about confronting assumptions.",
+      "evidence": [
+        "2024-12-07: Playtest failure described; Course 3 must guide players more aggressively to Star 1; secret teased-but-gated afterward."
+      ],
+      "priority": "essential"
+    },
+    {
+      "question": "You made “movement de-powering” decisions like removing Z+A and limiting spin momentum, then later re-compromising after testers reacted. How do you decide what’s “too strong” versus what’s healthy player expression—and how do you avoid breaking your own level design?",
+      "context": "Shows Kaze as an author/editor, not just an inventor: adding moves is easy, curating them is hard.",
+      "evidence": [
+        "2025-01-05: Z+A removed; spin/ground-pound-dive restrictions discussed; spin reframed as recovery tool.",
+        "2025-01-19: Testers hate losing mid-dive steering; compromise restores steering after speed loss.",
+        "2025-02-10: Philosophy—skips should require creativity, not trivial bypasses."
+      ],
+      "priority": "essential"
+    },
+    {
+      "question": "You’ve been explicit that RTYI is drifting “N64-first,” even considering reduced emulator support after early releases. How do you define your actual support matrix (real hardware, specific emulators, flashcarts), and how do you communicate those boundaries to players without alienating them?",
+      "context": "Authenticity/performance vs accessibility is one of RTYI’s biggest real-world tensions.",
+      "evidence": [
+        "2024-09-04: Plan—v1.0/v1.1 emulator+N64, then possibly N64-only to regain performance/features.",
+        "2024-11-16: Emulator boot-mode/accuracy issues affecting whether ROM boots or crashes.",
+        "2025-01-05 to 2025-05-11: EverDrive/Overdrive/Parallel Launcher issues and fixes during demo/release prep."
+      ],
+      "priority": "essential"
+    },
+    {
+      "question": "You’ve talked about a “legally distinct” contingency—possibly even dual releases (Mario build + non-Mario build) and working with a lawyer. What would it *actually* mean for RTYI’s identity if you commit to that path, and what parts of the game change first?",
+      "context": "This is the project’s existential fork—risk, reinvention, and authorship—without re-asking the generic “Nintendo risk” question already prepared.",
+      "evidence": [
+        "2025-10-05: Dual-build idea proposed as takedown contingency.",
+        "2026-01-03 to 2026-01-04: Lawyer consultation stated; goal that IP removal makes it hard to recognize it was ever Mario.",
+        "2024-12-22 to 2025-02-10: Original-IP/Steam contingency discussed repeatedly as a realistic pathway."
+      ],
+      "priority": "essential"
+    },
+    {
+      "question": "Your tooling has been a recurring villain—Fast64 trimming animation frames, texture shift bugs, collision export offsets, silent “didn’t export” failures. What was the single most expensive tool failure, and what new safeguards/checklists did you adopt afterward?",
+      "context": "Shows the hidden labor of ROM hacking: “development” includes surviving pipeline chaos, not just building levels.",
+      "evidence": [
+        "2024-10-19: Fast64 ‘smart animation range’ trims first frame; breaks timing until a pre-frame key is added.",
+        "2024-12-07: Fast64 export bug blocks correct collision (offset despite transforms).",
+        "2026-01-11: Debug session reveals level wasn’t exported—classic decomp workflow pitfall."
       ],
       "priority": "important"
     },
     {
-      "question": "Tell me the detective story of profiling where you found huge chunks of frame time spent “idle.” What did you think was happening, and what did you change next?",
-      "context": "Performance work becomes narrative: mystery → instrumentation → counterintuitive truth. Also shows collaboration with specialists.",
+      "question": "You’ve said you want RTYI to be stable even when players try BLJ/PLJ routes—maybe even “explicitly supporting” them to prevent crashes. What’s your philosophy on speedrun tech: preserve it, fence it in, or just guarantee it never crashes?",
+      "context": "Speedrunning is part of SM64’s cultural afterlife; this question shows Kaze balancing casual readability with high-skill freedom.",
       "evidence": [
-        "Jun 1, 2024: need for Sauraen’s tracer to get a full-frame overview mentioned",
-        "Jul 20, 2024: trace shows ~25ms of a ~33ms frame idle; suspects missing RSP-done signal and long scheduler/VI manager time"
+        "2025-01-26: Reproducible PLJ/BLJ crash; infinite loop suspected; talks about explicitly supporting it.",
+        "2025-02-09: BLJs can happen but sometimes crash; treated as serious engine/state issue.",
+        "2024-10-29 to 2024-10-30: Speedrun philosophy articulated; BLJ regression flagged mid-testing."
       ],
       "priority": "important"
     },
     {
-      "question": "Take me into the F3DEX3 moment with Sauraen—how you realized the project was RSP‑bottlenecked (not RDP), and how that changed the rules you give yourself and your artists about what’s “expensive.”",
-      "context": "A pivotal technical revelation that changes the team’s mental model, budgets, and art decisions—great mid-film turning point.",
+      "question": "You’ve had platform/creator pressures shape development (platform shifts, algorithm considerations, even a stream suspension from copyrighted music). How did “building in public” change what you work on, what you show, and how you pace yourself?",
+      "context": "RTYI’s development isn’t just under N64 constraints—it’s under algorithm and policy constraints, which is core documentary territory.",
       "evidence": [
-        "2024-08-31: F3DEX3 benchmarks with Sauraen show measurable gains; lighting command compatibility issues noted",
-        "2024-09-03: “RSP not RDP” realization; intent to correct community assumptions",
-        "2024-10-27: Course 15 profiling: ~12ms CPU vs ~40ms RDP; overdraw/material tradeoffs discussed"
-      ],
-      "priority": "essential"
-    },
-    {
-      "question": "You set a hard authenticity boundary: 64MB ROM. Why is that limit emotionally meaningful to you—even when larger ROMs are possible—and what are the most painful things that lost to the cartridge?",
-      "context": "A clean thematic spine for the documentary: self-imposed constraints that force taste, prioritization, and “kill your darlings” moments.",
-      "evidence": [
-        "2024-09-14: states hard 64MB ROM limit",
-        "2024-10-01: ROM ~63MB; exceeding 64MB described as feeling like “cheating”",
-        "2024-11-10: ROM hits ~62MB after songs; deletes four songs to drop to ~58MB; reaffirms limit"
-      ],
-      "priority": "essential"
-    },
-    {
-      "question": "As a non-composer, how do you make hard audio calls to stay under 64MB—streamed vs sequenced, trimming, loop-point QA—and how do you communicate those tradeoffs to Badub/ZeroVolt without killing the musical ambition?",
-      "context": "Shows Kaze as producer: negotiating quality, storage, and schedule across collaborators. Also makes the “ROM budget” a concrete production constraint.",
-      "evidence": [
-        "Apr 22, 2023: ROM ~44.6MB with ~32.1MB music dominating budget",
-        "Oct 7, 2023: sound data ~35.6MB; expects to exceed 64MB unless strategy changes",
-        "Oct 14, 2023: STRM64 trimming saves ~1.7MB but causes at least one loop failure needing verification"
-      ],
-      "priority": "essential"
-    },
-    {
-      "question": "The project has a huge shift in collectible philosophy: no 100‑coin stars, a dedicated coin-hunt act with a radar, and coins as global currency. Walk me through the exact problems you were solving—and the new problems those decisions created.",
-      "context": "This is RTYI’s “systems design” thesis: reducing grind, increasing clarity, and making completion feel intentional rather than mandatory busywork.",
-      "evidence": [
-        "2024-08-17: removes 100-coin stars; replaces with Yoshi-coin-style collectibles",
-        "2024-10-12: switches to 7 acts per course; Act 7 dedicated to Egg/Yoshi coin hunt with radar",
-        "2024-10-22: formalizes collectible philosophy (localized red coins, special-interaction Yoshi coins, selective no-kick-out, radar hunts)"
-      ],
-      "priority": "essential"
-    },
-    {
-      "question": "Tell me the story of inventing the proximity radar UI—how you iterated from “cool idea” into something readable on real N64 output without becoming annoying.",
-      "context": "A “design meets hardware” story that demonstrates Kaze’s obsession with player clarity without turning the game into a tutorial wall.",
-      "evidence": [
-        "2024-10-12: radar inspired by Sonic Adventure; debates blink speed, color logic, transparency curves; notes N64 scaling looks bad",
-        "2024-10-30: discusses teaching global coin persistence without tutorials (leading zeros, starting a level with coins)"
-      ],
-      "priority": "essential"
-    },
-    {
-      "question": "You tried dynamic difficulty in the Raphael Raven fight but rejected health-based scaling. Why did time-based easing feel ethically “right,” and how do you avoid making skilled play feel pointless?",
-      "context": "This gives the film a nuanced, values-driven conversation about accessibility and pride—anchored in a specific boss encounter.",
-      "evidence": [
-        "2024-08-10: implements time-based easing so fight becomes easier the longer it lasts",
-        "2024-08-10: explicitly rejects health-based scaling as making progression feel meaningless"
-      ],
-      "priority": "essential"
-    },
-    {
-      "question": "You planned the Course 1 demo as a kind of scientific instrument—camera/physics testing + questionnaire feedback. How do you translate messy player reactions into concrete parameter changes when players don’t know the vocabulary?",
-      "context": "Explains iteration in a way non-dev audiences understand: measurement, interpretation, and decision-making under uncertainty.",
-      "evidence": [
-        "2024-08-17: Course 1 demo + questionnaire planned (autorotate, pan speed, pitch, physics feel); notes players won’t know terms like “pitch”",
-        "2024-09-16 / 2024-10-01: demo scope narrowed to one stage; integration order discussed (visuals → actors → collision)"
-      ],
-      "priority": "essential"
-    },
-    {
-      "question": "Course 3 had a playtest where someone beelined into the 8‑bit pipe, got stuck, and quit. Walk me through that like a postmortem—what it revealed about onboarding, and what you changed to prevent that failure mode.",
-      "context": "A rare, vivid example of the tension between discovery and guidance—perfect for showing why “placeness” still needs funneling.",
-      "evidence": [
-        "2024-12-07: playtester stuck ~15 minutes in 8‑bit pipe, then wandered and quit; Kaze decides to tease-and-gate the pipe and improve Star 1 funneling",
-        "2024-11-02: reflects that because it’s free, early levels must be exceptionally strong"
-      ],
-      "priority": "essential"
-    },
-    {
-      "question": "Tell me the origin story of your “patience budget” philosophy, and how it concretely shaped Course 1 onboarding—bunnies, rings, prompts—and your hard rule about not rotating the camera unpredictably.",
-      "context": "An audience-friendly gateway into Kaze’s design ethics, anchored in one tangible level rather than abstract principles.",
-      "evidence": [
-        "Apr 13, 2023: Course 1 built as a “beginning playground”; tutorial bunnies; ring-gate system rewarding correct action/state",
-        "Apr 13, 2023: strong camera rule—avoid unexpected camera rotations; tutorial cutscene framing experiments"
-      ],
-      "priority": "essential"
-    },
-    {
-      "question": "The completionism expectation hit you hard: “ROM-hack players expect to 100%.” When did that realization land, and how did it change what kinds of secrets, assists, and difficulty you felt comfortable designing?",
-      "context": "Turns audience psychology into a design constraint—key for explaining why RTYI avoids certain kinds of punishing or obscure content.",
-      "evidence": [
-        "Sep 24, 2023: explicit realization that many players treat 100% as mandatory; explores one-at-a-time overworld perks/assists as a system response"
-      ],
-      "priority": "essential"
-    },
-    {
-      "question": "You built an options menu despite disliking “too many toggles.” What options became unavoidable (performance, display, accessibility), and how do you choose defaults so the experience still feels authored?",
-      "context": "Reveals a productive contradiction: an auteur experience under real hardware variability and player needs.",
-      "evidence": [
-        "Apr 22 & Jun 18, 2023: philosophy of minimizing options to avoid fragmented experiences",
-        "Sep 9, 2023: options menu exists; interlacing-off boosts FPS ~25% but looks bad"
+        "2023-04-13 to 2023-04-29: Twitch→YouTube shift motivated by ad load and watchability; viability testing then commitment.",
+        "2023-09-16: Stream suspended; suspected copyrighted music (Evangelion) triggered it.",
+        "2024-07-27: Strategy of hiding level previews inside technical videos to show progress without spoiling."
       ],
       "priority": "important"
     },
     {
-      "question": "You often refuse to expand core structs and instead repurpose existing fields. What’s the most painful time that approach saved you—and the most painful time it boxed you in?",
-      "context": "Makes N64-era memory constraints tangible and shows how low-level discipline shapes what gameplay features are even possible.",
+      "question": "You developed a policy to avoid expanding per-object variables because it increases memory cost for every object. Tell me about a time that rule forced a design compromise you *felt*, and how you decide when a memory cost is worth it.",
+      "context": "Makes low-level constraints emotionally legible: bytes → design limits → real tradeoffs.",
       "evidence": [
-        "Oct 7, 2023: refuses adding new per-object variables; repurposes existing fields (e.g., health) to avoid growing object struct"
+        "2023-10-07: Avoid adding new per-object variables; repurpose unused fields (e.g., health) for boss state.",
+        "2023-12-02: Avoid engine edits for slipperiness; implement localized surface-type edits per-frame instead."
       ],
       "priority": "important"
     },
     {
-      "question": "Tell me about the day you had to cut something you liked because you hit a hard memory wall—like removing “Yoshi Ranch.” What did that feel like, and what did it teach you about scope?",
-      "context": "A clean emotional “kill your darlings” beat anchored in a concrete cut the audience can understand.",
+      "question": "You’ve sometimes gotten big performance wins from “fake but high-impact” tricks (like changing coin rendering). How do you decide when to chase a clever engine trick versus accepting the boring solution and moving on?",
+      "context": "Reveals Kaze’s engineering taste and prioritization under time pressure.",
       "evidence": [
-        "Apr 5, 2024: cuts Yoshi Ranch as “unnecessary fluff” due to memory pressure/crashes",
-        "Apr 13, 2024: decomp loads all areas at once; lack of per-area loading cited as RAM limiter",
-        "Mar 9, 2024: Wild West additions trigger RAM overflow; level near memory ceiling"
-      ],
-      "priority": "essential"
-    },
-    {
-      "question": "You’ve described decomp loading “all areas at once” as a fundamental wall. If you could change one thing about the build/linking system to enable per-area streaming, what would it be—and what would that unlock?",
-      "context": "A “why can’t you just…” answer in plain language that connects toolchain architecture to creative possibility.",
-      "evidence": [
-        "Apr 13, 2024: explains decomp loads all areas at once; RoamManager binary-only/incompatible; fixing implies linker-script work"
-      ],
-      "priority": "essential"
-    },
-    {
-      "question": "You deliberately modernized SM64’s flow: selective no-exit stars, red coins that don’t boot you out, and a global coin counter. Explain how those decisions fit together as one coherent progression philosophy.",
-      "context": "This is a high-level, non-technical explanation of why RTYI feels less grindy and more “continuous” than many hacks.",
-      "evidence": [
-        "Jan 27, 2024: no 100-coin stars; coins shift to a global coin counter",
-        "Jan 27, 2024: red-coin stars don’t boot you out; not all stars can be bootless for pacing",
-        "Feb 17, 2024: red coin implementation supports cross-area collection; bootless stars framed as deliberate flow design"
-      ],
-      "priority": "essential"
-    },
-    {
-      "question": "You built a new RNG that became “true noise” and broke savestate repeatability. What did that change about testing—and did you ever consider shipping a deterministic test mode anyway?",
-      "context": "A rare “butterfly effect” story where low-level authenticity changes QA, speedrunning, and even how you trust your own debugging.",
-      "evidence": [
-        "Mar 9, 2025: RNG depends on cycle counters/timing variance; non-deterministic even on real N64; complicates TAS/testing"
-      ],
-      "priority": "essential"
-    },
-    {
-      "question": "Walk me through the moment you started “de-powering” movement—removing Z+A, limiting spin momentum, reframing moves as recovery tools. What player behaviors were breaking the game, and how did you keep the result from feeling restrictive?",
-      "context": "This is a key late-stage identity choice: protecting level design and readability without killing the fun of movement mastery.",
-      "evidence": [
-        "Jan 5, 2025: removed Z+A; plans to remove spin momentum; moves reframed as safety/recovery",
-        "Feb 10, 2025: skip philosophy—allow creativity but not trivialization"
-      ],
-      "priority": "essential"
-    },
-    {
-      "question": "You hit a point where BLJ/PLJ attempts could hard-crash the game. How do you decide what speedrun tech you’ll preserve, discourage, or simply make “non-crashing,” especially when movement tech is part of SM64’s culture?",
-      "context": "Shows Kaze negotiating with a community playstyle while prioritizing stability and player trust.",
-      "evidence": [
-        "Jan 26, 2025: reproducible PLJ/BLJ crash; suspected infinite loop in long-jump code",
-        "Feb 9, 2025: BLJ sometimes crashes; must investigate"
+        "2023-10-28: 10–15% performance gain by converting coins from billboards to screen-space rectangles/sprites.",
+        "2023-07-29: Glass-break gag implemented with hard-coded “good enough” shatter motion instead of full physics."
       ],
       "priority": "important"
     },
     {
-      "question": "You talked about building a language of diegetic gates—lighthouse reveals, NPC refusals, chained Dorrie, etc. How do you decide what a gate should feel like so it motivates curiosity instead of reading as a lock?",
-      "context": "Unifies multiple memorable overworld beats into one design-language conversation—high value for the film’s overworld narrative.",
+      "question": "You’ve built systems that intentionally break determinism—like faster RNG depending on cycle timing, even affecting savestates. How did that happen, and what did it break (testing, TAS assumptions, debugging) that surprised you?",
+      "context": "A rare, very human engineering story: optimization creating new chaos—excellent for illustrating why N64 dev is different.",
       "evidence": [
-        "Feb 23, 2025: gate language discussion—clear but not cheap",
-        "Mar 10–12, 2025: lighthouse/ghost-ship reveal iterated (fog denial → reveal)",
-        "Mar 16, 2025: rejects “pay 100 coins to fix bridge,” prefers freeing chained Dorrie post-Bowser"
-      ],
-      "priority": "essential"
-    },
-    {
-      "question": "Your overworld is built around permanent, one-time events that leave scars or souvenirs. How do you choose which changes become permanent, and how do you ensure players actually notice the world changed?",
-      "context": "This is the backbone of the hub’s “alive” identity and gives the filmmaker strong structure: setup → trigger → transformation → reminder.",
-      "evidence": [
-        "Mar 31, 2025: one-time events award a star and permanently alter the island (pirates example)",
-        "Apr 6, 2025: rain-flower quest stops local rain + rebuilt houses appear",
-        "May 4, 2025: volcano eruption cutscene creates new platform + new interactions"
-      ],
-      "priority": "essential"
-    },
-    {
-      "question": "Tell me the story of the pause-menu overworld map/warp idea—what problem it solves, and how you keep it from killing exploration and discovery.",
-      "context": "A player-friendly, immediately understandable system that embodies “respect the player’s time” without making the island feel like a menu.",
-      "evidence": [
-        "Mar 19 & Apr 6, 2025: pause-menu map idea with warps unlocked by entering entrances; unrolling-map animation discussed",
-        "May 2, 2025: rejects Banjo-style nameplates for placeness (related immersion stance)"
-      ],
-      "priority": "essential"
-    },
-    {
-      "question": "You said some overworld mechanics “break the illusion.” What are those illusions exactly, and what rules do you follow to protect them while still making the island feel seamless?",
-      "context": "Explains the hidden craft of seamless hubs on N64: camera magic, occlusion, and why extra freedom can be expensive.",
-      "evidence": [
-        "May 18, 2025: rejects certain overworld mechanics because they “break the illusions”",
-        "May 28, 2025: reiterates new movement abilities constrain how the island can be modeled/hidden with camera magic"
-      ],
-      "priority": "essential"
-    },
-    {
-      "question": "Tell me about the moment the overworld persistence system outgrew its container—when 16 bits of flags suddenly wasn’t enough. How did that change how you think about hub complexity and save data budgets?",
-      "context": "A clear “the project is bigger than its data model” turning point that audiences can grasp even without programming knowledge.",
-      "evidence": [
-        "Jun 27, 2025: overworld already has 17 stars; exceeds 16-bit flag model; refactor toward broader event flags/EEPROM budgeting"
-      ],
-      "priority": "essential"
-    },
-    {
-      "question": "Describe a “tooling war” moment where you finally said, “fine, I’ll build my own solution,” especially around dynamic material editing / display-list patching.",
-      "context": "Classic Kaze story: standards, stubbornness, and the cost of depending on community tools. Also very filmable as a ‘factory breaks, build a new machine’ beat.",
-      "evidence": [
-        "May 18, 2025: dispute about avoiding display-list jump hacks; decides to scan/tag commands and patch by pointer",
-        "Jun 11, 2025: Fast64 repo setting regression (“write all”) keeps re-enabling; causes confusing export bugs (e.g., Mario hair disappearing)",
-        "Jun 11, 2025: Fast64 switch options still broken; pipeline workarounds continue"
-      ],
-      "priority": "essential"
-    },
-    {
-      "question": "Give me one moment where a tiny budget number forced a big creative decision—like the Dino Dino Domain rework crashing because you were short by about 1 KB of RAM—and how you decide what to cut when the console says “no.”",
-      "context": "Turns constraints into drama and makes optimization emotionally concrete: the difference between “almost fits” and “doesn’t boot.”",
-      "evidence": [
-        "Jun 15, 2025: Dino Dino Domain rework crashes on load due to ~1 KB RAM shortfall; fixed by removing unused assets/changing export settings",
-        "Jun 11, 2025: ROM estimate 59.953MB/64MB shows thin headroom",
-        "Jun 22, 2025: calls exceeding 64MB “cheating”; plans to delete unused SM64 assets"
-      ],
-      "priority": "essential"
-    },
-    {
-      "question": "After the Parallel Launcher/EverDrive/Overdrive issues, how do you decide what “supported” means? What’s your release checklist now for emulators, flashcarts, and real hardware?",
-      "context": "High-stakes reality: the game isn’t finished when it runs on your machine; it’s finished when players can boot it. Great late-film tension.",
-      "evidence": [
-        "Dec 29, 2024: demo blocked by Parallel Launcher boot bug; working with maintainer",
-        "Jan 5, 2025: EverDrive X7 boot incompatibility; RAM invalidation experiment",
-        "May 11–14, 2025: Overdrive crash mentioned; intention to fix; EverDrive X7 issues recalled"
-      ],
-      "priority": "essential"
-    },
-    {
-      "question": "You talked about shipping a recompilation build so people can run the game consistently. What did the demo compatibility “shit show” teach you about releasing ROM hacks in 2025, and what does “the real distribution” look like now?",
-      "context": "Connects RTYI to the changing ecosystem (emulator fragmentation, launcher behavior) and reframes release as an engineering product of its own.",
-      "evidence": [
-        "May 28, 2025: describes Parallel Launcher situation as a demo “shit show”",
-        "May 28, 2025: argues for shipping a recompilation build to avoid emulator/version fragmentation"
-      ],
-      "priority": "essential"
-    },
-    {
-      "question": "The opening evolved into a storybook-to-3D cinematic with a forced swim past landmarks. What’s your “definition of done” for the first five minutes—artistically and technically—and what has to be streamed/compressed to make it fit?",
-      "context": "This is the audience’s entry point and the documentary’s hook. It’s also a perfect place to explain memory pools, CI8/tiling, and cinematic staging on N64.",
-      "evidence": [
-        "Jun 27, 2025: pitches boat arrival + Nap‑E‑Nut attack to force a swim showing island landmarks",
-        "Jun 29, 2025: proposes storybook pages fading into fully 3D island; discusses CI8/tiling/compression/streaming constraints"
-      ],
-      "priority": "essential"
-    },
-    {
-      "question": "You’ve got a strong stance against “item babysitting” missions. Which missions made you say “never again,” and what variety tools do you use instead when you still need diverse objectives?",
-      "context": "A crisp, opinionated design pillar that helps viewers understand why RTYI aims to feel friction-free compared to many platformer mission tropes.",
-      "evidence": [
-        "May 19, 2025: calls item babysitting a design anti-pattern and a “trap”",
-        "Jun 4, 2025: rejects an objective idea (Pokey carrying balls) as unfun/textbook; pivots to rollercoaster moment"
-      ],
-      "priority": "essential"
-    },
-    {
-      "question": "Coins are becoming a real economy—coin gates, sponsorship NPCs, a 200‑coin cannon unlock—but you’re worried about grinding. How do you design spending so it feels like progress, not farming?",
-      "context": "Connects player motivation to the overworld’s “living world” identity and gives concrete examples the audience will understand.",
-      "evidence": [
-        "May 28, 2025: discusses coin-economy philosophy; avoids coin grinding/coin dumps",
-        "Jun 29, 2025: implements a 200‑coin cannon unlock via NPC; “some things cost money”"
-      ],
-      "priority": "important"
-    },
-    {
-      "question": "You finally killed the long-running audio crackle. What was the root cause, and did fixing it change what you felt comfortable doing creatively—more ambience, denser layers, different soundscapes?",
-      "context": "A satisfying “monster slain” arc with an artistic payoff: stability unlocks atmosphere.",
-      "evidence": [
-        "Jun 4, 2025: announces audio crackling is gone; most buzz reduced; rare buzz remains"
-      ],
-      "priority": "important"
-    },
-    {
-      "question": "You’ve talked about hiding long-tail secrets—even ones that might only be found by decompiling. Why is that mystery important to you, and how do you keep it from blocking normal players?",
-      "context": "Adds auteur personality and speaks to modern datamining culture—great for a memorable late-film beat.",
-      "evidence": [
-        "Feb 2, 2025: plans cryptic/encrypted messages; wants undiscovered long-tail easter eggs"
-      ],
-      "priority": "important"
-    },
-    {
-      "question": "If you had to pick one “development paranoia” story that belongs in the documentary, would it be a crash hunt or the spearphishing sponsorship attempt—and why did it stick with you?",
-      "context": "A humanizing, cinematic anecdote about non-game threats (security/scams) that come with being an internet-facing creator.",
-      "evidence": [
-        "2024-09-04: spearphishing attempt disguised as sponsorship; fake Zoom domain + .exe pressure; Kaze refuses and contacts impersonated GitHub owner"
+        "2025-03-09: Faster RNG depends on cycle timing and becomes non-deterministic on emulator and real N64."
       ],
       "priority": "nice-to-have"
     },
     {
-      "question": "You’ve experimented with extremely low-level optimizations (cache tricks, selective invalidation, OS routines). Did any of those ideas survive into the real engine, and what did they cost in complexity and risk?",
-      "context": "A nerdy but revealing “how far would you go” question; useful if the film wants one deep technical montage without taking over the whole interview.",
+      "question": "You implemented save-state detection and turned it into in-world comedy (“Time Patrol Yoshi”). Why build cheat detection into a single-player fan game, and what line are you drawing between humor, fairness, and respecting players?",
+      "context": "Distinctive RTYI flavor: technical + philosophical + comedic, and very memorable on camera.",
       "evidence": [
-        "Dec 15, 2024: outlines cache/OS optimization experiments (iCache prefetching, selective invalidation) not yet implemented at the time"
+        "2024-03-30: Save-state detection via EEPROM mismatch; community-written “Time Patrol Yoshi” dialogue triggered by detection."
       ],
       "priority": "nice-to-have"
     },
     {
-      "question": "When you chase “proof by spectacle” side ideas (extra demos/hacks, showcase ports), what purpose does it serve for you—motivation, engine R&D, or communicating capability—and how do you stop it from derailing RTYI?",
-      "context": "Explains perceived detours in a long dev cycle and reframes them as R&D/morale/marketing instead of distraction.",
+      "question": "You’ve floated extreme low-level optimization experiments (cache/OS tricks, renderer rewrites). Which “invisible” optimization are you proudest of—not because players notice, but because it made something else possible—and what did it cost in complexity?",
+      "context": "A deep-cut “mad scientist” beat that can end a technical chapter with a strong payoff.",
       "evidence": [
-        "Apr 13, 2023: talks about porting Banjo-related content into the RTY engine as a bonus",
-        "Aug 5, 2023 & Nov 4, 2023: discusses extra demos/hacks before RTYI release to validate camera/physics",
-        "Nov 18, 2023: mentions porting Delfino Plaza as an engine showcase idea"
+        "2024-12-15: Outlines cache/OS optimization experiments as future ideas.",
+        "2025-06-30 to 2025-07-06: Later-stage micro-optimizations discussed (matrix formats, renderer bytecode approach)."
       ],
       "priority": "nice-to-have"
     }
   ],
   "biobak": [
     {
-      "question": "Tell me about the specific disagreement you and Kaze had about the overworld—and how you eventually converged on a global-coin shop/donation system that visibly changes the hub.",
-      "context": "A strong collaboration-with-conflict story that ties Biobak to the game’s macro-structure, not just asset work.",
+      "question": "When Kaze brings you something that works mechanically but isn’t readable—like early tutorial prompts fighting indexed palettes and binary alpha—how do you turn that into a visual language the player instantly understands?",
+      "context": "Positions Biobak as the “clarity and polish multiplier,” which is central to RTYI feeling professional.",
       "evidence": [
-        "Jul 9, 2023: Kaze describes DM disagreements with Biobak; settles on global coins, shop assists, donation-driven overworld changes"
+        "2023-04-13: ZA/AA/ZB billboard prompts constrained by indexed palette + 0/1 alpha; Kaze asks Biobak to improve clarity.",
+        "2023-04-13: Photoshop indexing/fringing issues on N64 textures require special prep steps."
       ],
       "priority": "essential"
     },
     {
-      "question": "Those Star Select panoramas are tiny, but they carry a whole level’s vibe. How did you design them—composition rules, what you simplify—and how did hard limits like real-N64 coordinate crashes change your approach?",
-      "context": "Gives Biobak a “miniature worldbuilding” showcase and directly links art decisions to console constraints.",
+      "question": "Tell me the story of the power meter/HUD color iteration—where even a blue-to-green transition caused readability issues. How do you make color decisions for real N64 output instead of modern monitors?",
+      "context": "A small detail with huge identity impact; also a great “N64 reality” story for general audiences.",
       "evidence": [
-        "Aug 12, 2023: panorama-based Star Select concept associated with Biobak’s direction; Kaze prefers that direction",
-        "Sep 30, 2023: Star Select needed new menu rendering approach; segment loading issues",
-        "Oct 14, 2023: coordinate-distance crash risk on real N64 forced shortening/scaling of backgrounds"
+        "2023-06-03: HUD color iteration to avoid brightness jumps; settle on darker tones so fill “deepens” rather than brightens.",
+        "2023-06-03: New sprites + new rendering behavior (scale-in, smooth refill) integrated during joint iteration."
       ],
       "priority": "essential"
     },
     {
-      "question": "Transparency on N64 is cruel. What was the hardest glass/water readability problem you solved—like the aquarium glass that was ‘too invisible’—and what rules do you follow now for any see-through material?",
-      "context": "A concrete way to explain N64 rendering constraints (sorting/overdraw) through an intuitive example about navigation and readability.",
+      "question": "The Star Select panoramas became a full art pipeline—and then the N64 coordinate limits forced redesigns. What was your creative brief for those mini-scenes, and how did you keep them consistent across wildly different worlds?",
+      "context": "Highly player-facing and filmable; also shows Biobak shaping the game’s “presentation layer,” not just levels.",
       "evidence": [
-        "Jul 2, 2023: aquarium glass/water readability issue; plan to add reflective/tinted cues like fingerprints/coffee stains",
-        "Dec 9, 2023: Fast64 transparency preview unreliable; overdraw/render-order constraints drive design decisions"
+        "2023-08-12: Star-select concept attributed to Biobak’s direction; Kaze prefers it over his attempt.",
+        "2023-10-14: Real N64 crash when backgrounds extend too far from origin; repeats/tiling reduced.",
+        "2023-09-30: Menu loading order issues force engine-side changes."
       ],
       "priority": "essential"
     },
     {
-      "question": "RTYI’s engine diverged from vanilla SM64, so standard Fast64 material presets can be wrong. How did you learn the “RTYI-safe” material rules, and how do you keep an art team consistent when the rules change mid-project?",
-      "context": "Shows Biobak as technical artist, not just modeler—working against a custom renderer with evolving constraints.",
+      "question": "RTYI’s engine diverges enough from vanilla SM64 that standard Fast64 material presets can backfire (culling defaults, alpha behavior, batching rules). What did you have to “unlearn” as an SM64 artist to make assets behave correctly in RTYI?",
+      "context": "Explains why RTYI isn’t “just importing models,” and why art decisions require engine literacy.",
       "evidence": [
-        "Jul 2, 2023: Kaze explains RTY engine changes break standard SM64 presets; culling defaults cause problems; material guidelines proposed"
+        "2023-07-02: RTYI engine changes make Fast64 SM64 presets unreliable; culling defaults cause problems; new guidelines discussed.",
+        "2023-09-02: Performance-driven material rules (single texture/material for repeated enemies); Fast64 quirks noted."
       ],
       "priority": "essential"
     },
     {
-      "question": "When Kaze started doing N64-only performance fixes (like turning culling on for hardware but leaving it off on emulator), did you end up “authoring for two looks”? What changed in how you model and texture?",
-      "context": "Captures a rare production problem: assets must be correct/perf on console yet still look good in emulator footage and captures.",
+      "question": "Course 11’s rework collided with production reality: collision was authored before your new geometry, and suddenly entrances didn’t line up and an area even crashed. What did that teach you about sequencing—and what’s the new handoff contract between “art rework” and “collision/gameplay integration”?",
+      "context": "A perfect cross-discipline story: beautiful changes can break the game. Also reveals how the team professionalized its pipeline.",
       "evidence": [
-        "Jul 16, 2023: performance rescue via enabling backface culling on N64 while emulator can keep nicer look"
+        "2024-06-08: Kaze calls it a major mistake that collision was made before Biobak’s rework; mismatches and a crash blocked testing.",
+        "2024-06-08: Plan to redo collision after final geometry is locked."
       ],
       "priority": "essential"
     },
     {
-      "question": "Kaze publicly worried about paying collaborators while revenue was tiny. From your side, how did you navigate money, expectations, and boundaries so the collaboration stayed healthy for years?",
-      "context": "Adds real-world stakes and avoids a one-sided “solo genius” narrative—important ethical context for a free fan game with professional-grade art.",
+      "question": "Kaze often has to reject or reshape transparency, fog, and certain material setups because of render layers, overdraw, and texture-format rules. How do you design *knowing* some of the coolest Blender looks are impossible on real hardware?",
+      "context": "Moves beyond generic “polycount limits” into the real N64 rendering grammar that shapes aesthetics.",
       "evidence": [
-        "Oct 14, 2023: Kaze discusses compensation realities; YouTube revenue described as extremely low while Biobak contributes major work"
+        "2024-01-13: Import triage—transparency and texture-format incompatibilities during ship rework integration.",
+        "2024-06-08: Render-order decisions (decals vs transparent surfaces) and fog missing on some materials after import."
       ],
       "priority": "essential"
     },
     {
-      "question": "You’ve suggested mechanics—not just visuals—like the appearing path in the ice castle. Tell me about your best “gameplay pitch” moment: what you proposed, why, and how you framed it so Kaze actually built it.",
-      "context": "Positions Biobak as a co-designer; gives the film an example of mechanics emerging from art direction.",
+      "question": "A lot of your work is “performance art direction”: making things look richer while reducing overdraw/material churn. What are the first things you look for when optimizing an asset so it gets faster *and* prettier?",
+      "context": "Helps the documentary explain why RTYI looks “too good for N64” while still running.",
       "evidence": [
-        "May 18, 2024: Kaze wants to include “Biobak’s appearing path” but castle wasn’t modeled for it yet",
-        "May 25, 2024: appearing-path effect improved with tiles/dots scaling in to reduce pop-in"
+        "2024-07-20: Updated Oily Boily Bay assets with fewer materials/bones; performance targets discussed.",
+        "2024-09-29: Course 1 rework praised as prettier without worse performance; overdraw/material focus emerges in later profiling."
       ],
       "priority": "essential"
     },
     {
-      "question": "Walk me through an optimization pass you’re proud of where you made something look better and run faster—Oily Boily Bay is the obvious one. What were the concrete tricks (materials, bones, baked detail, composition) that mattered most?",
-      "context": "Shows N64 art as performance engineering and gives the film a clear “before/after” sequence to build around.",
+      "question": "Kaze has said he won’t choose an art style unless it’s “workable” for you to model and maintain. What does “workable” mean in practice—what are the red flags that make you say, “this will collapse under iteration”?",
+      "context": "Shows Biobak as a schedule-protector and production thinker, not only an artist.",
       "evidence": [
-        "Jun 8, 2024: Kaze imports extensive Oily Boily Bay remake and notes performance-oriented changes",
-        "Jul 20, 2024: highlights fewer materials, fewer bones, baked details aimed at ~30 FPS"
+        "2024-05-04: Kaze explicitly gates style decisions on whether Biobak can model/maintain the approach (“workability criteria”)."
       ],
       "priority": "essential"
     },
     {
-      "question": "Your handoffs are unusually professional—update.zip drops, detailed changelogs, clear deltas. How did you learn to package work so Kaze can integrate without chaos, and what do you wish more collaborators understood about that?",
-      "context": "Collaboration craft: the difference between “making art” and making shippable art. Very useful for explaining how a multi-year fan project stays coherent.",
+      "question": "Course 1 became the most reworked level because it’s the demo face of the whole project. How did you handle that pressure—what did you optimize, what wouldn’t you compromise on, and how did you decide when the rework was finally “done”?",
+      "context": "The demo is a promise to players; this question pulls out Biobak’s quality bar under scrutiny.",
       "evidence": [
-        "Jan 13, 2024: Kaze imports ghost ship overhaul by following changelog and fixing N64-validity issues",
-        "Jun 8, 2024: integrates Oily Boily Bay changes line-by-line via changelog review",
-        "Sep 30, 2024: Biobak sends “Course one update.zip”; Kaze integrates live under time pressure"
+        "2024-09-29: Major Course 1 rework delivered; performance not worse.",
+        "2024-09-30 to 2024-10-15: Integration triage (materials/layers) to unblock the demo; Course 1 called effectively complete after iteration."
       ],
       "priority": "essential"
     },
     {
-      "question": "Tell me about a time a geometry change unintentionally broke something deep—like the ‘Detect Channels’ crash after the ghost ship overhaul—and what new habits you adopted to prevent that class of failure.",
-      "context": "A perfect “art meets engineering” story: a visual improvement triggers a crash through tool assumptions. Great for showing invisible fragility.",
+      "question": "Your Dino Dino Domain pass caused a crash because the level was literally ~1 KB short on RAM. What did that feel like, and how did it change the way you think about detail, interiors, decals, and “just one more prop” on N64?",
+      "context": "High-drama “beauty vs hardware” moment that’s instantly understandable to a general audience.",
       "evidence": [
-        "Jan 13, 2024: crash traced to texture animation ‘Detect Channels’ iterating invalid vertices after geometry overhaul; animations remade; cutscene splines moved"
+        "2025-06-15: Dino Dino Domain crashes on load; ~1KB RAM shortfall; assets removed/export options used.",
+        "2025-06-15: Added detail (water transparency, decals, interiors) cited as driver of memory spike."
       ],
       "priority": "essential"
     },
     {
-      "question": "Collision and art reworks keep colliding. What should the “freeze geometry → author collision” handshake look like so Kaze doesn’t end up rebuilding collision twice?",
-      "context": "Turns a painful lesson into production wisdom; very transferable for other teams and clarifies why “pretty” can ship broken without coordination.",
+      "question": "From your perspective, what’s the visual language of RTYI’s overworld—how do you make gates, secrets, and progression reads feel diegetic instead of like videogame locks?",
+      "context": "The overworld is RTYI’s signature; this question frames Biobak’s role in making it readable without UI crutches.",
       "evidence": [
-        "Dec 23, 2023: train movement can’t be scripted until track collision is final/baked",
-        "Jun 8, 2024: Course 11 collision authored before rework caused navigation mismatches/crashes; called a major mistake"
+        "2025-06-27: Gate debates framed around avoiding “chores.”",
+        "2025-08-17: Zoo entrance redesigned toward physical/diegetic blockers for clarity.",
+        "2025-08-18: Lighthouse unlock and fog-barrier readability discussed as a world puzzle."
       ],
       "priority": "essential"
     },
     {
-      "question": "Course 14’s paper-cylinder diorama boundary is such a strong idea. Where did it come from, and how did you and Kaze iterate until it was believable as “paper craft” but also readable as a death boundary?",
-      "context": "A pure visual-storytelling beat that also solves gameplay clarity; excellent for concept→iteration visuals.",
+      "question": "Tell me about a time you and Kaze disagreed on how something should look or feel—and what each of you had to concede to reach a version that met the quality bar.",
+      "context": "Gives the documentary interpersonal stakes without gossip; shows how quality is negotiated.",
       "evidence": [
-        "Sep 15, 2024: paper cylinder with drawings emerges as strong direction; seam/tape realism stressed",
-        "Sep 15, 2024: desk/table bottom rejected because it implies playable space"
+        "2025-06-22: Disagreement around fruit/apple look (vertex color fidelity vs believable shading); CPU lighting implemented as compromise.",
+        "2023-07-09: Kaze references DM arguments about overworld redesign; agreement reached on coins/shop/donations."
       ],
       "priority": "essential"
     },
     {
-      "question": "RTYI’s rendering rules got more complex over time—draw layers swapping, decals/transparency constraints, and “works on console but not on emulator” issues. How do you author art when the correct look depends on those rules?",
-      "context": "Explains that N64 art isn’t just low-poly—it’s pipeline-dependent and fragile; useful for showing why late-stage validation can break visuals.",
+      "question": "Toolchain fragility (Fast64 updates, preview mismatches, exporter quirks) is a recurring villain. What survival habits did you develop—changelogs, version pinning, naming rules, “known good” setups—so you can still iterate confidently?",
+      "context": "Explains why production takes time even when the art is strong, and shows “shipping discipline” in a fan project.",
       "evidence": [
-        "Aug 31, 2024: layer 6 becomes transparent decals; layer 5 used as order workaround",
-        "Oct 1, 2024: console-only alpha/coverage issues fixed after Course 1 rework; hardware validation emphasized"
-      ],
-      "priority": "essential"
-    },
-    {
-      "question": "You and Kaze built a Goomba King boss rework together (king chooses a spot, boulder targets Mario). How do you approach giving boss/gameplay notes as an artist—and what makes a suggestion “land” with Kaze?",
-      "context": "Captures design trust and shows Biobak shaping moment-to-moment gameplay, not just aesthetics.",
-      "evidence": [
-        "Oct 8, 2024: Kaze implements Biobak’s boss redesign; tunes fairness/readability",
-        "Sep 30, 2024: discussion about treadmill-like chasing vs shifting hazard logic"
-      ],
-      "priority": "essential"
-    },
-    {
-      "question": "Tell me the story of the revised Mario model you delivered that looked better and rendered cheaper—and the chain reaction it caused (hat logo constraints, palette-based recolors).",
-      "context": "A universally relatable artifact (Mario’s face) that demonstrates measurable performance wins and pipeline realities.",
-      "evidence": [
-        "Dec 15, 2024: Mario model reduces TMEM ~39–40% and triangles (~639→595); integration + hat logo workaround debate",
-        "Dec 15, 2024: dynamic palette cap recolor pipeline created as a consequence"
-      ],
-      "priority": "essential"
-    },
-    {
-      "question": "When Kaze prototypes bosses like mutated Yoshi, what does “respectful to Yoshi” mean to you visually? How do you make something weird/creepy without breaking the Yoshi identity or readability of weak points?",
-      "context": "Lets Biobak articulate taste and ethical boundaries; also ties directly to a major tone pivot in 2025.",
-      "evidence": [
-        "Jan 12 & Feb 9, 2025: healing boss direction; tumors swapped to mushrooms to reduce body-horror",
-        "Feb 2, 2025: Kaze notes placeholders are meant to communicate intent; final look may change significantly"
-      ],
-      "priority": "essential"
-    },
-    {
-      "question": "You proposed a planet-based boss arena redesign because it was lower-poly, cleaner, and “cooler.” How do you decide when a big concept change is worth the production pain?",
-      "context": "Shows Biobak influencing big set pieces and making spectacle decisions that also serve performance and clarity.",
-      "evidence": [
-        "Feb 9, 2025: factory arena reconsidered; planet-based arena described as lower-poly/cleaner/cooler"
-      ],
-      "priority": "essential"
-    },
-    {
-      "question": "Fast travel became a real design dispute—pipes versus a pause-menu map warp. What was your objection to pipes, and what did you want movement through the island to feel like?",
-      "context": "A concrete example of “placeness” as navigation philosophy, with real collaboration friction and resolution.",
-      "evidence": [
-        "Mar 19, 2025: corked pipes debated; pause-menu world map warp system proposed; Biobak pushback referenced"
-      ],
-      "priority": "essential"
-    },
-    {
-      "question": "Your trophy-building idea evolved into a limited-hints milestone system to avoid pushing completionism. What problem were you solving, and what makes a reward feel optional without feeling pointless?",
-      "context": "Gets into player psychology and “mystery vs checklist” — central to RTYI’s tone.",
-      "evidence": [
-        "May 14, 2025: trophy idea iterated into ‘Brawl Milestones’-style limited hinting"
-      ],
-      "priority": "essential"
-    },
-    {
-      "question": "Tell me about the Dino Dino Domain rework from your side—what you were trying to achieve visually, and what it felt like when it caused a real hardware crash because the level was short by about one kilobyte of RAM.",
-      "context": "A perfect constraint drama: art ambition meets hard hardware limits, forcing triage and collaboration decisions.",
-      "evidence": [
-        "Jun 15, 2025: Dino Dino Domain rework triggers load crash due to ~1 KB RAM shortfall; fixes involve removing assets/changing export settings"
-      ],
-      "priority": "essential"
-    },
-    {
-      "question": "There was a very specific compromise on the rotating apple/fruit: you wanted vertex-color fidelity, Kaze wanted believable shading, and it led to CPU-side lighting. Walk me through that negotiation and what it taught you about N64 lighting constraints.",
-      "context": "Shows tradeoffs without “losing the look,” and positions Biobak as co-driver of technical invention.",
-      "evidence": [
-        "Jun 22, 2025: Kaze implements CPU per-vertex shading so apple keeps intended vertex-color look while gaining lighting"
-      ],
-      "priority": "essential"
-    },
-    {
-      "question": "Kaze said your storyboard helped sell the storybook-to-3D opening. What did you pitch visually, and how do you design a 2D storybook style that still feels like it belongs to the same 3D island?",
-      "context": "Gives the documentary a strong visual development thread with tangible artifacts (storyboard pages).",
-      "evidence": [
-        "Jun 29, 2025: Kaze says he’s using Biobak’s storyboard as the basis for the storybook intro concept"
-      ],
-      "priority": "essential"
-    },
-    {
-      "question": "The forest became a production-critical blocker with strict rules (warm Yoshi palette, 2D planes + low-poly 3D, extremely low triangle targets). How do you design a signature tree set under those constraints?",
-      "context": "A clean example of “art direction as systems design” and a make-or-break overworld asset problem.",
-      "evidence": [
-        "Jun 1, 2025: forest presentation called key visual problem; tree texture sizes and ~12–18 triangle targets specified"
-      ],
-      "priority": "essential"
-    },
-    {
-      "question": "What’s the most painful tool/export regression you lived through, and what concrete habits protect your work now (version pinning, validation steps, avoiding specific material features)?",
-      "context": "Humanizes the grind and explains why iteration is slow on retro pipelines.",
-      "evidence": [
-        "Nov 16, 2024: Fast64 texture shift/tiling bug forces workaround; fear future fix could change visuals later",
-        "Dec 7, 2024: Fast64 collision export offset becomes a blocker",
-        "May 18, 2025: updating Fast64 broke overworld export workflow again"
+        "2023-10-14: Exporter injects unwanted segments; fear of breaking compilation.",
+        "2024-06-08: Blender 4.x/Fast64 friction; missing presets vs older setups.",
+        "2025-05-18 to 2025-08-03: Reports Fast64 updates breaking overworld export workflow; Blender/Fast64 crash blocks work."
       ],
       "priority": "important"
     },
     {
-      "question": "Some scenes are RSP-bound and others are RDP/overdraw-bound. From your side, how do you decide whether to cut triangles, cut materials, or redesign composition to reduce overdraw?",
-      "context": "Connects Biobak’s daily art choices to the evolving performance doctrine—without forcing the audience to understand every rendering term.",
+      "question": "Kaze often leans on you for dialogue and tone (he’s called his own placeholder writing “not good enough”). What’s your process for writing NPC text that’s funny and distinctive but not so dense players mash through it?",
+      "context": "Dialogue is one of RTYI’s differentiators; this reveals Biobak’s contribution to tone and pacing.",
       "evidence": [
-        "Sep 3, 2024: “RSP bottleneck” realization after F3DEX3 work",
-        "Oct 27, 2024: Course 15 profiling shows rendering dominates; overdraw/material strategy discussed"
+        "2025-08-03: Kaze says his placeholder dialogue is weak and Biobak is better at it.",
+        "2025-07-13: Dense NPC dialogue iterated; worry about wordiness."
       ],
       "priority": "important"
     },
     {
-      "question": "How did the tone shift away from darker story ideas affect your environmental storytelling in factory-like spaces that were already partly built?",
-      "context": "A rare look at narrative changing visuals in a ROM hack—props, signage, NPC vibes, and what gets softened or reframed.",
+      "question": "Special mission-giver Yoshis need to be instantly recognizable so players don’t waste time talking to everyone. How would you design that “drip” so it reads at N64 resolution and camera distance?",
+      "context": "A clean art/UX crossover problem with a practical payoff for player experience.",
       "evidence": [
-        "Sep 30, 2024: earlier factory premise described as too dark and needing revision",
-        "Nov 16, 2024: Bomb Cap stage rework review includes tutorial/readability tweaks (learning bombs break walls)"
+        "2025-09-14: Plan to differentiate ~11 special Yoshis with accessories to reduce confusion."
       ],
       "priority": "important"
     },
     {
-      "question": "There’s an overworld cave mission idea where holding a crystal reveals a path around Mario, but readability is tricky. How do you design visual clarity for rules like that in a hub where players can wander in any order?",
-      "context": "Highlights Biobak’s role in tutorialization-through-art, especially in the overworld where traditional level onboarding is weaker.",
+      "question": "RTYI increasingly integrates guest-built levels. From the art/design side, what are the most common fixes you expect to make so a contributor level feels like it belongs in the same world?",
+      "context": "Lets the documentary show community involvement without romanticizing: cohesion requires editing and standards.",
       "evidence": [
-        "May 25, 2025: crystal/path mission concept discussed; question of whether path should be partially visible all the time for clarity"
+        "2025-12-27: Contributor level integration involves material/transparency/decals/readability fixes.",
+        "2025-12-31: Cohesion thresholds discussed; integration work emphasized."
       ],
       "priority": "important"
     },
     {
-      "question": "When you redesign a level and move warp holes/major objects, collision has to be rebuilt or the level becomes unplayable. How do you think about “collision as design,” and how do you coordinate with Kaze so beauty doesn’t ship without physics?",
-      "context": "Gives filmmakers concrete language for the art/gameplay handshake and why coordination affects schedule.",
+      "question": "The intro may use storybook pages that fade into 3D. If you’re designing 2D pages for a 3D game, what style rules keep it cohesive—and what N64 constraints (CI formats, tiling, compression) change your choices?",
+      "context": "A visually rich “production design” topic that links tone-setting to technical reality.",
       "evidence": [
-        "Jun 18, 2025: Course 10 changes force conclusion that new collision map must be created after warps/objects moved"
+        "2025-06-29: Storybook-to-3D intro feasibility discussed; CI8 tiling/compression constraints.",
+        "2025-08-18: Intro storyboard and tone alignment credited to Biobak."
       ],
       "priority": "important"
     },
     {
-      "question": "RTYI ends up leaning on vertex colors and primitive-color tinting because environment color is disabled in the pipeline. How did that limitation shape your palette and lighting tricks over time?",
-      "context": "Explains a core “look” fingerprint that came from tooling constraints rather than pure aesthetic preference.",
+      "question": "When memory is tight, the team sometimes justifies sparse set dressing diegetically—like “storefront” storytelling where the inventory is gone because bandits stole it. How do you approach environmental storytelling when technical limits force minimalism?",
+      "context": "Constraint-driven creativity in a way viewers can feel on screen: scarcity becomes story.",
       "evidence": [
-        "Jun 18, 2025: environment color disabled due to a Fast64 issue; relies on primitive color multipliers + vertex colors"
+        "2024-04-05: “Storefront” storytelling described as a trick to avoid extra props under RAM limits; emptiness justified in-world."
       ],
-      "priority": "important"
+      "priority": "nice-to-have"
     },
     {
-      "question": "If you could pick one tiny, almost invisible detail you added that best captures RTYI’s humor or handmade charm, what is it—and why does it matter?",
-      "context": "Often produces poetic, memorable answers and gives the film a motif for close-up cutaways.",
+      "question": "Kaze sometimes has to do a painful integration pass after your exports: fixing texture formats, fog flags, render layers, and “illegal” material setups. What do you wish the programmer side understood better about your needs—and what did you learn about his constraints that changed how you author assets?",
+      "context": "Cross-discipline empathy: how the team learned to collaborate under a hostile medium.",
       "evidence": [
-        "Jul 2, 2023: aquarium glass idea included fingerprints/coffee-stain cues as subtle readability detail",
-        "Sep 30, 2024: papercraft Thwomp iteration toward comedic cardboard folds/googly-eye behavior",
-        "Sep 15, 2024: seam/tape imperfections stressed to sell handmade realism"
+        "2024-01-13: Kaze spends session making ship rework N64-valid (formats, layers, combiners).",
+        "2025-12-27 to 2026-02-22: Ongoing enforcement of strict render/material rules (“env color” pitfalls, “illegal” lighting semantics) during integration."
+      ],
+      "priority": "nice-to-have"
+    },
+    {
+      "question": "Payment logistics got weird (crypto instead of PayPal) and created fees/tax headaches. How did that reality affect you as a contractor on a long, passion-driven project?",
+      "context": "Optional operational realism: how a fan project becomes a real production with real friction.",
+      "evidence": [
+        "2023-12-26: Kaze can’t use PayPal; crypto payment discussed; frustration about fees and taxes."
       ],
       "priority": "nice-to-have"
     }
   ],
   "badub": [
     {
-      "question": "When you run into the hard 64MB cartridge ceiling, how does it change your creative process—what do you do differently when a track might need to be shortened, converted (sequenced vs streamed), or cut entirely?",
-      "context": "This makes the audio budget emotionally real and shows how composition changes under a physical storage limit—not just “N64 constraints” in theory.",
+      "question": "When Kaze realized music was consuming the ROM budget—tens of megabytes early on, then dominating the cartridge later—what conversations did you have about what to stream, what to sequence, and what had to change to protect the soundtrack’s identity under hostile storage math?",
+      "context": "The central production tension for the score: not just composing, but triaging under a hard ceiling.",
       "evidence": [
-        "Apr 22, 2023: ROM ~44.6MB with ~32.1MB music",
-        "Oct 7, 2023: sound data ~35.6MB; expectation that streamed music must be reduced/converted",
-        "Jun 11, 2025: ROM estimate 59.953MB/64MB with very high track-count estimate (~120)"
+        "2023-04-22: ROM ~44.6MB with ~32.1MB music; streamed tracks dominate.",
+        "2023-10-07: ROM ~45.9MB; sound data ~35.6MB; concern 15-course plan may exceed 64MB unless audio strategy changes.",
+        "2025-09-28 to 2025-12-27: Late-stage builds near 64MB; “music ~80% of ROM” framing becomes explicit."
       ],
       "priority": "essential"
     },
     {
-      "question": "Loop points became a production problem, not just a musical one. Walk me through your loop-point workflow, including the moment STRM64 trimming saved space but caused at least one track to stop looping.",
-      "context": "A perfect “constraint → tool → new failure mode” story that reveals the unglamorous QA side of soundtrack production.",
+      "question": "RTYI’s audio pipeline includes real “build engineering” moments—like STRM64 trimming saving space but breaking loop behavior. What does a toolchain change like that do to your workflow as a composer, especially around loop points, endings, and QA?",
+      "context": "Rare “music meets engineering” story: the soundtrack isn’t just art, it’s an asset pipeline with failure modes.",
       "evidence": [
-        "Oct 14, 2023: STRM64 trimming saves ~1.7MB; at least one track no longer loops afterward"
+        "2023-10-14: STRM64 trimming saves ~1.7MB; at least one track stops looping correctly afterward."
       ],
       "priority": "essential"
     },
     {
-      "question": "Tell me about writing music that’s adaptive by design—like tracks where channels/instruments can be toggled for indoor vs outdoor—and how you keep it feeling intentional when parts of it disappear.",
-      "context": "Highlights RTYI’s unique interactive scoring on N64 and frames composition as a modular system, not just a fixed song.",
+      "question": "Walk me through your end-to-end handoff: what you send to Kaze, what metadata matters (tempo, loop point, variants), and what tends to break when it’s integrated into the ROM and tested on real hardware/emulators.",
+      "context": "Makes the collaboration legible to non-audio people: game music isn’t finished until it loops correctly in-engine.",
       "evidence": [
-        "Sep 9, 2023: Bowser Level 2 track delivered designed for channel toggling (indoors/outdoors)"
+        "2024-11-10: Kaze hunts for a clean loop point; asks for loop timing in milliseconds/samples; tradeoffs between pre-rendered vs sequenced discussed.",
+        "2024-08-03: Kaze manually sets loop points; stereo preserved by splitting channels—implementation details matter."
       ],
       "priority": "essential"
     },
     {
-      "question": "Course 14 uses location-based music where instruments fade in/out as you move. How do you compose for that—stems, variations, shared motifs—and what has to be synchronized (tempo, harmony, cadence) so it doesn’t feel random?",
-      "context": "A distinctive musical signature beyond “level themes,” and very filmable with on-screen demos of moving through zones.",
+      "question": "There’s a three-way collaboration between you (composition), ZeroVolt (conversion/import/edits), and Kaze (engine + triggers). Where do misunderstandings usually happen, and how do you protect musical intent as it passes through a technical pipeline?",
+      "context": "The documentary benefits from showing that “composer” here includes negotiation and QA across multiple people.",
       "evidence": [
-        "Oct 15, 2024: Course 14 has ~5 songs/variants; instruments fade based on player location",
-        "Sep 24, 2024: feasibility of biome-based music switching discussed; waiting on what Badub composes"
+        "2025-05-19: Roles clarified—Badub composes, ZeroVolt imports/converts.",
+        "2025-10-26: ZeroVolt described as having the “ear” for macro-level edits in Seq64; pipeline bottlenecks discussed.",
+        "2025-06-29: ZeroVolt credited for song conversion/import work; potential crash conditions mentioned."
       ],
       "priority": "essential"
     },
     {
-      "question": "What is your ideal handoff package for a track in this project—files, metadata, exact loop timing—so integration doesn’t become guesswork?",
-      "context": "Makes the production pipeline legible and highlights the difference between composing and shipping music on N64.",
+      "question": "RTYI uses silence as a tool—like stepping out into an empty plaza where the music cuts and the mood flips. How do you think about “negative space” in game music, and how do you coordinate silence beats with Kaze’s scripting so they land cinematically?",
+      "context": "Moves the music discussion from “catchy tracks” to cinematic storytelling and pacing.",
       "evidence": [
-        "Nov 10, 2024: Kaze asks for exact loop timing in ms/samples while hunting clean loop points",
-        "Aug 3, 2024: Kaze manually finds loop points and keeps stereo by splitting L/R channels during import"
+        "2023-08-26 to 2023-09-16: Act 3 strike-breaker setup includes exiting Bowser’s office to a silent empty plaza; audio contrast emphasized."
       ],
       "priority": "essential"
     },
     {
-      "question": "There was a revision moment where Kaze said an early saloon track was too upbeat and too close to another level’s vibe, and you immediately agreed to change it. How do you turn vague “vibe” critique into a concrete rewrite plan without losing momentum?",
-      "context": "Captures real collaboration dynamics—taste alignment, ego management, and practical iteration under deadlines.",
+      "question": "Course 14’s music goes beyond track swapping—layers/instruments fading in and out based on location. How do you compose for that so it feels musical (intentional harmony/motif continuity) instead of glitchy?",
+      "context": "This is “modern game audio” ambition on retro hardware; it reveals Badub’s systems thinking.",
       "evidence": [
-        "Jan 13, 2024: Kaze says early saloon track too upbeat/too close to zoo song; Badub immediately agrees to revise",
-        "Sep 29, 2024: Kaze reacts to a track as “sunset beach” and asks for more “adventure”/hummable melody; chat disagrees"
+        "2024-10-15: Course 14 described as ~5 variants with instruments fading based on location.",
+        "2024-09-24: Biome-based switching feasibility discussed; waiting to see what Badub composes."
       ],
       "priority": "essential"
     },
     {
-      "question": "By mid‑2024 the project had around 98 songs—more than Mario Odyssey. How do you keep that many tracks feeling like one soundtrack instead of a playlist?",
-      "context": "A necessary scope question that’s still craft-focused: cohesion across years, styles, and wildly different settings.",
+      "question": "After the Course 1 demo, players said the audio felt “noisy.” In an N64 mix, what does “noisy” actually mean—arrangement density, frequency masking, SFX/music balance—and what changed after that feedback?",
+      "context": "A concrete audience-feedback story that opens up mixing philosophy under retro constraints.",
       "evidence": [
-        "Aug 3, 2024: Kaze says the game currently has 98 songs; compares to Odyssey’s 82"
+        "2025-01-05: Kaze reports demo feedback that audio felt “noisy” and wants to reduce it."
       ],
       "priority": "essential"
     },
     {
-      "question": "You had a period where Kaze mentioned you were absent, then later celebrated you coming back and iterating heavily. What was the reality behind that—life, bandwidth, motivation—and how do you and Kaze rebuild momentum after gaps?",
-      "context": "Human production reality: availability, burnout, and sustaining collaboration across years.",
+      "question": "Kaze rebuilt the sound engine and has said it’s now easy to add ambient loops and lots of SFX. When did you realize the new engine changed what was creatively possible for you, and what kinds of audio moments became worth attempting?",
+      "context": "“Technology unlocks art” beat that links Kaze’s engine work to Badub’s creative latitude.",
       "evidence": [
-        "Jul 16, 2023: Kaze notes Badub has been absent recently; uncertainty about process/deadlines",
-        "Jul 22, 2023: Kaze notes Badub returned; “week of work, ~10 tries” on a track"
+        "2025-05-11: New engine makes adding SFX easy; ambient loops (propeller/windmill) demonstrated as making areas feel alive.",
+        "2025-05-14: Sound-composer tool mentioned for authoring SFX directly."
       ],
       "priority": "essential"
     },
     {
-      "question": "The strike-breaker sequence relied on audio contrast—music inside Bowser’s office, then silence/emptiness outside. How do you score “absence,” and when do you decide silence is stronger than a track?",
-      "context": "Bridges game scoring to film language: pacing, suspense, and storytelling with silence.",
+      "question": "RTYI’s overworld score isn’t just “many tracks”—it’s a geographic system of region themes that crossfade as you move, sometimes needing to stay phase-aligned. How did you approach composing for transitions *first* so movement feels like one continuous musical journey?",
+      "context": "Lets the documentary explain adaptive music in a way audiences can feel: geography becomes composition.",
       "evidence": [
-        "Sep 16, 2023: Kaze describes keeping music inside but going quiet outside to signal something is wrong"
+        "2025-04-15 to 2025-04-19: Overworld transitions planned as fades; multiple overworld tracks in progress.",
+        "2025-08-24: Region-based overworld tracks crossfade; desire to remain phase-aligned mentioned."
       ],
       "priority": "essential"
     },
     {
-      "question": "Kaze floated selling an OST “album on an N64 cartridge,” but also worried about sample ownership overlapping Mario 64. How do you think about ownership, licensing, and what’s ethically/legally safe for a fan-project soundtrack?",
-      "context": "High-stakes real-world issue where music is one of the few monetizable outputs; also clarifies the risks of sample libraries and fan-project distribution.",
+      "question": "RTYI has a lot of music “in orbit,” including tracks that get cut or moved into bonus playlists. What is the painful part—when a track gets cut? Who decides, and what are the usual reasons (space, fit, complexity, implementation risk)?",
+      "context": "Gives the documentary real stakes around creative loss and editorial discipline.",
       "evidence": [
-        "Aug 19, 2023: Kaze discusses paying musicians for rights; OST-only ROM idea",
-        "Aug 26, 2023: worries about sample ownership overlapping SM64; considers licensing same sample library Nintendo used",
-        "Nov 25, 2023: reiterates “album on an N64 cartridge” concept and legality uncertainty"
+        "2025-11-16: ~100 tracks in-game plus a large bonus playlist; cuts due to ROM space or fit/complexity."
       ],
       "priority": "essential"
     },
     {
-      "question": "After the Course 1 demo, players described the audio as “noisy.” As a composer, what do you think they were reacting to—arrangement density, mixing, SFX overlap—and what did you change or ask Kaze to change?",
-      "context": "Connects community feedback to real iteration and reframes “audio” as an ecosystem: music, SFX, and clarity.",
+      "question": "There was an imported-sequence bug caused by a converter-inserted directive (“chan set pan mix”). What’s it like composing when a single technical quirk can change panning/feel, and how do you debug problems that aren’t music mistakes but tool artifacts?",
+      "context": "A vivid story about why retro composition is partly software engineering.",
       "evidence": [
-        "Jan 5, 2025: Kaze reports player feedback that demo audio was “noisy” and he wants to reduce it"
-      ],
-      "priority": "essential"
-    },
-    {
-      "question": "Kaze built a sound-composer tool that lets you author sound effects, and started importing your ambient loops (rotors/windmills) to make spaces feel alive. What’s your approach to SFX as worldbuilding, and how did the new tool change what you were willing to create?",
-      "context": "Expands Badub’s role beyond music into “the world feels alive,” and gives the film concrete sound design moments to demonstrate.",
-      "evidence": [
-        "May 11, 2025: new sound engine makes it easy to add SFX; ambient loops make areas feel alive",
-        "May 14, 2025: Badub can author SFX with Kaze’s sound-composer tool"
-      ],
-      "priority": "essential"
-    },
-    {
-      "question": "The nightclub setpiece idea is: the star powers the party—take it, the lights die, the dancing stops, maybe the music collapses. How would you score a moment where the absence of music is the point?",
-      "context": "A cinematic, interactive-music question with strong emotional hooks—stealing joy—great for late-film storytelling beats.",
-      "evidence": [
-        "Jun 15, 2025: Kaze proposes “star powers the disco”—lights/colors/dancing (and possibly music) stop when collected"
-      ],
-      "priority": "essential"
-    },
-    {
-      "question": "What does the music pipeline look like end-to-end on RTYI—your composition, then conversion/import—and where do things most often go wrong when a track becomes “real N64 audio”?",
-      "context": "A clear production explainer for non-technical audiences; also gives credit to the conversion/import side of the pipeline.",
-      "evidence": [
-        "May 19, 2025: roles clarified—Badub composes, ZeroVolt handles importing/conversion",
-        "Jun 29, 2025: Kaze credits ZeroVolt for converting/importing a song; notes it may crash under certain conditions"
-      ],
-      "priority": "essential"
-    },
-    {
-      "question": "There was an idea that the island’s music would evolve as more Yoshis are rescued—adding instruments, getting happier—but it kept getting deprioritized. From your side, what made it hard: technical constraints, production scope, or a creative change of heart?",
-      "context": "A clean “feature that almost was” story that links music to the game’s narrative arc and reveals how ideas die in production.",
-      "evidence": [
-        "Apr 30, 2025: Kaze says the “music gradually adds instruments” plan isn’t going to happen anymore",
-        "Jun 29, 2025: prior plan for island music progression mentioned again; uncertain feasibility"
-      ],
-      "priority": "essential"
-    },
-    {
-      "question": "Sauraen and Kaze have talked about Breath of the Wild–style fully dynamic music for the retro section. When programmers say that on N64, what’s your reaction—and what would you need musically (stems, layers, rule sets) to make it meaningful?",
-      "context": "Captures the “are you serious?” wonder of modern adaptive scoring on retro hardware; great cross-discipline negotiation question.",
-      "evidence": [
-        "May 28, 2025: fully dynamic music ideas “like BOTW” discussed for retro section",
-        "May 21, 2025: Kaze calls Sauraen’s retro-section work extremely cool but won’t show it yet"
-      ],
-      "priority": "essential"
-    },
-    {
-      "question": "Once the long-running audio crackle was fixed, did it change how you evaluate your mixes and instrument choices—like trusting ambience, bass, or sustained notes more?",
-      "context": "Frames engine stability as an artistic unlock and helps the audience understand what “good” audio means on real N64 output.",
-      "evidence": [
-        "Jun 4, 2025: persistent audio crackling gone; remaining rare buzz suspected"
-      ],
-      "priority": "essential"
-    },
-    {
-      "question": "How does Kaze’s N64-first stance—and the possibility of dropping some emulator parity later—change how you think about mixing, instrument choice, and what must sound good on real hardware output?",
-      "context": "Connects platform philosophy to creative decisions; helps explain why “sounds fine in the DAW” isn’t the bar.",
-      "evidence": [
-        "2024-09-04: plan discussed—v1.0/v1.1 support emulator+N64, later possibly drop emulator support for perf/features",
-        "2024-09-06: Project64 + GLideN64 described as practical target; emulator differences constant"
+        "2025-07-27: Music import bug caused by unsupported “chan set pan mix” directive; removed to fix panning."
       ],
       "priority": "important"
     },
     {
-      "question": "RTYI has multiple music contributors. How do you define collaboration boundaries—who owns what, what “counts” as a Badub track—and how do you keep a unified soundtrack identity across multiple composers/porters?",
-      "context": "Helps the film portray the soundtrack as coordinated authorship, not isolated tracks, and clarifies leadership dynamics in audio.",
+      "question": "Kaze has sometimes given “vibe notes” that are blunt—like a track reading as “sunset beach” when he wanted a stronger adventure melody. How do you translate that kind of direction into concrete musical changes without losing your own voice?",
+      "context": "Captures the real composer experience: revision, taste alignment, and building memorable identity from vague feedback.",
       "evidence": [
-        "Jul 29, 2023: Badub composing Oil Rig track; ZeroVolt ports/improves Yoshi’s Island night theme and does 8‑bit section music"
+        "2024-09-29: Chat loved a new track; Kaze said it felt like “sunset beach” and asked for a more hummable adventure feel."
       ],
       "priority": "important"
     },
     {
-      "question": "Retro sections (Dr. Mario, Mario Paint-style ideas) come with strong expectations. How do you approach those: faithful pastiche, modern remix, or something that only hints at the original—and what makes a retro track succeed in RTYI?",
-      "context": "Anchors musical identity in specific structural “contrast” sections, without re-asking the general identity question from the existing set.",
+      "question": "With a soundtrack potentially in the ~100–120 track range, how do you keep the music cohesive without it becoming repetitive—do you use leitmotifs, shared chord language, biome palettes, or something else?",
+      "context": "Communicates scale while preserving a “single authored world” feeling.",
       "evidence": [
-        "Apr 29, 2023: commits to Dr. Mario retro concept; rethinks Mario Paint into playable instrument/platforming idea"
+        "2024-08-03: Game reported around ~98 songs at that time.",
+        "2025-06-11: Track count estimates approach ~120 in later planning/budgeting discussions."
       ],
       "priority": "important"
     },
     {
-      "question": "Kaze built directional/panned sound sources in scenes like the saloon piano NPC. When the engine becomes more capable, does it change how you compose—leaving space for positional instruments, reactive layers, or stem-like thinking?",
-      "context": "Connects engine innovation to composition habits, beyond the already-covered overworld transition system.",
+      "question": "If Nintendo pressure ever forced a pivot to an original-IP build, what would be hardest to preserve musically: motifs tied to Mario/Yoshi nostalgia, or the overall RTYI vibe? How would you re-theme without losing identity?",
+      "context": "Lets Badub define what’s truly “RTYI” versus what’s “Mario,” which matters to the documentary’s risk/contingency arc.",
       "evidence": [
-        "Mar 9, 2024: directional audio panning implemented for the piano NPC so it feels location-based"
+        "2024-12-22: Parallel original-IP/Steam contingency discussed as a possibility.",
+        "2025-02-10: Takedown framed as a pivot trigger toward original release path."
       ],
       "priority": "important"
     },
     {
-      "question": "If RTYI ever had to pivot into an original-IP version (asset swap / Steam contingency), how would you keep musical continuity while making it its own identity—emotionally and legally?",
-      "context": "Centers the composer’s stakes in the contingency plan: identity, ownership, and continuity across a potential re-skin.",
+      "question": "Kaze has talked about music rights becoming real if the project ever ships in multiple forms (bonus packs, OST collectibles, legally distinct release). What conversations have you had about ownership, compensation, and how your work can be used?",
+      "context": "Grounds the documentary in ethical labor reality without turning it into business talk.",
       "evidence": [
-        "Dec 29, 2024: Kaze discusses monetization and music rights; mentions copyright lawyer",
-        "Feb 10, 2025: original-IP/Steam contingency discussed as a possibility"
+        "2024-01-06 to 2024-03-16: OST cartridge/standalone soundtrack ideas discussed alongside rights concerns and paying musicians.",
+        "2024-12-29: Kaze discusses monetization adjacent to the project and needing to handle music rights appropriately."
       ],
       "priority": "important"
     },
     {
-      "question": "When Kaze pushes audio capability—32-note polyphony, denser ambience—what’s your fear? Is there a point where the N64 aesthetic breaks if the audio gets too “modern”?",
-      "context": "Interesting creative tension: pushing hardware vs preserving character, especially after “noisy” feedback.",
+      "question": "What’s the most underappreciated part of composing for RTYI: revision cycles, mixing for small speakers, writing melodies that survive low fidelity, or wrestling implementation constraints?",
+      "context": "Reflective “what people don’t see” question that often yields great documentary pull-quotes.",
       "evidence": [
-        "Apr 19–27, 2025: audio engine remake discussed; 32 notes; experiments like two SFX per bank; framed as quality upgrade",
-        "Jan 5, 2025: “noisy” demo feedback prompts reduction"
-      ],
-      "priority": "important"
-    },
-    {
-      "question": "The weird low-pitched Boo is literally hidden in the tail of the wind sample. When you’re building on legacy assets, how do you decide what to preserve as “authentic quirks” versus what to clean up?",
-      "context": "A quirky anecdote with real craft judgment—great for a memorable, human detail in the film.",
-      "evidence": [
-        "Apr 27, 2025: Boo sound explained as embedded at end of wind/howling sample data"
+        "2024-11-10: Loop-point and implementation details dominate integration time, highlighting hidden work.",
+        "2025-10-21: Engine bug made music sound especially bad; composer experience becomes debugging signal."
       ],
       "priority": "nice-to-have"
     },
     {
-      "question": "How do you audition and validate tracks for their final reality—real N64 hardware, capture chain, maybe CRT speakers—versus how they sound in modern tools or emulators?",
-      "context": "A practical, rarely discussed part of N64 music work that can inspire verité footage ideas (listening tests, A/B comparisons).",
+      "question": "Kaze sometimes plays in-development tracks through imperfect monitoring paths (plugins/emulator audio paths changing). What’s it like hearing your work through unreliable playback, and how do you keep confidence in decisions when monitoring is lying?",
+      "context": "Optional but very relatable: making art while the tools and playback chain are unstable.",
       "evidence": [
-        "Sep 9, 2023: adaptive track implementation discussed in-engine (implies in-game auditioning/iteration needs)"
+        "2025-04-30: Audio plugin changed because music sounded “terrible”; preview path dissatisfaction noted."
       ],
       "priority": "nice-to-have"
     },
     {
-      "question": "If a jukebox/collectible-music feature ever happens, what version would feel most meaningful to you: gallery, lore reward, or something that recontextualizes the island as you progress?",
-      "context": "A low-stakes creative question that can yield a strong soundbite and ties music to reward design without requiring major technical exposition.",
-      "evidence": [
-        "Jun 22, 2025: viewer suggests a jukebox/music-collection feature; Kaze likes it but is cautious about time"
-      ],
+      "question": "If RTYI releases open source, what do you hope happens to your music—freely remixable, protected, or something in between?",
+      "context": "Adds nuance to “open source” by distinguishing code licensing from art/music licensing.",
+      "evidence": ["2025-04-17: RTYI open-source-on-release plan stated."],
       "priority": "nice-to-have"
     }
   ],
   "kaze_zeina": [
     {
-      "question": "RTYI gets blocked on animations—boss fights, cutscenes, entire course sequences. How do you two plan around that dependency so it doesn’t turn into constant rework or constant waiting?",
-      "context": "Makes the production pipeline emotionally legible and shows how a couple negotiates shared deadlines and dependencies.",
+      "question": "Your stream got suspended mid-development and you immediately suspected copyrighted music. How did that incident change what you’re willing to play, reference, or show publicly while building RTYI?",
+      "context": "A clean turning point: platform policy risk forcing self-censorship and workflow change—especially powerful because it happened live.",
       "evidence": [
-        "Apr 29, 2023: Bowser fight logic done but waiting on Zeina animations before SFX/VFX and intro",
-        "May 13, 2023: end cutscene blocked waiting on Zeina animations",
-        "Nov 11, 2023: Course 4 testing blocked by penguin/geo-bone-related animation needs"
+        "2023-09-16: YouTube stream suspension; suspected Evangelion song triggered it; immediate discussion of restarting and workflow impact."
       ],
       "priority": "essential"
     },
     {
-      "question": "Tell me about building comedy together as a production problem—the crying builder Koopa, the Womp-tower chain reaction, the squished dialogue box. How do you decide what jokes fit RTYI, and how far will you go technically to land them?",
-      "context": "Produces vivid, filmable anecdotes where code, animation, and tone collide—humanizing the project without needing deep technical context.",
+      "question": "There was a moment where Kaze pitched a very algorithm-driven MrBeast-style framing and Zeina pushed back on misleading people. How do you navigate that tension—between packaging and honesty—when livelihood and art are both on the line?",
+      "context": "Modern creator economics vs integrity, told through a real couple conflict. Strong documentary material beyond RTYI itself.",
       "evidence": [
-        "Aug 5, 2023: builder Koopa crying animation delivered quickly after “cement ruin percentage” gag",
-        "Jul 22, 2023: multiple Womp fall variants animated to make chain reaction work",
-        "Aug 26, 2023: Kaze prototypes squished dialogue UI gag using unused dialogue struct field"
+        "2023-09-16: Kaze brainstorms exaggerated montage premise; Zeina objects to lying; presentation choices debated."
       ],
       "priority": "essential"
     },
     {
-      "question": "Your stream got suspended and you immediately suspected copyrighted music in the background. How did incidents like that change what you can listen to, what you can show, and how you protect the project while creating in public?",
-      "context": "A concrete “public creation under platform rules” moment—perfect documentary tension with real consequences.",
+      "question": "A lot of your collaboration is dependency management: Kaze waiting on animations/props/signage, Zeina juggling time and precision. What does that dependency feel like on both sides, and what rules or habits keep it from turning into relationship stress?",
+      "context": "Goes beyond “we work together” into the friction point that repeatedly appears in production: art gating code and vice versa.",
       "evidence": [
-        "Sep 16, 2023: YouTube stream suspension; suspected Evangelion song as cause"
+        "2023-04-29: Bowser fight logic done but blocked on Zeina animations.",
+        "2023-05-13: End cutscene blocked waiting on Zeina animations.",
+        "2024-01-20: Props (milk bottles) expected but not ready; dependencies called out explicitly."
       ],
       "priority": "essential"
     },
     {
-      "question": "There was a real disagreement about being algorithm-friendly versus being truthful (the MrBeast-style “I hacked every N64 game” framing). How do you navigate that line together when RTYI depends on public attention but also on trust?",
-      "context": "Strong ethics + relationship thread: survival on YouTube vs honesty, negotiated as a couple.",
+      "question": "The saloon piano scene is one of RTYI’s most “alive” moments—piano Shy Guy performance and the crowd turning to stare when you interrupt. How did that setpiece come together between Zeina’s animation and Kaze’s scripting/audio implementation, and what did you want the player to feel?",
+      "context": "A cinematic, filmable collaboration story: character performance + programming + sound direction + player psychology.",
       "evidence": [
-        "Sep 16, 2023: Kaze brainstorms MrBeast-style montage with potentially misleading premise; Zeina objects to lying"
+        "2024-03-09: Zeina’s piano-playing Shy Guy imported; Kaze adds crowd “turn and stare” reaction; directional audio/panning tuned."
       ],
       "priority": "essential"
     },
     {
-      "question": "When Kaze introduced new animation tech—like frame-streamed animations that can be effectively “infinitely long”—did it change what Zeina wanted to animate or how expressive you thought the game could be?",
-      "context": "A joint “tech unlocks art” story that links engine innovation to creative ambition.",
+      "question": "The Raphael Raven intro is designed as a huge cinematic “oh shit” moment (moon reveal, eyes opening, gravity shift, launch). How do you two actually build a cutscene like that together—from storyboard beats to animation states to in-game camera/game-state control?",
+      "context": "A centerpiece setpiece that showcases their art/code partnership under heavy technical constraints.",
       "evidence": [
-        "Jul 2, 2023: Kaze explains frame-streamed animation system enabling very long animations (e.g., Mario dance)"
+        "2024-08-10: Kaze outlines multi-beat cutscene priorities (lighting/occlusion/camera framing).",
+        "2024-08-10: Zeina animations exist but integration postponed; missing key states (hit/death/flight) discussed."
       ],
       "priority": "essential"
     },
     {
-      "question": "You both had to decide the story had drifted too dark (the forced-labor/slavery-plot moment). How do you decide what tone is allowed in this world, and who has final say when you disagree?",
-      "context": "A key joint-authoring moment: values, “Mario-ness,” and how narrative boundaries get enforced before they fossilize into content.",
+      "question": "You’ve had to upgrade animation tech midstream (quaternions/new formats), which can force revisiting ‘finished’ assets. What’s it like emotionally to redo work because the engine evolved—and how do you decide when an upgrade is worth the rework?",
+      "context": "Shows the cost of ambition: better tech creates art debt. Also reveals couple-level negotiation around workload.",
       "evidence": [
-        "Dec 30, 2023: Kaze questions “Yoshi slave labor” framing; suggests kidnapping premise; says plot writing is done last",
-        "Jan 6, 2024: says slavery-related direction is too dark and needs overhaul; story still minimally implemented"
-      ],
-      "priority": "essential"
-    },
-    {
-      "question": "Tell me about the “asset request” reality of working as spouses—signs, props, bottles, skulls—tiny things that suddenly become critical for a scene to read. How do you negotiate priorities when home life is also happening?",
-      "context": "Grounds collaboration in daily logistics and highlights how readability depends on small assets, not just big animations.",
-      "evidence": [
-        "Dec 26, 2023: Western level depends on Zeina’s giant skull asset",
-        "Jan 20, 2024: milk bottle props expected for secret room; not ready yet",
-        "Apr 20, 2024: Zeina delivers multiple sign textures; Kaze reviews sizing/texture constraints"
-      ],
-      "priority": "essential"
-    },
-    {
-      "question": "The spin-jump is a great example of identity negotiation: Zeina animated a Melee-inspired move, and Kaze worried the Melee voice line didn’t belong. Walk me through that conversation—what makes something feel “Mario 64” versus “a collage”?",
-      "context": "A joint taste question where animation, audio, nostalgia, and cohesion collide—very accessible for general audiences.",
-      "evidence": [
-        "Feb 3, 2024: Melee-inspired spin jump chosen; voice line debated; considers hiring a voice actor"
-      ],
-      "priority": "essential"
-    },
-    {
-      "question": "The Raphael Raven boss intro is staged as a big cinematic “oh shit” beat—moon reveal, eyes opening, gravity shift, launch to the moon. How do you design a moment like that together, and how do you iterate timing until it lands emotionally?",
-      "context": "A setpiece-level collaboration story: camera, animation, code, and pacing must align; great centerpiece for the documentary.",
-      "evidence": [
-        "Aug 10, 2024: Kaze outlines cutscene plan and emphasizes the “oh shit” reveal via lighting/occlusion/camera framing",
-        "Aug 10, 2024: Raven animations needed (hit/death/flight) still block polish/integration"
-      ],
-      "priority": "essential"
-    },
-    {
-      "question": "Course 15 difficulty became a real conversation when Zeina struggled with a sub-area. How do you use playtesting inside your relationship—what does Zeina’s frustration signal, and how does Kaze decide whether to nerf, add safety, or keep it hard because it’s late-game?",
-      "context": "Goes beyond “she playtests” into how they negotiate challenge without ego, using real signals from a trusted player.",
-      "evidence": [
-        "Oct 30, 2024: Zeina struggles with saw sub-area; Kaze debates keeping it hard for Course 15"
-      ],
-      "priority": "essential"
-    },
-    {
-      "question": "The doodle NPC concept depends on intentionally handmade characters, but you’re constrained by binary vertex weights (0/1) that make smooth bending hard. How did you two approach making cutout characters that can still emote?",
-      "context": "Embodies RTYI’s ethos: charming imperfection produced through harsh constraints, requiring close art/code coordination.",
-      "evidence": [
-        "Sep 21, 2024: doodle NPC animation constrained by 0/1 weights; subdivision-per-bone requirement; vertex count concerns",
-        "Sep 21, 2024: Kaze states doodles should look amateurish/shoddily drawn to fit craft tone"
-      ],
-      "priority": "essential"
-    },
-    {
-      "question": "Zeina, you’ve been sketching overworld ideas (fruit islands / going deeper into the island). Walk me through one specific sketch that changed the hub—what you drew, what problem it solved, and what had to change when Kaze implemented it on N64.",
-      "context": "Makes Zeina’s influence visible with concrete artifacts the film can show (sketch → in-engine).",
-      "evidence": [
-        "Sep 14, 2024: overworld direction “Yoshi’s fruit islands”; Zeina began sketches",
-        "Feb 23, 2025: Kaze cites Zeina’s overworld sketches influencing layout (entrances, Yoshi houses, road motif)",
-        "Mar 12, 2025: zoo entrance drawing used as blockout reference"
-      ],
-      "priority": "essential"
-    },
-    {
-      "question": "The cutscene skip system is a tiny feature with huge quality-of-life impact (hold A, circle fills, then it skips). How did you decide what it should look/feel like, and how did you split the work between UI/animation and code?",
-      "context": "A clean micro-story of modern UX translated into N64 constraints—great for showing small polish decisions that respect player time.",
-      "evidence": [
-        "May 2, 2025: Kaze proposes BOTW-style hold-to-skip widget; asks Zeina about the UI"
-      ],
-      "priority": "essential"
-    },
-    {
-      "question": "You’ve built this game while building a life: moving, immigration pressure, and now parenting. What parts of your relationship timeline made your creative partnership stronger—and what parts made it harder?",
-      "context": "A major documentary thread: trust under risk. Also gives personal context without relying on generic “how did you meet” framing.",
-      "evidence": [
-        "Apr 19, 2025: long-distance relationship timeline recounted; Kaze moved to Canada Nov 2021 without visiting first"
-      ],
-      "priority": "essential"
-    },
-    {
-      "question": "Course 13 was described as nearly done except an outside area Zeina had been working on “for a long time.” What made that area hard—scope, iteration, tooling friction, or just life—and how did you avoid resentment while the project depended on it?",
-      "context": "A candid bottleneck story inside a couple’s collaboration—highly relevant to a long, ambitious production.",
-      "evidence": [
-        "Feb 2, 2025: Courses 13/14 ~95% done; Course 13 missing outside area Zeina has been working on a long time"
-      ],
-      "priority": "essential"
-    },
-    {
-      "question": "When an animation handoff is late or doesn’t match gameplay timing, what’s the real iteration loop: does Zeina re-time frames, does Kaze change state machine windows, and who usually yields?",
-      "context": "Adds concrete detail to the animation pipeline by focusing on negotiation over timing—where game feel is decided.",
-      "evidence": [
-        "Oct 8, 2024: boss polish blocked on missing animations; Kaze plans to send Zeina a specific list and updated file",
-        "Aug 10, 2024: Raven boss animations missing (hit/death/flight) still block integration"
+        "2024-03-23: Quaternion animation pipeline upgrade discussed; implies changing what’s possible long-term and revisiting older assets.",
+        "2023-11-11: Older course testing blocked on Zeina’s earlier geo-bone animations (pipeline evolution pressure)."
       ],
       "priority": "important"
     },
     {
-      "question": "You both internalized that N64-first constraints can invalidate work late (hardware-only render quirks, emulator differences). How do you keep morale when something looks right in one environment and wrong in another—and how do you decide what “correct” means?",
-      "context": "Frames the emotional cost of technical constraints and why RTYI production is unusually stressful compared to modern workflows.",
+      "question": "You’ve both dealt with toolchain volatility—Fast64 export quirks, animation naming collisions, alpha/CI palette gotchas. What changes did you make to your handoff process to reduce “integration hell” and protect Zeina’s time?",
+      "context": "The unglamorous reality of co-developing: most friction is pipeline, and the couple has to solve it together.",
       "evidence": [
-        "Oct 1, 2024: console-only alpha/coverage issues fixed after reworks; N64 validation emphasized",
-        "Nov 16, 2024: emulator boot/accuracy differences complicate debugging and even which mode the ROM runs in"
-      ],
-      "priority": "important"
-    },
-    {
-      "question": "What does a “good week” of progress look like now that you’re parenting and Kaze also has a full-time UE5 job—how do you plan, and what do you forgive yourselves for when progress isn’t possible?",
-      "context": "A present-tense sustainability question—good for the documentary’s emotional resolution about finishing and life balance.",
-      "evidence": [
-        "May 2, 2025: Kaze mentions limited dev hours due to full-time job and parenting"
-      ],
-      "priority": "important"
-    },
-    {
-      "question": "Kaze has said the dev channel became “too public,” and you both deal with persistent community pressure (like PC-port demands). How do you protect your relationship and decision-making from the audience’s expectations?",
-      "context": "A modern creator-economy layer: boundary-setting to keep a marriage and a long project healthy.",
-      "evidence": [
-        "Jan 12, 2025: discomfort with dev channel growth/publicness expressed",
-        "Jan 12–Feb 2, 2025: recurring PC-port pressure described as emotionally draining; refusal to be involved"
-      ],
-      "priority": "important"
-    },
-    {
-      "question": "You’ve discussed N64 texture reality together—transparent pixels still have color, filtering creates halos, CI4 palettes fight you. Tell me about a moment where that forced you to change how you collaborate on decals/textures.",
-      "context": "A perfect “marriage of art and engineering” story: specs, constraints, and communication under the harshest pixel rules.",
-      "evidence": [
-        "Jun 8, 2025: transparent pixels carrying color cause outlines/halos; CI4 workflow quirks; coordinating decals under indexing/halo rules discussed"
+        "2025-10-20: Fast64 update changes export paths; build failures and animation generator filename edge cases.",
+        "2025-11-16: Animation naming collisions across actors break exports.",
+        "2025-09-14: Suspected animation export corruption due to dependency ordering; clean workaround needed."
       ],
       "priority": "essential"
     },
     {
-      "question": "If split-screen co-op ever becomes real, do you want the experience of playing RTYI together inside the game—and what would you be willing to sacrifice to make it feel good?",
-      "context": "Turns a technical feature into an emotional motive; useful as a lighter end-cap question if time allows.",
+      "question": "Kaze and Zeina, you’ve talked on-stream about transphobic comments alongside positive reactions when Zeina’s animation was featured. How do you protect your creative energy from audience toxicity when your work is so public and personal?",
+      "context": "A key “cost of making art in public” thread, especially as a couple. Important for an honest documentary.",
       "evidence": [
-        "Jun 27, 2025: split-screen co-op constraints discussed (dialogue pausing, setpieces, interaction logic) and expected performance drop"
+        "2025-09-07: Kaze & Zeina discuss transphobic comments and public reaction to Zeina’s animation."
+      ],
+      "priority": "essential"
+    },
+    {
+      "question": "Kaze has said the overworld is built “last” because it has to be perfect—and Zeina, you’ve been sketching entrances and layouts for a long time. Walk me through one specific overworld decision that started as a sketch and ended up changing the actual 3D plan.",
+      "context": "Gives Zeina concrete authorship over macro design and yields a strong “paper to playable” story beat for the hub.",
+      "evidence": [
+        "2025-02-23: Zeina producing overworld sketches influencing layout decisions.",
+        "2025-03-12: Zoo entrance drawings referenced during blockout decisions.",
+        "2025-03-16: Gate brainstorming tied to post-boss overworld state changes."
+      ],
+      "priority": "essential"
+    },
+    {
+      "question": "You designed a cutscene skip that’s “hold A to fill a circle” so it won’t skip accidentally. How did you decide the exact behavior (timing, visuals, sound), and what does that feature say about your shared respect for the player’s time?",
+      "context": "A small UI feature that reveals values, and a clean example of code+art+UX collaboration.",
+      "evidence": [
+        "2025-05-02: Hold-A skip with BOTW-style circle proposed (~30 frames); Zeina asked about the skip widget."
+      ],
+      "priority": "essential"
+    },
+    {
+      "question": "The message-in-a-bottle became a progression-critical hint that had to *pull* the player with sparkles and readable text. Tell me how you iterated that prop and interaction together—what Zeina made, what Kaze changed in-engine, and how you tested the “too obscure vs too blunt” line.",
+      "context": "A perfect micro-story of their collaboration: art + UX + scripting + player psychology, with a tangible prop viewers can see.",
+      "evidence": [
+        "2025-08-13: Bottle appears after enough stars; movement-instruction hint idea discussed.",
+        "2025-08-20: Bottle designed for Ice Cap/Course 5 gating; visibility/readability iteration; sparkles disable after completion."
+      ],
+      "priority": "important"
+    },
+    {
+      "question": "Some design choices become urgent because they repeat everywhere—like Yoshi houses and village props. Tell me about a time you realized something wasn’t good enough *because it would be seen across the whole island*, and how you negotiated the redesign together.",
+      "context": "Shows shared taste/standards inside a couple-collaboration, and why “good enough once” isn’t good enough at scale.",
+      "evidence": [
+        "2025-10-01: Kaze uneasy about Yoshi house design because it repeats; asks Zeina to redesign.",
+        "2025-10-05: Zeina working on Yoshi houses; village feel depends on them."
+      ],
+      "priority": "important"
+    },
+    {
+      "question": "Zeina, you were named “voice director” for Luigi. How did that happen—what are you listening for in performance—and how do you two keep voice/character direction within RTYI’s tone and N64 constraints?",
+      "context": "A fresh angle on performance beyond animation, and a concrete example of Zeina’s creative leadership.",
+      "evidence": [
+        "2026-01-25: Luigi planned with unique voice lines; Zeina explicitly assigned as voice director and connected with performer."
+      ],
+      "priority": "important"
+    },
+    {
+      "question": "You’ve both acknowledged a major fork: releasing a Mario build and a non-Mario/legal-distinct version. As a couple making art together, what’s emotionally hard about that possibility—and what parts of the game do you think would change the most (tone, UI, character performance, marketing)?",
+      "context": "Makes the legal-risk thread personal and creative rather than purely tactical.",
+      "evidence": [
+        "2025-10-05: Dual-build plan (Mario + non-Mario) proposed as mitigation.",
+        "2026-01-04: Kaze wants IP removal to go so far it’s hard to tell it was ever Mario."
+      ],
+      "priority": "essential"
+    },
+    {
+      "question": "Zeina, you’ve had moments as the first playtester where difficulty/readability debates get very real. Tell me about one section you struggled with and how that changed what shipped—especially when it’s late-game and expensive to change.",
+      "context": "Captures Zeina’s unique value as a player signal, and shows the couple resolving design tension under pressure.",
+      "evidence": [
+        "2024-10-30: Zeina struggles in a Course 15 saw sub-area; Kaze debates whether it’s overtuned.",
+        "2024-09-14: Kaze says Zeina testing Course 13 movement/physics increased his confidence in intuitiveness."
+      ],
+      "priority": "important"
+    },
+    {
+      "question": "After moving, Zeina appeared less on streams and worked from her own office. Did the new space change your collaboration—for healthier boundaries, or new coordination problems?",
+      "context": "A grounded “workspace shapes workflow” chapter that ties life logistics to creative output without repeating generic work-life-balance prompts.",
+      "evidence": [
+        "2024-04-27: Kaze notes Zeina works from her own office and isn’t in the stream background as much.",
+        "2024-07-06: Zeina appearing less linked to the move and separate office."
       ],
       "priority": "nice-to-have"
     },
     {
-      "question": "Looking back, do you feel RTYI changed how you think about stability and future plans as a family—or is it still “just the project”?",
-      "context": "A reflective wrap-up that ties personal stakes to the project without rehashing legal details; good for a documentary’s closing movement.",
+      "question": "You’ve both created things that blur roles—like composing a piece together using Zeina’s recorded vocal layered into a track. Tell me about that session: how did you communicate ideas across disciplines, and what did it teach you about collaborating as a couple?",
+      "context": "Optional but emotionally rich; shows playful intimacy and cross-skill creation beyond “pipeline dependencies.”",
       "evidence": [
-        "Apr 19, 2025: immigration/move story recounted alongside long-term project life"
+        "2025-10-29: Kaze says he and Zeina composed a piece, layering a Paper Mario sound with Zeina’s vocal recording."
+      ],
+      "priority": "nice-to-have"
+    },
+    {
+      "question": "Kaze, when you’re in a technical crisis (toolchain breaks, hardware-only crashes), and progress looks like “nothing happened,” what role does Zeina naturally take—collaborator, emotional anchor, playtester, project manager—and what support actually helps?",
+      "context": "Turns invisible emotional labor into story: how the household sustains long, uncertain technical work.",
+      "evidence": [
+        "2025-08-03: Fast64/Blender crash blocks overworld work; high-stress toolchain moment.",
+        "2025-06-04: Streams ended early to balance exhaustion and family time."
       ],
       "priority": "nice-to-have"
     }

@@ -31,7 +31,8 @@ You are given all open questions, findings, and key stories from development str
 - Merge similar questions: If 15 streams ask about "release timeline," produce 1 excellent question with rich context, not 15 variants.
 - Frame for conversation: Open-ended questions that invite storytelling. Avoid yes/no. Use "Tell me about…", "Walk me through…", "What was going through your mind when…" framing.
 - Provide evidence: Reference specific stream moments so the interviewer can say "I saw in your June 2024 stream that…"
-- Volume targets: Aim for roughly 60% essential, 30% important, 10% nice-to-have. The schema defines which interviewee gets which question types.
+- Volume targets: Aim for roughly 50% essential, 35% important, 15% nice-to-have.
+- Priority calibration: "Essential" means the interview would feel incomplete without this question – a core biographical or thematic question. With a 1.5-hour interview covering ~15 questions, only about half of each set can truly be essential. If a question is interesting but the documentary would survive without it, it’s "important," not "essential." Reserve "nice-to-have" for genuinely optional deep-dives.
 
 ### Existing Interview Questions (already prepared)
 
@@ -64,10 +65,11 @@ You are given candidate interview questions from multiple analysis batches, each
 ### Guidelines
 
 - Merge duplicates: If the same topic appears in multiple batches, produce one excellent question that combines the best framing and richest evidence from all versions.
-- Rank rigorously by priority. Target roughly 60% essential, 30% important, 10% nice-to-have.
+- Rank rigorously by priority. Target roughly 50% essential, 35% important, 15% nice-to-have.
+- Priority calibration: "Essential" means the interview would feel incomplete without this question. With a 1.5-hour interview covering ~15 questions, only about half of each set can truly be essential. If a question is interesting but the documentary would survive without it, it’s "important," not "essential." Reserve "nice-to-have" for genuinely optional deep-dives.
 - Ensure timeline coverage: The final set should span the full project timeline, not over-represent any one period.
 - Evidence: Combine evidence references from all batches that mention the same topic.
-- Target volume: ~30–40 questions for Kaze, ~20–30 for each other interviewee. The schema defines which interviewee gets which question types.
+- Target volume: ~25–35 questions for Kaze, ~15–25 for each other interviewee. The filmmaker wants a selection pool, not a minimal shortlist – give enough variety to choose from.
 
 ### Existing Interview Questions (already prepared – DO NOT duplicate)
 
@@ -87,15 +89,18 @@ ${DOCUMENTARY_CONTEXT}
 
 ## Task: Curate the Best Quotes for the Documentary
 
-You are given quotes extracted from development streams. Select the absolute best for documentary use.
+You are given quotes extracted from development streams. Select a generous pool of the strongest quotes for documentary use – the filmmaker wants enough variety to choose from, not a pre-decided shortlist.
+
+Note: These streams feature Kaze talking to camera. Most quotes will be from Kaze. Occasionally he reads chat messages or Zeina speaks in the background – include those when they’re strong, but don’t expect many non-Kaze speakers.
 
 ### Selection Criteria
 
 - Standalone power: Should resonate without needing 5 minutes of context.
 - Character revelation: Shows who Kaze (or the speaker) really is – values, fears, humor, obsession.
 - Emotional impact: Makes viewers feel something – determination, wonder, vulnerability, joy.
-- Variety: Cover different emotional registers, project phases, and speakers where available.
+- Variety: Cover different emotional registers and project phases. Include different use cases (narration, trailer, chapter-title, character-moment, emotional-beat) – aim for at least 6–8 quotes per use case category.
 - Deduplication: If Kaze says the same thing in 3 streams, pick the single best version.
+- Volume: From 200+ streams, aim for 40–60 quotes. Err on the side of surfacing more – it’s easier to cut than to re-find a great quote later.
 
 ### Use Case Definitions
 ${QUOTE_USE_CASE_GUIDE}
@@ -114,17 +119,19 @@ ${DOCUMENTARY_CONTEXT}
 
 You are given candidate quote selections from multiple analysis batches. Each batch pre-selected strong quotes from a different subset of streams. Now produce the final curated list.
 
+Note: These streams feature Kaze talking to camera, so most quotes are from Kaze. That’s expected.
+
 ### Guidelines
 
 - Remove duplicates: The same quote (or near-identical wording from different streams) should appear only once. Pick the best version.
-- Ensure variety: Cover different emotional registers, project phases, and speakers.
+- Ensure variety: Cover different emotional registers and project phases. Ensure every use case category has at least 6–8 quotes.
 - Selection criteria:
   - Standalone power: Should resonate without needing 5 minutes of context.
   - Character revelation: Shows who Kaze (or the speaker) really is – values, fears, humor, obsession.
   - Emotional impact: Makes viewers feel something – determination, wonder, vulnerability, joy.
-  - Variety: Cover different emotional registers, project phases, and speakers where available.
-  - Deduplication: If Kaze says the same thing in 3 streams, pick the single best version.
+  - Deduplication: If Kaze says the same thing in multiple streams, pick the single best version.
 - Re-evaluate use cases: A quote that was labeled "character-moment" in one batch might actually work better as a "trailer" quote when you see the full picture.
+- Volume: Aim for 40–60 final quotes. The filmmaker wants a selection pool to choose from, not a minimal shortlist. From 200+ streams of raw material, 18 quotes is far too few – be generous.
 
 ### Use Case Definitions
 ${QUOTE_USE_CASE_GUIDE}
@@ -143,7 +150,7 @@ ${DOCUMENTARY_CONTEXT}
 
 ## Task: Rank and Curate the Best Narrative Stories
 
-You are given story arcs extracted from development streams. Select and rank the strongest for documentary use.
+You are given story arcs extracted from development streams. Select and rank the strongest for documentary use. The filmmaker wants a generous selection pool to choose from – surface enough stories to provide real editorial choice.
 
 ### Selection Criteria
 
@@ -152,6 +159,7 @@ You are given story arcs extracted from development streams. Select and rank the
 - Character depth: Stories involving multiple team members, or showing unexpected sides of a person.
 - Cross-stream arcs: Some stories span multiple streams (e.g., a boss fight that took 5 weeks). Merge these into single, richer stories.
 - Deduplication: Many stories recur across adjacent streams. Merge duplicates into one entry, combining the best elements.
+- Volume: Aim for 20–35 stories. Include stories at different scales – from multi-month sagas to single-stream turning points.
 
 ### Stories Data
 
@@ -178,6 +186,7 @@ You are given candidate story selections from multiple analysis batches. Each ba
   - Cross-stream arcs: Some stories span multiple streams (e.g., a boss fight that took 5 weeks). Merge these into single, richer stories.
   - Deduplication: Many stories recur across adjacent streams. Merge duplicates into one entry, combining the best elements.
 - Preserve cross-stream arcs: Stories that build across batches (e.g., a boss fight spanning weeks) should be merged into one entry.
+- Volume: Aim for 20–35 stories. The filmmaker wants enough to pick from, not a pre-decided shortlist of 10. Include stories at different scales – multi-month sagas and single-stream turning points.
 
 ### Candidate Stories
 
@@ -200,7 +209,7 @@ You are given all findings tagged under the "{topic}" topic across the full set 
 - Write as a briefing: The narrative summary should read like a researcher's memo to the director – factual but structured with a beginning, middle, and current state.
 - Prioritize findings that would surprise the director or challenge assumptions – not just the technically impressive ones.
 - Note how the topic evolved across the project – early explorations vs. settled approaches, shifting priorities, or recurring frustrations.
-- Frame interview angles as natural conversation openers, not formal questions. Example: "The evolution of the collision system from SM64's original to your custom solution…"
+
 
 ### Findings for "{topic}"
 
@@ -221,7 +230,7 @@ You are given multiple narrative arc summaries for the same topic, each generate
 - Merge, don't concatenate: Produce one cohesive narrative summary that traces the full evolution of this topic, not a patchwork of chunk summaries.
 - Combine top findings: Deduplicate and select the strongest findings across all chunks. Keep the most important ones up to the schema limit.
 - Merge key themes: Unify overlapping themes into a single set.
-- Combine interview angles: Deduplicate and keep the most insightful conversation starters.
+
 
 ### Candidate Summaries
 

@@ -1,4 +1,5 @@
 import type { FindingTopic, TeamMember } from "../../src/analysis/schemas";
+import { TEAM_MEMBERS } from "../../src/constants";
 import {
   capitalizeInitialLetter,
   formatTopicLabel,
@@ -39,8 +40,6 @@ interface TeamStreamEntry {
   quotes: TeamQuote[];
 }
 
-const CORE_MEMBERS: TeamMember[] = ["kaze", "biobak", "badub", "zeina"];
-
 const MEMBER_ROLES: Record<TeamMember, string> = {
   kaze: "Lead Developer & Project Creator",
   biobak: "Graphics Artist & Level Designer",
@@ -60,7 +59,7 @@ export default {
     const entries = await loadStreamAnalyses();
 
     for (const { analysis, rawDate, date, streamId } of entries) {
-      for (const member of CORE_MEMBERS) {
+      for (const member of TEAM_MEMBERS) {
         const findings: TeamFinding[] = [];
         const stories: TeamStory[] = [];
         const quotes: TeamQuote[] = [];
@@ -117,7 +116,7 @@ export default {
       }
     }
 
-    return CORE_MEMBERS.map((member) => {
+    return TEAM_MEMBERS.map((member) => {
       const streams = memberMap[member].sort((a, b) =>
         a.rawDate.localeCompare(b.rawDate),
       );

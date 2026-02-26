@@ -1,5 +1,6 @@
 import type { FindingTopic, TeamMember } from "../../src/analysis/schemas";
 import { defineLoader } from "vitepress";
+import { TEAM_MEMBERS } from "../../src/constants";
 import { capitalizeInitialLetter } from "../.vitepress/shared";
 import { loadStreamAnalyses } from "../.vitepress/utils";
 
@@ -46,8 +47,6 @@ export interface TeamMemberData {
   totalQuotes: number;
 }
 
-const CORE_MEMBERS: TeamMember[] = ["kaze", "biobak", "badub", "zeina"];
-
 export default defineLoader({
   async load() {
     const memberMap: Record<TeamMember, TeamStreamEntry[]> = {
@@ -60,7 +59,7 @@ export default defineLoader({
     const entries = await loadStreamAnalyses();
 
     for (const { analysis, rawDate, date, streamId } of entries) {
-      for (const member of CORE_MEMBERS) {
+      for (const member of TEAM_MEMBERS) {
         const findings: TeamFinding[] = [];
         const stories: TeamStory[] = [];
         const quotes: TeamQuote[] = [];
@@ -121,7 +120,7 @@ export default defineLoader({
       TeamMember,
       TeamMemberData
     >;
-    for (const member of CORE_MEMBERS) {
+    for (const member of TEAM_MEMBERS) {
       const streams = memberMap[member].sort((a, b) =>
         a.rawDate.localeCompare(b.rawDate),
       );

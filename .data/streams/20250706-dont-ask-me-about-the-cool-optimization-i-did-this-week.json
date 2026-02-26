@@ -1,9 +1,7 @@
 {
   "stream_context": {
     "summary": "Kaze implements a major renderer/engine optimization by eliminating pointer-based scene graph traversal and instead compiling GeoLayouts into a bytecode/command list for rendering, yielding meaningful RAM and render-time savings. He also finishes core logic for a new overworld spool/rope interaction (including cutscene logic and collision/push behavior), and begins designing/implementing the Sand Thwomp (Sandwomp) overworld NPC with star-count–gated progression and save-file star ID handling.",
-    "level": [
-      "Overworld"
-    ],
+    "level": ["Overworld"],
     "significance": "milestone",
     "significance_reason": "Kaze completes a multi-day, project-wide engine/rendering refactor (“killed pointers” by compiling GeoLayouts to bytecode) with measurable performance gains (~5% render-time improvement) and memory savings, while also landing a playable overworld interaction (spool/rope) and establishing the star-gated plan for a multi-stage overworld NPC (Sand Thwomp)."
   },
@@ -150,10 +148,7 @@
       "process": "He changes the pipeline to compile GeoLayouts into bytecode, keeps the external API unchanged by compiling from the existing GeoLayout authoring interface, and validates 1:1 visual output. He considers pre-compiling/storing compiled layouts to avoid runtime load-time compilation costs.",
       "outcome": "Meaningful optimization: reduced RAM/throughput and ~200µs render-time improvement on a ~4ms render budget (~5%). It unlocks further engine cleanups by removing linked-list-like traversal patterns.",
       "key_quote": "TLDR, we killed pointers. No more linked lists.",
-      "related_to": [
-        "kaze",
-        "biobak"
-      ]
+      "related_to": ["kaze", "biobak"]
     },
     {
       "title": "Spool/rope overworld interaction: flags, push physics, and an engine bug fix",
@@ -162,10 +157,7 @@
       "process": "He ties spool/pole behavior to flags, tests save/reset behavior, identifies the engine bug causing incorrect behavior, fixes it immediately, then iterates on collision simplification and makes Mario move with the spool by applying object-derived velocity correctly.",
       "outcome": "The spool interaction reaches a “done” state for the session, with functional state transitions and improved feel; remaining work shifts to visuals/animation (rope unravel).",
       "key_quote": null,
-      "related_to": [
-        "kaze",
-        "biobak"
-      ]
+      "related_to": ["kaze", "biobak"]
     },
     {
       "title": "Sand Thwomp as an overworld-changing character arc gated by star count",
@@ -174,9 +166,7 @@
       "process": "He compares other overworld event timings (Goomba King early, Poochie after an escort mission), decides Sand Thwomp should appear later (~12 stars), and plans multiple later milestones (e.g., around 65/100/120 stars) which implies multi-stage save gating and text states.",
       "outcome": "A clear plan for star-gated overworld storytelling, plus the technical need to formalize overworld star IDs and save-file storage to drive those states.",
       "key_quote": "It would be very fun if you went exploring and when you came back, the first overworld had changed.",
-      "related_to": [
-        "kaze"
-      ]
+      "related_to": ["kaze"]
     }
   ],
   "open_questions": [
@@ -189,9 +179,7 @@
         "What are the failure modes—are there edge-case GeoLayouts (conditional nodes, dynamic transforms) that are harder to compile deterministically?",
         "Will pre-compiling GeoLayouts be part of the build pipeline (asset step), or done at runtime with caching? How will versioning/invalidation work when assets change?"
       ],
-      "related_to": [
-        "kaze"
-      ]
+      "related_to": ["kaze"]
     },
     {
       "topic": "Spool/rope interaction: final visual/animation implementation plan",
@@ -202,10 +190,7 @@
         "Did the team need special rendering settings/combiners for alpha rope to avoid sorting/visibility artifacts in the overworld?",
         "What was the specific engine bug found during spool debugging (one-frame execution/ordering), and did it affect other objects/flags elsewhere?"
       ],
-      "related_to": [
-        "kaze",
-        "biobak"
-      ]
+      "related_to": ["kaze", "biobak"]
     },
     {
       "topic": "Overworld progression system: star IDs and save-file schema",
@@ -216,9 +201,7 @@
         "How did you resolve the duplicated HasStar logic and indexing quirks—was there a refactor or compatibility layer?",
         "How are NPC spawn thresholds (e.g., Sand Thwomp at ~12 stars) implemented: by total star count, specific star flags, or mission completion flags?"
       ],
-      "related_to": [
-        "kaze"
-      ]
+      "related_to": ["kaze"]
     },
     {
       "topic": "Sand Thwomp narrative pacing and thresholds",
@@ -229,9 +212,7 @@
         "How do you prevent players from triggering the gag too early (right after intro) while still making the overworld feel reactive from the start?",
         "What other overworld events (Poochie, Goomba King, Deathwomp King) were considered the ‘early hooks,’ and how did you decide their order?"
       ],
-      "related_to": [
-        "kaze"
-      ]
+      "related_to": ["kaze"]
     },
     {
       "topic": "Pipeline/tooling issue: collision shifting on export",
@@ -241,9 +222,7 @@
         "How many times did this regress, and what safeguard/check was added to prevent silent collision movement in future exports?",
         "Did collision drift ever ship into a build and cause gameplay issues, or was it always caught during testing?"
       ],
-      "related_to": [
-        "kaze"
-      ]
+      "related_to": ["kaze"]
     }
   ]
 }

@@ -13,7 +13,6 @@ export interface TopicArc {
   narrative_summary: string;
   key_themes: string[];
   top_findings: TopicArcFinding[];
-  interview_angles: string[];
 }
 
 export interface TopicArcsData {

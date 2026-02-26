@@ -7,6 +7,9 @@ export const TRANSCRIPTS_INPUT_DIR = path.join(ROOT_DIR, "transcripts");
 export const STREAM_ANALYSIS_DIR = path.join(DATA_DIR, "streams");
 export const SYNTHESIS_DIR = path.join(DATA_DIR, "synthesis");
 
+export const TEAM_MEMBERS = ["kaze", "biobak", "badub", "zeina"] as const;
+export const CORE_CONTRIBUTORS = ["biobak", "badub", "zeina"] as const;
+
 export const LANGUAGE_MODEL = "gpt-5.2";
 
 export const QUOTE_FORMATTING_INSTRUCTIONS =

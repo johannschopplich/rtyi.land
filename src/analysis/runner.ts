@@ -6,7 +6,7 @@ import { template } from "utilful";
 import { STREAM_ANALYSIS_DIR } from "../constants";
 import { STT_CORRECTIONS } from "../stt-corrections";
 import { ensureDirectoryExists, resolveLanguageModel } from "../utils";
-import { STREAM_ANALYSIS_PROMPT } from "./prompt";
+import { STREAM_ANALYSIS_PROMPT } from "./prompts";
 import { StreamAnalysisSchema } from "./schemas";
 
 export type TranscriptResult =

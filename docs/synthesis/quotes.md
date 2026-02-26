@@ -55,8 +55,6 @@ const speakers = computed(() => {
 
 The strongest quotes across all streams, selected for documentary impact. Each quote is tagged with its best use case – narration, trailer, chapter title, character moment, or emotional beat.
 
-For the full unfiltered collection, see [All Quotes](/quotes/).
-
 <template v-if="!quotesData">
 
 ::: warning Synthesis data not available

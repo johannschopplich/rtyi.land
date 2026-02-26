@@ -1,3 +1,4 @@
+import type { ProgressResult } from "@clack/prompts";
 import type { StreamAnalysis } from "../src/analysis/schemas";
 import type { ParsedStream, SynthesisTask } from "../src/synthesis/runner";
 import * as fsp from "node:fs/promises";
@@ -105,7 +106,7 @@ for (const task of tasks) {
 
   if (exists) {
     clack.log.info(
-      `Skipping ${ansis.bold(task.name)} (already exists, delete file to re-run)`,
+      `Skipping ${ansis.bold(task.name)} ${ansis.dim("(already exists, delete file to re-run)")}`,
     );
   } else {
     tasksToRun.push(task);
@@ -127,22 +128,45 @@ clack.log.info(
 const languageModel = resolveLanguageModel();
 
 // Run tasks sequentially to manage API load and provide clear progress
-let completed = 0;
-let failures = 0;
+for (let ti = 0; ti < tasksToRun.length; ti++) {
+  const task = tasksToRun[ti]!;
+  clack.log.step(
+    `Task ${ti + 1}/${tasksToRun.length} — ${ansis.bold(task.name)}`,
+  );
 
-for (const task of tasksToRun) {
-  const s = clack.spinner();
+  let p: ProgressResult | undefined;
 
   try {
-    s.start(task.name);
-
     const result = await runSynthesisTask({
       task: task.promptKey,
       model: languageModel,
       streams,
       existingQuestions,
       dateRange,
-      onProgress: (msg) => s.message(`${task.name}: ${msg}`),
+      onProgress: (event) => {
+        switch (event.phase) {
+          case "map-start":
+            p = clack.progress({ max: event.total });
+            p.start(event.total === 1 ? "Processing" : "Mapping");
+            break;
+          case "map-chunk-done":
+            p?.advance(1, `Mapped ${event.index} of ${event.total}`);
+            break;
+          case "reduce-start":
+            p?.message(`Reducing ${event.batches} batches`);
+            break;
+          case "topic-start":
+            p = clack.progress({ max: event.total });
+            p.start("Processing topics");
+            break;
+          case "topic-done":
+            p?.advance(
+              1,
+              `${toTitleCase(event.name)} (${event.index}/${event.total})`,
+            );
+            break;
+        }
+      },
     });
 
     const outputPath = join(SYNTHESIS_DIR, task.outputFile);
@@ -152,27 +176,29 @@ for (const task of tasksToRun) {
       "utf-8",
     );
 
-    completed++;
-    s.stop(`${task.name} ${ansis.green("done")}`);
+    p?.stop(`${task.name} ${ansis.green("done")}`);
   } catch (error) {
-    failures++;
-    s.stop(`${task.name} ${ansis.red("failed")}`);
-    clack.log.error(error instanceof Error ? error.message : String(error));
+    if (p) {
+      p.error(`${task.name} ${ansis.red("failed")}`);
+    }
+
+    const message =
+      error instanceof Error ? error.stack || error.message : String(error);
+    clack.log.error(message);
+    clack.outro(ansis.red("Aborted due to error."));
+    process.exit(1);
   }
 }
 
-// Summary
-const parts: string[] = [`${completed} completed`];
-if (failures > 0) parts.push(`${failures} failed`);
-
 clack.outro(
-  `Done — ${parts.join(", ")}. Results in ${ansis.cyan(SYNTHESIS_DIR)}`,
+  `Done — ${tasksToRun.length} tasks completed. Results in ${ansis.cyan(SYNTHESIS_DIR)}`,
 );
 
-function formatDate(yyyymmdd: string): string {
+function formatDate(yyyymmdd: string) {
   const year = yyyymmdd.slice(0, 4);
   const month = yyyymmdd.slice(4, 6);
   const day = yyyymmdd.slice(6, 8);
+
   return new Date(`${year}-${month}-${day}`).toLocaleDateString("en-US", {
     year: "numeric",
     month: "long",
@@ -185,4 +211,8 @@ async function fileExists(filePath: string) {
     () => true,
     () => false,
   );
+}
+
+function toTitleCase(input: string) {
+  return input.replace(/\b\w/g, (character) => character.toUpperCase());
 }
