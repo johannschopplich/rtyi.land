@@ -2,12 +2,7 @@ import type { OpenAILanguageModelChatOptions } from "@ai-sdk/openai";
 import type { LanguageModelV3 } from "@ai-sdk/provider";
 import type { z } from "zod";
 import type { StreamAnalysis } from "../analysis/schemas";
-import type {
-  NarrativeArcs,
-  StoryArcs,
-  TopicArc,
-  TopicArcs,
-} from "./schemas";
+import type { NarrativeArcs, StoryArcs, TopicArc, TopicArcs } from "./schemas";
 import { generateText, Output } from "ai";
 import pMap from "p-map";
 import { estimateTokenCount } from "tokenx";
@@ -109,7 +104,12 @@ async function runStoryArcs(options: SynthesisOptions) {
         findings: JSON.stringify(findings),
       });
 
-      return generateObject(model, StoryArcsSchema, prompt, DOCUMENTARY_CONTEXT);
+      return generateObject(
+        model,
+        StoryArcsSchema,
+        prompt,
+        DOCUMENTARY_CONTEXT,
+      );
     },
     reduceFn: (batchResults) => {
       const allArcs = batchResults.flatMap((batch) => batch.arcs);
@@ -119,7 +119,12 @@ async function runStoryArcs(options: SynthesisOptions) {
         candidate_arcs: JSON.stringify(allArcs),
       });
 
-      return generateObject(model, StoryArcsSchema, prompt, DOCUMENTARY_CONTEXT);
+      return generateObject(
+        model,
+        StoryArcsSchema,
+        prompt,
+        DOCUMENTARY_CONTEXT,
+      );
     },
   });
 }
@@ -186,18 +191,17 @@ async function runNarrativeArcs(
 
   if (tokenCount > NARRATIVE_ARCS_TOKEN_BUDGET) {
     // Pre-summarize: drop low-importance findings, trim quotes
-    const condensedFindings = findings.filter(
-      (finding) =>
-        // Keep only high-importance when over budget
-        streams.some(
-          (stream) =>
-            stream.rawDate === finding.stream_date &&
-            stream.analysis.findings.some(
-              (streamFinding) =>
-                streamFinding.summary === finding.summary
-                && streamFinding.importance === "high",
-            ),
-        ),
+    const condensedFindings = findings.filter((finding) =>
+      // Keep only high-importance when over budget
+      streams.some(
+        (stream) =>
+          stream.rawDate === finding.stream_date &&
+          stream.analysis.findings.some(
+            (streamFinding) =>
+              streamFinding.summary === finding.summary &&
+              streamFinding.importance === "high",
+          ),
+      ),
     );
 
     promptData = {
@@ -216,7 +220,12 @@ async function runNarrativeArcs(
   const finalTokenCount = estimateTokenCount(fullPrompt);
   onProgress?.({ phase: "single-prompt-start", tokens: finalTokenCount });
 
-  return generateObject(model, NarrativeArcsSchema, fullPrompt, DOCUMENTARY_CONTEXT);
+  return generateObject(
+    model,
+    NarrativeArcsSchema,
+    fullPrompt,
+    DOCUMENTARY_CONTEXT,
+  );
 }
 
 // #endregion narrative-arcs
@@ -281,7 +290,12 @@ async function runTopicArcs(options: SynthesisOptions): Promise<TopicArcs> {
           topic,
           findings: JSON.stringify(findings),
         });
-        arc = await generateObject(model, TopicArcSchema, prompt, DOCUMENTARY_CONTEXT);
+        arc = await generateObject(
+          model,
+          TopicArcSchema,
+          prompt,
+          DOCUMENTARY_CONTEXT,
+        );
       } else {
         // Chunk large topics and merge via reduce
         const chunkCount = Math.ceil(
@@ -296,7 +310,12 @@ async function runTopicArcs(options: SynthesisOptions): Promise<TopicArcs> {
             topic,
             findings: JSON.stringify(chunk),
           });
-          const result = await generateObject(model, TopicArcSchema, prompt, DOCUMENTARY_CONTEXT);
+          const result = await generateObject(
+            model,
+            TopicArcSchema,
+            prompt,
+            DOCUMENTARY_CONTEXT,
+          );
           if (result) chunkResults.push(result);
         }
 
@@ -307,7 +326,12 @@ async function runTopicArcs(options: SynthesisOptions): Promise<TopicArcs> {
             topic,
             candidate_arcs: JSON.stringify(chunkResults),
           });
-          arc = await generateObject(model, TopicArcSchema, reducePrompt, DOCUMENTARY_CONTEXT);
+          arc = await generateObject(
+            model,
+            TopicArcSchema,
+            reducePrompt,
+            DOCUMENTARY_CONTEXT,
+          );
         }
       }
 
