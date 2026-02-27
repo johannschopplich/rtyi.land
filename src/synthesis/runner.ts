@@ -4,10 +4,12 @@ import type { z } from "zod";
 import type { StreamAnalysis } from "../analysis/schemas";
 import type { NarrativeArcs, StoryArcs, TopicArc, TopicArcs } from "./schemas";
 import { generateText, Output } from "ai";
+import { hash } from "ohash";
 import pMap from "p-map";
 import { estimateTokenCount } from "tokenx";
 import { template } from "utilful";
 import { CORE_CONTRIBUTORS } from "../constants";
+import { cachedGenerate } from "./cache";
 import {
   DOCUMENTARY_CONTEXT,
   NARRATIVE_ARCS_PROMPT,
@@ -37,6 +39,23 @@ const DEFAULT_CONCURRENCY = 1;
  * GPT-5.2 supports ~400K tokens; leave headroom for output + system.
  */
 const NARRATIVE_ARCS_TOKEN_BUDGET = 300_000;
+
+/**
+ * Omitted input fields (token budget optimizations):
+ *
+ * All tasks:
+ * - `related_to` on stories/questions — 81-83% redundant with text content
+ *
+ * Narrative arcs:
+ * - `significance_reason` on summaries — tier label sufficient (~17K saved)
+ * - `context` on quotes — recoverable via stream_date cross-ref (~19K saved)
+ *
+ * Story arcs:
+ * - `questions` on open questions — model generates its own (~93K saved)
+ *
+ * Topic arcs:
+ * - `quote` on findings — absent from output schema, 81% null (~29K saved)
+ */
 
 // #endregion config
 
@@ -88,6 +107,7 @@ async function runStoryArcs(options: SynthesisOptions) {
   const { model, streams, dateRange, concurrency, onProgress } = options;
 
   return mapReduce<StoryArcs>({
+    taskName: "story-arcs",
     streams,
     payloadSizeFn: storyArcsPayloadSize,
     concurrency,
@@ -143,7 +163,6 @@ async function runNarrativeArcs(
     stream_date: stream.rawDate,
     summary: stream.analysis.stream_context.summary,
     significance: stream.analysis.stream_context.significance,
-    significance_reason: stream.analysis.stream_context.significance_reason,
   }));
 
   const findings = streams.flatMap((stream) =>
@@ -161,7 +180,6 @@ async function runNarrativeArcs(
       stream_date: stream.rawDate,
       title: story.title,
       summary: story.summary,
-      related_to: story.related_to,
     })),
   );
 
@@ -170,7 +188,6 @@ async function runNarrativeArcs(
       stream_date: stream.rawDate,
       speaker: quote.speaker,
       quote: quote.quote,
-      context: quote.context,
     })),
   );
 
@@ -220,11 +237,9 @@ async function runNarrativeArcs(
   const finalTokenCount = estimateTokenCount(fullPrompt);
   onProgress?.({ phase: "single-prompt-start", tokens: finalTokenCount });
 
-  return generateObject(
-    model,
-    NarrativeArcsSchema,
-    fullPrompt,
-    DOCUMENTARY_CONTEXT,
+  const cacheKey = `narrative-arcs:${hash(fullPrompt)}`;
+  return cachedGenerate(cacheKey, () =>
+    generateObject(model, NarrativeArcsSchema, fullPrompt, DOCUMENTARY_CONTEXT),
   );
 }
 
@@ -235,7 +250,6 @@ async function runNarrativeArcs(
 interface TopicFinding {
   stream_date: string;
   summary: string;
-  quote: string | null;
 }
 
 const TOPIC_FINDINGS_CHUNK_THRESHOLD = 500;
@@ -258,7 +272,6 @@ async function runTopicArcs(options: SynthesisOptions): Promise<TopicArcs> {
       findingsByTopic.get(finding.topic)!.push({
         stream_date: stream.rawDate,
         summary: finding.summary,
-        quote: finding.quote,
       });
     }
 
@@ -269,7 +282,6 @@ async function runTopicArcs(options: SynthesisOptions): Promise<TopicArcs> {
         findingsByTopic.get(finding.topic)!.push({
           stream_date: stream.rawDate,
           summary: `[${member}] ${finding.summary}`,
-          quote: finding.quote,
         });
       }
     }
@@ -285,17 +297,21 @@ async function runTopicArcs(options: SynthesisOptions): Promise<TopicArcs> {
       const findings = findingsByTopic.get(topic)!;
       let arc: TopicArc | undefined;
 
+      const topicKey = `topic-arcs:${hash({ topic, findings })}`;
+
       if (findings.length <= TOPIC_FINDINGS_CHUNK_THRESHOLD) {
-        const prompt = template(TOPIC_ARC_SINGLE_PROMPT, {
-          topic,
-          findings: JSON.stringify(findings),
+        arc = await cachedGenerate(topicKey, () => {
+          const prompt = template(TOPIC_ARC_SINGLE_PROMPT, {
+            topic,
+            findings: JSON.stringify(findings),
+          });
+          return generateObject(
+            model,
+            TopicArcSchema,
+            prompt,
+            DOCUMENTARY_CONTEXT,
+          );
         });
-        arc = await generateObject(
-          model,
-          TopicArcSchema,
-          prompt,
-          DOCUMENTARY_CONTEXT,
-        );
       } else {
         // Chunk large topics and merge via reduce
         const chunkCount = Math.ceil(
@@ -306,32 +322,37 @@ async function runTopicArcs(options: SynthesisOptions): Promise<TopicArcs> {
         const chunkResults: TopicArc[] = [];
         for (let c = 0; c < chunkCount; c++) {
           const chunk = findings.slice(c * chunkSize, (c + 1) * chunkSize);
-          const prompt = template(TOPIC_ARC_SINGLE_PROMPT, {
-            topic,
-            findings: JSON.stringify(chunk),
+          const chunkKey = `topic-arcs:map:${hash({ topic, chunkIndex: c, chunk })}`;
+          const result = await cachedGenerate(chunkKey, () => {
+            const prompt = template(TOPIC_ARC_SINGLE_PROMPT, {
+              topic,
+              findings: JSON.stringify(chunk),
+            });
+            return generateObject(
+              model,
+              TopicArcSchema,
+              prompt,
+              DOCUMENTARY_CONTEXT,
+            );
           });
-          const result = await generateObject(
-            model,
-            TopicArcSchema,
-            prompt,
-            DOCUMENTARY_CONTEXT,
-          );
           if (result) chunkResults.push(result);
         }
 
         if (chunkResults.length === 1) {
           arc = chunkResults[0];
         } else if (chunkResults.length > 1) {
-          const reducePrompt = template(TOPIC_ARC_REDUCE_PROMPT, {
-            topic,
-            candidate_arcs: JSON.stringify(chunkResults),
+          arc = await cachedGenerate(topicKey, () => {
+            const reducePrompt = template(TOPIC_ARC_REDUCE_PROMPT, {
+              topic,
+              candidate_arcs: JSON.stringify(chunkResults),
+            });
+            return generateObject(
+              model,
+              TopicArcSchema,
+              reducePrompt,
+              DOCUMENTARY_CONTEXT,
+            );
           });
-          arc = await generateObject(
-            model,
-            TopicArcSchema,
-            reducePrompt,
-            DOCUMENTARY_CONTEXT,
-          );
         }
       }
 
@@ -347,7 +368,7 @@ async function runTopicArcs(options: SynthesisOptions): Promise<TopicArcs> {
     { concurrency },
   );
 
-  return { arcs: results.filter((a): a is TopicArc => a !== undefined) };
+  return { arcs: results.filter((arc): arc is TopicArc => arc !== undefined) };
 }
 
 // #endregion topics
@@ -358,7 +379,12 @@ function extractStoryArcsPayload(streams: ParsedStream[]) {
   const stories = streams.flatMap((stream) =>
     stream.analysis.key_stories.map((story) => ({
       stream_date: stream.rawDate,
-      ...story,
+      title: story.title,
+      summary: story.summary,
+      challenge: story.challenge,
+      process: story.process,
+      outcome: story.outcome,
+      key_quote: story.key_quote,
     })),
   );
 
@@ -372,7 +398,8 @@ function extractStoryArcsPayload(streams: ParsedStream[]) {
   const openQuestions = streams.flatMap((stream) =>
     stream.analysis.open_questions.map((question) => ({
       stream_date: stream.rawDate,
-      ...question,
+      topic: question.topic,
+      context: question.context,
     })),
   );
 
@@ -447,50 +474,35 @@ function chunkByBudget(
   return chunks;
 }
 
-interface MapReduceConfig<T> {
-  streams: ParsedStream[];
-  payloadSizeFn: (streams: ParsedStream[]) => number;
-  mapFn: (chunk: ParsedStream[]) => Promise<T | undefined>;
-  reduceFn: (results: T[]) => Promise<T | undefined>;
-  onProgress?: (event: ProgressEvent) => void;
-  concurrency?: number;
-  /**
-   * Force at least this many chunks even if the data fits in one call.
-   * Useful when context dilution hurts curation quality (e.g. quotes).
-   */
-  minChunks?: number;
-}
-
-/**
- * Generic map-reduce orchestration for synthesis tasks.
- * Splits streams into budget-aware chunks, runs the map function on each
- * with configurable concurrency, then merges results with the reduce function.
- */
 async function mapReduce<T>({
+  taskName,
   streams,
   payloadSizeFn,
   mapFn,
   reduceFn,
   onProgress,
   concurrency = DEFAULT_CONCURRENCY,
-  minChunks = 1,
-}: MapReduceConfig<T>): Promise<T | undefined> {
-  let chunks = chunkByBudget(streams, payloadSizeFn);
-
-  // Force minimum chunk count if quality requires it
-  if (chunks.length < minChunks) {
-    const streamsPerChunk = Math.ceil(streams.length / minChunks);
-    chunks = [];
-    for (let i = 0; i < streams.length; i += streamsPerChunk) {
-      chunks.push(streams.slice(i, i + streamsPerChunk));
-    }
-  }
+}: {
+  taskName: string;
+  streams: ParsedStream[];
+  payloadSizeFn: (streams: ParsedStream[]) => number;
+  mapFn: (chunk: ParsedStream[]) => Promise<T | undefined>;
+  reduceFn: (results: T[]) => Promise<T | undefined>;
+  onProgress?: (event: ProgressEvent) => void;
+  concurrency?: number;
+}): Promise<T | undefined> {
+  const chunks = chunkByBudget(streams, payloadSizeFn);
 
   onProgress?.({ phase: "map-start", total: chunks.length });
 
+  const cachedMapFn = (chunk: ParsedStream[], index: number) => {
+    const key = `${taskName}:map:${index}:${hash(chunk.map((stream) => stream.fileName))}`;
+    return cachedGenerate(key, () => mapFn(chunk));
+  };
+
   // Single pass – everything fits in one call
   if (chunks.length === 1) {
-    const result = await mapFn(chunks[0]!);
+    const result = await cachedMapFn(chunks[0]!, 0);
     onProgress?.({ phase: "map-chunk-done", index: 1, total: 1 });
     return result;
   }
@@ -499,8 +511,8 @@ async function mapReduce<T>({
   const chunkResults: T[] = [];
   await pMap(
     chunks,
-    async (chunk) => {
-      const result = await mapFn(chunk);
+    async (chunk, index) => {
+      const result = await cachedMapFn(chunk, index);
       if (result) chunkResults.push(result);
       completed++;
       onProgress?.({
@@ -516,7 +528,9 @@ async function mapReduce<T>({
   if (chunkResults.length === 1) return chunkResults[0];
 
   onProgress?.({ phase: "reduce-start", batches: chunkResults.length });
-  return reduceFn(chunkResults);
+
+  const reduceKey = `${taskName}:reduce:${hash(chunkResults)}`;
+  return cachedGenerate(reduceKey, () => reduceFn(chunkResults));
 }
 
 // #endregion utils

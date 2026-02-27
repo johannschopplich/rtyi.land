@@ -70,7 +70,6 @@ rtyi-doc/
 │   ├── streams/                  # Stream pages and dashboard
 │   ├── topics/                   # Findings grouped by documentary theme
 │   ├── team/                     # Contributor profiles
-│   ├── quotes/                   # Quote collections for narration and trailers
 │   ├── prompts/                  # Prompt and extraction documentation
 │   ├── research/                 # Background research on documentary craft
 │   ├── public/                   # Static assets
@@ -80,14 +79,13 @@ rtyi-doc/
 │   └── stream-synthesis.ts       # Cross-stream aggregation
 ├── src/
 │   ├── analysis/
-│   │   ├── prompt.ts             # Prompt template for stream extraction
+│   │   ├── prompts.ts            # Prompt templates for stream extraction
 │   │   ├── schemas.ts            # Zod schemas for analysis output
 │   │   └── runner.ts             # Transcript processing and JSON output
 │   ├── synthesis/
 │   │   ├── prompts.ts            # Prompt templates for aggregation
 │   │   ├── schemas.ts            # Zod schemas for synthesis output
 │   │   └── runner.ts             # Aggregation execution
-│   ├── schemas.ts                # Shared Zod schemas and types
 │   ├── stt-corrections.ts        # Speech-to-text cleanup rules
 │   ├── constants.ts              # Paths and model defaults
 │   └── utils.ts                  # Provider and model helpers
@@ -107,10 +105,9 @@ The pipeline has two stages. The first reads each raw transcript and extracts st
 
 The second stage aggregates all per-stream output into documentary-ready material in `.data/synthesis/`:
 
-- **Interview Questions** – per-person question sets with supporting stream evidence
-- **Story Highlights** – narrative arcs worth capturing on camera
-- **Curated Quotes** – quotes tagged for narration, trailers, and chapter titles
-- **Topic Narratives** – how each theme evolved across streams
+- **Story Arcs** – arc-first narrative stories with embedded interview questions and quotes
+- **Narrative Arcs** – thematic filming roadmap forming the documentary's high-level structure
+- **Topic Arcs** – per-topic narrative summaries tracing how each theme evolved across streams
 
 VitePress data loaders in `docs/synthesis/` read these JSON files and render them as browsable pages on the research site.
 

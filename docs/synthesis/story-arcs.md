@@ -23,8 +23,8 @@ const TARGET_LABELS = {
 const arcs = computed(() => {
   if (!storyArcsData) return [];
   if (selectedPerson.value === "all") return storyArcsData.arcs;
-  return storyArcsData.arcs.filter((a) =>
-    a.related_to.includes(selectedPerson.value),
+  return storyArcsData.arcs.filter((arc) =>
+    arc.related_to.includes(selectedPerson.value),
   );
 });
 
@@ -73,7 +73,7 @@ Run `pnpm stream-synthesis` to generate story arcs from stream data.
 
 <p class="vp-muted">Showing {{ arcs.length }} arcs</p>
 
-<div v-for="(arc, index) in arcs" :key="arc.title" class="vp-card arc-card">
+<div v-for="(arc, index) in arcs" :key="arc.title" class="vp-card">
 
 <h3 class="arc-title">{{ index + 1 }}. {{ arc.title }}</h3>
 
@@ -95,11 +95,19 @@ Run `pnpm stream-synthesis` to generate story arcs from stream data.
 <details v-if="arc.key_quotes.length" class="vp-details quotes-details">
 <summary>Key Quotes ({{ arc.key_quotes.length }})</summary>
 
-<div v-for="kq in arc.key_quotes" :key="kq.quote.slice(0, 30)" class="arc-quote">
+<div
+  v-for="kq in arc.key_quotes"
+  :key="kq.quote.slice(0, 30)"
+  class="arc-quote"
+>
   <blockquote>"{{ kq.quote }}"</blockquote>
+  <p class="quote-context" v-if="kq.context">{{ kq.context }}</p>
   <p class="quote-attribution">
-    — <strong>{{ kq.speaker }}</strong>,
-    <a :href="`/streams/${kq.stream_date}`">{{ formatDateFromYYYYMMDD(kq.stream_date) }}</a>
+    — <strong>{{ kq.speaker }}</strong
+    >,
+    <a :href="`/streams/${kq.stream_date}`">{{
+      formatDateFromYYYYMMDD(kq.stream_date)
+    }}</a>
   </p>
 </div>
 
@@ -108,10 +116,14 @@ Run `pnpm stream-synthesis` to generate story arcs from stream data.
 <details v-if="arc.interview_questions.length" class="vp-details questions-details">
 <summary>Interview Questions ({{ arc.interview_questions.length }})</summary>
 
-<div v-for="(q, qi) in arc.interview_questions" :key="q.question.slice(0, 30)" class="arc-question">
+<div
+  v-for="(q, qi) in arc.interview_questions"
+  :key="q.question.slice(0, 30)"
+  class="arc-question"
+>
   <p class="question-text">{{ qi + 1 }}. {{ q.question }}</p>
   <p class="question-target">
-    <span class="vp-pill target-badge">{{ TARGET_LABELS[q.target] }}</span>
+    <span class="vp-pill tip">{{ TARGET_LABELS[q.target] }}</span>
   </p>
   <p class="question-context">{{ q.context }}</p>
   <div v-if="q.evidence.length" class="question-evidence">
@@ -123,7 +135,7 @@ Run `pnpm stream-synthesis` to generate story arcs from stream data.
 
 </details>
 
-<div class="arc-meta">
+<div class="vp-card-meta">
   <span v-if="arc.related_to.length" class="meta-people">
     {{ arc.related_to.map(capitalizeInitialLetter).join(", ") }}
   </span>
@@ -139,15 +151,8 @@ Run `pnpm stream-synthesis` to generate story arcs from stream data.
 </template>
 
 <style scoped>
-.arc-card {
-  margin-bottom: 24px;
-}
-
 .arc-title {
-  margin-top: 0;
   color: var(--vp-c-brand-1);
-  border: none;
-  padding: 0;
 }
 
 .arc-summary {
@@ -166,7 +171,6 @@ Run `pnpm stream-synthesis` to generate story arcs from stream data.
 .arc-details,
 .quotes-details,
 .questions-details {
-  margin-bottom: 12px;
   font-size: 14px;
   line-height: 1.6;
 }
@@ -178,6 +182,14 @@ Run `pnpm stream-synthesis` to generate story arcs from stream data.
   margin: 8px 0 4px;
   color: var(--vp-c-text-2);
   transition: border-color 0.5s;
+}
+
+.quote-context {
+  font-size: 13px;
+  color: var(--vp-c-text-3);
+  margin: 2px 0 4px;
+  padding-left: 16px;
+  line-height: 1.5;
 }
 
 .quote-attribution {
@@ -209,12 +221,6 @@ Run `pnpm stream-synthesis` to generate story arcs from stream data.
   margin-bottom: 6px;
 }
 
-.target-badge {
-  border-color: var(--vp-badge-tip-border);
-  color: var(--vp-badge-tip-text);
-  background-color: var(--vp-badge-tip-bg);
-}
-
 .question-context {
   color: var(--vp-c-text-2);
   font-size: 13px;
@@ -235,14 +241,6 @@ Run `pnpm stream-synthesis` to generate story arcs from stream data.
 
 .question-evidence li {
   margin-bottom: 2px;
-}
-
-.arc-meta {
-  display: flex;
-  gap: 16px;
-  font-size: 13px;
-  line-height: 20px;
-  color: var(--vp-c-text-2);
 }
 
 .meta-people::before {

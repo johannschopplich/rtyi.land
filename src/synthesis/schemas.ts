@@ -13,6 +13,11 @@ const StoryArcQuoteSchema = z.object({
   quote: z
     .string()
     .describe(`The quote itself. ${QUOTE_FORMATTING_INSTRUCTIONS}`),
+  context: z
+    .string()
+    .describe(
+      "Brief context for why this quote matters within this arc – what it reveals or illustrates",
+    ),
   stream_date: z.string().describe("YYYYMMDD format of the source stream"),
 });
 
@@ -45,9 +50,7 @@ const StoryArcSchema = z.object({
     .describe(
       'A vivid, narrative title for this arc (e.g. "The Zoo Catalyst: From Lag to Engine Rewrite")',
     ),
-  summary: z
-    .string()
-    .describe("A 2–3 sentence narrative summary of this arc"),
+  summary: z.string().describe("A 2–3 sentence narrative summary of this arc"),
   narrative_value: z
     .string()
     .describe(
@@ -83,8 +86,8 @@ const StoryArcSchema = z.object({
 export const StoryArcsSchema = z.object({
   arcs: z
     .array(StoryArcSchema)
-    .min(15)
-    .max(40)
+    .min(10)
+    .max(25)
     .describe(
       "Story arcs ranked by documentary potential – each arc is a self-contained narrative unit with embedded questions and quotes",
     ),
@@ -122,12 +125,19 @@ const NarrativeArcSchema = z.object({
   team_members: z
     .array(TeamMemberSchema)
     .describe("Team members central to this arc"),
+  source_streams: z
+    .array(z.string())
+    .min(1)
+    .max(10)
+    .describe(
+      "YYYYMMDD dates of the most relevant source streams for this arc",
+    ),
 });
 
 export const NarrativeArcsSchema = z.object({
   arcs: z
     .array(NarrativeArcSchema)
-    .min(8)
+    .min(6)
     .max(20)
     .describe(
       "Thematic arcs that together form the documentary's filming roadmap – ordered to tell a coherent story",

@@ -37,6 +37,11 @@ Each arc should include the strongest supporting quotes (evidence, not decoratio
 
 Include arcs at different scales – from multi-month sagas to single-stream turning points. The filmmaker wants a selection pool, not a pre-decided shortlist.
 
+These arcs are building blocks for the filmmaker – a selection pool of moments and
+stories to draw from when constructing the documentary's chapter structure. The
+filmmaker will select, combine, and reorder them. Err on the side of inclusion:
+a rich pool is more valuable than a lean one.
+
 ### Stream Data
 
 <stories>
@@ -64,7 +69,12 @@ You are given candidate story arcs from multiple analysis batches, each generate
 ### Guidelines
 
 - **Merge duplicates:** If the same story appears in multiple batches, produce one excellent arc that combines the best framing, richest quotes, and strongest questions from all versions.
-- **Re-rank holistically:** Now that you see candidates from the full timeline, rank by overall documentary value.
+- **Re-rank holistically:** Now that you see candidates from the full timeline, rank by these criteria (in order of importance):
+  1. Narrative completeness – does it have a clear challenge → process → outcome with emotional weight?
+  2. Character depth – does it reveal something unexpected about a person or relationship?
+  3. Accessibility – would a viewer who has never heard of ROM hacking understand and care?
+  4. Timeline uniqueness – ensure the final set spans the full project timeline, not clustering in any one period.
+  5. Variety – balance technical, personal, creative, and team-dynamic arcs.
 - **Preserve cross-stream arcs:** Stories that build across batches (e.g. a boss fight spanning weeks) should be merged into one entry with combined source streams.
 - **Deduplicate questions and quotes:** Keep the single best version. Place quotes in the arc where they have the most narrative impact.
 - **Ensure timeline coverage:** The final set should span the full project timeline, not over-represent any one period.
@@ -103,6 +113,10 @@ This is NOT a technical summary or a list of features. This is a **filming roadm
 - **B-roll suggestions should be concrete** – not "show gameplay" but "side-by-side of Zoo level at 10fps vs. smooth 30fps after engine rewrite."
 - **Order arcs to tell a story** – the sequence should feel like a documentary structure, not an alphabetical list.
 
+Aim for 10-15 arcs. Fewer, richer arcs with concrete specificity are more valuable than
+many thin ones. Each arc should justify its inclusion – if you can't articulate a clear
+narrative goal, cut it.
+
 ### Stream Data
 
 <stream_summaries>
@@ -135,6 +149,7 @@ You are given all findings tagged under the "{topic}" topic across the full set 
 - Balance the what and the why – trace both the technical evolution (what was built, changed, or abandoned) and the human decisions that drove those shifts.
 - Prioritize findings that would surprise the director or challenge assumptions – not just the technically impressive ones.
 - Note how the topic evolved across the project – early explorations vs. settled approaches, shifting priorities, or recurring frustrations.
+- Remember: this briefing is for a documentary director preparing interviews, not for a technical audience. Anchor technical evolution in human decisions and emotional beats. A viewer who has never heard of ROM hacking should understand why each shift mattered.
 
 ### Findings for "{topic}"
 
@@ -154,6 +169,7 @@ You are given multiple narrative arc summaries for the same topic, each generate
 - Balance the what and the why – preserve both the technical evolution and the human decisions behind shifts.
 - Combine top findings: Deduplicate and select the strongest findings across all chunks. Keep the most important ones up to the schema limit.
 - Merge key themes: Unify overlapping themes into a single set.
+- Write for a documentary director, not a technical audience. Anchor technical evolution in human motivation.
 
 ### Candidate Summaries
 

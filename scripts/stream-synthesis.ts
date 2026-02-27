@@ -7,6 +7,7 @@ import process from "node:process";
 import * as clack from "@clack/prompts";
 import * as ansis from "ansis";
 import { STREAM_ANALYSIS_DIR, SYNTHESIS_DIR } from "../src/constants";
+import { clearTaskCache } from "../src/synthesis/cache";
 import { runSynthesisTask } from "../src/synthesis/runner";
 import { ensureDirectoryExists, resolveLanguageModel } from "../src/utils";
 
@@ -115,6 +116,11 @@ for (let ti = 0; ti < tasksToRun.length; ti++) {
   let p: ProgressResult | undefined;
 
   try {
+    // Purge stale intermediate cache entries for this task before re-running.
+    // Keys are content-hashed, so changed inputs would miss anyway, but this
+    // prevents orphaned entries from accumulating on disk.
+    await clearTaskCache(task.promptKey);
+
     const result = await runSynthesisTask({
       task: task.promptKey,
       model: languageModel,

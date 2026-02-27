@@ -8,6 +8,7 @@ export interface NarrativeArc {
   topics_to_cover: string[];
   b_roll: string[];
   team_members: TeamMember[];
+  source_streams: string[];
 }
 
 export interface NarrativeArcsData {

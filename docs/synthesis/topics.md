@@ -30,17 +30,14 @@ Run `pnpm stream-synthesis` to generate topic narratives from stream data.
 **Topics:** {{ arcs.length }} · Each with narrative summary, key themes, and top findings.
 :::
 
-<div v-for="arc in arcs" :key="arc.topic" class="topic-arc">
+<div v-for="arc in arcs" :key="arc.topic" class="vp-card">
 
 <h2 :id="arc.topic">{{ formatTopicLabel(arc.topic) }}</h2>
 
-<div class="theme-tags">
-  <span
-    v-for="theme in arc.key_themes"
-    :key="theme"
-    class="vp-pill theme-tag"
-    >{{ theme }}</span
-  >
+<div class="vp-tags">
+  <span v-for="theme in arc.key_themes" :key="theme" class="vp-pill tip">{{
+    theme
+  }}</span>
 </div>
 
 <div
@@ -48,7 +45,7 @@ Run `pnpm stream-synthesis` to generate topic narratives from stream data.
   v-html="arc.narrative_summary.replace(/\n/g, '<br>')"
 ></div>
 
-<details class="vp-details arc-details">
+<details class="vp-details">
 <summary>Top Findings ({{ arc.top_findings.length }})</summary>
 
 <table class="findings-table">
@@ -85,39 +82,11 @@ Run `pnpm stream-synthesis` to generate topic narratives from stream data.
 </template>
 
 <style scoped>
-.topic-arc {
-  margin-bottom: 48px;
-  padding-bottom: 24px;
-  border-bottom: 1px solid var(--vp-c-divider);
-  transition: border-color 0.5s;
-}
-
-.topic-arc:last-child {
-  border-bottom: none;
-}
-
-.theme-tags {
-  display: flex;
-  gap: 8px;
-  flex-wrap: wrap;
-  margin-bottom: 16px;
-}
-
-.theme-tag {
-  border-color: var(--vp-badge-tip-border);
-  color: var(--vp-badge-tip-text);
-  background-color: var(--vp-badge-tip-bg);
-}
-
 .narrative-summary {
   font-size: 15px;
   line-height: 1.7;
   color: var(--vp-c-text-1);
   margin-bottom: 16px;
-}
-
-.arc-details {
-  margin-bottom: 12px;
 }
 
 .findings-table {

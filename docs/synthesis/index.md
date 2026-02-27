@@ -13,11 +13,11 @@ Run `pnpm stream-synthesis` to generate synthesis files from the per-stream extr
 
 ## Sections
 
-| Page                                                | What It Contains                                          | Use Case                          |
-| --------------------------------------------------- | --------------------------------------------------------- | --------------------------------- |
-| [**Narrative Arcs**](/synthesis/narrative-arcs)     | Thematic filming roadmap with B-roll suggestions          | Documentary structure & planning  |
-| [**Story Arcs**](/synthesis/story-arcs)             | Arc-first stories with interview questions & key quotes   | Interview prep & arc planning     |
-| [**Topic Narratives**](/synthesis/topics)           | Narrative summary per topic with key findings             | Thematic interview blocks         |
+| Page                                            | What It Contains                                        | Use Case                         |
+| ----------------------------------------------- | ------------------------------------------------------- | -------------------------------- |
+| [**Narrative Arcs**](/synthesis/narrative-arcs) | Thematic filming roadmap with B-roll suggestions        | Documentary structure & planning |
+| [**Story Arcs**](/synthesis/story-arcs)         | Arc-first stories with interview questions & key quotes | Interview prep & arc planning    |
+| [**Topic Narratives**](/synthesis/topics)       | Narrative summary per topic with key findings           | Thematic interview blocks        |
 
 ## Raw Data (Stream Archive)
 

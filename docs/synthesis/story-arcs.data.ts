@@ -5,6 +5,7 @@ import { loadSynthesisFile } from "../.vitepress/utils";
 export interface StoryArcQuote {
   speaker: string;
   quote: string;
+  context: string;
   stream_date: string;
 }
 

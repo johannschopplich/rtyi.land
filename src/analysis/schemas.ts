@@ -67,7 +67,9 @@ const OtherContributorSchema = z.object({
 const StorySchema = z.object({
   title: z
     .string()
-    .describe("A short, factual title for this story or incident (not clickbait)"),
+    .describe(
+      "A short, factual title for this story or incident (not clickbait)",
+    ),
   summary: z
     .string()
     .describe(

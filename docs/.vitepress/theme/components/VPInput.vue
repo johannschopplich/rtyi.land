@@ -34,17 +34,24 @@ defineProps<{
   font-size: 13px;
   font-weight: 500;
   color: var(--vp-c-text-1);
-  background-color: var(--vp-c-bg);
-  border: 1px solid var(--vp-c-border);
-  border-radius: 6px;
-  transition: border-color 0.25s;
+  background-color: var(--vp-input-bg-color, var(--vp-c-bg-alt));
+  border: 1px solid var(--vp-input-border-color, var(--vp-c-border));
+  border-radius: 8px;
+  outline: none;
+  transition:
+    border-color 0.25s,
+    box-shadow 0.25s;
 }
 
 .input-wrapper :deep(select):hover,
-.input-wrapper :deep(input):hover,
+.input-wrapper :deep(input):hover {
+  border-color: var(--vp-c-brand-2);
+}
+
 .input-wrapper :deep(select):focus,
 .input-wrapper :deep(input):focus {
   border-color: var(--vp-c-brand-1);
+  box-shadow: 0 0 0 2px var(--vp-c-brand-soft);
 }
 
 .input-wrapper :deep(select:disabled),
@@ -60,6 +67,7 @@ defineProps<{
 .input-wrapper :deep(select:disabled):focus,
 .input-wrapper :deep(input:disabled):focus {
   border-color: var(--vp-c-divider);
+  box-shadow: none;
 }
 
 .input-wrapper :deep(input[type="number"]) {

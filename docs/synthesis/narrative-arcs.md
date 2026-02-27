@@ -5,7 +5,10 @@ description: Thematic filming roadmap – the documentary's high-level structure
 
 <script setup>
 import { data as narrativeArcsData } from "./narrative-arcs.data";
-import { capitalizeInitialLetter } from "../.vitepress/shared";
+import {
+  capitalizeInitialLetter,
+  formatDateFromYYYYMMDD,
+} from "../.vitepress/shared";
 
 const arcs = narrativeArcsData?.arcs ?? [];
 </script>
@@ -28,23 +31,26 @@ Run `pnpm stream-synthesis` to generate narrative arcs from stream data.
 **Narrative Arcs:** {{ arcs.length }} · Together these form the documentary's filming structure.
 :::
 
-<div v-for="(arc, index) in arcs" :key="arc.title" class="narrative-arc">
+<div v-for="(arc, index) in arcs" :key="arc.title" class="vp-card">
 
-<h2 :id="arc.title.toLowerCase().replace(/[^a-z0-9]+/g, '-')">{{ index + 1 }}. {{ arc.title }}</h2>
+<h2 :id="arc.title.toLowerCase().replace(/[^a-z0-9]+/g, '-')">
+  {{ index + 1 }}. {{ arc.title }}
+</h2>
 
-<div v-if="arc.team_members.length" class="team-tags">
+<div v-if="arc.team_members.length" class="vp-tags">
   <span
     v-for="member in arc.team_members"
     :key="member"
-    class="vp-pill team-tag"
-  >{{ capitalizeInitialLetter(member) }}</span>
+    class="vp-pill tip"
+    >{{ capitalizeInitialLetter(member) }}</span
+  >
 </div>
 
 <div class="narrative-goal">
   <strong>Narrative Goal:</strong> {{ arc.narrative_goal }}
 </div>
 
-<details class="vp-details topics-details">
+<details class="vp-details">
 <summary>Topics to Cover ({{ arc.topics_to_cover.length }})</summary>
 
 <ul class="topics-list">
@@ -53,7 +59,7 @@ Run `pnpm stream-synthesis` to generate narrative arcs from stream data.
 
 </details>
 
-<details class="vp-details broll-details">
+<details class="vp-details">
 <summary>B-Roll Suggestions ({{ arc.b_roll.length }})</summary>
 
 <ul class="broll-list">
@@ -62,45 +68,24 @@ Run `pnpm stream-synthesis` to generate narrative arcs from stream data.
 
 </details>
 
+<div v-if="arc.source_streams?.length" class="vp-card-meta">
+  <strong>Source Streams:</strong>
+  <span v-for="(date, i) in arc.source_streams" :key="date">
+    <a :href="`/streams/${date}`">{{ formatDateFromYYYYMMDD(date) }}</a
+    ><span v-if="i < arc.source_streams.length - 1">, </span>
+  </span>
+</div>
+
 </div>
 
 </template>
 
 <style scoped>
-.narrative-arc {
-  margin-bottom: 48px;
-  padding-bottom: 24px;
-  border-bottom: 1px solid var(--vp-c-divider);
-  transition: border-color 0.5s;
-}
-
-.narrative-arc:last-child {
-  border-bottom: none;
-}
-
-.team-tags {
-  display: flex;
-  gap: 8px;
-  flex-wrap: wrap;
-  margin-bottom: 16px;
-}
-
-.team-tag {
-  border-color: var(--vp-badge-tip-border);
-  color: var(--vp-badge-tip-text);
-  background-color: var(--vp-badge-tip-bg);
-}
-
 .narrative-goal {
   font-size: 15px;
   line-height: 1.7;
   color: var(--vp-c-text-1);
   margin-bottom: 16px;
-}
-
-.topics-details,
-.broll-details {
-  margin-bottom: 12px;
 }
 
 .topics-list,
