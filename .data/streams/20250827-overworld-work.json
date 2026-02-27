@@ -1,100 +1,88 @@
 {
   "stream_context": {
-    "summary": "Kaze showcases and debugs the newly implemented collision BVH (stackless traversal, new node layout) and does overworld iteration work: lighthouse interaction logic, warp/cutscene plumbing, and integrating/tuning Zeina’s swinging Yoshi animation. He also explains a “crash loudly” development philosophy (asserts over silent failure), outlines a sponsored multi-part video series about Mario 64 optimizations, and reiterates Nintendo takedown risks for non-transformative trailer-style videos.",
-    "level": ["Overworld"],
+    "summary": "Kaze reviews and validates his newly finished collision BVH optimization (including structure details and performance gains), fixes a few regressions/bugs caused by engine changes and asset packing, and then pivots into overworld work: lighthouse interaction/warp logic and a long debugging session on Zeina’s swinging Yoshi animation. He also discusses a potential multi-part “Mario 64 optimizations” video series with a sponsor strategy, and why he’s cautious about Nintendo takedowns.",
+    "level": ["Overworld – Lighthouse area", "Overworld – Ghost Ship area"],
     "significance": "milestone",
-    "significance_reason": "Collision BVH is declared finished with measurable perf gains, and Kaze frames it as the end of major engine regressions—unlocking a shift from engine work back to ‘just making the game.’"
+    "significance_reason": "Collision BVH is declared “done” with measurable performance wins, and Kaze frames it as the last major engine regression source before an OS update—i.e., a transition from engine-rewrite mode to primarily “make the game” mode. He also outlines a major content plan (optimization video series) and a tester-focused demo plan."
   },
   "findings": [
     {
       "topic": "technical",
       "importance": "high",
-      "summary": "Collision BVH is implemented and saving ~200 microseconds per relevant workload; Kaze describes it as a major engine optimization milestone that should reduce ongoing regressions once remaining OS updates are done.",
-      "quote": "Now that collision BVH is done, I only need to update the OS… Which means we are finally done introducing regressions into the code base."
-    },
-    {
-      "topic": "technical",
-      "importance": "high",
-      "summary": "Kaze’s BVH data layout is optimized for stackless traversal: nodes store only ‘miss’ and ‘hit’ indices (not left/right), and leaf nodes are larger to embed per-leaf triangle batches; macros standardize traversal for speed and consistency.",
+      "summary": "Kaze reports the collision BVH is complete and saves roughly ~200 microseconds, and he walks through the memory layout: compact node data (quantity range storage), “miss/hit” indices rather than left/right traversal, stackless traversal, and leaf nodes containing triangle batches (8–9 triangles) with a larger node size.",
       "quote": null
     },
     {
       "topic": "technical",
-      "importance": "medium",
-      "summary": "He built supporting BVH tooling in Python despite not knowing Python beforehand; he used an AI assistant for syntax-level questions (e.g., declaring arrays) but claims the logic/code is his.",
-      "quote": "I had to implement this in Python and I have never programmed Python in my life… the code is 100% mine."
-    },
-    {
-      "topic": "technical",
       "importance": "high",
-      "summary": "A “cursed bug” came from an all-zero (fully black) texture used for floor stars: the build/link process discarded the data segment, leaving a “valid” pointer that actually referenced the exclamation box display list—breaking the game when the floor rendered.",
+      "summary": "He emphasizes the BVH traversal is macro-driven for speed/consistency and intentionally avoids classic left/right iteration, suggesting a custom traversal model optimized for N64 performance constraints.",
       "quote": null
     },
     {
       "topic": "technical",
-      "importance": "medium",
-      "summary": "Kaze warns that toolchains can be ‘dangerous’ and that some failures are intended behavior (e.g., segment/data discarding) rather than compiler bugs; he treats these as constraints to design around.",
-      "quote": "Compilers are dangerous tools and you cannot underestimate them."
+      "importance": "high",
+      "summary": "With collision BVH finished, Kaze believes he only needs to update the operating system layer next, and predicts those OS updates will not impact the rest of the game—meaning he expects to stop introducing widespread regressions and shift focus to content completion.",
+      "quote": "Now that collision BVH is done, I only need to update the OS… which means we are finally done introducing regressions into the code base."
     },
     {
       "topic": "technical",
       "importance": "high",
-      "summary": "He intentionally removed defensive null checks in rendering (example: DrawShadow) to force crashes/asserts when data is wrong (e.g., objects with no floor), so issues surface immediately and get fixed properly—improving shadow correctness across objects.",
-      "quote": "I don't let bugs happen. I just make the game notify you of any bugs that would happen otherwise."
+      "summary": "Kaze describes a “cursed” rendering bug: a floor “stars” texture was fully black (all zeros), so the build/segment process treated it as discardable (sdata/bss handling), leaving a pointer that accidentally referenced another display list (exclamation box), causing rendering that object to break the game.",
+      "quote": null
+    },
+    {
+      "topic": "philosophy",
+      "importance": "high",
+      "summary": "He intentionally removed a defensive null check in DrawShadow to force hard crashes when objects render without a valid floor, arguing this prevents silent visual bugs and ensures every actor gets correct shadow behavior rather than being “hidden” by engine safeguards.",
+      "quote": "I don’t let bugs happen. I just make the game notify you of any bugs that would happen otherwise."
+    },
+    {
+      "topic": "technical",
+      "importance": "medium",
+      "summary": "Kaze notes frequent development-time crashes are expected because he uses many asserts and few null pointer checks; he differentiates between unstable dev builds and stable public demos/competition releases, which he considers the proper “proof” of stability.",
+      "quote": null
     },
     {
       "topic": "design",
       "importance": "medium",
-      "summary": "Overworld plan for the session: make the lighthouse area presentable, add a one-time ‘spin/rotate’ interaction that triggers a cutscene and opens/accesses a level, then implement the local warp; Booblas and Pandora’s Box enemy/encounter scripting are planned next but likely deferred.",
+      "summary": "Overworld plan for the session: make the lighthouse presentable, add a one-time rotation “spin thing” interaction (not a continuous rotating beam), implement a warp to a new area, then (time permitting) program Booblas and a Pandora’s Box object.",
       "quote": null
-    },
-    {
-      "topic": "technical",
-      "importance": "medium",
-      "summary": "Warp/cutscene plumbing is fragile with the current area system: putting certain initialization/reset logic inside an area can break level cutscenes; Kaze expresses intent to refactor the original SM64 ‘area’ handling and postpone some fixes until after rewriting warps.",
-      "quote": "I definitely have to refactor this entire DoT area stuff. I don't like how this is done in the original."
     },
     {
       "topic": "design",
       "importance": "medium",
-      "summary": "The island silhouette is no longer strongly ‘Yoshi-shaped’; Kaze deprioritizes recognizability during active development and implies a later art pass can ‘Yoshi-fy’ the overworld shape.",
-      "quote": "I'm just not worried about making it look like Yoshi right now."
-    },
-    {
-      "topic": "team",
-      "importance": "medium",
-      "summary": "Kaze explicitly leans on Biobak for future visual overhaul of the overworld area (and potentially making the island more Yoshi-like), resisting spending time on polish he expects Biobak to redo.",
-      "quote": "Biobak is going to fix that anyway. He's going to change everything."
-    },
-    {
-      "topic": "technical",
-      "importance": "medium",
-      "summary": "Zeina’s swinging Yoshi animation integration requires nontrivial runtime mapping/fixing: Kaze discovers frame-count mismatch (121 vs expected 120), negative/invalid keyframe behavior, and considers either dampening quaternions/offsetting bones or reauthoring the swing to be less extreme.",
+      "summary": "The overworld island has become less obviously Yoshi-shaped as production progressed; Kaze deprioritizes the silhouette for now and references Biobak’s intent to “Yoshi-fy” it later.",
       "quote": null
     },
     {
       "topic": "technical",
       "importance": "medium",
-      "summary": "Kaze refuses to use Fast64’s ‘export script loads’ and plans to remove Fast64-inserted code (e.g., AutoTextureScroll) because it adds per-frame overhead and he doesn’t trust it touching the codebase.",
-      "quote": "I will never hit export script loads. I don't want Fast64 touching my codebase."
+      "summary": "He suggests an upcoming testing milestone: preparing a demo build containing the first five courses plus the first Bowser level to send to an external tester, reflecting a structured test cadence beyond the earliest levels.",
+      "quote": null
+    },
+    {
+      "topic": "technical",
+      "importance": "medium",
+      "summary": "Animation debugging: Zeina’s swinging Yoshi animation behaves disorientingly due to frame/pose mapping issues (including an unexpected 121-frame clip), one-frame-delayed armature/joint positions, and mismatch between swing rotation and Yoshi rotation; Kaze considers damping/extending offsets, counter-offset hacks, or remaking the swing animation to reduce extremity.",
+      "quote": null
+    },
+    {
+      "topic": "technical",
+      "importance": "medium",
+      "summary": "Kaze refuses to use Fast64’s export script because he doesn’t want automated tools modifying his codebase, and calls out Fast64’s AutoTextureScroll implementation as wasteful because it runs every frame.",
+      "quote": null
     },
     {
       "topic": "business",
       "importance": "medium",
-      "summary": "He considers producing a large, structured multi-part series documenting every Mario 64 optimization (hardware config, matrices, collision, audio, assets, actor handling, OS, Mario, misc). He explicitly plans to monetize with sponsors per-part, then later remove sponsors and combine into a long ‘movie’ upload.",
-      "quote": "I'm thinking I'm making a 10 part series with sponsors all over the place… And then afterwards, I'm just going to remove all the sponsors and edit it into one big YouTube video."
+      "summary": "He pitches a substantial content project: a ~10-part Mario 64 optimization series (hardware/config intro; matrix building; collision; sound; assets; actor handling; game tech; OS; Mario; misc). He plans to monetize heavily with sponsors, then later remove sponsors and re-edit into a single ~2-hour “movie” version.",
+      "quote": null
     },
     {
       "topic": "legal-nintendo",
       "importance": "high",
-      "summary": "Kaze avoids making traditional ‘launch trailer’-style videos because Nintendo takedowns would kill traction; he believes an ‘entire remake’ is not transformative enough for safety, so he needs formats that are clearly transformative to reduce risk.",
-      "quote": "If I ever make something like that, Nintendo just takes it down… someone making an entire remake is not transformative."
-    },
-    {
-      "topic": "milestone",
-      "importance": "medium",
-      "summary": "Testing/release cadence: he periodically publishes stable demos/competition builds, but between full releases he deprioritizes stability because heavy engine rewrites will break things; he plans a near-term tester build containing the first five courses plus the first Bowser level.",
-      "quote": "I think I will soon get a demo ready with just the first five courses and the first Bowser level, and send that to a tester."
+      "summary": "Kaze expresses concern that Nintendo can remove videos even if he believes content is transformative; he says he must ensure videos won’t be taken down because losing traction/algorithm momentum would be financially damaging—affecting how he approaches trailers or showcase-style videos.",
+      "quote": null
     }
   ],
   "contributor_findings": {
@@ -102,135 +90,126 @@
       {
         "topic": "design",
         "importance": "medium",
-        "summary": "Kaze attributes planned ‘Yoshi-fying’ of the overworld silhouette to Biobak, implying a later pass where the island shape becomes more recognizably Yoshi.",
-        "quote": "I think Biobak said, don't worry about it, I will Yoshi-fy it."
-      },
-      {
-        "topic": "team",
-        "importance": "medium",
-        "summary": "Kaze defers environmental beautification because he expects Biobak to redo/overhaul the area visuals, indicating a workflow where Kaze prioritizes mechanics/scripting and Biobak does later art/polish passes.",
-        "quote": null
+        "summary": "Kaze attributes to Biobak a future plan to “Yoshi-fy” the overworld/island shape and to overhaul/pretty up areas later, which Kaze uses to justify deferring cosmetic polish during engine/content implementation.",
+        "quote": "Don’t worry about it, I will Yoshi-fy it."
       }
     ],
     "badub": [],
     "zeina": [
       {
-        "topic": "design",
+        "topic": "technical",
         "importance": "medium",
-        "summary": "Zeina’s ‘swinging Yoshi’ animation is actively integrated and debugged on-stream; Kaze is tuning timing (which frame triggers the ‘peak’ action), mapping subsets of frames, and compensating for rotation/offset mismatches between Yoshi and the swing motion.",
+        "summary": "Zeina’s swinging Yoshi animation (or Yoshi-related asset work) is a focal point: Kaze integrates it and then debugs animation-frame mapping, offsets, and rotation alignment to make the motion read cleanly in-game.",
         "quote": null
       }
     ],
-    "others": [
-      {
-        "name": "Homebrew Discord (unnamed member)",
-        "findings": [
-          {
-            "topic": "technical",
-            "importance": "low",
-            "summary": "A homebrew Discord suggestion about using an alternative directional/format approach (“IVV direction,” as referred to on-stream) is acknowledged by Kaze as a way to save a meaningful chunk of memory in a related system.",
-            "quote": null
-          }
-        ]
-      }
-    ]
+    "others": []
   },
   "memorable_quotes": [
     {
       "speaker": "Kaze",
-      "quote": "Now that collision BVH is done, I only need to update the OS… Which means we are finally done introducing regressions into the code base.",
-      "context": "He frames BVH completion as the turning point from engine churn to straightforward content production."
+      "quote": "Now that collision BVH is done, I only need to update the OS… which means we are finally done introducing regressions into the code base.",
+      "context": "A clear turning point statement: Kaze frames BVH completion as the end of destabilizing engine rewrites and the start of straightforward game-building."
     },
     {
       "speaker": "Kaze",
-      "quote": "I don't let bugs happen. I just make the game notify you of any bugs that would happen otherwise.",
-      "context": "Explaining why he prefers asserts/crashes during development rather than defensive checks that hide data issues."
+      "quote": "I don’t let bugs happen. I just make the game notify you of any bugs that would happen otherwise.",
+      "context": "His explicit engineering philosophy: prefer hard failures (asserts/crashes) over silent fallbacks, to enforce correctness and visual consistency."
     },
     {
       "speaker": "Kaze",
       "quote": "Compilers are dangerous tools and you cannot underestimate them.",
-      "context": "After diagnosing a severe rendering break caused by all-zero asset data being discarded/relocated by the build process."
+      "context": "Said while unpacking how optimization/build behavior and toolchain assumptions can create bizarre, non-obvious failures."
     }
   ],
   "key_stories": [
     {
-      "title": "Collision BVH completion and the end of engine regressions",
-      "summary": "Kaze demonstrates his new collision BVH system, describing a compact node format and stackless traversal approach. He reports a significant time savings (~200 microseconds) and describes this as the last major engine change before an OS update, after which he expects fewer regressions and faster progress on game content.",
-      "challenge": "Collision and engine performance/complexity were high enough that ongoing engine work kept introducing regressions and slowed level production.",
-      "process": "He implemented a new BVH layout (hit/miss indices, leaf triangle batches) with traversal macros, plus supporting tooling (partly written in Python) to generate/validate the structure.",
-      "outcome": "BVH is considered ‘done’ and is positioned as a major milestone that unblocks a content-focused phase once OS updates land.",
-      "key_quote": "Oh my god, that's going to feel so good. I can actually just make the game and the game will get done.",
+      "title": "Collision BVH completion and the shift out of regression-heavy engine work",
+      "summary": "Kaze completes a major collision optimization (BVH) and quantifies its speed benefit. He frames this as the final major engine change before an OS update, implying a turning point where the project can prioritize content without constant breakage.",
+      "challenge": "Collision and engine performance needed substantial optimization on N64 constraints without ballooning memory or complexity.",
+      "process": "Kaze built a compact BVH node format and a stackless traversal model using hit/miss indices and macros to standardize and speed up traversal; he then validated performance and checked hitbox sanity.",
+      "outcome": "BVH is considered “done,” saving ~200 microseconds, and Kaze expects the remaining OS update to be isolated—reducing future regressions and enabling faster feature/level progress.",
+      "key_quote": "Oh my god, that’s going to feel so good. I can actually just make the game and the game will get done.",
       "related_to": ["kaze"]
     },
     {
-      "title": "All-zero texture causes pointer aliasing and breaks rendering",
-      "summary": "A rendered object (a box) mysteriously broke the entire game. The cause was an all-black ‘stars on the floor’ texture: because its data was entirely zeros, the build/link process discarded the segment, and the runtime pointer ended up referencing a different display list (the exclamation box).",
-      "challenge": "Seemingly unrelated geometry rendering caused catastrophic visual/game breakage, hard to explain by normal logic.",
-      "process": "Kaze traced the issue to the level file’s black texture content and how the build placed/discarded segments when the data looked like empty/zero content.",
-      "outcome": "Bug is resolved, and Kaze highlights it as a lesson about toolchain behavior and engine constraints.",
-      "key_quote": null,
+      "title": "The fully-black texture that got discarded and corrupted rendering pointers",
+      "summary": "A visually simple asset (a black floor texture) caused a catastrophic runtime failure due to how the build placed/discarded zero-filled data. The bug illustrates how retro toolchains and segment rules can create surreal cause-and-effect: drawing the floor broke an unrelated object.",
+      "challenge": "Rendering an element caused the entire game to break in a way that didn’t match the apparent source of the problem.",
+      "process": "Kaze traced the issue to the level file: the ‘stars on the floor’ texture was all zeros, so it was treated as discardable during segment building. The pointer remained but the data didn’t, so the pointer aliased into the exclamation box display list.",
+      "outcome": "He identifies and resolves the bug, removing a major crash source and reinforcing his caution about asset/build assumptions (especially with zero-filled data).",
+      "key_quote": "So instead of rendering the floor, it was just breaking the exclamation box. That’s so dumb.",
       "related_to": ["kaze"]
     },
     {
-      "title": "Crash-loudly debugging philosophy (DrawShadow floor pointer)",
-      "summary": "Kaze explains why the game sometimes ‘crashes’ during dev videos: he removes safety checks and replaces silent failure with explicit crashes/asserts. His example is DrawShadow, where instead of skipping shadow rendering if there is no floor, he forces a crash so the underlying actor data gets fixed and objects always have proper shadows.",
-      "challenge": "Defensive code hid underlying data bugs and produced lower-quality visuals (missing/incorrect shadows).",
-      "process": "He removed null checks and added assertions so missing floor data fails fast during development; then he fixes actors to provide valid floor references.",
-      "outcome": "More reliable detection of incorrect data and a path toward consistently correct shadows, at the cost of more dev-time crashes during engine churn.",
-      "key_quote": "Instead, I made it so that the game now crashes and it notifies you there's no floor during the render.",
+      "title": "Crash-first debugging: removing safety checks to enforce correct shadows",
+      "summary": "Kaze explains why viewers sometimes see crashes in development footage: he intentionally replaced a defensive check with a hard crash so missing-floor cases can’t slip through. The goal is consistent visual quality (proper shadows) and faster identification of broken actor data.",
+      "challenge": "Objects without a valid floor pointer produced incorrect/hidden shadow behavior; defensive code masked the underlying bug.",
+      "process": "He removed the floor existence/validity check in DrawShadow to save cycles and to force an assert/crash when a render occurs without a floor, pushing him to fix actor data rather than tolerate fallback behavior.",
+      "outcome": "Development builds crash more visibly during engine transitions, but the result is stricter correctness and better final presentation; stable demos remain the public-facing proof of reliability.",
+      "key_quote": "Instead, I made it so that the game now crashes and it notifies you there’s no floor during the render.",
       "related_to": ["kaze"]
+    },
+    {
+      "title": "Making Zeina’s swinging Yoshi animation readable in-engine",
+      "summary": "Kaze attempts to synchronize Yoshi placement and rotation with a swing animation, but finds frame counts, offsets, and delayed joint positions make the motion feel disorienting. He experiments with remapping frames, offset hacks, and reducing swing extremity as a potential re-animate requirement.",
+      "challenge": "The Yoshi appears to ‘tweak’ or slide due to frame mapping errors (121 frames), one-frame delayed armature outputs, and mismatch between swing rotation and Yoshi rotation.",
+      "process": "He remaps key frame ranges, fixes negative/out-of-range keyframes, tests with proxy objects (exclamation box), and tries counter-offsetting and dampening approaches; he considers remaking or simplifying the swing animation.",
+      "outcome": "He improves some aspects (eliminating major frame glitches) but concludes it may require either animation changes or further systematic handling of offsets/rotation alignment in future work.",
+      "key_quote": "The animation frame is clean now, but the way he moves around is really, really disorienting.",
+      "related_to": ["kaze", "zeina"]
     }
   ],
   "open_questions": [
     {
-      "topic": "Collision BVH integration details and scope",
-      "context": "Kaze calls collision BVH ‘done’ and reports a ~200 microsecond savings, with a stackless traversal design and custom node layout.",
+      "topic": "Collision BVH design and why stackless traversal mattered",
+      "context": "Kaze describes a custom BVH format with hit/miss indices, macro-driven traversal, and no left/right iteration, claiming strong performance gains.",
       "questions": [
-        "Where exactly does the ~200 microsecond win come from (per-frame collision query budget, per-object, per-triangle, etc.)? What was the benchmark scenario?",
-        "What tradeoffs did the stackless hit/miss node layout impose compared to a traditional left/right BVH (build complexity, memory layout, worst-case traversal)?",
-        "What parts of the pipeline required Python tooling (BVH build step, validation, asset preprocessing), and how is that integrated into the decomp-based build system?"
+        "What earlier collision approach did you replace, and what specific bottleneck made BVH the ‘must-do’ optimization?",
+        "Can you explain the key design choice—hit/miss indices and stackless traversal—in terms of N64 cache/memory behavior and why it beat a more conventional BVH traversal?",
+        "What tradeoffs did you accept (precision, build time, triangle batching, memory layout constraints) to get the ~200 microsecond win?"
       ],
       "related_to": ["kaze"]
     },
     {
-      "topic": "Planned OS update and why it should not cause regressions",
-      "context": "Kaze says only an OS update remains and predicts it won’t affect the rest of the game, marking an end to regressions.",
+      "topic": "The OS update Kaze says is ‘last’—what is it and why is it isolated?",
+      "context": "He predicts OS updates won’t affect the rest of the game and will end regression-heavy work.",
       "questions": [
-        "What ‘OS’ component is being updated (custom scheduler, memory management, threading, IO, timekeeping)?",
-        "Why is this update expected to be isolated—what boundaries/interfaces were put in place to prevent game-wide breakage?",
-        "What past regressions were the most costly during the engine-rewrite phase, and what practices changed to reduce them?"
+        "When you say ‘update the OS,’ what subsystems are you referring to (scheduler, memory, threading, IO, timing), and what prompted the need for a rewrite now?",
+        "Why are you confident it won’t cause widespread regressions—what boundaries or interfaces did you design to contain it?",
+        "What will ‘done introducing regressions’ practically change about your workflow and timeline?"
       ],
       "related_to": ["kaze"]
     },
     {
-      "topic": "Warp/area system refactor and cutscene breakage",
-      "context": "Kaze notes that placing certain logic inside an area can ‘kill the level cutscenes’ and he dislikes how SM64 handles areas; he postpones fixes until after rewriting warps.",
+      "topic": "Nintendo takedown risk shaping marketing and release communication",
+      "context": "Kaze says he avoids certain trailer/showcase ideas because takedowns would destroy video momentum and revenue, even if he believes content could be transformative.",
       "questions": [
-        "What is the specific failure mode—what cutscenes break, and what condition triggers it (initLevel placement, area switching, reset flags)?",
-        "What are the design goals for the new warp system (data-driven warps, multi-area coherence, cutscene triggers, streaming concerns)?",
-        "How will the refactor affect existing levels/content that already rely on the current area definitions?"
+        "What specific kinds of videos have you seen Nintendo take down in your experience (trailers, remixes, direct footage, branding), and what lines are you trying not to cross?",
+        "How do you plan marketing beats (trailers, announcements) when you feel the risk of removal is unpredictable?",
+        "Have you developed any ‘safe formats’—technical breakdowns, commentary, comparisons—that you believe reduce takedown risk while still promoting the project?"
       ],
       "related_to": ["kaze"]
     },
     {
-      "topic": "Overworld lighthouse interaction design (one-time rotation to open a level)",
-      "context": "Kaze describes a lighthouse ‘spin thing’ that rotates once (about ~90 degrees) to trigger a cutscene and open/access a level, rather than being a repeating rotating beacon or puzzle.",
+      "topic": "10-part optimization series: creative intent vs sponsor strategy",
+      "context": "Kaze outlines a long optimization series and explicitly plans to run sponsors for a month, then remove them and compile a sponsor-free ‘movie’ cut.",
       "questions": [
-        "What is the narrative/gameplay intention behind a one-time lighthouse rotation—what does it communicate to the player?",
-        "What determines success (directional push check, angle threshold, frame timing), and how do you prevent accidental triggers?",
-        "Will the lighthouse become a recurring overworld interaction pattern (rotate objects to unlock routes), or is it bespoke?"
+        "What’s the documentary-style story you want that optimization series to tell—personal journey, technical education, or funding the project?",
+        "How would you decide what metrics/visualizations to include so non-programmers can follow the stakes of each optimization?",
+        "Did sponsorship needs influence the scope/structure (10 parts) versus making a single definitive film from the start?"
       ],
       "related_to": ["kaze"]
     },
     {
-      "topic": "Zeina’s swinging Yoshi animation: whether to fix in code or reauthor animation",
-      "context": "Runtime fixes are getting complex: frame mismatch (121 frames), offsets/lag, rotation not matching swing extremes, and potential quaternion dampening or reauthoring.",
+      "topic": "BVH enabling an in-game ‘AI that moves Mario’ concept",
+      "context": "Kaze briefly revisits an idea to train an in-game agent to control Mario, previously dropped as too expensive with older collision/condition functions; BVH may make it feasible.",
       "questions": [
-        "Was the 121-frame length intentional from the animation tool/exporter, or an export bug? Which tool generated it?",
-        "What’s the preferred pipeline: adjust animation in DCC (Blender) vs compensating in-engine with offsets and damping—and why?",
-        "If the swing animation is reauthored to be ‘less extreme,’ what constraints come from gameplay readability, motion sickness, and collision/placement?"
+        "What would ‘AI Mario’ actually do in the context of Return to Yoshi’s Island—demo playback, tool-assisted testing, novelty mode, or something players interact with?",
+        "What was the computational cost before BVH, and what changed enough that you’re reconsidering it now?",
+        "If you pursued it, would training happen on PC with exported state, or would any learning/inference run on real N64 hardware?"
       ],
-      "related_to": ["kaze", "zeina"]
+      "related_to": ["kaze"]
     }
   ]
 }

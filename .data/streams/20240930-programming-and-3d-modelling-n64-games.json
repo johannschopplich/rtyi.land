@@ -1,108 +1,102 @@
 {
   "stream_context": {
-    "summary": "Kaze works on a papercraft-style Thwomp enemy (folded/cardboard look, googly eyes, face parts) and briefly showcases other off-stream progress (new input leniency, a new strong enemy). Mid-stream he imports and reviews Biobak’s latest Course 1 rework from Discord, fixing multiple Fast64/material/render settings (Z-buffer, layers, shading, 2-cycle constraints) and discussing lighting rules for the course’s different areas, plus some boss-fight and layout tweaks. He also reflects on changing the game’s story premise away from a darker “Yoshis forced to work” plot.",
-    "level": ["Course 1", "Course 15 – Halloween of Ardor"],
+    "summary": "Kaze prototypes a new papercraft-style Thwomp enemy (folded/cardboard look, animated “googly eyes,” sound/feedback ideas), then pivots into integrating Biobak’s latest Course 1 rework via a Discord zip. Much of the stream becomes technical triage: fixing render-order/Z-buffer/material-node mistakes, two-cycle texture constraints, and lighting setups (including emulator-specific quirks). He also briefly revisits the game’s story premise and rejects an earlier, darker plot direction.",
+    "level": ["Course 1"],
     "significance": "notable",
-    "significance_reason": "Contains a clear narrative/design rethink of the game’s plot tone, plus substantive team collaboration on Course 1’s repeated rework for a new demo and concrete technical lessons about N64 render/material constraints in Fast64."
+    "significance_reason": "Contains a substantial Course 1 rework integration (with concrete visual/design changes and a lot of rendering/lighting pipeline debugging), plus a meaningful narrative decision to move away from a slavery-themed plot premise."
   },
   "findings": [
     {
       "topic": "design",
       "importance": "medium",
-      "summary": "Kaze iterates on a papercraft Thwomp concept, shifting from a normal-stone look to a folded-cardboard box aesthetic with visible folds, cardboard eyebrows, and “googly eyes” that will physically bounce/move during attacks.",
-      "quote": null
-    },
-    {
-      "topic": "technical",
-      "importance": "medium",
-      "summary": "He plans/implements animation control for the Thwomp’s face: the Thwomp can “look around” (face/eye direction changes) and the pupils/googly eyes can fly around during the slam attack for comedic feedback.",
-      "quote": null
-    },
-    {
-      "topic": "technical",
-      "importance": "medium",
-      "summary": "He notes a current engine/actor bug: some enemies are not squishing Mario as intended, requiring debugging/fixing in the custom actor logic.",
-      "quote": null
-    },
-    {
-      "topic": "technical",
-      "importance": "medium",
-      "summary": "Kaze shows a new input feature: the game now accepts two Z-button presses in back-to-back frames (a leniency/tech improvement for responsiveness).",
+      "summary": "Kaze is still searching for the perfect name for a papercraft-themed area; chat suggestions like Paper Craft Peaks and Handmade Heights are considered ‘good enough’ but not final.",
       "quote": null
     },
     {
       "topic": "design",
       "importance": "high",
-      "summary": "He explains the hack’s core level structure: levels are sandbox-like (Mario 64 style), but stars are “meatier” because they often involve entering sub-challenges (linear challenges/puzzles) rather than simply grabbing stars in the hub space.",
-      "quote": "Most levels work like an open Mario 64 world, but instead of finding stars you find entrances to linear challenges or puzzles, so there’s a lot more meat to the stars."
+      "summary": "The Thwomp enemy is being redesigned to fit the game’s papercraft aesthetic: Kaze experiments with folds (cardboard box/origami cues), visible ‘construction’ details (glue/duct tape-style eyebrows), and commits to animated googly eyes (eyes can bounce, wander, and even ‘fly around’ during attacks).",
+      "quote": null
+    },
+    {
+      "topic": "technical",
+      "importance": "medium",
+      "summary": "Kaze sanity-checks enemy performance budgets: the Thwomp lands around ~164 polygons; he notes enemies vary widely (some ~60, some ~300) and he balances enemy detail against environment cost rather than enforcing a hard poly limit.",
+      "quote": null
+    },
+    {
+      "topic": "technical",
+      "importance": "medium",
+      "summary": "Kaze downplays the value of LODs for the current workflow, saying they’re not worth the overhead with the current Fast64 setup; he implies LODs might become worthwhile if Fast64 gets “branch C.”",
+      "quote": null
+    },
+    {
+      "topic": "design",
+      "importance": "medium",
+      "summary": "He outlines the hack’s overall structure as “sandboxy”: large Mario 64-style open areas where ‘star equivalents’ are entrances to more linear challenges/puzzles, giving each objective more substance than simply collecting a star.",
+      "quote": null
     },
     {
       "topic": "philosophy",
       "importance": "medium",
-      "summary": "Kaze states an intentional difficulty/agency philosophy: skilled players can often bypass obstacles, and the game avoids strict mandatory gating when possible.",
-      "quote": "Nothing in this game is mandatory if you’re good at the game."
-    },
-    {
-      "topic": "design",
-      "importance": "high",
-      "summary": "Kaze reveals the team is reconsidering the story premise: an earlier plot where Bowser captures Yoshis and forces them to work in a factory is being changed because it feels too dark for a Mario game, even if the “Bowser threatens the Yoshis” setup remains.",
-      "quote": "A whole slavery plot is maybe a bit too much for a Mario game."
-    },
-    {
-      "topic": "team",
-      "importance": "high",
-      "summary": "Biobak sends “Course one update.zip” via Discord; Kaze reviews it live, notes Course 1 gets frequent reworks because the team wants a new Course 1 demo, and starts logging fixes and TODOs while integrating Biobak’s changes under time pressure (Thanksgiving dinner).",
+      "summary": "Kaze emphasizes optionality through skill: ‘locks’ in levels are often bypassable if the player is good at platforming, framing this as a core design virtue of the project.",
       "quote": null
     },
     {
       "topic": "technical",
       "importance": "high",
-      "summary": "Kaze diagnoses and fixes multiple Course 1 render/material issues caused by incorrect Fast64 material properties and draw settings: incorrect Z-buffer usage, wrong render layers (sky/clouds needing to render behind everything), disabled smooth shading, incorrect combiner inputs, and a reminder that multi-texture materials force 2-cycle rendering on N64.",
-      "quote": "Whenever you use more than one texture in the material, you are 100% forced to use two cycle and there’s nothing you can do about it."
+      "summary": "While importing Biobak’s Course 1 update, Kaze encounters widespread rendering/material configuration problems (incorrect Z-buffer usage, shading disabled, odd combine-mode choices, and questionable RDP settings like pipeline span buffer coherency). He explains practical rules-of-thumb: Z-buffer isn’t needed for always-behind backgrounds; draw order and layer assignment matter; and any material using more than one texture forces two-cycle rendering.",
+      "quote": null
     },
     {
       "topic": "design",
       "importance": "medium",
-      "summary": "Boss-fight design tweak discussed: instead of the boss “king” following the player awkwardly, Kaze considers changing behavior so the king relocates and the boulders track/follow the player, preserving avoidability once boulders are dropped.",
+      "summary": "Biobak’s Course 1 rework includes multiple readability/aesthetic passes (e.g., carrots filling cave bottoms, glowier mushrooms, improved castle depth/roofing/railings, a door size change for the boss, updated trees, slide-area vine wrapping around and ‘holding’ a birdhouse). Kaze notes at least one surprising optimization outcome: despite added detail, one section ends up with fewer polygons than before.",
       "quote": null
     },
     {
-      "topic": "milestone",
+      "topic": "design",
       "importance": "medium",
-      "summary": "Kaze reiterates scope: the target is 15 courses total; Course 15 (“Halloween of Ardor”) is already about halfway done.",
+      "summary": "A boss-fight behavior tweak is proposed: instead of the boss ‘king’ tracking the player (which looks treadmill-like), the king could move to set positions while the boulders track/follow the player—preserving fight structure while making the motion feel less awkward.",
       "quote": null
+    },
+    {
+      "topic": "legal-nintendo",
+      "importance": "low",
+      "summary": "Kaze reiterates the project’s core constraint: it is meant to run on real Nintendo 64 hardware at vanilla Mario 64 resolution.",
+      "quote": null
+    },
+    {
+      "topic": "philosophy",
+      "importance": "high",
+      "summary": "Kaze explicitly rejects an earlier story draft because it was tonally inappropriate for Mario: the initial premise involved Bowser capturing Yoshis and forcing them to work in a factory, which he now considers too dark and wants to replace with a different threat.",
+      "quote": "A whole slavery plot is maybe a bit too much for a Mario game."
     },
     {
       "topic": "business",
-      "importance": "low",
-      "summary": "Kaze mentions a potential paid commission idea from Twitter: a new project concept based on Mario Party 2 boards with Bowser’s Fury-like worlds, implying he might take side work if funding materializes.",
+      "importance": "medium",
+      "summary": "Kaze mentions a potential paid side project pitched to him (a Mario Party-board-themed game with Bowser’s Fury-like open worlds). He frames it as something he’d do if the commissioner actually pays, suggesting he’s weighing external contract work against RTYI focus.",
       "quote": null
     }
   ],
   "contributor_findings": {
     "biobak": [
       {
-        "topic": "design",
+        "topic": "milestone",
         "importance": "high",
-        "summary": "Biobak provides a substantial Course 1 rework package (Discord zip) including layout/detail changes: sky-wall changes, removing fences in favor of bushes, retro-section platforming adjustments, a classic end-section with flagpole/castle animation, and boss-castle visual updates (red castle, more roofs, railings, larger door for the king).",
+        "summary": "Biobak delivers a new Course 1 update zip via Discord that Kaze integrates live, including major visual revisions across multiple areas (main area, cave/underground, castle boss area, slide/retro section).",
         "quote": null
       },
       {
         "topic": "technical",
         "importance": "high",
-        "summary": "Biobak’s update surfaces a recurring pipeline issue: some imported meshes/materials arrive with many incorrect Fast64/RDP settings (Z-buffer, shading, combiner modes, perspective correction). Kaze has to systematically reset/standardize them to avoid blue-tinted or broken rendering.",
-        "quote": null
-      },
-      {
-        "topic": "design",
-        "importance": "medium",
-        "summary": "For the Thwomp, Biobak (and/or chat prompted by his feedback) pushes the design away from “normal thwomp” toward a folded-cardboard/paper-box look with more visible folds; he also suggests making triangle faces darker to sell folding depth.",
+        "summary": "Some of the update arrives with many unintended rendering/material toggles changed (e.g., shading/Z-buffer/combine settings, unusual RDP-related options). Kaze has to identify and revert/fix these to restore correct in-game rendering.",
         "quote": null
       },
       {
         "topic": "technical",
         "importance": "medium",
-        "summary": "Biobak requests a lighting approach change for Course 1’s retro section: largely camera-based lighting and selective smooth shading (e.g., castles/flagpoles/pipes), prompting Kaze to reconfigure lights per area (main, underground, retro, boss).",
+        "summary": "Biobak teases a “massive improvements / big optimization” update that Kaze postpones reviewing until next stream due to leaving for Thanksgiving dinner.",
         "quote": null
       }
     ],
@@ -111,7 +105,7 @@
       {
         "topic": "team",
         "importance": "low",
-        "summary": "Zeina offers to make a replacement red banner asset for the boss-castle area after Biobak removes/changes banners due to color/UV constraints.",
+        "summary": "Zeina offers (via message relayed by Kaze) to create a replacement red banner asset for the castle area after the Goomba banner couldn’t be recreated on the red palette.",
         "quote": null
       }
     ],
@@ -121,104 +115,73 @@
     {
       "speaker": "Kaze",
       "quote": "A whole slavery plot is maybe a bit too much for a Mario game.",
-      "context": "Explaining why the team is revising the original story concept (Bowser capturing Yoshis and forcing them to work in a factory) to fit Mario’s tone."
+      "context": "While discussing the game’s story, Kaze walks back an earlier plot outline (Bowser forcing Yoshis to work in a factory) and signals a tonal rewrite."
     },
     {
       "speaker": "Kaze",
-      "quote": "Most levels work like an open Mario 64 world, but instead of finding stars you find entrances to linear challenges or puzzles, so there’s a lot more meat to the stars.",
-      "context": "Concise articulation of the hack’s hybrid sandbox + sub-challenge structure (how it becomes new while staying respectful to SM64)."
-    },
-    {
-      "speaker": "Kaze",
-      "quote": "Whenever you use more than one texture in the material, you are 100% forced to use two cycle and there’s nothing you can do about it.",
-      "context": "A blunt statement of a key N64 rendering constraint shaping the art/tech pipeline and material design choices."
+      "quote": "Please shut the fuck up. Leave me be.",
+      "context": "A viewer pressures him to release before Christmas; Kaze snaps, revealing stress around release expectations and deadlines."
     }
   ],
   "key_stories": [
     {
-      "title": "Rewriting the story premise to fit Mario’s tone",
-      "summary": "Kaze describes an early plot draft where Bowser goes to Yoshi’s Island, captures the Yoshis, and forces them to work in a factory. He decides that this crosses into themes that feel inappropriate for a Mario game and says the team needs a different threat premise that still keeps Yoshis central.",
-      "challenge": "How to create stakes and a coherent narrative hook without undermining the light tone expected from Mario/Yoshi.",
-      "process": "Kaze openly evaluates the implications of the factory/forced-labor idea on stream and rejects it as ‘too much,’ while keeping the broader direction (Bowser threatening Yoshis) intact.",
-      "outcome": "The original plot is discarded; the team needs a new narrative framing for Bowser’s threat and the Yoshis’ role.",
-      "key_quote": "A whole slavery plot is maybe a bit too much for a Mario game.",
-      "related_to": ["kaze"]
-    },
-    {
-      "title": "Course 1 rework loop driven by demo goals",
-      "summary": "Kaze integrates Biobak’s latest Course 1 update from Discord, explaining that Course 1 gets disproportionate iteration because the team wants to ship another Course 1-focused demo. The review mixes aesthetic feedback (sky, foliage, retro end-flagpole setpiece) with practical integration work and time constraints (leaving for Thanksgiving dinner).",
-      "challenge": "Frequent course revisions risk pipeline breakage (materials/render settings) and can consume time across modeling, lighting, collision, and optimization.",
-      "process": "Kaze imports the update, triages visual bugs, documents TODOs (sky draw order, sun/lens flare positioning, lighting per area), and fixes broken Fast64 material settings while evaluating Biobak’s design changes in-game.",
-      "outcome": "The updated Course 1 version largely works after fixes, but some rendering/material settings require continued cleanup; Kaze schedules further Course 1 work for next stream.",
+      "title": "Rebuilding the Thwomp into a papercraft enemy with animated googly eyes",
+      "summary": "Kaze tries to make a familiar Mario enemy feel like it belongs in a handcrafted world, not a stone dungeon. The design challenge becomes less about geometry and more about material language: folds, taped-on features, and playful eye animation to sell ‘made of cardboard.’",
+      "challenge": "The Thwomp reads as a normal, shiny, stone-like Thwomp instead of something ‘construction paper/cardboard’ that matches the level’s craft theme.",
+      "process": "He experiments with folded-cube construction, darker tris to suggest folds, debates origami vs. sturdier cardboard, prototypes eyebrows as duct tape vs. cardboard, and implements behavior hooks for eyes looking around and going chaotic during attacks.",
+      "outcome": "The Thwomp looks better in-game and the googly-eye concept becomes a core character feature, but Kaze still flags texture/material dissatisfaction and plans to finish SFX/GFX feedback later.",
       "key_quote": null,
-      "related_to": ["kaze", "biobak", "zeina"]
+      "related_to": ["kaze", "biobak"]
     },
     {
-      "title": "Fast64/N64 material settings causing cascading render bugs",
-      "summary": "While reviewing Course 1, Kaze finds surfaces with many incorrect RDP/material flags (missing Z-buffer, disabled smooth shading, wrong combiner inputs, odd pipeline span buffer coherency choices). He explains when Z-buffer is needed, the importance of draw layers for backgrounds, and that multi-texture materials force two-cycle rendering.",
-      "challenge": "Small exporter/material misconfigurations can produce severe in-game artifacts (incorrect transparency, blue tinting, broken shading) and are hard to diagnose without deep N64 pipeline knowledge.",
-      "process": "Kaze identifies mis-set properties, resets them to known-good defaults, reorders background elements to render behind geometry, and adjusts lighting/shading strategy (including camera-lighting experiments for retro areas).",
-      "outcome": "Rendering stabilizes, but Kaze flags that the project needs consistent material/version discipline (e.g., ‘v2 to v8’ material evolution) to prevent regressions.",
-      "key_quote": "Not everything needs to use a Z-buffer.",
+      "title": "Course 1 rework integration turns into a rendering and lighting pipeline cleanup",
+      "summary": "Biobak’s Course 1 update meaningfully upgrades multiple areas, but importing it exposes how fragile the SM64 rendering/material pipeline can be when many toggles drift over time. Kaze ends up documenting rules about Z-buffer usage, layer ordering, combine modes, and the hard constraint that multi-texture materials require two-cycle rendering.",
+      "challenge": "After importing the update zip, the sky/clouds/backgrounds and several surfaces render incorrectly (transparency, order, strange coloration), with numerous material properties unexpectedly changed.",
+      "process": "Kaze audits material nodes and Fast64 settings, reassigns assets to proper layers (e.g., layer 0 for always-behind sky elements), restores Z-buffer/shading where needed, fixes combine/alpha settings, and adjusts lighting setups per area while testing in-game and observing emulator-specific behavior.",
+      "outcome": "Most of the worst rendering issues are resolved on stream; remaining oddities are labeled fixable. A larger optimization pass from Biobak is queued for the next stream.",
+      "key_quote": "Whenever you use more than one texture in the material, you are 100% forced to use two cycle and there's nothing you can do about it.",
       "related_to": ["kaze", "biobak"]
+    },
+    {
+      "title": "Scrapping an early plot draft for tonal reasons",
+      "summary": "Kaze openly admits the team had a plot, decided it was bad, and is now rethinking it. The key turning point is tonal: an idea that Bowser enslaves Yoshis in a factory is rejected as too heavy for a Mario story, even if the ‘threaten Yoshis’ backbone remains.",
+      "challenge": "Finding a motivating story for the hack that fits Mario’s tone while still giving Bowser a clear, grounded reason to invade Yoshi’s Island.",
+      "process": "Kaze revisits the original premise, identifies why it feels wrong for Mario, and proposes keeping a lighter version of the stakes (Bowser threatens Yoshis) without explicit slavery framing.",
+      "outcome": "The story direction is explicitly in flux, with an intent to replace the premise rather than ship the original draft.",
+      "key_quote": "We had a plot at some point, but then I realized the plot sucks, so I want to change it.",
+      "related_to": ["kaze"]
     }
   ],
   "open_questions": [
     {
-      "topic": "Final story premise after dropping the factory/forced-labor concept",
-      "context": "Kaze rejects the earlier plot (Bowser capturing Yoshis and making them work in a factory) as too dark, but still wants Yoshis central and needs a new threat framing.",
+      "topic": "Story rewrite after rejecting the factory/slavery premise",
+      "context": "Kaze says the original plot (Bowser capturing Yoshis to work in a factory) is too dark for Mario and needs to be replaced, but he still wants Yoshis central and some form of threat from Bowser.",
       "questions": [
-        "What is the revised core premise now (what does Bowser do, and why Yoshi’s Island)?",
-        "What tone rules did you set for the story so it stays ‘Mario’ while still feeling new?",
-        "Were there specific scenes/levels (e.g., factory areas) that had to be redesigned because the story changed?",
-        "How much narrative is intended to be explicit (cutscenes/dialogue) versus environmental storytelling?",
-        "Who on the team weighed in most on the tone change, and was there disagreement?"
+        "What was the moment you realized the original plot crossed the tonal line for a Mario game—was it feedback, your own discomfort, or trying to write specific scenes?",
+        "What story beats are you trying to preserve (Bowser’s motivation, the factory/industrial theme, Yoshi involvement), and what are you determined to remove?",
+        "How do you decide how much story RTYI should have at all—cutscenes, text, environmental storytelling—without it feeling like a fangame that’s ‘trying too hard’?"
       ],
-      "related_to": ["kaze", "biobak", "zeina"]
+      "related_to": ["kaze"]
     },
     {
-      "topic": "Course 1 demo strategy and why Course 1 gets repeated overhauls",
-      "context": "Kaze says Course 1 has been reworked many times because the team wants another Course 1 demo, and he’s integrating Biobak’s new update zip.",
+      "topic": "How the team prevents ‘material setting drift’ across repeated Fast64/Blender updates",
+      "context": "Course 1 import reveals many incorrect or surprising render settings (Z-buffer/shading/combine modes and even RDP-related toggles) that Kaze has to manually unwind, plus constraints like forced two-cycle for multi-texture materials.",
       "questions": [
-        "What does the next Course 1 demo need to prove (visual style, gameplay loop, performance targets)?",
-        "How do you decide when Course 1 is ‘done enough’ to stop reworking it and move on?",
-        "What parts of Course 1 are most sensitive to breaking (materials, lighting, collision, actors), and how do you QA it?",
-        "Do you treat Course 1 as the project’s ‘style bible’ for later courses? If so, what rules came out of these reworks?"
+        "What’s your workflow for keeping materials consistent as Fast64 versions and internal ‘material versions’ (v2 to v8, etc.) evolve—do you have a checklist or automated validation?",
+        "Which of these rendering problems only show up in hardware/emulator testing versus Blender preview, and how does that shape how you iterate on art?",
+        "When Biobak (or others) touches materials, what guidance do you give about which low-level toggles are ‘off-limits’ because they can quietly break the RDP pipeline?"
       ],
       "related_to": ["kaze", "biobak"]
     },
     {
-      "topic": "Lighting/shading rules per area (camera lighting vs directional/global)",
-      "context": "During the Course 1 rework integration, Kaze experiments with largely camera-based lighting (especially in the retro section) and sets different light directions/brightness for boss vs underground vs main areas.",
+      "topic": "Boss fight readability: king tracking vs. boulders tracking",
+      "context": "Kaze notes the king following the player looks treadmill-like; a proposed redesign has the king move to positions while boulders follow the player instead, to keep the fight functional but look better.",
       "questions": [
-        "What is the intended aesthetic difference between ‘retro’ area lighting and the rest of the game?",
-        "What are the technical constraints on N64 (or your renderer) that make camera lighting attractive or risky?",
-        "What are the finalized per-area lighting guidelines you want artists to follow so updates don’t regress?",
-        "How do you handle objects that go pitch-black under camera lighting—do you allow ambient boosts, emissive tricks, or vertex color cheats?"
+        "Did you end up prototyping the ‘boulders follow you’ variant, and what did it change about difficulty and player understanding of the pattern?",
+        "What’s the core design goal of that boss fight—positioning puzzle, reaction test, or spectacle—and how does the boss movement support that?",
+        "How do you evaluate when an animation/behavior is ‘technically correct’ but visually reads wrong enough that it needs a redesign?"
       ],
-      "related_to": ["kaze", "biobak"]
-    },
-    {
-      "topic": "Fast64 material/version discipline and recurring render regressions",
-      "context": "Kaze references materials evolving across versions (‘v2’ to ‘v8’) and repeatedly finds surfaces with many incorrect properties (Z-buffer, smooth shading, combiner inputs, alpha settings).",
-      "questions": [
-        "What’s the agreed workflow for upgrading old materials safely (and who owns that process)?",
-        "Are there checklists or automated validation you can run to catch wrong RDP flags before they hit the build?",
-        "Which specific Fast64 settings are the biggest foot-guns for the team (e.g., Z-buffer toggles, combiner presets, perspective correction, span buffer coherency)?",
-        "Would you consider standardizing a small set of ‘approved’ material templates for the whole project?"
-      ],
-      "related_to": ["kaze", "biobak"]
-    },
-    {
-      "topic": "Boss fight behavior change: boulders tracking the player instead of the king",
-      "context": "Kaze and chat discuss that the king following the player looks treadmill-like; a proposed fix is having the king relocate while the boulders follow/target the player with avoidability safeguards.",
-      "questions": [
-        "Did you implement this boss behavior change, and did it improve readability/fun?",
-        "How do you prevent boulder-tracking from feeling unfair or unavoidable, especially in tight arenas?",
-        "Was the original ‘king follows you’ behavior driven by technical simplicity, animation constraints, or design intent?",
-        "What other boss fights in the hack follow this ‘actor relocates + hazard tracks player’ pattern?"
-      ],
-      "related_to": ["kaze", "biobak"]
+      "related_to": ["kaze"]
     }
   ]
 }

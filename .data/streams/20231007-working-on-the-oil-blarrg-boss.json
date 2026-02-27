@@ -1,69 +1,99 @@
 {
   "stream_context": {
-    "summary": "Kaze continues building the Oil/Soap Blargg “black boss” fight, focusing on flee behavior, damage feedback (primitive-color flashing), and overall arena presentation. The stream also surfaces a major N64 constraint: the ROM is nearing the 64MB limit largely due to streamed music, forcing upcoming tradeoffs in audio format and course planning. Personal update: Kaze and Zeina bought a house and are preparing to move, shaping near-term workflow (more off-stream work, big push on a day off).",
-    "level": [],
-    "significance": "notable",
-    "significance_reason": "Introduces a concrete production constraint (ROM size dominated by streamed music) that will affect remaining course content, while also showing boss-fight iteration (mechanics + readability) and real-life schedule changes (house move) that impact development cadence."
+    "summary": "Kaze continues building the Oil Blargg/“block boss” encounter: refining its flee/panic animation, damage feedback (primitive color flashing), and outlining remaining mechanics (soap usage, particles, platforms/grills, and teleporting). Mid-stream he identifies a major production constraint: the ROM is nearing the 64MB cap largely due to streamed music (~35.6MB), forcing decisions about audio format and content. He also debugs ugly lighting/camera/theming issues in the boss arena and pivots toward a new environment concept (container/warehouse + cave).",
+    "level": ["Course 11"],
+    "significance": "milestone",
+    "significance_reason": "The stream introduces a hard project-wide constraint (ROM size nearing 64MB, dominated by streamed music) that will directly affect content/audio decisions going forward, while the Oil Blargg boss fight reaches a near-complete “skeleton” with clear remaining tasks and a thematic/environment pivot."
   },
   "findings": [
     {
+      "topic": "milestone",
+      "importance": "high",
+      "summary": "Kaze discovers the ROM is already ~45.9MB and trending slightly over-budget for a 15-course plan under the 64MB N64 cap; he pinpoints streamed music as the primary driver (sound data table ~35.6MB, ~two-thirds of ROM).",
+      "quote": "Sound data table here—this is 35.6 megabytes of just music. Two-thirds of the ROM is just music."
+    },
+    {
+      "topic": "business",
+      "importance": "medium",
+      "summary": "He attributes a near-doubling of YouTube income (vs typical) to a combination of increased watch time/views and YouTube’s apparent anti–ad-blocker behavior; he expresses support for the change because it increases revenue.",
+      "quote": null
+    },
+    {
       "topic": "design",
       "importance": "high",
-      "summary": "The Oil/Soap Blargg boss fight structure is clarified: Blargg loops attacks (including wave attacks), occasional soap pieces drop/appear, and soap is the intended tool to damage him; the player repeats the damage phase multiple times (roughly three) rather than it being a final phase.",
+      "summary": "The Oil Blargg boss fight is structured as repeated attack cycles: Blargg runs around and attacks (including wave shots), soap periodically drops, and soap enables the damage phase where Mario rides it into Blargg multiple times (planned ~3 successful cycles). Kaze explicitly aims to avoid too-large a skill gap between “bad” and “good” players.",
+      "quote": null
+    },
+    {
+      "topic": "technical",
+      "importance": "high",
+      "summary": "Kaze has made significant off-stream progress and optimizations for the boss fight and is trying to keep the encounter N64-compatible and performant; he repeatedly defers complex fixes to off-stream time when they’re too intricate for live debugging.",
       "quote": null
     },
     {
       "topic": "design",
       "importance": "medium",
-      "summary": "Kaze implements/iterates flee behavior: when Mario is on the soap/attacking, Blargg should run away in a circular path in the direction farthest from Mario (using Mario’s angle) and become more panicked/animated under pressure.",
+      "summary": "He implements/iterates the fleeing behavior: Blargg should run away when Mario is on the soap, moving around the arena in a way that increases distance from Mario; Kaze likes the resulting “panicky” look and considers additional facial cues (sad/scared mouth shapes, potential eyebrows).",
       "quote": null
+    },
+    {
+      "topic": "design",
+      "importance": "medium",
+      "summary": "Visual damage feedback is added via primitive color flashing/brightness, but Kaze runs into issues: the glow can persist (“keeps glowing forever”) and doesn’t reset cleanly; he also questions whether blue reads well from typical camera angles and considers orange/green variants and broader body coverage so it’s visible from behind.",
+      "quote": null
+    },
+    {
+      "topic": "design",
+      "importance": "medium",
+      "summary": "Remaining gameplay tasks for the boss are enumerated: Blargg needs to damage Mario (standing safely on him is currently possible), soap should deplete faster, oil floor should damage (possibly over time), particles should spawn on soap hits, Blargg should disappear while fleeing and reappear elsewhere, and grills/platforms must move independently and punish failure to return to safety.",
+      "quote": null
+    },
+    {
+      "topic": "community",
+      "importance": "medium",
+      "summary": "Kaze references earlier work on “soap particles” and frames it as payoff for this boss encounter—suggesting intentional long-term planning across streams for seemingly small VFX tasks.",
+      "quote": "Remember that one stream we made just about soap particles? Dude, it’s all leading up to this."
     },
     {
       "topic": "technical",
       "importance": "medium",
-      "summary": "Damage feedback is being implemented via N64 combiner/primitive-color flashing (prim brightness/color). Kaze runs into issues where the glow persists and state doesn’t reliably reset, and he experiments with color choice (blue vs orange/green) for readability.",
+      "summary": "He explains N64 combiner math to Biobak as interpolation between texture and primitive color, highlighting that many visual effects require strong mathematical intuition; he also notes workflow/tool friction (Fast64) around GeoASM node parenting and animation export quirks.",
       "quote": null
     },
     {
       "topic": "technical",
       "importance": "high",
-      "summary": "Kaze avoids adding new per-object variables because expanding the global object struct would cost 4 bytes for every object in memory; instead he looks for unused existing fields (e.g., health) to repurpose for boss-specific state (like counting hits before a teleport/behavior change).",
+      "summary": "Kaze rejects suggestions to add new per-object variables by expanding the global object struct, because it would add 4 bytes to every object and complicate static alignment; he prefers reusing unused fields to preserve performance and memory simplicity.",
       "quote": "Because that would expand the object struct and we would lose four bytes for every object in the entire world."
     },
     {
       "topic": "technical",
       "importance": "medium",
-      "summary": "Fast64 workflow constraints surface: switch bones are described as unreliable (“switch bones suck”), and Fast64 appears to reset animation/channel values to zero in a frustrating way. There’s also confusion/argument over whether GeoASM nodes can have children (engine vs tool restrictions).",
+      "summary": "He notes a surprising engine default: objects often spawn with health=2048 in SM64, making it risky to rely on “health” unless explicitly initialized; he considers using existing health fields as a counter to avoid adding new struct fields.",
       "quote": null
     },
     {
       "topic": "design",
       "importance": "high",
-      "summary": "To communicate soap spawning diegetically, Kaze considers showing “strike workers” trapped in visible jail cells around the arena; a specific janitor Koopa (previously established in the hub/overworld) would be the one not on strike and would throw sparkling soap bars into the arena. Kaze prefers this over button prompts or intrusive text.",
+      "summary": "Boss arena storytelling/mechanics are tied to “strike workers”: Kaze wants trapped workers (or a janitor Koopa who wasn’t part of the strike) to throw soap into the arena, but camera framing and visibility constrain options (e.g., ceiling cages likely off-screen). He favors side-wall jail cells where the soap bounces across the field to ensure the player notices it.",
       "quote": null
+    },
+    {
+      "topic": "design",
+      "importance": "high",
+      "summary": "He becomes dissatisfied with the arena’s look (cages and lighting “look awful”), then identifies a core mistake: he changed to Z-normal assuming Z is up, but Mario 64 uses Y-up; fixing this resolves the Unreal-like lighting confusion and enables a re-think of the arena’s theme.",
+      "quote": "I changed to Z-normal because I thought Z was up, but it’s obviously Y."
     },
     {
       "topic": "design",
       "importance": "medium",
-      "summary": "Arena theming is reconsidered: the original “inside an oil barrel” look is not working visually (repetition/ugly walls/cages). New direction: a gated-off oil warehouse/junkyard vibe—potentially a warehouse built into a cave—half metal/half rock, with a rectangular/sinking oil surface while keeping the grill/platform mechanic.",
-      "quote": null
-    },
-    {
-      "topic": "technical",
-      "importance": "high",
-      "summary": "ROM budget is becoming a hard constraint: the build is ~45.9MB already, and sound data is ~35.6MB. Kaze estimates the project is slightly over budget if scaled to 15 courses, meaning upcoming courses may need fewer streamed tracks (possibly Course 12 without a streamed song) and/or conversions to sequenced music (with quality and performance tradeoffs).",
-      "quote": "This is 35.6 megabytes of just music… two-thirds of the ROM is just music."
-    },
-    {
-      "topic": "business",
-      "importance": "low",
-      "summary": "Kaze notes a major monthly revenue spike on YouTube (income up ~100% while views rose ~30% and watch time ~50%), speculating YouTube’s anti–ad blocker behavior may be increasing ad views. He reiterates he left Twitch due to excessive ads.",
+      "summary": "The environment theming pivots away from a simple “oil barrel interior” toward a more believable industrial space: ideas include junkyard, oil tankers, and ultimately a warehouse/container theme merged with cave rock, with the arena visuals potentially rectangular/tilted (sinking) while gameplay remains circular.",
       "quote": null
     },
     {
       "topic": "personal",
       "importance": "medium",
-      "summary": "Kaze and Zeina bought a house and expect to move on the 23rd. He anticipates working from a basement/dungeon-like room with little sunlight and plans a productivity push on an upcoming day off (Monday), likely finishing the boss off-stream.",
+      "summary": "Kaze says he and Zeina bought a house and expect to move on the 23rd; he jokes he’ll be working from a windowless “dungeon,” implying near-term disruption to routine and possible impact on streaming cadence.",
       "quote": null
     }
   ],
@@ -72,19 +102,19 @@
       {
         "topic": "design",
         "importance": "medium",
-        "summary": "Biobak gives animation/readability feedback: add stronger “in pain” cues while Mario is on Blargg (shake, faster animation), and add particles when the soap hits to reinforce the damage event.",
+        "summary": "Biobak pushes for clearer player communication and feedback: suggests particles when the soap hits Blargg and asks whether Kaze has a plan for communicating the intended method of attacking the boss.",
         "quote": null
       },
       {
         "topic": "technical",
         "importance": "medium",
-        "summary": "Biobak asks detailed questions about N64 combiner math (primitive vs texture blending) to understand how to achieve the flashing/glow effect without washing out colors.",
+        "summary": "Biobak asks detailed N64 combiner questions (why subtract terms, whether add vs multiply is possible), prompting Kaze to explain interpolation math and practical constraints.",
         "quote": null
       },
       {
         "topic": "design",
         "importance": "low",
-        "summary": "Biobak suggests fight-balancing tweaks (soap depleting faster; consider risk management around returning to safe platforms) and flags that damage feedback localized only near the mouth may be invisible from the typical camera angle (often behind Blargg).",
+        "summary": "Biobak gives iterative animation feedback (damage shake, mouth/face reads), contributing to the boss’s emotional readability (panic/suffering) while being chased.",
         "quote": null
       }
     ],
@@ -92,7 +122,7 @@
       {
         "topic": "milestone",
         "importance": "medium",
-        "summary": "Kaze previews a new Badub-made track for the “boombox koopas,” calling it very good—indicating ongoing bespoke music delivery during active level/boss development.",
+        "summary": "Kaze plays/reacts to a new Badub track made for the “boombox koopas,” describing it as very good—another example of custom music continuing to land late in level/boss integration.",
         "quote": null
       }
     ],
@@ -104,18 +134,7 @@
           {
             "topic": "technical",
             "importance": "low",
-            "summary": "Lilaa engages on Fast64/GeoASM setup details and is directly referenced when Kaze complains about Fast64 animation value resets and tooling friction, implying Lilaa is a frequent point of contact for tool/pipeline pain points.",
-            "quote": null
-          }
-        ]
-      },
-      {
-        "name": "Nina (chat)",
-        "findings": [
-          {
-            "topic": "design",
-            "importance": "low",
-            "summary": "Suggests a mechanic where the soap/“block” could grow again if the player waits while Blargg moves through oil, but Kaze pushes back because he doesn’t want to widen the skill gap between weaker and stronger players.",
+            "summary": "Lilaa’s tool/workflow suggestions and Fast64-related back-and-forth highlight recurring pipeline friction (GeoASM parenting expectations, export behaviors), which Kaze frames as a blocker best handled off-stream.",
             "quote": null
           }
         ]
@@ -125,100 +144,99 @@
   "memorable_quotes": [
     {
       "speaker": "Kaze",
-      "quote": "This is 35.6 megabytes of just music… two-thirds of the ROM is just music.",
-      "context": "Explains the project’s most concrete N64 constraint: the 64MB ROM ceiling is being consumed primarily by streamed music, forcing upcoming tradeoffs."
-    },
-    {
-      "speaker": "Kaze",
-      "quote": "Video games are not supposed to be chores!",
-      "context": "Kaze’s design philosophy rant while discussing why some remakes/modern design choices feel like gated tasks rather than playful exploration."
+      "quote": "Sound data table here—this is 35.6 megabytes of just music. Two-thirds of the ROM is just music.",
+      "context": "He realizes the project is approaching the 64MB N64 ROM cap, and that streamed audio—not textures—is the dominant space constraint that will force tradeoffs."
     },
     {
       "speaker": "Kaze",
       "quote": "Because that would expand the object struct and we would lose four bytes for every object in the entire world.",
-      "context": "A crisp, documentary-friendly articulation of how tiny memory costs compound on N64-era constraints and shape engineering decisions."
+      "context": "A concise statement of his N64-era performance mindset: avoiding systemic memory bloat even when it would make coding more convenient."
+    },
+    {
+      "speaker": "Kaze",
+      "quote": "Video games are not supposed to be chores!",
+      "context": "A broader design philosophy rant while discussing modern games/remakes and over-gating/collectathon completionism—useful as a values statement behind his own design goals."
     }
   ],
   "key_stories": [
     {
-      "title": "Designing the Oil/Soap Blargg fight around readable phases",
-      "summary": "Kaze shows the boss’s flee behavior and discusses the intended structure: repeated attack cycles with waves, intermittent soap spawns, and a distinct damage phase when Mario uses the soap to hit Blargg. He iterates animation and feedback (panic, shaking, damage flashing) to ensure players understand when they’re making progress.",
-      "challenge": "Making the fight readable and fun: players must infer that soap is the key, understand when Blargg is vulnerable, and experience fair risk/reward (soap depletion, platform safety).",
-      "process": "Implements movement logic based on Mario’s angle/distance; adjusts speed scaling with damage; experiments with animation speed/shake; plans particles and color-flash feedback; debates whether returning to platforms should be allowed as a deliberate risk-management option.",
-      "outcome": "Core flee behavior and the concept of multi-cycle damage phases are in place, but Kaze still needs to implement respawn/teleport logic, particle feedback, platform/grill behavior, and finalize damage rules and timings.",
-      "key_quote": null,
-      "related_to": ["kaze", "biobak", "badub"]
+      "title": "Oil Blargg boss fight reaches a functional skeleton (fleeing, damage feedback, remaining mechanics)",
+      "summary": "Kaze shows substantial off-stream progress on the Oil Blargg boss and uses the stream to iterate on animation readability and player feedback. The encounter’s loop (attacks → soap spawns → damage phase) is clear, but several key mechanics are still unfinished and will define difficulty and fairness.",
+      "challenge": "Make the boss readable and fun: Blargg must flee convincingly during the soap phase, provide clear damage feedback, and still threaten the player (currently standing on him can be too safe).",
+      "process": "He tests and tunes the flee behavior and animation speed, adds primitive-color flashing for damage, debates color choices for visibility, and lists missing items (particles, soap depletion speed, oil floor damage, independent grill/platform movement, and disappear/reappear behavior).",
+      "outcome": "Fleeing/panic animation is in a good place visually; the fight is close to completion but needs mechanical polish and risk/reward tuning, much of which Kaze plans to finish off-stream.",
+      "key_quote": "This is just where you damage him. You’re supposed to do that like three times.",
+      "related_to": ["kaze"]
     },
     {
-      "title": "Hitting the 64MB wall: streamed music dominates the ROM",
-      "summary": "Kaze reveals the ROM is already ~45.9MB with ~35.6MB in sound data, meaning music is consuming roughly two-thirds of the budget. With 15 courses planned, he expects to exceed the limit unless audio decisions change.",
-      "challenge": "Maintaining high-quality music on real N64 constraints: streamed audio can’t be easily compressed and must be read from ROM, but converting to sequenced music risks lower quality and higher CPU/performance costs.",
-      "process": "Kaze estimates budget by scaling current course count to the final 15-course plan; considers reducing streamed tracks, selectively converting some songs to sequenced formats, or mono (which he dislikes). He notes he may be able to free ~1–2MB without quality loss through cleanup, but the main lever is music format choice.",
-      "outcome": "A concrete production constraint is now active: upcoming courses may ship without streamed music, and audio pipeline choices will shape both performance and presentation for the rest of the project.",
-      "key_quote": "We probably have to go to course 12 without a streamed song.",
+      "title": "ROM size alarm: streamed music threatens the 64MB N64 cap",
+      "summary": "Mid-stream, Kaze quantifies the project’s ROM usage and realizes the game is nearing the 64MB ceiling earlier than comfortable. He identifies that music—specifically streamed tracks—is consuming the majority of space, forcing future audio format decisions that could impact quality and performance.",
+      "challenge": "Keep the project within the authentic N64 64MB ROM limit without sacrificing too much audio quality or level identity.",
+      "process": "He audits ROM size (45.9MB) and the sound data table (~35.6MB), explains why streamed music can’t be easily compressed (ROM streaming requirement), and considers mitigations: converting some tracks to sequenced music (with quality/performance tradeoffs), mono conversion, or freeing 1–2MB via cleanup.",
+      "outcome": "He remains committed to the 64MB cap and expects the main impact will be reducing how many streamed tracks they can afford going forward (potentially pushing some courses to non-streamed music).",
+      "key_quote": "The problem is that most of it is music, and we can’t really compress that because it has to be streamed directly from ROM.",
       "related_to": ["kaze", "badub"]
     },
     {
-      "title": "Real-life schedule shift: moving into a new house",
-      "summary": "Kaze mentions he and Zeina bought a house and plan to move soon, joking he’ll be working from a windowless “dungeon.” He expects to finish much of the boss off-stream and use a day off to push progress.",
-      "challenge": "Keeping momentum during a major life transition that disrupts routine and workspace setup.",
-      "process": "Plans to shift complex work off-stream, bank progress during free time (day off Monday), and continue iterating between streams while setting up the new home/work area.",
-      "outcome": "Near-term cadence likely changes: more off-stream progress and potentially irregular stream scheduling around the move date.",
-      "key_quote": null,
-      "related_to": ["kaze", "zeina"]
+      "title": "Boss arena visual reset: lighting axis mistake triggers a theming pivot",
+      "summary": "While trying to stage the strike-worker/cage concept, Kaze becomes unhappy with the arena’s lighting and overall look. The breakthrough is realizing a coordinate/normal assumption mismatch (Z-up vs Mario 64’s Y-up), after which he pivots the environment concept toward an industrial warehouse/container space blended with cave rock.",
+      "challenge": "Make a boss arena that both reads well (camera visibility of story elements like cages/janitor) and looks coherent under Mario 64’s lighting constraints.",
+      "process": "He diagnoses why the light “isn’t working,” finds the root cause (wrong up-axis/normal assumption), and brainstorms alternate themes (junkyard, oil tankers, warehouse) before settling on a container/warehouse + cave hybrid and a potentially tilted/sinking rectangular visual boundary.",
+      "outcome": "A new direction is chosen, but it requires rebuilding environment elements (new water/oil treatment, background/skybox, cage placement) and will be completed off-stream.",
+      "key_quote": "I changed to Z-normal because I thought Z was up, but it’s obviously Y.",
+      "related_to": ["kaze"]
     }
   ],
   "open_questions": [
     {
-      "topic": "Audio/ROM budget strategy for the remaining 4 courses",
-      "context": "Kaze reports the ROM is ~45.9MB and sound data alone is ~35.6MB, implying the project could exceed 64MB by the time 15 courses are included. He suggests limiting streamed music and possibly converting some tracks to sequenced formats, with performance/quality downsides.",
+      "topic": "Choosing which music stays streamed vs converted to sequenced",
+      "context": "Kaze finds that ~35.6MB of the ROM is music and says the only real consequence is cutting back on streamed sequences; he notes sequenced music may sound worse and be more performance-demanding.",
       "questions": [
-        "Which specific courses/tracks are currently streamed vs sequenced, and which ones are candidates to convert (or drop) to stay under 64MB?",
-        "What quality bar is ‘acceptable’ for sequenced conversions, and who will do the conversion work (Badub, ZeroVolt, Kaze)?",
-        "Are there engine-level options being considered (e.g., looping streamed stems, shared repeating segments) and what are the technical blockers on N64?",
-        "Will the 64MB cap be treated as non-negotiable for real hardware/flashcarts, or is there any contingency plan (e.g., separate builds, expanded ROM, optional packs)?"
+        "What criteria will you use to decide which tracks must remain streamed (signature levels, boss fights) and which can be sequenced without harming the game’s identity?",
+        "Who will do the conversions and what’s the workflow (soundfont extension, sequencing, testing for CPU/perf impact)?",
+        "If a streamed track defines a level’s vibe, would you redesign the level to accommodate sequenced audio—or keep the level and change the music?"
       ],
       "related_to": ["kaze", "badub"]
     },
     {
-      "topic": "How Blargg’s disappear-and-reappear behavior will be triggered and tuned",
-      "context": "Kaze says implementing the trigger for Blargg fleeing/disappearing and respawning elsewhere is something he’s struggled with off-stream; it’s still not clearly designed at the state-machine level.",
+      "topic": "Implementation plan for Blargg’s disappear-and-reappear behavior",
+      "context": "Kaze says he has struggled off-stream with how to trigger the boss disappearing while fleeing and reappearing elsewhere—one of the remaining core behaviors.",
       "questions": [
-        "What exact conditions should trigger the disappear/respawn (time since last hit, number of hits, player position, soap depletion, health thresholds)?",
-        "Will the respawn location be random, ‘farthest from Mario,’ or tied to specific arena points to avoid unfair outcomes?",
-        "How will you telegraph the disappear/respawn to the player (sound cue, particles, camera behavior) without breaking flow?"
+        "What specific technical obstacle is blocking the disappear/reappear trigger—state machine design, collision/arena constraints, or camera/player fairness?",
+        "How do you want the reappear location to be chosen (random, farthest from Mario, nearest edge vertex), and what playtesting will determine the final rule?",
+        "How will you prevent respawns from feeling unfair (e.g., spawning on the player) while keeping pressure high?"
       ],
       "related_to": ["kaze"]
     },
     {
-      "topic": "Diegetic soap delivery: strike workers/janitor cages implementation",
-      "context": "Kaze prefers a story-driven, in-world solution over UI prompts: show trapped workers in jail cells, with a janitor Koopa throwing sparkling soap bars into the arena. This is meant to make the mechanic self-explanatory.",
+      "topic": "Strike-worker/janitor soap delivery: visibility, storytelling, and camera constraints",
+      "context": "Kaze wants trapped workers (or a janitor Koopa) to throw soap into the arena, but worries ceiling cages won’t be visible with typical camera angles; he leans toward side-wall jail cells with a bouncing soap arc.",
       "questions": [
-        "Where did the ‘strike workers’ premise originate in the project’s story, and how explicitly should the game explain it vs leaving it as environmental storytelling?",
-        "How will the camera framing guarantee players notice the cages/janitor and track the soap’s trajectory in a fast fight?",
-        "Will the janitor always throw to safe platforms (random grill targeting) or can soap land in hazards, and what fairness rules prevent unwinnable RNG?"
+        "Which single visual idea best communicates the story (workers trapped, janitor ally) without pulling the camera into awkward angles?",
+        "How will the soap’s motion/sparkles/sound be staged so players notice it in the middle of dodging waves?",
+        "Will the janitor be explicitly identifiable in the arena (unique model/animation), and is there any narrative payoff later for helping him earlier in the level?"
       ],
       "related_to": ["kaze"]
     },
     {
-      "topic": "Final arena art direction: oil barrel vs junkyard/warehouse-in-cave",
-      "context": "Kaze strongly dislikes the current look (repetitive walls, cages) and begins pivoting toward a gated-off oil warehouse/junkyard theme, possibly built into a cave with metal below and rock above, and a rectangular/sinking oil surface.",
+      "topic": "Difficulty philosophy for the Blargg fight (skill gap vs mastery)",
+      "context": "Kaze rejects an idea that would make the fight more skill-based because he doesn’t want the gap between bad and good players to become too big; he’s also tuning soap depletion, damage rates, and platform/grill punishments.",
       "questions": [
-        "What is the final narrative/location concept for this boss arena (who built it, why is it oil-filled, how does it connect to the level/world)?",
-        "What are the non-negotiable gameplay constraints driving the geometry (preventing jumps out, sightlines, platform layout), and how do they shape the art?",
-        "Who will own the rework tasks (modeling, textures, skybox), and what’s the timeline risk if the theming keeps changing?"
+        "What does a ‘fair’ fail state look like in this fight—what should kill you quickly vs what should be recoverable?",
+        "How are you deciding the tuning targets (number of cycles, soap duration, oil damage, boss speed scaling) without formal playtesters?",
+        "Where do you want mastery to show—movement efficiency, timing on soap phases, or riskier damage opportunities?"
       ],
-      "related_to": ["kaze", "biobak"]
+      "related_to": ["kaze"]
     },
     {
-      "topic": "N64 combiner/primitive flash pipeline and tooling pain (Fast64)",
-      "context": "Kaze implements damage flashing via primitive color but hits issues with reset behavior and washed-out color, plus Fast64 frustrations (animation channels resetting, switch bones).",
+      "topic": "Near-term production impact of moving houses",
+      "context": "Kaze says they bought a house and will likely move on the 23rd, joking about working from a windowless ‘dungeon,’ and he’s uncertain about next stream timing.",
       "questions": [
-        "What is the final planned implementation for the damage flash (combiner equation, where it’s applied in the hierarchy, how it resets reliably)?",
-        "Are Fast64 limitations forcing design compromises (e.g., avoiding certain rigging/geo setups), and are there plans to patch tools or change the pipeline?",
-        "What debugging approach do you use when visual artifacts appear on real hardware vs emulator (and which hardware targets are you prioritizing)?"
+        "How did buying/moving houses affect your development rhythm in past projects—does it slow you down or create a ‘reset’ that helps productivity?",
+        "Are you planning any changes to your streaming schedule or off-stream workflow during/after the move?",
+        "What work do you want to prioritize before the move versus after (boss completion, audio budget triage, devlog preparation)?"
       ],
-      "related_to": ["kaze", "biobak"]
+      "related_to": ["kaze"]
     }
   ]
 }

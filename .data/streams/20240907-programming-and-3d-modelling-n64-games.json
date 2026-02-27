@@ -1,82 +1,94 @@
 {
   "stream_context": {
-    "summary": "Kaze continues building a Star-Fox-style shooting section (inspired by Super Mario Land 1) in RTY, iterating on the bird enemy model, camera/aiming constraints, shot SFX, and hit/die behavior. The stream also surfaces larger project concerns: emulator/plugin accuracy (GlideN/RT64/Recomp), release friction and barrier-to-entry, and Nintendo risk tolerance. He notes progress pacing (Course 14 halfway, two more stages after) and that a new playable demo (first course only) is planned soon.",
+    "summary": "Kaze continues building a Mario Land–inspired 3D shooting segment: iterating on the bird/plane enemy model and readability, implementing/choosing shot SFX, and prototyping how enemies die (solving it with a simple animated-texture approach). He also discusses practical release concerns: emulator/plugin accuracy (Gliden vs RT64), the user setup “barrier to entry,” and the idea of bundling an auto-configured emulator/patcher for future demos/releases.",
     "level": ["Course 14"],
     "significance": "notable",
-    "significance_reason": "Beyond routine modeling/coding, Kaze articulates key design philosophy (gameplay variety vs. cohesion), a concrete UX/release concern (barrier to entry and possibly bundling a configured emulator), and resolves a core implementation question (enemy death animation via animated textures). He also provides candid legal-risk framing and hints at near-term demo plans."
+    "significance_reason": "Contains multiple documentary-useful themes beyond routine asset work: design philosophy about translating 2D Mario Land into 3D, a concrete usability/business concern about barrier-to-entry and emulator setup, a legal-risk check-in about Nintendo, and a clear plan for an upcoming demo (first course only)."
   },
   "findings": [
     {
       "topic": "design",
       "importance": "high",
-      "summary": "Kaze defends making the Mario Land–inspired segment fully 3D rather than a faithful 2D recreation, arguing that a straight port would be pointless; the novelty comes from translating it into a new 3D playstyle.",
-      "quote": "Would you want to just play a copy of Mario Land on Mario 64? What's the point in that? It has to be different and I chose to make it different by having it be 3D."
-    },
-    {
-      "topic": "design",
-      "importance": "high",
-      "summary": "Repeated feedback about changing the camera angle is weighed against practical aiming readability: Kaze’s core concern is how players would aim and understand play-area boundaries if the camera rotates or shifts too much.",
-      "quote": "How are you going to aim like that? And how are you going to know where the play area ends?"
+      "summary": "Kaze pushes back against requests to keep the Mario Land segment purely “retro/2D,” arguing the whole point is to reinterpret it in 3D rather than replicate Mario Land inside Mario 64; he treats 3D translation as the core differentiator.",
+      "quote": "Would you want to just play a copy of Mario Land on Mario 64? What’s the point in that?"
     },
     {
       "topic": "design",
       "importance": "medium",
-      "summary": "Kaze references Star Fox 64 as a comparative model for center-screen aiming problems; he observes even Star Fox doesn’t fully “solve” the issue, but considers alternatives such as firing in the direction of ship rotation/tilt.",
+      "summary": "He evaluates alternate camera ideas for the shooting segment (including off-center/rotating perspectives) but keeps returning to two constraints: players must be able to aim reliably, and they must understand the bounds of the playable area; he references Star Fox 64 to study how similar problems were handled.",
       "quote": null
     },
     {
-      "topic": "philosophy",
-      "importance": "high",
-      "summary": "Kaze articulates a guiding caution about adding disparate gameplay modes: each departure from the core creates a Venn diagram of audiences who may dislike certain styles, so variety must be managed intentionally.",
-      "quote": "Every time you stray too far from your core gameplay, you turn the amount of people that like it into a Venn diagram of people that don't like these different gameplay styles."
-    },
-    {
-      "topic": "technical",
-      "importance": "high",
-      "summary": "A key implementation breakthrough: instead of complex geometry/animation for enemy death, Kaze realizes the death can be handled as an animated texture cycling through frames (Mario Land 1-style), simplifying production.",
-      "quote": "Oh my god, how are we going to do that animation… wait, what if we just have it be an animated texture… it just switches between those 8 frames."
-    },
-    {
-      "topic": "technical",
+      "topic": "design",
       "importance": "medium",
-      "summary": "He adds/adjusts shooting SFX by testing multiple existing SM64 sounds (cannon/bullet bill variants) until one feels Mario-appropriate; the Bullet Bill firing SFX is identified as a good fit.",
-      "quote": null
-    },
-    {
-      "topic": "technical",
-      "importance": "medium",
-      "summary": "He notes the project is pushing asset complexity: the current area/model work is already ~19,000 triangles while still incomplete, influencing decisions like avoiding extra wing-animation model data due to storage constraints.",
-      "quote": "This already has 19,000 triangles and it's like barely finished."
-    },
-    {
-      "topic": "technical",
-      "importance": "medium",
-      "summary": "Kaze describes performance/renderer considerations: some levels benefit more from RSP vs. RDP, and while microcode can be changed mid-frame, he considers that unwise; he also mentions an unresolved lighting bug in “X2.”",
+      "summary": "Enemy readability becomes a priority: adding an outline to the bird/chicken enemy makes it significantly easier to see against the background; he also slightly changes proportions (head/body) based on how it looks in motion and in emulator.",
       "quote": null
     },
     {
       "topic": "community",
       "importance": "medium",
-      "summary": "A persistent visual issue is attributed to emulator/plugin limitations: point-filter texture behavior (a GlideN-related bug) makes textures appear asymmetrical; Kaze hopes for a GlideN update or RT64 availability before release.",
-      "quote": "There is a problem in the graphic plugin… Unfortunately, there's nothing I can do about that."
+      "summary": "A viewer-provided front-view sprite concept for the bird influences his model tweaks: he likes the eyes and general direction, but notes the sprite’s head scale would be too large if copied 1:1, so he selectively adapts elements rather than rebuilding the model wholesale.",
+      "quote": null
+    },
+    {
+      "topic": "technical",
+      "importance": "medium",
+      "summary": "Kaze experiments with shot sound effects and lands on using a Bullet Bill–related cannon/fire SFX after rejecting other options as “terrible” or not fitting; sound selection is treated as critical to “Mario-esque” feel in the minigame.",
+      "quote": null
+    },
+    {
+      "topic": "technical",
+      "importance": "high",
+      "summary": "He worries about asset/memory budget: the stage-in-progress is already ~19,000 triangles while still missing exterior elements; he rejects ideas like storing extra wing-animation model variants because of 3D data capacity limits.",
+      "quote": null
+    },
+    {
+      "topic": "technical",
+      "importance": "medium",
+      "summary": "He notes a lingering lighting bug in an area he calls “X2,” which he says isn’t strictly required for the demo (he could remove lighting), but would be disappointing because it affects visibility of lighting from stars.",
+      "quote": null
+    },
+    {
+      "topic": "technical",
+      "importance": "high",
+      "summary": "Emulator/rendering accuracy is a recurring constraint: point-filtering issues create plugin-specific artifacts (he names Gliden), and he’s hoping for either Gliden updates or RT64 availability before release so players don’t need “very specific setups.”",
+      "quote": null
     },
     {
       "topic": "business",
       "importance": "high",
-      "summary": "Kaze emphasizes distribution friction as a major threat to adoption: each setup step (settings, patches, plugins) drops players. He considers bundling RTY with a preconfigured emulator/launcher to reduce the barrier to entry.",
-      "quote": "ROM hackers severely underrate the barrier to entry… every step along the way… you lose some percentage of your player base."
+      "summary": "Kaze emphasizes usability as a release principle: every extra setup step (emulator settings, memory expansion, patching) loses players. He’s strongly against requiring end users to compile plugins, and he floats the idea of bundling or shipping an emulator setup that auto-patches/launches the game to reduce friction.",
+      "quote": "This is something that ROM hackers severely underrate… the barrier to entry. Every step along the way… you lose some percentage of your player base."
     },
     {
       "topic": "milestone",
       "importance": "medium",
-      "summary": "He signals near-term progress and deliverables: after this segment there are “two more stages,” Course 14 is “halfway done,” and he plans to release a new demo soon containing only the first course.",
+      "summary": "He says he plans to release a new demo “in the near future,” and clarifies it will be only the first course (not a full slice across multiple courses).",
       "quote": null
     },
     {
       "topic": "legal-nintendo",
-      "importance": "high",
-      "summary": "Kaze acknowledges the ever-present risk Nintendo could shut the project down, but frames it as something you accept rather than control; he also notes Nintendo hasn’t targeted him recently (last major trouble around 2019).",
-      "quote": "Of course there is a worry that Nintendo is just going to say, 'Now fuck you, your game is over,' but you just have to live with that."
+      "importance": "medium",
+      "summary": "He acknowledges the persistent risk that Nintendo could shut the project down, but frames it as something you can’t control; he also says Nintendo hasn’t “bullied” him since around 2019.",
+      "quote": "Of course there is a worry that Nintendo is just going to say, ‘Now fuck you, your game is over,’ but you just have to live with that."
+    },
+    {
+      "topic": "philosophy",
+      "importance": "medium",
+      "summary": "Discussing Portal 64, Kaze suggests some high-profile shutdown narratives can be misleading: he interprets that project’s closure as partly creator-driven burnout/avoidance of the remaining “suffering” work, rather than a simple corporate takedown story.",
+      "quote": null
+    },
+    {
+      "topic": "personal",
+      "importance": "low",
+      "summary": "Kaze repeatedly mentions being unusually low-energy and exhausted; he attributes it in part to his parents being present and his difficulty being around people for long periods, then ends the stream early and plans to finish some Bullet Bills off-stream.",
+      "quote": null
+    },
+    {
+      "topic": "business",
+      "importance": "medium",
+      "summary": "He makes a deliberate branding decision about YouTube thumbnails: consistent style (a particular “random Mario from back then”) is important to improve click-through, so he wants all thumbnails to follow that visual identity.",
+      "quote": null
     }
   ],
   "contributor_findings": {
@@ -90,24 +102,30 @@
           {
             "topic": "community",
             "importance": "medium",
-            "summary": "Provides iterative feedback on camera/aiming and visual readability; pushes for changes and asks for sprite/visual references, prompting Kaze to justify constraints and check external references (Star Fox).",
+            "summary": "Provides feedback/requests on the shooting segment camera and aiming implications, pushing Kaze to justify constraints and examine how Star Fox 64 handles similar center-screen aiming problems.",
             "quote": null
           },
           {
-            "topic": "design",
+            "topic": "community",
             "importance": "medium",
-            "summary": "Supplies a front-view sprite concept for the bird enemy; Kaze adopts parts of it (notably eye style and improved outline/readability) while keeping the 3D model proportions reasonable.",
+            "summary": "Shares/requests sprite references (bird front view; later Bullet Bill front view) that Kaze uses as a directional guide for model edits (especially eyes/face readability), though Kaze resists full rebuilds.",
+            "quote": null
+          },
+          {
+            "topic": "community",
+            "importance": "low",
+            "summary": "Participates in thumbnail iteration; Kaze reviews changes and uses the moment to explain his broader rule about consistent thumbnail style across videos.",
             "quote": null
           }
         ]
       },
       {
-        "name": "Wiseguy",
+        "name": "onionkit",
         "findings": [
           {
-            "topic": "technical",
-            "importance": "medium",
-            "summary": "Kaze directly checks with RT64 developer Wiseguy, who confirms RT64 is not yet released as a consumer-ready emulator plugin and won’t be available for a while, shaping Kaze’s release/compatibility expectations.",
+            "topic": "community",
+            "importance": "low",
+            "summary": "Offers to send Bullet Bill front-view sprite work via Discord; Kaze says it could help, though the sprite is small and may limit detail.",
             "quote": null
           }
         ]
@@ -117,88 +135,82 @@
   "memorable_quotes": [
     {
       "speaker": "Kaze",
-      "quote": "ROM hackers severely underrate the barrier to entry… every step along the way… you lose some percentage of your player base.",
-      "context": "Explains why he’s worried about requiring special emulator/plugin setup and why a bundled, preconfigured launcher/emulator could materially change adoption."
+      "quote": "This is something that ROM hackers severely underrate… the barrier to entry. Every step along the way… you lose some percentage of your player base.",
+      "context": "He explains why he’s worried about emulator/plugin setup complexity and why he wants a low-friction way for players to run the hack."
     },
     {
       "speaker": "Kaze",
-      "quote": "Every time you stray too far from your core gameplay, you turn the amount of people that like it into a Venn diagram of people that don't like these different gameplay styles.",
-      "context": "Design philosophy about adding varied gameplay modes (like the shooter section) without fragmenting the audience."
-    },
-    {
-      "speaker": "Kaze",
-      "quote": "Would you want to just play a copy of Mario Land on Mario 64? What's the point in that? It has to be different and I chose to make it different by having it be 3D.",
-      "context": "States the creative rationale for translating a 2D classic into a 3D reinterpretation rather than a faithful remake."
+      "quote": "Would you want to just play a copy of Mario Land on Mario 64? What’s the point in that?",
+      "context": "He defends the core creative premise: reinterpret Mario Land ideas in 3D rather than recreate the original unchanged."
     }
   ],
   "key_stories": [
     {
-      "title": "Solving enemy death animation without complex modeling",
-      "summary": "While implementing the shooter enemies, Kaze hits the question of how to animate birds dying convincingly. He pivots from thinking about complex model animation to a simpler Mario Land–authentic approach using an animated texture cycling through a small frame set.",
-      "challenge": "Creating a readable death animation for small, fast-moving flying enemies without expensive model/animation work or excessive data storage.",
-      "process": "He studies the original Mario Land 1 behavior (frame cycling), then decides to cut out the needed texture frames and implement the death as an animated texture rather than skeletal/model animation.",
-      "outcome": "A clear, implementable plan that reduces asset complexity and preserves the retro reference while fitting N64 constraints.",
-      "key_quote": "Wait, what if we just have it be an animated texture… it just switches between those 8 frames.",
+      "title": "Reinventing Mario Land’s shooting in 3D without breaking aiming",
+      "summary": "Kaze debates viewer suggestions to make the shooting segment feel more “retro,” but argues replication isn’t the goal—translation into 3D is. The core tension becomes camera/perspective experimentation vs. the practical needs of aiming and communicating play-space boundaries.",
+      "challenge": "Designing a side-scrolling/shooting-inspired segment that feels faithful to Mario Land while still working as a readable, controllable 3D experience.",
+      "process": "He evaluates camera rotation/off-center ideas, stress-tests the implications for aiming and edge-of-play-area clarity, and looks to Star Fox 64 to compare solutions (movement affecting aim direction).",
+      "outcome": "He keeps the design grounded in controllability/readability, treating camera changes as risky unless they solve aiming and boundary clarity simultaneously.",
+      "key_quote": "How are you going to aim like that? And how are you going to know where the play area ends?",
       "related_to": ["kaze"]
     },
     {
-      "title": "Release friction becomes a design constraint",
-      "summary": "Discussion about RT64/Recomp and emulator accuracy turns into a broader point: requiring users to compile plugins or tweak emulator settings can significantly reduce how many people actually play RTY. Kaze floats the idea of bundling a configured emulator/launcher to eliminate setup steps.",
-      "challenge": "Ensuring end users can run RTY without unusual emulator/plugin configuration, despite current plugin bugs (e.g., point filtering) and RT64 not being consumer-ready.",
-      "process": "He evaluates the state of RT64 by contacting a developer, contrasts the appeal of PC-port convenience, and argues that each configuration step loses players.",
-      "outcome": "A tentative direction: minimize setup, and potentially distribute RTY with a preconfigured emulator/auto-patcher/launcher if feasible.",
-      "key_quote": "If you need to compile it then the end user is definitely not going to be able to play my game.",
+      "title": "Enemy death animation: from ‘how are we going to do that’ to an 8-frame texture switch",
+      "summary": "While implementing shootable birds, Kaze hits an animation challenge and briefly panics about how to produce the death effect. He then realizes a simple animated-texture approach can achieve the look without complex rigging or extra model work.",
+      "challenge": "Creating a convincing enemy death animation/effect within N64 constraints and without bloating asset complexity.",
+      "process": "He inspects how death should look, then pivots to a lightweight plan: spawn a texture and cycle through a small set of frames (described as 8 frames) rather than building a new model animation system.",
+      "outcome": "He gets a clean fade/white-out style effect that he’s happy with and continues implementing damage/interaction behaviors.",
+      "key_quote": "Oh my god, how are we gonna do that animation… wait, what if we just have it be an animated texture?",
+      "related_to": ["kaze"]
+    },
+    {
+      "title": "Barrier-to-entry becomes a release design constraint (Gliden/RT64 and setup friction)",
+      "summary": "Beyond game design, Kaze treats player setup friction as an existential release issue. He discusses emulator/plugin accuracy, RT64’s availability, and argues that every extra configuration step reduces the audience—motivating ideas like bundling an auto-configured launcher/emulator.",
+      "challenge": "Ensuring players can run the hack without fragile emulator/plugin setups or requiring technical steps like compiling plugins.",
+      "process": "He diagnoses current pain points (point-filter artifacts; plugin differences; RT64 not ready as a consumer plugin), rejects “end-user compilation,” and imagines a one-click flow that patches a clean ROM and launches in a preconfigured emulator.",
+      "outcome": "He frames low-friction distribution as a priority and a key reason the PC port ecosystem is attractive; he signals intent to release another demo soon (first course).",
+      "key_quote": "Every step along the way… you lose some percentage of your player base.",
       "related_to": ["kaze"]
     }
   ],
   "open_questions": [
     {
-      "topic": "Bundling RTY with an emulator/auto-launcher",
-      "context": "Kaze suggests RTY might ship with an emulator that’s already configured (e.g., memory settings, plugins) and can patch a clean ROM and launch automatically, to reduce barrier-to-entry.",
+      "topic": "Low-friction distribution plan (auto-patcher / bundled emulator)",
+      "context": "Kaze repeatedly frames setup friction as a major threat to adoption and imagines a tool that selects a clean ROM, patches it, and launches in a preconfigured emulator (similar to why some players prefer PC ports).",
       "questions": [
-        "Did you ultimately decide to bundle a configured emulator/launcher with RTY? If yes, what exactly would it do (patching, config, plugin selection), and what legal/ethical constraints did you consider?",
-        "What specific setup steps caused the biggest drop-off in your past projects, and how did you measure/observe that (support requests, comments, analytics)?",
-        "If bundling wasn’t possible, what was the final “minimum viable” setup you targeted for players?"
+        "What would your ideal ‘one-click’ player experience look like for Return to Yoshi’s Island—patching, emulator choice, settings, controller setup, everything?",
+        "Have you explored building or partnering on an installer/launcher, or bundling a configured emulator—what are the technical/legal constraints there?",
+        "What’s the minimum set of steps you’re willing to require from players, and what steps are non-negotiable to remove?"
       ],
       "related_to": ["kaze"]
     },
     {
-      "topic": "RT64/Recomp dependency and visual correctness",
-      "context": "Kaze hopes for GlideN fixes or RT64 availability due to point-filter texture issues that make assets look wrong; he verifies RT64 isn’t consumer-ready yet.",
+      "topic": "RT64/Gliden realities and release timing",
+      "context": "Kaze notes point-filtering/graphics-plugin artifacts and says RT64 is not out as a consumer-ready plugin yet, hoping either Gliden improves or RT64 arrives before release to avoid “very specific setups.”",
       "questions": [
-        "What compatibility baseline are you targeting for RTY at release (Project64 version, specific plugins, hardware console via flashcart, etc.)?",
-        "How much do emulator rendering bugs influence your art/texture decisions (e.g., outlines, avoiding certain point-filter textures)?",
-        "Did you end up adding an in-game or external “recommended setup” wizard/preset to address plugin differences?"
+        "How are you deciding what emulator/plugin combination will be your ‘supported’ baseline as you approach release?",
+        "If RT64 isn’t ready in time, what compromises will you accept (visual artifacts, removing certain effects, shipping your own configuration guide, etc.)?",
+        "Have emulator/plugin limitations ever forced you to redesign a feature (visual style, camera, effects) rather than wait for tooling to improve?"
       ],
       "related_to": ["kaze"]
     },
     {
-      "topic": "Course 14 scope and “two more stages”",
-      "context": "Kaze mentions Course 14 is halfway done and there are two more stages after the current work session, implying a defined milestone sequence for this part of development.",
+      "topic": "Upcoming demo scope and why it’s limited to Course 1",
+      "context": "Kaze says a new demo is planned soon but will only include the first course.",
       "questions": [
-        "What are the two remaining stages after the shooter segment, and how do they connect thematically/mechanically to Course 14?",
-        "What makes Course 14 ‘halfway done’ in your tracking—assets, layout, scripting, playtesting, polish?",
-        "Did the shooter section remain inside Course 14, or did it evolve into a separate course/bonus area later?"
+        "Why is the next demo focused on only the first course—what does that course represent that makes it the right public ‘slice’ of the project?",
+        "What needs to be true (polish level, stability, art completion, onboarding) before you’re comfortable putting a course in players’ hands?",
+        "How do you expect player feedback from the demo to change your priorities—what are you specifically watching for?"
       ],
       "related_to": ["kaze"]
     },
     {
-      "topic": "Lighting bug in “X2” and demo constraints",
-      "context": "Kaze flags an unresolved lighting bug in ‘X2’ and says lighting could be removed for the demo if needed, though it would be sad to lose star lighting.",
+      "topic": "Nintendo risk and how it shapes day-to-day decisions",
+      "context": "Kaze acknowledges Nintendo could still shut the project down, says the last major trouble was around 2019, and frames the risk as something you live with rather than control.",
       "questions": [
-        "What is ‘X2’ in your toolchain/runtime (engine branch, microcode path, renderer mode), and what exactly is the lighting bug?",
-        "How often do you choose to disable a feature for a demo vs. delaying the demo—what’s the decision rule?",
-        "Did this lighting issue affect any art direction decisions (e.g., stars, glow, readability) in early courses?"
-      ],
-      "related_to": ["kaze"]
-    },
-    {
-      "topic": "Shooter design: preventing “stand in the middle and dodge everything”",
-      "context": "Kaze worries players can trivialize the shooter by staying centered; forcing enemies toward the camera could look bad, so he needs a design solution.",
-      "questions": [
-        "What final design prevented camping in the center—enemy patterns, forced movement, screen scrolling, collision pressure, time limits, or scoring incentives?",
-        "How did you prototype and playtest shooter difficulty/readability on N64 constraints (FOV, resolution, input latency)?",
-        "Did you add a health/damage system specifically for this mode, and does it integrate with the rest of RTY’s health model?"
+        "What happened around 2019, and how did it change how you approach visibility, distribution, or messaging for the project?",
+        "Are there design or branding decisions you’ve made specifically to reduce takedown risk (naming, assets, packaging), even if it costs time or creative freedom?",
+        "How do you emotionally manage building something long-term when you know it could be ended externally at any time?"
       ],
       "related_to": ["kaze"]
     }

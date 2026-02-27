@@ -1,100 +1,94 @@
 {
   "stream_context": {
-    "summary": "Kaze iterates on the Overworld “Yoshi Village” area’s look/feel (paths, flower patches, campfire gathering spot, bamboo placement) while discussing major performance work with Sauraen live: debugging F3DEX3 occlusion planes, evaluating CPU vs RSP tradeoffs, and brainstorming future microcode features. The stream also includes a concrete anti-DMCA release strategy: replacing Mario with a custom character so a non-Mario build can remain available if Nintendo targets the project.",
+    "summary": "Kaze iterates on the Overworld/Yoshi Village hub area (paths, flowers, fruit baskets, campfire/fireplace, bamboo garden) while also diving into a major live debugging session with Sauraen about F3DEX3 occlusion planes and future microcode optimizations. The stream also includes candid strategic planning for a potential Nintendo takedown (dual builds with/without Mario) and early notes for a late-game ‘mechanic’ boss fight timeline placement.",
     "level": ["Overworld"],
-    "significance": "notable",
-    "significance_reason": "Contains a rare, detailed live technical collaboration with Sauraen about F3DEX3 occlusion planes and future microcode features, plus a project-defining legal/contingency plan to ship both a Mario and non-Mario build to mitigate Nintendo takedowns."
+    "significance": "milestone",
+    "significance_reason": "A substantial real-time technical collaboration with Sauraen establishes the project’s performance roadmap (occlusion planes, triangle commands, potential material/texture-load deferral), alongside a concrete legal-risk mitigation plan (custom character + dual release) and forward planning for a major boss encounter."
   },
   "findings": [
     {
       "topic": "design",
       "importance": "medium",
-      "summary": "Kaze frames Yoshi Village architecture as something Yoshis would build pragmatically (primitive, non-“themed” bridges), and searches references (Yoshi’s Island art, other hacks) to keep the area lively without turning it into an overly stylized ‘weeaboo region’ endcap.",
+      "summary": "Kaze reframes the Overworld village aesthetic as ‘Yoshis built this’ rather than overtly Yoshi-branded architecture: bridges and structures should feel primitive and functional, not themed set dressing.",
       "quote": null
     },
     {
       "topic": "design",
       "importance": "medium",
-      "summary": "Environmental set-dressing goals for the village solidify: fruit baskets (filled with apples), more trees/flowers, a path decal to make the area feel friendlier, and a campfire gathering/storytelling spot with seating logs.",
+      "summary": "Yoshi Village is made to feel ‘lively’ via small environmental storytelling props: fruit baskets (intended to be filled with apples), patches of flowers, and a central gathering area (campfire/fireplace) with seating logs.",
       "quote": null
     },
     {
-      "topic": "team",
+      "topic": "design",
       "importance": "medium",
-      "summary": "Zeina delivers new art assets during the session (a new texture Kaze applies immediately) and is actively working on Yoshi houses; Kaze notes the village ‘feel’ can’t be judged fully until Zeina’s house assets are in.",
-      "quote": null
+      "summary": "Kaze tests and likes the immediate readability improvement from adding a path decal; it becomes a key compositional tool to make the space feel welcoming and guided.",
+      "quote": "The path makes this so much better. Right off the bat."
     },
     {
       "topic": "technical",
       "importance": "medium",
-      "summary": "Kaze switches away from Blender’s slow in-editor setup toward the Fast64 renderer workflow because the previous renderer is ‘unworkable’ for real-time iteration (alpha visibility worsens, but performance improves).",
+      "summary": "He prioritizes building the level first and optimizing later, stating he’s not currently “trying to save any performance,” but expects Sauraen’s occlusion planes to unlock much larger scenes once working.",
       "quote": null
     },
     {
       "topic": "technical",
       "importance": "high",
-      "summary": "Kaze reports he attempted to integrate Sauraen’s occlusion planes earlier but they ‘don’t seem to work at all’ yet; he and Sauraen debug live by manually injecting known occlusion-plane coefficients and verifying RSP memory, concluding the data is reaching microcode but the feature still fails to occlude.",
+      "summary": "Occlusion planes are currently non-functional in Kaze’s build despite verified view-projection math; he wants them working as step one because his render code has grown large (he cites ~a quarter of render code devoted to occlusion plane factor computation).",
       "quote": null
     },
     {
       "topic": "technical",
       "importance": "high",
-      "summary": "Sauraen explains the occlusion plane pipeline as three steps (per-vertex behind-plane checks on RSP; converting a chosen world-space plane into 12 short coefficients with clipping/rotation constraints; heuristics to select the best plane). He suggests CPU-side coefficient computation is acceptable because performance bottlenecks are primarily memory traffic, not CPU cycles.",
+      "summary": "In a live call, Sauraen explains occlusion planes in three steps: (1) per-vertex behind-plane checks on the RSP (skipped in NOC builds), (2) converting a chosen world-space plane to 12 short coefficients (4 screen-space lines + depth plane) including clipping/rotation logic, and (3) selecting which candidate occlusion plane to use via heuristics tuned on an OOT scene.",
       "quote": null
     },
     {
       "topic": "technical",
       "importance": "high",
-      "summary": "Sauraen and Kaze discuss microcode tradeoffs: triangle ‘snakes’ still reduce display-list memory traffic but consume precious instruction memory; Sauraen proposes considering an SP “3 triangles” command as a compromise to free instruction space for other improvements.",
+      "summary": "Kaze and Sauraen attempt a controlled debug by manually injecting ‘include everything’ occlusion-plane coefficients and verifying the data reaches RSP memory (DMEM), but occlusion still doesn’t occur; Sauraen leaves to retest on his side, suspecting either coefficient mistakes or a regression/assumption mismatch.",
       "quote": null
     },
     {
       "topic": "technical",
       "importance": "high",
-      "summary": "Sauraen proposes a potentially large new optimization: deferred execution of RDP ‘material’ command lists (e.g., texture loads only executed once the first triangle that uses them is actually drawn). Kaze suspects this could save hundreds of microseconds in his scenes but worries it would force re-exporting content and could complicate material/revert-state assumptions.",
+      "summary": "Sauraen proposes a tradeoff discussion: keeping ‘triangle snake’ commands (very low triangle memory traffic, but higher relative RSP cost now that baseline RSP is faster) versus introducing an SP three-triangles command to regain instruction memory headroom for other features.",
       "quote": null
     },
     {
-      "topic": "business",
+      "topic": "technical",
       "importance": "high",
-      "summary": "Kaze states an explicit contingency plan for Nintendo action: while Biobak is busy polishing/reworking levels, the team will work on replacing Mario with a custom character so they can release two builds—one with Mario and one without—so if Nintendo issues a takedown, the non-Mario build can remain available.",
-      "quote": "While Biobak is going to be busy reworking levels… we are going to work on replacing Mario with a custom character, so we can release both a version with Mario and a version without Mario. So that when Nintendo… is like, ‘take this down,’ we can be like, ‘fine, but there’s another.’"
+      "summary": "Sauraen pitches a potentially large RDP win: defer expensive texture-load/material RDP command blocks until the moment a triangle using that material actually needs to draw (via a pointer to an RDP-command list executed on-demand). Kaze reacts that his scenes already include off-screen/hidden materials being loaded (e.g., ropes) and estimates this could save ‘a couple hundred microseconds’ in some views, but toolchain re-export costs and ‘material bleeding’/state-unknown risks are concerns.",
+      "quote": null
     },
     {
       "topic": "legal-nintendo",
       "importance": "high",
-      "summary": "Kaze is openly unafraid of Nintendo enforcement and frames a takedown as either a reason to pivot into an original commercial rebrand or, if not taken down, as justification to continue releasing Mario 64 mods; this positions legal risk as a strategic fork rather than an existential threat.",
-      "quote": "If they take me down, then I can rebrand it into my own game and sell it and become rich. If they don’t, then I have to release another Mario 64 mod."
+      "summary": "Kaze outlines a contingency plan: while Biobak is reworking levels, the team will work on replacing Mario with a custom character and ship two versions (with Mario and without) so a Nintendo takedown can be countered by directing players to the non-Mario build.",
+      "quote": "So we can release both a version with Mario and a version without Mario. So that when Nintendo, on like week 1, is on our door and is like, take this down, we can be like, fine, but there's another. Fuck you."
     },
     {
-      "topic": "technical",
+      "topic": "team",
       "importance": "medium",
-      "summary": "Kaze answers that the engine will be hard to port to other platforms because it makes aggressive N64-specific performance assumptions; he views hardware-specific assumptions as key to speed but toxic to portability.",
-      "quote": "The more assumptions you make about the hardware for the best performance, the harder it’s going to be to port."
+      "summary": "Zeina supplies new textures (and is building Yoshi houses), which Kaze treats as a dependency for populating the village with Yoshis; he also expects Biobak to ‘go over’ his models and reduce texture clutter (e.g., consolidating many web textures down to a few).",
+      "quote": null
     },
     {
       "topic": "milestone",
       "importance": "medium",
-      "summary": "Kaze says the Overworld is the last major remaining ‘big part’ of the game; separately, he notes Lofty Lamba Leaps (tree-platforming level) is close to beta-ready.",
+      "summary": "Kaze marks the Lofty Lamba Leaps level (tree-platforming area) as close to beta-ready, indicating broader beta-test progress beyond the hub area.",
       "quote": null
     },
     {
       "topic": "design",
       "importance": "medium",
-      "summary": "Bamboo becomes a deliberate Yoshi’s Island identity element: after discussing whether bamboo can grow in water, Kaze decides bamboo resources should appear in the village area because Yoshi’s Island enemies are associated with bamboo stilts; he also considers making bamboo 3D to be climbable.",
+      "summary": "Kaze begins outlining a ‘mechanic’ boss fight concept (an antagonist who dislikes the player’s progress) and pins it to late-game progression: after Bowser 2 and after earning stars in later courses (he notes C12/C10 as gating areas).",
       "quote": null
     },
     {
-      "topic": "design",
-      "importance": "medium",
-      "summary": "Kaze outlines a late-game ‘mechanic boss fight’ concept tied to the narrative (the mechanic tries to stop the player’s progress). He tentatively schedules it after Bowser 2 and after gaining stars in Course 10 or Course 12, leaving exact mechanics undecided.",
-      "quote": null
-    },
-    {
-      "topic": "technical",
-      "importance": "medium",
-      "summary": "A crash is traced to a coin formation spawning over ‘no land,’ implying broken/absent collision under that formation; Kaze begins searching the relevant area data to locate and fix the formation.",
-      "quote": null
+      "topic": "philosophy",
+      "importance": "low",
+      "summary": "He critiques the NES/8-bit art style trend as often chosen for cost rather than aesthetics, and says overuse has made it stale to him.",
+      "quote": "More often than not, people make games in that art style because it's cheap to do. Not because they think it looks good."
     }
   ],
   "contributor_findings": {
@@ -102,17 +96,17 @@
       {
         "topic": "team",
         "importance": "medium",
-        "summary": "Kaze describes Biobak as the person who takes his rough models and makes them look significantly better; he anticipates Biobak will also push for texture simplification (e.g., reducing too many web textures) and notes Biobak’s rework/polish phase will likely outlast initial level creation.",
-        "quote": "Biobak goes over my models after I’m done, and makes them look a lot better."
+        "summary": "Kaze describes Biobak’s role as a consistent second pass on his models—improving visual quality and simplifying texture sets (e.g., reducing too many texture variants into a cleaner, smaller set).",
+        "quote": "Biobak goes over my models after I'm done, and makes them look a lot better."
       }
     ],
     "badub": [],
     "zeina": [
       {
-        "topic": "team",
+        "topic": "design",
         "importance": "medium",
-        "summary": "Zeina sends new textures during the stream that Kaze applies immediately; she is also actively building Yoshi house assets that are blocking final judgment of the village’s ‘homely’ feel and the ability to place Yoshis logically.",
-        "quote": "Zeina just sent me a new texture. That’s really good."
+        "summary": "Zeina sends Kaze a new texture during the stream, and her in-progress Yoshi house asset is treated as a key blocker for finalizing how ‘homely’ and populated the village feels.",
+        "quote": null
       }
     ],
     "others": [
@@ -122,13 +116,13 @@
           {
             "topic": "technical",
             "importance": "high",
-            "summary": "Sauraen joins live to debug F3DEX3 occlusion planes: provides test coefficient sets, confirms how/where the occlusion-plane command should be placed in the display list, and helps verify the coefficients are reaching RSP memory; despite correct data flow, occlusion still fails, so Sauraen plans to retest on his side for possible regression or constant/logic mismatch.",
+            "summary": "Sauraen provides a structured explanation of F3DEX3 occlusion planes (RSP vertex-side checks, CPU-side coefficient generation with clipping/rotation, and heuristic selection among candidates) and guides a step-by-step debug using manual coefficients and DMEM verification.",
             "quote": null
           },
           {
             "topic": "technical",
             "importance": "high",
-            "summary": "Sauraen surfaces future microcode/tooling directions: reconsidering triangle snakes vs alternative commands due to instruction memory pressure, and exploring ‘deferred material’ execution to avoid unnecessary texture loads (with acknowledged risks around RDP state/material bleeding).",
+            "summary": "He outlines forward microcode feature tradeoffs: triangle snakes vs. a three-triangle command to free instruction memory, and an on-demand RDP material execution concept to avoid unnecessary texture loads for occluded/off-screen geometry.",
             "quote": null
           }
         ]
@@ -138,98 +132,107 @@
   "memorable_quotes": [
     {
       "speaker": "Kaze",
-      "quote": "While Biobak is going to be busy reworking levels… we are going to work on replacing Mario with a custom character, so we can release both a version with Mario and a version without Mario. So that when Nintendo… is like, ‘take this down,’ we can be like, ‘fine, but there’s another.’",
-      "context": "A concrete anti-takedown distribution plan that shapes character/branding, tooling priorities, and the documentary’s core tension with Nintendo."
+      "quote": "So we can release both a version with Mario and a version without Mario. So that when Nintendo, on like week 1, is on our door and is like, take this down, we can be like, fine, but there's another. Fuck you.",
+      "context": "A blunt, concrete release strategy framed as a direct response to expected Nintendo enforcement."
     },
     {
       "speaker": "Kaze",
-      "quote": "The more assumptions you make about the hardware for the best performance, the harder it’s going to be to port.",
-      "context": "Captures the project’s philosophy of extracting maximum N64 performance at the expense of portability—central to ‘building something new on old hardware.’"
+      "quote": "More often than not, people make games in that art style because it's cheap to do. Not because they think it looks good.",
+      "context": "A candid design taste statement that doubles as critique of retro-aesthetic trends and cost-driven creativity."
     },
     {
       "speaker": "Kaze",
-      "quote": "If they take me down, then I can rebrand it into my own game and sell it and become rich. If they don’t, then I have to release another Mario 64 mod.",
-      "context": "Reframes Nintendo legal risk as a strategic fork (original commercialization vs continued modding), revealing Kaze’s mindset about uncertainty and leverage."
+      "quote": "The path makes this so much better. Right off the bat.",
+      "context": "A simple but revealing ‘iteration moment’ where a small decal change dramatically improves the feel/readability of the hub space."
     }
   ],
   "key_stories": [
     {
       "title": "Occlusion planes debugging session with Sauraen",
-      "summary": "Kaze attempts to enable occlusion planes to regain performance headroom, but the feature doesn’t occlude anything in-game. Sauraen joins live, explains the three-step pipeline (vertex checks, coefficient computation with clipping, plane selection heuristics), and they verify coefficients are reaching RSP memory, yet the expected behavior still doesn’t occur.",
-      "challenge": "Major performance feature (occlusion planes) appears non-functional despite correct integration steps, blocking anticipated FPS gains in heavy scenes.",
-      "process": "They try hardcoded coefficient test planes, check microcode variant selection (NOC vs full), validate display-list placement, switch emulators for sanity checks, and inspect RSP memory mappings to confirm data upload.",
-      "outcome": "Data flow appears correct but occlusion still fails; Sauraen plans to retest on his end for potential regression or incorrect constants, while Kaze notes upcoming microcode features could recover ‘a couple hundred microseconds’ if they land.",
+      "summary": "Kaze tries to integrate Sauraen’s occlusion planes to reclaim performance headroom for the Overworld/start area. The attempt turns into a live troubleshooting call: they validate data paths and memory, but the feature still doesn’t occlude, pushing the issue back to Sauraen for retesting and possibly revisiting assumptions/coefficient math.",
+      "challenge": "Occlusion planes “don’t seem to work at all,” blocking a major performance lever for higher-detail scenes.",
+      "process": "They discuss the full pipeline (RSP checks, CPU coefficient generation, heuristics selection), then attempt a minimal test by manually injecting ‘include everything’ coefficients, switching emulators, verifying DMEM/RSP memory contents, and checking display list placement/pointer-vs-data mistakes.",
+      "outcome": "The occlusion plane command/data reaches the RSP correctly, but occlusion still fails; Sauraen plans to retest on his end and update Kaze, while also floating future microcode optimizations.",
       "key_quote": null,
       "related_to": ["kaze"]
     },
     {
-      "title": "Shipping a Mario and non-Mario build to mitigate Nintendo action",
-      "summary": "Kaze states the team will replace Mario with a custom character so they can publish two versions of the hack. The goal is to keep a viable distribution path even if Nintendo issues a takedown of a Mario-branded build.",
-      "challenge": "Nintendo takedown risk threatens the project’s availability and the ability to sustain community access after release.",
-      "process": "Plan to allocate effort while Biobak is busy on long-running level reworks: parallelize by implementing a custom playable character and maintaining two releases (with and without Mario).",
-      "outcome": "A clear contingency strategy is set that impacts production scheduling, character pipeline, and branding decisions.",
-      "key_quote": "So that when Nintendo… is like, ‘take this down,’ we can be like, ‘fine, but there’s another.’",
+      "title": "Designing Yoshi Village to feel lived-in (paths, flowers, campfire)",
+      "summary": "Kaze iterates toward a ‘homely’ hub by layering small environmental signals—paths, props, and a gathering point—rather than relying on overt themed architecture. The stream captures a clear before/after where a path decal and campfire seating transform the mood of the area.",
+      "challenge": "The village looks empty/sterile, and some legacy assets look ‘awful’ compared to newer work.",
+      "process": "He experiments with path decals, considers wells and flower gardens, reuses fireplaces from other courses, and adds seating logs; he also plans fruit baskets with actual fruit textures and waits on Zeina’s Yoshi house to anchor the space.",
+      "outcome": "Kaze shifts from disliking the area to enjoying it, calling it cozy and homely, and queues the rest as a structured task list for future streams.",
+      "key_quote": "I hated it first, now I kinda love it.",
+      "related_to": ["kaze", "zeina"]
+    },
+    {
+      "title": "Preempting a Nintendo takedown with a dual-build release plan",
+      "summary": "Kaze explicitly anticipates Nintendo enforcement soon after release and describes a pragmatic countermeasure: ship a Mario version and a non-Mario version. This story reveals how legal risk shapes technical priorities (custom protagonist) and production scheduling (parallel work while levels are reworked).",
+      "challenge": "Risk that Nintendo will demand removal of a Mario-branded build shortly after release.",
+      "process": "He plans to replace Mario with a custom character and publish both builds; if a takedown hits, the team can comply on the Mario build while keeping the alternate build available.",
+      "outcome": "A clear mitigation strategy that influences the development roadmap and asset priorities beyond purely creative goals.",
+      "key_quote": "So that when Nintendo... take this down, we can be like, fine, but there's another. Fuck you.",
       "related_to": ["kaze", "biobak"]
     },
     {
-      "title": "Making Yoshi Village feel ‘homely’ through small art and layout changes",
-      "summary": "Kaze iterates on the Overworld’s Yoshi Village vibe by adding a path decal, planning fruit baskets with apples, considering flowers and bamboo gardens, and reframing a fireplace/campfire as a social gathering spot. He notes the area went from looking bad to feeling cozy after incremental adjustments.",
-      "challenge": "The village reads as empty/ugly without enough set dressing, and the team wants it to feel lively while staying believable as Yoshi-made architecture.",
-      "process": "Use reference checks (Yoshi Village imagery, other hacks), add readable navigation cues (paths), and place narrative props (campfire, seating). Defer final judgments until Zeina’s Yoshi house assets are integrated.",
-      "outcome": "Kaze becomes confident the section feels significantly more welcoming and is ready to begin programming the area and planning a late-game boss encounter tied to it.",
-      "key_quote": "I hated it first, now I kinda love it.",
-      "related_to": ["kaze", "zeina"]
+      "title": "Microcode roadmap: trading ‘clever’ features for future headroom",
+      "summary": "Sauraen and Kaze confront a classic optimization dilemma: triangle snakes save display-list bandwidth but consume instruction memory and now carry higher relative cost after recent RSP speedups. The conversation expands into a bigger idea—deferring material/texture loads until a triangle actually draws—suggesting the project’s performance ceiling may still move significantly.",
+      "challenge": "Instruction memory is nearly full, limiting further microcode improvements, while Kaze still needs more frame time to hit 60 FPS in heavy scenes.",
+      "process": "They compare expected gains from triangle snakes vs. an SP three-triangles command, estimate triangle counts (8–9k in heavy views), and explore an on-demand material execution scheme with toolchain implications and correctness risks.",
+      "outcome": "No immediate decision, but a documented set of next-step options and a shared understanding of constraints that can guide future engineering work and interview discussion.",
+      "key_quote": null,
+      "related_to": ["kaze"]
     }
   ],
   "open_questions": [
     {
-      "topic": "Dual-release plan (Mario build vs non-Mario build)",
-      "context": "Kaze proposes replacing Mario with a custom character and shipping two builds so a non-Mario version can remain available after a Nintendo takedown.",
+      "topic": "Why exactly did occlusion planes fail despite correct DMEM data?",
+      "context": "They verified the occlusion-plane struct reaches RSP memory and the display list placement seems correct, yet nothing occludes; Sauraen suspects either coefficient mistakes or something subtly broken/assumed in the microcode/tooling path.",
       "questions": [
-        "What exact thresholds would trigger publishing the non-Mario build (day-one simultaneous release vs only after a takedown)?",
-        "How far does the ‘without Mario’ plan go—just a model swap, or new voice/animations/story framing to remove Mario identity?",
-        "Who is the custom character (original IP vs Yoshi-universe-adjacent), and how will you avoid accidental Nintendo-trademark entanglements (names, symbols, silhouettes)?",
-        "How does maintaining two builds affect QA, speedrunning/community fragmentation, and patch distribution after launch?"
-      ],
-      "related_to": ["kaze", "zeina"]
-    },
-    {
-      "topic": "Why occlusion planes are not occluding in RTYI integration",
-      "context": "Kaze and Sauraen confirm coefficients reach RSP memory and are set before drawing, yet nothing is occluded; Sauraen plans to retest on his side.",
-      "questions": [
-        "What ended up being the root cause: wrong constants, wrong interpretation of coefficients, a microcode regression, an emulator incompatibility, or a display-list state issue?",
-        "How will you validate occlusion correctness in real hardware vs emulators, and what test scenes will you use as benchmarks?",
-        "If occlusion planes remain unreliable, what is the fallback plan for achieving 60 FPS in the start level?"
+        "When you later retested, what was the root cause—bad coefficients, an integration mistake, emulator behavior, or a bug/regression in the microcode?",
+        "What was the moment you realized ‘this is it’—and how did getting occlusion planes working change what you could build in the Overworld/start level?",
+        "Did you end up keeping the occlusion-plane coefficient generation on CPU, or did any part move toward RSP over time? Why?"
       ],
       "related_to": ["kaze"]
     },
     {
-      "topic": "Future F3DEX3 features under consideration (triangle snakes vs 3-tri command; deferred materials)",
-      "context": "Sauraen raises instruction-memory pressure and suggests alternatives; he also proposes a deferred-RDP-material approach to avoid unnecessary texture loads, with risks to RDP state/material bleeding and re-export costs.",
+      "topic": "Triangle snakes vs. new triangle commands (and what ‘performance headroom’ is worth)",
+      "context": "Sauraen notes triangle snakes are now comparatively slower against a faster baseline, and instruction memory is tight; alternatives like an SP three-triangles command could preserve some bandwidth savings while freeing space for other features.",
       "questions": [
-        "What criteria will decide whether triangle snakes stay (e.g., minimum microsecond savings required per scene)?",
-        "How disruptive would a deferred-material pipeline be for your current asset/toolchain (Fast64 export, mesh compiler plans, re-export scope)?",
-        "How do you plan to preserve ‘revert display list’ expectations or prevent material bleeding if RDP state becomes less deterministic?"
+        "How did you decide whether to keep triangle snakes—what measurements or constraints ultimately mattered most (DMA/memory traffic, RSP time, tooling complexity, instruction-memory headroom)?",
+        "What other ‘next microcode features’ were most tempting once you realized instruction memory was the limiting factor?",
+        "If you could only keep one microcode ‘clever trick,’ which would it be and why?"
       ],
       "related_to": ["kaze"]
     },
     {
-      "topic": "‘Mechanic boss fight’ concept and placement",
-      "context": "Kaze notes a planned boss where ‘the mechanic’ tries to stop the player’s progress, tentatively placed late game after Bowser 2 and after some stars in Course 10 or 12, but mechanics are undecided.",
+      "topic": "On-demand material/texture-load execution idea and its pipeline cost",
+      "context": "Sauraen proposes deferring RDP material command blocks until a triangle actually draws, potentially saving large texture-load costs for occluded/off-screen objects, but at the price of state-management complexity and re-export/tooling changes.",
       "questions": [
-        "Who/what is ‘the mechanic’ in the story (new character, metaphor, existing RTYI figure), and why are they motivated to stop the player?",
-        "What is the intended core mechanic (movement restriction, tool-based hazards, environmental manipulation, time pressure), and how is it distinct from Mario 64-style boss patterns?",
-        "Why is this fight tied to the Overworld/Yoshi Village area specifically, and what changes in the world after the fight?"
+        "Did you prototype the deferred-material idea, and if so, what broke first: correctness (state/revert display lists), tooling, or the actual savings being smaller than expected?",
+        "How did you weigh ‘big potential savings’ against the reality that it might force re-exporting or retooling large portions of the game?",
+        "In practice, what ended up being the biggest RDP-time killers in RTYI scenes: texture loads, overdraw, combine mode changes, or something else?"
+      ],
+      "related_to": ["kaze"]
+    },
+    {
+      "topic": "Dual-build release strategy and the custom-character plan",
+      "context": "Kaze states an intent to ship versions with and without Mario to survive an expected Nintendo takedown, implying a major character/animation/branding effort and a release/communications plan.",
+      "questions": [
+        "What did ‘replacing Mario’ concretely require in your engine and content pipeline (animations, hitboxes, camera assumptions, voice/sound hooks, UI)?",
+        "How did you plan to communicate the two-build approach to players without making the project easier to target legally?",
+        "Did the expectation of a takedown change any creative decisions—like how explicit Mario iconography could be in levels, UI, or story?",
+        "Looking back, was the dual-build plan mainly a deterrent, a practical fallback, or both?"
       ],
       "related_to": ["kaze", "zeina"]
     },
     {
-      "topic": "64 MB self-imposed memory cap",
-      "context": "Kaze says the team is restricting themselves to 64 MB even though it’s not the technical limit in their setup.",
+      "topic": "The ‘mechanic’ boss fight concept and late-game placement",
+      "context": "Kaze notes a ‘mechanic boss fight’ idea—an antagonist reacting to player progress—and tentatively places it after Bowser 2 and after some stars in later courses (C10/C12).",
       "questions": [
-        "Why choose 64 MB specifically (hardware realism, emulator/flashcart compatibility, discipline, or a shipping constraint)?",
-        "What systems/content are currently the biggest RAM consumers (textures, animation, audio, level geo), and what tradeoffs has the cap forced so far?",
-        "Would exceeding 64 MB unlock any ‘must-have’ features you’re currently cutting, or is it purely a constraint for polish/optimization goals?"
+        "Who is the ‘mechanic’ in the story, and what does ‘she doesn’t like how much progress you’ve been making’ mean narratively?",
+        "What was the intended core mechanic of the fight—how would it feel distinct from other bosses and from Mario 64’s Bowser structure?",
+        "Why place it after Bowser 2 specifically—what pacing or skill assumptions made that the right moment?"
       ],
       "related_to": ["kaze"]
     }

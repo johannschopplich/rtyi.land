@@ -1,100 +1,94 @@
 {
   "stream_context": {
-    "summary": "Kaze does a bonus stream focused on UV mapping/texturing an in-progress large “fridge/ice castle” level (Course 13), while also showing a major rendering performance breakthrough: Sauraen’s F3DEX3 microcode is now working correctly and shifts the project’s optimization focus toward the RSP. He discusses near-term demo plans (a Course 1-only demo showcasing new camera/controls), current blockers (collision triangle memory limits, an ambient-light bug tied to lighting application/X2 vs X3), and how he approaches art direction (emotion-first).",
+    "summary": "Bonus Labor Day stream focused on UV mapping/texturing an icy castle course, showing a major performance boost after getting Sauraen’s F3DEX3 microcode working, and discussing N64 optimization insights (RSP vs memory/RDP). Kaze also outlines upcoming demo/video plans, notes temporary level constraints (collision memory), and shares personal/business pressure after having a child.",
     "level": ["Course 13", "Course 1"],
     "significance": "milestone",
-    "significance_reason": "Kaze reports F3DEX3 (Sauraen’s new microcode) now works correctly in his project and yields a large performance improvement, reframing optimization priorities (RSP bottleneck) and enabling a realistic path to stable 60 FPS in heavy scenes."
+    "significance_reason": "Kaze reports F3DEX3 working correctly with a dramatic framerate increase and reframes performance bottlenecks as RSP-limited once memory traffic is optimized—both are major technical turning points that affect the whole project. He also defines near-term deliverables (Course 1 demo) and reveals real-life monetization pressure after having a child."
   },
   "findings": [
     {
       "topic": "technical",
       "importance": "high",
-      "summary": "Sauraen’s F3DEX3 microcode is now working correctly in RTYI, producing a large performance uplift (Kaze estimates the scene can reach stable 60 FPS with proper draw-distance limits/culling, with only the most expensive views dropping).",
-      "quote": null
+      "summary": "Sauraen’s F3DEX3 microcode is now working correctly in Kaze’s build, producing a large framerate gain (around ~50 FPS in a heavy view, with optimism for stable 60 after further culling/draw-distance tuning).",
+      "quote": "We got F3DEX3 working correctly now… it’s basically like 50 FPS now… I’m pretty sure we can get this to stable 60."
     },
     {
       "topic": "technical",
       "importance": "high",
-      "summary": "With F3DEX3, Kaze concludes that once memory traffic is reasonably optimized, the RSP—not the RDP/fillrate—becomes the limiting factor; he plans a video arguing that the community over-blames the RDP and should optimize the RSP in well-optimized games.",
-      "quote": "Maybe the world is just not ready to move on from blaming the RDP on the N64 and fillrate. But one day they will learn… then they will optimize their RSP."
+      "summary": "Kaze concludes that once memory traffic is optimized “decently,” the RSP becomes the limiting factor (not the RDP/fillrate), and he plans a video correcting this earlier understanding.",
+      "quote": "We were wrong about memory traffic being so important… with X3, we found out that RSP is actually the limiting factor now—if you actually optimize your game well."
     },
     {
       "topic": "technical",
       "importance": "medium",
-      "summary": "Kaze notes that performance measurement overlays/counters themselves reduce performance, so he prefers estimating FPS via RDP time measurements rather than trusting the fully-instrumented frame rate.",
+      "summary": "Even on an RSP-optimized branch, Kaze’s performance counters still show the project RSP-bottlenecked, reinforcing his claim that further gains require RSP-side optimization rather than more memory tweaks alone.",
       "quote": null
     },
     {
       "topic": "technical",
       "importance": "medium",
-      "summary": "The level is currently rendering distant actors that are effectively invisible (tiny goombas/grasshoppers, a far-off bunny/bird), suggesting aggressive distance-based culling/draw-distance tuning is still needed; Kaze mentions per-area draw distance as a planned/available lever.",
+      "summary": "A known measurement caveat: Kaze acknowledges that enabling frame-time measurement itself reduces performance, so counters must be interpreted carefully.",
       "quote": null
     },
     {
       "topic": "technical",
       "importance": "high",
-      "summary": "Course 13 temporarily hits a hard memory limit for collision triangles; until a proper collision map is made, Kaze plans to mark some geometry as untouchable/non-collidable to keep building/testing.",
-      "quote": null
+      "summary": "Course 13 temporarily hits a hard limit: the level is running out of memory for collision triangles. Kaze says it should be resolved once they switch to a collision map; until then they may make some geometry “untouchable.”",
+      "quote": "We are running out of memory for collision triangles… it’s only temporary because as soon as we make a collision map, that issue will go away."
     },
     {
       "topic": "technical",
       "importance": "high",
-      "summary": "Kaze is stuck on a lighting bug where ambient light disappears when Mario approaches an additional light source; the behavior differs depending on whether lighting is applied in Mario’s GeoLayout and differs between X2 and X3 setups (X3 works; emulator builds load X2).",
-      "quote": null
-    },
-    {
-      "topic": "design",
-      "importance": "high",
-      "summary": "Kaze is designing “room door” boundaries that control visibility so that when the player is in one room it can stop rendering the other room, improving performance and supporting a multi-room castle layout.",
-      "quote": null
+      "summary": "Lighting bug: when Mario approaches an additional light source, ambient light disappears. Kaze can’t explain it; behavior differs depending on microcode/version (works on X3, but his emulator setup loads X2, where the issue appears under certain GeoLayout lighting applications).",
+      "quote": "When I get close to an additional light source, the ambient light just disappears. I couldn't figure it out at all."
     },
     {
       "topic": "design",
       "importance": "medium",
-      "summary": "The course structure includes an outside area being built as a small, self-contained space: one star is 8 red coins in the outside area, and another is a hidden entrance to an “8-bit” section accessed from outside.",
-      "quote": null
+      "summary": "Kaze is building “room doors”/portals so that depending on where the player stands, the engine renders one room or both rooms—an explicit level-structure choice to control visibility/performance.",
+      "quote": "These are going to be used as room doors, so that when I'm here I render both rooms and when I'm here I just don't render the other room."
+    },
+    {
+      "topic": "milestone",
+      "importance": "high",
+      "summary": "He plans a public-facing demo limited to Course 1 so players can try the new camera and Mario controls, implying a shift toward polishing core feel/engine features for a contained release rather than a broad “full game” demo.",
+      "quote": "I'm planning a demo of just Course 1… so everyone can play with the new camera and the new Mario controls."
     },
     {
       "topic": "design",
       "importance": "medium",
-      "summary": "Kaze highlights the level’s “labyrinth-like” navigation with multiple routes/shortcuts, including a secret pipe that repositions the player and is used to collect a Yoshi coin from a different angle.",
+      "summary": "Course 13’s outside area is actively being produced by Zeina; two stars are planned for outside content: an 8 Red Coins star and a hidden entrance leading to an additional sub-area/objective (described as an “8-bit”/hidden entrance).",
       "quote": null
     },
     {
       "topic": "philosophy",
       "importance": "high",
-      "summary": "Kaze describes his art-direction priority as emotion-first rather than pure aesthetics; for this level he wants players to feel “cold and mysterious,” which guides color/texture decisions more than making every surface “pleasant to look at.”",
-      "quote": "When I’m doing visuals, I don’t really think about it in terms of pleasure to look at. That’s secondary to me. I think about… emotions I want to invoke in the player."
+      "summary": "Kaze states his visual decision-making prioritizes emotional tone over surface-level aesthetics; for this course he explicitly wants “cold and mysterious,” hence leaning into blue and subdued palettes.",
+      "quote": "When I'm doing visuals… I think about… emotions I want to invoke in the player. And I want this to feel cold and mysterious."
     },
     {
-      "topic": "milestone",
-      "importance": "high",
-      "summary": "Kaze outlines an upcoming public demo plan: a demo of only Course 1 (not the full game) so players can try the new camera system and new Mario controls; he’s unsure whether there will be another full-game demo due to current development constraints.",
+      "topic": "design",
+      "importance": "low",
+      "summary": "The course’s identity is still fluid: they brainstorm a “minty” ice-castle name and reject options like “Frosty Fortress” and “Cold Castle,” with suggestions like “Permafrost Palace” and “Paradox” variants.",
       "quote": null
-    },
-    {
-      "topic": "team",
-      "importance": "medium",
-      "summary": "Zeina is currently producing assets for the outside area of Course 13, with two stars tied to that outside section.",
-      "quote": null
-    },
-    {
-      "topic": "team",
-      "importance": "medium",
-      "summary": "Kaze frames his own placeholder texturing as a starting point and expects Biobak to significantly improve the final look; he is already thinking about merge-by-distance workflows and keeping surfaces separate so later distance-merging doesn’t break materials.",
-      "quote": "I’ve resigned myself to knowing that whatever I do is kind of like a suggestion for Biobak, and he’s going to make it look a lot better."
     },
     {
       "topic": "community",
-      "importance": "low",
-      "summary": "Kaze observes polarized difficulty feedback: some players call sections too hard while others call them too easy; he cites SimpleFlips failing repeatedly on something Kaze considers simple, shaping perceptions of “Kaze-tier difficulty.”",
-      "quote": null
+      "importance": "medium",
+      "summary": "Kaze observes a recurring playtesting/difficulty perception split: some viewers call segments too hard, others too easy; he cites SimpleFlips failing many times on something he considers basic, highlighting the challenge of calibrating difficulty for mixed audiences.",
+      "quote": "I get a lot of people saying this is too difficult, and then I get a lot of people saying this is too easy."
     },
     {
-      "topic": "personal",
+      "topic": "business",
       "importance": "high",
-      "summary": "Kaze says having a new child is increasing financial pressure; he intends to increase YouTube output and anticipates he may need to “sell out a little bit,” even though he dislikes the idea of becoming a drama-focused creator.",
-      "quote": "Now that I have a child, I need to make more money… it also means I might have to sell out a little bit, unfortunately."
+      "summary": "Personal pressure affects output strategy: Kaze says having a child means he needs more income, so he expects to increase YouTube output and is worried he may need to “sell out a little bit.”",
+      "quote": "Now that I have a child, I need to make more money… it also means I might have to sell out a little bit."
+    },
+    {
+      "topic": "business",
+      "importance": "medium",
+      "summary": "Kaze outlines a stacked video pipeline: an optimizations video (including making Mario 64 run worse/better), a Course 1 demo video, a Banjo-Kazooie demo video, and a technical correction video about RSP vs memory traffic.",
+      "quote": null
     }
   ],
   "contributor_findings": {
@@ -102,8 +96,8 @@
       {
         "topic": "team",
         "importance": "medium",
-        "summary": "Kaze explicitly positions Biobak as the person who will substantially elevate the course’s visuals beyond Kaze’s provisional textures, implying an iterative pipeline where Kaze blocks out and Biobak polishes.",
-        "quote": null
+        "summary": "Kaze frames his own early texturing work as provisional, expecting Biobak to significantly improve visuals later—suggesting a pipeline where Kaze blocks in intent and Biobak elevates final art direction.",
+        "quote": "Whatever I do is just kind of like a suggestion for Biobak and he's gonna make it look a lot better."
       }
     ],
     "badub": [],
@@ -111,7 +105,7 @@
       {
         "topic": "design",
         "importance": "medium",
-        "summary": "Zeina is making assets for Course 13’s outside area, which will support at least two stars (8 red coins and a hidden entrance to an 8-bit section).",
+        "summary": "Zeina is producing assets for Course 13’s outside area; two stars are planned around that space (including an 8 Red Coins star).",
         "quote": null
       }
     ],
@@ -122,18 +116,7 @@
           {
             "topic": "technical",
             "importance": "high",
-            "summary": "Sauraen’s F3DEX3 microcode is now running correctly in Kaze’s build, delivering a major performance gain and shifting optimization attention to the RSP.",
-            "quote": null
-          }
-        ]
-      },
-      {
-        "name": "Lilaa",
-        "findings": [
-          {
-            "topic": "technical",
-            "importance": "low",
-            "summary": "Kaze confirms he now uses “material bleeding” (mentioned in response to Lilaa), suggesting ongoing iteration on texture seams/material transitions in the renderer/pipeline.",
+            "summary": "Sauraen’s custom F3DEX3 microcode is the enabling technology behind the new performance headroom Kaze demonstrates (and is central to the project’s new RSP-bottleneck framing).",
             "quote": null
           }
         ]
@@ -143,102 +126,117 @@
   "memorable_quotes": [
     {
       "speaker": "Kaze",
-      "quote": "When I’m doing visuals, I don’t really think about it in terms of pleasure to look at. That’s secondary to me. I think about… emotions I want to invoke in the player.",
-      "context": "Explains his art-direction method for the ice/fridge level: emotion-first (cold, mysterious) over purely pretty textures."
+      "quote": "We were wrong about memory traffic being so important… with X3, we found out that RSP is actually the limiting factor now—if you actually optimize your game well.",
+      "context": "A project-wide optimization thesis shift: once the team optimizes memory, the bottleneck moves, changing how they should spend engineering time going forward."
     },
     {
       "speaker": "Kaze",
-      "quote": "Maybe the world is just not ready to move on from blaming the RDP on the N64 and fillrate. But one day they will learn… then they will optimize their RSP.",
-      "context": "Captures the technical thesis emerging from the F3DEX3 breakthrough: in a well-optimized engine, RSP becomes the bottleneck."
+      "quote": "When I'm doing visuals… I think about… emotions I want to invoke in the player. And I want this to feel cold and mysterious.",
+      "context": "A clear articulation of Kaze’s art-direction philosophy—useful for documentary narration about how he makes aesthetic calls."
     },
     {
       "speaker": "Kaze",
-      "quote": "Now that I have a child, I need to make more money… it also means I might have to sell out a little bit, unfortunately.",
-      "context": "Personal pressure shaping production pace and content strategy—useful for documentary narrative about sustainability."
+      "quote": "Now that I have a child, I need to make more money… it also means I might have to sell out a little bit.",
+      "context": "A candid moment tying real-life responsibilities to content strategy and creative compromise—high documentary relevance."
     }
   ],
   "key_stories": [
     {
-      "title": "F3DEX3 integration and the RSP bottleneck realization",
-      "summary": "Kaze reports that F3DEX3 (Sauraen’s new microcode) is now functioning correctly and immediately improves frame rate in a heavy scene with long draw distances. The breakthrough changes how he thinks about N64 performance: after memory optimization, the RSP becomes the limiting factor rather than the RDP.",
-      "challenge": "Achieving stable high frame rates in dense scenes while still targeting real N64 constraints and not just emulator performance assumptions.",
-      "process": "He validates performance in a demanding view, observes off-screen/distant actor rendering costs, and compares behavior under X2 vs X3 while referencing counters/measurement overhead. He generalizes the result into a broader claim about RSP-focused optimization once memory traffic is under control.",
-      "outcome": "A concrete path to stable 60 FPS appears feasible with culling/draw-distance tuning, and Kaze plans to communicate the new optimization framing publicly (video idea).",
-      "key_quote": "Maybe the world is just not ready to move on from blaming the RDP on the N64 and fillrate.",
+      "title": "F3DEX3 finally delivers major framerate headroom",
+      "summary": "Kaze shows that Sauraen’s F3DEX3 microcode is now functioning correctly in his build, immediately improving framerate in heavy scenes. This becomes the basis for a broader realization: once some classic bottlenecks are addressed, the limiting factor shifts, changing how the team should optimize the project.",
+      "challenge": "The level’s rendering cost and prior microcode behavior limited framerate, and earlier assumptions emphasized RDP/fillrate and memory traffic.",
+      "process": "Kaze integrates/tests F3DEX3, inspects performance live (including overdraw from faraway, invisible actors), and discusses tuning draw distance/culling and measurement overhead.",
+      "outcome": "The project appears capable of stable 60 FPS with further tuning, and Kaze reframes optimization priorities toward RSP limitations rather than defaulting to RDP blame.",
+      "key_quote": "Maybe the world is just not ready to move on from blaming the RDP on the N64 and fillrate… one day they will optimize their RSP.",
       "related_to": ["kaze"]
     },
     {
-      "title": "Course 13 blocked by collision triangle memory limits",
-      "summary": "While building the large castle level, Kaze hits a memory limit specifically for collision triangles. He treats it as temporary until a proper collision map exists, but it affects what can be interactable right now.",
-      "challenge": "The level’s current collision representation consumes too much memory to keep everything solid/playable during development.",
-      "process": "He plans to temporarily mark certain geometry as untouchable and defer full collision until a collision map solution is implemented.",
-      "outcome": "Development can continue on layout and visuals, but playability/testing is partially constrained until collision maps replace the current approach.",
-      "key_quote": null,
+      "title": "Course 13 hits a collision-triangle memory wall",
+      "summary": "While detailing Course 13’s current state, Kaze reveals the level is temporarily out of collision triangle memory. Instead of stopping progress, he plans a stopgap approach until the collision system is replaced with a collision map.",
+      "challenge": "Collision triangle memory limits prevent adding/maintaining full interactable geometry in the current setup.",
+      "process": "Kaze explains the constraint, plans a future conversion to a collision map, and proposes temporarily making some geometry non-collidable/untouchable.",
+      "outcome": "Development can continue with temporary limitations; a future collision-map milestone is positioned as the real fix.",
+      "key_quote": "As soon as we make a collision map, that issue will go away.",
       "related_to": ["kaze"]
     },
     {
-      "title": "Demo strategy shift to a Course 1-only release",
-      "summary": "Kaze expresses uncertainty about shipping another full-game demo and instead commits to a smaller, focused demo of only Course 1. The intent is to let players experience the new camera system and new Mario controls without waiting for broader content to stabilize.",
-      "challenge": "Balancing public-facing progress with ongoing technical blockers (lighting issues, collision memory, performance tuning) and incomplete content.",
-      "process": "He outlines a video/demo queue and frames the demo as a showcase of core-feel improvements rather than content breadth.",
-      "outcome": "A clearer near-term deliverable emerges: Course 1 demo as a controlled slice of the project.",
-      "key_quote": null,
+      "title": "A mysterious ambient-light dropout near extra light sources",
+      "summary": "Kaze demonstrates a lighting bug where ambient light disappears as Mario approaches an additional light source. The behavior appears version/microcode dependent (works on X3, breaks in his emulator path using X2 under specific GeoLayout lighting), making it harder to diagnose.",
+      "challenge": "Ambient lighting vanishes near certain lights, harming the look/consistency of the level and suggesting an engine/render-pipeline edge case.",
+      "process": "He tests in different configurations (X3 vs emulator/X2) and narrows it to how lighting is applied (e.g., Mario’s GeoLayout involvement).",
+      "outcome": "Bug remains unresolved but is documented with hypotheses, becoming a concrete technical follow-up for later debugging.",
+      "key_quote": "It doesn't seem to be an emulator bug either.",
+      "related_to": ["kaze"]
+    },
+    {
+      "title": "A contained Course 1 demo becomes the next public milestone",
+      "summary": "Rather than promising another broad demo, Kaze commits to a focused Course 1 demo showcasing systemic improvements (new camera and Mario controls). This frames a deliberate release strategy: ship a polished slice to validate feel and tech.",
+      "challenge": "A full-game demo may be impractical while major systems and courses are still in flux.",
+      "process": "Kaze outlines a Course 1-only demo scope and pairs it with planned YouTube videos explaining optimizations and the demo itself.",
+      "outcome": "A clear, achievable near-term deliverable that doubles as a marketing/feedback checkpoint.",
+      "key_quote": "I'm planning a demo of just Course 1.",
+      "related_to": ["kaze"]
+    },
+    {
+      "title": "Parenthood increases production pressure and tempts “selling out”",
+      "summary": "Kaze connects his new family responsibilities to a more aggressive content plan and a fear of compromising creatively for income. It’s a rare moment where life logistics directly shape the project’s communication and possibly its development cadence.",
+      "challenge": "Needing more income after having a child while maintaining creative integrity and avoiding content trends he dislikes.",
+      "process": "He discusses increasing video output and weighing more commercial strategies, while explicitly rejecting becoming a drama-style creator.",
+      "outcome": "A stated intent to publish more, with unresolved tension about how far he’ll bend toward algorithm-friendly content.",
+      "key_quote": "Let's see how much I have to sell out.",
       "related_to": ["kaze"]
     }
   ],
   "open_questions": [
     {
-      "topic": "What exactly changed to get F3DEX3 ‘working correctly’ and what was broken before?",
-      "context": "Kaze says F3DEX3 is now working correctly and performance jumped, but the transcript doesn’t capture what the prior failure mode was (incorrect rendering, crashes, bad performance, feature incompatibilities, etc.).",
+      "topic": "F3DEX3 adoption plan and compatibility targets",
+      "context": "Kaze demonstrates strong gains with F3DEX3 but also references running X2 in emulator contexts and doubts about NSO emulation being good enough for the full game.",
       "questions": [
-        "What was the concrete symptom before—visual bugs, instability, worse performance than X2, missing features?",
-        "What specific integration steps were required in RTYI’s codebase to support F3DEX3 (display list generation changes, vertex formats, state sorting, material system changes)?",
-        "How much of the gain is from microcode alone vs changes Kaze made to content (culling, draw distance, material setup)?",
-        "Does using F3DEX3 constrain emulator compatibility or require special build paths for demo releases?"
+        "What’s the decision point for making F3DEX3 the default for RTYI—will you ship separate builds, or fully transition the project?",
+        "What platforms are you treating as “must work” for release (real hardware, popular emulators, NSO), and how does microcode choice affect that?",
+        "What specific changes in F3DEX3 unlocked the performance increase you’re seeing in this level?"
       ],
       "related_to": ["kaze"]
     },
     {
-      "topic": "RSP vs RDP optimization doctrine for RTYI",
-      "context": "Kaze argues that with decent memory optimization, the RSP becomes the bottleneck, and he wants to make a video correcting common assumptions.",
+      "topic": "RSP-vs-memory bottleneck: what changed your mind?",
+      "context": "Kaze says the team was wrong about memory traffic being the main limiter and now believes RSP becomes the bottleneck after memory is optimized.",
       "questions": [
-        "What profiling tooling and metrics is Kaze using to separate RSP time from RDP time on real hardware?",
-        "What are the top RSP-heavy workloads in RTYI specifically (skinning/animation, lighting, triangle setup, matrix ops, microcode state churn)?",
-        "What concrete content guidelines did this discovery create for level artists (triangle budgets per room, material count limits, LOD rules)?",
-        "Did this change any planned visual features (dynamic lights, particle counts, shadow approaches)?"
+        "What experiment or metric was the ‘aha moment’ that convinced you the RSP—not the RDP—was limiting performance?",
+        "Looking back, what optimizations gave the biggest returns before you hit the RSP wall?",
+        "How does this change what you ask collaborators to do (level design constraints, art budgets, culling strategy)?"
       ],
       "related_to": ["kaze"]
     },
     {
-      "topic": "Ambient light disappearing near additional lights (X2 vs X3, GeoLayout interaction)",
-      "context": "Kaze describes a persistent lighting bug where ambient light drops out when approaching an extra light source; it seems tied to where lighting is applied (Mario GeoLayout) and differs between X2 and X3 usage/emulator builds.",
+      "topic": "Collision-map roadmap and level-building constraints",
+      "context": "Course 13 is currently running out of memory for collision triangles, with a planned shift to a collision map as the real fix.",
       "questions": [
-        "What is the minimal reproduction case for the ambient-light disappearance bug?",
-        "Why does applying lighting in Mario’s GeoLayout trigger it—does it overwrite a global state or exceed light limits?",
-        "Is this a limitation/bug of X2 microcode, Kaze’s lighting code, or content setup (light indices, combine modes, material order)?",
-        "How will the team ensure consistent lighting across emulator/hardware if demos ship on X2 but development uses X3?"
+        "What’s the technical approach for the collision map—will it be authored manually, generated from geometry, or a hybrid?",
+        "How does the temporary ‘make it untouchable’ workaround affect playtesting and level iteration right now?",
+        "Was this collision limit predictable earlier, or did the level’s complexity exceed your initial budgets?"
       ],
       "related_to": ["kaze"]
     },
     {
-      "topic": "Course 13 collision pipeline: ‘collision map’ plan",
-      "context": "Kaze says collision triangle memory is a temporary issue that will be solved ‘as soon as we make a collision map,’ implying an upcoming tooling or representation change.",
+      "topic": "The ambient-light disappearance bug",
+      "context": "Ambient light vanishes near additional light sources; Kaze notes differing behavior between X3 and X2/emulator setups and possible GeoLayout involvement.",
       "questions": [
-        "What does ‘collision map’ mean in RTYI—heightmap grids, BSP-like chunks, simplified proxy meshes, or a custom compressed format?",
-        "Who is implementing the collision map system, and what’s the timeline risk if it slips?",
-        "What are the tradeoffs for gameplay (precision on slopes/edges, moving platforms, special surfaces)?"
+        "What are your strongest hypotheses right now—state leakage, light count limits, a GeoLayout ordering issue, or something microcode-specific?",
+        "How do you test lighting issues across hardware/emulators without chasing phantom differences?",
+        "If the bug persists, would you redesign the lighting system (or authoring rules) to avoid the edge case?"
       ],
       "related_to": ["kaze"]
     },
     {
-      "topic": "Outside area design: two stars and the ‘8-bit’ entrance",
-      "context": "Kaze outlines two outside-area stars (8 red coins and a hidden entrance to an 8-bit section) while Zeina builds assets for that outside area.",
+      "topic": "Course 1 demo scope and success criteria",
+      "context": "Kaze plans a Course 1-only demo to showcase the new camera and Mario controls instead of a broader demo.",
       "questions": [
-        "What is the narrative or thematic purpose of the outside area relative to the castle interior—transition, contrast, tutorial, or secret hub?",
-        "What is the ‘8-bit’ section (visual filter, gameplay rules, camera change), and why is it accessed from outside?",
-        "How do you ensure the outside area stays ‘small enough’ yet still feels meaningful?"
+        "What exactly must be ‘done’ for the Course 1 demo—camera features, control feel, difficulty tuning, visuals, performance targets?",
+        "How will you use feedback from this demo to adjust the rest of the game—especially the difficulty split you described?",
+        "Are you treating the Course 1 demo as a vertical slice for press/creators, or primarily as a systems test for core fans?"
       ],
-      "related_to": ["kaze", "zeina"]
+      "related_to": ["kaze"]
     }
   ]
 }

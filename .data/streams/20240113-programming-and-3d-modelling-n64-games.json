@@ -1,70 +1,94 @@
 {
   "stream_context": {
-    "summary": "Kaze reviews and integrates a major visual/geo overhaul from Biobak for Course 5’s pirate/ghost ship (exterior + many interior rooms), fixes N64 rendering/texture-format issues (layers, CI/IA/RGBA constraints, lighting combiners), and debugs a post-import crash traced to outdated texture-animation logic (“Detect Channels”) after geometry changes. He also gives direction on saloon atmosphere (NPC limits, dialogue burden, lighting mood) and provides feedback to Badub on a new saloon track that felt too upbeat and too similar to an earlier level’s music.",
-    "level": ["Course 5 – Ghost Ship / Pirate Ship"],
-    "significance": "notable",
-    "significance_reason": "Large cross-discipline integration moment: Biobak delivers a sweeping art/level pass that forces Kaze to make concrete N64 pipeline decisions (render layers, texture formats, lighting combiners) and triggers real debugging work (crash due to outdated texture-animation data). Also contains clear statements on open-sourcing the engine/hack at release and performance tradeoffs like skipping framebuffer clear color."
+    "summary": "Kaze showcases a Western saloon/bar scene, then pivots to integrating and reviewing Biobak’s major rework of the Course 5 ghost ship/pirate ship (exterior + interior). The stream becomes a mix of art-direction critique (lighting, props, puzzle readability), N64 rendering constraints (layers, texture formats, combiners), and debugging a crash introduced by geometry changes—eventually traced to a system called Detect Channels using now-invalid vertex data. Badub sends an initial saloon track; Kaze gives direction and Badub immediately iterates.",
+    "level": ["Course 5"],
+    "significance": "milestone",
+    "significance_reason": "A large, visible level overhaul from Biobak is reviewed and partially integrated (ghost ship exterior/interior), with multiple design decisions locked in (puzzle readability, worldbuilding beats) and a key technical blocker identified: crashes caused by Detect Channels after geometry changes, implying texture animation + cutscene spline rework."
   },
   "findings": [
     {
       "topic": "design",
-      "importance": "medium",
-      "summary": "Kaze is actively shaping the saloon/bar as a dark, moody hub and pushes back on suggestions to brighten corners, arguing the darkness is part of the intended vibe; he also rejects adding many more NPCs because it increases both performance risk and the writing burden (each NPC needs meaningful dialogue).",
-      "quote": null
-    },
-    {
-      "topic": "technical",
       "importance": "high",
-      "summary": "Kaze intentionally avoids using a framebuffer clear color because it costs ~3ms per frame on N64 (he frames this as ~10% of the render budget), highlighting how performance constraints directly shape the game’s visual pipeline (e.g., darker corners, reliance on careful lighting rather than full clears).",
-      "quote": "This game on purpose doesn’t have a clear color because applying the clear color takes around three milliseconds, which is like 10 percent of the render time of a frame."
-    },
-    {
-      "topic": "milestone",
-      "importance": "medium",
-      "summary": "Kaze reiterates his plan to release his optimized engine publicly when the hack releases, and to open-source the full hack at the same time to avoid early leaks (because the engine repository currently contains hack content).",
-      "quote": "When I release this hack my engine will be public. I’ll make the hack open source… at the same time."
-    },
-    {
-      "topic": "design",
-      "importance": "medium",
-      "summary": "A progression/worldbuilding idea for the Western/outlaw theme: captured outlaws will physically appear in a jail cell, which slowly fills as the player collects stars—turning completion into an evolving visual story element inside the level.",
-      "quote": null
-    },
-    {
-      "topic": "team",
-      "importance": "high",
-      "summary": "Biobak delivers a comprehensive rework of the ghost ship model and many interior rooms (textures, lighting, props, layout tweaks), while Kaze performs the technical triage required to make it N64-valid (fixing texture formats, render layers, combiners, and performance/overdraw issues).",
-      "quote": null
-    },
-    {
-      "topic": "technical",
-      "importance": "high",
-      "summary": "Kaze flags repeated N64/F3D constraints while importing Biobak’s work: transparency/cutout elements must be assigned to appropriate render layers to prevent Z-sorting issues; some visually nicer transparency choices are rejected because they increase overdraw in already expensive views; and texture formats must be unified/compatible (e.g., CI textures cannot be mixed arbitrarily with other formats in the same way Biobak set up in Blender).",
-      "quote": null
-    },
-    {
-      "topic": "technical",
-      "importance": "high",
-      "summary": "Kaze outlines a specific plan to improve the sea-to-sky transition without expensive geometry: make the skybox fade into a bottom color, make the sea fade into that same color, and put the skybox into view space (so the blend reads correctly).",
+      "summary": "Kaze establishes a hard limit on adding more saloon NPCs: beyond performance, the main constraint is authoring meaningful dialogue for many characters; he doesn’t want NPCs that don’t contribute to gameplay/fun.",
       "quote": null
     },
     {
       "topic": "design",
       "importance": "medium",
-      "summary": "Kaze prefers puzzles to communicate a “cool idea” rather than be obscure: in the library shelf/red-coin hinting, he considers making the pushable shelf protrude more because difficulty is unnecessary if the goal is teaching a neat interaction; he contrasts this with what he calls a ‘Bethesda’ puzzle mindset.",
-      "quote": "This is good because we are showing a cool idea to the player… So it doesn’t need to be difficult. Difficulty here is unnecessary."
+      "summary": "The saloon is intentionally dark for mood; Kaze prefers the corners to stay dark as part of the vibe, while using strong window lighting and shiny lamp highlights to shape the scene.",
+      "quote": null
     },
     {
-      "topic": "team",
+      "topic": "design",
+      "importance": "high",
+      "summary": "Kaze outlines saloon storytelling breadcrumbs: by talking to NPCs, players learn something is ‘going on,’ and a hidden passage is telegraphed by a single suspicious door handle on an otherwise fake wall.",
+      "quote": null
+    },
+    {
+      "topic": "design",
       "importance": "medium",
-      "summary": "Badub sends an early saloon track; Kaze finds it too upbeat and too close to the “zoo level” song, and Badub immediately agrees and says he’ll change it—showing a fast feedback loop on tone and musical identity between levels.",
+      "summary": "A proposed Western progression mechanic: a jail cell in the level fills with captured outlaws over time as the player collects stars, turning progression into visible world-state change.",
       "quote": null
     },
     {
       "topic": "technical",
       "importance": "high",
-      "summary": "After importing the updated ship, the level crashes; Kaze eventually identifies the root cause as outdated texture-animation data (‘Detect Channels’) iterating over invalid vertices after geometry changes, meaning texture animations must be remade to match the new mesh. He also notes follow-up fallout: cutscene spline paths must be moved/updated because the ship was translated upward.",
+      "summary": "Kaze intentionally avoids using a clear color on N64 because clearing the framebuffer is expensive in his pipeline, costing roughly ~3ms (he frames it as ~10% of a frame budget).",
+      "quote": "This game on purpose doesn't have a clear color because applying the clear color takes around three milliseconds, which is like 10 percent of the render time of a frame."
+    },
+    {
+      "topic": "business",
+      "importance": "high",
+      "summary": "Kaze says he has not publicly released his optimized engine because it contains the ROM hack content; he plans to release the engine and the hack open-source simultaneously at launch to avoid early leaks.",
+      "quote": "When I release this hack my engine will be public—I'll make the hack open source, like all of it, at the same time."
+    },
+    {
+      "topic": "team",
+      "importance": "high",
+      "summary": "Biobak delivers a heavily revised ghost ship model with a detailed changelog; Kaze reviews it live, praising the look and triangle efficiency while flagging practical export/render constraints (layering, texture formats, combiners).",
       "quote": null
+    },
+    {
+      "topic": "technical",
+      "importance": "high",
+      "summary": "Kaze identifies multiple N64/SM64 pipeline constraints during import: transparent/cutout assets must be on correct render layers to avoid z-sorting; CI textures can’t be combined the way the Blender preview suggests; some textures must be downgraded/downsized (e.g., RGBA16 with halved resolution) to be compatible.",
+      "quote": null
+    },
+    {
+      "topic": "design",
+      "importance": "high",
+      "summary": "A new traversal set-piece is planned from Biobak’s ship changes: a bouncy ‘diving board’ plank that reacts to Mario’s weight, potentially launching him to a Yoshi coin and acting as a shortcut to reach rope routes—explicitly framed as a ‘trick to show your friends.’",
+      "quote": null
+    },
+    {
+      "topic": "technical",
+      "importance": "high",
+      "summary": "Kaze proposes a concrete fix for sea-to-sky blending: fade the skybox into a bottom color in view space, then fade the sea’s outer ring into the same color, avoiding expensive geometry that would intersect with animated waves.",
+      "quote": null
+    },
+    {
+      "topic": "philosophy",
+      "importance": "high",
+      "summary": "Kaze articulates a puzzle-design stance while reviewing a bookshelf push-puzzle: the goal is to surface a clever idea clearly rather than making it hard; he frames unnecessary difficulty as a ‘Bethesda-type mindset.’",
+      "quote": "This is good because we are showing a cool idea to the player, and the player is like, oh, that's neat. My brain is expanding. So it doesn't need to be difficult."
+    },
+    {
+      "topic": "team",
+      "importance": "medium",
+      "summary": "Badub sends an initial saloon track; Kaze says it’s too upbeat/happy and too similar to an older ‘zoo’ song. Badub agrees and immediately starts revising based on the new saloon visuals.",
+      "quote": null
+    },
+    {
+      "topic": "design",
+      "importance": "medium",
+      "summary": "Kaze resists populating the ghost ship scene with other ships because it harms the intended ‘ghost ship’ isolation and mood; emptiness is treated as part of the vibe rather than a content gap.",
+      "quote": null
+    },
+    {
+      "topic": "technical",
+      "importance": "high",
+      "summary": "A crash after integrating the rework is traced to Detect Channels: Kaze concludes it’s iterating over invalid vertex data due to changed geometry, meaning texture animation systems tied to old vertex indices must be remade; he also notes cutscene splines will need repositioning after the ship was moved upward.",
+      "quote": "It was Detect Channels. We need to remake the texture animations."
     }
   ],
   "contributor_findings": {
@@ -72,19 +96,13 @@
       {
         "topic": "design",
         "importance": "high",
-        "summary": "Delivered a major visual overhaul of Course 5’s ghost ship (exterior and many interior rooms), including new windows/cannon holes, railings, anchor updates, torn sails, props, room-specific lighting mood shifts, and a new captain’s quarters area intended primarily for atmosphere/worldbuilding.",
-        "quote": null
-      },
-      {
-        "topic": "design",
-        "importance": "medium",
-        "summary": "Proposed/implemented multiple gameplay-facing environment ideas within the art pass (e.g., a plank that could become a bouncy ‘diving board’ mechanic, additional hinting for a pushable bookshelf puzzle, and a door/switch reconfiguration for the Shy Guy minigame entrance).",
+        "summary": "Biobak’s ship rework adds numerous readability and worldbuilding touches: new window cannon holes, railings, anchors, plank/diving-board concept, spookified rocks, improved interior room theming (blue sleeping room, cargo room feel), and a new captain’s quarters space that Kaze calls out as unexpectedly strong.",
         "quote": null
       },
       {
         "topic": "technical",
         "importance": "high",
-        "summary": "His Blender/Fast64 material setups frequently required Kaze’s intervention for N64 validity (render layers for decals/cutouts, texture-size/format constraints, and combiner limitations—e.g., CI textures combined improperly, use of environment color alpha, and lighting setups that don’t translate cleanly to in-game).",
+        "summary": "Biobak’s Blender-side material/combiner setups repeatedly diverge from what will actually work on N64 (CI mixing, environment color alpha usage, transparency layering). Kaze frequently has to rewrite materials (layer moves, two-cycle setup, nth-color subtraction) to make the visuals export and render correctly.",
         "quote": null
       }
     ],
@@ -92,7 +110,7 @@
       {
         "topic": "team",
         "importance": "medium",
-        "summary": "Sent a new saloon music draft; accepted Kaze’s critique that it felt too happy and too similar to an older track, and immediately committed to revising it based on the updated saloon visuals/tone.",
+        "summary": "Badub’s saloon music iteration is directly guided by Kaze’s live reaction: Kaze requests less upbeat/happy energy and less similarity to an earlier level theme; Badub immediately acknowledges and begins changing it.",
         "quote": null
       }
     ],
@@ -102,9 +120,9 @@
         "name": "Lilaa",
         "findings": [
           {
-            "topic": "community",
+            "topic": "technical",
             "importance": "low",
-            "summary": "Participated in live problem-solving around texture/format issues and export warnings (e.g., reacting to ‘textures too big’ and alpha/CI constraints), serving as a technical sounding board during the import/debug phase.",
+            "summary": "Lilaa is pulled in as a sanity-check on texture/export constraints (e.g., why textures are flagged ‘too big,’ how alpha/CI formats should be interpreted), functioning as quick peer review during the import/debug loop.",
             "quote": null
           }
         ]
@@ -114,88 +132,96 @@
   "memorable_quotes": [
     {
       "speaker": "Kaze",
-      "quote": "When I release this hack my engine will be public. I’ll make the hack open source… at the same time.",
-      "context": "Clear statement of release philosophy and why he is currently withholding the engine publicly (avoid leaking hack content)."
+      "quote": "This game on purpose doesn't have a clear color because applying the clear color takes around three milliseconds, which is like 10 percent of the render time of a frame.",
+      "context": "While discussing a rendering artifact, Kaze explains a core N64 performance decision that shapes the project’s visual pipeline."
     },
     {
       "speaker": "Kaze",
-      "quote": "This game on purpose doesn’t have a clear color because applying the clear color takes around three milliseconds, which is like 10 percent of the render time of a frame.",
-      "context": "A concrete, documentary-friendly example of how N64 performance constraints directly force visual/pipeline decisions."
+      "quote": "This is good because we are showing a cool idea to the player, and the player is like, oh, that's neat. My brain is expanding. So it doesn't need to be difficult.",
+      "context": "Kaze defends making a ship interior puzzle more readable, clarifying his philosophy of ‘clever, not cryptic.’"
     },
     {
       "speaker": "Kaze",
-      "quote": "This is good because we are showing a cool idea to the player… So it doesn’t need to be difficult. Difficulty here is unnecessary.",
-      "context": "Condenses Kaze’s puzzle philosophy: prioritize clarity and delight over obscurity."
+      "quote": "When I release this hack my engine will be public—I'll make the hack open source, like all of it, at the same time.",
+      "context": "A clear statement of release philosophy: open-source, but only when the hack itself ships to prevent premature leaking."
     }
   ],
   "key_stories": [
     {
-      "title": "Integrating Biobak’s ghost ship overhaul and making it N64-valid",
-      "summary": "Biobak delivers a sweeping rework of Course 5’s ghost ship, dramatically changing textures, lighting, props, and even room layouts. Kaze’s stream becomes an integration pass: he reviews the changelog, fixes materials/texture formats, adjusts render layers to avoid Z-sorting issues, and compromises on effects (e.g., transparency) to keep the scene renderable on N64.",
-      "challenge": "A Blender/Fast64 art pass can look great in-editor but fail on real N64 constraints (texture format compatibility, layer ordering, overdraw cost, combiner rules).",
-      "process": "Kaze audits the changelog, identifies incompatible alpha/CI setups, moves certain meshes to specific layers, replaces/downsizes textures, and rewrites combiners (e.g., removing environment color alpha usage).",
-      "outcome": "The ship largely imports with targeted fixes, but reveals deeper systemic issues (texture animation + cutscenes) that must be updated to match the new geometry.",
+      "title": "Saloon atmosphere vs. NPC bloat",
+      "summary": "Kaze shows a Western saloon scene and argues that ‘more NPCs’ is not automatically better. His constraint isn’t just performance—it's the narrative and design burden of writing worthwhile dialogue for each character, and ensuring each NPC contributes to gameplay.",
+      "challenge": "Chat suggests adding more NPCs and a louder ‘movie saloon’ feel, but the scene risks becoming cluttered, laggy, and filled with meaningless interactions.",
+      "process": "Kaze evaluates performance risk, player interaction cost, and writing workload; he emphasizes lighting and mood (dark corners, bright window shafts) as the primary tools for atmosphere rather than sheer crowd density.",
+      "outcome": "He keeps a smaller, curated NPC set and leans into mood/lighting, while still using dialogue to seed a hidden passage storyline hook.",
+      "key_quote": null,
+      "related_to": ["kaze"]
+    },
+    {
+      "title": "Integrating Biobak’s ghost ship rework under N64 constraints",
+      "summary": "Biobak delivers a sweeping ghost ship overhaul that impresses Kaze visually, but it immediately collides with N64-era render realities: layer rules, texture formats, and combiner limitations. The stream becomes a live negotiation between art ambition and what the target hardware can actually draw.",
+      "challenge": "A Blender model that looks great in preview can render incorrectly or fail to export on SM64/N64 due to texture format incompatibilities, transparency sorting, and combiner restrictions (especially CI textures).",
+      "process": "Kaze reads the changelog, tests assets, moves geometry between layers to avoid z-sorting, downsizes/changes texture formats (e.g., CI vs RGBA16), and rewrites combiners to comply with the engine.",
+      "outcome": "The rework is largely accepted aesthetically, with a growing to-do list of implementation tasks (coins for boss, diving-board plank, sky/sea fade method, collision/cutscenes updates).",
       "key_quote": null,
       "related_to": ["kaze", "biobak"]
     },
     {
-      "title": "Post-import crash traced to outdated texture animation data (Detect Channels)",
-      "summary": "After the new ship geometry is in, the level repeatedly crashes in emulator despite removing various objects. Kaze eventually realizes the crash is due to ‘Detect Channels’ (texture animation) iterating over invalid vertices because the geometry changed, meaning the animation data no longer matches the mesh.",
-      "challenge": "A hard crash with unclear cause after a large geometry import; initial suspicion falls on specific objects, lightning effects, and coin formations.",
-      "process": "Kaze removes object types iteratively, observes HUD flicker/crashes, and then connects it to the fact that Detect Channels should now be referencing invalid geometry. He concludes the texture animations must be remade for the new ship layout.",
-      "outcome": "Root cause identified: remake texture animations; additional follow-up work noted (cutscene splines now wrong because the ship was moved upward).",
+      "title": "Post-rework crash hunt leads to Detect Channels",
+      "summary": "After geometry changes, the level crashes and Kaze initially suspects ‘too many objects’ or coin formations. The real culprit is a system called Detect Channels that appears to reference old vertex data; changing geometry makes it iterate over invalid vertices and crash.",
+      "challenge": "A crash that persists even after removing suspected objects, creating uncertainty about whether the issue is rendering, object count, or a behavior script tied to the old layout.",
+      "process": "Kaze uses an emulator/debug workflow, removes object types iteratively, observes HUD flicker/crashes, and reasons that geometry-indexed systems (texture animation / channel detection) are now invalid.",
+      "outcome": "He identifies Detect Channels as the cause and concludes texture animations must be rebuilt; he also flags that cutscene splines must be moved because the ship was shifted upward.",
+      "key_quote": "It was Detect Channels. We need to remake the texture animations.",
+      "related_to": ["kaze"]
+    },
+    {
+      "title": "Directing the saloon theme with Badub in real time",
+      "summary": "Badub sends a first pass at the saloon music; Kaze hears it as too upbeat and too close to an existing ‘zoo’ track. Badub immediately agrees and starts revising, showing the project’s fast feedback loop between visuals and score.",
+      "challenge": "The music doesn’t match the newly revealed saloon mood and risks thematic repetition across levels.",
+      "process": "Kaze references the older track similarity and clarifies emotional direction (less happy/upbeat). Badub responds live that he’s changing it.",
+      "outcome": "The saloon theme direction is corrected early, reducing rework later and aligning sound with the darker saloon presentation.",
       "key_quote": null,
-      "related_to": ["kaze", "biobak"]
+      "related_to": ["kaze", "badub"]
     }
   ],
   "open_questions": [
     {
-      "topic": "Open-source plan and engine packaging",
-      "context": "Kaze says the optimized engine isn’t public yet because it contains hack content, but he plans to release the engine and open-source the entire hack at launch.",
+      "topic": "The ‘jail cell fills up’ outlaw progression mechanic",
+      "context": "Kaze proposes a jail that accumulates captured outlaws as stars are collected, making progress visible in the world.",
       "questions": [
-        "How is the engine currently structured such that it ‘has the whole romhack in it’—is it a monorepo, shared assets, or build scripts that embed content?",
-        "What does ‘open source’ mean for art/music assets—will everything be licensed openly, or will code be open while certain assets are restricted?",
-        "Did Nintendo/legal risk factor into choosing the timing and scope of open-sourcing?"
+        "What made you decide to represent star progress as a physical change in the level (outlaws in jail) rather than a menu/stat?",
+        "How do you want the jail to feel over time—comedic trophy room, narrative consequence, or a functional hub for rewards/hints?",
+        "Did you consider any risks (memory/object budget, revisiting logic, or tonal clash) with a persistent NPC accumulation system?"
       ],
       "related_to": ["kaze"]
     },
     {
-      "topic": "Jail cell that fills with captured outlaws as stars are collected",
-      "context": "Kaze describes a mechanic/worldbuilding system where each captured outlaw appears in a jail cell, making the cell fill over time as progression increases.",
+      "topic": "Detect Channels crash and the fragility of geometry-indexed systems",
+      "context": "After Biobak’s geometry changes, Detect Channels appears to iterate invalid vertices and crash, implying texture animation/channel logic is tightly coupled to old mesh data.",
       "questions": [
-        "Is each ‘outlaw’ tied to a specific star objective, boss, or mission completion event?",
-        "How will you present the jail visually and narratively—does it change dialogue in town/saloon as the jail fills?",
-        "What are the technical constraints for persisting ‘captured NPCs’ across visits (save flags, object spawning, memory limits)?"
+        "What exactly is Detect Channels responsible for in your engine—lightning, texture scroll regions, water/wave channels, or something else?",
+        "How do you want to redesign the system so art reworks don’t invalidate vertex references (naming/tagging surfaces, exporting metadata, or runtime detection)?",
+        "What’s your workflow for updating cutscene splines and other spatial scripting when a level gets shifted by hundreds of units?"
       ],
       "related_to": ["kaze"]
     },
     {
-      "topic": "Sea-to-sky transition implementation (skybox in view space + color fades)",
-      "context": "Kaze rejects an expensive geometry-based transition because waves would clip through it, and proposes matching fades between skybox bottom color and sea perimeter color, with the skybox rendered in view space.",
+      "topic": "N64 rendering tradeoffs: no clear color, layer rules, and ‘looks good in Blender’ traps",
+      "context": "Kaze repeatedly rejects visually convenient setups (clear color, certain transparency/layer choices, CI combiner tricks) due to frame cost and hardware limitations.",
       "questions": [
-        "What exact rendering path do you use for the skybox (and what changes are needed to put it into view space in this engine)?",
-        "How do you plan to keep the sea’s animated waves from revealing seams at the horizon—vertex color gradient, alpha, or palette tricks?",
-        "Will this technique become a reusable standard for other ocean-adjacent levels?"
-      ],
-      "related_to": ["kaze"]
-    },
-    {
-      "topic": "Detect Channels crash and texture animation pipeline after geometry changes",
-      "context": "The level crash is traced to texture animation (‘Detect Channels’) iterating over invalid vertices after Biobak’s geometry overhaul; Kaze says texture animations must be remade, and cutscene splines must be moved too.",
-      "questions": [
-        "What is ‘Detect Channels’ in your toolchain—does it scan mesh/material channels to generate display lists or scrolling tables?",
-        "What best practices do you want the art team to follow to avoid breaking animations when geometry is revised (naming conventions, reserved vertex groups, stable UV islands)?",
-        "How will you update cutscene spline tools so large translations (e.g., moving ship up 700 units) don’t silently break sequences?"
+        "Do you track a target per-frame render budget (ms or RSP/RDP time), and how do you decide what gets to ‘spend’ it—lighting, transparency, or geometry?",
+        "What are the top recurring art mistakes that Blender/preview encourages but N64 rendering punishes, and how did you learn them?",
+        "Are there any pipeline tools or checkers you wish you had to automatically catch layer/format/combiner issues before export?"
       ],
       "related_to": ["kaze", "biobak"]
     },
     {
-      "topic": "Course 5 puzzle readability vs. obscurity (pushable bookshelf hinting)",
-      "context": "Kaze considers making the shelf protrude more so players understand the interaction, arguing the goal is communicating a cool idea rather than making it hard to discover.",
+      "topic": "Open-sourcing the engine at release",
+      "context": "Kaze says the engine isn’t public yet to prevent early hack leaks, but will be released alongside the full project as open source.",
       "questions": [
-        "How do you decide when a puzzle should be subtle versus obvious—do you test with players, or rely on internal heuristics?",
-        "What visual language will Return to Yoshi’s Island use consistently for ‘pushable’ or interactive environment elements?",
-        "Did any past levels receive criticism for being too cryptic, and did that change your approach here?"
+        "What would ‘too early’ leakage look like for you—spoilers, asset ripping, forks, or people publishing unfinished builds—and what past experiences shaped that fear?",
+        "At release, what parts of the engine do you want others to learn from most: rendering pipeline, level streaming/rooms, or toolchain integration?",
+        "How do you plan to license it and manage contributions after release without it becoming a maintenance burden?"
       ],
       "related_to": ["kaze"]
     }

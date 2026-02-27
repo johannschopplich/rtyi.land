@@ -1,70 +1,94 @@
 {
   "stream_context": {
-    "summary": "Kaze tunes both design and tech for a Cloud/sky-themed stage (Course 2), including NPC dialogue writing, importing updated level art, fixing lighting/vertex-color issues, simplifying collision, and chasing performance gains. He also discusses toolchain limitations (Fast64/FBX/RGBA32), emulator discrepancies, and a new optimization program that could meaningfully reduce vertex load across levels. He ends by planning to hand an imported “wing cloud” (Catch Cloud) asset to Zeina for animation and notes the engine is close to “final.”",
-    "level": ["Course 2", "Overworld"],
-    "significance": "notable",
-    "significance_reason": "Contains multiple concrete pipeline/engine decisions (lighting model, transparency limitations, collision simplification), a promising new vertex-optimization program with measurable gains, and clear team handoffs (Biobak reworks, Zeina animation task, Sauraen music work)."
+    "summary": "Kaze focuses on Course 2 (the Cloud Cap level) integration work: writing quirky NPC dialogue, importing and testing new art submissions (clouds, rainbows, airship), fixing lighting/vertex-color issues, and trimming collision/geometry for performance. He also discusses a new vertex-optimization program that could meaningfully improve FPS, plus broader engine wrap-up plans and a surprising external publisher inquiry about porting a game to real N64 hardware.",
+    "level": ["Course 2", "Course 1"],
+    "significance": "milestone",
+    "significance_reason": "He frames the engine as basically finished (with only a few remaining systems like BVH collision and minor improvements), and introduces a concrete new optimization tool with measurable vertex reductions that could push performance closer to 60 FPS—both meaningful turning points in getting the project out of “engine work” and back into content."
   },
   "findings": [
     {
       "topic": "technical",
       "importance": "high",
-      "summary": "Performance in Course 2 is still suboptimal in spots (mid‑20s FPS mentioned). Kaze expects a major gain once occlusion planes are implemented, estimating roughly a 20–30% boost.",
-      "quote": "We’re still missing the occlusion planes—once those are in, this is like an instant 20–30% performance boost."
+      "summary": "Course 2 performance is still constrained, but Kaze expects a major uplift once occlusion planes are added, estimating a 20–30% boost in some spots.",
+      "quote": null
     },
     {
       "topic": "community",
       "importance": "medium",
-      "summary": "A YouTube commenter (Graham) contributed a new swing asset (model + textures). Kaze imported it and notes he simplified the geometry but the design is largely the commenter’s work.",
-      "quote": "Someone offered their help and they made these swings… I did simplify the geometry a bit, but this is like all their ideas."
+      "summary": "A YouTube commenter named Graham contributed fully modeled and textured swing assets; Kaze imported them and only simplified geometry, treating it as a successful example of community-made assets making it into the game.",
+      "quote": null
     },
     {
       "topic": "design",
       "importance": "medium",
-      "summary": "Kaze writes/iterates an NPC dialogue concept for a rock/block character: a tsundere-style helper who speaks in an aristocratic/odd vocabulary to stand out. He’s conscious that some dialogue is effectively an Easter egg because many players will miss it, and he considers trimming text density.",
-      "quote": "This is a text that you don’t… there’s a 90% chance you would miss this if you were just playing the game. So this text is almost like an easter egg."
+      "summary": "Kaze writes and iterates on a “tsundere” rock/sandcastle NPC who speaks in an overly formal/aristocratic way to stand out; he explicitly justifies the choice as humor and character differentiation, and treats some lines as optional “missable” easter-egg text.",
+      "quote": "I want him to talk weird. I think it will be funny if he talks weird—that’s my reasoning."
+    },
+    {
+      "topic": "technical",
+      "importance": "medium",
+      "summary": "Kaze reiterates a core programming approach: collapsing complex behavior (e.g., “Doctor Mario function” object dialogue/face-the-player behavior) into reusable single calls to avoid duplicating logic across objects.",
+      "quote": null
+    },
+    {
+      "topic": "personal",
+      "importance": "medium",
+      "summary": "He describes a prolonged struggle with OBS/recording reliability (random freezes, dropped frames) and decides to stop tinkering after finally getting stability, even though true 60 FPS capture still isn’t achieved.",
+      "quote": "No matter what I tried for the longest time it would randomly freeze my entire screen or skip frames."
     },
     {
       "topic": "business",
-      "importance": "medium",
-      "summary": "Kaze says an external publisher contacted him to port a game to N64; he describes the port as “pretty easy” and suggests there may be new N64 releases in 2025.",
-      "quote": "The publisher has contacted me—they wanted me to port a game to N64… so we might get some new N64 releases in 2025."
+      "importance": "high",
+      "summary": "Kaze says a publisher contacted him to port a game to N64; he reports the port was “pretty easy,” and speculates this could lead to brand-new N64 releases in 2025.",
+      "quote": null
     },
     {
       "topic": "technical",
       "importance": "high",
-      "summary": "He’s still battling capture/recording reliability and frame pacing (OBS/NVIDIA tooling). He stopped chasing perfect 60 FPS recording settings after spending significant time and resolving major freezes; he’s prioritizing stability over further tinkering.",
-      "quote": "I’ve generally put way too much time into it… I’m just glad it kind of works now, and I don’t want to touch it."
+      "summary": "While importing updated Course 2 art, he hits multiple Fast64/export issues: missing vertex colors, lighting/combiner mismatches, and confusion around directional vs ambient light configuration; he cross-checks emulator behavior to rule out Project64 bugs.",
+      "quote": null
+    },
+    {
+      "topic": "technical",
+      "importance": "high",
+      "summary": "A key constraint emerges: Fast64 doesn’t support an RGBA32 workflow Kaze wants (for vertex alpha-driven rainbow transparency/solidity behaviors), forcing a workaround and limiting how elegantly he can implement “fade/solid at brightest point” materials.",
+      "quote": null
+    },
+    {
+      "topic": "technical",
+      "importance": "medium",
+      "summary": "He reduces collision complexity aggressively (e.g., removing undersides, lowering triangle counts) and calls out convex hull culling as a major potential speedup if it were available/feasible for the pipeline.",
+      "quote": null
+    },
+    {
+      "topic": "technical",
+      "importance": "high",
+      "summary": "Kaze introduces (and reacts strongly to) a new program meant to optimize Fast64 FBX exports, citing an example of roughly an 8% vertex/triangle reduction (about 29,288 → 27,500) and projecting that applying it to Course 1 could move performance from the mid-50s toward ~58 FPS.",
+      "quote": "He found like an 8% reduction in vertices… That is crazy. That’s going to optimize our level so much more."
     },
     {
       "topic": "team",
       "importance": "high",
-      "summary": "Biobak is actively remaking older levels, and Kaze is re-importing those reworks while also porting old content to a newer engine because some prior content is no longer compatible.",
-      "quote": "Biobak is remaking old levels… but also, yes, we have to port old levels back to the new engine, because some things are no longer compatible."
+      "summary": "Biobak is actively remaking older levels, which Kaze is re-importing; in parallel, Kaze is also porting old levels into the newer engine because some legacy content is no longer compatible.",
+      "quote": null
     },
     {
       "topic": "technical",
-      "importance": "high",
-      "summary": "Fast64/Blender pipeline limitations shape visual design: Kaze runs into vertex alpha/transparency needs (RGBA32) but notes Fast64 doesn’t support the desired RGBA32 workflow, forcing compromises/workarounds (e.g., making rainbow platforms fully solid instead of nuanced alpha behavior).",
-      "quote": "With this size we can actually use an RGBA32, but I don’t think Fast64 supports this, so we just have to deal with it."
+      "importance": "medium",
+      "summary": "The “cloud spawn” object reveals design/engineering friction: Kaze wants per-level color matching (pulling from ambient/camera light), but the current system doesn’t support clean per-level material overrides; he prototypes a hacky approach and also hits a timing bug where Mario can fall through clouds right after spawning.",
+      "quote": null
     },
     {
       "topic": "technical",
-      "importance": "high",
-      "summary": "Lighting intent for the cloud level shifts toward a pink ambient look and “camera-based lighting” (Banjo‑Kazooie‑style). Kaze discovers his engine doesn’t currently support the requested camera-driven light behavior cleanly and considers adding a new function to support it; he also tests across emulators due to suspected Project64 quirks.",
-      "quote": "It doesn’t really work that way… I don’t have a setup like that for me and my engine. But we need it from the camera, otherwise it looks wrong."
-    },
-    {
-      "topic": "technical",
-      "importance": "high",
-      "summary": "Kaze is writing a program to optimize Fast64 FBX output and cites an early measurable win: about an 8% reduction in vertices/triangles for an asset set, which he expects to translate into meaningful FPS gains (he specifically hopes Course 1 could move from ~56 to ~58 FPS).",
-      "quote": "He found like an 8% reduction in vertices… If we do that to Course 1, I think that puts it from 56 to 58 FPS."
+      "importance": "medium",
+      "summary": "Kaze uses AI tooling cautiously: he enjoys Copilot Agent for tedious multi-file edits, but refuses to let AI directly modify the codebase without supervision.",
+      "quote": "I don’t trust AI to edit my code base directly."
     },
     {
       "topic": "milestone",
       "importance": "high",
-      "summary": "He frames the engine as near-final: remaining items include BVH collision and small performance tweaks. He also mentions Sauraen wanting to make changes related to music, after which the team expects to be “free” from engine work and focus on content.",
-      "quote": "We’re basically done with the engine now… maybe BVH collision and small… improvements. And Sauraen wanted to do something with the music."
+      "summary": "He states the engine is essentially at the finish line—only remaining items like BVH collision, small “revamp” improvements, and Sauraen’s music-related work—after which the team can stop doing engine work and focus on the game’s content.",
+      "quote": "We’re basically done with the engine now… and then after that, we’re finally free from working on the engine."
     }
   ],
   "contributor_findings": {
@@ -72,14 +96,14 @@
       {
         "topic": "design",
         "importance": "high",
-        "summary": "Biobak delivers substantial Course 2 art/design reworks (cloud shape changes, pink lighting goals, handmade building textures, level layout tweaks like temple/pyramid switch area). Kaze treats these as authoritative updates, importing and adjusting collision/performance around them.",
-        "quote": "All the building textures are handmade."
+        "summary": "Biobak is remaking older levels for the updated engine; Kaze treats this as a structured reimport pipeline (art updates + engine-compatibility porting) rather than small patchwork edits.",
+        "quote": null
       },
       {
-        "topic": "technical",
+        "topic": "design",
         "importance": "medium",
-        "summary": "Biobak’s updates increase polycount in specific places (extra polygons to smooth lighting on clouds) while reducing materials, and Kaze judges the trade acceptable given current performance headroom in the level.",
-        "quote": "I actually had to add a bunch of polygons to make the lighting smooth… but I’m also minus 7 mats."
+        "summary": "Biobak’s Course 2 art updates include reshaped/fluffier clouds (with more polygons to smooth lighting but fewer materials overall), new/adjusted fences/platforms, and large background rainbow elements that required careful render-mode handling.",
+        "quote": null
       }
     ],
     "badub": [],
@@ -87,14 +111,14 @@
       {
         "topic": "design",
         "importance": "medium",
-        "summary": "Zeina provides a concrete implementation suggestion for how far collision/geometry should sink into the clouds (a small Z offset) as Kaze simplifies collision and removes unnecessary underside solidity.",
+        "summary": "Zeina is slated to animate the “wing cloud”/catch cloud asset (from Yoshi’s Island); Kaze decides not to import it until animation work is ready.",
         "quote": null
       },
       {
-        "topic": "team",
-        "importance": "high",
-        "summary": "Kaze plans an explicit art-to-animation handoff: the imported “Catch Cloud” / wing cloud asset (from Yoshi’s Island) needs animation, so he will send it to Zeina before final import.",
-        "quote": "I would need to animate this, so I will send this for animations to Zeina before I import this."
+        "topic": "technical",
+        "importance": "low",
+        "summary": "A Zeina-attributed note appears in the workflow about how far Mario should sink into the cloud collision (suggested value around 10 units), implying she’s giving tactile/feel feedback on traversal.",
+        "quote": null
       }
     ],
     "others": [
@@ -104,7 +128,18 @@
           {
             "topic": "community",
             "importance": "medium",
-            "summary": "Created and submitted swing assets (including textures) that Kaze integrated, representing a concrete community art contribution to the project.",
+            "summary": "Contributed swing models and textures that Kaze successfully imported into the project, with minor optimization passes.",
+            "quote": null
+          }
+        ]
+      },
+      {
+        "name": "Sauraen",
+        "findings": [
+          {
+            "topic": "technical",
+            "importance": "medium",
+            "summary": "Is expected to do “something with the music” as part of the final engine wrap-up tasks before the team moves fully into content production.",
             "quote": null
           }
         ]
@@ -114,85 +149,110 @@
   "memorable_quotes": [
     {
       "speaker": "Kaze",
-      "quote": "We’re basically done with the engine now.",
-      "context": "A clear progress marker: he positions the project as transitioning from engine/tooling grind to content production, with only a few technical items left."
+      "quote": "No matter what I tried for the longest time it would randomly freeze my entire screen or skip frames.",
+      "context": "Kaze summarizes a long, demoralizing attempt to fix recording/OBS stability—useful for a documentary beat about the hidden tax of tooling problems."
     },
     {
       "speaker": "Kaze",
-      "quote": "Someone offered their help and they made these swings… I did simplify the geometry a bit, but this is like all their ideas.",
-      "context": "Captures how the community can directly shape the game’s world-building with shippable assets, and how Kaze integrates and optimizes them."
+      "quote": "I don’t trust AI to edit my code base directly.",
+      "context": "A clear statement of his boundary with AI tooling—he’ll use it for assistance, but not for unsupervised changes in a fragile engine/codebase."
+    },
+    {
+      "speaker": "Kaze",
+      "quote": "We’re basically done with the engine now… and then after that, we’re finally free from working on the engine.",
+      "context": "A transition moment: the project’s long engine phase is nearing completion, implying a coming shift to full game/level production."
     }
   ],
   "key_stories": [
     {
-      "title": "Chasing the Cloud level look: pink ambient + camera-based lighting",
-      "summary": "While importing Biobak’s Cloud level rework, Kaze tries to match an intended pink, soft aesthetic and explores camera-based lighting inspired by Banjo-Kazooie-style presentation. He runs into engine limitations and emulator inconsistencies, forcing iterative testing and potentially new engine functionality.",
-      "challenge": "Achieving consistent, non-glowy pink lighting and camera-driven illumination in a custom SM64-decomp-based engine while keeping the look consistent across materials and emulators.",
-      "process": "He tests lighting in emulators (Project64 vs others), debugs directional vs ambient settings, disables lighting flags that cause artifacts, and concludes that true camera-light behavior likely requires adding a new engine function.",
-      "outcome": "He arrives at a more satisfactory pink look but acknowledges camera-light isn’t properly supported yet; the incident becomes a driver for engine work despite wanting to leave engine work behind.",
-      "key_quote": "We need it from the camera, otherwise it looks wrong.",
-      "related_to": ["kaze", "biobak", "zeina"]
+      "title": "The “tsundere rock” NPC voice and missable dialogue",
+      "summary": "Kaze designs a Course 2 NPC who stands out primarily through speech: overly formal, strange, and comedic. He treats part of the dialogue as effectively an easter egg because players are likely to miss it, revealing how he balances writing effort against player visibility.",
+      "challenge": "Make an NPC memorable and funny without expensive cutscenes—just text—and justify why the player should care about helping it (sandcastle-on-head premise).",
+      "process": "He iterates live on synonyms and tone, commits to an aristocratic/awkward phrasing style, and tests progression from rude → grudging gratitude → friendlier lines, while considering trimming text density.",
+      "outcome": "He “ships” the weird voice as the NPC’s defining trait and keeps at least one low-visibility line as a reward for thorough players.",
+      "key_quote": "I want him to talk weird. I think it will be funny if he talks weird—that’s my reasoning.",
+      "related_to": ["kaze"]
     },
     {
-      "title": "Toolchain-driven compromises: vertex alpha/RGBA32 and Fast64 limitations",
-      "summary": "Kaze attempts to implement transparency/vertex-alpha effects (e.g., rainbow platform behavior) and discovers Fast64 pipeline constraints. Rather than block the build, he adapts the design toward simpler solids and looks for better exporter support long-term.",
-      "challenge": "Wanting nuanced alpha behavior while Fast64 doesn’t support the desired RGBA32 workflow reliably for the project’s needs.",
-      "process": "He experiments with combiner/material settings, considers RGBA32 but notes Fast64 support gaps, duplicates/adjusts meshes, and simplifies the gameplay/visual expectation to something achievable now.",
-      "outcome": "A shippable workaround (more solid behavior) with a note that tooling upgrades/optimizations may later reopen richer effects.",
-      "key_quote": "I don’t think Fast64 supports this, so we just have to deal with it.",
+      "title": "OBS/recording stability becomes a hard-stop time sink",
+      "summary": "Kaze recounts weeks of failed attempts to fix capture performance and random freezes, including seeking help in OBS communities. He ultimately chooses stability over perfection, deciding not to invest more time even if capture FPS remains sub-60.",
+      "challenge": "Recording and streaming reliably without freezing, stutter, or frame skipping—despite significant hardware.",
+      "process": "He tried extensive settings changes, consulted the OBS help Discord, and verified capture FPS frame-by-frame; he also sticks to an older Nvidia Broadcast version because newer ones are unreliable for him.",
+      "outcome": "Random freezes are gone, but capture still isn’t true 60 FPS; Kaze intentionally stops tweaking to avoid re-breaking the setup.",
+      "key_quote": "Something is seriously fucked… I’m just glad it kind of works now, and I don’t want to touch it.",
+      "related_to": ["kaze"]
+    },
+    {
+      "title": "Course 2 reimport: lighting/vertex-color bugs and pipeline constraints",
+      "summary": "Importing Biobak’s updated Course 2 assets triggers a cascade of visual issues—missing vertex colors, unexpected lighting behavior, and material/combiner limitations. The process highlights how much of the project’s polish hinges on toolchain constraints (Fast64, emulators) rather than “art taste” alone.",
+      "challenge": "Make updated clouds/rainbows/background lighting match the intended pink, camera-influenced look without breaking performance or introducing visual artifacts.",
+      "process": "Kaze audits export settings (lighting checkboxes), compares emulator output, fixes mistaken ambient/directional light ordering, and explores camera-based lighting—realizing his engine lacks the function he needs. He also discovers an ugly background seam is baked into the texture and would require re-authoring to remove.",
+      "outcome": "He gets the stage back to a usable/pink look but accepts some compromises (non-ideal glow behavior, texture seam, no true camera-based lighting yet).",
+      "key_quote": "How did I fuck this up that bad? Yeah, I guess I have to live with that.",
       "related_to": ["kaze", "biobak"]
+    },
+    {
+      "title": "A new vertex-optimization program could push levels toward 60 FPS",
+      "summary": "Kaze flags a concrete optimization breakthrough: an external tool/program aimed at reducing vertex/triangle load in Fast64 FBX exports. He immediately connects the measured reduction to real FPS targets in earlier courses, framing it as a lever that could make the game feel dramatically smoother on N64 constraints.",
+      "challenge": "Some scenes still dip below target framerate; Kaze needs real performance wins beyond incremental hand-optimization.",
+      "process": "He reviews results from the optimizer (citing an ~8% reduction) and discusses applying it broadly, alongside other planned optimizations (occlusion planes, culling).",
+      "outcome": "He believes applying the technique to Course 1 could move it from mid-50s FPS up to ~58 FPS, and expects wider benefits across the project’s heaviest scenes.",
+      "key_quote": "From 29,288 to 27,500 triangles… That is crazy.",
+      "related_to": ["kaze"]
     }
   ],
   "open_questions": [
     {
-      "topic": "Occlusion planes performance plan",
-      "context": "Kaze expects a 20–30% performance boost once occlusion planes are added, implying they are a known missing engine/system feature.",
+      "topic": "Publisher contacted Kaze to port a game to N64",
+      "context": "Kaze says a publisher asked him to port a game to N64, that it was “pretty easy,” and that it might lead to new N64 releases in 2025.",
       "questions": [
-        "What exact occlusion system are you implementing (per-room portals, per-sector culling, manual occlusion volumes), and how does it integrate with SM64’s rendering pipeline?",
-        "Is the 20–30% estimate based on profiling specific hotspots in Course 2 or a broader benchmark across levels?",
-        "Who on the team owns implementing/authoring occlusion planes—engine-side tooling, or level designers placing volumes?"
+        "Who was the publisher, and what convinced them you were the right person to approach for an N64 port?",
+        "What game was it, and what made the port ‘pretty easy’—was it the original engine, tooling, or your decomp/N64 pipeline experience?",
+        "Did this opportunity change how you think about Return to Yoshi’s Island (timeline, polish targets, or hardware compatibility)?",
+        "What would a ‘new N64 release in 2025’ actually mean in practice—cartridges, digital ROM distribution, or something else?"
       ],
       "related_to": ["kaze"]
     },
     {
-      "topic": "Camera-based lighting support in the engine",
-      "context": "Biobak/Zeina’s desired look relies on lighting that feels camera-driven; Kaze says his engine doesn’t currently have a setup for that and may need a new function.",
+      "topic": "The Fast64 FBX vertex/triangle optimizer",
+      "context": "Kaze references a program that reduces vertex load (~8% in one example) and could meaningfully improve FPS in Course 1 and beyond.",
       "questions": [
-        "What is your current lighting model (directional + ambient per level, per area, per material), and why does camera-based lighting not fit into it?",
-        "What would the new function change—dynamic light direction tied to camera yaw/pitch, or a per-object fake shading trick?",
-        "How do you keep this consistent across emulators and real hardware when using nonstandard lighting tricks?"
-      ],
-      "related_to": ["kaze", "biobak", "zeina"]
-    },
-    {
-      "topic": "Fast64 pipeline limits (RGBA32 / vertex alpha)",
-      "context": "Kaze hits a transparency/vertex alpha need but states Fast64 doesn’t support the RGBA32 workflow he wants; he references a prior Fast64 Discord discussion.",
-      "questions": [
-        "What exactly breaks with RGBA32 in your Fast64 → SM64-decomp pipeline (export, import, display list generation, texture format assumptions)?",
-        "Are there alternatives you considered (intensity alpha via IA textures, combiner-only tricks, dithered transparency) that were rejected, and why?",
-        "Is this a blocker you plan to solve upstream (Fast64 changes) or permanently design around?"
+        "Who wrote the optimizer (you or someone else), and what is it doing under the hood—deduping vertices, changing splits, material batching, or something else?",
+        "How do you validate that the optimization doesn’t introduce rendering errors (seams, UV issues, lighting changes) on real hardware?",
+        "At what point does optimization become ‘good enough’ versus worth continuing—what’s the FPS/scene budget target for RTYI?"
       ],
       "related_to": ["kaze"]
     },
     {
-      "topic": "The new Fast64 FBX optimization program",
-      "context": "Kaze is writing a program that produced an ~8% vertex reduction and could push Course 1 closer to full framerate.",
+      "topic": "What remains before the engine phase is truly ‘done’",
+      "context": "Kaze says the engine is basically finished, with remaining items like BVH collision, small improvements, and Sauraen’s music-related work—after which they’re ‘finally free’ from engine work.",
       "questions": [
-        "What is the optimizer actually doing (vertex deduplication, welding, removing unused verts, reindexing, material merge, stripification)?",
-        "Is the gain stable across assets/levels or only certain meshes?",
-        "Will this become part of your standard build pipeline, and how do you validate it doesn’t change shading/UVs/vertex colors?"
+        "What were the biggest engine tasks that kept dragging you back in—what did you underestimate?",
+        "What exactly would BVH collision unlock for level design or performance that you can’t get right now?",
+        "When you say you’ll be ‘free from working on the engine,’ what rules are you setting to prevent scope creep from pulling you back again?",
+        "What is Sauraen’s music task—engine-side audio changes, sequence tooling, microcode constraints, or something else?"
       ],
       "related_to": ["kaze"]
     },
     {
-      "topic": "Sauraen’s planned music work",
-      "context": "Kaze says Sauraen “wanted to do something with the music” in the context of final engine tasks before content focus.",
+      "topic": "Emulator compatibility and responsibility (Mupen issue)",
+      "context": "Kaze suggests Mupen can’t play his game and implies it’s an emulator-side issue rather than his code, telling chat to ask Mupen devs.",
       "questions": [
-        "What specific music-system change is Sauraen proposing (sequence driver tweaks, streaming, banks/instruments, memory/performance, new microcode features)?",
-        "Is this driven by a creative goal (more accurate instrumentation) or a technical constraint (RAM/CPU/time budget)?",
-        "Does it affect Badub/ZeroVolt’s pipeline for composing and converting tracks?"
+        "What specifically breaks in Mupen—graphics, timing, audio, or a specific RSP/RDP behavior—and how did you diagnose it?",
+        "How do you decide whether to implement emulator workarounds versus prioritizing real-hardware correctness?",
+        "Has emulator incompatibility influenced your testing pipeline or how you communicate recommended emulators to players?"
       ],
       "related_to": ["kaze"]
+    },
+    {
+      "topic": "Cloud spawn object: timing bugs and per-level color matching",
+      "context": "Kaze prototypes cloud-spawn behavior but hits a timing issue where Mario can fall through spawned clouds, and struggles to make the cloud’s ‘brim’ color automatically match each level’s ambient/camera light.",
+      "questions": [
+        "What’s causing Mario to fall through after spawning—collision activation timing, update order, or an engine scheduling issue?",
+        "If you had the ideal system, how would per-level material overrides work so assets can inherit local ambience without hacks?",
+        "How do you balance global reusability of objects (same asset across levels) against the need for level-specific art direction like the pink lighting in Course 2?"
+      ],
+      "related_to": ["kaze", "zeina"]
     }
   ]
 }

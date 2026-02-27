@@ -1,116 +1,131 @@
 {
   "stream_context": {
-    "summary": "Kaze models and iterates on a room-based, icy interior area (mirror room included) while debugging multiple engine-level issues introduced around the X3 renderer upgrade. He refactors the mirror/mural system into a simpler, flag-driven data format, investigates a severe lighting/ambient bug triggered by certain light setups (especially on emulator-only codepaths), and tackles collision memory problems by moving toward per-level pool allocation. He also discusses release/distribution constraints (patch-only, no physical release) and a planned versioning approach that may eventually drop emulator support to maximize N64 performance.",
-    "level": ["Overworld", "Course 3"],
-    "significance": "notable",
-    "significance_reason": "Introduces a major usability refactor for mirrors/murals, outlines a concrete post-release versioning plan (including potentially dropping emulator support for performance), and reveals key technical constraints (RSP bottleneck, collision pool allocation, emulator-only lighting divergence) that shape how the project can remain ‘respectful’ to N64 hardware."
+    "summary": "Bonus stream split between modeling an icy, room-based interior (ceiling/lighting/UV tweaks, camera/room layout ideas) and technical engine work: diagnosing a major lighting regression, fixing collision pool allocation issues, and refactoring the mirror/mural system until “Mirror Mario” works again. Kaze also lays out a concrete release plan (patch-only, emulator-first, then potentially N64-only) and discusses emulator accuracy/performance tradeoffs tied to X2→X3 rendering changes.",
+    "level": ["Course 3", "Course 7"],
+    "significance": "milestone",
+    "significance_reason": "Kaze completes a substantial mirror/mural system redesign (simpler data model, easier authoring) and articulates a specific staged release strategy (v1 + v1.1 emulator/N64, then possibly dropping emulator support for speed). He also identifies a serious lighting regression affecting demo readiness and introduces per-level collision allocation changes to address an “unplayable” collision issue."
   },
   "findings": [
     {
       "topic": "technical",
       "importance": "high",
-      "summary": "A persistent lighting bug appears after X3: when a second light source is present (e.g., a ‘star’ light), ambient lighting can reset to zero and the scene goes unnaturally dark; Kaze has not yet isolated the cause.",
+      "summary": "A persistent lighting bug appeared after moving to X3: when a second light source is present (e.g., a star-like light), ambient lighting can reset to zero, making the scene go dark. Kaze can’t yet identify the culprit despite investigating.",
       "quote": null
     },
     {
       "topic": "design",
       "importance": "medium",
-      "summary": "The level is being structured as discrete rooms with doors blocking line-of-sight to guarantee strong performance; Kaze frames this layout as a way to keep the area effectively “guaranteed 60 FPS,” with only a few known expensive effects (e.g., appearing-path effect).",
+      "summary": "Course 3’s environment is being built as a set of discrete rooms with doors/occluders so you generally can’t see through doorways; Kaze expects this structure to make 60 FPS much more achievable because it limits what is rendered at once.",
       "quote": null
     },
     {
       "topic": "technical",
       "importance": "high",
-      "summary": "Collision becomes ‘unplayable’ in an area due to the surface pool/cell system needing too many nodes when triangles are very large; Kaze decides to move toward per-level memory allocation for collision/surface pools to prevent invalid triangle/node exhaustion.",
+      "summary": "Kaze runs into collision failures likely caused by surface pool limits (too many pool nodes needed when large triangles span many collision cells). He decides to change collision allocation per level (instead of a single global pool size) using his custom memory allocator.",
       "quote": null
     },
     {
       "topic": "technical",
       "importance": "medium",
-      "summary": "Kaze notes he wrote his own memory allocator and now wants allocation sizes to vary per level; because the relevant computation only runs on level load, he’s comfortable using a simpler approach (e.g., an accept-list) over micro-optimizing load-time logic.",
-      "quote": null
-    },
-    {
-      "topic": "technical",
-      "importance": "high",
-      "summary": "He refactors the mirror/mural system into a more robust, easier-to-author format: mirrors should be flag/parameter driven with an explicit axis selection (bit(s) for axis) and defined ranges/point(s), replacing confusing prior variable naming (e.g., ‘MirrorX’ actually behaving as Z). After the refactor, Mirror Mario appears correctly and he calls it the easiest system yet for adding new murals.",
+      "summary": "Performance expectations are explicitly framed as “not indicative yet” because room rules/visibility rules are not implemented; in current tests, the engine is effectively rendering far more (even ‘the entire castle’) than it will in the final game.",
       "quote": null
     },
     {
       "topic": "technical",
       "importance": "medium",
-      "summary": "To debug unwanted compiler-inserted memcpy calls (e.g., from struct copies), Kaze instruments memcpy to capture the return-address (RA) register via inline assembly, letting him pinpoint the exact call site in RAM and remove/avoid the triggering code pattern.",
+      "summary": "Kaze reiterates that the main performance bottleneck they identified (including with Sauraen in a prior stream) is RSP, not RDP—one reason Course 1 jumped from ~46 FPS after RSP-side improvements in X3.",
       "quote": null
     },
     {
       "topic": "technical",
       "importance": "high",
-      "summary": "Performance testing on console shows early/unculled state still around ~23 FPS while rendering far more than the final game will (entire castle at once); Kaze expects large gains once room ‘rules’/culling are implemented and implies a 60 FPS target for the full castle.",
+      "summary": "He refactors the mirror/mural system into a simpler, more author-friendly design: a flag/parameter-driven approach where the mirror axis is encoded and ranges/points define the mirrored region. During the refactor he discovers confusing/incorrect variable naming (e.g., “Mirror X” actually being Z), fixes axis handling and jaw/scale inversion, and restores Mirror Mario functionality.",
+      "quote": "This is gonna be the easiest system to add new murals ever."
+    },
+    {
+      "topic": "design",
+      "importance": "medium",
+      "summary": "A mirror room layout problem forces a design change: the mirror placement would clip into the room as originally planned, so Kaze adopts the suggestion to place/move the mirror to the opposite side and potentially extend it vertically (toward the top) to avoid bonk/clipping issues.",
       "quote": null
     },
     {
       "topic": "technical",
-      "importance": "high",
-      "summary": "Kaze reiterates a key X2→X3 discovery (from a prior stream with Sauraen): the main bottleneck is the RSP, not the RDP; X3 improves RSP performance and previously raised a stuck ~46 FPS area. He considers future microcode optimization but plans to wait until Sauraen finishes his work.",
+      "importance": "medium",
+      "summary": "Kaze confirms their pipeline uses separate collision meshes rather than sharing visual vertices for collision (noting some N64 games like Banjo-Kazooie share data, but that’s the exception).",
       "quote": null
-    },
-    {
-      "topic": "legal-nintendo",
-      "importance": "high",
-      "summary": "He states he cannot physically release the game because Nintendo would ‘giga sue’ him; instead, he plans to release a patch containing only his changes that users apply to a ROM (and can then run via EverDrive, etc.), while explicitly not encouraging illegal third-party cartridge sales.",
-      "quote": "I cannot physically release this game… because if I do, I will get giga sued by Nintendo."
     },
     {
       "topic": "business",
       "importance": "high",
-      "summary": "Release/support plan: Return to Yoshi’s Island v1.0 will work on emulator and N64; v1.1 will follow about a month later with fixes from initial community playtime. After that, he is considering dropping emulator support to improve N64 performance because emulator compatibility forces slower codepaths, though he may reconsider if specific emulator plugins (he mentions ‘Glidon’) support needed features like tri-fans/tri-strips.",
+      "summary": "Kaze states he cannot physically release the game because Nintendo would sue; instead, he plans to release an official patch containing only his changes, which users apply to their own Mario 64 ROM. He acknowledges people will likely put patched ROMs on EverDrives and that unauthorized Etsy sellers already illegally sell his games, but he won’t officially encourage that.",
+      "quote": "I will release a patch that will contain only my own changes."
+    },
+    {
+      "topic": "business",
+      "importance": "high",
+      "summary": "Release roadmap: v1 will run on both emulator and real N64; v1.1 will be a bugfix follow-up after the first large wave of player-found issues. After that, he’s considering dropping emulator support entirely to maximize N64 performance—unless GlideN64 support makes that unnecessary.",
       "quote": "Supporting emulators makes the entire game run slower."
     },
     {
       "topic": "technical",
       "importance": "medium",
-      "summary": "He demonstrates/emphasizes emulator divergence: Ares currently fails badly for the project, and he expresses low trust in emulators matching real N64 behavior due to N64 hardware quirks; accurate emulation also tends to require expensive hardware.",
+      "summary": "He’s skeptical of emulator accuracy long-term (“the N64 is fucked up”), noting Ares currently fails to run the project properly, and that ‘accurate’ emulation will demand higher-end PC hardware—making it less accessible.",
       "quote": null
     },
     {
       "topic": "technical",
       "importance": "medium",
-      "summary": "He states the classic SM64 PC port path is not viable for this hack because it doesn’t support the custom combiners he uses; a static recompilation effort might be able to run it instead.",
+      "summary": "Kaze says the decomp PC port won’t run the hack because it doesn’t support the custom/special combiner work he uses; static recompilation might be viable depending on renderer/shader support.",
       "quote": "The PC port doesn’t support any of the special combiners I do."
+    },
+    {
+      "topic": "technical",
+      "importance": "low",
+      "summary": "He describes a debugging tactic for unexpected compiler-inserted memcpy calls: his memcpy implementation captures the return-address (RA) via inline assembly and logs it so he can locate and remove the call sites.",
+      "quote": null
     },
     {
       "topic": "personal",
       "importance": "medium",
-      "summary": "Kaze describes being targeted by a highly convincing spearphishing attempt disguised as a YouTube sponsorship: they tried to push an .exe (‘V-deck’) and a fake ‘zoom’ domain; he refused to run executables and contacted the real GitHub owner (anti-scam professional) to help trace the site.",
+      "summary": "Kaze describes narrowly avoiding a spearphishing attempt from a ‘sponsor’ who tried to get him to run an .exe and later pushed a fake Zoom domain; he refused to run the file, spotted the domain trick, and contacted the real GitHub user whose identity was impersonated (someone working in anti-scam software) to help trace the attackers.",
       "quote": "I’m not downloading and running an exe file ever, no matter how legit this looks."
+    },
+    {
+      "topic": "philosophy",
+      "importance": "medium",
+      "summary": "He gives a strong (provocative) take that obsession over language choice is often a sign of poor programming, while conceding that specialized constraints can matter (e.g., certain guarantees or low-level considerations).",
+      "quote": "If you care at all about which programming language you use, that is a very strong indicator that you’re a terrible programmer."
     }
   ],
   "contributor_findings": {
-    "biobak": [
-      {
-        "topic": "team",
-        "importance": "medium",
-        "summary": "Kaze frames part of his polish pass as making the rooms look good enough that it’s not ‘insulting’ when he hands the area over to Biobak, indicating a handoff/approval dynamic where visual/level presentation quality matters before review.",
-        "quote": "We need to get these rooms to look a little nicer… so it’s not insulting to Biobak when I pass this over."
-      }
-    ],
+    "biobak": [],
     "badub": [],
-    "zeina": [
-      {
-        "topic": "personal",
-        "importance": "low",
-        "summary": "Zeina is present briefly in the stream’s early banter, reinforcing that she’s nearby during dev sessions and that casual household conversation overlaps with development time.",
-        "quote": null
-      }
-    ],
+    "zeina": [],
     "others": [
+      {
+        "name": "Lilaa",
+        "findings": [
+          {
+            "topic": "technical",
+            "importance": "medium",
+            "summary": "Prompts Kaze on emulator targeting (GlideN64) and the possibility of using tri-strips/tri-steps; this leads Kaze to connect a future performance plan (tri-strips) with his staged release plan and potential emulator-support tradeoffs.",
+            "quote": null
+          },
+          {
+            "topic": "design",
+            "importance": "low",
+            "summary": "Gives practical modeling feedback/requests (e.g., asking for precision on Goomba King scaling), which triggers Kaze to discover and remove an unwanted scale bone in the model rig.",
+            "quote": null
+          }
+        ]
+      },
       {
         "name": "Sauraen",
         "findings": [
           {
             "topic": "technical",
-            "importance": "high",
-            "summary": "Kaze references an earlier joint stream with Sauraen where they determined the project’s key performance bottleneck is the RSP; this understanding is driving the shift to X3 and informing future plans to optimize microcode after Sauraen’s current work completes.",
+            "importance": "medium",
+            "summary": "Referenced as the key collaborator on prior RSP bottleneck investigation and as the person Kaze wants to wait for before attempting deeper F3DEX3/X3 microcode micro-optimizations.",
             "quote": null
           }
         ]
@@ -121,96 +136,105 @@
     {
       "speaker": "Kaze",
       "quote": "I’m not downloading and running an exe file ever, no matter how legit this looks.",
-      "context": "He recounts rejecting a sophisticated sponsorship scam that attempted to deliver malware via an executable and a fake Zoom domain."
+      "context": "Spearphishing story about a fake sponsor attempting to trick him into running malware and using a fake Zoom domain."
+    },
+    {
+      "speaker": "Kaze",
+      "quote": "I can’t physically release this game… because if I do, I will get giga sued by Nintendo.",
+      "context": "Explains why the project will be distributed as a patch and not as a standalone/physical release."
     },
     {
       "speaker": "Kaze",
       "quote": "Supporting emulators makes the entire game run slower.",
-      "context": "He explains why he may eventually drop emulator support after release/bugfix cycles to prioritize real N64 performance."
-    },
-    {
-      "speaker": "Kaze",
-      "quote": "If you care at all… about which programming language you use, that is a very strong indicator that you’re a terrible programmer.",
-      "context": "A blunt statement of his engineering philosophy: tool choice matters less than understanding the problem (with some caveats)."
+      "context": "Key rationale for potentially dropping emulator support after initial release/bugfix cycle to prioritize N64 performance."
     }
   ],
   "key_stories": [
     {
-      "title": "Spearphishing sponsorship attempt avoided",
-      "summary": "Kaze describes being contacted by an apparently legitimate advertiser with GitHub references and personalized messages. The deal escalated into a request to run an .exe and join a call via a fake Zoom domain, which he refused; he then contacted the real person whose identity was being impersonated (an anti-scam professional).",
-      "challenge": "Separating a realistic sponsorship pitch from a malware delivery attempt without exposing himself or his accounts.",
-      "process": "He refused to execute unknown binaries, checked the call link, recognized the domain spoof, and escalated by contacting the real GitHub owner to investigate/trace the scam infrastructure.",
-      "outcome": "He avoided infection/compromise and helped route the incident to someone equipped to pursue attribution/mitigation.",
+      "title": "Spearphishing ‘sponsor’ attempt avoided",
+      "summary": "Kaze recounts a highly convincing scam where an ‘advertiser’ referenced his content and impersonated a real GitHub identity to gain trust. The incident shows the real-world risks of being a mid-to-large creator and how operational security habits affect his work and time.",
+      "challenge": "A fake sponsor tried to get him onto a call by installing an .exe (‘V-deck’) and later directed him to a fake Zoom domain.",
+      "process": "Kaze refused to run any executable, noticed the suspicious domain (zoom.usweb.us), and contacted the real person whose GitHub identity was being impersonated (someone in anti-scam software).",
+      "outcome": "He avoided infection and passed details to the impersonated developer to help trace/locate the infrastructure behind the attack.",
       "key_quote": "I’m not downloading and running an exe file ever, no matter how legit this looks.",
       "related_to": ["kaze"]
     },
     {
-      "title": "Refactoring mirrors/murals into a flag-based system",
-      "summary": "While building a mirror room, Kaze discovers prior mirror code/data is confusing and partially incorrect (axis naming mismatch, wrong parameters), leading to broken reflections. He redesigns the mirror system so creators can specify axis and ranges cleanly, then verifies Mirror Mario appears correctly.",
-      "challenge": "Mirrors were error-prone to author and easy to misconfigure; wrong axis assumptions caused broken rendering and confusion in the codebase.",
-      "process": "He audits existing mirror instances (including ones in JRB), corrects axis assumptions, renames/reshapes parameters, and proposes a compact bit/flag approach (axis + remaining bits for ranges), prioritizing ease of adding new murals.",
-      "outcome": "Mirrors work again, and Kaze claims the new system will be significantly easier for future content creation.",
+      "title": "Mirror/mural system refactor to a simpler authoring model",
+      "summary": "Kaze converts a confusing, error-prone mirror system into a cleaner parameter/flag-driven design that’s easier to extend. This is both a tooling win (faster content creation) and a quality win (fewer axis/transform mistakes).",
+      "challenge": "Mirrors/murals broke due to axis confusion, naming errors, and incorrect inversion/offset logic (including “Mirror X” actually behaving like Z).",
+      "process": "He redesigns the data representation (axis + ranges/point), updates the code to compute transforms consistently, tests each existing mural, and fixes remaining issues (jaw/axis inversion, missing export fields).",
+      "outcome": "Mirror Mario and multiple murals work again; Kaze describes the new system as dramatically easier for adding future murals.",
       "key_quote": "This is gonna be the easiest system to add new murals ever.",
       "related_to": ["kaze"]
     },
     {
-      "title": "Choosing N64-first performance over long-term emulator compatibility",
-      "summary": "Kaze outlines a release plan where early versions support both emulator and hardware, but later versions may drop emulator support to unlock faster paths and features on real N64. He frames emulator support as a tax on performance and development, while acknowledging that improving emulator/plugin support could let him keep both.",
-      "challenge": "Balancing accessibility (emulator players) with the project’s core promise: pushing real N64 performance/visual techniques (custom combiners, faster microcode paths).",
-      "process": "He proposes staged releases (v1.0 and a rapid v1.1 bugfix follow-up) before considering a hard pivot to N64-optimized builds; he evaluates whether emulator plugins will support needed primitives (tri-fans/tri-strips).",
-      "outcome": "A tentative but concrete strategy that preserves accessibility at launch while keeping open the option to fully commit to hardware-optimized design after community testing.",
-      "key_quote": "Version 1 of Return to Yoshi’s Island is going to work on emulator and N64… and then I will ditch emulator support entirely.",
+      "title": "Collision becomes ‘unplayable’ → per-level allocation plan",
+      "summary": "While building large, flat room geometry, Kaze encounters collision failures tied to surface pool/node limits. He responds by planning a per-level allocation scheme using his own allocator, aiming to make collision robust across levels of very different geometric characteristics.",
+      "challenge": "Collision triangles/cells require too many pool nodes (especially with large triangles spanning many cells), causing invalid collision behavior.",
+      "process": "He diagnoses that the pool/node budget is the likely constraint and decides to adjust collision allocation per level rather than relying on one global configuration.",
+      "outcome": "A concrete engineering direction is set (per-level allocator settings), though final tuning remains for later.",
+      "key_quote": null,
+      "related_to": ["kaze"]
+    },
+    {
+      "title": "Release plan shaped by legal constraints and emulator performance costs",
+      "summary": "Kaze lays out how Return to Yoshi’s Island will be shipped: as a patch only, with an initial emulator+N64-compatible release and a quick bugfix follow-up. He then considers dropping emulator support to unlock more aggressive N64 performance, illustrating how platform constraints shape creative/technical decisions.",
+      "challenge": "He can’t distribute the game directly without legal risk, and emulator support forces slower code paths/compatibility compromises.",
+      "process": "He proposes a staged plan: v1 (emulator+N64), v1.1 (bugfix wave), then potentially N64-only optimizations unless GlideN64 can keep compatibility without major costs.",
+      "outcome": "A clearer roadmap emerges that connects legal distribution realities to engineering priorities (RSP/microcode, tri-strips, combiners).",
+      "key_quote": "Supporting emulators makes the entire game run slower.",
       "related_to": ["kaze"]
     }
   ],
   "open_questions": [
     {
-      "topic": "X3 lighting/ambient regression with multiple lights",
-      "context": "Kaze reports that when a second light source appears, ambient lighting can drop to zero; later he suspects emulator-only lighting structures (loading x2 geo Mario lights vs geo Mario lights and copying between light struct variants) may be involved, but he still can’t find the culprit.",
+      "topic": "X3 lighting regression (ambient resets to zero when multiple lights exist)",
+      "context": "Kaze describes a post-X3 bug where adding a second light source can make colors go dark as ambient becomes zero; he also suspects emulator-only lighting struct copying (X2 vs X3) may be involved.",
       "questions": [
-        "What specific change introduced this regression after X3: light struct layout, light index conventions, or an interaction with a second directional/point light?",
-        "Why does it reproduce on emulator paths but appear fine on console/X3—what exactly differs in the emulator-only lighting codepath?",
-        "Was the decision to load x2-structured lights on emulator a temporary bridge, and what would a ‘single source of truth’ lighting format look like for both targets?"
+        "When did you first notice the ambient-reset bug (what commit/feature change) and how did you reproduce it reliably?",
+        "What’s different about the X2-vs-X3 light structs you’re copying on emulator-only builds, and what’s your current best hypothesis for why ambient disappears?",
+        "How close is this issue to blocking the demo—would you ship with compromised lighting on emulator if N64 looks correct, or do you need parity first?"
       ],
       "related_to": ["kaze"]
     },
     {
-      "topic": "Per-level collision/surface pool allocation strategy",
-      "context": "Collision can fail when large triangles inflate the number of spatial cell nodes required; Kaze wants to vary allocation per level using his custom allocator to prevent invalid triangle/node exhaustion without sacrificing runtime collision speed.",
+      "topic": "Decision point: dropping emulator support after release",
+      "context": "Kaze proposes v1 and v1.1 supporting emulator + N64, then possibly ditching emulator support because it slows the game—unless GlideN64 support makes that unnecessary.",
       "questions": [
-        "What metrics will determine per-level pool sizing (triangle count, triangle size distribution, room count, cell grid resolution)?",
-        "Would re-meshing collision (splitting large tris) be preferable to increasing pools, and how does that affect authoring workload?",
-        "How will you validate ‘unplayable’ collision states early (tooling, warnings in exporter, runtime asserts) so they don’t slip into demo/release?"
+        "What specific emulator-compatibility requirements are currently forcing slower code paths (lighting, combiners, geometry formats, microcode assumptions)?",
+        "What would be the ‘go/no-go’ criteria after v1.1 that makes you commit to N64-only—frame rate targets, bug burden, renderer features like tri-strips?",
+        "If you drop emulator support, how will you communicate that to players and preserve a playable ‘emulator build’ for archival/documentary purposes?"
       ],
       "related_to": ["kaze"]
     },
     {
-      "topic": "Room/door occlusion and ‘rules’ system for final performance",
-      "context": "Kaze is currently rendering far more than the final game will (entire castle at once) and expects big gains once room rules and door-based visibility constraints are implemented; he also considers camera/door solidity changes to avoid awkward short corridors and camera clipping.",
+      "topic": "Future optimization work on X3 / F3DEX3 and tri-strips",
+      "context": "Kaze believes there are still major gains possible in RSP with creative programming, but he wants to wait until Sauraen finishes his work; he also wants tri-strips but isn’t sure how they’re implemented or whether they truly speed things up.",
       "questions": [
-        "What are the planned ‘rules’ for room visibility—portal/door-based culling, sector graphs, or scripted room activation?",
-        "How do camera constraints interact with door solidity (e.g., door blocks camera only at distance)—what player experience problem is this solving?",
-        "What performance target (60 FPS everywhere vs selective 30 FPS) is non-negotiable, and which design choices are you willing to change to maintain it?"
+        "What kind of RSP-side wins do you think are still on the table (vertex transform reuse, command throughput reduction, better batching), and which ones feel most realistic for you to tackle?",
+        "What’s your plan for learning the microcode/RSP well enough to contribute—are you thinking experiments, tooling, mentorship from Sauraen, or reading Nintendo-era docs?",
+        "What evidence would convince you tri-strips/tri-steps are worth adopting (profiling methodology, test scenes, emulator vs hardware validation)?"
       ],
       "related_to": ["kaze"]
     },
     {
-      "topic": "Post-release versioning and the emulator support cutoff",
-      "context": "Kaze proposes v1.0 (emulator+N64), v1.1 (rapid bugfix release), then potentially dropping emulator support to regain performance headroom; he might keep support if emulator plugins (he mentions ‘Glidon’) add needed features like tri-fans/tri-strips.",
+      "topic": "Room-based layout vs camera/flow problems in Course 3",
+      "context": "Kaze notes a particular room feels ‘weird and janked’ because the camera and short corridor behave poorly; he considers making doors solid for the camera when far away or fusing rooms to reduce room count.",
       "questions": [
-        "What exact optimizations/features are currently blocked by emulator support (lighting, combiners, tri-strips, timing assumptions, microcode paths)?",
-        "What’s the decision threshold for keeping vs dropping emulator support (player share, plugin maturity, QA burden)?",
-        "Would you maintain two builds (N64-first and emulator-friendly), or is the maintenance cost too high for a small team?"
+        "What’s the underlying camera failure mode here—clipping, sudden snaps, or losing spatial readability—and how often does it happen in playtests?",
+        "How do you weigh room segmentation (performance/visibility) against navigation feel and camera comfort in tight interiors?",
+        "If you fuse rooms to fix camera issues, what’s your fallback plan to keep performance (new occlusion rules, portal rendering, door logic changes)?"
       ],
       "related_to": ["kaze"]
     },
     {
-      "topic": "Mirrors/murals authoring workflow after the refactor",
-      "context": "Kaze changes mirrors to be axis+range driven (flag/bitfield approach discussed) and celebrates it as dramatically easier to add new murals; earlier content had misleading variable names (e.g., MirrorX behaving like MirrorZ).",
+      "topic": "Distribution realities: patching, EverDrive play, and unauthorized Etsy carts",
+      "context": "Kaze acknowledges unauthorized sellers already sell his work and that patched ROMs can be played on EverDrive, but he won’t encourage piracy while still making the game accessible.",
       "questions": [
-        "How will level designers/artists specify mirror parameters in practice—through Blender-exported metadata, a level script, or manual object params?",
-        "What errors did the old system cause most often, and how does the new structure prevent them (validation, clearer axis encoding, fewer ‘magic numbers’)?",
-        "Do mirrors have special rendering constraints (cost, clipping, recursion limits), and did that influence the decision to standardize the data format now?"
+        "Have you considered any practical steps to reduce Etsy reselling (watermarking, messaging, community reporting), or do you see it as inevitable collateral?",
+        "How do you want players to experience the ‘authentic’ version—emulator settings, recommended flashcarts, recommended hardware revisions?",
+        "What’s your line between ‘patch-based preservation’ and ‘enabling distribution’ when you publish tools/instructions?"
       ],
       "related_to": ["kaze"]
     }

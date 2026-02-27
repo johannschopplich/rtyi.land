@@ -1,126 +1,92 @@
 {
   "stream_context": {
-    "summary": "Kaze works on the second section of the overworld hub, focusing on improving coin collectability and traversal readability. He also outlines a major hub progression concept (a fog-hidden ghost ship unlocked via a lighthouse) and implements/iterates on a distance- and view-angle-based fog system on N64 constraints. Along the way he clarifies how much of the project has become a custom engine (rendering, camera, OS work) and what would still need replacement to be legally sellable.",
+    "summary": "Kaze iterates on the second segment of the first overworld, focusing on player flow (coin availability, navigation without demanding advanced moves) and brainstorms natural barriers (fruit/trees/ruins) to avoid “walling off” the island. A major chunk becomes a technical design session: prototyping a ghost-ship ‘fog gate’ that gets denser as the player looks at/approaches the ship, culminating in a fade-to-white + respawn until the lighthouse is activated. He also gives a notable ‘state of the engine’ update (how much is already custom vs vanilla SM64) and discusses commissioned side projects and cautious beta testing to prevent leaks.",
     "level": ["Overworld"],
     "significance": "notable",
-    "significance_reason": "Contains several documentary-useful reveals: the hub’s core progression set-piece (ghost ship + lighthouse fog clearing), a concrete technical approach for “volumetric-like” fog on N64, and Kaze’s explanation that RTYI is largely a custom engine now plus what would be required for legal commercial release."
+    "significance_reason": "Contains a meaningful design/tech inflection for the overworld’s ghost-ship gate (a concrete plan + partial implementation for N64-feasible fog behavior) plus unusually candid clarification that the project is effectively a custom engine/OS effort (including replacing libultra) and what would be required for legal sellability. Also reveals business reality: commissioned ROMhack work vs RTY as passion/free."
   },
   "findings": [
     {
       "topic": "design",
       "importance": "high",
-      "summary": "A key overworld progression set-piece: a ghost ship sits offshore in heavy fog; the player later reaches a lighthouse, activates it, and the fog clears so the ship (Course 4) becomes accessible—an intentional ‘do something later to unlock something earlier’ structure.",
-      "quote": "You do something later in the game to unlock something early in the game—that's cool as fuck."
-    },
-    {
-      "topic": "design",
-      "importance": "medium",
-      "summary": "Overworld coin economy is a current goal: Kaze wants to add more easily collectible coins in the first overworld without making it tedious, and he adjusts coin placements to subtly suggest optional movement routes (e.g., coins up a slope to encourage going up).",
+      "summary": "Kaze’s core goal for the first overworld is to increase collectible coin availability without making collection feel tedious, and to add clearer ‘invites’ (like placing coin stacks) that subtly teach players where to go.",
       "quote": null
     },
     {
       "topic": "design",
       "importance": "medium",
-      "summary": "Traversal readability/accessibility concern: Kaze worries some players won’t understand or execute wallkicks, so he looks for simpler physical ways (walkable rocks/ramps) to reach elevated hub areas without requiring advanced techniques.",
+      "summary": "He wants traversal solutions that don’t assume players know SM64 techniques like wallkicks; he considers adding walk-up rock formations or other gentle ramps rather than move-gated progression.",
+      "quote": null
+    },
+    {
+      "topic": "design",
+      "importance": "high",
+      "summary": "Overworld macro-plan: the hub is split into ~15 parts; Part 3 (beach) includes the zoo entrance and a ghost-ship area. The ghost ship is initially inaccessible via fog, and later becomes accessible after a lighthouse interaction clears/weakens the fog—creating a deliberate ‘do something later to unlock something earlier’ loop.",
       "quote": null
     },
     {
       "topic": "design",
       "importance": "medium",
-      "summary": "He frames ‘Course 4 rounds’ (likely a themed/structured sequence) as somewhat unpopular but potentially necessary for overall pacing/contrast—sometimes the least-liked parts are needed to make the game’s design work.",
-      "quote": "Sometimes the parts that people least like about the game are also the parts that are most necessary to make the game's design work."
-    },
-    {
-      "topic": "design",
-      "importance": "medium",
-      "summary": "The hub is planned as a large multi-part structure: Kaze says the overworld has 15 parts total, and the current area is roughly one fifteenth. He decides not to finalize Part 2’s platforming layout until Part 3 is prototyped, because connections/scale may force rework.",
-      "quote": null
-    },
-    {
-      "topic": "design",
-      "importance": "medium",
-      "summary": "Natural barrier brainstorming for an open ‘cohesive island’ hub: he dislikes solving boundaries with constant cliffs/walls and considers alternatives like forest/tree lines, giant fruit (bananas) as playful Yoshi’s Island-themed blockers, and later-area ruins/destroyed castles as physical separators and platforming spaces.",
+      "summary": "He’s actively trying to avoid the island feeling like it’s segmented by constant cliff walls; he brainstormes ‘natural’ blockers (tree lines/forests, giant fruit like bananas, ruins/destroyed castles as platformable barriers) to keep the hub cohesive while still guiding routing.",
       "quote": null
     },
     {
       "topic": "technical",
       "importance": "high",
-      "summary": "Kaze states RTYI is now mostly a custom engine: coins are rendered via a completely different system (not 2D sprites/screen-space), Mario rendering and camera are custom, many physics/collision routines are refactored (e.g., hill-side walking), swimming controls/actions are changed, skybox system is entirely replaced with custom 3D-model skyboxes, and animation data is moving from Euler angles to quaternions.",
+      "summary": "He prototypes a ship-area fog system constrained by N64 realities: fog should be weak when looking away, stronger when looking toward the ship, intensify as the ship fills more of the screen, and culminate in a screen-wide white fade followed by a “washed ashore” respawn until the lighthouse is activated. Implementation involves combining distance-based fade curves with camera-angle-based intensity and smoothing the curve (squaring) to avoid abrupt transitions.",
+      "quote": null
+    },
+    {
+      "topic": "technical",
+      "importance": "medium",
+      "summary": "Tooling limitation: his fog preview workflow is hampered by a hard cap (can’t preview fog beyond a certain value, ~1000), forcing him to iterate with imperfect preview or live testing rather than accurately visualizing intended long-range fog.",
+      "quote": null
+    },
+    {
+      "topic": "technical",
+      "importance": "high",
+      "summary": "Engine status update: Kaze claims most of what’s running is now ‘his engine,’ with major systems rewritten (rendering changes like 3D coins, custom camera, custom skybox approach, refactored movement on slopes, custom collision/step functions, altered swimming controls, quaternion-based animation plans). He’s also reworking the underlying OS layer and intends to remove libultra, which he calls unoptimized.",
       "quote": "Almost all of this engine here is my engine at this point. The only really thing that's still left from the vanilla 64 is Mario's physics."
     },
     {
-      "topic": "legal-nintendo",
-      "importance": "high",
-      "summary": "For a ‘legally sellable’ version, Kaze believes he would need to replace remaining Nintendo-linked components (notably the sound engine, and effectively ‘change out Mario’), and ensure it runs as an independent title rather than an SD/ROM-launch mod workflow; he is also working on replacing the underlying OS layer and removing libultra due to performance/quality concerns.",
-      "quote": "If I wanted this to be legally sellable, I would have to update the sound engine... I'm going to remove all of libultra because libultra is dog shit unoptimized piece of shit code."
-    },
-    {
-      "topic": "technical",
-      "importance": "high",
-      "summary": "Fog implementation plan (N64-friendly ‘volumetric-like’ illusion): combine (1) distance-based fog intensity as you approach the ship, (2) additional view-angle-based fog that increases when the camera looks toward the ship, and (3) a full-screen white fade (a quad/rectangle overlay) inside the ship’s ‘warp’ radius to simulate being ‘washed ashore’ unless the lighthouse has been activated.",
-      "quote": null
-    },
-    {
-      "topic": "technical",
-      "importance": "medium",
-      "summary": "He runs into tooling/preview limitations: his fog preview cannot be set beyond 1000 units, preventing accurate preview of long-range fog; this forces iteration by in-game testing rather than editor preview.",
-      "quote": "You can't set the fog to over 1000. And because of that, I can't preview my fog."
-    },
-    {
-      "topic": "technical",
-      "importance": "medium",
-      "summary": "He iterates on fog math/curves: notices non-linear behavior (described as ‘double square roots’), decides to square values for smoother transitions, and identifies issues like inverted angle calculations and values exceeding 1.0 causing visual ‘bug out’ artifacts—leading to clamping/min-max adjustments.",
-      "quote": null
-    },
-    {
-      "topic": "team",
-      "importance": "medium",
-      "summary": "Workflow dependency: Kaze expects a final overworld rework pass from Biobak and temporarily imports/uses simple backgrounds/placeholders to keep layout work moving while anticipating major art/layout revisions later.",
-      "quote": null
-    },
-    {
       "topic": "business",
-      "importance": "medium",
-      "summary": "Kaze distinguishes paid ROMhack/engine commission work from RTYI: other ‘engine-style’ hacks he makes are often commissioned (including “Drug Boss Mario”), while RTYI is ‘passion’ work and therefore must be free.",
-      "quote": "There's a lot of money to be made in romhacking, but this one here is not any paid work at all... it needs to be free too."
+      "importance": "high",
+      "summary": "He differentiates RTY as passion/free work versus other ROMhacks built in his ‘engine/style’ being commissions (including “Drug Boss Mario,” described as an FPS with drug dealing, police shooting, and an illicit-substance stock market sim). He recruits a small first wave of trusted beta testers to reduce leak risk, then plans to broaden testing later.",
+      "quote": null
     },
     {
-      "topic": "community",
-      "importance": "low",
-      "summary": "He actively recruits a small, trusted first wave of beta testers for the commissioned project “Drug Boss Mario,” prioritizing long-time community members to reduce leak risk before wider testing.",
-      "quote": null
+      "topic": "philosophy",
+      "importance": "medium",
+      "summary": "He articulates a design principle: sometimes the least-liked elements can be structurally necessary to make the overall game’s contrast and pacing work—applied to his feelings about certain courses/segments needing variety even if imperfect.",
+      "quote": "Sometimes the part that people least like about the game are also the parts that are most necessary to make the game's design work."
     }
   ],
   "contributor_findings": {
     "biobak": [
       {
-        "topic": "team",
+        "topic": "design",
         "importance": "medium",
-        "summary": "Biobak is slated to do a major ‘final rework’ of the overworld; Kaze explicitly delays some visibility/line-of-sight goals (e.g., seeing earlier hub sections from later vantage points) until after Biobak’s pass.",
+        "summary": "Kaze references an expected ‘final rework’ pass by Biobak on the overworld/levels and temporarily imports simpler backgrounds to make current layout iteration easier while waiting on that rework.",
         "quote": null
       }
     ],
     "badub": [],
-    "zeina": [],
+    "zeina": [
+      {
+        "topic": "design",
+        "importance": "low",
+        "summary": "Zeina appears in chat during the ghost-ship segment; Kaze reacts to her messages while discussing the ship render/fog look, suggesting she’s engaged with the visual presentation feedback loop even when not speaking on mic.",
+        "quote": null
+      }
+    ],
     "others": [
       {
-        "name": "Lilaa",
+        "name": "Dainy (Delphox)",
         "findings": [
           {
             "topic": "technical",
-            "importance": "low",
-            "summary": "During the fog work, Lilaa is referenced as present while Kaze discovers editor fog preview distance limitations; serves as a live sanity-check moment for the constraint.",
-            "quote": null
-          }
-        ]
-      },
-      {
-        "name": "DainyDelphox (chat)",
-        "findings": [
-          {
-            "topic": "design",
             "importance": "medium",
-            "summary": "Suggests/aligns with the idea that fog clearing is tied to beating/activating the lighthouse; Kaze adopts the concept but emphasizes the need for harsher ship-local fog and a technically feasible implementation.",
+            "summary": "Suggests a clearer ‘fog clears after lighthouse’ concept and discussions around respawn/wash-ashore handling; Kaze refines the idea into a camera-angle + distance driven fog system with a white fade near the ship.",
             "quote": null
           }
         ]
@@ -130,104 +96,63 @@
   "memorable_quotes": [
     {
       "speaker": "Kaze",
-      "quote": "You do something later in the game to unlock something early in the game—that's cool as fuck.",
-      "context": "Describing the lighthouse mechanic that clears fog and unlocks access to the ghost ship level in the overworld."
+      "quote": "Sometimes the part that people least like about the game are also the parts that are most necessary to make the game's design work.",
+      "context": "While discussing imperfect course segments, he frames ‘contrast’ and structural necessity as a guiding design philosophy."
     },
     {
       "speaker": "Kaze",
-      "quote": "Almost all of this engine here is my engine at this point.",
-      "context": "A broad statement about how far RTYI has diverged from vanilla Mario 64 via custom rendering, camera, physics refactors, and systems."
-    },
-    {
-      "speaker": "Kaze",
-      "quote": "Sometimes the parts that people least like about the game are also the parts that are most necessary to make the game's design work.",
-      "context": "Reflecting on keeping less-loved elements for pacing/contrast rather than optimizing purely for immediate player preference."
+      "quote": "Almost all of this engine here is my engine at this point. The only really thing that's still left from the vanilla 64 is Mario's physics.",
+      "context": "Mid-stream, he zooms out from overworld details to assert that RTY has effectively become a custom-engine project on N64 constraints."
     }
   ],
   "key_stories": [
     {
-      "title": "Ghost ship unlocked by lighthouse fog-clearing",
-      "summary": "Kaze lays out an overworld spectacle: a ghost ship is visible as a dark silhouette in fog, initially unreachable. The player later reaches a lighthouse and activates it, changing the fog state so the ship becomes accessible as a level entrance.",
-      "challenge": "Make an enticing mid-distance landmark that feels mysterious, gates progress cleanly, and works within N64 rendering constraints (no true volumetric fog).",
-      "process": "Design: define states (pre-lighthouse vs post-lighthouse), define failure/feedback (approach triggers fade-to-white and respawn/washed-ashore). Tech: prototype fog intensity driven by distance and camera angle toward the ship, plus a full-screen overlay fade at close range.",
-      "outcome": "A concrete implementation direction is chosen (distance + view-angle fog + white fade/respawn), but Kaze is still tuning curves, visuals, and the ‘ship-local’ fog look.",
-      "key_quote": "When you get within the warp range of the ship, your screen is going to fade to white, and you're going to be washed ashore. Unless you have the lighters activated.",
+      "title": "Designing the ghost-ship fog gate (lighthouse unlock)",
+      "summary": "Kaze wants the overworld to support satisfying ‘later unlocks earlier’ progression, using a ghost ship that’s visible but unreachable until a lighthouse event changes the world state. The stream turns into an on-the-fly R&D session on how to sell ‘volumetric’ fog on N64 without tanking performance.",
+      "challenge": "Make an intimidating fog barrier around the ghost ship that looks convincing, communicates ‘not yet,’ and prevents players from brute-forcing entry—within N64 rendering limits (no true volumetrics; performance-sensitive overdraw).",
+      "process": "He rejects heavy plane-stacks as too expensive, explores distance-based and screen-space fade approaches, then implements a combined model: fog intensity depends on both distance to ship and camera angle (strong when looking at ship; weaker when looking away), with a final full-screen white fade and a respawn/wash-ashore behavior when entering a ship radius pre-unlock.",
+      "outcome": "He gets a version ‘working’ but continues tuning curve smoothness, ship readability, and notes the need for a later VFX pass (e.g., additional effects around the ship) and background/skybox considerations to make the illusion hold.",
+      "key_quote": "You enter this area, and when you look at the ship, there's going to be very strong fog in this area.",
       "related_to": ["kaze"]
     },
     {
-      "title": "RTYI as a mostly-custom engine and what blocks commercial legality",
-      "summary": "While discussing engine choices, Kaze explains that RTYI has replaced or rewritten major parts of Mario 64’s rendering and systems, approaching a custom engine on N64 hardware. He then lists what would still need to change to be ‘legally sellable.’",
-      "challenge": "Build something new yet N64-authentic, while grappling with the remnants of Nintendo code/assets (sound engine, Mario) and foundational libultra dependencies.",
-      "process": "Incrementally replace systems: coin rendering, camera, skybox, movement refactors, swimming controls, and OS work. Identify remaining components that would require replacement (sound engine, Mario, and removing libultra).",
-      "outcome": "Clear articulation that RTYI is passion/free, and a roadmap-like understanding of what a fully independent commercial version would still require.",
-      "key_quote": "If I wanted this to be legally sellable, I would have to update the sound engine... and I'm going to remove all of libultra.",
+      "title": "RTY as a custom-engine project (and what ‘sellable’ would require)",
+      "summary": "While answering engine/port questions, Kaze clarifies how far RTY has diverged from vanilla SM64 and frames it as largely rewritten tech. He also outlines what would still block legal sellability: remaining SM64-derived elements like Mario/sound engine and remnants of libultra.",
+      "challenge": "Build new gameplay/visual systems on original hardware while shedding legacy SM64 systems that limit flexibility or aesthetics (e.g., camera, skybox) and potentially remove legally sensitive components if commercialization were ever desired.",
+      "process": "He describes replacing rendering approaches (coins, skyboxes), rewriting camera and physics sub-functions, changing swim controls, and reworking OS infrastructure—explicitly planning to remove libultra due to optimization/quality concerns.",
+      "outcome": "The project’s technical identity is positioned less as a ‘ROMhack’ and more as a bespoke N64 game built on top of decomp roots, with a clear list of remaining subsystems that would need replacement for a fully independent/shippable product.",
+      "key_quote": "If I wanted this to be legally sellable, I would have to update the sound engine… and I’m going to remove all of libultra.",
       "related_to": ["kaze"]
-    },
-    {
-      "title": "Designing hub boundaries without ‘just cliffs everywhere’",
-      "summary": "As he blocks out hub sections, Kaze debates how to keep the island cohesive while still guiding players. He dislikes relying on constant cliffs/walls and searches for Yoshi’s Island-themed, natural-feeling barriers.",
-      "challenge": "Prevent players from wandering into unfinished/out-of-bounds areas without making the hub feel like a series of boxed-in arenas.",
-      "process": "Brainstorm alternatives: tree lines/forests, giant fruit barriers (bananas), mountains plus foliage, and later-game ‘destroyed castles/ruins’ as believable blockades and platforming structures.",
-      "outcome": "Temporary placeholder geometry is used now, with intent to revisit once overall hub connections are clearer and Biobak’s rework lands.",
-      "key_quote": null,
-      "related_to": ["kaze", "biobak"]
     }
   ],
   "open_questions": [
     {
-      "topic": "Ghost ship + lighthouse progression gating",
-      "context": "Kaze describes a multi-state system: fog intensifies when looking toward the ship, proximity triggers a white fade and ‘washed ashore’ respawn unless the lighthouse has been activated, after which the ship becomes reachable/enterable.",
+      "topic": "Ghost ship + lighthouse gating: final player experience",
+      "context": "Kaze prototypes a fog system that depends on distance and camera angle and uses a fade-to-white + wash-ashore respawn until the lighthouse is activated, then shifts to lighter fog for atmosphere.",
       "questions": [
-        "What exact game event ‘activates’ the lighthouse—beating a specific course, collecting an item (ice cap), or a scripted hub challenge inside the lighthouse?",
-        "How early can players first see the ship, and how do you prevent frustration from players repeatedly trying to reach it before it’s possible?",
-        "Is the ship (Course 4) intended to be optional, required, or sequence-breakable once fog is cleared?",
-        "How do you communicate the new rule to the player diegetically (NPC hint, sign, visual change, camera framing) without heavy exposition?",
-        "What is the intended emotional beat: curiosity/unease first, then empowerment/clarity after the lighthouse? وكيف will music/sfx support that? (even if music is placeholder now)"
+        "What did you want players to feel the first time they see the ship—curiosity, fear, mystery—and how did that emotion drive the exact mechanics (camera-based fog, forced respawn) you chose?",
+        "How did you decide where the ‘respawn radius’ starts, and how did you test whether it feels like a natural force (fog/current) versus an arbitrary invisible wall?",
+        "What’s the intended ‘after’ state once the lighthouse is activated—complete clarity, mild atmospheric haze, or a new kind of threat—and why?"
       ],
       "related_to": ["kaze"]
     },
     {
-      "topic": "Fog rendering approach and performance budget",
-      "context": "He prototypes fog as a function of distance and camera angle, plus a full-screen quad fade; he also mentions earlier attempts using multiple planes that were too expensive.",
+      "topic": "Natural barriers vs ‘cliff walls’ in a cohesive island hub",
+      "context": "Kaze dislikes the hub being ringed by cliffs and brainstormes alternatives (fruit, forests, ruins/destroyed castles) that still guide routing without feeling artificial.",
       "questions": [
-        "What final technique do you expect to ship for the ship-local fog: pure vertex/fragment fog parameters, layered geometry, screen-space overlay, or a hybrid?",
-        "How will you clamp/shape the fog curve so it doesn’t ‘snap’ from clear to white, especially on real hardware?",
-        "Will the fog be applied to every object in the area (ship, water, skybox), and what are the draw/overdraw implications on N64?",
-        "Do you plan separate ‘ambient light fog’ around the ship plus the reactive look-at-ship fog, and how will you blend them?"
+        "What rules do you use to decide when a barrier should be diegetic (trees/fruit/ruins) versus explicit (cliffs/walls), and how do you ensure players still read the intended path quickly?",
+        "Did any barrier ideas (fruit, forest, ruins) create unexpected navigation or camera problems on N64 that forced you back toward ‘boring’ cliffs?",
+        "How much do you want the overworld to be ‘learnable’ at a glance versus intentionally confusing/mysterious to encourage exploration?"
       ],
       "related_to": ["kaze"]
     },
     {
-      "topic": "Overworld structure: 15 parts and connection planning",
-      "context": "Kaze says the hub is split into 15 parts; he hesitates to finalize Part 2 until Part 3 is built because scale/connectors may change.",
+      "topic": "‘Mostly my engine now’: independence, libultra removal, and legal sellability",
+      "context": "Kaze says RTY has rewritten major systems and he’s reworking the OS to remove libultra; he also claims legal sellability would require replacing Mario and the sound engine.",
       "questions": [
-        "What is the high-level map of the 15 hub parts—what courses/features anchor each part, and what’s the intended difficulty/complexity ramp?",
-        "Which parts are ‘linear connectors’ versus ‘exploration playgrounds,’ and why?",
-        "What are the non-negotiable landmarks (volcano, lighthouse, ruins) that must remain readable from multiple parts of the island?",
-        "How do you decide when a hub section is ‘done enough’ to stop rework churn, especially with an upcoming Biobak rework?"
-      ],
-      "related_to": ["kaze", "biobak"]
-    },
-    {
-      "topic": "‘Legally sellable’ version requirements",
-      "context": "Kaze claims a sellable build would require swapping the sound engine, ‘changing out Mario,’ and removing libultra by finishing his OS replacement work.",
-      "questions": [
-        "What does ‘change out Mario’ mean in your practical plan: replace model/animations only, replace action code, or rewrite the full character controller to avoid derivation?",
-        "Which parts of the sound engine are the biggest blockers (sequence format, synthesis, sample banks), and what would a replacement pipeline look like?",
-        "How far along is the OS/libultra removal, and what’s the risk profile (compatibility with existing tools/assets, performance regressions)?",
-        "Is a ‘sellable’ RTYI-like project something you want long-term, or is this mainly theoretical/for future original-IP projects?",
-        "How do you personally draw the line between homage/respect and legal/ethical independence when building on a classic?"
-      ],
-      "related_to": ["kaze"]
-    },
-    {
-      "topic": "Coin economy and movement-skill assumptions in the hub",
-      "context": "He wants more easy coins and worries about requiring wallkicks because some players may not know them, contrasting with how Mario 64 teaches movement via signposts.",
-      "questions": [
-        "What movement techniques do you assume an average player knows in RTYI, and how do you teach them without breaking immersion?",
-        "Are coins purely a completion/100% layer, or are they tied to progression (doors, upgrades, shop, etc.) in RTYI?",
-        "What’s your rule-of-thumb for ‘easy coins’ versus ‘skill coins,’ and how do you distribute them across hub vs courses?",
-        "Do you plan explicit tutorial signage like SM64, or more implicit level design ‘coin breadcrumbs’ like you mentioned here?"
+        "When did you realize RTY wasn’t just a ROMhack anymore, but effectively a new engine/game—and was that an intentional goal or an emergent consequence of solving problems?",
+        "What are the hardest remaining ‘vanilla’ dependencies to replace (Mario actions, audio, remaining OS pieces), and what tradeoffs might that force on the game’s feel?",
+        "Do you actually want RTY to ever be ‘legally sellable,’ or is this more about technical pride and long-term maintainability?"
       ],
       "related_to": ["kaze"]
     }

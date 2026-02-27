@@ -1,87 +1,93 @@
 {
   "stream_context": {
-    "summary": "Kaze’s workflow is disrupted by Blender/Fast64 crashes that prevent opening the overworld .blend, prompting tool/version debugging with Lilaa’s suggested PR. Once unblocked, he continues overworld iteration: patches an unintended long-jump skip, places a save block, implements/adjusts an NPC (Boatrice) with fade-in opacity behavior, period-style placeholder dialogue, and conditional appearance across areas. He showcases updated emulator + real-N64 deployment (SC64) motivated by F3DEX3 updates, then prototypes a “destroyed Mech Bowser” setpiece with smoke particles and discusses Dory being chained/freeing to unlock the second overworld after the first Bowser star (with Yoshi riding on her).",
-    "level": ["Overworld", "Course 3"],
-    "significance": "notable",
-    "significance_reason": "A major toolchain failure temporarily blocks production (Blender/Fast64 incompatibility), followed by concrete overworld progress (skip patching, NPC logic/text) and an important technical showcase: updated emulator + direct ROM deployment to real N64 driven by F3DEX3 compatibility."
+    "summary": "Kaze battles a sudden Blender/Fast64 toolchain crash that blocks access to the overworld scene, troubleshoots versions/PR fixes to recover the file, then continues overworld iteration: closes an unintended long-jump skip, tests updated Project64 and F3DEX3 compatibility, verifies the game running on real N64 hardware via SC64 deployment, and implements new overworld NPC/state logic (Boatrice) plus plans for Dory/Plessie as the unlock for the second overworld.",
+    "level": ["Overworld"],
+    "significance": "milestone",
+    "significance_reason": "A workflow-threatening Fast64/Blender crash is diagnosed as Fast64-related and worked around; Kaze also demonstrates a practical real-hardware deployment pipeline (SC64 + HDMI-modded N64) and locks in key overworld progression beats (skip fix, Boatrice state machine, Dory unlocking overworld 2)."
   },
   "findings": [
     {
       "topic": "technical",
       "importance": "high",
-      "summary": "A recurring production-blocking issue emerges: Blender crashes when opening certain level .blend files when Fast64 is enabled; disabling Fast64 allows opening, pointing to Fast64/Blender API/version incompatibility rather than the scene itself.",
-      "quote": "If I can't open my level, how the fuck are we supposed to work?"
-    },
-    {
-      "topic": "technical",
-      "importance": "medium",
-      "summary": "Kaze confirms the crash has happened to at least two different levels, and he still doesn’t know the trigger (it appears to happen “randomly” even without obvious content changes), increasing risk to overworld progress and workflow reliability.",
-      "quote": null
-    },
-    {
-      "topic": "team",
-      "importance": "medium",
-      "summary": "Lilaa provides a potential Fast64 fix/PR and troubleshooting steps (including a fix related to running without Fast64 enabled), effectively serving as live tech support while Kaze attempts to recover access to the overworld file.",
+      "summary": "The level-editing workflow was blocked for ~30 minutes because Blender would crash when opening the overworld .blend; disabling Fast64 didn’t immediately resolve it, and appending the scene failed. Kaze concludes it’s a Fast64/Blender-version interaction affecting multiple levels, not an isolated file.",
       "quote": null
     },
     {
       "topic": "technical",
       "importance": "high",
-      "summary": "Kaze adopts an updated emulator (“Luna’s Project 64”), updated by Eclab, because F3DEX3 has been updated with features the project wants; older emulators were not compatible.",
-      "quote": null
+      "summary": "A community PR/fix (from Lilaa, referred to once as “Lina”) allowed the file to open under a newer Blender/Fast64 combination, but Kaze identifies constraints: newer Blender/Fast64 (4.5.x) can’t upgrade or work cleanly with older material setups, forcing careful version/tool selection.",
+      "quote": "So it is a Fast64 thing. So it is a Fast64 thing. So it is a Fast64 thing."
     },
     {
       "topic": "technical",
+      "importance": "medium",
+      "summary": "Kaze notes he keeps many Fast64 versions locally (“30 different versions”), implying the pipeline is brittle enough that rollback/side-by-side installs are necessary to keep production moving.",
+      "quote": null
+    },
+    {
+      "topic": "milestone",
       "importance": "high",
-      "summary": "Kaze demonstrates an end-to-end real hardware pipeline: with an HDMI-modded N64 and a Summercart64-based deployer script (SC64 deployer), he can click a script that uploads the ROM (and even a save file) directly to the N64 for testing.",
+      "summary": "Kaze shows an updated emulator build (“Luna’s Project64,” updated for him by Eclab) because a newer F3DEX3 update introduced features the project wants, and older emulators were incompatible.",
+      "quote": null
+    },
+    {
+      "topic": "milestone",
+      "importance": "high",
+      "summary": "Kaze verifies RTYI running on original N64 hardware (what he calls “Unreal Hardware”), using a Summercats HDMI mod and an SC64 deployer workflow that can upload ROMs (and even saves) directly via a script.",
       "quote": "Playing this on Unreal Hardware is like half the point."
     },
     {
       "topic": "design",
       "importance": "high",
-      "summary": "Overworld progression is being actively protected against sequence breaks: Kaze discovers you can long-jump to skip an entire “second Bowser area” and alters geometry (“form follows function” on a rock formation) to block the skip; he later confirms the skip no longer works.",
+      "summary": "He fixes a major overworld exploit: Mario could long-jump to skip the entire “second Bowser area.” Kaze redesigns the rock/geometry (“form follows function”) to block the shortcut and then tests the skip to confirm it’s patched.",
       "quote": null
     },
     {
       "topic": "design",
       "importance": "medium",
-      "summary": "He adds/chooses placement for a save block in the overworld area to support pacing and player convenience, especially around the Bowser-area progression.",
+      "summary": "Kaze adds/places a save block in the area and later decides a ground-poundable object interaction should also trigger a save because it feels satisfying and marks progress.",
+      "quote": null
+    },
+    {
+      "topic": "design",
+      "importance": "medium",
+      "summary": "Kaze rethinks an optional blue-coin switch because it detracts from the main beat (Boatrice). He replaces it with a single blue coin to keep the space active without stealing focus.",
       "quote": null
     },
     {
       "topic": "design",
       "importance": "high",
-      "summary": "Kaze implements an NPC encounter (Boatrice) with conditional logic: she fades in when you approach/talk, disappears permanently after interaction, and then appears in another area (Rainbow Grotto) where her husband lives; she is intended to appear only after a mission state involving Boonarch/Bullet Trees.",
+      "summary": "He implements Boatrice as an overworld NPC with story-gated state: she’s initially hidden/transparent, fades in when approached/talked to, then disappears permanently and reappears later in “Rainbow Grotto” near her husband. Kaze begins drafting old-fashioned dialogue, acknowledging Biobak is stronger at writing text.",
+      "quote": null
+    },
+    {
+      "topic": "technical",
+      "importance": "medium",
+      "summary": "Boatrice’s transparency introduces render-order artifacts (limbs/face draw order). Kaze accepts this as mostly visible only during opacity transitions and tweaks opacity behavior (e.g., 1–10% before story completion) to minimize the noticeable glitch.",
       "quote": null
     },
     {
       "topic": "design",
       "importance": "medium",
-      "summary": "Kaze drafts placeholder dialogue for Boatrice with an “old-timey/1800s” voice (e.g., calling Mario “young lad”), and explicitly notes Biobak is usually better at writing these texts—implying narrative/dialogue is a collaborative iteration point.",
+      "summary": "Kaze states a content rule: RTYI avoids referencing Mario games beyond the N64 era (no later-era callbacks/power moons), positioning RTYI as a more direct N64-feeling sequel rather than a reference-heavy remix.",
+      "quote": "We’re not referencing Mario games after Mario 64, or after the N64."
+    },
+    {
+      "topic": "technical",
+      "importance": "medium",
+      "summary": "Performance/asset constraints come up during model review: Kaze reacts to a stylized Shy Guy model (~328 triangles) as high compared to typical SM64 enemy budgets (~140 triangles), reinforcing a recurring optimization target mindset.",
       "quote": null
     },
     {
-      "topic": "philosophy",
+      "topic": "milestone",
       "importance": "medium",
-      "summary": "Kaze sets a reference boundary: the hack avoids overt references to post-N64 Mario entries; he rejects the idea of inserting later-series references (e.g., Power Moons) and frames RTYI as a more direct ‘proper sequel’ in spirit.",
-      "quote": "We're not referencing Mario games after Mario 64, or after the N64."
-    },
-    {
-      "topic": "design",
-      "importance": "medium",
-      "summary": "He revises an interaction in the same hub area: removes a blue coin switch idea that distracted from the main focal character/beat (Boatrice/Boitris), replacing it with a simpler single blue coin to avoid undermining the setpiece.",
+      "summary": "Kaze outlines a core progression plan: Dory/Plessie will be chained/anchored until the first Bowser star; after that she’s freed and becomes the traversal vehicle to reach and unlock the second overworld, with Yoshi riding on her back.",
       "quote": null
     },
     {
-      "topic": "design",
-      "importance": "high",
-      "summary": "A major overworld gate is outlined: Dory is chained/anchored in the lake until the first Bowser star; after beating the first Bowser, Dory becomes free and functions as a ride (with Yoshi on her back) to reach/unlock the second overworld. Kaze considers an anchor (with a Bowser symbol) as a humorous, readable restraint prop.",
-      "quote": null
-    },
-    {
-      "topic": "design",
+      "topic": "team",
       "importance": "medium",
-      "summary": "Kaze prototypes a post-progression environmental change: a ‘Mech Bowser’ robot should appear destroyed after reaching/completing the first Bowser level, using smoke particles and potentially an animation of failing to recover; he also likes the idea of making ground-pounding it feel satisfying and trigger a save.",
+      "summary": "Kaze mentions Biobak is doing a broad rework pass across the game’s levels (at the moment focusing on “Ice Cap”), affecting what Kaze chooses to fix now versus waiting for incoming updates.",
       "quote": null
     }
   ],
@@ -90,13 +96,7 @@
       {
         "topic": "team",
         "importance": "medium",
-        "summary": "Kaze credits Biobak as typically providing stronger dialogue/text ideas than Kaze’s placeholders, suggesting text/narrative polish is a known division of strengths.",
-        "quote": null
-      },
-      {
-        "topic": "milestone",
-        "importance": "medium",
-        "summary": "Kaze reports Biobak is doing a broad rework pass across levels and is currently working on the Ice Cap level, implying a parallel track of level redesign happening off-stream.",
+        "summary": "Biobak is reportedly “doing a rework of every level,” and at this moment is working on the Ice Cap level, which changes Kaze’s priorities (he avoids fixing certain issues until Biobak’s update lands).",
         "quote": null
       }
     ],
@@ -104,19 +104,19 @@
     "zeina": [],
     "others": [
       {
-        "name": "Lilaa",
+        "name": "Lilaa (referred to once as “Lina”)",
         "findings": [
           {
             "topic": "technical",
             "importance": "high",
-            "summary": "Lilaa shares a potential Fast64 PR/fix and guides Kaze through troubleshooting Blender/Fast64 crashes that prevent opening level files, directly influencing Kaze’s ability to continue production that day.",
+            "summary": "Provided or linked a PR/fix to address the Blender/Fast64 crash that prevented opening the overworld .blend, and advised on version/PR selection (e.g., “4.5 fixed PR”).",
             "quote": null
           },
           {
             "topic": "technical",
             "importance": "medium",
-            "summary": "Lilaa discusses performance constraints at the RSP level (triangle rendering bottleneck relates to memory transfers), informing Kaze’s thinking around model triangle counts and rendering strategy.",
-            "quote": null
+            "summary": "Kaze asks Lilaa for Fast64 usability improvements (e.g., adding a GeoASM hook before the first armature spawn) and for Blender UX help after cursor behavior changes in newer Blender versions.",
+            "quote": "That’s actually a huge usability issue if you can’t write a define in here."
           }
         ]
       },
@@ -126,7 +126,7 @@
           {
             "topic": "technical",
             "importance": "medium",
-            "summary": "Kaze uses an updated emulator build (‘Luna’s Project 64’) that Eclab has updated for the team’s needs, tied to F3DEX3 compatibility.",
+            "summary": "Updated Kaze’s emulator build (“Luna’s Project64”) to support recent F3DEX3 changes and features that RTYI wants to use, because previous emulators weren’t compatible.",
             "quote": null
           }
         ]
@@ -136,99 +136,98 @@
   "memorable_quotes": [
     {
       "speaker": "Kaze",
-      "quote": "Man, having the overworld mostly in the game feels good. It's like now I'm playing an actual game.",
-      "context": "After struggling with tools and iteration, Kaze describes the emotional payoff of the overworld becoming cohesive and playable—key to the ‘building a new game on old tech’ theme."
+      "quote": "Man, having the overworld mostly in the game feels good. It’s like now I’m playing an actual game.",
+      "context": "Said early while traversing the overworld, capturing a shift from “dev project” to “playable world,” which is a strong documentary beat about morale and momentum."
     },
     {
       "speaker": "Kaze",
       "quote": "Playing this on Unreal Hardware is like half the point.",
-      "context": "While showing the ROM running on a real N64 via SC64 deployment, he frames real-hardware authenticity as central to the project’s identity."
+      "context": "During the real-N64 demonstration, framing hardware authenticity as a core motivation—not a bonus feature."
     },
     {
       "speaker": "Kaze",
-      "quote": "We're not referencing Mario games after Mario 64, or after the N64.",
-      "context": "A clear creative boundary on references and tone, positioning RTYI as a respectful N64-era ‘sequel’ rather than a franchise mashup."
+      "quote": "Don’t put real in quotation marks, this is literally just an N64.",
+      "context": "He pushes back on chat skepticism while showing HDMI-modded hardware footage, reinforcing the project’s “no tricks” ethos."
     }
   ],
   "key_stories": [
     {
-      "title": "Toolchain failure blocks overworld work",
-      "summary": "Kaze begins the stream unable to open the overworld in Blender because the level-editing toolchain crashes. After trying multiple Blender/Fast64 combinations and workarounds, he determines the crash is tied to Fast64 being enabled and eventually regains the ability to continue editing.",
-      "challenge": "Blender + Fast64 crashes prevent opening the overworld .blend, stalling development and risking loss of progress.",
-      "process": "He disables Fast64/Fast64 Render, tries alternate versions, attempts append workflows, checks version mismatches, and uses Lilaa’s suggested PR/fix path; he compares behavior with Fast64 enabled vs disabled to isolate cause.",
-      "outcome": "Work resumes, with Kaze concluding it’s a Fast64-related issue and noting it has happened on multiple levels, making it a recurring production risk.",
-      "key_quote": "If I can't open my level, how the fuck are we supposed to work?",
+      "title": "Fast64/Blender crash blocks the overworld workflow",
+      "summary": "The stream opens with a sudden production-stopping tool failure: Kaze can’t open the overworld Blender file, and even appending scenes doesn’t work. The recovery becomes a real-time example of how fragile ROM-hack tooling can be—and how the team relies on community fixes to keep moving.",
+      "challenge": "Blender crashes when opening the overworld .blend (and at least one other level), preventing any level editing and threatening overworld progress.",
+      "process": "Kaze tests disabling Fast64/Fast64 Render, tries appending into a new file, experiments with multiple Blender/Fast64 versions (4.2.x vs 4.5.x), and applies a community PR/fix. He diagnoses it as a Fast64-related issue with version-specific limitations around older materials.",
+      "outcome": "He regains access to the level and continues development, but leaves the stream with evidence the pipeline is brittle and may recur across levels/tool versions.",
+      "key_quote": "If I can’t open my level, how the fuck are we supposed to work?",
       "related_to": ["kaze"]
     },
     {
-      "title": "Real N64 test-and-deploy loop becomes a core workflow",
-      "summary": "Kaze showcases testing RTYI on a real N64 (‘Unreal Hardware’) and explains the convenience pipeline: a script can deploy the ROM (and saves) directly to hardware. This is motivated by needing emulator support for newly updated F3DEX3 features.",
-      "challenge": "Maintaining accurate testing on real N64 while adopting newer rendering features (F3DEX3) that older emulators may not support.",
-      "process": "He switches to an updated Project64 variant, then demonstrates SC64 deployment to a HDMI-modded N64 and confirms the game runs there with strong visual output.",
-      "outcome": "A validated, repeatable real-hardware deployment loop that supports the project’s authenticity goals and technical roadmap.",
-      "key_quote": "Don't put real in quotation marks, this is literally just an N64.",
+      "title": "Real N64 deployment becomes part of the dev loop",
+      "summary": "Mid-stream, Kaze demonstrates RTYI running on original N64 hardware and explains a fast deploy workflow. This is a “proof of reality” moment: performance, visuals, and even upload tooling are validated outside emulation, strengthening the project’s authenticity theme.",
+      "challenge": "New F3DEX3 updates require emulator compatibility changes, and the project’s goal includes running on original hardware reliably.",
+      "process": "Kaze switches to “Luna’s Project64” (updated by Eclab for F3DEX3 compatibility), then shows a Summercats HDMI-modded N64 setup and an SC64 deployer script that uploads ROMs (and saves) to the console.",
+      "outcome": "RTYI is shown running on an actual N64 with a repeatable upload pipeline, reinforcing hardware-first validation as a development pillar.",
+      "key_quote": "Don’t put real in quotation marks, this is literally just an N64.",
       "related_to": ["kaze"]
     },
     {
-      "title": "Overworld gating: Dory + Yoshi unlock the second overworld",
-      "summary": "Kaze outlines a progression gate where Dory is physically restrained (chained/anchored) until the player earns the first Bowser star. After that milestone, Dory is freed and becomes the transport to the next overworld section, with Yoshi positioned on Dory’s back to signal progression.",
-      "challenge": "Create a readable, diegetic lock-and-key that prevents early access while feeling rewarding and thematically fitting the overworld.",
-      "process": "He chooses a ‘humorous but clear’ anchor/chain restraint (possibly with Bowser iconography), considers placement to avoid unintended warps/skips, and plans the scripting needed to change Dory’s state after the Bowser milestone.",
-      "outcome": "A concrete progression concept ready for implementation; next steps are programming Dory’s behavior and placing Yoshi appropriately.",
+      "title": "Blocking an unintended overworld skip (form follows function)",
+      "summary": "Kaze finds a traversal exploit that lets players long-jump over geometry to skip a major overworld section (“second Bowser area”). He treats it as a design/structure problem and reshapes the environment to enforce intended progression.",
+      "challenge": "Players can long-jump past the second Bowser area, bypassing content and potentially breaking progression.",
+      "process": "Kaze remodels/adjusts the rock and collision so the jump line no longer works, then repeatedly tests the long-jump route to verify the fix.",
+      "outcome": "The skip is no longer achievable in testing, restoring intended pacing and gating.",
       "key_quote": null,
       "related_to": ["kaze"]
+    },
+    {
+      "title": "Boatrice: a story-gated NPC with fade-in visibility and relocation",
+      "summary": "Kaze implements a new overworld character (Boatrice) with state-driven appearance rules, including transparency and relocation after conversation. The segment shows how story beats get translated into N64-era engine constraints (opacity, draw order, text IDs).",
+      "challenge": "Make an NPC that feels mysterious (initially hidden/transparent), becomes interactable, then disappears and later reappears elsewhere—without modern engine conveniences.",
+      "process": "Kaze adds fade-in behavior tied to proximity/dialogue, handles render-order artifacts during transparency transitions, assigns text box IDs (working around parameter mistakes), and drafts placeholder “old-timey” dialogue. He removes/adjusts shadow and hover speed to fit the character.",
+      "outcome": "Boatrice can be talked to; she fades in during dialogue, then disappears and is set to appear later in Rainbow Grotto near her husband. Text is functional but explicitly not final.",
+      "key_quote": null,
+      "related_to": ["kaze", "biobak"]
     }
   ],
   "open_questions": [
     {
       "topic": "Fast64/Blender crash trigger and prevention",
-      "context": "Kaze reports multiple levels becoming unopenable with Fast64 enabled, with unclear triggers and significant risk to ongoing overworld work.",
+      "context": "Kaze experiences repeat crashes opening certain .blend level files, believes it’s Fast64-related, and notes it’s the second level affected. He works around it via version/PR juggling, but doesn’t identify a root cause.",
       "questions": [
-        "What specific scene data or Fast64 feature tends to corrupt/trigger the crash (materials, armatures, GeoASM, node graphs, texture settings, Blender version bumps)?",
-        "Did you end up adopting a specific Fast64 PR/commit or pinning Blender/Fast64 versions to stabilize production?",
-        "What safeguards did you add afterward (e.g., file splitting, scene partitioning, export-only workflows, CI checks) to prevent losing access to key .blend files?"
-      ],
-      "related_to": ["kaze", "biobak"]
-    },
-    {
-      "topic": "GeoASM insertion limitations for armatures/skinning",
-      "context": "Kaze asks Lilaa whether Fast64 can add a GeoASM before an armature’s first spawn; he calls the limitation a major usability issue and connects it to skinning/animation setup.",
-      "questions": [
-        "What gameplay/visual feature required GeoASM-before-armature (dynamic materials, render state changes, opacity control, LOD, etc.)?",
-        "Was this resolved in Fast64, and if so what was the solution (tool update vs engine workaround)?",
-        "How often did Fast64’s armature/Geo layout constraints shape RTYI character design (triangle budgets, shading, outlines)?"
+        "What specifically corrupted or destabilized the Blender scene—materials, armatures, plugin state, or a Blender API change?",
+        "How often has this happened across RTYI, and did it ever permanently cost work?",
+        "Do you now have a standard “safe workflow” (versions pinned, export steps, CI checks) to prevent this from happening again?"
       ],
       "related_to": ["kaze"]
     },
     {
-      "topic": "F3DEX3 adoption details and emulator/hardware constraints",
-      "context": "Kaze upgrades to a custom Project64 build due to F3DEX3 updates and demonstrates hardware testing as a project priority.",
+      "topic": "F3DEX3 update: which features RTYI is betting on",
+      "context": "Kaze says F3DEX3 was updated with “cool new features” the team wants, and he needed a new emulator to be compatible.",
       "questions": [
-        "Which F3DEX3 features were ‘must-haves’ for RTYI (new combiner functionality, performance gains, new display list commands, texture formats)?",
-        "What were the concrete incompatibilities with older emulators, and how did that affect your QA process?",
-        "How much did real-hardware testing change design decisions (triangle budgets, particle counts, large-triangle water issues)?"
+        "Which specific F3DEX3 features are you using (or planning to use), and what do they enable visually or performance-wise?",
+        "Did adding F3DEX3 features force any tradeoffs (compatibility, debugging difficulty, stricter budgets)?",
+        "How do you decide when a renderer/toolchain upgrade is worth the risk during production?"
       ],
       "related_to": ["kaze"]
     },
     {
-      "topic": "Overworld anti-skip policy and iteration methods",
-      "context": "Kaze discovers and patches a long-jump skip that bypassed a Bowser-area segment, describing it as a major issue.",
+      "topic": "Hardware-first development: how it changes decisions",
+      "context": "Kaze demonstrates SC64-based deployment and insists real N64 playability is central to the project’s purpose.",
       "questions": [
-        "What’s your general rule for sequence breaks in RTYI—when do you embrace them vs patch them?",
-        "How do you systematically test for movement-based skips (internal checklists, playtesters, intentional ‘speedrunner testing’)?",
-        "How often do geometry fixes (‘form follows function’) force aesthetic compromises, and who decides the final tradeoff?"
+        "At what milestones do you require real-hardware verification (per level, per feature, per release candidate)?",
+        "What problems only show up on-console (timing, RSP/RDP bottlenecks, depth issues, artifacts) that emulation misses?",
+        "How did the SC64 workflow change your productivity compared to older flashcart/testing methods?"
       ],
-      "related_to": ["kaze", "biobak"]
+      "related_to": ["kaze"]
     },
     {
-      "topic": "Boatrice/Boitris narrative purpose and state machine",
-      "context": "Boatrice fades in on approach/talk, disappears after interaction, then appears again in Rainbow Grotto; her dialogue references being watched by a ‘big metal dragon’ (Bowser statue).",
+      "topic": "Overworld 2 unlock design (Dory/Plessie + Yoshi) and anti-skip constraints",
+      "context": "Kaze describes Dory being chained/anchored until the first Bowser star, then freed to carry Yoshi and serve as the vehicle to reach the second overworld. He’s concerned about placement enabling warps/skips.",
       "questions": [
-        "What is Boatrice’s intended role in the overworld—tutorialization, lore tone-setting, hinting, or emotional texture?",
-        "What exact conditions control her visibility (talked-to Bullet Trees, finished Boonarch mission, Bowser statue removed, star flags), and how did you implement it technically?",
-        "How did Biobak’s text revisions change the character’s voice and the scene’s tone compared to Kaze’s placeholder ‘1800s’ style?"
+        "Why make Dory the unlock for overworld 2—what feeling or story beat are you aiming for compared to a door/key/portal?",
+        "How will you prevent sequence breaks once players can interact with Dory (warps, unintended ledges, speedrun movement)?",
+        "What will the ‘freeing’ moment look like mechanically and cinematically on N64 constraints?"
       ],
-      "related_to": ["kaze", "biobak"]
+      "related_to": ["kaze"]
     }
   ]
 }

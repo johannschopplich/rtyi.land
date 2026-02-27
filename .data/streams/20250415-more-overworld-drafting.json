@@ -1,88 +1,94 @@
 {
   "stream_context": {
-    "summary": "Kaze drafts the overworld’s progression structure: deciding how many overworld secret stars/events are needed to hit the game’s target star count, designing NPC/event beats that permanently change the overworld, and checking which levels can “spill” characters back into the hub. In parallel, he shares major ongoing work refactoring Mario 64’s audio engine (performance/maintainability), explains streamed vs sequenced music tradeoffs for a ~120-track soundtrack, and discusses Nintendo takedown risk and contingency plans.",
+    "summary": "Kaze drafts the overworld’s structure, events, and secret stars while previewing Badub’s overworld music pack (designed to transition seamlessly between regions). In parallel, he vents about and details ongoing large-scale refactors of Mario 64’s audio engine (and broader engine/OS pieces), emphasizing real-N64 performance constraints and resisting feature creep (e.g., day/night cycle, item-carry missions). The stream also surfaces late-project scope/status (first drafts of main levels done) and legal/business contingencies around Nintendo takedowns.",
     "level": ["Overworld"],
-    "significance": "notable",
-    "significance_reason": "Introduces several concrete overworld event designs (Dojo hint NPC + secret, melon farm Shy Guy raid with permanent aftermath, Bowser yacht access gating), clarifies star-count targets (177 planned aiming at 180, possible 200), and contains unusually candid technical and legal commentary (audio engine refactor rationale; DMCA/takedown contingency)."
+    "significance": "milestone",
+    "significance_reason": "Kaze states the first draft of all main levels is essentially complete, outlines remaining release-critical work (beta testing, bugfixing, engine refactors), and locks in multiple overworld “event” concepts (dojo hint NPC, melon raid with permanent world change) alongside star-count targets (180 vs 200)."
   },
   "findings": [
     {
       "topic": "technical",
       "importance": "high",
-      "summary": "Kaze has been spending the prior week refactoring Mario 64’s audio engine, describing it as highly redundant, inconsistent across versions, and performance-wasteful; he cites a specific example of an unnecessary float multiply happening on every audio node every tick.",
-      "quote": "I used to think the audio code in Mario 64 was like the most competent part of the game, but after reading basically all of it, I gotta say, like this is dogshit."
+      "summary": "Kaze has been spending the prior week refactoring Mario 64’s audio engine, describing widespread redundancy and inefficiency (e.g., expensive per-tick operations that effectively do nothing) and saying the code structure creates frequent volume/behavior bugs.",
+      "quote": null
     },
     {
       "topic": "technical",
       "importance": "high",
-      "summary": "Soundtrack implementation uses a hybrid approach: streamed audio for quality/performance and sequenced (MIDI-like) tracks for size constraints. With ~63–99 songs already present and an estimated ~120 final tracks, the game cannot be stream-only due to storage limits.",
-      "quote": "Stream music sounds better and performs better, but it’s so big that we can’t have it for the entire game."
-    },
-    {
-      "topic": "design",
-      "importance": "high",
-      "summary": "Overworld goal is a large, seamless-feeling open world (no visible loading zones) with area music that fades/transitions smoothly when entering new regions.",
-      "quote": "This is also all going to be one open world with no loading zones. Well, there are going to be loading zones but no visible loading zones."
-    },
-    {
-      "topic": "design",
-      "importance": "high",
-      "summary": "Kaze rejects adding a day–night cycle despite temptation because it would be expensive (vertex/color changes across the whole overworld), hard to make look good, and lacks clear gameplay purpose; he ties this to a broader philosophy of not adding mechanics just because they’re “cool.”",
-      "quote": "It is tempting to look at the game you’re making and to be like, ‘Let’s throw in every cool mechanic that I know of,’ but I don’t think that gets you a good game."
-    },
-    {
-      "topic": "design",
-      "importance": "high",
-      "summary": "Concrete overworld event concept: a Yoshi Dojo containing an “elder Yoshi” joke fight used as a hint system. You must “beat” him (minimal mechanics) to receive ordered hints about overworld secret stars/hidden levels you’ve already unlocked access to; the first hint points to a secret star inside the dojo itself (e.g., a fake spinning door).",
+      "summary": "He’s chasing at least one hardware-only bug that requires the game to run for ~6.5 days before it appears; he keeps an N64 running continuously to capture footage.",
       "quote": null
     },
     {
       "topic": "design",
-      "importance": "medium",
-      "summary": "Concrete overworld event concept: a melon-farm area where Shy Guys with spears attack a melon-farmer Yoshi at a certain star count. The event should leave a permanent overworld change as a reminder—current idea is the farmer later plants a potted Piranha Plant ‘trained to eat Shy Guys.’",
-      "quote": "We want this to have a permanent effect on the overworld, so remember that the event happened."
-    },
-    {
-      "topic": "design",
-      "importance": "medium",
-      "summary": "Overworld gating/expansion concept: after clearing an oil-spill-related boss (Oily Boily Bay), the water becomes swimmable and a manta ray can appear to carry the player to Bowser’s yacht level. Kaze frames Bowser’s role in this hack as explicitly capitalist (oil rig, theme park, yacht, possibly golf course).",
-      "quote": "Bowser’s a capitalist in this game. He has a theme park and he has an oil rig."
-    },
-    {
-      "topic": "milestone",
-      "importance": "medium",
-      "summary": "Project status: first draft of all main levels is done; one area in Course 13 remains because Zeina is detailing it. Kaze says he finished Courses 14 and 15 while Zeina worked.",
+      "importance": "high",
+      "summary": "Badub’s “RTYI overworld pack” is intended to make overworld music fade/transition smoothly as the player crosses into new regions, aiming for an uninterrupted, theme-park-like open-world flow.",
       "quote": null
-    },
-    {
-      "topic": "milestone",
-      "importance": "medium",
-      "summary": "Testing status: beta testing is planned to run in parallel with reworks and audio work. Courses 3 and 11 have been tested; Course 3 is “good to go,” Course 11 less certain.",
-      "quote": null
-    },
-    {
-      "topic": "design",
-      "importance": "medium",
-      "summary": "Star-count planning is actively constrained. Current plan is ~177 stars planned toward a target of 180; Kaze considers 200 as a “nice number” but worries it would require low-quality filler overworld secrets. He notes the overworld currently has 18 overworld stars planned out of a target 21 (to support 180).",
-      "quote": "Right now 177 stars are planned. But we want 180 stars in the game."
     },
     {
       "topic": "technical",
       "importance": "medium",
-      "summary": "Performance targets drive multiple decisions: Kaze reiterates a constant 30 FPS goal on real N64 hardware and estimates the overworld could total ~50,000 polygons; he avoids ideas likely to exceed cycle budgets.",
-      "quote": "The objective is constant 30 FPS on real N64."
+      "summary": "RTYI will use a mix of streamed audio and sequenced (MIDI-style) music: streamed sounds better and can be cheaper to play, but file size prevents using it everywhere. Kaze says the project already has ~99 songs in-game and expects ~120 total.",
+      "quote": null
+    },
+    {
+      "topic": "design",
+      "importance": "high",
+      "summary": "Performance targets are explicit: Kaze wants a constant 30 FPS on real N64 hardware and estimates the overworld will be ~50,000 polygons total, shaping which visual systems (like dynamic lighting/day-night) are worth the cost.",
+      "quote": null
+    },
+    {
+      "topic": "design",
+      "importance": "high",
+      "summary": "Kaze rejects adding a day/night cycle because making it look good would require costly dynamic vertex-color changes across the overworld and it would have limited gameplay purpose. He frames this as resisting the temptation to add ‘cool mechanics’ that don’t serve the game.",
+      "quote": "It is tempting to look at the game you’re making and be like, ‘Let’s throw in every cool mechanic that I know of,’ but I don’t think that gets you a good game."
+    },
+    {
+      "topic": "milestone",
+      "importance": "high",
+      "summary": "Project status: the first draft of all main levels is done (15-level scope unchanged). One area in Course 13 remains unfinished because Zeina is detailing it; Kaze finished Courses 14 and 15 meanwhile. Courses 3 and 11 have already been playtested to some degree (Course 3 “for sure” good; Course 11 “maybe not”).",
+      "quote": null
+    },
+    {
+      "topic": "design",
+      "importance": "high",
+      "summary": "Overworld progression is increasingly built around persistent events and characters that appear/change after milestones (e.g., after festivals, after bosses, or at certain star counts) so the overworld visibly “fills in” as you play.",
+      "quote": null
+    },
+    {
+      "topic": "design",
+      "importance": "medium",
+      "summary": "Star-count planning: Kaze discusses pushing from 180 to 200 total stars purely for a round number, but worries it would require low-quality filler. At this point he cites ~177 planned stars and says they want 180; he expects remaining stars to ‘naturally come up’ during polishing and overworld iteration.",
+      "quote": null
+    },
+    {
+      "topic": "design",
+      "importance": "medium",
+      "summary": "He avoids missions that rely on Mario carrying items long distances, calling it an easy design crutch that usually isn’t fun; this constraint shapes how overworld events are structured.",
+      "quote": null
     },
     {
       "topic": "legal-nintendo",
-      "importance": "medium",
-      "summary": "Kaze reacts to frequent viewer claims that Nintendo will inevitably take the project down. He frames a contingency: if forced, he would remove Nintendo IP characters (Mario/Goombas/Yoshis), rebrand as an original game, and continue. He also discusses that videos may be defensible as criticism, while acknowledging takedown risk.",
-      "quote": "If I make a video called ‘The Mario 64 audio system is fucked,’ people will fucking kill me."
+      "importance": "high",
+      "summary": "In response to frequent comments predicting Nintendo takedowns, Kaze lays out a contingency: if forced, he can strip Nintendo IP (Mario/Goombas/Yoshis) and release a standalone game. He also cites his history: many videos were taken down but restored on appeal, and only one project was truly taken down (The Missing Link).",
+      "quote": "I will remove Mario from the game. And the Goombas. And the Yoshis. And I will make them my own characters. And then instead of a romhack, I will release a video game."
     },
     {
       "topic": "business",
       "importance": "medium",
-      "summary": "Kaze states that making YouTube videos is a practical necessity to generate profit to pay collaborators; having an editor and sponsors has made it easier to keep up output despite disliking the process.",
-      "quote": "I don’t like having to make videos. But it is the only way I can make any profit out of this, and pay the people that help me."
+      "summary": "Kaze says making videos is a “necessary evil” because it’s his primary way to earn money to pay collaborators; having an editor and sponsors has made producing content easier.",
+      "quote": null
+    },
+    {
+      "topic": "design",
+      "importance": "medium",
+      "summary": "Character/world tone decisions surface: Bowser is framed as a “capitalist” villain with a theme park and oil rig, and Kaze explores a yacht level unlocked via cleaning an oil spill and riding a manta ray; he also plans visible cross-area landmarks (e.g., a freefall tower visible from afar) to provoke curiosity and gating.",
+      "quote": null
+    },
+    {
+      "topic": "design",
+      "importance": "medium",
+      "summary": "Kaze plans an overworld character arc for Boshi: initially isolated/angsty on a remote ledge doing “shooting practice,” then later (high star count threshold) softening and giving the player a star after an interaction, so the overworld reflects narrative growth.",
+      "quote": null
     }
   ],
   "contributor_findings": {
@@ -90,33 +96,33 @@
       {
         "topic": "design",
         "importance": "medium",
-        "summary": "Biobak prompts discussion about reusing one-off level mechanics (e.g., Baby Yoshi head) for side courses; Kaze agrees this has potential and compares it to Mario Sunshine’s small “single mechanic” challenges.",
+        "summary": "Biobak’s chat prompts Kaze to consider reusing one-off level mechanics as small ‘side courses’ built around a single gimmick (similar to Sunshine-style challenge rooms), rather than as upgrades that could break main levels.",
         "quote": null
       },
       {
         "topic": "design",
         "importance": "medium",
-        "summary": "Biobak’s earlier/ongoing concepts are referenced as part of overworld planning, including a “conspiracy theory Yoshi” idea and Boss/Boshi follow-up presence in the overworld after his level (so he doesn’t just vanish).",
+        "summary": "Biobak appears tied to planned ‘conspiracy Yoshi’ content/secret entrance ideas; Kaze treats it as still on the table even if asset sharing is limited.",
         "quote": null
       },
       {
-        "topic": "design",
-        "importance": "medium",
-        "summary": "Biobak directly influences a new character arc plan for Boshi: an initially antisocial post-duel overworld NPC who later softens after a high star threshold and gives a star after an interaction (e.g., answering questions / target practice).",
-        "quote": "We are going to give Boshi character growth and the character arc."
+        "topic": "milestone",
+        "importance": "low",
+        "summary": "Kaze references waiting on Biobak to finish multiple level reworks before final polishing and beta-feedback passes.",
+        "quote": null
       }
     ],
     "badub": [
       {
-        "topic": "milestone",
+        "topic": "design",
         "importance": "high",
-        "summary": "Badub provides an ‘RTYI overworld pack’ of ~20 overworld songs designed to transition/fade into each other by region, supporting the seamless open-world feel.",
-        "quote": "He has made I think almost 20 songs for the overworld, and they’re all gonna transition into each other."
+        "summary": "Badub has composed a large set of overworld tracks (Kaze estimates ~20 for overworld alone) intended to transition into each other as the player moves between regions.",
+        "quote": null
       },
       {
-        "topic": "design",
+        "topic": "technical",
         "importance": "medium",
-        "summary": "Badub also provides ambient and environmental SFX (rain, seagulls, jungle/ocean/creature sounds) that Kaze plans to place directionally throughout the overworld for atmosphere and location identity.",
+        "summary": "Badub also provided ambient/positional sound effects (rain, seagulls, jungle ambience, ocean waves, thunder, creature calls) that Kaze plans to place directionally around the overworld to increase liveliness and spatial feel.",
         "quote": null
       }
     ],
@@ -124,118 +130,129 @@
       {
         "topic": "milestone",
         "importance": "medium",
-        "summary": "Zeina is responsible for a missing area in Course 13, adding detail while Kaze progressed on other courses; her work is the main stated reason one portion of the main set is still incomplete.",
+        "summary": "One area in Course 13 is intentionally left for Zeina to complete with higher-detail art pass while Kaze proceeds with other courses (he says 14 and 15 are done).",
         "quote": null
       }
     ],
-    "others": []
+    "others": [
+      {
+        "name": "Death Wizard",
+        "findings": [
+          {
+            "topic": "technical",
+            "importance": "medium",
+            "summary": "Kaze cites Death Wizard’s documentation of audio bugs varying across JP/US/PAL/Shindou versions, using it as evidence the audio system remained fragile despite multiple attempts/ports.",
+            "quote": null
+          }
+        ]
+      }
+    ]
   },
   "memorable_quotes": [
     {
       "speaker": "Kaze",
-      "quote": "It was clearly written by like five different guys that completely forgot what the other three guys were writing.",
-      "context": "Kaze characterizes the Mario 64 audio engine’s internal inconsistency and redundancy as a key reason he’s refactoring it."
+      "quote": "I used to think the audio code in Mario 64 was the most competent part of the game, but after reading basically all of it, I’ve gotta say: this is dogshit.",
+      "context": "He’s justifying a major audio-engine refactor by arguing the original system is redundant, inconsistent, and actively hostile to clean fixes."
     },
     {
       "speaker": "Kaze",
-      "quote": "It is tempting to look at the game you’re making and to be like, ‘Let’s throw in every cool mechanic that I know of,’ but I don’t think that gets you a good game.",
-      "context": "Design philosophy used to justify cutting a day–night cycle and other expensive features that don’t serve gameplay."
+      "quote": "It is tempting to look at the game you’re making and be like, ‘Let’s throw in every cool mechanic that I know of,’ but I don’t think that gets you a good game.",
+      "context": "He rejects a day/night cycle and frames it as a broader anti-feature-creep philosophy anchored in performance and purpose."
     },
     {
       "speaker": "Kaze",
-      "quote": "This is also all going to be one open world with no loading zones. Well, there are going to be loading zones but no visible loading zones.",
-      "context": "High-level overworld vision: a large hub with hidden streaming/loading and seamless music transitions."
+      "quote": "I will remove Mario from the game. And the Goombas. And the Yoshis. And I will make them my own characters. And then instead of a romhack, I will release a video game.",
+      "context": "He responds to recurring ‘Nintendo will take you down’ comments with a concrete contingency plan that reframes the project’s endgame."
     }
   ],
   "key_stories": [
     {
-      "title": "Refactoring the Mario 64 audio engine",
-      "summary": "Kaze describes spending a week deep-reading Mario 64’s audio system and concluding it is far more redundant and bug-prone than he previously assumed. He gives concrete examples (wasted per-tick math, triplicated logic, multiple competing volume caps) and frames refactoring as necessary for stability, performance, and future development.",
-      "challenge": "The original audio engine has redundant code paths and inconsistent behavior across versions, making fixes difficult and causing recurring bugs.",
-      "process": "Audit the full audio code, identify redundancies and expensive no-op operations, and refactor toward a cleaner, more controllable system; gather long-duration hardware footage for hard-to-reproduce issues.",
-      "outcome": "Refactor is in progress and ‘slowly getting better,’ with a clearer understanding of why audio bugs keep appearing and what must be simplified next.",
-      "key_quote": "Every functionality is tripled up on.",
+      "title": "Refactoring Mario 64’s audio engine while chasing a multi-day hardware bug",
+      "summary": "Kaze describes an ongoing effort to ‘unfuck’ Mario 64’s audio engine, arguing it’s riddled with redundancies and conflicting systems that create region-specific bugs. The work isn’t academic: he’s chasing at least one bug that only appears after days of runtime on real hardware, forcing long-form tests.",
+      "challenge": "Audio-engine code quality and redundancy make changes fragile; some bugs manifest only after extremely long runtimes and differ across game versions.",
+      "process": "He audits the engine, identifies wasteful operations (e.g., per-tick multiplications on every node), and begins refactoring to remove redundancies. He runs an actual N64 continuously (~6.5 days) to reproduce a long-tail bug and capture footage.",
+      "outcome": "The refactor is ‘slowly getting better’ but remains a major remaining task; performance and stability goals (real-N64 30 FPS, fewer audio regressions) are positioned as release-critical.",
+      "key_quote": "My N64 is running over there… it’s gonna be running for six and a half days, because I need footage of a bug that only happens after six and a half days.",
       "related_to": ["kaze"]
     },
     {
-      "title": "Designing permanent overworld events (Dojo + melon raid)",
-      "summary": "Kaze focuses on making the overworld feel alive through events that leave persistent changes. Two concrete pitches emerge: a Yoshi Dojo ‘elder’ joke fight that unlocks ordered hints for secrets, and a melon-farm Shy Guy raid whose aftermath is a visible, permanent addition (a potted Piranha Plant trained to eat Shy Guys).",
-      "challenge": "Overworld activities need to be more than one-off interactions; Kaze wants visible reminders that an event occurred.",
-      "process": "Brainstorm which level characters can plausibly appear in the overworld, define simple interaction loops, and insist each event has a lasting environmental or NPC-state change.",
-      "outcome": "A Dojo hint NPC and melon-raid event are added to the overworld plan; Kaze continues searching for remaining secret stars/events to reach the target count.",
-      "key_quote": "We want this to have a permanent effect on the overworld.",
-      "related_to": ["kaze", "biobak"]
+      "title": "Designing seamless overworld music and ambience with Badub’s pack",
+      "summary": "Kaze previews Badub’s overworld soundtrack pack and frames it as a cornerstone of the overworld’s feel: each region has its own track, and transitions should fade smoothly as players move. Ambient SFX (seagulls, waves, rain, jungle) will be placed directionally to make spaces feel alive.",
+      "challenge": "Delivering a modern-feeling open world on N64 constraints while using an unusually large amount of music (projected ~120 tracks total).",
+      "process": "He plans a hybrid pipeline: streamed audio where it matters for quality and CPU, sequenced audio elsewhere to control ROM size. He also plans positional ambient SFX for specific areas (e.g., pirate ship seagulls).",
+      "outcome": "The overworld aims for continuous, cinematic flow; the soundtrack approach becomes a technical/design pillar rather than an afterthought.",
+      "key_quote": null,
+      "related_to": ["kaze", "badub"]
     },
     {
-      "title": "Star count and scope discipline",
-      "summary": "Kaze weighs pushing the game from the planned ~180 stars to 200 for a ‘nice round number’ but recognizes it could encourage low-quality filler secrets. He reaffirms a stable core scope (15 levels + overworld) and treats extra overworld stars as optional but not worth degrading design quality.",
-      "challenge": "Balancing a satisfying, ambitious total star count with maintaining the quality of secrets and avoiding bloat.",
-      "process": "Count planned stars (noting ~177 planned toward 180), estimate how many overworld secrets remain, and reject adding mechanics or stars that don’t earn their keep.",
-      "outcome": "180 remains the primary target; 200 is left as a possible stretch if good ideas naturally appear.",
-      "key_quote": "I have a very clearly defined scope of what I want to do. Which is 15 levels and an overworld.",
+      "title": "The Yoshi Dojo becomes a gag ‘boss’ and a structured hint system (plus a secret star)",
+      "summary": "While searching for more overworld events and secret stars, Kaze realizes the dojo is just a decorative building and decides it needs gameplay purpose. He develops an Elder Yoshi ‘fight’ that’s intentionally trivial, used as a comedic gate to a hint system that helps completionists find missed overworld secrets.",
+      "challenge": "Fill the overworld with meaningful, memorable interactions without bloating scope or turning late-game areas into tutorials.",
+      "process": "He designs a slow Elder Yoshi cane-bonk ‘fight’ with no real damage (just knockback), instantly won with one hit. After winning, the Elder Yoshi provides hints in a fixed order only for overworld areas the player has already entered; the first hint points to a dojo secret star via a fake rotating/punchable door.",
+      "outcome": "The dojo gains a repeatable utility role and adds at least one concrete overworld secret star, reinforcing the game’s completion loop.",
+      "key_quote": "Yoshi Dojo has an old man in there. He tells you secret stars or hidden levels in the overworld you’ve missed. He will only share his knowledge with this guild, so you have to beat him up first.",
       "related_to": ["kaze"]
     },
     {
-      "title": "Nintendo takedown anxiety and contingency thinking",
-      "summary": "Kaze responds to comments insisting Nintendo will inevitably shut the project down. He acknowledges risk, cites his past experience with takedowns, and outlines a fallback: strip Nintendo IP and release as an original game rather than a ROM hack if necessary, while also musing about the gray area around YouTube ‘criticism.’",
-      "challenge": "Community pressure and uncertainty about Nintendo enforcement and distribution constraints.",
-      "process": "Compare to past takedowns, discuss legal practicality, and define a practical pivot path (original characters / standalone game) if forced.",
-      "outcome": "A clearer contingency narrative for the documentary: the project’s identity can survive even if Nintendo forces a re-skin.",
-      "key_quote": "I will remove Mario from the game. And the Goombas. And the Yoshis. And I will make them my own characters.",
+      "title": "Melon garden raid: an overworld event that permanently changes the space",
+      "summary": "Kaze brainstorms an overworld event around a melon farmer Yoshi whose crops are attacked by Shy Guys with spears. Because he wants events to leave lasting traces, he proposes a permanent post-event change: the farmer plants a potted Piranha Plant ‘trained to eat Shy Guys,’ serving as an enduring visual reminder.",
+      "challenge": "Create overworld events that feel alive and consequential, not one-off interactions that vanish after completion.",
+      "process": "He iterates on attack scenarios (Shy Guys arriving, threatening the farmer, stealing melons) and explicitly searches for a persistent state change. He rejects heavy mechanical escalation (e.g., melon monsters) and lands on a simple, characterful permanent prop: a potted Piranha Plant placed afterward.",
+      "outcome": "A new event concept is added to the overworld plan, aligned with Kaze’s ‘persistent change’ principle and the goal of making the overworld evolve as the player progresses.",
+      "key_quote": "After you save him… he’s planting a piranha plant and proudly proclaims that this plant has been trained to eat Shy Guys.",
       "related_to": ["kaze"]
     }
   ],
   "open_questions": [
     {
-      "topic": "Audio engine refactor goals and measurable wins",
-      "context": "Kaze calls the original Mario 64 audio code redundant and bug-prone and is actively refactoring it for performance and sanity, citing specific wasted operations and version-specific bugs.",
+      "topic": "The audio-engine refactor and the 6.5-day bug",
+      "context": "Kaze claims the Mario 64 audio engine is deeply redundant and inconsistent across versions, and he’s capturing a bug that only appears after ~6.5 days of N64 runtime.",
       "questions": [
-        "What are the top 3 concrete changes you’ve already made to the audio engine (e.g., removed redundant volume caps, eliminated per-tick operations)?",
-        "How are you validating improvements—profiling on real hardware, emulator timing, listening tests, or regression suites?",
-        "What was the ‘bug that only happens after six and a half days’—what triggers it and what does it break?",
-        "How did Death Wizard’s multi-region bug sheet influence your approach (did you standardize behavior across JP/US/PAL/Shindou or preserve differences)?"
+        "What exactly is the bug that only appears after 6.5 days—how did you discover it, and what does it look/sound like when it triggers?",
+        "What parts of the audio system are you changing versus preserving to stay ‘respectful’ to the original feel while fixing structural problems?",
+        "How do you test audio changes across JP/US/PAL/Shindou behaviors without creating new regressions?"
       ],
       "related_to": ["kaze"]
     },
     {
-      "topic": "Seamless overworld music transitions with a hybrid streamed/sequenced OST",
-      "context": "Badub’s overworld pack is intended to fade between areas; Kaze is mixing streamed and sequenced music due to size constraints with a projected ~120-track total.",
+      "topic": "Implementing a persistent, event-driven overworld on N64 constraints",
+      "context": "Kaze repeatedly emphasizes that overworld events should leave permanent changes (dojo secret star setup, melon raid leading to a planted potted Piranha Plant, characters updating dialogue/roles after festivals).",
       "questions": [
-        "How do area-to-area transitions work technically (crossfade, reverb tails, shared tempo/key, synchronized bars/beats)?",
-        "What are the hard constraints that decide whether a track is streamed vs sequenced (ROM size budget, CPU, audio RAM, looping requirements)?",
-        "Did Badub compose with specific transition points or shared motifs to make fades feel intentional?"
+        "What’s the underlying system for tracking overworld state changes—flags, save data, or some custom event manager—and how do you keep it from becoming brittle as you add more events?",
+        "How do you decide which events must be permanent versus which can reset, especially in an open-world structure with ‘no visible loading zones’?",
+        "What’s your bar for ‘this makes the overworld feel alive’ versus ‘this is just clutter’?"
+      ],
+      "related_to": ["kaze"]
+    },
+    {
+      "topic": "Seamless overworld music transitions (streamed vs sequenced)",
+      "context": "Kaze wants region-to-region music fades with Badub’s overworld pack but says full-streamed music is impossible due to size; he expects ~120 songs total.",
+      "questions": [
+        "How are you technically pulling off seamless transitions—crossfades, shared tempo/keys, or scripted fade points tied to streaming/loading boundaries?",
+        "What heuristics decide when a track is streamed versus sequenced, and how does that impact memory, CPU, and perceived audio quality on real hardware?",
+        "Did Badub compose with transition points in mind (e.g., matching intros/outros), or are you solving transitions entirely in-engine?"
       ],
       "related_to": ["kaze", "badub"]
     },
     {
-      "topic": "Open-world ‘no visible loading zones’ implementation",
-      "context": "Kaze states the overworld will be one open world with hidden/implicit loading zones and smooth transitions.",
+      "topic": "Legal contingency planning vs creative identity",
+      "context": "Kaze says if Nintendo pressure escalates, he can remove Nintendo characters and ship RTYI as an original game; he also has a long history of takedowns/appeals.",
       "questions": [
-        "What is the actual streaming/loading mechanism (segmented geometry swaps, trigger volumes, teleport-with-disguised-camera cuts, occlusion tunnels)?",
-        "What rules define a ‘safe’ hidden loading boundary (camera angle, tunnel length, door animations, fog, audio fade)?",
-        "What are the memory budgets (geometry, textures, audio) that forced this approach rather than a single always-loaded overworld?"
+        "At what point would you actually pull the trigger on de-Mario-ing the project—what would have to happen, and what would you lose creatively by doing it?",
+        "How have past takedowns shaped the way you present RTYI publicly (videos, naming, branding), and what lessons carried over from The Missing Link?",
+        "Do you see RTYI as a critique/commentary (fair use) project, a fan work, or a stepping stone to an original IP—and has that changed over the years?"
       ],
       "related_to": ["kaze"]
     },
     {
-      "topic": "Persistent overworld event system",
-      "context": "Kaze repeatedly insists events should leave a permanent reminder (Dojo hint progression, melon raid aftermath with planted Piranha Plant, oil spill cleared enabling manta ray).",
+      "topic": "Why 180 stars (and how to avoid filler)",
+      "context": "Kaze debates 180 vs 200 stars and argues it’s easy to add overworld secret stars at the cost of quality; he expects the last few stars to ‘naturally come up’ during iteration.",
       "questions": [
-        "What’s the underlying persistence model—global flags, savefile bits, or a custom event-state system tied to star counts?",
-        "How do you ensure events don’t break pacing (e.g., star-count triggers firing too early/late) and remain readable to players revisiting areas?",
-        "Which events are considered ‘must-have’ for narrative vs optional secrets for completionists?"
+        "What makes a ‘good’ secret star in your view—what design principles separate a satisfying overworld secret from filler?",
+        "What would need to be true for you to commit to 200 stars without diluting the experience?",
+        "How do you balance star count against the narrative/progression pacing (barriers, festivals, characters changing over time)?"
       ],
       "related_to": ["kaze"]
-    },
-    {
-      "topic": "Boshi’s character arc and implementation details",
-      "context": "Kaze and Biobak outline Boshi appearing in the overworld post-duel, initially antisocial, then softening after ~160 stars and rewarding a star after an interaction involving shooting/targets.",
-      "questions": [
-        "What is Boshi’s full arc across the game—what specific player actions or milestones change his dialogue/state?",
-        "How will the ‘target practice’ interaction work mechanically (minigame, dialogue quiz, timed challenge), and why is it thematically right for Boshi?",
-        "Who is writing Boshi’s dialogue and how do you keep it consistent with the hack’s tone?"
-      ],
-      "related_to": ["kaze", "biobak"]
     }
   ]
 }

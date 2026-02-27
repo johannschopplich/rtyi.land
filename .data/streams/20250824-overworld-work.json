@@ -1,70 +1,88 @@
 {
   "stream_context": {
-    "summary": "Kaze continues overworld development, focusing on adding a Wario “lemonade stand” star shop, refining event/cutscene infrastructure (especially a lighthouse-triggered cutscene that clears fog and opens access to Course 5), and discussing engine-level constraints (ROM vs RAM, geospace, collision BVH). The stream also includes notable production/process talk: beta-testing methodology, mod/port permissions, and business pressure from a sponsor view guarantee.",
-    "level": ["Overworld", "Course 5"],
+    "summary": "Kaze debugs and iterates on the Overworld, including Wario’s 1000-coin star shop, a lighthouse-triggered cutscene/warp sequence to open Course 5, and assorted engine/tooling work (warp system refactor, shadow validation asserts, geo/collision issues). He also discusses beta-testing methodology, sponsor view guarantees, and why he won’t touch the newly released Star Road project files.",
+    "level": ["Overworld"],
     "significance": "notable",
-    "significance_reason": "Contains multiple documentary-relevant insights: nearing the end of engine reprogramming (BVH collision remaining), a concrete overworld narrative feature (Wario shop), a completed/near-completed lighthouse cutscene pipeline using warps/camera, and candid philosophy about modding/beta testing plus real business pressure tied to YouTube performance."
+    "significance_reason": "Multiple Overworld features solidify (Wario shop dialogue loop, lighthouse cutscene plan/implementation, fast travel decision) alongside meaningful meta-context: finishing-last-engine-work framing around BVH/collision, clear stance on not finishing Skelux’s released files, and a concrete beta-testing philosophy."
   },
   "findings": [
     {
       "topic": "technical",
       "importance": "high",
-      "summary": "Kaze says he started working on collision BVH and frames it as the last major piece of engine reprogramming; once it’s done, the team can focus primarily on content creation rather than engine work.",
-      "quote": "I have started working on collision BVH today. Once that is done I have done with every engine reprogramming; we will just be able to make the game."
+      "summary": "The current build boots and can enter most levels again, but Kaze’s BVH (collision/acceleration structure) still isn’t working; he plans to seek help once he reviews what he needs to ask and frames BVH completion as the last major engine reprogramming item.",
+      "quote": "I have started working on collision BVH today. Once that is done, I have done with every engine reprogramming; we will just be able to make the game."
     },
     {
       "topic": "technical",
       "importance": "medium",
-      "summary": "He prioritizes ROM space over RAM space at this stage and notes that his custom engine/frame time is so efficient that optimizations that matter in vanilla SM64 may not make sense for RTYI.",
-      "quote": "I actually care about ROM space more than RAM space at this point."
-    },
-    {
-      "topic": "design",
-      "importance": "high",
-      "summary": "A Wario overworld shop is implemented as a character beat and progression mechanic: after a prior encounter (zoo storyline), Wario relocates to the overworld and sells a single premium star for 1000 coins, with intentionally rude/funny repeat dialogue after purchase.",
-      "quote": "After you buy it, every time you come by him and talk to him he says, You bought it, sucker."
-    },
-    {
-      "topic": "technical",
-      "importance": "high",
-      "summary": "Kaze implemented an assert that crashes on invalid shadows (instead of tolerating null pointers), forcing the team to fix shadow definitions properly across the game; this surfaced many existing invalid shadows during testing.",
-      "quote": "I added a thing where every level that has an invalid shadow just crashes... this lets us be not lazy and make sure all the shadows render correctly."
-    },
-    {
-      "topic": "design",
-      "importance": "high",
-      "summary": "He designs a lighthouse-driven gating moment: hitting a switch triggers a cutscene showing the lighthouse beam moving and the fog clearing, which opens access (explicitly tied to opening Course 5). He rejects a more complex interactive aiming concept for scope/workload reasons (needing to model the scene from additional viewpoints).",
-      "quote": "It would be cool, but the amount of work that is... we’d have to model all of this to look fine."
+      "summary": "Kaze is prioritizing ROM space over RAM footprint at this stage and notes his CPU budget is unusually efficient, so some classic SM64 tradeoffs don’t apply the same way to RTYI.",
+      "quote": null
     },
     {
       "topic": "technical",
       "importance": "medium",
-      "summary": "Cutscene implementation uses a sequence of seamless warps between areas to stage camera shots (play half the cutscene in one area, warp, play the rest, then warp back) and includes hard camera cuts to sell an open-world feel.",
-      "quote": "This warp is just going to warp Mario to this area... then warp Mario over here... and then we’re going to warp Mario back... and we’re probably going to just do a hard camera cut."
+      "summary": "He added a hard crash/assert path for invalid shadows instead of relying on null checks, intentionally forcing the team to correct shadow setups rather than letting bad data slide unnoticed.",
+      "quote": null
+    },
+    {
+      "topic": "design",
+      "importance": "high",
+      "summary": "Wario’s Overworld role is clarified: after being chased out of the zoo (chain chomp), he becomes a star vendor selling a single “last one” star for 1000 coins, then permanently switches to taunting post-purchase dialogue.",
+      "quote": "Every time you come by him and talk to him he says: You bought it, sucker."
+    },
+    {
+      "topic": "design",
+      "importance": "high",
+      "summary": "The lighthouse is being used as a major Overworld progression gate: pressing an interaction (currently a switch, later possibly a more physical mechanism) triggers a cutscene that shows the light moving and the fog clearing, opening access to Course 5.",
+      "quote": null
+    },
+    {
+      "topic": "technical",
+      "importance": "high",
+      "summary": "To make the lighthouse sequence feel seamless/open-world, Kaze implements the cutscene as a chain of special warps between Overworld areas, including hard camera cuts and a plan to standardize “sea warps” as the cutscene/transition namespace.",
+      "quote": null
+    },
+    {
+      "topic": "design",
+      "importance": "medium",
+      "summary": "Despite aiming for an explorable island, Kaze commits to fast travel via a map because the Overworld is “gigantic,” signaling a practicality-first approach to player navigation.",
+      "quote": null
     },
     {
       "topic": "community",
       "importance": "medium",
-      "summary": "Kaze uses an actively maintained progress tracker and indicates many levels are near completion (multiple entries at ~98–100%), implying a structured production approach and a broad near-finished content base even if later levels lag behind.",
+      "summary": "He references using Biobak’s prior cutscene work (Deadly Workshop) as inspiration for Overworld cinematography and later adopts a suggestion that the lighthouse interaction should feel more physically player-driven than a simple switch.",
+      "quote": null
+    },
+    {
+      "topic": "milestone",
+      "importance": "medium",
+      "summary": "Kaze shows a progress tracker with many levels at or near completion (several at 98–100%, one newly at 99% after gameplay testing advanced), reinforcing that content is converging even while late-game areas lag behind.",
       "quote": null
     },
     {
       "topic": "philosophy",
       "importance": "high",
-      "summary": "He explicitly welcomes ports and broad community remixing/memes after release, but strongly opposes “enhancement” mods that remove difficulty/friction; he sees preserving some \"spicy\" design as essential to the experience.",
-      "quote": "Please... don’t make an enhancement mod that just frustration-minimizes it... There needs to be spicy parts."
-    },
-    {
-      "topic": "team",
-      "importance": "medium",
-      "summary": "Overworld music is planned as region-based tracks that crossfade as the player moves between overworld sub-areas, and Kaze references a ‘ghost version’ of the overworld theme sent by composer Badub, indicating collaborative iteration on adaptive music.",
-      "quote": "Each part has a separate sequence and they all fade into each other as you go between them."
+      "summary": "Kaze articulates a deliberate beta-testing approach: he asks testers to play naturally with light commentary, arguing that heavy commentary changes play behavior—framing it as a tradeoff between observing authentic play and collecting explicit feedback.",
+      "quote": "You can either know how a beta tester plays the game, or you can know a beta tester's thoughts. You cannot know both at once."
     },
     {
       "topic": "business",
       "importance": "high",
-      "summary": "Kaze reveals sponsor pressure tied to a strict view threshold (120k views within a month) and considers paying for ads as a contingency, highlighting real financial/algorithmic constraints influencing production stress.",
-      "quote": "If this video doesn’t hit 120,000 views, the sponsor doesn’t pay me."
+      "summary": "He is stressed about a sponsor contract tied to a hard view guarantee (120,000 views in a month) and considers paid promotion as a backup, acknowledging it could upset the sponsor; sponsor is identified as boot.dev.",
+      "quote": "If this video doesn't hit 120,000 views, the sponsor doesn't pay me."
+    },
+    {
+      "topic": "legal-nintendo",
+      "importance": "medium",
+      "summary": "When asked whether reprogramming much of Mario 64 makes it ‘his game,’ Kaze frames the ownership boundary as a legal question but personally claims authorship over RTYI as his project.",
+      "quote": "That's for the lawyer to decide. I'm calling it my game."
+    },
+    {
+      "topic": "community",
+      "importance": "high",
+      "summary": "Kaze reacts to Skelux (Star Road creator) publicly releasing project files due to terminal illness and decides not to touch/finish them because of their strained history and his belief Skelux would hate it; he notes another dev (Halber) intends to finish the project.",
+      "quote": null
     }
   ],
   "contributor_findings": {
@@ -72,58 +90,52 @@
       {
         "topic": "design",
         "importance": "medium",
-        "summary": "Kaze references Biobak’s prior intro cutscene work (\"Deadly Workshop\") as a quality bar for cinematic shots and plans to reuse similar establishing-shot language in the overworld.",
-        "quote": "I remember Biobak’s intro cutscene with the Deadly Workshop. It looks amazing."
+        "summary": "Biobak (via chat influence) pushes for the lighthouse interaction to feel like the player is physically doing something (e.g., rotating/pushing a mechanism) rather than triggering an abstract switch; Kaze agrees the idea is better and plans to adopt it.",
+        "quote": null
       },
       {
         "topic": "design",
-        "importance": "high",
-        "summary": "Biobak proposes replacing the lighthouse’s abstract switch interaction with a more physical mechanism (rotating/pushing a wheel) so it feels like the player is actually moving the lighthouse apparatus; Kaze agrees in principle and plans to adopt it after implementing the baseline cutscene.",
-        "quote": "I do want to use Biobak’s idea of actually rotating the thing... because it feels like you’re actually doing something."
+        "importance": "low",
+        "summary": "Kaze cites Biobak’s earlier intro cutscene work (Deadly Workshop) as a quality bar/reference for future cutscene framing in the Overworld.",
+        "quote": null
       }
     ],
     "badub": [
       {
         "topic": "design",
         "importance": "medium",
-        "summary": "Badub has provided an alternate/\"ghost\" overworld theme version that Kaze intends to use within an overworld system where sub-area music crossfades based on player position.",
-        "quote": "There is like a ghost version of this theme here that Badub has sent me at some point."
+        "summary": "Kaze outlines the Overworld music plan: different zones have distinct sequences that cross-fade as the player moves, ideally synced to the same playback point; he mentions a ‘ghost version’ of a theme Badub previously sent for a specific Overworld segment.",
+        "quote": null
       }
     ],
     "zeina": [
       {
         "topic": "personal",
         "importance": "low",
-        "summary": "Kaze mentions watching JoJo with Zeina and a running stream joke about the music playlist being “divorce” themed; it’s mostly banter but indicates shared downtime amid heavy dev workload.",
+        "summary": "Kaze shares slice-of-life context: he’s exhausted due to their baby waking early, and he’s watching JoJo with Zeina (she’s progressing through the series; he’s also read the manga).",
         "quote": null
-      },
-      {
-        "topic": "team",
-        "importance": "low",
-        "summary": "Kaze casually notes Zeina also makes models, using it to normalize accepting outside help and reinforce that asset creation is distributed across close collaborators.",
-        "quote": "Zeina was making models too."
       }
     ],
     "others": [
-      {
-        "name": "Lilaa",
-        "findings": [
-          {
-            "topic": "community",
-            "importance": "low",
-            "summary": "Kaze suggests someone (possibly Lilaa) has already made a PC port of the project, implying community interest in ports and platform expansion.",
-            "quote": "Didn’t Lal even make a PC port of this?"
-          }
-        ]
-      },
       {
         "name": "Skelux",
         "findings": [
           {
             "topic": "community",
+            "importance": "high",
+            "summary": "Kaze explains Skelux released Star Road/Star World development files publicly while dealing with brain cancer; Kaze chooses not to engage with the assets due to personal history and respect/boundaries.",
+            "quote": null
+          }
+        ]
+      },
+      {
+        "name": "Halber",
+        "findings": [
+          {
+            "topic": "community",
             "importance": "medium",
-            "summary": "Kaze discusses the release of Star Road/Star World development files due to Skelux’s terminal illness, but states he will not use those files or attempt to finish the project because of personal bad terms and respect for what Skelux would want.",
-            "quote": "I’m not going to touch the files or do anything with it to finish that one for him."
+            "summary": "Kaze mentions Halber (a Mario 64 DS hacker) has said he plans to finish the released Star World project, suggesting the community may complete it independent of Kaze.",
+            "quote": null
           }
         ]
       }
@@ -132,97 +144,72 @@
   "memorable_quotes": [
     {
       "speaker": "Kaze",
-      "quote": "I have started working on collision BVH today. Once that is done I have done with every engine reprogramming; we will just be able to make the game.",
-      "context": "Positions BVH collision as the last major engine hurdle before full focus on building content—useful as a documentary chapter marker."
+      "quote": "You can either know how a beta tester plays the game, or you can know a beta tester's thoughts. You cannot know both at once.",
+      "context": "Kaze’s guiding principle for how he instructs beta testers—capturing his craft mindset and how he manages feedback without contaminating player behavior."
     },
     {
       "speaker": "Kaze",
-      "quote": "You can either know how a beta tester plays the game, or you can know a beta tester’s thoughts. You cannot know both at once.",
-      "context": "Kaze’s concrete philosophy for playtesting and feedback collection; he uses it to justify his beta briefing style."
-    },
-    {
-      "speaker": "Kaze",
-      "quote": "Please... don’t make an enhancement mod that just frustration-minimizes it... There needs to be spicy parts.",
-      "context": "Defines his stance on preserving friction/difficulty and avoiding “bland” community edits—ties directly to the central documentary question about respecting the classic while rebuilding it."
+      "quote": "Imagine you make a dish, and there's someone who doesn't like salt… and you're just left with a nice looking bland piece of garbage. I don't want that to happen.",
+      "context": "His stance on not allowing ‘frustration-minimizing enhancement’ mods that sand off the hack’s intended difficulty/spice."
     }
   ],
   "key_stories": [
     {
-      "title": "BVH collision as the final engine hurdle",
-      "summary": "Kaze describes finally starting work on collision BVH and treats it as the remaining major engine reprogramming task. He implies that once BVH is solved, development shifts from engine building to straightforward content production.",
-      "challenge": "The BVH system is not yet working; Kaze needs to learn/confirm how to author/build BVH (he mentions needing to ask someone how to write a script for it) without adding runtime loading delays.",
-      "process": "He evaluates tradeoffs (ROM-built BVH vs building at runtime) and works through crashes/asserts in related systems while continuing overworld implementation.",
-      "outcome": "Not finished in this stream, but framed as imminent and transformative for production velocity.",
-      "key_quote": "Once that is done I have done with every engine reprogramming; we will just be able to make the game.",
+      "title": "Wario’s 1000-coin star shop becomes a persistent Overworld gag",
+      "summary": "Kaze finalizes Wario’s post-zoo character function: a single overpriced star sale that turns into permanent taunting dialogue after purchase. It’s a small system, but it shows RTYI’s personality-first design and how Overworld NPCs carry long-term state.",
+      "challenge": "Implementing the shop state cleanly (spawn/state/render issues) while keeping the joke readable (only one star, then sold out) and ensuring the reward actually spawns.",
+      "process": "He debugs Wario being displaced to extreme coordinates, fixes collision/linking oversights, and iterates on the exact lines (e.g., ‘last one,’ ‘1000 coins or bust,’ and the post-purchase ‘You bought it, sucker’).",
+      "outcome": "Wario reliably appears and the dialogue loop is established; Kaze still needs to ensure the purchased star reward is granted/spawned properly in the final flow.",
+      "key_quote": "Every time you come by him and talk to him he says: You bought it, sucker.",
       "related_to": ["kaze"]
     },
     {
-      "title": "Wario’s overworld star shop becomes a character-driven mechanic",
-      "summary": "Kaze implements Wario’s post-zoo role as an overworld vendor selling a single premium star for 1000 coins. The mechanic doubles as humor/worldbuilding via bespoke dialogue and a post-purchase ‘You bought it, sucker’ loop.",
-      "challenge": "Integrating an NPC shop interaction into the overworld while maintaining character personality and ensuring the reward (star) actually spawns correctly; he also needs enough coins to test the purchase loop.",
-      "process": "He locates and fixes NPC placement issues (extreme coordinates/flip issues), iterates on dialogue, and uses debugging/cheating to validate the star purchase flow.",
-      "outcome": "Dialogue concept is established and the purchase loop is tested; further polish includes clearer signage/communication that it’s a one-time stock.",
-      "key_quote": "You better be quick because this is the last one in stock. 1000 coins or bust.",
-      "related_to": ["kaze"]
-    },
-    {
-      "title": "Lighthouse switch cutscene implemented via seamless warps and camera cuts",
-      "summary": "Kaze builds a lighthouse-triggered cutscene intended to show the lighthouse beam moving and fog clearing to open access (Course 5). He rejects a more ambitious aiming/interaction concept due to modeling workload and instead implements a multi-area cutscene using warps and camera cuts to sell an open-world transition.",
-      "challenge": "Cutscene timing/camera focus issues, retriggering, and area-warp confusion after reworking how warps work; he needs the scene to end cleanly and not lock the player.",
-      "process": "He creates dedicated ‘cutscene warps,’ stages the sequence across multiple areas, adjusts warp IDs/B-params, adds logic to reset cutscenes on area entry, and refines black bars/timing.",
-      "outcome": "By the end of the stream, Kaze declares the cutscene effectively done, with remaining work focused on visuals (light ray asset, fog effect polish) and interaction feel (Biobak’s wheel/rotation idea).",
-      "key_quote": "Alright, I think the cutscene is done.",
+      "title": "Lighthouse cutscene implemented via seamless Overworld warps to sell an open world",
+      "summary": "Kaze builds a progression moment where a lighthouse rotates its beam and clears fog, opening Course 5. He chooses a technical trick—multiple warps and camera cuts—to make it feel like one continuous world, then revisits the interaction to make it feel less like a generic switch.",
+      "challenge": "A single cinematic view would require modeling and maintaining far more visible world geometry; additionally, the cutscene timing/targeting initially focuses oddly on Mario and risks becoming an infinite/awkward sequence.",
+      "process": "He rejects a more expensive ‘aim the lighthouse from inside’ concept for scope reasons, then chains area-to-area warps and camera behavior (‘sea warps’) to stage the cinematic in pieces, iterating on timing, focus, and cut logic until it reads correctly.",
+      "outcome": "The cutscene plays and resolves; the visible ‘light’ effect is still conceptual (not yet implemented), and he plans to improve the interaction feel (inspired by Biobak) so it communicates player agency beyond pressing a switch.",
+      "key_quote": "We're probably going to just do a hard camera cut here… to make it feel even more like an open world.",
       "related_to": ["kaze", "biobak"]
+    },
+    {
+      "title": "Choosing not to finish Star Road/Star World after Skelux publishes his files",
+      "summary": "Kaze discusses the emotionally charged release of Skelux’s files due to terminal illness and draws a boundary: he won’t ‘complete’ the project, partly due to past conflict and because he believes Skelux would resent it. It’s a revealing moment about ethics, respect, and community ownership in romhacking.",
+      "challenge": "The community expects prominent creators to step in when iconic projects are left unfinished—especially when assets are made available publicly.",
+      "process": "Kaze contextualizes their strained relationship, recalls past backlash when he made Star Road console compatible, and argues distance is the respectful choice; he points to Halber as someone else positioned to finish it.",
+      "outcome": "Kaze declines involvement and publicly commits to not using/touching the files, while acknowledging Star World may still be finished by others.",
+      "key_quote": "Because of that, I think it's best to just keep distance… I'm not going to touch the files or do anything with it to finish that one for him.",
+      "related_to": ["kaze"]
     }
   ],
   "open_questions": [
     {
-      "topic": "Collision BVH implementation plan and dependencies",
-      "context": "Kaze says BVH is still not working and he needs to ask someone how to write a script for it; he also weighs ROM-built BVH vs runtime build due to loading time.",
+      "topic": "Collision BVH as the ‘last engine reprogramming’ item",
+      "context": "Kaze says the game boots and loads most levels again, but BVH still isn’t working, and he intends to ask someone for help once he understands what to ask.",
       "questions": [
-        "Who is Kaze planning to ask about BVH scripting (team member vs external expert), and what prior art (codebases/tools) are they basing RTYI’s BVH on?",
-        "What exact BVH data is intended to live in ROM, and what would be generated at runtime (if anything)?",
-        "What are the measurable constraints that make runtime BVH building unacceptable (target load times, worst-case level sizes)?"
+        "What specifically broke (or never worked) in the BVH approach you’re using—was it data generation, integration into collision queries, or something about ROM-time vs runtime building?",
+        "Who are you planning to ask for help, and what kind of expertise do you need (N64 performance constraints, algorithm design, tooling scripts)?",
+        "When you say BVH completion ends ‘engine reprogramming,’ what remaining engine risks still worry you (load times, memory layout, geo limits, tooling friction)?"
       ],
       "related_to": ["kaze"]
     },
     {
-      "topic": "Geospace limits and stability strategy",
-      "context": "Kaze worries about running out of “geospace” and mentions crashes tied to spawning/rendering, plus asserts for invalid shadows to force correctness.",
+      "topic": "Fast travel decision vs. ‘gigantic’ Overworld immersion",
+      "context": "Kaze states there will be fast travel via a map because the island is very large, even if some viewers are disappointed.",
       "questions": [
-        "What is ‘geospace’ in RTYI’s engine terms (memory region, display list budget, or an internal allocator), and how close have they gotten to its limits in real content?",
-        "What debugging tools or metrics does Kaze use to detect geospace exhaustion before it becomes a crash?",
-        "How did switching from null checks to asserts change production pace—did it slow progress short-term but reduce long-term bug hunting?"
+        "At what point did the Overworld scale force the fast travel call—was it playtest feedback, your own traversal fatigue, or production constraints?",
+        "How do you plan to keep fast travel from undercutting the ‘open world’ feeling you’re building with seamless warps and cinematic reveals?",
+        "Will fast travel be available immediately, or will it unlock gradually to preserve early-game discovery?"
       ],
       "related_to": ["kaze"]
     },
     {
-      "topic": "Lighthouse gating: final interaction design vs scope",
-      "context": "Kaze likes the idea of making the player physically rotate/aim something (wheel) but avoids complex additional viewpoint modeling; he implements warps/camera cuts as a compromise.",
+      "topic": "Sponsor view-guarantee pressure and contingency planning",
+      "context": "Kaze says a boot.dev sponsorship only pays if a video reaches 120k views within a month; he considers running paid ads as a backup but worries it would upset the sponsor.",
       "questions": [
-        "What would the ‘wheel/rotation’ interaction look like in the final build (timed push, crank, multi-step), and what feedback will the player get that they caused the change?",
-        "What content had to be cut or simplified specifically because modeling from a cutscene viewpoint was too costly?",
-        "How does the team decide when a cinematic idea is worth the modeling cost on N64 constraints?"
-      ],
-      "related_to": ["kaze", "biobak"]
-    },
-    {
-      "topic": "Adaptive overworld music crossfading on N64",
-      "context": "Kaze describes an overworld music system where different sub-areas have separate sequences that fade into each other and ideally stay phase-aligned; he references a ‘ghost’ theme from Badub.",
-      "questions": [
-        "How are the overworld regions defined for music transitions (volumes, triggers, spline paths), and what determines crossfade timing?",
-        "How will Kaze keep sequences ‘starting at the same point’—shared tempo tables, synced start ticks, or resetting on region entry?",
-        "What did Badub deliver as the ‘ghost version’—is it an arrangement, a stem-like layer, or a simplified variant meant to blend?"
-      ],
-      "related_to": ["kaze", "badub"]
-    },
-    {
-      "topic": "Wario shop: economy pacing and communication",
-      "context": "Wario sells a single star for 1000 coins; Kaze debates the humor of making the star spawn far away and notes he won’t personally grind 1000 coins just to test it.",
-      "questions": [
-        "How early can players realistically afford 1000 coins without deliberate farming, and is the purchase meant to be an optional late-game sink or a mid-game temptation?",
-        "How will the game communicate that Wario has only one star in stock (signage, cutscene, dialogue updates) to prevent player confusion?",
-        "Is the Wario star counted among secret stars, overworld stars, or a distinct category, and how does that affect completion tracking?"
+        "How did a hard view guarantee end up in the contract this time—was it your choice, the sponsor’s policy, or a negotiation tradeoff?",
+        "What would ‘success’ look like for you beyond the view number (conversion rates, audience fit, long-term sponsor relationship)?",
+        "Did this experience change how you’ll approach sponsorships during RTYI’s final stretch and release window?"
       ],
       "related_to": ["kaze"]
     }

@@ -1,70 +1,88 @@
 {
   "stream_context": {
-    "summary": "Kaze continues overworld development and engine refactoring, focusing on a new “Pandora’s Box” encounter that unleashes Boobla ghosts in a haunted overworld area. He iterates live on how the event should work (permanent overworld change vs. clearable fight) and lands on a platforming-oriented solution where Booblas become functional hazards that launch Mario upward to reach a star. In parallel, he describes a broader effort to rewrite remaining vanilla SM64 functions in his own implementation, removing level-script/S-register concepts and shaving memory.",
+    "summary": "Kaze refactors remaining vanilla Mario 64 code out of the project, notes small but meaningful RAM savings, and iterates on an overworld setpiece: a “Pandora’s box” treasure chest that unleashes Boobla ghosts. The design conversation shifts from an initially vague “infestation” idea toward a clearer gameplay loop where Booblas become a traversal tool (launching Mario upward) to reach a star/cliff, with explicit warning text to prevent player confusion.",
     "level": ["Overworld"],
     "significance": "notable",
-    "significance_reason": "Contains a concrete overworld set-piece redesign (Pandora’s Box/Booblas) with rationale about player expectations, plus clear statements about rewriting all remaining vanilla SM64 code, removing level scripts, and delegating a new asset to Zeina."
+    "significance_reason": "Contains a concrete overworld mission concept (Pandora’s box → permanent ghost infestation + Boobla-as-traversal mechanic), plus meaningful engine refactoring decisions (removing level script/S-register concept and rewriting remaining vanilla code)."
   },
   "findings": [
     {
       "topic": "technical",
       "importance": "high",
-      "summary": "Kaze is systematically revisiting remaining vanilla SM64 source and rewriting any functions he didn’t author, aiming to eliminate reliance on original code while also gaining small memory savings (he estimates a few KB in general, and mentions saving ~12 KB on one change).",
+      "summary": "Kaze is systematically removing remaining vanilla Mario 64 code from RTYI by deleting any functions he didn’t write and reimplementing them in his own style, aiming to avoid shipping original vanilla implementations.",
+      "quote": "Every function I didn't write myself, I'm just backspacing it and reimplementing it in my own words."
+    },
+    {
+      "topic": "technical",
+      "importance": "medium",
+      "summary": "As part of refactoring, the test stage now behaves differently: the prior “level script” approach (including the S-register/level script concept) has been removed entirely.",
+      "quote": "The whole concept of S register and level script is gone."
+    },
+    {
+      "topic": "technical",
+      "importance": "medium",
+      "summary": "Kaze expects refactoring to yield small RAM wins (he mentions ~4KB as a typical benefit), and later notes a larger real save from a change (about ~12KB), though he’s not fully certain of the exact number.",
       "quote": null
     },
     {
       "topic": "technical",
       "importance": "medium",
-      "summary": "As part of engine refactors, the project’s test stage now behaves differently because the prior “level script” system and S-register concept have been removed entirely.",
-      "quote": null
-    },
-    {
-      "topic": "technical",
-      "importance": "medium",
-      "summary": "Kaze frames the remaining major engine-side upgrade as porting a newer libultra, implying most other engine work is nearing completion aside from that OS-layer change.",
-      "quote": null
+      "summary": "He intentionally avoids null-pointer checks in some places; instead he forces a crash with an obvious marker so bugs can’t be missed during development.",
+      "quote": "I don't null pointer check. Instead, I just throw an arrow like that and crash the game. So that way, whenever something is wrong in my game, there's 0% chance to miss it."
     },
     {
       "topic": "milestone",
       "importance": "medium",
-      "summary": "He states the team is “almost done on the first part of the first overworld” and wants to run a flow test of the first five courses consecutively to validate the early-game gameplay formula.",
+      "summary": "He says they’re “almost done” with the first part of the first overworld and wants to run an end-to-end flow test of the first five courses to validate the gameplay formula/pacing.",
       "quote": null
     },
     {
       "topic": "design",
       "importance": "high",
-      "summary": "He designs an overworld event: opening a treasure chest (“Pandora’s Box”) triggers Boobla ghosts to spawn and infest a specific haunted overworld region, with the strong option that the infestation becomes a permanent world-state change after collecting the related star.",
+      "summary": "Overworld setpiece plan: a later-reachable area will contain a chest (“Pandora’s box”); opening it unleashes Booblas. Kaze pivots from a simple “beat the infestation” concept to a more legible mechanic where Booblas launch Mario upward to access otherwise unreachable terrain/stars.",
       "quote": null
     },
     {
       "topic": "design",
       "importance": "high",
-      "summary": "To avoid player confusion from undefeatable enemies, Kaze pivots the Booblas from “things you must clear” into traversal tools: Booblas lurk in blobs, then move under Mario and launch him upward, enabling a small platforming route to a star on a higher cliff.",
-      "quote": null
-    },
-    {
-      "topic": "design",
-      "importance": "medium",
-      "summary": "He identifies a key UX risk: if Booblas persist, players will assume they should be defeatable/clearable; he proposes explicit warning text (multiple kicks/chain-removal interactions) to communicate irreversible consequences before opening the box.",
-      "quote": null
+      "summary": "He considers making the Boobla infestation a permanent overworld state change (opening Pandora’s box can’t be undone), but worries players will assume they must “defeat” the ghosts; he proposes explicit warning text before opening the box to manage expectations.",
+      "quote": "This box contains great evil. Are you sure you want to open it? You cannot put back what you find inside."
     },
     {
       "topic": "team",
       "importance": "medium",
-      "summary": "Kaze decides to have Zeina create the Pandora’s Box model; in the interim he will use a placeholder object and proceed with gameplay logic/interaction.",
-      "quote": null
+      "summary": "Kaze decides to have Zeina create the Pandora’s box model; he’ll use a placeholder asset in the meantime.",
+      "quote": "I'm going to have Zeina make Pandora's box."
     },
     {
       "topic": "design",
-      "importance": "medium",
-      "summary": "He continues experimenting with Boobla visuals/animation: popping from a blob with anticipation frames, scaling, and arm motion; he notes ghost behavior implies no shadow and considers geometry/face-culling constraints (e.g., possibly needing double faces).",
+      "importance": "low",
+      "summary": "He reviews/iterates Boobla visuals and animation: the enemy should mostly appear as a blob, then periodically “pops out” (scaling/arm motion). He flags texture/UV resolution issues and considers switching parts to vertex colors to preserve quality.",
       "quote": null
+    },
+    {
+      "topic": "business",
+      "importance": "medium",
+      "summary": "Kaze describes a shift in sponsorship dynamics: instead of seeking sponsors after finishing a video, he now gets so many offers that sponsors arrive before a new video is ready.",
+      "quote": "I get an offer before I have a new video ready. So it's kind of the opposite way around."
+    },
+    {
+      "topic": "business",
+      "importance": "medium",
+      "summary": "He observes that titles strongly affect performance; a more sensational/negative framing improved results compared to a straightforward “perfecting” title, reinforcing that he feels pressured to be somewhat sensationalist.",
+      "quote": "Just another proof that you need to be somewhat sensationalist."
     },
     {
       "topic": "philosophy",
       "importance": "medium",
-      "summary": "Kaze articulates two broader design beliefs: (1) playtest feedback should be interpreted as feelings/problems rather than literal implementation requests; (2) he prefers incentive-structure thinking (“it’s game design”) when discussing behavior change, suggesting a consistent mental model he applies to systems design.",
-      "quote": "When you get feedback on your game, you should never look at what they are actually saying. You should just look at what they are feeling."
+      "summary": "On playtesting feedback, Kaze emphasizes interpreting player emotion rather than implementing literal suggestions—players often misdiagnose what they want changed.",
+      "quote": "When you get feedback on your game you should never look at what they are actually saying. You should just look at what they are feeling."
+    },
+    {
+      "topic": "milestone",
+      "importance": "low",
+      "summary": "He reiterates that he considers RTYI in its “final stages,” clarifying that remaining work is largely overworld construction and polish rather than core engine feasibility.",
+      "quote": "I'm in the final stages of making the game, which I am. I'm just making the overworld now."
     }
   ],
   "contributor_findings": {
@@ -74,109 +92,81 @@
       {
         "topic": "team",
         "importance": "medium",
-        "summary": "Kaze assigns Zeina the task of making the Pandora’s Box model for the overworld set-piece; he plans to proceed with a placeholder model until her asset is ready.",
-        "quote": null
+        "summary": "Kaze assigns Zeina the task of modeling Pandora’s box for the overworld, while he proceeds with a placeholder.",
+        "quote": "I'm going to have Zeina make Pandora's box."
       }
     ],
-    "others": [
-      {
-        "name": "Lilaa",
-        "findings": [
-          {
-            "topic": "community",
-            "importance": "low",
-            "summary": "Kaze responds to Lilaa about previously-fixed debug text and briefly considers (but declines) an alternative puzzle idea (using another mechanism rather than Booblas directly) for reaching the star, treating it as potentially reusable elsewhere.",
-            "quote": null
-          }
-        ]
-      }
-    ]
+    "others": []
   },
   "memorable_quotes": [
     {
       "speaker": "Kaze",
-      "quote": "I don’t null pointer check. Instead, I just throw an error like that and crash the game. So that way, whenever something is wrong in my game, there’s 0% chance to miss it.",
-      "context": "He explains a deliberate debugging philosophy: fail fast with obvious crashes rather than silently continuing, reflecting his tooling/engineering approach during refactors."
+      "quote": "When you get feedback on your game you should never look at what they are actually saying. You should just look at what they are feeling.",
+      "context": "He explains his philosophy for handling playtester feedback—extracting the underlying emotional problem rather than implementing the proposed fix."
     },
     {
       "speaker": "Kaze",
-      "quote": "This is my sleepover and I get to pick the movie.",
-      "context": "He rejects the idea that design decisions are a democracy, summarizing how he weighs audience suggestions versus his own vision."
-    },
-    {
-      "speaker": "Kaze",
-      "quote": "When you get feedback on your game, you should never look at what they are actually saying. You should just look at what they are feeling.",
-      "context": "A clear statement of his playtesting philosophy that can anchor an interview segment about iteration, community feedback, and authorial intent."
+      "quote": "This isn't a democracy. This is my sleepover and I get to pick the movie.",
+      "context": "While reacting to chat requests and feature demands, he draws a clear boundary about creative control and decision-making."
     }
   ],
   "key_stories": [
     {
-      "title": "Pandora’s Box set-piece: from ‘endless ghosts’ to traversal mechanic",
-      "summary": "Kaze plans a haunted overworld micro-area gated by reaching a ship/lighthouse route, culminating in a treasure chest that unleashes Boobla ghosts. He initially likes the narrative punch of an irreversible overworld change (opening the box permanently infests the area), but worries players will be confused if the ghosts can’t be ‘cleared.’ He resolves this by making Booblas mechanically useful: they pop from blobs and launch Mario upward so the player must use them to reach a cliff-top star.",
-      "challenge": "How to make a permanent, ‘unbeatable’ ghost infestation feel intentional and fun rather than confusing or pointless for players conditioned to defeat enemies.",
-      "process": "He brainstorms warning text and a multi-step interaction (kicks/chain removal), considers cutscene/star-spawn staging, then prototypes jump heights and cliff spacing to ensure the star is unreachable without using the Boobla launch behavior.",
-      "outcome": "A concrete direction: Booblas persist as hazards/tools, primarily staying hidden in blobs, approaching under Mario when nearby, and launching him to enable a short platforming climb to the star.",
-      "key_quote": "Players are going to feel really inclined to have to defeat them.",
+      "title": "Designing Pandora’s box so the Boobla ‘infestation’ is fun and readable",
+      "summary": "Kaze wants an overworld moment where opening a chest unleashes Booblas, but realizes a vague ‘fight the infestation’ concept could be confusing—especially if the ghosts can’t be defeated. The stream captures him iterating toward a clearer loop: Booblas become a traversal mechanic that launches Mario upward, and the box is gated with warning text to set expectations.",
+      "challenge": "The initial idea (‘Pandora’s box releases Booblas; beat the infestation’) didn’t answer how the player wins or what Booblas are for, risking confusion and a ‘stupid feeling’ setpiece.",
+      "process": "He brainstorms options (permanent world change; warning prompt; chest with chains and multi-kick interaction; cutscene/particles; using Booblas to reach a star) and tests reachability/height so the star can’t be obtained without interacting with the mechanic.",
+      "outcome": "He converges on a platforming-focused solution: Booblas approach, move under Mario, and launch him upward to access an otherwise unreachable cliff/star; he keeps the Pandora’s box framing and plans explicit warning text.",
+      "key_quote": "Players are going to feel like they need to do something with the ghosts to get rid of them or something... So I fear that this is going to lead to confusion.",
       "related_to": ["kaze"]
     },
     {
-      "title": "Decomp-based rewrite push: removing remaining vanilla code and level scripts",
-      "summary": "Kaze describes a deliberate sweep through remaining SM64 vanilla functions to delete and reimplement them, both to better own the codebase and to avoid depending on original implementations. During this, he eliminates the older level-script/S-register approach, changing how the test stage works, and notes small-but-real RAM savings and future plans like porting newer libultra.",
-      "challenge": "Transforming a decomp-derived project into a fully controlled, maintainable engine/codebase while managing compatibility and not regressing gameplay.",
-      "process": "He audits “every function I didn’t write,” rewrites it in his own implementation, and uses aggressive crash-on-error debugging to catch issues immediately. He tracks memory savings and identifies remaining engine upgrades.",
-      "outcome": "Incremental memory wins (claimed up to ~12 KB in one instance), structural simplification (no level script/S-register), and a clearer roadmap item (new libultra port).",
-      "key_quote": null,
+      "title": "Refactoring out remaining vanilla Mario 64 code (and deleting the level-script paradigm)",
+      "summary": "Kaze describes a deliberate effort to purge remaining vanilla implementations from the project by rewriting any functions he didn’t author. This refactor also changes foundational assumptions—his test stage no longer uses the old level-script/S-register model—signaling a maturing custom engine identity.",
+      "challenge": "Residual dependence on original vanilla source code and older control structures (level scripts/S-register) conflicts with his goal of a fully custom codebase and maintainability.",
+      "process": "He audits vanilla code, deletes/reimplements functions, and accepts disruptive changes (test stage behavior changes) as part of the cleanup; he uses aggressive crash-on-error tactics to catch issues immediately.",
+      "outcome": "He reports modest memory improvements (mentions ~4KB typical; later ~12KB saved from a change) and a clearer separation from vanilla Mario 64 architecture moving forward.",
+      "key_quote": "The whole concept of S register and level script is gone.",
+      "related_to": ["kaze"]
+    },
+    {
+      "title": "Learning to ‘sell’ videos: title changes and the pull toward sensationalism",
+      "summary": "Kaze compares two titles for a recent video and notes a measurable performance difference. He frames it as another data point that creators are rewarded for more alarmist framing, even when the content is simply iterative development work.",
+      "challenge": "A video underperformed with a straightforward, positive title despite solid content.",
+      "process": "He changes the title from a ‘perfecting’ framing to a ‘must be reworked’ framing and watches the metrics improve.",
+      "outcome": "He concludes he has to be ‘somewhat sensationalist’ to compete for clicks, shaping how development gets communicated publicly.",
+      "key_quote": "Just another proof that you need to be somewhat sensationalist.",
       "related_to": ["kaze"]
     }
   ],
   "open_questions": [
     {
-      "topic": "What exactly is the project’s standard for ‘not using any vanilla code’ and why is it important?",
-      "context": "Kaze says he is backspacing and reimplementing every function he didn’t write, implying a principled goal beyond optimization. The transcript doesn’t fully specify whether the driver is legal risk, maintainability, pride of authorship, or future portability.",
+      "topic": "Pandora’s box: permanent overworld consequences and player communication",
+      "context": "Kaze likes the idea that opening Pandora’s box permanently changes the overworld (Booblas remain), but worries players will assume they must eliminate the ghosts. He proposes a warning prompt and shifts toward using Booblas as a traversal mechanic to make their role obvious.",
       "questions": [
-        "Is this rewrite effort primarily about legal safety, personal ethics, maintainability, portability to your engine, or something else?",
-        "How do you define the boundary between ‘vanilla code’ you must replace versus algorithms/behaviors you can replicate?",
-        "What’s the most painful subsystem to rewrite (physics, camera, object system, rendering, OS calls), and what broke during the process?"
-      ],
-      "related_to": ["kaze"]
-    },
-    {
-      "topic": "Implications of removing level scripts and the S-register concept",
-      "context": "He states the “whole concept of S register and level script is gone,” and the test stage now works differently, but doesn’t describe the replacement architecture.",
-      "questions": [
-        "What replaced level scripts in RTYI—data-driven scene graphs, hardcoded setup, a custom scripting DSL, or something else?",
-        "What did removing level scripts enable (performance, flexibility, debugging) and what did it complicate (tooling, authoring levels)?",
-        "Did this change affect how collaborators (level designers/artists) hand off content to you?"
-      ],
-      "related_to": ["kaze"]
-    },
-    {
-      "topic": "How the game communicates irreversible overworld-state changes (Pandora’s Box)",
-      "context": "Kaze likes the idea that opening Pandora’s Box permanently infests part of the overworld, but worries players will assume the ghosts must be defeated. He proposes warning text and multi-step interaction, but messaging and long-term consequences aren’t finalized.",
-      "questions": [
-        "Do you want the Pandora’s Box change to be permanent per save file, per star, or reversible via some later quest?",
-        "What exact on-screen language will you use to ensure players understand it’s irreversible and not a ‘clear the enemies’ objective?",
-        "How do you prevent players from thinking they missed a way to ‘cleanse’ the area—do you ever pay that off later with a narrative beat?"
+        "Do you still want Pandora’s box to be a permanent, irreversible overworld change—and what narrative/theme is that meant to express in RTYI?",
+        "How did you test whether players understood ‘Booblas are a tool’ (launch mechanic) rather than ‘enemies to clear’? What feedback would make you revert to a non-permanent infestation?",
+        "What does the final warning/cutscene look like, and how many interactions (kicks/steps) do you need before the box opens to ensure players feel responsible for the choice?"
       ],
       "related_to": ["kaze", "zeina"]
     },
     {
-      "topic": "Boobla mechanics: final behavior, tuning, and readability",
-      "context": "The solution becomes ‘Booblas launch Mario upward,’ but he notes players may still try to kill them and that animation/readability (blob pop timing, anticipation frames, speed) needs iteration.",
+      "topic": "‘Purging vanilla’: motivation and risk behind rewriting remaining Mario 64 code",
+      "context": "Kaze is deleting/reimplementing functions he didn’t write, aiming to avoid using vanilla implementations, and he’s already removed the level-script/S-register paradigm. He also notes porting a ‘new libultra’ as a remaining engine upgrade.",
       "questions": [
-        "How will you tutorialize the idea that the Booblas are meant to be used as launchers without adding NPCs in a ‘ghost area’?",
-        "What are the final rules—proximity trigger radius, cooldown, launch height curve, damage/knockback, and whether the blob is always visible?",
-        "Will the Boobla ever be used elsewhere as a combat threat, or is it strictly an overworld traversal enemy?"
+        "Is the goal of rewriting vanilla code primarily legal/ethical clarity, technical ownership/maintainability, or performance—and which part mattered most to you emotionally as a creator?",
+        "What broke (or almost broke) when you removed level scripts/S-register, and what did that unlock architecturally for RTYI’s engine?",
+        "Where does the ‘new libultra’ port sit on the critical path now, and what capability does it enable that the current setup cannot?"
       ],
       "related_to": ["kaze"]
     },
     {
-      "topic": "Zeina’s Pandora’s Box asset: style targets and pipeline constraints",
-      "context": "Kaze decides Zeina will make Pandora’s Box, and earlier mentions 2D textures not working with new camera angles—suggesting evolving visual requirements and constraints.",
+      "topic": "Zeina’s Pandora’s box asset: art direction constraints in a freer camera overworld",
+      "context": "Kaze mentions Zeina’s prior ship texture worked best with a stiff camera angle, but the overworld camera changed; he then assigns Zeina the Pandora’s box model for this ghost area setpiece.",
       "questions": [
-        "What reference are you using for Pandora’s Box—Yoshi’s Island treasure chests, original mythology, or a bespoke ‘RTYI’ motif?",
-        "What constraints does Zeina have to design around (polycount, texture format, camera distance, animation hooks like chains/lock)?",
-        "How do you iterate on art when camera behavior changes (e.g., when older fixed-angle textures stop working)?"
+        "What specific camera/art-style constraints made earlier overworld textures or models ‘not fit’ once the camera became freer—and what rules did you establish afterward for new overworld props?",
+        "What reference(s) are you using for Pandora’s box (Yoshi’s Island, original myth imagery, or an RTYI-specific visual language), and how do you want it to read from a distance?",
+        "How do you two divide iteration responsibilities—does Zeina deliver multiple variants, or do you block it out first and she polishes after gameplay is proven?"
       ],
       "related_to": ["kaze", "zeina"]
     }

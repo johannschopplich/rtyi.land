@@ -1,75 +1,93 @@
 {
   "stream_context": {
-    "summary": "Kaze drafts and iterates on the hub/overworld: allocating remaining overworld stars, pitching NPC “visitors” that appear after clearing courses, and designing a cave/mirror vista to make adjacent levels feel physically connected. In parallel he mentions recent engine work (audio refactor, animation-format limitations) and begins a more formal level-by-level beta testing workflow.",
-    "level": ["Overworld", "Course 3", "Course 11 – Oil Blargg boss"],
+    "summary": "Kaze focuses on overworld (hub) planning: calculating remaining secret stars, brainstorming hub “events” where NPCs from courses appear in the overworld, and designing multiple overworld star concepts (Yoshi egg hatch, harvesting, Boatrice easter egg, Vario coin-sink star). He also discusses technical work: further audio-engine refactors/optimizations, limitations of the current animation format (squash-and-stretch), a beta-testing workflow shift (sending individual-level ROMs), and a crash caused by render-function testing that corrupted RAM. Side discussions touch on microcode/legal constraints (F3DEX3) and broader media/AI design philosophy.",
+    "level": ["Overworld", "Course 3", "Course 11"],
     "significance": "notable",
-    "significance_reason": "Introduces several concrete overworld star/event concepts (Yoshi egg, harvesting, coin sink star purchase), articulates a core hub-world philosophy (interconnectivity over pure utility), and reveals a shift toward systematic beta testing plus a notable crash caused by RAM corruption from render-code experiments."
+    "significance_reason": "The stream contains concrete overworld feature decisions (NPC/event-driven stars, one-way mirror window concept, specific star ideas) plus a notable production shift toward more systematic beta testing (per-level ROM distribution) and a revealing technical failure (RAM corruption crash) that informs engineering risk management."
   },
   "findings": [
     {
-      "topic": "design",
-      "importance": "high",
-      "summary": "Kaze treats the overworld as the game’s most critical “level” and repeatedly drafts it to ensure pacing and compact traversal. He targets ~21 overworld stars within a ~180-star structure, but is open to increasing total stars (185–200) if it makes the hub feel more alive.",
-      "quote": "We gotta get the overworld perfect… it’s the most important level in the game. You better get it right."
-    },
-    {
-      "topic": "design",
-      "importance": "medium",
-      "summary": "A proposed hub-world system: after completing certain actions in worlds/courses, NPCs from those worlds can appear in the overworld—but only if they provide gameplay purpose (e.g., tied to stars or meaningful interactions), not just flavor.",
-      "quote": null
-    },
-    {
-      "topic": "design",
-      "importance": "medium",
-      "summary": "Kaze wants more Yoshi-driven overworld stars tied to helping Yoshis (e.g., rebuilding Yoshi houses) and considers a harvesting-style minigame/lottery (pay coins to harvest/pound produce with a chance of finding a star).",
-      "quote": null
-    },
-    {
-      "topic": "design",
-      "importance": "medium",
-      "summary": "Overworld star concept: a Yoshi egg that becomes “ready to hatch” but can’t break its shell; the player frees it (punch/ground-pound), then returns later for a reward. Kaze debates using real-time delay (e.g., 1 hour) and considers an alternate condition to avoid endgame frustration (e.g., instant reward if the player already has ~170+ stars).",
-      "quote": null
-    },
-    {
       "topic": "technical",
       "importance": "medium",
-      "summary": "He continues deep refactoring/optimization of the audio system and reports another measurable speed improvement (~12.5%) beyond prior gains, describing the original audio code as unusually messy and still improvable.",
-      "quote": null
-    },
-    {
-      "topic": "technical",
-      "importance": "medium",
-      "summary": "Animation/engine limitation: squash-and-stretch is currently difficult because it’s not supported by the project’s animation pipeline (he references Mars 64’s engine). He wants to implement a new animation format that can encode scaling (squash/stretch) and discusses a plan to piggyback scale data into quaternion value ranges, but notes it is not implemented yet.",
-      "quote": null
-    },
-    {
-      "topic": "design",
-      "importance": "medium",
-      "summary": "He sketches multiple “NPC visitor” ideas tied to course completion: (1) Monty Mole blacksmith unlocks only after beating the Monty Mole mission in Grandson Badland, turning hostile/annoying NPC into a helpful overworld service; (2) the Goomba/‘Black King’ from Bunny Brushwoods retires to the beach to fish, showing character growth (no crown) even if it doesn’t immediately grant a star.",
-      "quote": null
-    },
-    {
-      "topic": "design",
-      "importance": "medium",
-      "summary": "He proposes giving coins stronger purpose in the overworld economy: after Vario is evicted from the Zoo, Vario could sell a single star for an intentionally overpriced 1000 coins as an optional coin sink.",
+      "summary": "Kaze reports continued audio-engine refactoring, claiming another ~12.5% speedup and describing the original audio code as unusually messy/opaque, with more improvements still possible.",
       "quote": null
     },
     {
       "topic": "design",
       "importance": "high",
-      "summary": "Overworld cave next to Rainbow Grotto/Crystal Caves becomes a design problem focused on readability and “connected world” feeling rather than secret entrances. Kaze’s guiding goal is that players sense adjacent spaces are physically near each other (seeing into a course from the overworld). He lands on a one-way mirror/window concept: the Rainbow Grotto mirror can be seen through from the cave side, providing a vista into the level, with lighting motivated by entrance/exit/mirror and surrounding crystal dressing. He also wants a dedicated secret star challenge in this cave and iterates through approaches (dark path + carryable crystals revealing route; then favoring a zipline-based traversal so it’s not just slow walking).",
+      "summary": "Kaze frames the overworld as the game’s “most important level” and emphasizes repeated drafting to ensure it’s compact, purposeful, and worth revisiting, since it ties all courses together and houses many secret stars.",
+      "quote": "We gotta get the overworld perfect. It’s a big level, and it’s the most important level in the game."
+    },
+    {
+      "topic": "design",
+      "importance": "high",
+      "summary": "He recalculates star targets and concludes the overworld still needs roughly 10 additional secret stars/events, prompting a design push to make the hub feel “alive” with more interactions and reasons to return.",
+      "quote": null
+    },
+    {
+      "topic": "design",
+      "importance": "high",
+      "summary": "A hub-system idea is advanced: after completing certain course actions, NPCs from that world can appear in the overworld, but only if they serve a gameplay purpose (ideally tied to overworld stars), not just decoration.",
+      "quote": null
+    },
+    {
+      "topic": "design",
+      "importance": "high",
+      "summary": "Kaze develops a Yoshi-focused overworld star concept: a Yoshi egg that becomes “ready to hatch” but can’t break out; the player helps (punch/ground pound) and later receives a reward, with debate over using real-time delay vs. alternate late-game conditions (e.g., immediate reward if near endgame star count).",
+      "quote": null
+    },
+    {
+      "topic": "technical",
+      "importance": "medium",
+      "summary": "He explains squash-and-stretch is currently hard because the existing Mars 64 animation pipeline doesn’t support it; he hopes to implement a new animation format that could support scaling, but it is not implemented yet.",
+      "quote": null
+    },
+    {
+      "topic": "design",
+      "importance": "medium",
+      "summary": "He decides the Monty Mole blacksmith becomes available in the overworld only after the related mission is cleared in Grandson Badland, turning prior antagonism into a post-mission “now I’ll help you” payoff and reinforcing cause→effect between courses and hub.",
+      "quote": null
+    },
+    {
+      "topic": "design",
+      "importance": "medium",
+      "summary": "A comedic overworld continuity beat is proposed: the Goomba/“Black King” from Bunny Brushwoods retires to the beach to fish after being beaten, symbolized by removing his crown for character growth; Kaze likes the character moment even if it doesn’t immediately yield a star.",
+      "quote": null
+    },
+    {
+      "topic": "design",
+      "importance": "high",
+      "summary": "A Rainbow Grotto follow-up is locked in: Boonard’s wife (Boatrice) becomes a shy, hard-to-spot overworld easter egg that appears only after all stars in Rainbow Grotto; she gives minimal reward (coins/Yoshi coins + new text/possible credit scene), with a blue coin switch placed in her alcove beforehand so the space isn’t dead.",
+      "quote": "Yeah, fuck it. We’ll do that."
+    },
+    {
+      "topic": "technical",
+      "importance": "high",
+      "summary": "Kaze clarifies he still uses F3DEX3 and notes it’s not something you can legally ship/sell as part of a commercial game; he suggests that in a hypothetical PC version the microcode would be emulated and thus not bundled in the same way.",
+      "quote": null
+    },
+    {
+      "topic": "milestone",
+      "importance": "high",
+      "summary": "He reports increased playtesting: a beta test of Course 3 went well and he considers it solid; a Course 11 beta build crashed widely because his render-function testing caused RAM corruption. He plans to send testers ROMs containing individual levels to speed iteration and surface “super minor improvements.”",
+      "quote": null
+    },
+    {
+      "topic": "design",
+      "importance": "high",
+      "summary": "For an overworld cave adjacent to the mirror/Rainbow Grotto area, Kaze focuses on achieving a strong sense of physical adjacency/interconnectivity between hub and level without allowing actual traversal between them. He adopts a one-way mirror/window concept: from the cave you can see into the level through the mirror, but it remains non-enterable.",
       "quote": "We don’t actually need this to have any gameplay implication; we just want the feeling of interconnectivity."
     },
     {
-      "topic": "technical",
-      "importance": "high",
-      "summary": "Kaze begins running more frequent beta tests and changing distribution: he’ll send testers ROMs containing individual levels to get focused feedback and isolate issues. Course 3’s beta test went well and he considers it solid; Course 11’s test revealed a severe stability issue when his experimental render-function work caused RAM corruption and widespread crashes, though the partial play experience still validated the intended designs and humor beats.",
+      "topic": "design",
+      "importance": "medium",
+      "summary": "A major coin-sink star is proposed for the Zoo storyline: once Vario is evicted/leaves, he could sell the player an “overpriced” star for ~1000 coins, reinforcing that coins should matter beyond incidental collection.",
       "quote": null
     },
     {
-      "topic": "legal-nintendo",
-      "importance": "medium",
-      "summary": "In a discussion of Portal 64’s cancellation/legal friction, Kaze distinguishes libultra (OS layer) from microcode and notes microcode is harder to replace legally. He mentions still using F3DEX3 and states it’s not something you can legally “just use and sell your game.” He adds that if the project ever had a PC component, the microcode wouldn’t be shipped as-is because it would be emulated anyway.",
+      "topic": "business",
+      "importance": "low",
+      "summary": "Kaze mentions a planned upload was delayed because a Squarespace sponsor code wasn’t working, highlighting how sponsor logistics can directly disrupt his release schedule.",
       "quote": null
     }
   ],
@@ -77,20 +95,14 @@
     "biobak": [
       {
         "topic": "design",
-        "importance": "low",
-        "summary": "Biobak’s work is referenced as pending for Divine Dino Domain (‘once Biobak’s rework is done’), implying that course’s narrative/event hooks are intentionally deferred until that rework lands.",
+        "importance": "medium",
+        "summary": "Biobak pushes bolder environmental connectivity ideas (e.g., ‘behind the mirror’ concept) that lead Kaze toward the final one-way mirror/window solution rather than a literal secret entrance.",
         "quote": null
       },
       {
-        "topic": "design",
+        "topic": "philosophy",
         "importance": "low",
-        "summary": "Biobak pushes an idea about doing something ‘behind the mirror,’ prompting Kaze to explore a compromise: letting players see through a one-way mirror rather than actually going behind it.",
-        "quote": null
-      },
-      {
-        "topic": "design",
-        "importance": "low",
-        "summary": "Biobak describes one area as less ‘juicy’ than others, steering Kaze toward improving color/lighting intensity and environmental readability.",
+        "summary": "Biobak jokes that Ocarina of Time ‘is not good,’ which Kaze frames as extremely effective ‘rage bait’ and uses to segue into broader commentary on online discourse.",
         "quote": null
       }
     ],
@@ -101,92 +113,97 @@
   "memorable_quotes": [
     {
       "speaker": "Kaze",
-      "quote": "We gotta get the overworld perfect… it’s the most important level in the game. You better get it right.",
-      "context": "Captures the hub-world’s narrative and design importance: the overworld isn’t just a menu, it’s a core level with pacing, content density, and atmosphere responsibilities."
+      "quote": "We gotta get the overworld perfect. It’s a big level, and it’s the most important level in the game.",
+      "context": "He justifies why the hub world is drafted and iterated repeatedly: it’s the game’s connective tissue and primary place for secret stars and events."
     },
     {
       "speaker": "Kaze",
       "quote": "We don’t actually need this to have any gameplay implication; we just want the feeling of interconnectivity.",
-      "context": "States a key design philosophy: the overworld should communicate physical adjacency between spaces to make the island feel coherent, even when it doesn’t unlock new routes."
+      "context": "While designing the overworld cave/mirror area, he prioritizes environmental cohesion and player perception over mechanical gating or shortcuts."
+    },
+    {
+      "speaker": "Kaze",
+      "quote": "The soul is in the story, not the visuals.",
+      "context": "During a tangent about generative AI, he argues that even if assets are AI-assisted, authorship/intent and narrative assembly can still carry ‘soul.’"
     }
   ],
   "key_stories": [
     {
-      "title": "Turning the overworld into a living quest space",
-      "summary": "Kaze tallies missing overworld stars and deliberately plans them as events and interactions, not filler. He floats systems like NPC visitors that appear after course progress, Yoshi-focused tasks, and coin sinks, and he’s willing to raise total star count if it increases the hub’s ‘aliveness.’",
-      "challenge": "The overworld needs enough meaningful content (stars/events) to justify its scale without becoming empty traversal or aimless NPC flavor.",
-      "process": "He audits star counts, identifies missing slots, and brainstorms concrete star sources (egg hatching, harvesting, Vario star sale) while setting a rule: overworld NPCs should appear only if they serve a purpose.",
-      "outcome": "A growing list of specific overworld star hooks and an explicit willingness to expand beyond the original 180-star target if it strengthens the hub’s density and charm.",
+      "title": "Overworld becomes an event-driven star hub",
+      "summary": "Kaze realizes the overworld still needs a large number of secret stars and uses that constraint to justify a more ‘alive’ hub: NPCs and events unlocked by course progress. The story matters because it reveals the hack’s structural pillar: the hub isn’t just a lobby, it’s a progression layer with its own quests.",
+      "challenge": "The overworld is short ~10 secret stars and risks feeling empty if it’s only a transit space between courses.",
+      "process": "He inventories planned overworld stars, brainstorms hub events tied to course actions, and filters ideas with a rule: overworld NPC arrivals must have a purpose (often a star/quest). He explores multiple candidate questlines (Yoshi rebuilding/harvest, egg hatching, Vario coin-sink, character cameos).",
+      "outcome": "A direction is established: more overworld stars will come from course-triggered events, with several concrete candidates ready for implementation and iteration.",
+      "key_quote": "We gotta get the overworld perfect. It’s a big level, and it’s the most important level in the game.",
+      "related_to": ["kaze"]
+    },
+    {
+      "title": "Boatrice easter egg and the one-way mirror connectivity solution",
+      "summary": "While trying to make the Rainbow Grotto/mirror area feel spatially ‘real,’ Kaze lands on two complementary ideas: a late-game Boatrice easter egg and a one-way mirror/window that lets players see into the level from the overworld cave. This story matters because it shows Kaze solving a ‘world cohesion’ problem with perception and payoff rather than pure mechanics.",
+      "challenge": "The cave/mirror adjacency to Rainbow Grotto/Crystal Cave felt ‘not juicy’ and disconnected; making a literal secret entrance risked awkwardness or player confusion.",
+      "process": "He explores reflection/env-mapping and ‘behind the mirror’ concepts, then rejects them due to feasibility/texture constraints and the risk of ‘nothing there.’ He reframes the goal as perception: create a convincing sightline into the level without allowing traversal. In parallel, he designs Boatrice as a shy, hard-to-see post-completion appearance with minimal reward and a blue coin switch placeholder before she’s available.",
+      "outcome": "He commits to a one-way mirror view into Rainbow Grotto and formalizes Boatrice’s unlock condition and reward structure, converting a dead-end space into a lore/easter-egg moment plus coin utility.",
       "key_quote": "We don’t actually need this to have any gameplay implication; we just want the feeling of interconnectivity.",
-      "related_to": ["kaze"]
+      "related_to": ["kaze", "biobak"]
     },
     {
-      "title": "A cave that exists to prove the world is connected",
-      "summary": "While solving an ‘awkward cave’ location near Rainbow Grotto/Crystal Caves, Kaze reframes the goal as environmental storytelling: the player should feel physically adjacent to the neighboring course. He iterates from reflection tricks to a one-way mirror vista, then attaches a secret-star traversal idea (crystal-guided path vs. zipline).",
-      "challenge": "The cave felt purposeless and visually disconnected, risking a dead zone in the overworld and losing the sense that courses share one coherent island.",
-      "process": "He tests multiple readability solutions (windows, reflections, lighting, crystal dressing), rejects cheap/low-res reflection ideas, and settles on a one-way mirror view into the course plus a traversal/secret-star concept to justify visiting the space.",
-      "outcome": "A clear direction: the cave becomes a connectivity showcase (see into the level) and also hosts a bespoke secret-star traversal, with zipline emerging as the preferred structure.",
-      "key_quote": "The mirror into the rainbow grotto is one way.",
-      "related_to": ["kaze"]
-    },
-    {
-      "title": "Beta testing reveals a critical render-code crash and changes the workflow",
-      "summary": "Kaze reports that a Course 3 beta test went well, but a Course 11 beta test exposed widespread crashes. The crashes came from his own render-function experimentation that caused runtime RAM corruption, prompting him to tighten feedback loops by distributing isolated, single-level ROMs for testing.",
-      "challenge": "As levels become more complex, regressions and crashes become harder to catch through solo playtesting; experimental engine work can destabilize unrelated content.",
-      "process": "He runs external beta tests, observes outcomes, diagnoses the crash cause (RAM corruption from render testing), and decides to distribute individual-level ROMs to gather targeted feedback and reduce noise.",
-      "outcome": "A more systematic QA approach begins, with early confirmation that designs ‘work as intended’ when stable, and a clear lesson about the fragility of low-level N64 rendering experiments.",
-      "key_quote": "I fucked up and made the game crash everywhere… RAM corrupted itself at runtime.",
+      "title": "Beta testing scales up—then a render test corrupts RAM",
+      "summary": "Kaze reports that broader beta testing is now revealing useful micro-improvements, but also surfaces a serious stability failure: a Course 11 build crashed widely because of a render-function test that corrupted RAM at runtime. This story is valuable for interviews because it captures the tradeoff between aggressive engine experimentation and maintaining testable builds for collaborators.",
+      "challenge": "Validate course quality with external playtests while continuing deep engine/render experimentation that can destabilize builds.",
+      "process": "He runs beta tests (Course 3 success), then tests Course 11 while experimenting with rendering changes. The experiment goes unnoticed during play until widespread crashes appear, traced to runtime RAM corruption. He proposes a new workflow: distribute ROMs containing individual levels to testers for faster targeted feedback.",
+      "outcome": "Course 3 is described as solid; Course 11 testing is partially invalidated by instability, but still confirms that ‘designs were working as intended’ in playable segments. He commits to a more systematic per-level ROM testing pipeline.",
+      "key_quote": null,
       "related_to": ["kaze"]
     }
   ],
   "open_questions": [
     {
-      "topic": "Final overworld/total star targets",
-      "context": "Kaze starts with 21 overworld stars and ~180 total, but after finding additional overworld star concepts he considers raising totals to 185 or even 200 to increase the hub’s sense of life.",
+      "topic": "Real-time vs progression-based overworld rewards (Yoshi egg star)",
+      "context": "Kaze likes the idea of helping a stuck egg hatch and getting rewarded later, but is unsure about requiring an hour of real time; he suggests an alternate condition for late-game players (e.g., near 170+ stars) so the reward isn’t gated by waiting.",
       "questions": [
-        "What is the intended final star count, and what constraints (save format, UI, pacing, completion time) limit raising it?",
-        "At what point does adding overworld stars stop improving ‘aliveness’ and start feeling like padding?",
-        "Did the team set a target completion time or difficulty curve that star count must support?"
+        "What player experience are you aiming for with real-time waits in the overworld—cozy ‘living world’ ambience, or a structured quest cadence?",
+        "How would you implement a ‘backup’ condition (star-count threshold, in-game timer, revisit count) so the egg quest can’t become a last-star frustration point?",
+        "Do you want multiple overworld quests to use real-time progression, or is this meant to be a one-off novelty? Why?"
       ],
       "related_to": ["kaze"]
     },
     {
-      "topic": "Yoshi egg hatching star: real-time gating vs. player-friendly alternatives",
-      "context": "Kaze likes the idea of breaking an egg, then returning later for a reward, but worries a 1-hour real-time wait could frustrate players—especially near endgame—so he mentions an alternate condition (e.g., instant reward at 170+ stars).",
+      "topic": "Coin economy and the proposed 1000-coin Vario star",
+      "context": "Kaze proposes Vario selling an overpriced star post-eviction to give coins a meaningful purpose, but doesn’t yet define the broader coin sinks or expected coin supply curve.",
       "questions": [
-        "Did you ultimately keep any real-time wait in the final design, or replace it with an in-game timer/progress trigger?",
-        "How do you prevent players from getting ‘stuck’ with this as the last remaining star?",
-        "What’s your general rule for time-gated content in a Mario 64-style platformer?"
+        "Roughly how many coins do you expect an average player to have at that point—would 1000 coins be a grind, a savings goal, or a late-game dump?",
+        "What other coin sinks exist (or should exist) so this doesn’t feel like a single arbitrary toll?",
+        "Is the goal to make coins feel like ‘hub progression currency,’ or just to support a few comedic/optional purchases like Vario’s scam?\""
       ],
       "related_to": ["kaze"]
     },
     {
-      "topic": "Coin economy and pricing philosophy for overworld stars",
-      "context": "The Vario idea (sell a star for 1000 coins) is explicitly framed as giving coins purpose, but Kaze also acknowledges it could be seen as basic or potentially annoying depending on implementation.",
+      "topic": "Overworld scope creep: 180 vs 185 vs 200 stars",
+      "context": "By the end of the stream, Kaze notes the team may exceed the planned 21 overworld stars and considers raising the total star count (185/200), arguing it won’t meaningfully hurt the structure and could make the overworld feel more alive (Odyssey-style abundance).",
       "questions": [
-        "What other coin sinks exist (or are planned) so 1000 coins feels achievable without grinding?",
-        "How do you set prices so the purchase feels like a joke/character beat without feeling like a tax?",
-        "Do you track coin availability per course to calibrate overworld purchases?"
+        "What’s the guiding rule for deciding when the star count increases are ‘adding life’ versus ‘diluting’ progression?",
+        "How do you want completion pacing to feel—tight like Mario 64’s 120, or broad like Odyssey’s moons—and what does that imply for difficulty/optional content?",
+        "If the total increases, will you rebalance requirements for unlocking later areas, or keep gates fixed and let abundance reduce friction?"
       ],
       "related_to": ["kaze"]
     },
     {
-      "topic": "One-way mirror vista: implementation and player communication",
-      "context": "Kaze decides the Rainbow Grotto mirror should be one-way from the overworld cave, mainly to sell interconnectivity. He also worries about players missing subtle cues.",
+      "topic": "Testing workflow: distributing per-level ROMs",
+      "context": "Kaze says he’s starting to send testers ROMs with individual levels to gather targeted feedback, after learning from a Course 11 crash and seeing strong results from Course 3 testing.",
       "questions": [
-        "How will you visually communicate that the mirror is ‘see-through’ from one side (lighting, shader, framing, camera hints)?",
-        "Will the cave include signage/level theming (crystals, sound cues) to ensure players understand what they’re seeing?",
-        "Were there performance concerns rendering a vista into another space (or faking it) on N64 hardware?"
+        "How do you select testers and structure their feedback so you get actionable notes instead of taste-based noise?",
+        "What’s your process for preventing ‘unstable engineering experiments’ (like render tests) from contaminating builds meant for testers?",
+        "What kinds of ‘super minor improvements’ have beta testers consistently pointed out that you weren’t catching yourself?"
       ],
       "related_to": ["kaze"]
     },
     {
-      "topic": "Secret-star cave traversal: crystal-guided path vs. zipline final choice",
-      "context": "Kaze explores multiple mechanics (carryable crystals revealing paths, appearing platforms, water safety, darkness readability) and then says ‘zipline it is,’ but the detailed final design isn’t locked in within the transcript.",
+      "topic": "Commercial/legal plan around microcode (F3DEX3) and any PC build",
+      "context": "Kaze states F3DEX3 isn’t something you can legally ship/sell as part of a commercial game, and speculates that a PC version would emulate microcode so it ‘wouldn’t matter’ in the same way, but the actual plan remains unclear.",
       "questions": [
-        "Did the final cave star use a zipline, crystal-revealed pathing, or a hybrid?",
-        "How do you balance ‘don’t let players die in the overworld’ with having meaningful traversal challenge?",
-        "What was the playtest feedback on darkness/readability in an overworld context?"
+        "What’s your current understanding of the legal constraint: is it specifically distribution of Nintendo microcode, or broader N64 SDK/IP concerns?",
+        "If Return to Yoshi’s Island ever needed a ‘commercially clean’ path, what would you replace first—microcode, audio components, SDK-like dependencies—and how big is that effort?",
+        "Do you see a PC build as a separate product, a preservation tool, or just a hypothetical escape hatch if platform constraints become too costly?\""
       ],
       "related_to": ["kaze"]
     }

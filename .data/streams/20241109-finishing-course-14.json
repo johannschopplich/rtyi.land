@@ -1,99 +1,81 @@
 {
   "stream_context": {
-    "summary": "Kaze develops a new “Mario Paint”-style retro sub-area where players can color in Mario on a dynamically updated texture, then have an NPC judge the drawing and award a star if it meets a score threshold. He prototypes UI/UX (reset via rocket, no undo), implements/repairs scoring reset logic, chooses a Mario Paint-themed evaluator character, and begins recreating the Mario Paint save/load robot as a 3D model with sprite-accurate proportions. He also discusses an unresolved emulator crash on Parallel RDP, a speculative N64 “hidden memory” concept (9-bit bytes), and the idea of asset-swapping RTYI into an original-IP indie game (with legal uncertainty).",
+    "summary": "Kaze prototypes and hardens the “Paint Mario” (Mario Paint-inspired) retro sub-area: implementing a virtual-texture painting system, reset/clear behavior, scoring, and an NPC-based “judging” interaction that awards the star. He also explores using a Mario Paint robot as the evaluator, discusses emulator/render-thread instability (Parallel RDP), and shares a major N64-tech tangent about accessing a hidden “9th bit” per byte (≈1MB of potential storage).",
     "level": ["Course 15 – Mario Paint retro section"],
     "significance": "milestone",
-    "significance_reason": "He gets the core loop of the Mario Paint mini-objective working end-to-end: painting + reset + scoring + NPC evaluation + star award threshold, and locks key UX decisions (no undo)."
+    "significance_reason": "The Paint Mario subgame reaches a complete gameplay loop (paint → score → talk to evaluator → star), including exploit/bug discovery (infinite score) and a firm design stance (no undo). The stream also contains a potentially documentary-worthy technical revelation about “hidden” N64 memory via a 9th bit."
   },
   "findings": [
     {
       "topic": "design",
       "importance": "high",
-      "summary": "A retro sub-area is built around “painting Mario” directly in-game: players color on Mario’s model/texture and then need to pass a quality check to earn a star.",
+      "summary": "Kaze’s “Paint Mario” concept is framed explicitly as a Mario Paint-style minigame inside RTYI: players paint directly onto Mario, can clear the drawing with a rocket-triggered reset, and are ultimately judged on how closely their coloring matches an expected ‘correct’ Mario.",
       "quote": null
     },
     {
       "topic": "technical",
       "importance": "high",
-      "summary": "Kaze implements dynamic texture painting on Mario (described as essentially a virtual texture), allowing freeform drawing and flood-fill within the N64 constraints.",
+      "summary": "He implemented painting as a dynamic/virtual texture system (writing texture data at runtime) and added a clear/reset action that removes paint so Mario can be viewed unmodified.",
+      "quote": null
+    },
+    {
+      "topic": "technical",
+      "importance": "high",
+      "summary": "The fill tool is a simple flood-fill that expands through adjacent pixels of the same color (not an ‘intelligent’ fill). He avoids recursion because the N64 stack is too small, instead allocating a temporary memory region and using it as an explicit stack/queue for pixels to process.",
       "quote": null
     },
     {
       "topic": "design",
       "importance": "high",
-      "summary": "He adds a one-button full reset using a rocket animation that clears the paint, explicitly to support quick retries without providing granular undo.",
-      "quote": null
-    },
-    {
-      "topic": "design",
-      "importance": "high",
-      "summary": "He makes a firm design call against an undo feature: RTYI’s painting is a gameplay challenge, not an image editor; mistakes should cost points and players can only reset, not undo.",
+      "summary": "Kaze rejects adding an undo feature despite chat suggesting an “Undo Dog,” deciding the activity must remain a game (with consequences) rather than an image editor; players get reset, not undo, and mistakes should cost points.",
       "quote": "It’s still a game, guys. This is not an image editor. You fuck up, you lose your points."
     },
     {
       "topic": "technical",
-      "importance": "medium",
-      "summary": "The flood-fill is a simple adjacency-based fill (not “intelligent”), chosen because it’s cheap enough to run without major performance concern.",
-      "quote": null
-    },
-    {
-      "topic": "technical",
       "importance": "high",
-      "summary": "To avoid recursion/stack overflow on N64, he replaces recursive fill with an explicit pixel stack stored in allocated temporary memory (including ROM space usage as a working stack).",
-      "quote": null
-    },
-    {
-      "topic": "technical",
-      "importance": "high",
-      "summary": "He finds and fixes a scoring reset bug where clearing didn’t reset score, enabling infinite scoring; he refactors toward a separate function/state because score state was “in so many places.”",
+      "summary": "He identifies a scoring exploit/bug: certain actions (like clearing/resetting) weren’t resetting score, enabling infinite score farming. He concludes the score/state storage is scattered and needs refactoring into a separate, cleaner function/state block to stop reintroducing the bug.",
       "quote": null
     },
     {
       "topic": "design",
       "importance": "high",
-      "summary": "A new objective-gating structure is defined: an NPC “judge” checks the painting, and if the score crosses a threshold, the player receives the star.",
+      "summary": "A key requirement emerges: an in-level character (triggered via interaction) must evaluate the player’s painting and, if a score threshold is met, award the star—formalizing the win condition for the minigame.",
       "quote": null
+    },
+    {
+      "topic": "milestone",
+      "importance": "high",
+      "summary": "By the end of the stream, Kaze wires up the evaluator interaction so that meeting the threshold results in receiving the star, and he tests how ‘wrong’ a player can be while still passing—immediately anticipating speedrun strategies (minimal correct regions for a fast clear).",
+      "quote": "That’s going to be interesting to see what the speedrun strat is."
     },
     {
       "topic": "design",
       "importance": "medium",
-      "summary": "He searches for a fitting Mario Paint-themed evaluator NPC; chat suggests Undo Dog, but Kaze avoids it because it implies undo mechanics. He prefers the Mario Paint save/load robot (rocket robot) as the judge.",
+      "summary": "To fit the Mario Paint theme, he searches for a recognizable Mario Paint NPC/mascot to serve as the evaluator. He gravitates toward the Mario Paint save/load robot but struggles to find clean, native-resolution assets and considers ripping sprites from videos or sources and/or recreating the character in 3D.",
       "quote": null
     },
     {
       "topic": "technical",
       "importance": "medium",
-      "summary": "He switches Mario’s texture filtering to point filtering after a chat suggestion, noting it makes the look crisper and more consistent with the retro aesthetic.",
+      "summary": "He switches Mario’s texture sampling to point filtering after trying it live and agrees it looks crisper for the retro aesthetic, especially alongside other point-filtered assets.",
+      "quote": null
+    },
+    {
+      "topic": "technical",
+      "importance": "medium",
+      "summary": "Kaze reports an unresolved crash/compatibility issue: RTYI “doesn’t work in Parallel” (Parallel RDP / Parallel Launcher context). He says they tried to fix it and consulted Falco but couldn’t determine the cause.",
       "quote": null
     },
     {
       "topic": "technical",
       "importance": "high",
-      "summary": "He successfully integrates an “ask Mario” / yes-no style conversation function for the judge NPC and tests star awarding logic live; initial logic confusion reveals the scoring is inverted (lower score = more correct), which he then validates through experimentation.",
-      "quote": null
+      "summary": "He claims the N64 effectively contains ~1MB of ‘hidden’ memory because bytes can be treated as having a usable 9th bit; he describes it as normally tied to coverage/triangle rendering but accessible to the CPU with tricks (though he currently only knows how to access every other 9th bit, with performance caveats).",
+      "quote": "Secretly, all the bytes on the N64 are nine bits."
     },
     {
-      "topic": "design",
+      "topic": "business",
       "importance": "medium",
-      "summary": "Live testing shows the scoring tolerance is lenient enough that speedrunners may optimize by coloring only key regions (cap/face/nose/mustache) to pass quickly, which Kaze flags as an emergent strategy.",
-      "quote": null
-    },
-    {
-      "topic": "technical",
-      "importance": "medium",
-      "summary": "He begins recreating the Mario Paint robot as a 3D model from sprite references, choosing higher poly counts (still under Mario’s triangle count ~300) because the sub-area runs well and accuracy matters more than strict minimalism there.",
-      "quote": null
-    },
-    {
-      "topic": "technical",
-      "importance": "high",
-      "summary": "He notes RTYI crashes (or fails to run) under Parallel RDP/Parallel Launcher and says he and Falco tried to fix it but couldn’t determine the cause.",
-      "quote": null
-    },
-    {
-      "topic": "technical",
-      "importance": "medium",
-      "summary": "Kaze claims the N64 effectively has “~1MB of hidden memory” via a ninth bit per byte (normally used for coverage in rendering) that can be accessed with tricks, albeit slowly; he considers making a video about it.",
+      "summary": "Kaze floats a post-RTYI pathway to indie development: because RTYI uses very few vanilla actors besides Mario, he considers later ‘asset swapping’ the project into an original-IP game, but notes it may require legal advice due to potential implications while RTYI exists as a ROM hack.",
       "quote": null
     }
   ],
@@ -104,7 +86,7 @@
       {
         "topic": "personal",
         "importance": "low",
-        "summary": "Kaze mentions he and Zeina are currently playing Twilight Princess together; he reflects that he prefers overworld journey/exploration more than dungeon sequences (which affects his interest in Skyward Sword).",
+        "summary": "Kaze mentions he and Zeina are currently playing through Twilight Princess together, and that his taste in Zelda leans toward exploration/journeys between dungeons rather than dungeon-heavy structures.",
         "quote": null
       }
     ],
@@ -115,7 +97,7 @@
           {
             "topic": "technical",
             "importance": "medium",
-            "summary": "Kaze consulted Falco about the Parallel RDP crash/compatibility issue, but they were unable to identify or resolve it.",
+            "summary": "Kaze references consulting Falco about the Parallel RDP/Parallel Launcher crash but says they still couldn’t figure out why RTYI fails there.",
             "quote": null
           }
         ]
@@ -125,8 +107,8 @@
         "findings": [
           {
             "topic": "community",
-            "importance": "medium",
-            "summary": "Skyloft helps Kaze track down better-quality sprite/asset references (a usable GIF source) for ripping the Mario Paint robot visuals.",
+            "importance": "low",
+            "summary": "Skyloft helps by engaging during the asset hunt (including reacting to Kaze’s ‘GIF/JIF’ bait) and prompts discussion around game preferences; Kaze also briefly mentions potentially revisiting Skyward Sword.",
             "quote": null
           }
         ]
@@ -136,97 +118,106 @@
   "memorable_quotes": [
     {
       "speaker": "Kaze",
-      "quote": "Gamers don’t look up.",
-      "context": "While debating where to place the judge NPC/model (he jokes that putting something on the ceiling is safe because players rarely look upward)."
-    },
-    {
-      "speaker": "Kaze",
       "quote": "It’s still a game, guys. This is not an image editor. You fuck up, you lose your points.",
-      "context": "He rejects adding undo, framing the painting feature as a skill challenge with consequences rather than a creative tool."
+      "context": "He draws a hard line against adding an undo feature to Paint Mario, framing the minigame’s identity as ‘gameplay with consequences’ rather than a creative tool."
     },
     {
       "speaker": "Kaze",
-      "quote": "The Nintendo 64 has around one megabyte of hidden memory that you don’t really use.",
-      "context": "He introduces the provocative “9-bit byte” idea and considers turning it into a standalone technical video."
+      "quote": "Secretly, all the bytes on the N64 are nine bits.",
+      "context": "His surprising claim that the N64 has accessible ‘hidden’ memory via a 9th bit per byte—positioned as potential material for a future standalone technical video."
+    },
+    {
+      "speaker": "Kaze",
+      "quote": "You cannot redo a hundred times what you’ve done in the past.",
+      "context": "A broader creative philosophy moment while discussing moving on from prior ideas/projects and not endlessly repeating what previously worked."
     }
   ],
   "key_stories": [
     {
-      "title": "Turning Mario Paint into a star challenge",
-      "summary": "Kaze builds a playable “Paint Mario” activity where the player colors Mario’s texture in real time and must meet an accuracy threshold to earn a star. During the stream he moves from a freeform toy (drawing/fill experiments) into a structured objective with evaluation, dialogue, reset rules, and scoring integrity.",
-      "challenge": "Make dynamic painting feel responsive on N64, then convert it into a fair, replayable objective without it becoming a full editor (undo, complex tools) or being easily exploitable.",
-      "process": "Implements a cheap adjacency flood-fill and avoids recursion by using an explicit pixel stack in allocated temp memory. Adds a rocket-based full reset and fixes a score-reset exploit. Chooses a Mario Paint-themed judge concept (robot), integrates an ask/answer dialogue path, and tests score thresholds and star awards in-game.",
-      "outcome": "An end-to-end loop works: paint → talk to judge → pass threshold → get star, with reset available but no undo. Testing reveals the tolerance may allow speedrun-optimized minimal coloring.",
-      "key_quote": "It’s still a game, guys. This is not an image editor. You fuck up, you lose your points.",
+      "title": "Building the Paint Mario system: flood fill without recursion",
+      "summary": "Kaze demonstrates the core tech behind the Mario Paint-inspired subgame: painting and fill operations on a runtime-updated texture. A constraint of N64-era stack size forces him away from a recursive flood fill toward a manual pixel-processing stack in temporary memory.",
+      "challenge": "Implement a fill tool that’s fast enough and doesn’t crash due to recursion/stack limits.",
+      "process": "He uses a simple adjacent-pixel flood-fill approach and allocates a dedicated temporary memory region used as a stack for pixels to check, avoiding recursive calls.",
+      "outcome": "Fill works acceptably and is ‘cheap enough’ performance-wise, enabling the painting gameplay loop.",
+      "key_quote": "The stack is not big enough for that. So I can’t do that.",
       "related_to": ["kaze"]
     },
     {
-      "title": "Unresolved Parallel RDP crash",
-      "summary": "Kaze discusses ongoing compatibility problems: RTYI crashes or fails under Parallel RDP/Parallel Launcher, and prior attempts to fix it didn’t produce a clear root cause. He expresses frustration with the ecosystem and leans toward recommending other emulators.",
-      "challenge": "Get RTYI stable across popular N64 emulators/plugins, especially the Parallel stack.",
-      "process": "Attempts debugging and consults Falco; tests and compares alternatives (Project64, RMG, others).",
-      "outcome": "Issue remains unsolved in this stream; compatibility is treated as a known blocker/annoyance rather than something he can quickly patch.",
-      "key_quote": null,
+      "title": "Closing the gameplay loop: evaluator NPC and star threshold",
+      "summary": "The minigame shifts from a toy to a shippable level objective when Kaze adds a ‘judge’ interaction: talk to an NPC, get evaluated, and earn a star if you’re above a threshold. While testing, he discovers the scoring semantics (lower score = more correct) and immediately spots likely speedrun exploits (paint only the minimum required regions).",
+      "challenge": "Define a clear win condition and prevent score-related exploits so the activity can award a star reliably.",
+      "process": "He adds an interaction trigger (‘talk’ function) that checks the current score against a threshold; he tests different wrong colorings to see when it fails and ensures reset behavior returns the state correctly.",
+      "outcome": "The star-award logic works, and Kaze begins balancing how strict the evaluator should be to avoid trivial clears.",
+      "key_quote": "That’s the speedrun strategy.",
       "related_to": ["kaze"]
     },
     {
-      "title": "Considering an original-IP version via asset swap",
-      "summary": "Kaze floats a longer-term plan: after RTYI, he could replace Mario/remaining Nintendo identifiers and release a similar game as his own IP, potentially as his first indie title. He immediately notes legal uncertainty and the need for lawyer advice, even around messaging/advertising intent.",
-      "challenge": "How to transition from a ROM hack built on Nintendo’s legacy into a legally safe, original commercial project without losing the core design work.",
-      "process": "Evaluates how many “vanilla actors” remain (claims mostly just Mario) and imagines swapping them out; considers consulting legal counsel about what’s permissible and how it could be perceived.",
-      "outcome": "Not a decision yet—raised as a plausible post-RTYI pathway with explicit legal due diligence required.",
-      "key_quote": null,
+      "title": "No undo: protecting the minigame’s identity",
+      "summary": "Chat suggests the Mario Paint ‘Undo Dog’ and undo functionality, but Kaze intentionally declines. He reframes Paint Mario as a challenge mode where mistakes matter; reset exists, but undo would turn it into a full editor and undermine the scoring pressure.",
+      "challenge": "Decide whether Paint Mario should behave like a creative tool (undo) or a game objective (commitment and risk).",
+      "process": "He evaluates the UX expectation an ‘Undo Dog’ would create and rejects the complexity/storage cost of undo state, choosing consequences + reset instead.",
+      "outcome": "A clear design pillar is set: no undo, only reset, and points punish errors.",
+      "key_quote": "You don’t get undo, but you get reset.",
+      "related_to": ["kaze"]
+    },
+    {
+      "title": "Hunting the Mario Paint robot asset and deciding to recreate it in 3D",
+      "summary": "To sell the Mario Paint theme, Kaze looks for a recognizable character to act as the judge and lands on the save/load robot. He struggles to find native-resolution assets online and explores ripping sprites (GIFs, screenshots) and reconstructing parts in 3D, accepting higher polycounts because the sub-area runs well.",
+      "challenge": "Find or create a clean Mario Paint robot asset that matches the retro look without becoming a time sink.",
+      "process": "He searches online repositories, tests different sources, measures pixel dimensions, and begins reconstructing geometry (including octagonal/cylindrical approximations) while monitoring triangle counts and performance.",
+      "outcome": "He makes visible progress toward a 3D recreation and confirms the area can handle it performance-wise.",
+      "key_quote": "It’s 300 triangles. It’s less than Mario’s model.",
       "related_to": ["kaze"]
     }
   ],
   "open_questions": [
     {
-      "topic": "Paint Mario scoring model and thresholds",
-      "context": "Kaze uses a numeric score (shown bottom-left) where lower seems to mean more correct; he temporarily sets a star threshold around 1,000,000 and observes the challenge may be lenient enough for minimal-speedrun painting.",
+      "topic": "Paint Mario scoring model and anti-speedrun balance",
+      "context": "Kaze’s tests show the score decreases as the painting becomes more correct, and that players can be ‘pretty wrong’ and still pass, suggesting an easy speedrun route (paint only a few key regions like cap/face/mustache).",
       "questions": [
-        "What is the intended final scoring formula (per-region weights, penalties, tolerance), and how did you decide what counts as ‘good enough’ for the star?",
-        "Will you harden against ‘minimal viable coloring’ speedrun strats (e.g., only mustache/hat/face) or embrace them as emergent gameplay?",
-        "Do you plan multiple difficulty tiers (e.g., bronze/silver/gold scores) or just pass/fail for the star?"
+        "What exactly is the scoring function comparing (pixel-by-pixel reference image, weighted regions, palette distance)?",
+        "Which Mario regions are intended to matter most, and how will you prevent ‘minimum viable coloring’ from trivializing the star?",
+        "Did you intentionally design tolerance for casual players, or is the current threshold a temporary placeholder?"
       ],
       "related_to": ["kaze"]
     },
     {
-      "topic": "Judge NPC selection and player expectations (Undo Dog vs robot)",
-      "context": "Kaze wants a Mario Paint-themed character to evaluate the drawing but avoids the Undo Dog to prevent players expecting an undo mechanic; he leans toward the Mario Paint save/load robot, recreated in 3D.",
+      "topic": "Choosing the evaluator NPC: robot vs Undo Dog vs something original",
+      "context": "Kaze wants a Mario Paint-themed judge but worries certain mascots (Undo Dog) would imply mechanics he refuses to implement (undo).",
       "questions": [
-        "What final character did you pick as the evaluator, and how did you balance theme accuracy against misleading player expectations (e.g., implying undo)?",
-        "How will the evaluator’s dialogue/animation communicate pass/fail clearly without breaking the retro tone?",
-        "Did you consider making the judge placement an optional discovery (e.g., on the ceiling) or will you guide the player more directly?"
+        "What character did you ultimately choose as the judge, and what made it feel thematically ‘right’ for RTYI’s Mario Paint section?",
+        "How do you handle player expectations if the chosen character is strongly associated with a feature you’re not shipping (like undo)?",
+        "Will the judge have unique dialogue/animations that teach players how strict the scoring is?"
       ],
       "related_to": ["kaze"]
     },
     {
-      "topic": "Parallel RDP crash / emulator support policy",
-      "context": "RTYI reportedly crashes under Parallel RDP; Kaze says he and Falco couldn’t find the cause. He expresses preference for other emulators (RMG, etc.).",
+      "topic": "Parallel RDP / Parallel Launcher crash and platform support policy",
+      "context": "Kaze says RTYI crashes or fails under Parallel and that even after talking to Falco they couldn’t find the cause; he expresses preference for other emulators (PJ64/RMG/etc.).",
       "questions": [
-        "What specifically happens under Parallel (graphics corruption, RSP/RDP desync, render-thread crash), and is it deterministic?",
-        "Did you identify any suspect features (custom microcode, texture tricks, threading assumptions) that might trigger Parallel issues?",
-        "What will your official emulator recommendation/support matrix be at release, and how will you communicate it to players?"
+        "What symptoms do you see in Parallel specifically (render thread crash, RSP/RDP desync, missing features), and how reproducible is it?",
+        "How do you decide which emulators are ‘supported’ for release, and how will you communicate that to players/speedrunners?",
+        "Did this issue change any implementation choices (e.g., graphics features, microcode assumptions, framebuffer tricks)?"
       ],
       "related_to": ["kaze"]
     },
     {
-      "topic": "“Hidden 1MB” N64 ninth-bit memory claim",
-      "context": "Kaze claims N64 bytes can be treated as 9-bit with tricks (coverage bit reuse) yielding ~1MB of ‘hidden’ memory, slower to access, and only reliably accessible for every other bit with his current approach.",
+      "topic": "The ‘hidden 9th bit’ memory claim and whether it impacts RTYI",
+      "context": "Kaze describes a technique to read/write a 9th bit per byte (normally coverage-related), potentially yielding ~1MB of extra storage, though slow and tricky to access (and possibly only every other bit).",
       "questions": [
-        "Can you explain the exact mechanism you use to read/write the ninth bit from CPU code, and what limitations (addressing patterns, alignment) it imposes?",
-        "Did you prototype using this in RTYI (e.g., scratch buffers for painting), or is it only a separate research/video idea?",
-        "How do you validate correctness across emulators/hardware, given this relies on nonstandard behavior and graphics pipeline interactions?"
+        "Where did you first learn/confirm the 9th-bit access method, and what experiment convinced you it’s real and usable?",
+        "Is this something you would ever ship inside RTYI (e.g., for textures, save data, caches), or is it strictly a separate ‘tech video’ idea?",
+        "What are the real tradeoffs (speed, complexity, emulator accuracy) and why does the method only reach every other 9th bit right now?"
       ],
       "related_to": ["kaze"]
     },
     {
-      "topic": "Legal/brand strategy around asset-swapping RTYI into an original indie game",
-      "context": "Kaze suggests RTYI could be asset-swapped into an original-IP game because he uses few vanilla SM64 actors beyond Mario, but he’s unsure what’s legally safe and mentions needing a lawyer.",
+      "topic": "Asset-swapping RTYI into an original-IP indie game",
+      "context": "Kaze suggests a future plan: once RTYI is done, replace Mario/remaining vanilla actors and potentially release an original-IP version; he’s unsure about legal implications and mentions needing a lawyer.",
       "questions": [
-        "What parts of RTYI do you believe are ‘portable’ to a commercial indie release (engine/tooling/level scripts) versus too tied to Nintendo IP (moveset, camera, level language)?",
-        "Would the indie version be a fork of the same codebase or a clean reimplementation using lessons learned?",
-        "What legal advice (if any) have you already received about ‘placeholder’ messaging or intent while developing a ROM hack?"
+        "What parts of RTYI do you believe are ‘portable’ to an original IP without losing what makes it special (movement, level philosophy, tools, engine features)?",
+        "At what point does an ‘asset swap’ become a new game versus a derivative work legally and creatively, in your view?",
+        "Would you plan the indie version as a direct commercial product, a free prototype, or a stepping stone to a larger original project?"
       ],
       "related_to": ["kaze"]
     }

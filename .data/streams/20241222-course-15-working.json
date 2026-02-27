@@ -1,75 +1,69 @@
 {
   "stream_context": {
-    "summary": "Kaze continues getting the demo close to release-ready while actively developing Course 15’s “space/arcade” area: performance testing on emulators and real N64, fixing rendering/texture issues, and implementing new traversal mechanics (custom warp platforms and low-gravity zones). A major thread is a hypothetical parallel release: reskinning the game into an original IP version (with movement changes) to legally sell on Steam, potentially using N64 Recomp, and replacing remaining inefficient Nintendo code.",
+    "summary": "Kaze continues polishing a space/arcade-themed level for the upcoming RTYI demo: performance checks on real N64 hardware, debugging a bridge/texture-alpha rendering issue across emulators, fixing an overpowered lens flare, and implementing key gameplay tech (low-gravity volumes, animated/lighting platforms, and a new warp animation). He also discusses a serious long-term legal/business idea: releasing a non-Nintendo-IP version of the game on Steam via recomp/asset swap, and why demos/playtesting matter.",
     "level": ["Course 15"],
     "significance": "notable",
-    "significance_reason": "Contains a major business/legal strategy discussion (parallel original-IP Steam release) alongside concrete gameplay-feature implementation (warp animation redesign, low-gravity volumes) and N64 performance/compatibility testing."
+    "significance_reason": "Several interview-relevant decisions land in one stream (Steam-safe original-IP counterpart, replacing/rewriting remaining Nintendo code, and a concrete engine-side change to warp behavior by removing Mario transparency). The rest is substantial but still mid-production debugging and feature implementation rather than a public milestone like a demo drop."
   },
   "findings": [
     {
       "topic": "business",
       "importance": "high",
-      "summary": "Kaze floats a serious-sounding (but still hypothetical) plan to ship RTYI as-is, and also create a separate version that is ~90% the same content but with all Nintendo IP replaced by original characters/assets and some movement changes, enabling legal ownership and potential Steam sales (possibly via N64 Recomp).",
-      "quote": "What if, along with RTYI, I also release a game that is 90% the same content, but we replace all the Nintendo IP with our own? That is the idea. And that way we would legally own it."
-    },
-    {
-      "topic": "business",
-      "importance": "medium",
-      "summary": "He notes an accessibility/marketing argument for a Steam release: players may feel ROM hacks require technical knowledge, whereas a cheap standalone on Steam would lower friction and broaden reach.",
-      "quote": "People might be apprehensive about playing the Mario 64, or they might think that they need to be like tech nerds to even boot up a Mario 64. But if we just put it on Steam and you can get it for like 5 bucks, then easy."
-    },
-    {
-      "topic": "technical",
-      "importance": "high",
-      "summary": "Kaze emphasizes that some very low-level code cannot be avoided in an N64 project (cache invalidation, RCP task submission, CP0 register reads), pushing back on the idea that everything can be clean C; he frames this as OS-level necessity for the platform.",
+      "summary": "Kaze floats a plan to ship RTYI as-is, but also potentially release a second version that is ~90% the same content with all Nintendo IP replaced by original characters/assets (and some mechanical changes), so they can legally own and sell it (e.g., on Steam via recomp).",
       "quote": null
     },
     {
-      "topic": "technical",
+      "topic": "legal-nintendo",
       "importance": "high",
-      "summary": "He says some original Nintendo code still remains, but he plans to replace it—partly for legal/independence reasons and partly because he believes Nintendo’s original implementation is inefficient and hard to work with.",
+      "summary": "He acknowledges there is still original Nintendo code left in the project, but says he intends to replace it—partly for legal cleanliness, but also because he views much of the original code as inefficient and hard to work with.",
       "quote": "There is some original Nintendo code left, but I am planning to replace it. Not even because I want to replace all the Nintendo code, just because the code is complete dog ass."
     },
     {
-      "topic": "business",
-      "importance": "medium",
-      "summary": "Physical cartridge release is framed as unrealistic without rights to Super Mario 64; he jokes about Nintendo granting rights, implying cartridge plans are blocked by licensing constraints.",
-      "quote": "To make a physical card, I would need the rights to Super Mario 64 first. I don't have them currently."
-    },
-    {
-      "topic": "milestone",
-      "importance": "medium",
-      "summary": "Demo packaging/status: he says he’s been getting the demo “mostly release ready” off-stream; Delfino will be a secret level in the demo (expected many won’t unlock). He still gives no demo date and later suggests he likely won’t release for Christmas to avoid overlapping another creator’s holiday release (“Robot”).",
-      "quote": null
-    },
-    {
-      "topic": "technical",
-      "importance": "medium",
-      "summary": "Performance and hardware testing: he shows the level running with worst-case ~22–25 FPS in a heavy view, argues it’s acceptable (and comparable to some vanilla SM64 areas), and demonstrates booting on real N64. He notes the build is not stable yet (crashes) but considers it fixable.",
-      "quote": null
-    },
-    {
-      "topic": "team",
-      "importance": "medium",
-      "summary": "Art pipeline and division of labor: he uses Blender (via the Fast64 plugin) and explicitly avoids spending too long on temporary textures because Biobak is expected to rework/replace them anyway.",
-      "quote": "Probably shouldn't spend so much time on textures and stuff. Considering Biobak is reworking all my stuff anyway. I should just leave it to him."
-    },
-    {
       "topic": "technical",
       "importance": "high",
-      "summary": "Warp platform feature: he starts from existing “fading warp” behavior but rejects Mario transparency because it breaks with their current materials/visual pipeline. He disables Mario’s transparency behavior/flags (also citing extra processing) and implements a new warp look using scaling/transformation-matrix manipulation, plus a plan for under-lighting when standing on the platform.",
+      "summary": "A warp effect broke rendering because Mario transparency interacts badly with their materials/pipeline; Kaze decides to disable Mario’s transparency capability entirely and replace the fade-out with a scale-based animation (Mario “scales into the ground”), avoiding the transparency system and extra processing flags.",
+      "quote": null
+    },
+    {
+      "topic": "technical",
+      "importance": "medium",
+      "summary": "Performance on the space/arcade level is tested (including on real N64). Kaze argues limiting FPS (e.g., to 30) can feel better/mask drops; he sees occasional dips below 30 when viewing the whole level, but considers it acceptable and comparable to worst-case vanilla SM64 moments.",
+      "quote": null
+    },
+    {
+      "topic": "technical",
+      "importance": "medium",
+      "summary": "He hits a confusing bridge visibility/solidity/rendering problem and suspects emulator-specific behavior; he notes the issue resembles a known vanilla SM64 bug and also implies some behavior differs depending on emulator accuracy (he references “plus64” vs a more accurate emulator).",
+      "quote": null
+    },
+    {
+      "topic": "technical",
+      "importance": "medium",
+      "summary": "Lens flare intensity wouldn’t respond to parameter changes; the root cause was editing the wrong instance/config because the team built levels in reverse order, leading to a mismatch in what data he thought he was changing.",
+      "quote": "This is unbelievable. Because I made the levels in reverse order."
+    },
+    {
+      "topic": "design",
+      "importance": "medium",
+      "summary": "He outlines a core RTYI difficulty philosophy: he likes extremely hard optional endgame challenges, but recognizes players often stumble into them early and then blame the whole game; he wants to gate or prevent accidental encounters.",
       "quote": null
     },
     {
       "topic": "design",
-      "importance": "high",
-      "summary": "Difficulty/structure philosophy: he likes placing very hard optional challenges late-game, but recognizes players often run into them early and get frustrated, so he wants to gate or present these challenges more carefully. He also describes the game as potentially “looking harder” than SM64 due to platforming, but balancing that with more consistent movement.",
-      "quote": "The problem with that is that a lot of the time players do encounter it. And then they're like, this sucks, this is way too difficult, I hate this game. So I wanna prevent that."
+      "importance": "medium",
+      "summary": "Kaze describes his level-building workflow as an iterative “toybox” method: implement actors/mechanics first, block out platforming, then rearrange and test repeatedly—keeping what feels fun and discarding what doesn’t—followed by polish.",
+      "quote": null
     },
     {
       "topic": "technical",
-      "importance": "medium",
-      "summary": "He adds/activates a low-gravity zone (visualized like a moving light/beam cage) and describes this as a flexible actor he can place anywhere. He notes certain animation constraints (Mario animations effectively run at 30), limiting options like slowing/altering timing without expensive interpolation.",
+      "importance": "low",
+      "summary": "He implements a low-gravity zone as a placeable volume and is pleased with how quickly it comes together once the supporting tech exists, enabling fast iteration on platform layouts.",
+      "quote": null
+    },
+    {
+      "topic": "community",
+      "importance": "low",
+      "summary": "He comments on Malon’s/Brodude’s Kickstarter performance and observes that “personalized NPC/backer cameo rooms” seem like an extremely effective pledge strategy, with surprisingly high average pledge per backer (in his rough math).",
       "quote": null
     }
   ],
@@ -77,8 +71,8 @@
     "biobak": [
       {
         "topic": "team",
-        "importance": "medium",
-        "summary": "Kaze frames Biobak as the person who will rework/replace current textures and visual work, influencing Kaze’s decision to avoid over-investing in interim art assets during this phase.",
+        "importance": "low",
+        "summary": "Kaze explicitly deprioritizes texture iteration because he expects Biobak to rework/replace much of Kaze’s current art pass anyway, implying a planned handoff/cleanup phase for visuals.",
         "quote": null
       }
     ],
@@ -87,131 +81,79 @@
       {
         "topic": "design",
         "importance": "medium",
-        "summary": "Zeina is credited with creating the new carpet texture (and related text/graphics) for the arcade/cinema-lobby vibe; Kaze showcases it as a key piece of the level’s look.",
-        "quote": "What do you think of this carpet that Zeina made? Pretty cool, eh?"
-      },
-      {
-        "topic": "personal",
-        "importance": "low",
-        "summary": "Zeina appears in chat; Kaze references the baby sleeping with her while she’s working, briefly situating development inside family life.",
+        "summary": "Zeina contributes key visual identity elements for the level (notably a distinctive carpet texture/pattern), which Kaze showcases repeatedly as a defining part of the arcade/casino vibe.",
         "quote": null
       }
     ],
-    "others": [
-      {
-        "name": "Wiseguy",
-        "findings": [
-          {
-            "topic": "technical",
-            "importance": "medium",
-            "summary": "Kaze references trusting Wiseguy’s N64 Recomp work, which underpins his interest in a dual-release strategy (real N64 + modern storefront).",
-            "quote": null
-          }
-        ]
-      },
-      {
-        "name": "Robot",
-        "findings": [
-          {
-            "topic": "business",
-            "importance": "medium",
-            "summary": "Kaze implies he may delay his demo release to avoid colliding with Robot’s Christmas release, showing coordination/consideration within the broader creator ecosystem.",
-            "quote": null
-          }
-        ]
-      }
-    ]
+    "others": []
   },
   "memorable_quotes": [
     {
       "speaker": "Kaze",
-      "quote": "What if, along with RTYI, I also release a game that is 90% the same content, but we replace all the Nintendo IP with our own? That is the idea. And that way we would legally own it.",
-      "context": "He discusses a parallel original-IP version as a legal path to a Steam release and broader distribution."
-    },
-    {
-      "speaker": "Kaze",
-      "quote": "The problem with that is that a lot of the time players do encounter it. And then they're like, this sucks, this is way too difficult, I hate this game. So I wanna prevent that.",
-      "context": "He explains his tension between loving extreme optional difficulty and protecting the average player experience."
+      "quote": "I’ve heard before of people complaining that Germans never greet them back. And then it turns out that their greeting is, ‘Hello, how are you?’ And it’s like, bro, that’s not a greeting. That’s a question.",
+      "context": "A long, character-revealing tangent about social norms and authenticity that doubles as an insight into Kaze’s impatience with performative rituals—mirroring his engineering mindset (don’t ask questions you don’t want real answers to)."
     },
     {
       "speaker": "Kaze",
       "quote": "There is some original Nintendo code left, but I am planning to replace it. Not even because I want to replace all the Nintendo code, just because the code is complete dog ass.",
-      "context": "A blunt statement tying reverse-engineering/rewriting to both quality and independence from Nintendo’s legacy code."
+      "context": "A blunt justification for replacing remaining legacy code—part legal hygiene, part performance/maintainability—and a useful line for framing the project as both preservation and critique of SM64’s internals."
     }
   ],
   "key_stories": [
     {
-      "title": "Considering a parallel original-IP version for Steam",
-      "summary": "While preparing RTYI’s demo, Kaze explores a second product track: keeping the same core game structure but replacing Nintendo IP with original characters/assets and tweaking movement so it functions as a distinct, owned title. He ties this to reducing player friction (no ROM-hack setup) and to potential Steam distribution via N64 Recomp.",
-      "challenge": "RTYI is inherently tied to Nintendo IP and a ROM-hack-style distribution model that can limit reach and raises legal constraints around selling/physical releases.",
-      "process": "He proposes asset/IP replacement plus mechanical changes, notes he already has an original main character concept, and frames Recomp/Steam as a technical and marketing path while keeping a distinction between an N64 version and a modern version.",
-      "outcome": "No commitment yet—he labels it hypothetical—but it becomes a concrete strategic option he’s actively weighing.",
-      "key_quote": "People might be apprehensive about playing the Mario 64... But if we just put it on Steam and you can get it for like 5 bucks, then easy.",
+      "title": "Exploring a Steam-safe original-IP counterpart to RTYI",
+      "summary": "Kaze seriously considers a parallel product strategy: keep RTYI as the Nintendo-themed ROMhack, but also ship a largely similar, legally ownable game with original characters/assets for Steam distribution. This frames RTYI not only as a fan project, but as a stepping stone toward a commercial, independent game.",
+      "challenge": "RTYI’s Nintendo IP limits what can be sold/distributed, and friction/technical intimidation may keep broader audiences from trying a ROMhack.",
+      "process": "He proposes replacing Nintendo characters/branding, changing movement/mechanics enough to be functionally distinct, and using recomp/PC distribution to make it a simple purchase/download experience.",
+      "outcome": "No commitment yet; he describes it as hypothetical and dependent on interest, but he already has an original protagonist concept and sees clear marketing/distribution upside.",
+      "key_quote": "What if, along with RTYI, I also release a game that is 90% the same content, but we replace all the Nintendo IP with our own?",
       "related_to": ["kaze"]
     },
     {
-      "title": "Redesigning warp visuals to avoid Mario transparency issues",
-      "summary": "Kaze implements new warp platforms for Course 15, but finds the intended fading/transparent effect breaks visuals due to the project’s current materials/render setup. He pivots to an animation approach that avoids transparency and also reduces unnecessary processing.",
-      "challenge": "Mario’s transparency behavior conflicts with the hack’s material pipeline and causes visual breakage during warp transitions.",
-      "process": "He disables Mario transparency usage/flags, then implements a scaling/transformation-matrix-based warp effect (Mario scales into the floor) and plans under-lighting to sell the effect.",
-      "outcome": "A working warp platform effect that fits the project’s rendering constraints and becomes a reusable interaction for the level.",
-      "key_quote": null,
+      "title": "Warp effect rewrite: removing Mario transparency to stop rendering breakage",
+      "summary": "A planned ‘fading warp’ animation caused the scene to break when Mario became transparent, likely due to how the project’s materials/render setup handle alpha. Kaze chooses a pragmatic engine-facing solution: avoid transparency entirely and use a scale-based transformation animation instead.",
+      "challenge": "Mario transparency is incompatible with the current material pipeline and introduces extra processing/flags that create bugs and overhead.",
+      "process": "He identifies the transparency pathway as the culprit, disables Mario’s ability to go transparent, and swaps the visual effect to a transformation-matrix scale animation (Mario compresses/disappears into the ground).",
+      "outcome": "A working, visually acceptable warp effect that avoids reintroducing transparency-related bugs and reduces unnecessary processing.",
+      "key_quote": "My life would be easier if we disabled the ability of Mario to go transparent.",
+      "related_to": ["kaze"]
+    },
+    {
+      "title": "Lens flare bug traced to editing the wrong asset due to reverse level order",
+      "summary": "While tuning the sun/lens flare, parameter changes appeared to do nothing, creating a classic ‘the code is fine but reality disagrees’ debugging moment. The root cause was mundane but revealing: he was editing the wrong lens flare definition because the levels were authored in reverse order.",
+      "challenge": "Lens flare intensity stayed overly strong despite apparent configuration changes.",
+      "process": "He tests whether intensity is even applied, tries zeroing values, observes inconsistent behavior, then realizes the edits target the wrong instance/config because of the project’s level ordering.",
+      "outcome": "Fix found immediately once the correct asset/config is edited; he picks new target values and proceeds.",
+      "key_quote": "I edited the wrong one.",
       "related_to": ["kaze"]
     }
   ],
   "open_questions": [
     {
-      "topic": "Parallel original-IP release scope and legal positioning",
-      "context": "Kaze proposes a second version of the game with Nintendo IP replaced and movement changed, potentially sold on Steam via N64 Recomp, while still shipping RTYI as a Mario-based hack.",
+      "topic": "A potential Steam release as an original-IP version of RTYI",
+      "context": "Kaze suggests a second, legally ownable game that closely mirrors RTYI but replaces Nintendo IP and changes movement/mechanics, potentially leveraging recomp for distribution.",
       "questions": [
-        "How far did this idea progress beyond a stream thought—did you prototype any reskin/original-character version or write a design doc?",
-        "What would you change mechanically (movement, physics, level beats) to ensure it’s not just an asset swap?",
-        "What legal advice (if any) did you seek on the line between homage/derivative work and an original, sellable title built from the decomp base?",
-        "Would the Steam version share the same codebase as RTYI, or would it fork early to reduce Nintendo code/IP exposure?",
-        "How would you message the relationship between RTYI and the original-IP version to avoid confusing players (and to respect SM64’s legacy)?"
+        "What specific parts of RTYI would you change (movement, physics, characters, story framing) to make the original-IP version feel like its own game rather than a reskin?",
+        "Where do you draw the line between ‘90% the same content’ and ‘functionally a different game’—and who would help make that call (lawyers, publishers, peers, Nintendo risk tolerance)?",
+        "Would you want the Steam version to be a “definitive” version (more visuals/QoL), or intentionally different from the N64/ROMhack experience—and why?"
       ],
       "related_to": ["kaze"]
     },
     {
-      "topic": "Replacing remaining Nintendo source code",
-      "context": "He states some original Nintendo code remains and he plans to replace it, citing both code quality and implicit legal/independence motivations.",
+      "topic": "Demo release strategy and avoiding schedule conflicts with other creators",
+      "context": "Kaze says the demo is coming ‘soon’ but likely not Christmas because another creator (‘Robot’) is releasing around then and he doesn’t want to overshadow it.",
       "questions": [
-        "Which subsystems still contain original Nintendo code today (OS layer, rendering, physics, animation, collision, audio)?",
-        "What’s your practical definition of ‘replaced’—rewriting functions one-by-one, swapping whole modules, or isolating them behind new interfaces?",
-        "Did you benchmark any rewrites to quantify the cycle savings you mention (before/after numbers, profiling method on real hardware vs emulator)?",
-        "How do you decide when low-level assembly is worth keeping versus rewriting for maintainability?"
+        "Who is ‘Robot’ in your dev circle here, and what kind of relationship or etiquette governs not competing with each other’s releases?",
+        "How do you decide when RTYI is ready for a demo—what are your non-negotiable quality bars (stability, FPS, number of courses, polish)?"
       ],
       "related_to": ["kaze"]
     },
     {
-      "topic": "Demo scope and release timing constraints",
-      "context": "He says the demo is being made mostly release-ready, includes Delfino as a secret, but he may avoid a Christmas release to not overlap Robot’s launch.",
+      "topic": "Playtesting philosophy: public demos vs repeated private testing",
+      "context": "Kaze argues demos are valuable for feedback, but says he often sends builds to a single person repeatedly as a targeted playtesting loop.",
       "questions": [
-        "What is the final intended content list for the demo (courses, secret unlock rules for Delfino, overworld content, side levels)?",
-        "What criteria makes the demo ‘ready’ for you—stability, performance on real N64, a minimum number of polished actors, or playtest feedback?",
-        "How did Robot’s release affect your calendar in practice—did you actually delay, and was that a strategic decision (audience overlap) or personal courtesy?",
-        "What are the biggest remaining blockers you remember at this point in development (crashes, memory, missing actors, art pass, camera, etc.)?"
-      ],
-      "related_to": ["kaze"]
-    },
-    {
-      "topic": "Playtesting approach: ‘send demos to one person’ loop",
-      "context": "Kaze describes a personal workflow of repeatedly sending demos to one tester to gather feedback and iterate, framing it as playtesting efficiency.",
-      "questions": [
-        "Who is the primary tester in this loop, and why do you trust their feedback style?",
-        "What kind of feedback do you request (difficulty, clarity, performance, ‘fun factor’), and how do you capture it (notes, videos, bug list)?",
-        "At what point do you broaden testing beyond one person, and what risks have you seen with too-narrow playtest demographics?"
-      ],
-      "related_to": ["kaze"]
-    },
-    {
-      "topic": "Course 15 mechanic set and intended ‘arcade in space’ fantasy",
-      "context": "He’s building a large arcade building, moving colorful light beams, scrolling pixel art floors, warp platforms, and low-gravity zones, but notes that turning it into fun platforming will be hard.",
-      "questions": [
-        "What is the core player fantasy for this level—precision platforming, spectacle traversal, puzzle navigation, or ‘toybox’ experimentation?",
-        "Which mechanics are essential (low gravity, warps, bumpers/flippers/pinball pieces) and which are at risk of being cut?",
-        "You mention wanting eight red coins mostly below the structure—what’s the intended route and difficulty curve for first-time players?",
-        "How do you prevent the level from feeling like ‘Portal 2’ visually/mechanically while keeping the sci-fi arcade theme?"
+        "Who is your ‘one-person’ playtester historically, and what makes them effective feedback for RTYI specifically?",
+        "What kinds of problems do you expect public demo players to surface that your tight private loop tends to miss (difficulty gating, onboarding confusion, hardware variance, softlocks)?"
       ],
       "related_to": ["kaze"]
     }

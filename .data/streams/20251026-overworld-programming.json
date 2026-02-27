@@ -1,87 +1,81 @@
 {
   "stream_context": {
-    "summary": "Kaze iterates on overworld connectivity and a new level entrance involving a seal NPC/launcher, while hopping into a long live debugging/design call with Sorin about an audio-engine crash that only occurs on Project64. The stream also surfaces larger project-direction concerns: how public the code/assets should be, how to avoid community-driven bloat/branch fragmentation, and why a more original/custom sound engine matters for any potential commercial release.",
+    "summary": "Kaze focused on polishing an overworld level entrance (a seal launch animation/warp into a course), briefly prototyped NPCs and secret overworld connectivity ideas, and took a long technical call with Sorin about an emulator-only audio crash and longer-term plans for rewriting the music sequence scripting/engine. The stream also surfaced release/legal concerns tied to how much Mario 64 code remains in the audio engine and community-management concerns if the project becomes public.",
     "level": ["Overworld"],
     "significance": "milestone",
-    "significance_reason": "Kaze completes the full “seal” level entrance interaction/animation flow for the overworld and confirms the entrance now works end-to-end; additionally, there’s substantial team technical discussion with Sorin about audio engine refactors, emulator-only crashes, and longer-term sequence scripting redesign."
+    "significance_reason": "He completes and verifies a full overworld level-entrance setpiece (the seal launch into the island/course) and the stream includes substantial, decision-relevant audio-engine engineering discussion with Sorin (debugging an emulator crash + roadmap for refactoring/replacing sequence parsing), plus a clear statement that a future custom sound engine could materially change commercial-release feasibility."
   },
   "findings": [
     {
       "topic": "milestone",
       "importance": "high",
-      "summary": "Kaze finishes the complete seal-based level entrance sequence (struggle animation in sand, player interaction, launch/warp into the level) and confirms it works correctly after testing multiple entries.",
+      "summary": "Kaze finished the entire overworld level entrance featuring a seal animation/setpiece (including testing multiple entries to verify state resets), and confirmed the entrance now works end-to-end without the seal being stuck or broken.",
       "quote": null
     },
     {
       "topic": "design",
-      "importance": "high",
-      "summary": "Kaze debates adding a “super secret back entrance” connection into Divine Dino Domain but rejects obvious/bug-like triggers (e.g., standing still between bamboos to warp) and leans toward either removing it or making it an extremely hidden, playground-rumor-style secret that most players won’t find organically.",
-      "quote": "I want people to learn about this in a video essay after the game releases. I want people to tell each other about this on the playground."
+      "importance": "medium",
+      "summary": "He explored adding a “very secret back entrance” to connect an overworld area to the backside of Divine Dino Domain, but worried that a random/opaque trigger (e.g., standing still between bamboo for a fade warp) would read as a bug rather than an intentional secret; he leaned toward removing or rethinking it.",
+      "quote": null
     },
     {
       "topic": "design",
       "importance": "medium",
-      "summary": "An NPC concept is implemented/iterated: a surfer Koopa who is “not like other Koopas,” wants to go to the Shooting Star Festival, loses his ride, and later comments after the festival star—serving primarily as a hint NPC and bit of character/world flavor.",
+      "summary": "Kaze described a deliberate design goal for certain secrets: he wants at least one connection/interaction that most players won’t discover organically, so it becomes post-release lore (video essays, word-of-mouth) rather than primary progression.",
       "quote": null
     },
     {
       "topic": "technical",
       "importance": "high",
-      "summary": "Sorin identifies an audio crash that reproduces reliably on Project64 but not on real N64 hardware; investigation focuses on ADSR envelope pointers (channel/layer/note envelope selection) and suggests memory corruption or release-rate/envelope mismatch rather than a straightforward logic error.",
+      "summary": "Sorin joined the stream to help diagnose a Project64-only crash tied to an ADSR/envelope pointer becoming null during audio note init/ADSR state handling; both suspected memory corruption rather than straightforward logic error, and they planned to continue debugging off-stream.",
       "quote": null
     },
     {
-      "topic": "team",
+      "topic": "technical",
       "importance": "high",
-      "summary": "Sorin is credited with helping fix/improve the audio engine recently (“sounds are a lot better now”), and he also states he’s working on Nostalgia level dynamic music; the stream demonstrates real-time collaboration and joint debugging strategy (moving asserts, using emulator debugging).",
+      "summary": "During the call, Sorin explained how channel/layer/note envelopes are supposed to be initialized and selected (channel default envelope; layer envelope set by drums or layer instrument; otherwise use channel ADSR when layer release rate is zero), which guided where Kaze placed assertions to catch the invalid state earlier.",
       "quote": null
     },
     {
       "topic": "technical",
       "importance": "medium",
-      "summary": "Sorin proposes refactoring the sequence script parser to reduce duplicated logic across sequences/channels/layers, potentially using a table-driven ‘microcode-like’ decoding approach to shrink code size and help replace decomp-era code patterns, while remaining compatible with existing command IDs (at least in the initial plan).",
+      "summary": "They realized Project64 actually has a debugger (unexpected to Kaze), making the emulator-only crash potentially tractable; the bug reportedly does not reproduce on real N64 hardware.",
       "quote": null
     },
     {
       "topic": "technical",
       "importance": "medium",
-      "summary": "Discussion expands into a possible larger redesign of the sequence format (beyond refactor): rethinking command encoding space, quantizing note lengths/gate time options, and cleaning up known decomp misnaming (play percentage vs duration swapped), but with tradeoffs around backwards compatibility and conversion effort.",
-      "quote": null
-    },
-    {
-      "topic": "team",
-      "importance": "medium",
-      "summary": "ZeroVolt is identified as the person with the ‘ear’ who edits imported music at the Seq64/music-macro level to reach satisfactory results, implying that a simple automated reconversion from MIDI may not preserve final musical intent without manual pass-through.",
+      "summary": "Sorin proposed (as future work) refactoring sequence-script parsing to reduce duplicated logic across sequences/channels/layers (end/call/loop/jump handling) by using a table-driven “microcode-like” decoding approach to shrink code and help replace remaining decomp-derived code.",
       "quote": null
     },
     {
       "topic": "technical",
       "importance": "medium",
-      "summary": "Kaze notes internal tooling workflow points: uses Fast64 for converting/authoring N64 maps/scenes; also mentions hitting/going beyond a 512-text/dialogue limit and having to create a new text bank/resource approach to continue scaling dialogue.",
+      "summary": "A deeper “rewrite opportunity” was discussed: if they ever redesign the sequence format itself, they could optimize command encoding (e.g., more compact note-length/gate-time encodings), but this introduces compatibility and conversion complexity across an existing corpus of music assets.",
       "quote": null
     },
     {
-      "topic": "technical",
-      "importance": "medium",
-      "summary": "Kaze changes the dialogue system to allow defining a sound effect directly in the dialogue definition, describing it as a significant time saver for content authoring.",
-      "quote": "Now we can just define the sound here. It saves a lot of time."
-    },
-    {
-      "topic": "philosophy",
+      "topic": "legal-nintendo",
       "importance": "high",
-      "summary": "Kaze articulates a strong stance on public/community contributions: he wants people to contribute bug fixes/performance improvements, but fears open development leads to feature bloat, niche options, and splintered branches that new players may be directed to instead of the intended ‘vanilla’ experience.",
-      "quote": "People are going to try to add 10 million different options. People are going to add random bloat to the game."
-    },
-    {
-      "topic": "business",
-      "importance": "high",
-      "summary": "Kaze links a future ‘commercial’ scenario to technical originality: if the sound engine becomes fully custom rather than still mostly Mario 64, RTYI could theoretically ship its music without needing a full remake; he estimates the current sound engine is still about 75% Mario 64 and therefore not usable for a proper commercial release as-is.",
-      "quote": "As it stands right now, the sound engine is still, I would say, 75% Mario 64. So, we can't use the sound engine."
+      "summary": "Kaze stated that a future fully custom sound engine would be a major step toward any proper commercial release scenario, because the current engine is still largely Mario 64-derived (his estimate: ~75%), which makes it unusable for a commercial product in its current state.",
+      "quote": null
     },
     {
       "topic": "technical",
+      "importance": "medium",
+      "summary": "Kaze noted his text/dialogue system has grown beyond 512 text entries and mentioned workflow improvements: dialogue definitions can now specify the associated sound directly, which he says saves time when authoring/iterating on NPC text.",
+      "quote": null
+    },
+    {
+      "topic": "community",
+      "importance": "high",
+      "summary": "Kaze expressed ambivalence about making assets/code public: he wants outside contributors to help with performance, bug-fixes, and improvements, but fears public development will lead to feature-bloat, fragmented forks/branches, and newcomers being pointed to “modded branches” that dilute the intended new-player experience.",
+      "quote": null
+    },
+    {
+      "topic": "design",
       "importance": "low",
-      "summary": "Kaze states the hack will not work on Wii Virtual Console emulation, and even if it did, he doubts the Wii is powerful enough to run it well—implying RTYI’s engine/content pushes beyond typical emulation/compatibility targets.",
+      "summary": "He implemented/iterated an NPC concept (“SurferKoopaDude”) whose role is primarily flavor and light hinting for the Shooting Star Festival, reinforcing the project’s interest in small, classic-style NPC vignettes rather than purely mechanical interactions.",
       "quote": null
     }
   ],
@@ -89,23 +83,23 @@
     "biobak": [],
     "badub": [
       {
-        "topic": "team",
+        "topic": "design",
         "importance": "medium",
-        "summary": "Badub sends a new version of a track referred to as “Freedom Tree,” which Kaze auditions as potential level music; Kaze gives concrete feedback: the vibe is strong and ‘autumn’/wooden (kalimba-like) but he wants a more hummable melody and thicker arrangement (e.g., adding a drumline) to avoid sounding thin.",
-        "quote": "A melody you can hum would be awesome in this. And it sounds a little thin."
+        "summary": "Badub sent a new version of the “Freedom Tree” track for a course; Kaze liked the seasonal/autumn vibe and overall mood but gave actionable critique: it feels a bit thin and could benefit from an additional drumline and a more hummable melody.",
+        "quote": null
       }
     ],
     "zeina": [
       {
-        "topic": "team",
-        "importance": "medium",
-        "summary": "Zeina is actively producing assets for the overworld ‘Yoshi houses’ area (Yoshis exist but houses are pending) and is also still finishing an ‘old man’ character/NPC, blocking related bonus/camera-event content from being implemented yet.",
+        "topic": "milestone",
+        "importance": "low",
+        "summary": "Kaze said Zeina is working on Yoshi House assets (Yoshis are in, houses are not yet) and also has an “old man” character not finished yet, which blocks some planned bonus/camera-event content.",
         "quote": null
       },
       {
-        "topic": "team",
+        "topic": "milestone",
         "importance": "low",
-        "summary": "Kaze mentions Zeina started on a ‘super happy tree’ asset, so he delays touching that part until her work is ready.",
+        "summary": "Kaze mentioned Zeina had started on the “super happy tree/seedling” asset, so he deferred touching that until her work is ready.",
         "quote": null
       }
     ],
@@ -116,13 +110,13 @@
           {
             "topic": "technical",
             "importance": "high",
-            "summary": "Sorin (introduced as the programmer for F3DEX3 microcode used by the project) collaborates live on diagnosing the Project64-only audio crash, explaining envelope selection across channel/layer/note and recommending assert placement and debugger use to localize corruption.",
-            "quote": "I am the programmer for F3DEX3 which is the graphics microcode that Kaze uses, and also been working on the Nostalgia Dynamic music for the Nostalgia level."
+            "summary": "Sorin, who works on F3DEX3 graphics microcode and the Nostalgia level’s dynamic music, joined live to debug an emulator-only audio crash, walking through envelope/ADSR initialization and suggesting better assertion placement and debugging strategy.",
+            "quote": null
           },
           {
             "topic": "technical",
             "importance": "medium",
-            "summary": "Sorin outlines a longer-term plan to reduce decomp dependency and code size by unifying script-command handling and exploring a table-driven microcode-style command execution system for sequences/channels/layers.",
+            "summary": "Sorin outlined a roadmap idea to refactor/replace sequence parsing with table-driven decoding to reduce code duplication and support the longer-term goal of removing remaining decomp code; they also discussed the tradeoffs of redesigning the sequence format vs preserving backward compatibility.",
             "quote": null
           }
         ]
@@ -133,7 +127,7 @@
           {
             "topic": "technical",
             "importance": "medium",
-            "summary": "ZeroVolt is identified as doing the critical post-import musical adjustments inside Seq64/music-macro assembly because raw MIDI import alone doesn’t yield satisfactory results, creating a dependency that complicates any future sequence-format redesign/conversion pipeline.",
+            "summary": "Kaze noted that ZeroVolt handles the musical ear-work in Seq64: even with MIDI sources, imported tracks still need manual edits at the music macro/sequence level to sound right, which complicates any plan that would require mass re-import/re-export during a format redesign.",
             "quote": null
           }
         ]
@@ -144,114 +138,97 @@
     {
       "speaker": "Kaze",
       "quote": "I want people to learn about this in a video essay after the game releases. I want people to tell each other about this on the playground.",
-      "context": "Explaining his philosophy for ultra-hidden overworld connections/secrets: secrets should enrich the world and mythology, not be obvious “features” players stumble into."
-    },
-    {
-      "speaker": "Kaze",
-      "quote": "People are going to try to add 10 million different options. People are going to add random bloat to the game.",
-      "context": "Explaining why he’s cautious about making RTYI fully public/open and why he expects fork/branch fragmentation that could harm the intended first-time-player experience."
+      "context": "Explaining why he wants at least one ultra-obscure overworld secret/connection to exist even if most players never find it."
     },
     {
       "speaker": "Kaze",
       "quote": "You have to justify whatever sentence you want to put here to a 1996 Nintendo executive.",
-      "context": "While revising dialogue tone, he articulates a guiding constraint: RTYI should feel period-authentic and respectful to the original era rather than modern meme writing."
+      "context": "While rewriting dialogue text, he frames the project’s writing as needing to feel era-authentic to Mario 64’s original tone."
+    },
+    {
+      "speaker": "Kaze",
+      "quote": "If we ever had a proper commercial release of RTYI… we would not have to remake all the music… because as it stands right now, the sound engine is still… 75% Mario 64. So, we can’t use the sound engine.",
+      "context": "A blunt statement linking technical debt (decomp-derived audio engine) to legal/commercial feasibility."
     }
   ],
   "key_stories": [
     {
-      "title": "Designing a secret overworld connection that doesn’t feel like a bug",
-      "summary": "Kaze considers a secret back entrance from an overworld area into the back of Divine Dino Domain to make the world feel more interconnected. He rejects an obvious ‘stand still to warp’ trigger because it would read as accidental or broken behavior, and instead wants any such secret to be extremely hidden and discovered socially or via retrospectives.",
-      "challenge": "Add interconnectedness and mystery without confusing players or creating bug-like interactions.",
-      "process": "Brainstorms interaction types (fading warp, bamboo trigger, wall clip/crawl-only access), evaluates likely player perception, and considers removing the entrance if it can’t be made convincingly ‘secret.’",
-      "outcome": "Leans toward removing the entrance unless it can be implemented as a truly obscure, intentional secret meant to be learned later, not during normal play.",
+      "title": "Completing the seal launch level entrance setpiece",
+      "summary": "Kaze iterated on the seal’s entrance animation/warp timing so the gag reads clearly but still feels snappy. The work culminated in a verified, end-to-end working overworld entrance that he considers “finished,” marking another chunk of the overworld as complete.",
+      "challenge": "The seal launch/warp needed to be readable (animation visible), not dump Mario into water, and not get stuck or end up in a broken state after repeated entries.",
+      "process": "He tuned animation speed/timing, adjusted actor behavior/flags so the NPC correctly orients and plays the intended motion, and repeatedly re-entered the level to test state reset and edge cases.",
+      "outcome": "Kaze declared the entire seal entrance finished and confirmed it no longer gets stuck; he framed it as another completed overworld segment.",
+      "key_quote": null,
+      "related_to": ["kaze"]
+    },
+    {
+      "title": "Project64-only audio crash investigation with Sorin",
+      "summary": "A persistent emulator-only crash forced Kaze to confront how hard it is to debug issues that don’t reproduce on real hardware. With Sorin on-call, they narrowed the issue to ADSR/envelope state and began instrumenting the code with assertions, with a plan to finish analysis off-stream.",
+      "challenge": "Project64 crashed consistently while real N64 did not, and the failure appeared to involve a null envelope pointer in audio note initialization/ADSR processing.",
+      "process": "Sorin walked through the intended envelope selection rules (channel vs layer vs note); Kaze moved/added assertions to catch the failure earlier and they discussed using emulator debugging and testing other emulators.",
+      "outcome": "They suspected memory corruption and decided to continue off-stream; Kaze also learned Project64 has a debugger, reducing the risk that the bug remains opaque.",
+      "key_quote": null,
+      "related_to": ["kaze"]
+    },
+    {
+      "title": "Choosing secrets that are ‘lore,’ not progression",
+      "summary": "Kaze prototyped a secret overworld entrance concept to make the world feel interconnected, but rejected obvious triggers that might feel like bugs. The story reveals an intentional philosophy: hide some secrets so deeply they become community lore after release, without harming first-time players.",
+      "challenge": "Adding a secret connection without confusing players or making it feel like a glitch.",
+      "process": "He considered triggers like a fade warp between bamboo, then evaluated how a player would interpret it; he brainstormed more ‘impossible’ secrets (e.g., behind a clip wall) that aren’t meant to be found organically.",
+      "outcome": "He leaned toward removing or redesigning the entrance; the guiding criterion became “does this read like a feature or a bug?”",
       "key_quote": "It feels like people would perceive that as a bug, rather than a feature.",
       "related_to": ["kaze"]
     },
     {
-      "title": "Project64-only crash leads to deeper questions about audio engine correctness",
-      "summary": "During a call, Sorin and Kaze debug a crash that happens reliably in Project64 but not on real hardware. They focus on ADSR envelope initialization and selection across channel/layer/note, add assertions, and suspect corruption or a subtle state mismatch, postponing full resolution to off-stream work.",
-      "challenge": "An emulator-specific crash complicates reproducibility and root-cause analysis; it may indicate real undefined behavior even if hardware appears fine.",
-      "process": "Walk through envelope ownership model, identify where envelope should be non-null, move/assert checks, discuss using Project64’s debugger, and consider whether release rate can be set without envelope being set.",
-      "outcome": "They decide to continue investigation off-stream; Sorin plans to follow up after more focused debugging, and Kaze notes it’s not currently impacting real-N64 playtests.",
-      "key_quote": "It would be very unfortunate timing. I think it's best I just look at this off-stream.",
-      "related_to": ["kaze"]
-    },
-    {
-      "title": "Finishing the seal launcher entrance as an overworld progression gate",
-      "summary": "Kaze implements and tunes a seal actor that begins stuck in sand, plays a struggle animation, and—after player interaction—launches/warps the player into a level entrance. He iterates on rotation-to-player behavior, animation timing, and comedic readability so players can see the gag without it feeling broken.",
-      "challenge": "Make a memorable, readable entrance sequence that works reliably and doesn’t dump the player into water or hide the animation via too-fast motion.",
-      "process": "Adjusts actor parameters, ensures proper facing/rotation flags during talkable interaction, tunes launch speed vs visibility, tests multiple times to confirm it doesn’t get stuck or break state on re-entry.",
-      "outcome": "Kaze declares the full seal entrance complete and verifies it no longer gets stuck; this completes another chunk of overworld implementation.",
-      "key_quote": "All right, we finished the entire seal today. The entire level entrance.",
-      "related_to": ["kaze"]
-    },
-    {
-      "title": "Openness vs authorship: fear of bloat and forks overtaking the intended game",
-      "summary": "Kaze responds to a question about making assets/code public by describing a tension: he wants contributions for bugs/performance, but expects open projects to accumulate niche options and ‘bloat’ that only existing fans appreciate. He predicts forks will emerge regardless of maintainership, and that newcomers could be directed to forked versions with worse onboarding than the intended release.",
-      "challenge": "Enable helpful community contribution without losing creative control, coherence, and new-player accessibility.",
-      "process": "Articulates risks (feature creep, branch proliferation, social pressure to play forks) and frames a ‘vanilla’ intended experience that must remain recommendable to new players.",
-      "outcome": "No final policy decision stated; Kaze flags it as a looming structural problem for RTYI’s long-term distribution and perception.",
-      "key_quote": "People would still make branches for me regardless.",
+      "title": "Fear of public-development bloat and forked ‘definitive’ versions",
+      "summary": "When asked about making assets public, Kaze revealed a tension between openness (welcoming performance fixes and contributions) and maintaining a coherent, newcomer-friendly game. He anticipates forks that market themselves as ‘better,’ potentially harming the intended ‘vanilla’ experience.",
+      "challenge": "Opening development risks uncontrolled feature creep, branches, and community pressure for options that only veteran mod-fans appreciate.",
+      "process": "He reasoned through likely community behavior: contributors add options/bloat; rejected PRs lead to forks; forks get recommended over the main build; new players get a worse first experience.",
+      "outcome": "No final decision, but a clear articulation of the risk and why he may want tighter control even if some assets end up public.",
+      "key_quote": null,
       "related_to": ["kaze"]
     }
   ],
   "open_questions": [
     {
-      "topic": "Policy for open-sourcing RTYI code/assets and governance against fork fragmentation",
-      "context": "Kaze is torn: public access could help performance/bug fixing, but he expects bloat, niche options, and forks that become the ‘recommended’ versions over the intended vanilla experience.",
+      "topic": "Public repo vs curated contributions",
+      "context": "Kaze wants outside help for performance/bugs but fears forks and feature-bloat that harm new-player experience.",
       "questions": [
-        "What parts (engine code, tools, non-copyrighted assets, level scripts) are you currently willing to make public, and on what timeline?",
-        "Would you consider a contributor license agreement, a ‘core-only’ repo plus a separate modding SDK, or curated ‘official forks’ to reduce fragmentation?",
-        "What concrete examples of ‘bloat’ or feature creep from other community projects are you trying to avoid, and how will you define ‘vanilla RTYI’ in a way people can rally around?",
-        "If forks become popular, do you plan to publicly endorse/ignore/compete with them, and how might that affect the documentary’s narrative about authorship?",
-        "What’s the minimum structure you’d need (code review rules, style guides, performance budgets, design pillars) before opening contributions?"
+        "Have you decided what ‘public’ means for RTYI (read-only source drop, open PRs, curated contributor group, asset-only release)?",
+        "What contribution categories would you actually welcome (bug fixes, performance, tooling) versus categorically reject (options, content changes), and how would you enforce that?",
+        "Do you see a way to prevent forks from becoming the ‘recommended’ version—branding, licensing, curated releases, or something else—or do you accept that as inevitable?"
       ],
       "related_to": ["kaze"]
     },
     {
-      "topic": "Audio engine roadmap: from “75% Mario 64” to a custom engine and commercial implications",
-      "context": "Kaze says a fully custom sound engine could allow a proper commercial release without remaking all music; currently the engine is still heavily Mario 64-derived. Sorin discusses refactors and a possible bigger sequence redesign.",
+      "topic": "Secret overworld connection philosophy and implementation",
+      "context": "Kaze debated a secret entrance to Divine Dino Domain but worried it would feel like a bug; he wants secrets to become post-release lore.",
       "questions": [
-        "What would ‘fully custom sound engine’ mean for RTYI (new sequence format, new playback, new instruments/sample banks, new APIs), and what remains Nintendo-derived today?",
-        "Is the primary motivation legal/rights clarity, technical capability (dynamic music), performance/code size, or all of the above?",
-        "What are the biggest unknowns/risks in replacing the remaining Mario 64 audio components?",
-        "How would you validate accuracy across emulators vs real hardware during the rewrite (especially given Project64-only crashes)?",
-        "If commercial release is only a ‘maybe,’ how do you decide how much time to invest in de-Nintendo-ifying the audio stack?"
+        "Did you end up adding an ultra-hidden overworld connection anyway, or did you decide the risk of ‘bug perception’ outweighed the payoff?",
+        "What’s your rule of thumb for when a secret becomes ‘too secret’ (unfair/confusing) versus ‘fun lore’?",
+        "How do you test/discoverability-check secrets while still keeping them obscure enough to feel legendary?"
       ],
       "related_to": ["kaze"]
     },
     {
-      "topic": "Project64-only crash investigation and what it reveals about hidden undefined behavior",
-      "context": "The crash appears in Project64 but not on N64; envelope pointers and ADSR state selection are implicated, suggesting possible memory corruption or a subtle mismatch between release-rate and envelope initialization.",
+      "topic": "Audio engine rewrite scope and commercial-release implications",
+      "context": "Kaze said the audio engine is still ~75% Mario 64, blocking commercial use; a custom engine would avoid remaking all music.",
       "questions": [
-        "What did you ultimately find as the root cause of the Project64 crash, and did it indicate a real bug that could surface elsewhere?",
-        "Did the debugger/added asserts point to a specific subsystem (audio heap, sequence parser, stack/heap overwrite, actor code) corrupting the envelope pointer?",
-        "How do emulator-only bugs influence your QA philosophy—do you treat them as ‘must-fix’ or only if they reflect hardware risk?",
-        "Do you keep a compatibility target list (Project64/Mupen/Ares/real N64/EverDrive), and what’s the minimum bar for release?"
+        "What would ‘custom sound engine’ mean in practice—rewriting sequence parsing only, the synthesizer/ADSR/mixer, sample banks, or the full pipeline?",
+        "What threshold of replacement/removal would make you personally comfortable calling it non-Mario64-derived enough for commercial plans?",
+        "If you did replace it, what would be the migration plan for existing compositions and edits (especially the Seq64 macro-level hand tweaks)?"
       ],
       "related_to": ["kaze"]
     },
     {
-      "topic": "Overworld secret design philosophy and implementation constraints",
-      "context": "Kaze wants secrets that enhance mythology and connectivity but doesn’t want them to feel random/buggy; he’s considering removing the secret entrance unless it can be made extremely hidden and intentional.",
+      "topic": "Project64-only crash root cause and QA policy",
+      "context": "With Sorin, Kaze diagnosed an emulator-only crash likely related to memory corruption in audio envelope handling; it doesn’t reproduce on real N64.",
       "questions": [
-        "What other secrets in RTYI are designed to be ‘playground rumor’ secrets versus secrets intended for normal discovery?",
-        "What constraints in Mario 64’s engine/decomp architecture make certain secret triggers (e.g., precise collision/clip/crawl-only interactions) hard or risky?",
-        "How do you ensure ultra-obscure secrets don’t accidentally become speedrun-required tech or break progression?",
-        "Would you ever deliberately include ‘harmless’ unintended-feeling secrets as a homage to N64-era jank, or is that off-limits?"
+        "What did the post-stream debugging reveal—was it truly memory corruption, an emulator quirk, or a real bug that just doesn’t manifest on hardware?",
+        "How much emulator compatibility do you want to support (Project64 vs Ares vs console), and what’s your policy when an issue is emulator-only?",
+        "Did this incident change how you instrument/debug the engine (assert strategy, sanitizers, emu debugging workflow)?"
       ],
       "related_to": ["kaze"]
-    },
-    {
-      "topic": "Content pipeline dependencies: Zeina/Badub/ZeroVolt gating and iteration loops",
-      "context": "Zeina’s unfinished NPC/house assets block certain bonus/camera events; Badub sends revisions and Kaze gives arrangement feedback; ZeroVolt performs post-import edits in Seq64 to make conversions sound right.",
-      "questions": [
-        "What does your day-to-day handoff look like between Kaze and Zeina for overworld setpieces (asset checklist, integration steps, review cycles)?",
-        "How do you give Badub feedback—do you send reference tracks, instrumentation constraints, or in-engine capture showing mix issues?",
-        "For ZeroVolt’s workflow: what’s the exact pipeline (MIDI → Seq64 import → macro edits → binary export → in-game test), and where do most revisions happen?",
-        "When a teammate asset isn’t ready (e.g., ‘old man’ NPC), how do you decide whether to build placeholders or wait to avoid rework?"
-      ],
-      "related_to": ["kaze", "zeina", "badub"]
     }
   ]
 }

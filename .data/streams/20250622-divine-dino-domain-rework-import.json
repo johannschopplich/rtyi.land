@@ -1,93 +1,111 @@
 {
   "stream_context": {
-    "summary": "Kaze imports and debugs new environment/actor assets (egg gate, Poochie, temple gates, fruit/apple), while also discussing and demonstrating major engine work: a new collision routine aimed at eliminating quarter-frame inconsistency, plus runtime CPU lighting/shading to preserve artist vertex colors on rotating actors. The stream also surfaces practical constraints (N64 RAM pools, nearing 64MB ROM size) and small team/workflow realities (thumbnail planning, streaming slowing progress).",
-    "level": ["Course 10"],
-    "significance": "notable",
-    "significance_reason": "Contains project-defining technical philosophy (removing quarter-frame randomness), a concrete engine change (new collision routine), a notable art/tech compromise (CPU-computed lighting for rotating vertex-colored actors), and frank constraints about N64 RAM pools and approaching the 64MB ROM ceiling."
+    "summary": "Kaze imports and debugs a large batch of Biobak’s level assets (egg gate/doors/Poochie area/temple gates/props), while showcasing a major engine-level movement/collision change meant to eliminate quarter-frame-dependent randomness. The stream also hits practical N64 constraints: RAM pool juggling after an out-of-memory error, ROM size creeping toward 64MB, and a time-consuming technical compromise to add believable rotating-object lighting by computing vertex shading on the CPU at runtime.",
+    "level": ["Course 10 – Snowman’s Land slot", "Overworld"],
+    "significance": "milestone",
+    "significance_reason": "Kaze demonstrates a foundational new collision/movement routine designed to remove quarter-frame precision from gameplay, then resolves a real out-of-RAM incident by reallocating assets across memory pools and discusses nearing the 64MB ROM ceiling. He also implements CPU-side dynamic lighting for a rotating apple/ball asset—an engine-level rendering workaround driven by art-direction needs."
   },
   "findings": [
     {
       "topic": "technical",
       "importance": "high",
-      "summary": "Kaze implemented a new collision/step handling approach to make slope/platform interactions consistent, specifically removing the frame-dependent behavior where Mario sometimes sticks and sometimes flies off due to being >78 units above the floor depending on subframe position.",
+      "summary": "Kaze implemented a new movement/collision approach to make Mario’s behavior consistent on slopes and edges (eliminating the frame-dependent ‘sometimes you stick, sometimes you fly off’ behavior in vanilla SM64). The goal is to remove quarter-frame precision from player-facing outcomes by making ground steps effectively continuous/consistent rather than dependent on subframe alignment.",
       "quote": "I want to remove quarter frame precision from the player's mind."
     },
     {
       "topic": "philosophy",
       "importance": "high",
-      "summary": "He frames quarter-frame dependence as an engine design failure for a player-facing game (as opposed to TAS/speedrun contexts), and aims for near-continuous collision so players can predict outcomes without hidden timing knowledge.",
-      "quote": "I would argue, if you have the player thinking about quarters of a frame of movement in your video game engine, there's a little bit of an issue that I would like to avoid."
+      "summary": "He frames quarter-frame-dependent outcomes as fundamentally bad UX: players perceive it as inconsistency or randomness and can’t reasonably be expected to understand subframe alignment, even though TASers exploit it.",
+      "quote": "I feel like there never should be any randomness in Mario's movement."
     },
     {
       "topic": "technical",
       "importance": "high",
-      "summary": "Kaze identifies that aerial landing still inherits subframe imprecision because Mario snaps to the end of a raycast in PerformStep; he considers a revised approach (snap upward then raycast down, possibly multiple raycasts) but notes steep slopes and edge cases make it hard without delta-time physics or rerunning Mario logic multiple times.",
+      "summary": "Even with the new continuous-feeling ground movement, Kaze realizes aerial landing still has subframe precision issues because the engine snaps to the end of a raycast; he notes this as “stinky” and considers additional raycasts or snapping strategies, but recognizes steep slopes and edge cases can cause upwarps or ambiguous wall/landing interactions.",
       "quote": null
     },
     {
       "topic": "technical",
       "importance": "medium",
-      "summary": "He notes engine upgrades can cause old content to become buggy over time (collision/material/behavior regressions), but says they are \"basically done upgrading the engine\" so this churn should reduce.",
-      "quote": "That happens with engine upgrades. All stuff just goes buggy over time. But fortunately, we're basically done upgrading the engine."
-    },
-    {
-      "topic": "milestone",
-      "importance": "medium",
-      "summary": "The egg gate object is completed and imported, including rubber-banding behavior for the egg (it accelerates as the player gets farther ahead) to keep the sequence exciting.",
+      "summary": "Kaze claims the engine-upgrade churn has been a major source of regressions (objects/collision becoming buggy over time), but says they’re basically done upgrading the engine, implying fewer cascading breakages going forward.",
       "quote": null
     },
     {
-      "topic": "milestone",
+      "topic": "technical",
       "importance": "medium",
-      "summary": "Poochie’s updated model imports successfully with existing weights, largely working immediately; Kaze verifies appearance in-game and flags remaining issues (mirroring/feet sync, throw distance, minor rig/mesh quirks).",
+      "summary": "He identifies and fixes multiple asset import/rendering issues: wrong level exports, missing visuals, collision misalignment, mirrored placement constraints, and material problems (e.g., PrimColor accidentally enabled on models causing incorrect shading until corrected).",
       "quote": null
-    },
-    {
-      "topic": "team",
-      "importance": "high",
-      "summary": "A concrete art/tech compromise emerges: Biobak wants vertex-color fidelity (and specific texture choices) on a rotating apple/fruit actor, while Kaze wants believable lighting/shadows; Kaze implements CPU-side per-vertex shading at runtime and rotates light vectors to match object rotation.",
-      "quote": "We compromise by computing the fucking shadows on the CPU in real time."
     },
     {
       "topic": "technical",
       "importance": "high",
-      "summary": "Kaze discovers and fixes incorrect lighting rotation by using the correct thread/graph values and then correcting matrix handling (including a fix as simple as swapping indices), enabling smooth dynamic lighting on the apple despite lacking traditional vertex normal/lighting data paths.",
-      "quote": "We did it! We did it, chat!"
-    },
-    {
-      "topic": "technical",
-      "importance": "high",
-      "summary": "The stream hits an out-of-memory condition after adding assets; Kaze resolves it by moving selected allocations into the emergency memory pool to reduce fragmentation/pressure, recovering enough memory with only a few kilobytes of headroom.",
-      "quote": "We were over just a couple of kilobytes. So by just chucking some random other stuff into the emergency pool... we basically freed up enough memory."
+      "summary": "A new batch of assets unexpectedly triggers an out-of-memory situation; Kaze recovers enough RAM by moving some data to the emergency memory pool to reduce main-pool fragmentation. He explains the emergency pool’s purpose: parking lots of small allocations to prevent fragmentation and increase total loadable data.",
+      "quote": null
     },
     {
       "topic": "business",
       "importance": "medium",
-      "summary": "Kaze flags that the ROM size is nearing the N64-era 64MB boundary (~60MB used, ~4MB remaining) and expresses a preference not to exceed 64MB because it feels like \"cheating\" relative to original constraints; he plans to delete unused vanilla SM64 assets to reclaim ROM/RAM.",
-      "quote": "If you go beyond 64 megabytes you're going beyond what the original Nintendo 64 developers worked with and that just feels like cheating."
+      "summary": "He notes the project is approaching the original N64 ROM ceiling: the build is around 60MB with roughly 4MB headroom before 64MB. He explicitly treats going beyond 64MB as ‘cheating’ relative to original N64 constraints, motivating upcoming cleanup of unused vanilla SM64 assets to reclaim ROM/RAM.",
+      "quote": "If you go beyond 64 megabytes you're going beyond what the original Nintendo 64 developers worked with, and that just feels like cheating."
+    },
+    {
+      "topic": "technical",
+      "importance": "high",
+      "summary": "To make a rotating ‘apple/ball’ asset look believable, Kaze insists it needs lighting/shade response (otherwise it looks flat when spinning). Biobak wants vertex-color-driven look; Kaze wants shadows—so Kaze implements a compromise: compute per-vertex shading on the CPU at runtime using sphere-like normals, and rotate the light vector via object transforms (discovering he needed the inverse/transpose-like adjustment: ‘swap the indices’).",
+      "quote": "We compromise by computing the fucking shadows on the CPU in real time."
+    },
+    {
+      "topic": "design",
+      "importance": "medium",
+      "summary": "Kaze highlights several design/feel targets during asset integration: the egg now rubber-bands (accelerates as Mario gets farther ahead) to keep the sequence exciting; certain areas should disable camera auto-rotation for better readability/control; he reacts strongly to atmosphere (‘impeccable’) and wants the area to feel like a coherent place rather than just geometry.",
+      "quote": null
+    },
+    {
+      "topic": "design",
+      "importance": "low",
+      "summary": "A community suggestion proposes collectible ‘bells’ that unlock parts of the soundtrack and enable a jukebox in the overworld. Kaze likes the idea in principle but is wary of spending too many hours implementing it without a clear plan.",
+      "quote": null
+    },
+    {
+      "topic": "community",
+      "importance": "medium",
+      "summary": "Kaze discusses potential future content/videos (including one about a Zelda-related project Nintendo took down quickly) and briefly mentions wanting to get a specific creator (TJ ‘Henry’ Yoshi) to comment on a video, implying ongoing community meta-narratives around his hacks and visibility.",
+      "quote": null
+    },
+    {
+      "topic": "personal",
+      "importance": "low",
+      "summary": "Personal-life bits bleed into the dev stream: he jokes about a haircut ‘forced’ by Zeina, talks about being on vacation soon, and contrasts mentioning his lawnmower more than his child (while also sharing the child is starting to babble).",
+      "quote": null
     }
   ],
   "contributor_findings": {
     "biobak": [
       {
         "topic": "design",
-        "importance": "medium",
-        "summary": "Biobak provides a large batch of level/actor assets being imported (egg gate pieces, temple gates, fruit/apple with a Yoshi sticker, updated Poochie, Shy Guy variants). Kaze repeatedly references needing to import \"Biobak’s assets\" and adjusts placement/orientation/material settings to make them work in-engine.",
+        "importance": "high",
+        "summary": "Biobak provides a large batch of new level assets (gates/doors/props/enemies like Shy Guys, plus the rotating apple/ball) that drive most of the stream’s work: import, placement, shader/material setup, and bug triage.",
         "quote": null
       },
       {
-        "topic": "team",
-        "importance": "high",
-        "summary": "Biobak’s preferred look for the rotating apple (vertex color/texture choices) directly drives Kaze’s implementation of runtime CPU lighting as a compromise to preserve both aesthetics and shading readability in motion.",
+        "topic": "design",
+        "importance": "medium",
+        "summary": "Biobak’s art direction preference (vertex-color look on the rotating apple/ball) directly forces an engine workaround: Kaze implements CPU-computed lighting so the asset can keep its intended style while still having believable shading when rotating.",
+        "quote": null
+      },
+      {
+        "topic": "business",
+        "importance": "low",
+        "summary": "Biobak (or someone on the art side) sends a new F3 thumbnail; Kaze likes it but notes it may need extra messaging so viewers understand it’s about fan games.",
         "quote": null
       }
     ],
     "badub": [],
     "zeina": [
       {
-        "topic": "team",
+        "topic": "design",
         "importance": "low",
-        "summary": "Kaze mentions Zeina sent a new thumbnail concept (for a separate F3/fangames-related video) and also suspects an older Flower Shy Guy model may have originally been made by Zeina, with newer variants reworked later.",
+        "summary": "Kaze suspects one of the Shy Guy/flower variants may be an older Zeina model (based on texture/detail cues), and he defends the quality of her work when comparing versions.",
         "quote": null
       }
     ],
@@ -98,7 +116,7 @@
           {
             "topic": "community",
             "importance": "low",
-            "summary": "Kaze references showing Lilaa his new anti-quarter-step collision tech very recently (off-stream/yesterday), implying she’s a recurring sounding board for technical changes even if she doesn’t always share the same priorities.",
+            "summary": "Kaze references showing (or wanting to show) Lilaa his new anti-quarter-frame collision tech and frames it as a significant but niche improvement that some community members may not immediately appreciate.",
             "quote": null
           }
         ]
@@ -109,109 +127,95 @@
     {
       "speaker": "Kaze",
       "quote": "I want to remove quarter frame precision from the player's mind.",
-      "context": "His core design/engineering motivation for rewriting collision step handling to eliminate frame-dependent movement outcomes."
+      "context": "His core design/engineering thesis for rewriting collision/movement: eliminate frame-dependent ‘randomness’ that players experience as inconsistency."
     },
     {
       "speaker": "Kaze",
       "quote": "Step one: look at what Mario 64 does. Step two: don't do any of it.",
-      "context": "A blunt summary of his view that SM64’s collision/physics implementation is not a good template for new engines despite its legacy."
+      "context": "While explaining that people ask him to study SM64 collision as a model, he argues the original engine has many bad/legacy decisions worth avoiding."
     },
     {
       "speaker": "Kaze",
       "quote": "We compromise by computing the fucking shadows on the CPU in real time.",
-      "context": "Captures the practical reality of art/tech tradeoffs on N64: to keep Biobak’s vertex-color look and still have shading on a rotating actor, Kaze takes on extra CPU work."
+      "context": "A candid description of the tradeoff between Biobak’s desired vertex-color look and Kaze’s need for rotating-object lighting realism—Kaze absorbs the implementation cost."
     }
   ],
   "key_stories": [
     {
-      "title": "Rewriting collision to eliminate quarter-frame randomness",
-      "summary": "Kaze demonstrates a long-standing SM64 inconsistency: Mario’s ability to stay on or fly off certain slopes/platform edges can depend on subframe position and speed, which reads as randomness to players. He implements a new collision routine that makes sticking behavior consistent and aims for near-continuous collision so players never need to understand quarter frames.",
-      "challenge": "Vanilla SM64 movement outcomes can vary based on quarter-frame timing and the 78-unit floor distance threshold, producing inconsistent results on slopes/edges and harming player trust.",
-      "process": "He rewrites step/collision handling to take full steps unless constrained, and tests movement through problematic geometry to ensure Mario doesn’t snag or unpredictably fall/float. He analyzes remaining landing imprecision caused by raycast snapping in aerial steps and notes possible improvements (multi-raycast or adjusted snapping).",
-      "outcome": "Ground movement becomes predictably consistent in showcased cases; however, he identifies unresolved edge cases for aerial landing and steep slopes that may require further iteration or accepting small remnants of subframe behavior.",
-      "key_quote": "I would argue, if you have the player thinking about quarters of a frame of movement in your video game engine, there's a little bit of an issue that I would like to avoid.",
+      "title": "Anti-quarter-frame collision rewrite for consistent slope/edge behavior",
+      "summary": "Kaze shows off a movement/collision change he’s proud of: Mario no longer unpredictably ‘sticks’ or ‘flies off’ depending on subframe alignment when running off edges or on certain slopes. He frames this as a player-experience fix—removing hidden tech like quarter-frames from the player’s mental model.",
+      "challenge": "Vanilla SM64 movement can produce inconsistent outcomes on edges/slopes depending on exact subframe/quarter-frame state, which feels random to normal players.",
+      "process": "Kaze rewrites collision/step logic so Mario consistently remains attached to surfaces in cases where vanilla behavior toggles based on small timing differences; he describes it as making collision ‘nearly continuous.’",
+      "outcome": "Ground movement feels deterministic and readable, but Kaze discovers aerial landing still has subframe-dependent snapping due to end-position raycasts and notes it for future improvement.",
+      "key_quote": "I feel like there never should be any randomness in Mario's movement.",
       "related_to": ["kaze"]
     },
     {
-      "title": "Apple lighting compromise: preserve vertex colors and add real shading",
-      "summary": "A rotating apple/fruit actor looks wrong without shading but can’t easily use standard lighting paths without sacrificing the intended art style. Kaze implements per-vertex shading on the CPU at runtime, then rotates the light vector with the object so lighting behaves correctly as it spins.",
-      "challenge": "Rotating geometry without appropriate shading looks flat/unnatural, but the desired asset setup (vertex colors/texture decisions) complicates typical N64 combiner/lighting solutions.",
-      "process": "He prototypes combiner changes, then decides to compute a shade value per vertex in software, prints/debugs light normals, and fixes incorrect transforms by using the correct graph/thread rotation values and correcting matrix math (including swapping indices).",
-      "outcome": "The apple gains smooth, believable lighting while maintaining the desired visual style, at the cost of CPU work during rotation.",
-      "key_quote": "We compromise by computing the fucking shadows on the CPU in real time.",
+      "title": "Out-of-RAM incident fixed by reallocating to the emergency pool",
+      "summary": "During asset importing, the level hits an out-of-memory condition. Kaze resolves it quickly by moving certain allocations into the emergency memory pool, reinforcing how close the project can get to limits even when things ‘seem fine.’",
+      "challenge": "New assets push the build into out-of-memory range, even though earlier imports hadn’t triggered a RAM crash.",
+      "process": "Kaze inspects memory pool state and shifts some data into the emergency pool, explaining the goal is to reduce fragmentation and increase effective load capacity.",
+      "outcome": "The level loads again after freeing ‘a couple of kilobytes,’ demonstrating how small margins can matter and how their tooling/practices handle it pragmatically.",
+      "key_quote": "We were all over just a couple of kilobytes.",
+      "related_to": ["kaze"]
+    },
+    {
+      "title": "Rotating apple/ball lighting: vertex-color art meets engine reality",
+      "summary": "A rotating apple/ball looks ‘sexy’ while static but appears flat and unrealistic when spinning without lighting. Kaze and Biobak’s goals conflict (vertex-color look vs. believable shading), and Kaze implements a bespoke CPU lighting solution as a compromise.",
+      "challenge": "N64-era rendering constraints plus the chosen art approach make the rotating object lack convincing shading; standard combiner setups don’t solve it cleanly.",
+      "process": "Kaze computes per-vertex shade values on the CPU at runtime (using sphere-like normals), then corrects the light rotation math by applying the appropriate transform adjustment (effectively transpose/inverse handling—‘swap the indices’) so lighting rotates correctly with the object.",
+      "outcome": "The object gains smooth, believable lighting while preserving the desired vertex-color-driven look; the fix is acknowledged as overkill but effective.",
+      "key_quote": "All this just to get some shadows on the stupid apple.",
       "related_to": ["kaze", "biobak"]
     },
     {
-      "title": "Memory crisis and rapid recovery via emergency pool",
-      "summary": "After importing additional assets, the level hits an out-of-memory condition despite earlier confidence that RAM usage had improved. Kaze regains enough headroom by reallocating some data into the emergency memory pool to avoid fragmentation and relieve pressure on the main pool.",
-      "challenge": "New content pushes the build beyond available memory by only a few kilobytes, triggering OOM during development iteration.",
-      "process": "He checks memory pool status, recognizes allocations already using the emergency pool in some places, then moves additional suitable allocations into the emergency pool to free main pool space.",
-      "outcome": "The build runs again with minimal changes; the incident reinforces ongoing need to actively manage memory pools as content grows.",
-      "key_quote": "We were over just a couple of kilobytes.",
-      "related_to": ["kaze"]
-    },
-    {
-      "title": "Self-imposed 64MB ROM ceiling and cleanup plan",
-      "summary": "Kaze notes the ROM is nearing 60MB, leaving only ~4MB before reaching 64MB. He frames exceeding 64MB as \"cheating\" relative to original N64-era constraints and proposes deleting unused vanilla SM64 assets to reclaim both ROM and some RAM.",
-      "challenge": "Content growth is pushing the project toward practical ROM/RAM limits that impact feasibility and authenticity goals.",
-      "process": "He identifies unused assets as cleanup targets and discusses reducing code size and removing unneeded base-game content from the repo.",
-      "outcome": "A clear near-term optimization task list emerges (asset/code cleanup) tied to a stated philosophy about respecting original hardware limits.",
+      "title": "Hard constraints: nearing 64MB ROM and cleaning out vanilla assets",
+      "summary": "While juggling RAM pools, Kaze also confronts ROM growth: the project sits around 60MB with only ~4MB left before hitting the iconic 64MB boundary. He treats exceeding 64MB as philosophically undesirable, motivating upcoming cleanup work.",
+      "challenge": "Content growth pushes the ROM close to 64MB; additional features/assets risk exceeding what feels ‘authentic’ to the original platform constraints.",
+      "process": "Kaze proposes deleting unused vanilla SM64 assets and reducing code size to reclaim RAM/ROM headroom.",
+      "outcome": "No immediate fix is completed on-stream, but the constraint becomes an explicit production consideration that will shape future optimization passes.",
       "key_quote": "Dude, we have 4 more megabytes.",
       "related_to": ["kaze"]
     }
   ],
   "open_questions": [
     {
-      "topic": "Remaining subframe effects on aerial landing after collision rewrite",
-      "context": "Kaze believes ground movement is now consistent, but landing still snaps to raycast end position in PerformStep, which can preserve subframe-dependent results; he debates approaches (snap up then raycast down, multiple raycasts) and worries about steep slopes and edge cases.",
+      "topic": "What is the final design stance on quarter-frame behavior across *all* movement states?",
+      "context": "Kaze’s new routine improves deterministic ground movement, but aerial landing can still introduce subframe-dependent snapping via raycasts, especially on slopes and in wall/landing edge cases.",
       "questions": [
-        "What specific player-facing problems remain after the new collision routine (e.g., which jumps/landings still feel inconsistent)?",
-        "Did you end up implementing a revised landing routine (snap-up + raycast-down, multi-raycast), and how did you decide the acceptable precision/performance tradeoff?",
-        "Which edge cases (steep slopes, wall/ceiling interactions on landing) were the hardest to reason about, and how did you test them?",
-        "How does this collision rewrite affect speedrunning techniques (e.g., BLJ on surf floors) and did you intentionally preserve/disable any legacy behaviors?"
+        "Which specific player-facing inconsistencies are you willing to tolerate (if any) in aerial movement/landings versus ground steps?",
+        "Do you want ‘anti-quarter-frame’ determinism to be a defining project pillar even if it risks breaking speedrun tech or subtle legacy feel?",
+        "How did you decide where to stop—what’s the line between fixing jank and rewriting Mario 64 into a different game?"
       ],
       "related_to": ["kaze"]
     },
     {
-      "topic": "Runtime CPU lighting system scope and performance budget",
-      "context": "To light the rotating apple while keeping the intended art look, Kaze computes per-vertex shading on CPU and rotates light vectors with object rotation using graph/thread values; he notes it updates at 60 FPS and could drop under lag.",
+      "topic": "How will the team manage the 64MB ROM ‘authenticity’ constraint as content grows?",
+      "context": "Kaze explicitly calls >64MB ‘cheating’ and notes the ROM is ~60MB already, with plans to remove unused vanilla assets and possibly reduce code size.",
       "questions": [
-        "Is this CPU lighting hack intended only for the apple/fruit, or did it become a general tool for other rotating/vertex-colored actors?",
-        "What was the measurable CPU cost on real hardware/emulator, and did it force tradeoffs elsewhere (geometry, actor count, animation complexity)?",
-        "What testing did you do to ensure the lighting remains stable at <60 FPS or in heavy scenes (e.g., does it cause visible jitter/aliasing when frame rate drops)?",
-        "What exactly was the final matrix/inversion approach you settled on, and what earlier incorrect assumption caused the light to not rotate?"
-      ],
-      "related_to": ["kaze", "biobak"]
-    },
-    {
-      "topic": "Memory pool strategy and ongoing RAM/ROM mitigation plan",
-      "context": "The stream shows both a RAM OOM resolved via emergency pool allocation changes and a looming ROM size issue (~60MB used). Kaze mentions deleting unused SM64 assets and reducing code size to reclaim space.",
-      "questions": [
-        "What are your concrete ROM/RAM budgets per area/level (if any), and when did you start enforcing them?",
-        "Which assets/systems are the biggest ROM contributors right now (textures, music, actors, code), and what are the top planned removals?",
-        "How do you decide what goes into the emergency memory pool versus the main pool, and have you hit fragmentation issues repeatedly?",
-        "At what point does optimizing for 64MB become too costly, and would you ever choose to ship a >64MB build despite the 'cheating' feeling?"
+        "What content/features are most at risk of being cut or redesigned to stay under 64MB?",
+        "Was the 64MB cap an explicit team agreement from the start, or did it become important only as the project grew?",
+        "How do you weigh ‘authentic N64 constraints’ against making the best possible game experience?"
       ],
       "related_to": ["kaze"]
     },
     {
-      "topic": "Unresolved content/placement anomalies during asset import",
-      "context": "Kaze repeatedly exports/imports into the wrong level, encounters duplicated areas/objects (e.g., multiple copies of Area 6, unexpected temple move doors), and sees odd rendering/material issues (PrimColor state, transparency/decal ordering).",
+      "topic": "Will the overworld get a jukebox/music-unlock system tied to collectibles (bells)?",
+      "context": "A suggestion proposes bells that unlock soundtrack layers and enable selecting music in an overworld jukebox; Kaze likes it but worries about time cost.",
       "questions": [
-        "What is the root cause of exporting into the wrong level or seeing duplicated areas (workflow/tooling issue with Fast64, repo structure, or level script setup)?",
-        "Were the multiple Area 6 copies and missing/misplaced temple doors a transient import mistake or a deeper issue in the level data pipeline?",
-        "What best practices did you adopt to prevent these pipeline errors as the team scaled asset volume?"
+        "What would the player-facing purpose be: fan service, navigation feedback, completion tracking, or something else?",
+        "How would you integrate it into the overworld UI/flow without it feeling like a separate ‘menu feature’?",
+        "What’s the minimum viable version that still feels magical, and what’s the ‘too expensive’ version you want to avoid?"
       ],
       "related_to": ["kaze"]
     },
     {
-      "topic": "Feature triage: jukebox idea and split-screen multiplayer",
-      "context": "A viewer suggests a jukebox-like system tied to collectibles; Kaze likes it but is cautious about time. He also mentions that if multiplayer is added, it would likely be vertical split (top/bottom) with cropped sides to reduce framebuffer memory; he notes using a custom GCC build.",
+      "topic": "Camera policy: where and why disable auto-rotation?",
+      "context": "Kaze notes a specific area should have ‘no camera autorotation’ to suit the level layout/readability.",
       "questions": [
-        "Did the jukebox/music-collection feature ever move past the idea stage, and what would be the minimum shippable version?",
-        "How do you decide which 'cool but optional' features get cut when engine/content work is already heavy?",
-        "How far did split-screen multiplayer prototyping go, and what were the biggest N64 constraints (framebuffers, RSP/RDP time, camera systems, memory pools)?",
-        "What does 'custom edit of GCC' change for your build, and was it required for multiplayer or for general performance/compatibility?"
+        "What situations make SM64’s default camera behavior actively harmful in Return to Yoshi’s Island?",
+        "Do you have a systematic rule for when to disable/override camera features, or is it handled case-by-case per area?",
+        "How do you test whether a camera change helps new players versus frustrating experienced players?"
       ],
       "related_to": ["kaze"]
     }

@@ -1,111 +1,123 @@
 {
   "stream_context": {
-    "summary": "Kaze tests a new Sauraen-built trace/profiler to understand RTYI’s frame-time breakdown (revealing heavy idle/memory wait time), then switches to hands-on integration of Biobak’s updated “Oily Boily Bay” enemy/NPC assets to improve visuals and performance. He also reviews and iterates on Course 13’s snowman cave/slide difficulty, explains a prior crash caused by collision memory limits, discusses increased control-angle precision vs vanilla SM64, and fixes a buggy Wiggler path/animation setup.",
-    "level": ["Course 13"],
-    "significance": "notable",
-    "significance_reason": "Introduces a powerful new profiling tool (Sauraen) with concrete performance revelations; contains a clear technical explanation of a real crash (collision surface-node allocation) and a key systemic change (much higher angle precision). Also shows the team’s performance-driven art iteration with Biobak’s asset revisions targeting 30 FPS in Oily Boily Bay and includes a full debugging arc for Wiggler pathing."
+    "summary": "Kaze showcases and begins using Sauraen’s new trace+profiler to diagnose RTYI frame-time, then pivots into active production work: iterating Course 13’s snow/slide/cave route (including a prior memory-crash root cause) and importing/optimizing Biobak’s “Oily Boily Bay” assets to reduce materials/bones and hit stable performance. The stream ends with a substantial AI/pathing bugfix for the Wiggler actor and continued NPC asset integration.",
+    "level": ["Course 13", "Overworld"],
+    "significance": "milestone",
+    "significance_reason": "A new, team-built profiler becomes operational and immediately changes how Kaze understands frame-time (idle/memory waits, RSP/RDP balance). In parallel, the stream captures concrete performance-driven art pipeline decisions (materials, bones, fog, texture formats) and resolves a core gameplay actor bug (Wiggler pathing + facial animation states)."
   },
   "findings": [
     {
       "topic": "technical",
       "importance": "high",
-      "summary": "Kaze demonstrates Sauraen’s new trace+profiler and finds RTYI spends roughly 25ms of a ~33ms frame in idle (a while(1) loop), i.e., ~76% of the frame is effectively the game waiting/doing nothing, suggesting a major wait/bottleneck component rather than pure CPU work.",
-      "quote": "Funny thing about RTYI: 25 out of 33 milliseconds are spent on a while(1) loop. It’s all idle. It’s around 76% of the entire game."
+      "summary": "Sauraen’s new tool functions as both a trace and profiler, letting Kaze visualize per-thread/per-task timing (idle thread, game loop, VI manager, audio, RSP task) and see how tasks interrupt each other (e.g., VI manager interrupted by audio).",
+      "quote": null
     },
     {
       "topic": "technical",
       "importance": "high",
-      "summary": "Profiler inspection suggests scheduling/synchronization issues: Kaze notes unexpectedly long scheduler/VI manager time and hypothesizes the game loop may be blocked by a missing RSP-done signal, based on gaps where nothing obvious should block execution.",
+      "summary": "Profiler reveals RTYI spends ~25 out of 33 ms per frame in an idle loop (about 76% of the frame), i.e., much of the frame is the game “doing nothing,” which Kaze interprets as waiting—likely memory/scheduler-related rather than pure CPU compute.",
       "quote": null
     },
     {
       "topic": "technical",
       "importance": "medium",
-      "summary": "Kaze notes the RDP appears to run slightly longer than the GFX task, which he reads as a bad sign (RSP bottlenecking) and uses FPS limiting/unlimiting to illustrate how thread activity changes under different pacing.",
+      "summary": "Kaze notices the game loop appears late in the frame and suspects a missing “RSP done” signal (or other scheduling/synchronization issue) could be blocking the game loop despite no obvious blocking work in that interval.",
+      "quote": null
+    },
+    {
+      "topic": "technical",
+      "importance": "high",
+      "summary": "Kaze observes the RDP running longer than expected relative to the GFX/RSP work, reads it as a bottleneck signal, and notes unusual runtime for the scheduler/VI manager/inactive render thread—driving a focus on render and scheduling efficiency.",
       "quote": null
     },
     {
       "topic": "design",
+      "importance": "medium",
+      "summary": "Course 13 layout work: Kaze presents a “snowman path” into a “snowman cave” where the player dodges snowman attacks, intentionally echoing a Jolly Roger Bay-style traversal section (climb/pressure) inside a new thematic context.",
+      "quote": null
+    },
+    {
+      "topic": "design",
+      "importance": "medium",
+      "summary": "Course 13 includes a long slide over an abyss with a helix-like segment, an ice block intended as a jump/landing/launch element, and a wall-kick section; Kaze accepts some difficulty because it’s Course 13 but flags the current slide as slightly too punishing/chaotic.",
+      "quote": null
+    },
+    {
+      "topic": "technical",
       "importance": "high",
-      "summary": "In Course 13’s snowman cave/slide section (inspired by the Jolly Roger Bay ship-climb tension), Kaze flags difficulty/readability problems (spiky slide geometry and poor visibility of incoming hazards). He considers scaling the slide down to raise camera horizon rather than forcing camera tilt changes.",
+      "summary": "Kaze explains a past Course 13 slide iteration crashed due to collision memory: in Mario 64, collision triangles crossing multiple spatial cells require additional “surface nodes,” and the slide’s size caused excessive node allocation and a crash.",
+      "quote": null
+    },
+    {
+      "topic": "technical",
+      "importance": "medium",
+      "summary": "A prior fix for the slide’s memory issue led Kaze to implement/adjust memory allocation (referencing his recent Case Clips video), which he says also yielded about 400 microseconds of computing time improvement—showing how level geometry can force engine-level optimization work.",
+      "quote": null
+    },
+    {
+      "topic": "design",
+      "importance": "medium",
+      "summary": "To make the slide fairer, Kaze considers raising camera horizon via scaling the slide down (instead of tilting the camera up) and makes adjustments so hazards are visible earlier.",
       "quote": null
     },
     {
       "topic": "technical",
       "importance": "high",
-      "summary": "Kaze explains a prior Course 13 slide crash: large collision triangles crossing multiple spatial cells require extra ‘surface node’ allocations; because the slide was huge, the game ran out of memory and crashed. This incident pushed him to redo memory allocation work, which also improved performance by about 400 microseconds.",
-      "quote": "Every time you have a collision triangle that crosses into multiple cells… you have to allocate two surface nodes. And because the slide was so big I had to allocate so many surface nodes that the whole thing just crashed."
+      "summary": "Kaze confirms RTYI input/angle precision is much higher than vanilla Mario 64: Mario 64 uses 4096 angles, while RTYI uses 65,336 angles. He attributes this to speed-driven trig changes (polynomial approximations replacing lookup tables), which also increased accuracy; this can change how precise-angle speedrun setups behave (e.g., carpetless).",
+      "quote": null
     },
     {
       "topic": "technical",
       "importance": "high",
-      "summary": "RTYI’s movement/control math differs from vanilla SM64: Kaze states SM64 uses 4096 angles, while RTYI uses 65336, making control direction ~8x more precise. This means identical setups for precise-angle speedrun tricks (e.g., carpetless variants) may not behave the same because the game tracks closer to true stick direction.",
-      "quote": "In Mario 64 you have 4096 angles. In this game you have 65336 angles… the controls are about 8 times more precise."
+      "summary": "Biobak’s Oily Boily Bay asset update focuses on render cost reduction: fewer materials, texture/format choices (switching to RGBA16 when CI is impractical due to too many unique colors), and adding fog for visual cohesion while also improving perceived quality.",
+      "quote": null
     },
     {
       "topic": "technical",
       "importance": "medium",
-      "summary": "Kaze attributes improved angle precision partly to performance-driven math changes: he replaced trig/atan lookups with a polynomial for speed, which ended up more accurate than SM64’s lookup table.",
+      "summary": "Kaze identifies a Fast64 export behavior/bug affecting fog visibility and texture format selection (Fast64 auto-picking CI incorrectly without detector-type checks), reinforcing that tooling quirks actively shape the pipeline.",
       "quote": null
     },
     {
-      "topic": "team",
+      "topic": "technical",
+      "importance": "medium",
+      "summary": "Kaze notes new “step function” behavior likely affects collision/physics, making it easier to clip through tox boxes; he treats this as a real gameplay issue to address (collision feel vs performance/engine changes).",
+      "quote": null
+    },
+    {
+      "topic": "technical",
       "importance": "high",
-      "summary": "Biobak delivers a large batch of updated Oily Boily Bay assets with explicit performance goals (fewer materials, fewer bones, updated textures/geo/collision). Kaze repeatedly confirms the new versions look better with fog and should allow Oily Boily Bay to hit 30 FPS.",
-      "quote": "Dang, I think we can get Oily Boily Bay at 30 FPS now."
-    },
-    {
-      "topic": "technical",
-      "importance": "medium",
-      "summary": "Kaze actively optimizes art import settings: he switches assets away from CI when there are too many unique colors, prefers RGBA16 in that scenario, and highlights exporter/tooling pitfalls (Fast64 picking the wrong texture/detector types; fog preview inconsistencies).",
+      "summary": "A major Wiggler actor bug is diagnosed as path logic error: Kaze was effectively treating waypoints as jump thresholds and skipping them, causing erratic turning. He removes the unnecessary logic and restores proper trajectory end handling, resulting in stable path following plus facial animations when Wiggler gets upset.",
       "quote": null
     },
     {
-      "topic": "technical",
+      "topic": "milestone",
       "importance": "medium",
-      "summary": "Kaze identifies gameplay-side side effects of engine/collision tweaks: updated ‘step function’/collision behavior makes it easier to clip through certain hazards (tox boxes), and he investigates/fixes a ‘jump’ at the end of a rolling motion.",
+      "summary": "With Biobak’s optimizations (bones/material reductions across multiple NPCs and props), Kaze believes Oily Boily Bay should now sustain 30 FPS “pretty easily,” suggesting the level is approaching a performance-stable state.",
       "quote": null
-    },
-    {
-      "topic": "technical",
-      "importance": "medium",
-      "summary": "Wiggler behavior debugging: Kaze discovers erratic turning was caused by his own waypoint/path logic (treating waypoints like jumps and skipping points based on distance/velocity checks). He removes the unnecessary logic, restores proper ‘trajectory end’ handling, and confirms Wiggler pathing and facial animations now behave correctly.",
-      "quote": null
-    },
-    {
-      "topic": "team",
-      "importance": "medium",
-      "summary": "Kaze briefly notes Zeina is producing 3D models for a new overworld entrance area while he tries building the new overworld himself, implying parallel workstreams (world art vs implementation).",
-      "quote": null
-    },
-    {
-      "topic": "personal",
-      "importance": "low",
-      "summary": "Kaze mentions he is on paternity leave and continues development/optimization during that time; he shares the baby’s planned name (Raina) and that the due date has passed by a couple days.",
-      "quote": "I’m still on two months of paternity leave. I’m gonna spend that time trying to optimize the operating system on my N64."
     }
   ],
   "contributor_findings": {
     "biobak": [
       {
-        "topic": "team",
+        "topic": "technical",
         "importance": "high",
-        "summary": "Biobak provides multiple updated enemy/NPC models for Oily Boily Bay with performance notes: shared bones (both legs use the same bone), baked details into textures (helmet strap) to save materials, updated geo and collision to match the new look, and overall reductions in bones/material count.",
+        "summary": "Biobak delivers a large batch of updated Oily Boily Bay assets with explicit performance notes: reduce materials (e.g., baking helmet straps into textures), reduce bones (e.g., both legs sharing one bone), and update geo/collision to match the modernized look.",
         "quote": null
       },
       {
         "topic": "design",
         "importance": "medium",
-        "summary": "Biobak’s updates aim to better match the area’s modernized ‘construction/junkyard’ aesthetic (e.g., tox boxes and worker characters fitting the world more convincingly once fog and textures are applied).",
+        "summary": "Biobak pushes visual direction via texture refreshes and prop redesigns (tox boxes fitting the world better, glass texture update, construction/junkyard aesthetic coherence), with Kaze reacting positively to the improved integration.",
         "quote": null
       }
     ],
     "badub": [],
     "zeina": [
       {
-        "topic": "team",
+        "topic": "personal",
         "importance": "medium",
-        "summary": "Zeina is referenced as creating 3D models/assets for the new overworld entrance while Kaze experiments with building the overworld layout/implementation.",
+        "summary": "Zeina appears in chat early; later, Kaze references their unborn child’s name (Reyna) while joking about family dynamics—highlighting the project’s development occurring during an active life transition (impending birth/paternity leave).",
         "quote": null
       }
     ],
@@ -116,13 +128,13 @@
           {
             "topic": "technical",
             "importance": "high",
-            "summary": "Sauraen created the new trace+profiler tool Kaze is using to measure thread/task timelines (idle thread, game loop, VI manager, audio/RSP/RDP activity), enabling Kaze to spot blocking/synchronization anomalies.",
+            "summary": "Sauraen’s profiler/trace tool becomes central to Kaze’s workflow, enabling thread/task timing breakdowns that immediately expose idle/wait time dominance and scheduling oddities.",
             "quote": null
           },
           {
             "topic": "technical",
             "importance": "medium",
-            "summary": "Sauraen previously advised that certain shading/normal tricks may not work under F3DEX3 because it auto-normalizes normals, affecting how Kaze can implement sharp edges/normal hacks.",
+            "summary": "Kaze recalls Sauraen warning that an old “zero normals” rendering trick won’t work with F3DEX3 because the microcode auto-normalizes normals, constraining certain shading hacks.",
             "quote": null
           }
         ]
@@ -131,9 +143,9 @@
         "name": "Lilaa",
         "findings": [
           {
-            "topic": "community",
+            "topic": "technical",
             "importance": "low",
-            "summary": "Lilaa participates in troubleshooting Blender/Fast64 export issues around normals (Kaze attempting scripts and split normals) though no definitive solution is reached in this stream.",
+            "summary": "Lilaa is pulled into troubleshooting Blender/Fast64 export issues (normals/sharp edges and expected shading behavior), illustrating the community-as-support loop when toolchain edge cases block progress.",
             "quote": null
           }
         ]
@@ -143,108 +155,93 @@
   "memorable_quotes": [
     {
       "speaker": "Kaze",
-      "quote": "Funny thing about RTYI: 25 out of 33 milliseconds are spent on a while(1) loop. It’s all idle. It’s around 76% of the entire game.",
-      "context": "A concrete, striking performance insight enabled by Sauraen’s profiler; reframes optimization as ‘waiting/synchronization’ rather than raw CPU cost."
+      "quote": "25 out of 33 milliseconds are spent on a while(1) loop. It’s all idle. It’s around 76% of the entire game—it’s just the game doing nothing at all.",
+      "context": "The profiler’s most documentary-friendly reveal: on real hardware timing, most of the frame is dominated by idle/waiting rather than active gameplay code, reframing what “optimization” means on N64."
     },
     {
       "speaker": "Kaze",
-      "quote": "In Mario 64 you have 4096 angles. In this game you have 65336 angles… the controls are about 8 times more precise.",
-      "context": "A project-defining systemic change that affects feel, speedrun tech compatibility, and the team’s philosophy of ‘respectful but improved’ controls."
-    },
-    {
-      "speaker": "Kaze",
-      "quote": "Every time you have a collision triangle that crosses into multiple cells… you have to allocate two surface nodes. And because the slide was so big I had to allocate so many surface nodes that the whole thing just crashed.",
-      "context": "A rare, clear explanation of an N64-era memory constraint shaping level design and tooling/allocator work."
+      "quote": "Dude, I’m still on two months of paternity leave. I’m gonna spend that time trying to optimize the operating system on my N64.",
+      "context": "A personal-life-meets-obsession line that captures the project’s tone: intense low-level engineering continuing alongside impending parenthood."
     }
   ],
   "key_stories": [
     {
-      "title": "Adopting Sauraen’s profiler and discovering ‘idle time’ dominance",
-      "summary": "Kaze showcases a new trace/profiler (built by Sauraen and integrated by Kaze) and immediately finds that most frame time is spent in an idle loop rather than executing game logic. The trace also reveals unusually long scheduler/VI manager activity and suspicious gaps that suggest synchronization problems.",
-      "challenge": "Optimization was previously harder to target without a clear timeline view of threads/tasks, and frame pacing issues weren’t attributable to a single obvious function.",
-      "process": "Kaze uses FPS limiting to stabilize readings, compares task durations (RSP/RDP/GFX/audio), and reasons about priority/blocking based on trace gaps.",
-      "outcome": "He identifies the dominant ‘waiting/idle’ share of the frame and forms a concrete hypothesis: a missing RSP-done signal could be blocking the game loop unexpectedly.",
-      "key_quote": "It’s around 76% of the entire game, it’s just the game doing nothing at all.",
+      "title": "The profiler exposes RTYI’s frame as mostly idle/wait time",
+      "summary": "Kaze debuts a new trace+profiler from Sauraen and immediately discovers that the majority of a frame is consumed by idle looping rather than game logic. This shifts the optimization narrative from “make code faster” to diagnosing scheduling, signaling, and memory wait states on N64.",
+      "challenge": "Performance tuning was constrained by poor visibility into where frame time was truly going and which threads/tasks were blocking others.",
+      "process": "Kaze limits FPS for consistent measurements, reads the timeline of idle/game loop/RSP/audio/VI manager activity, and reason-checks suspicious ordering (game loop late in frame) and interruptions (audio preempting VI manager).",
+      "outcome": "He identifies the dominant idle portion (~76%) and forms hypotheses about synchronization issues (e.g., missing RSP-done signal) and bottlenecks (RDP vs GFX timing), setting the direction for future optimization work.",
+      "key_quote": "25 out of 33 milliseconds are spent on a while(1) loop. It’s all idle.",
       "related_to": ["kaze"]
     },
     {
-      "title": "Course 13 slide: difficulty tuning forced by collision memory limits",
-      "summary": "While iterating on Course 13’s snowman cave/slide sequence, Kaze explains that the original slide build caused a crash due to collision surface-node allocation limits. That incident led him to rework memory allocation and incidentally gain measurable performance headroom.",
-      "challenge": "A large, spiky slide both played poorly (hard to slide forward, visibility issues) and exceeded collision memory constraints due to how SM64 partitions collision into cells.",
-      "process": "Kaze considers design-side fixes (scaling slide to improve camera horizon vs forced camera tilt), and recalls implementing allocator changes after the crash.",
-      "outcome": "The section is made easier/readable, and the project benefits from allocator improvements (reported ~400 microseconds saved). The design remains open to further tuning.",
-      "key_quote": "Because of that I did the whole memory allocation thing… and because of that we gained 400 microseconds of computing time.",
+      "title": "Course 13 slide: a level-design problem turns into a collision-memory crash",
+      "summary": "While reviewing Course 13’s slide section, Kaze recounts how the original slide build caused a hard crash due to collision memory limits. The incident shows how ambitious geometry can trigger deep engine constraints and force low-level memory allocation changes.",
+      "challenge": "A large slide’s collision mesh exceeded Mario 64’s collision data structures, crashing the game due to excessive surface node allocation.",
+      "process": "Kaze explains the underlying mechanism: collision triangles spanning multiple spatial cells require extra surface nodes; the slide’s scale multiplied that cost. He then reworked memory allocation (as discussed in a recent video) and later revisits gameplay fairness by adjusting visibility/camera considerations instead of camera-tilt hacks.",
+      "outcome": "The crash was resolved via allocation changes, with a reported side benefit (~400 microseconds compute time gained). The slide remains under iteration for readability and difficulty tuning.",
+      "key_quote": "Every time you have a collision triangle that crosses into multiple cells... you have to allocate two surface nodes. And because the slide was so big... the whole thing just crashed.",
       "related_to": ["kaze"]
     },
     {
-      "title": "Biobak’s asset revisions push Oily Boily Bay toward 30 FPS",
-      "summary": "Kaze imports a large set of Biobak’s updated Oily Boily Bay assets and applies fog/format changes to improve both look and performance. The updates include fewer bones, fewer materials, and baked texture details, aligning visuals with the area’s industrial construction vibe.",
-      "challenge": "Oily Boily Bay needed better performance and cohesion; too many materials/colors and heavy rigs can be costly on N64-era rendering constraints.",
-      "process": "Kaze audits materials/combiner settings, switches texture formats (CI vs RGBA16) based on unique colors, and validates animations/collision while noting tool/export quirks (Fast64 choices).",
-      "outcome": "Kaze believes the level can now hit 30 FPS ‘pretty easily’ with these changes, though he flags some collision/clipping and minor visual issues to resolve.",
+      "title": "Oily Boily Bay hits performance stability through art-pipeline constraints",
+      "summary": "A massive Biobak asset drop becomes an optimization pass in disguise: materials, bones, texture formats, fog, and collision are all evaluated through the lens of frame rate. The story captures the constant negotiation between visual ambition and N64-era budgets.",
+      "challenge": "Oily Boily Bay’s scene complexity risked missing 30 FPS; tooling (Fast64) and N64 render constraints amplified costs (materials, CI palette limits, fog interactions).",
+      "process": "Kaze audits assets top-to-bottom, adopts Biobak’s ‘fewer materials/bones’ notes, switches texture formats when CI is infeasible (too many colors), and uses fog both to improve look and unify the scene. He also flags collision/clipping side effects from engine changes (step function).",
+      "outcome": "Kaze concludes the level should now run at 30 FPS “pretty easily,” implying the asset pipeline changes are paying off and the level is nearing a performance-ready baseline.",
       "key_quote": "Dang, I think we can get Oily Boily Bay at 30 FPS now.",
       "related_to": ["kaze", "biobak"]
     },
     {
-      "title": "Wiggler pathing bug traced to waypoint skipping logic",
-      "summary": "Kaze notices Wiggler turning early and wandering unpredictably despite seemingly correct waypoints. After instrumenting values and reasoning through ‘trajectory end’ behavior, he realizes he previously implemented waypoints as ‘jumps’ and was skipping nodes under certain distance/velocity conditions.",
-      "challenge": "Actor path logic produced confusing, inconsistent movement, undermining a key setpiece and making animations/faces hard to validate.",
-      "process": "Kaze prints waypoint values during runtime, inspects the conditions that advance the waypoint index, and removes the unnecessary skipping behavior.",
-      "outcome": "Wiggler follows the intended path again and facial animations work properly when Wiggler becomes upset.",
-      "key_quote": null,
+      "title": "Wiggler’s broken pathing is traced to waypoint-skipping logic",
+      "summary": "A seemingly mysterious AI movement bug (random turning, ignoring path end) turns out to be self-inflicted logic: waypoints were treated like jump thresholds and skipped. Fixing it restores predictable navigation and enables facial animation states, showing how gameplay feel depends on tiny control-flow decisions.",
+      "challenge": "Wiggler turns too early, runs in wrong directions, and fails to respect trajectory end conditions, making the actor unreliable.",
+      "process": "Kaze instruments the logic with prints, verifies expected “trajectory end = -1” behavior, and discovers he was skipping waypoints if they were beyond a velocity-based threshold. He removes the unnecessary behavior and re-tests until movement stabilizes.",
+      "outcome": "Wiggler follows the path correctly again, and facial animations play when he becomes upset, clearing a blocker for that actor’s integration.",
+      "key_quote": "No wonder that was confusing, but there was no reason for this to exist—so now it’s just removed.",
       "related_to": ["kaze"]
     }
   ],
   "open_questions": [
     {
-      "topic": "Profiler anomalies and suspected missing RSP-done signal",
-      "context": "Kaze sees long scheduler/VI manager spans and a gap where nothing obvious should block the game loop, leading him to suspect a missing RSP completion signal.",
+      "topic": "How does the profiler change the team’s optimization roadmap?",
+      "context": "The profiler suggests RTYI spends the majority of the frame idle/waiting, and Kaze suspects signaling/scheduling issues (e.g., missing RSP-done) rather than raw compute.",
       "questions": [
-        "What exact condition indicates the game loop is blocked in the trace, and how did you confirm whether an RSP-done signal was missing?",
-        "Did fixing this (if you did later) change frame pacing or audio/video scheduling in noticeable ways?",
-        "What other ‘false bottlenecks’ did the new profiler reveal that surprised you compared to intuition?"
-      ],
-      "related_to": ["kaze"]
-    },
-    {
-      "topic": "Course 13 slide readability vs camera behavior",
-      "context": "To address difficulty, Kaze considers scaling the slide to raise the camera horizon rather than adding forced upward tilt, and he notes the slide’s spiky geometry can redirect player motion unintentionally.",
-      "questions": [
-        "What final solution did you choose for making hazards readable (geometry scale, camera rules, hazard timing, or something else)?",
-        "Did you create any general design rule for RTYI about when camera manipulation is acceptable vs when the level should be reshaped?",
-        "How did the ‘spiky slide’ problem influence how you build collision for future sliding sections?"
-      ],
-      "related_to": ["kaze"]
-    },
-    {
-      "topic": "Higher angle precision and compatibility with SM64 movement tech",
-      "context": "Kaze increased angles from 4096 to 65336, making controls ~8x more precise, which can change outcomes for angle-dependent tricks and setups.",
-      "questions": [
-        "Did you ever add a ‘legacy’ option or tuning pass to preserve some vanilla-feeling imprecision, or was the increased precision a firm design pillar?",
-        "Which in-game challenges had to be rebalanced because the player can aim more precisely (or because old setups no longer work)?",
-        "How do you think about respecting SM64’s movement identity while changing a foundational control quantization?"
-      ],
-      "related_to": ["kaze"]
-    },
-    {
-      "topic": "Oily Boily Bay performance target and remaining blockers",
-      "context": "After importing Biobak’s optimized assets (fewer bones/materials), Kaze believes the level can hit 30 FPS, but he flags issues like easier clipping through tox boxes (possibly due to a new step function) and occasional format/export quirks.",
-      "questions": [
-        "What was the performance budget you set for Oily Boily Bay (triangles, materials, bones, draw calls), and who defined it?",
-        "What specific engine change caused ‘clipping through tox boxes’ to become easier, and how did you mitigate it (collision thickness, step rules, hurtboxes)?",
-        "Did you standardize art guidelines from this (max materials per actor, when to bake straps/details, CI vs RGBA rules)?"
+        "When you first saw that ~76% idle time, what did it change about your mental model of N64 performance for RTYI?",
+        "Did the profiler lead to any concrete engine changes in later streams (scheduler tweaks, RSP task synchronization fixes, memory wait reduction)?",
+        "What would you consider a ‘win’ now: reducing idle time, shortening RSP/RDP tasks, or making the frame pacing more consistent?"
       ],
       "related_to": ["kaze", "biobak"]
     },
     {
-      "topic": "Fast64/F3DEX3 constraints affecting shading/normal tricks",
-      "context": "Kaze attempts a normals/sharp-edge trick and recalls Sauraen noting F3DEX3 auto-normalizes, potentially breaking certain hacks; he also hits Fast64 auto-picking the wrong texture/detector types.",
+      "topic": "Angle precision and speedrun compatibility",
+      "context": "Kaze says RTYI uses 65,336 angles vs Mario 64’s 4096, making controls ~8× more precise; this may alter established setups like carpetless.",
       "questions": [
-        "Which visual tricks did you lose or have to redesign when moving toward F3DEX3, and what did you replace them with?",
-        "How often do exporter ‘wrong format’ issues (CI vs RGBA) slip into builds, and did you add validation tooling to catch them?",
-        "What are the most common Fast64 pitfalls that slowed asset iteration, and how did the team adapt their workflow?"
+        "Was higher input precision an explicit design goal, or an accidental consequence of the performance-motivated trig rewrite?",
+        "Do you want RTYI to preserve ‘classic’ Mario 64 tech feel, or embrace a slightly different movement meta that rewards modern precision?",
+        "Have you considered adding an optional ‘vanilla precision’ mode for competitive or nostalgia-focused players?"
       ],
       "related_to": ["kaze"]
+    },
+    {
+      "topic": "Designing large slides under collision memory constraints",
+      "context": "Course 13’s slide crashed due to collision triangles spanning multiple cells and exploding surface-node allocation.",
+      "questions": [
+        "After that crash, did you establish any internal rules of thumb for collision complexity (triangle size, cell boundaries, mesh segmentation) when designing big geometry?",
+        "How do you balance the desire for huge set-piece geometry (like long slides) with the hidden costs of Mario 64’s collision system?",
+        "What was the ‘memory allocation thing’ you changed—was it a one-off patch for the slide or a broader engine improvement you now rely on everywhere?"
+      ],
+      "related_to": ["kaze"]
+    },
+    {
+      "topic": "Performance-driven art direction decisions in Oily Boily Bay",
+      "context": "Biobak’s updates reduce bones/materials and Kaze switches texture formats (CI vs RGBA16), adds fog, and evaluates render cost as part of the look.",
+      "questions": [
+        "How do you and Biobak negotiate visual targets versus hard budgets—do you set a ‘materials per actor’ or ‘bones per rig’ guideline?",
+        "When you choose fog, is it primarily aesthetic, performance-motivated (hiding distance detail), or both?",
+        "What are the most painful toolchain limitations (Fast64 quirks, CI palette limits, environment color interactions) that repeatedly shape your final art style?"
+      ],
+      "related_to": ["kaze", "biobak"]
     }
   ]
 }

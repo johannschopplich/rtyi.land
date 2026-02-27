@@ -1,93 +1,93 @@
 {
   "stream_context": {
-    "summary": "Kaze attempts a major audio engine improvement (two simultaneous SFX per sound bank) but parks it as too complex for live debugging, then pivots to visual polish work on a large coastal/water level: tuning wave amplitude near shore and prototyping shoreline foam via scrolling/clamped textures. Along the way he explains a long-standing Mario 64 audio oddity (the “low-pitched boo” sound) as an artifact inside the wind SFX itself, discusses emulator compatibility frustrations (especially ParaLLEl), and outlines his reluctance to use AI tools due to community backlash.",
+    "summary": "Kaze pivots from a stalled audio-engine upgrade (allowing two simultaneous SFX per sound bank) to environment rendering work on a coastal water shader, implementing shoreline wave-height falloff and experimenting with animated foam. Along the way he explains an odd Mario 64 audio artifact (the low-pitched “boo” hidden inside a wind SFX), vents about emulator compatibility (Parallel), and discusses community expectations around AI tools and release-date pressure.",
     "level": [],
     "significance": "notable",
-    "significance_reason": "Contains a strong technical revelation about an original SM64 sound bug, concrete RTYI engine constraints (vertex channel data packing, memory usage, lack of additive blending), and candid emulator compatibility postmortem from the prior demo."
+    "significance_reason": "Contains several documentary-useful technical revelations (Mario 64’s hidden boo-in-wind SFX, a Parallel emulator off-by-one memory bug that impacted an RTYI demo, concrete constraints/workarounds for shoreline foam), plus a brief personal near-accident story and candid philosophy around AI backlash and why he avoids political stances on stream."
   },
   "findings": [
     {
       "topic": "technical",
       "importance": "high",
-      "summary": "Kaze is trying to modify the audio system so that two sound effects per sound bank can play simultaneously, which he frames as a broad quality upgrade for RTYI’s SFX, but he abandons it mid-stream as too “nasty” to fix live.",
-      "quote": "I’m trying to make it so that two sound effects per bank can play at the same time. This would seriously improve the sound effect quality across the board."
-    },
-    {
-      "topic": "technical",
-      "importance": "high",
-      "summary": "He explains the infamous “low-pitched boo” sound as being literally embedded at the end of the wind/howling SFX data; it normally never plays because the wind effect loops before reaching the tail, but it becomes audible when playback timing changes (e.g., when sound playback stops being retriggered every frame near a door/room transition).",
-      "quote": "The truth is actually so much more fucked up than that… the booloth is just a part of the wind sound effect."
-    },
-    {
-      "topic": "technical",
-      "importance": "medium",
-      "summary": "For shoreline visuals, he reduces wave height near the coast by controlling wave amplitude via per-vertex scalars, creating a gradient from larger offshore waves to near-flat water at the shore—explicitly described as matching what Biobak wanted for the scene composition.",
+      "summary": "Kaze attempted an engine-level audio upgrade to allow two sound effects per sound bank to play simultaneously (to improve overall SFX quality), but found it too complex to solve live and postponed it.",
       "quote": null
     },
     {
       "topic": "technical",
       "importance": "high",
-      "summary": "He hits a core N64/RTYI engine constraint: he needs per-vertex data to precompute wave height for foam and other effects, but existing vertex channels are already consumed (alpha used; RGB channels partially assigned at runtime). His proposed workaround is to pack wave-height data into the lower bits of an available color channel (e.g., the red channel).",
-      "quote": "We don’t have any more storage space… We still have the red, blue and green channel on the vertex available to us as data… We could use the lower bits of the red channel for the wave height."
+      "summary": "He explains the ‘low-pitched boo’ people hear near Big Boo’s Haunt doors is not door pitch manipulation; it’s actually a Boo sample embedded at the end of the wind/howling SFX sequence that becomes audible when the effect timing/cancellation differs near room transitions.",
+      "quote": "What’s really going on is that the ‘boo’ is just a part of the wind sound effect."
+    },
+    {
+      "topic": "technical",
+      "importance": "medium",
+      "summary": "Kaze traced the Boo-in-wind behavior into the original audio sequence structure: long frame delays, looping layers, instrument changes applied on layer restart, and a situation where the merry-go-round keeps triggering the sound while in the outside room but room changes near doors disrupt the per-frame replay timing.",
+      "quote": null
+    },
+    {
+      "topic": "community",
+      "importance": "medium",
+      "summary": "He is wary of using AI tools (including Copilot) on the project because he expects audience backlash even for limited, non-asset use; he notes that avoiding AI entirely is increasingly hard because mainstream tools (e.g., Photoshop/GIMP features/brushes) may incorporate AI under the hood.",
+      "quote": null
+    },
+    {
+      "topic": "technical",
+      "importance": "high",
+      "summary": "For the coastal water, he implements shoreline wave-height reduction by controlling wave amplitude via per-vertex scalars so waves flatten to (near) zero at the shore while staying larger offshore—explicitly aiming to match what Biobak requested.",
+      "quote": null
+    },
+    {
+      "topic": "technical",
+      "importance": "high",
+      "summary": "Foam implementation is constrained by limited per-vertex storage: alpha is already used, RGB channels are used/modified at runtime, and he considers packing wave-height data into lower bits of an existing channel (e.g., red) as the best remaining option.",
+      "quote": null
+    },
+    {
+      "topic": "technical",
+      "importance": "medium",
+      "summary": "He decides to defer performance/optimization work (“optimize at the end”) and focus first on getting shaders rendering correctly and looking good, then iterate on foam and shoreline behavior.",
+      "quote": null
+    },
+    {
+      "topic": "technical",
+      "importance": "high",
+      "summary": "Kaze describes significant compatibility frustration with the Parallel emulator: he avoids it for day-to-day development, considers it unstable, and recounts collaborating to fix a Parallel crash for the last RTYI demo only for users to still be affected by later Parallel issues/updates.",
+      "quote": "Parallel is a fucking joke. I will never use Parallel."
+    },
+    {
+      "topic": "technical",
+      "importance": "high",
+      "summary": "He identifies a specific Parallel-related bug he previously worked around: an off-by-one error that prevented using the very last byte of memory, which broke his decompression heap layout (he stores file size metadata at the end of the decompression buffer).",
+      "quote": null
     },
     {
       "topic": "design",
       "importance": "medium",
-      "summary": "Foam implementation direction: he wants foam that matches the wave vertices and becomes more opaque at the top of the wave cycle (height-driven opacity), with additional scrolling motion; he rejects Wind Waker’s approach as “terrible” and aims for a more realistic look.",
-      "quote": "I looked at the Wind Waker graphics and I could tell what they were doing immediately and it looked terrible. I’m gonna do something much nicer looking."
-    },
-    {
-      "topic": "technical",
-      "importance": "medium",
-      "summary": "He notes N64 blending limitations relevant to the foam/water look (“no additive blending on 64”), and also flags overdraw as a cost if they attempted to fill internal water/foam layering more aggressively.",
+      "summary": "The project is tracking extensive player stats (already capturing playtime and other counters), and Kaze is receptive to the idea of surfacing them via an end-of-game stats screen (jumps, playtime, deaths, damage, coins, save states, etc.).",
       "quote": null
     },
     {
       "topic": "technical",
       "importance": "medium",
-      "summary": "A Blender/export pipeline issue blocks progress: a simple 64x64 foam texture is being treated as UDIM/“mega texture,” causing the wrong texture to load; exporting as PNG appears to bypass the issue.",
+      "summary": "While building animated foam scrolling, he runs into toolchain/export friction (e.g., missing/hacky ‘material labels’, unreliable comment/tag exporting, and Blender texture loading behavior involving UDIM/megatexture confusion) and opts to write a workaround that searches display-list commands by pattern rather than relying on a ‘segment’ approach he dislikes.",
       "quote": null
-    },
-    {
-      "topic": "technical",
-      "importance": "high",
-      "summary": "He complains about missing/unsupported ‘material labels’ in the display-list export pipeline. He refuses a proposed “segment” approach as overly hacky, and instead plans a workaround: write an init-time function that scans display-list commands after a texture pointer and finds the correct SetTileSize (or similar) command by matching bit patterns.",
-      "quote": "If we don’t get material labels, I’m going to make an init function now that finds the index of the thing I need."
-    },
-    {
-      "topic": "technical",
-      "importance": "high",
-      "summary": "Emulator compatibility: he continues to test with an emulator version he calls “1.6” despite known vulnerabilities, because alternatives (Ares for play, ParaLLEl generally) are unusable for his workflow. He recounts a prior RTYI demo where he and Falco fixed a ParaLLEl crash, but distribution/update issues and further ParaLLEl bugs still caused users to miss the fix. He plans to avoid dealing with ParaLLEl until release.",
-      "quote": "At least let me avoid interacting with Parallel for as long as possible, which is until the moment I release my hack."
-    },
-    {
-      "topic": "technical",
-      "importance": "high",
-      "summary": "He identifies a specific ParaLLEl bug he previously dealt with: an off-by-one error preventing use of the very last byte in memory. RTYI triggered it by placing decompressed data at the end of a heap where the file size metadata lives at the end of the buffer.",
-      "quote": "The bug was that you couldn’t use the last byte in memory because of an off by one error."
-    },
-    {
-      "topic": "technical",
-      "importance": "medium",
-      "summary": "RTYI already tracks player statistics and could surface them in an end-of-game stats counter: playtime, jump count, deaths, damage taken, coins obtained, and save states are mentioned as currently captured.",
-      "quote": null
-    },
-    {
-      "topic": "technical",
-      "importance": "medium",
-      "summary": "He dismisses performance concerns about keeping an extra fish model/stance loaded: due to his memory layout (Z-buffer segment adjacent to largely-unused graph-node region), storing this data is effectively ‘free’ in practice and doesn’t impact performance; it only marginally affects memory.",
-      "quote": "So the fish is basically entirely free, and it’s mostly living in a memory region that goes unused."
-    },
-    {
-      "topic": "team",
-      "importance": "low",
-      "summary": "Kaze expects Biobak to revise visuals later; his goal on-stream is to get the level to a “semi-decent” state so it’s not unpleasant for Biobak to review.",
-      "quote": "I’m not trying to put too much work into this, just get this semi-decent looking, so Biobak doesn’t puke when he sees this."
     },
     {
       "topic": "personal",
       "importance": "medium",
-      "summary": "Kaze describes a recent near-incident where three large dogs rushed him while picking something up; he frames it as ‘almost dying’ and briefly spirals into value-of-life philosophy, indicating stress and a volatile moment outside development.",
+      "summary": "He mentions a recent real-world incident where three large dogs charged him during a Kijiji pickup, describing it as a moment where he “almost died” and narrowly avoided a fight/attack.",
+      "quote": null
+    },
+    {
+      "topic": "business",
+      "importance": "medium",
+      "summary": "In response to morbid release/continuity questions, he says multiple trusted people already have access to Return to Yoshi’s Island and that assets also exist in a private repo, reducing risk of the project being lost if something happened to him.",
+      "quote": null
+    },
+    {
+      "topic": "design",
+      "importance": "low",
+      "summary": "Kaze states he dislikes 2D platformers and doesn’t enjoy Super Mario World, implying he wouldn’t want to make a SMW-style hack unless he could reinvent the core ‘joy’ into something different—otherwise it would likely disappoint fans of the base game.",
       "quote": null
     }
   ],
@@ -96,13 +96,13 @@
       {
         "topic": "design",
         "importance": "medium",
-        "summary": "Biobak’s feedback/desire for the scene is explicitly acknowledged: offshore waves should be strong while near-shore water should flatten. Kaze implements wave-height reduction near the shore and calls it ‘exactly what Biobak wanted.’",
-        "quote": "I think this is exactly what Biobak wanted."
+        "summary": "Biobak’s feedback/expectations guided the shoreline wave solution: Kaze explicitly frames the new near-shore wave-height suppression as “exactly what Biobak wanted,” suggesting Biobak is setting concrete aesthetic targets for water behavior.",
+        "quote": null
       },
       {
-        "topic": "team",
+        "topic": "design",
         "importance": "low",
-        "summary": "Kaze treats his current shader/scene work as provisional because Biobak will likely change/rework it later, implying an iterative handoff where Kaze blocks out tech and Biobak polishes art direction.",
+        "summary": "Biobak raises presentation concerns (e.g., requests around movement/appearance near the shore), and Kaze defers some aesthetic ownership to Biobak (“complain to Biobak”), reinforcing Biobak’s role as the aesthetic bar-setter for certain level visuals.",
         "quote": null
       }
     ],
@@ -111,7 +111,7 @@
       {
         "topic": "personal",
         "importance": "low",
-        "summary": "Zeina messages Kaze during stream and sends photos from a scenic region they visited; Kaze shares them and expresses admiration for the place, giving a brief glimpse into their off-stream life and relationship.",
+        "summary": "Zeina messages Kaze during stream and sends photos from a scenic location, briefly shifting the stream tone and highlighting their day-to-day overlap between life and dev work.",
         "quote": null
       }
     ],
@@ -121,19 +121,14 @@
         "findings": [
           {
             "topic": "technical",
-            "importance": "medium",
-            "summary": "Lilaa is repeatedly involved as a technical sounding board (shader/tool questions like UDIM, emulator talk, and transparency/render-mode bug speculation). Kaze also asks Lilaa directly for help identifying why a visual transparency issue persists.",
+            "importance": "high",
+            "summary": "Lilaa prompts/participates in the Parallel emulator postmortem, leading Kaze to spell out the concrete off-by-one ‘last byte of memory’ issue and how it broke his decompression heap layout.",
             "quote": null
-          }
-        ]
-      },
-      {
-        "name": "Falco",
-        "findings": [
+          },
           {
             "topic": "technical",
             "importance": "medium",
-            "summary": "Kaze credits Falco for helping fix a ParaLLEl crash for the prior RTYI demo, but the fix failed to reach many users due to ParaLLEl update/distribution issues and additional emulator bugs.",
+            "summary": "Lilaa is involved in troubleshooting the asset/tool pipeline (e.g., explaining UDIM/‘megatexture’ behavior and discussing the need for material labels/tags), influencing Kaze’s decision to implement a code workaround to locate specific display-list commands reliably.",
             "quote": null
           }
         ]
@@ -143,100 +138,72 @@
   "memorable_quotes": [
     {
       "speaker": "Kaze",
-      "quote": "The truth is actually so much more fucked up than that… the booloth is just a part of the wind sound effect.",
-      "context": "He reframes a well-known Mario 64 audio ‘mystery’ as a concrete asset/engine timing artifact, demonstrating his deconstruction mindset: finding truth in the original game’s data and systems."
+      "quote": "I mean, I myself as a human don’t have much value, right? The value is in what I make.",
+      "context": "Said while responding to chat’s questions about what happens to the project if he dies; reveals a blunt, utilitarian self-view tied to creative output."
     },
     {
       "speaker": "Kaze",
-      "quote": "I’m trying to make it so that two sound effects per bank can play at the same time. This would seriously improve the sound effect quality across the board.",
-      "context": "A succinct statement of an engine-level upgrade goal that directly supports ‘respectful modernization’ on original hardware constraints."
-    },
-    {
-      "speaker": "Kaze",
-      "quote": "At least let me avoid interacting with Parallel for as long as possible, which is until the moment I release my hack.",
-      "context": "Shows the practical tension between ideal compatibility and the reality of unstable tooling/emulators when shipping a modern N64 hack."
+      "quote": "What’s really going on is that the ‘boo’ is just a part of the wind sound effect.",
+      "context": "The clearest one-line explanation of the Big Boo’s Haunt ‘boo-in-the-door/wind’ audio artifact; useful as a documentary ‘myth-busting’ beat."
     }
   ],
   "key_stories": [
     {
-      "title": "The ‘low-pitched boo’ is hidden inside the wind sound",
-      "summary": "Kaze walks through why players sometimes hear a low-pitched Boo-like sound in Big Boo’s Haunt: it’s embedded in the wind/howling sound effect itself. The sound normally never reaches that tail because it loops earlier, but timing changes (especially around room/door transitions) allow the tail to play fully, exposing the hidden sample.",
-      "challenge": "Explain and verify a long-standing SM64 audio oddity often misattributed to door pitch or other triggers.",
-      "process": "He reproduces the behavior, then checks a clean Mario 64 repository, locating the wind sample/instrument sequencing and describing the loop/delay structure that usually prevents hearing the tail end.",
-      "outcome": "A clear, technically grounded explanation that the ‘boo’ is part of the wind asset and becomes audible when the effect is interrupted or no longer retriggered every frame.",
-      "key_quote": "For some reason… the Mario 64 designers made the booloth part of the sound effect and placed it at the very end of the sound effect.",
+      "title": "Attempting dual-SFX-per-bank audio upgrade, then aborting",
+      "summary": "Kaze opens the stream working on a sound-engine change meant to dramatically improve SFX layering: allowing two sound effects per bank to play simultaneously. He quickly concludes the problem is too complicated to resolve live and postpones it, framing it as a high-impact but thorny technical debt item.",
+      "challenge": "Current engine limitations prevent richer sound effect layering; implementing concurrent SFX within a bank is “nasty” and complex.",
+      "process": "He explains the intent (two bank sounds selected per bank) and starts investigating/working, then decides it’s not feasible to finish on-stream.",
+      "outcome": "He ‘emergency exits’ the task and ends the stream still wanting to fix SFX soon because playtesting without SFX is unpleasant.",
+      "key_quote": "I cannot reasonably fix the sound effects right now on stream.",
       "related_to": ["kaze"]
     },
     {
-      "title": "ParaLLEl demo crash fix didn’t reach players",
-      "summary": "Kaze recounts fixing a ParaLLEl crash for the last RTYI demo with Falco, only for users to miss the update and then encounter additional ParaLLEl issues a week later. The episode reinforces his frustration with emulators being treated like production-grade targets while remaining unstable for real users.",
-      "challenge": "Ensure the RTYI demo runs on a widely used emulator core that exhibits correctness and update/distribution problems.",
-      "process": "He worked with Falco to patch a crash, traced it to an off-by-one that prevented using the last byte of memory, and shipped the fix; afterward, the emulator’s update issues and other bugs undermined the benefit.",
-      "outcome": "Kaze decides to minimize time spent on ParaLLEl until the release window, focusing development/testing elsewhere until compatibility becomes unavoidable.",
-      "key_quote": "It actually pisses me off so much… I worked with Falco to fix the bug that caused Parallel to crash… and then a week later… people didn’t get the update.",
+      "title": "Solving the mystery of the low-pitched ‘Boo’ sound near Big Boo’s Haunt",
+      "summary": "Kaze rejects the common community explanation that the sound comes from door pitch behavior. He demonstrates that the Boo sound is literally embedded at the tail of the wind/howling audio sequence and becomes audible when the looping/cancellation timing changes near door-triggered room transitions.",
+      "challenge": "A long-running Mario 64 audio oddity is widely misattributed, and the real cause is non-obvious without inspecting the sequence data.",
+      "process": "He reproduces the phenomenon, points to the relevant wind SFX sequence, explains delays/loop points and instrument switching, and describes how room changes stop the per-frame retriggering that normally prevents reaching the embedded Boo tail.",
+      "outcome": "A concrete, inspectable explanation that reframes the bug as an original asset/sequence design quirk amplified by timing/room transition behavior.",
+      "key_quote": "The truth is actually so much more fucked up than that.",
       "related_to": ["kaze"]
     },
     {
-      "title": "Near-incident with dogs during a pickup",
-      "summary": "While discussing repository access and hypotheticals about dying, Kaze mentions he ‘almost died’ during a Kijiji pickup when three large dogs ran at him barking. He describes being ready to punch one and frames it as a genuine fear moment.",
-      "challenge": "An unexpected real-life stress incident that briefly derails the stream into mortality and value-of-life talk.",
-      "process": "He narrates the moment and his instinctive reaction, then returns to development topics.",
-      "outcome": "No direct dev change, but it reveals the emotional backdrop and stress that can color his development sessions.",
-      "key_quote": null,
+      "title": "Parallel emulator crash fallout and the ‘last byte of memory’ bug",
+      "summary": "Kaze recounts fixing an RTYI demo crash in Parallel with a collaborator, only for Parallel’s subsequent issues to still break the player experience. He identifies an off-by-one error: Parallel effectively made the last byte of memory unusable, which corrupted his decompression heap scheme where he stores metadata at the end of the buffer.",
+      "challenge": "The project needs broad emulator compatibility at release, but Parallel is unstable and diverges from expectations in memory correctness.",
+      "process": "He explains his memory layout (decompression data placed at the end; file size stored at heap end) and why an off-by-one in bounds checking causes random misreads.",
+      "outcome": "Kaze delays dealing with Parallel as long as possible, but acknowledges he’ll be forced to confront it for final release compatibility; the incident becomes a cautionary tale about emulator QA and “testing in production.”",
+      "key_quote": "The bug was that you couldn’t use the last byte in memory because of an off by one error.",
       "related_to": ["kaze"]
     }
   ],
   "open_questions": [
     {
-      "topic": "Two simultaneous SFX per bank",
-      "context": "Kaze frames this as a major audio-quality upgrade but stops because it’s too complex to resolve on-stream; he also notes RTYI is currently unpleasant to play without proper SFX.",
+      "topic": "Dual sound effects per bank (audio engine upgrade)",
+      "context": "Kaze believes enabling two simultaneous SFX per sound bank would significantly improve audio quality, but he postponed the work as too complex for live debugging.",
       "questions": [
-        "What specifically breaks or becomes ‘nasty’ when enabling two SFX per bank (voice allocation, bank/instrument limitations, scheduler conflicts, memory/CPU, desync with music)?",
-        "Is this change compatible with existing assets, or does it require reauthoring sound banks/effects?",
-        "How will you test correctness on real hardware vs emulator, and what’s the rollback plan if it introduces edge-case audio corruption?"
+        "What concrete in-game moments (specific levels/enemies/moves) are currently ‘held back’ by only one SFX per bank, and how would two-at-once change the feel?",
+        "What’s the real technical blocker—sequence scheduling, bank/channel allocation, priority rules, or side effects like stuck/canceled sounds?",
+        "When you’ve tackled similar ‘high impact, nasty’ engine upgrades before, what approach worked best (prototyping in isolation, writing tooling, adding debug visualizers/logging)?"
       ],
       "related_to": ["kaze"]
     },
     {
-      "topic": "Mario 64 wind/boo sample artifact implications for RTYI",
-      "context": "Kaze identifies an original SM64 asset quirk where an unintended sound exists at the end of a looping wind effect and becomes audible due to timing changes around doors/rooms.",
+      "topic": "Water/foam shader constraints and the vertex-data packing workaround",
+      "context": "To make foam and wave behavior near shore, Kaze needs extra per-vertex data but is running out of channels (alpha already used; RGB already used/modified). He considers packing wave height into lower bits of an existing channel (e.g., red).",
       "questions": [
-        "Will RTYI preserve such ‘authentic’ quirks when they’re harmless, or will you sanitize/replace original samples to avoid unintended artifacts?",
-        "Did discovering this change how you approach other ‘mystery bugs’—do you now assume more issues are embedded in asset data rather than code?",
-        "Could similar hidden tails exist in other banks that RTYI’s new audio changes (two SFX per bank) might reveal more often?"
-      ],
-      "related_to": ["kaze"]
-    },
-    {
-      "topic": "Vertex-channel data packing for water/foam",
-      "context": "Kaze needs per-vertex storage for wave height but says channels are already used (alpha and runtime RGB usage). He proposes packing wave height into lower bits of the red channel.",
-      "questions": [
-        "Which vertex channels are currently reserved for which systems (lighting, fog, palette tricks, gameplay tags, runtime deformation), and who decided that allocation?",
-        "What precision artifacts do you expect from using ‘lower bits’ of a color channel for wave height, and how will you debug them visually?",
-        "Is there a longer-term plan to standardize per-vertex metadata (a documented ‘vertex schema’) so future levels/effects don’t collide?",
-        "Does Biobak (or other artists) need tooling guidance so their vertex painting doesn’t accidentally overwrite engine metadata?"
+        "What are the current per-vertex channels already allocated to (what is alpha used for, and what are RGB used/modified for at runtime)?",
+        "If you pack wave height into low bits of a color channel, what risks show up (banding, lighting/color artifacts, tool/export friction) and how do you test for them?",
+        "What’s the ‘gold standard’ reference in your mind for RTYI water—what games or real-world footage are you trying to match, and what do you refuse to copy (e.g., Wind Waker’s look)?"
       ],
       "related_to": ["kaze", "biobak"]
     },
     {
-      "topic": "Display-list ‘material labels’ and exporter behavior",
-      "context": "Kaze says tags/labels exist but aren’t exported; he rejects a “segment” approach and plans a scan-based init workaround to locate specific commands after a texture pointer by bit-pattern matching.",
+      "topic": "Material labels/tags missing in the rendering/toolchain pipeline",
+      "context": "Kaze hits a pipeline limitation: he needs stable identifiers (‘material labels’) for specific display-list commands but considers the suggested ‘segment’ approach unacceptable, so he plans a pattern-matching workaround. A chat member claims tags already exist but aren’t exported.",
       "questions": [
-        "What exporter/toolchain generates these display-list comments/tags, and why aren’t labels exported today?",
-        "How fragile is the scan-based workaround—could reordering by Blender/export optimizations break it across builds?",
-        "Who owns the fix (Kaze vs tool author vs community), and what would a ‘clean’ solution look like that avoids hacky scanning?",
-        "What’s the impact on iteration speed for Biobak/Zeina if material identification remains unstable?"
-      ],
-      "related_to": ["kaze", "biobak", "zeina"]
-    },
-    {
-      "topic": "Emulator support strategy for release",
-      "context": "Kaze plans to avoid ParaLLEl until release, citing prior demo pain (off-by-one last-byte memory bug, update issues, additional bugs affecting players).",
-      "questions": [
-        "What is your minimum supported emulator list for RTYI at launch, and how will you communicate ‘known good’ versions to players?",
-        "Will you set up automated regression tests specifically for emulators (ParaLLEl/Ares/etc.), or rely on ad-hoc community reports?",
-        "What was the exact timeline and communication failure that caused players to miss the ParaLLEl fix after the demo—can it be prevented for the full release?",
-        "How often do emulator differences force you to compromise on engine techniques (memory layout, timing, RDP modes) that would otherwise be fine on hardware?"
+        "Where in the pipeline do the tags/labels exist today, and why aren’t they exported—technical limitation, maintenance risk, or someone’s design choice?",
+        "What broke when you started counting/targeting specific display-list comments, and how do you plan to make the workaround robust against future export changes?",
+        "If you could redesign this pipeline from scratch, what would the ‘clean’ version look like for reliably addressing materials/commands without hacks?"
       ],
       "related_to": ["kaze"]
     }

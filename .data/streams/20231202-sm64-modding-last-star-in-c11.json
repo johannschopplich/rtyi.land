@@ -1,112 +1,123 @@
 {
   "stream_context": {
-    "summary": "Kaze finishes an underground oil-rig section by modeling N64-style drill props, implementing a new oil-based enemy (Fizz Oil) with animation and behavior, and prototyping a “slippery floor” mechanic without touching engine code. He also gives status updates on Course 4/zoo repairs and beta readiness, discusses optimization/engine constraints, and briefly touches on ROMhack legal realities (patches, IP enforcement, a creator hiring an IP lawyer).",
+    "summary": "Kaze focuses on finishing an underground oil-rig area and implements a new enemy (“Fizz Oil”) whose main gameplay effect is dynamically making the floor slippery without modifying core engine code. In parallel, he reports having repaired Course 4 for upcoming beta testing, fixed the Zoo level (now waiting on Zeina’s animations), and discusses tooling limits (Fast64), performance/caching concerns, open-sourcing plans, and ROMhack/IP enforcement realities.",
     "level": ["Course 4"],
     "significance": "milestone",
-    "significance_reason": "The stream completes a distinct area’s content pass (visuals + new enemy + new surface/slippery mechanic) and includes concrete engine/optimization philosophy plus production status (Course 4 ready for beta; zoo waiting on Zeina animations)."
+    "significance_reason": "A new enemy concept is brought from idea → implemented behavior → working in-game interaction (slippery surface + soap kill), the oil-rig sub-area is declared essentially finished (pending art dressing), and Course 4 is reported “ready for beta testing,” marking tangible project-forward progress rather than routine iteration."
   },
   "findings": [
     {
       "topic": "milestone",
       "importance": "high",
-      "summary": "Kaze considers the current underground oil-rig area essentially finished after adding the drill props and implementing the missing enemy; remaining polish items are oil clouds, dead fish set dressing, and a boiling-oil environmental effect.",
-      "quote": null
-    },
-    {
-      "topic": "design",
-      "importance": "high",
-      "summary": "He designs a new enemy, “Fizz Oil” (inspired by SMG’s Fizz Lit), that crawls, then “swoops” into a puddle state; the intended gameplay value is environmental hazard/pressure (sliding on stairs into boiling oil) rather than direct damage.",
-      "quote": null
-    },
-    {
-      "topic": "technical",
-      "importance": "high",
-      "summary": "To make Fizz Oil affect gameplay without engine edits, he dynamically modifies the surface type of the triangle under Mario while Mario is within the enemy’s radius, then resets it—creating localized slipperiness as a per-frame external behavior.",
-      "quote": "Since we don’t want to touch engine code, we need to somehow externally do this."
-    },
-    {
-      "topic": "design",
-      "importance": "medium",
-      "summary": "He decides Fizz Oil should be killable with “soap” as a teaching/hint mechanism for a related boss concept, but avoids making it star-rewarding; solution is to have it drop small rewards (e.g., coins) instead of counting as a star objective.",
-      "quote": null
-    },
-    {
-      "topic": "technical",
-      "importance": "medium",
-      "summary": "He runs into a bug where the enemy’s texture/eye animation argument wasn’t applying because the relevant function/action routing wasn’t running as expected; diagnosing reveals an action incorrectly transitioning (action 4 going to action 0 instead of action 5), which explains broken animation behavior.",
-      "quote": null
-    },
-    {
-      "topic": "technical",
-      "importance": "medium",
-      "summary": "Kaze notes a planned performance improvement: transposing the scale-table matrix because the current layout is “terrible for cache cleaning,” reflecting his ongoing low-level optimization approach during feature work.",
-      "quote": null
-    },
-    {
-      "topic": "technical",
-      "importance": "medium",
-      "summary": "He highlights that switching to hashing tables (instead of normal geo layouts) dramatically increases available geo/model space—allowing model IDs up to 0x60—making larger/more varied scene geometry feasible.",
-      "quote": "It’s so freeing that we have hashing tables now instead of normal geo layouts, because now we have so much more space for geos."
-    },
-    {
-      "topic": "technical",
-      "importance": "low",
-      "summary": "Fast64 has a rendering bug that makes the area look worse in Blender; he treats it as a tooling limitation and proceeds, noting Fast64 is open source but he wishes more people were working on it.",
+      "summary": "Kaze says he finished fixing up Course 4 off-camera and considers it ready to be sent out for beta testing soon.",
       "quote": null
     },
     {
       "topic": "milestone",
       "importance": "medium",
-      "summary": "Off-stream, he finished fixing Course 4 and says it’s ready to be sent for beta testing; he also says working on new content tends to break older levels, so he’s doing a sweep of old courses for repairs and bug fixes.",
+      "summary": "He reports the Zoo level has been “repaired” and is functional again; remaining blocker is waiting for a few animations Zeina is creating.",
       "quote": null
     },
     {
-      "topic": "team",
-      "importance": "medium",
-      "summary": "The zoo course is repaired and functional again, but is blocked on a few animations Zeina is making; Kaze is also thinking through how a zoo star-select/travel sequence should work without breaking the game’s star-select “Mario travels to the level” concept.",
+      "topic": "design",
+      "importance": "high",
+      "summary": "He designs and implements the “Fizz Oil” enemy: it slimes/crawls, performs a swoop/flatten action into an oil puddle, and primarily functions as a slipperiness hazard on staircase-heavy terrain rather than a high-damage threat.",
       "quote": null
     },
     {
-      "topic": "legal-nintendo",
+      "topic": "technical",
+      "importance": "high",
+      "summary": "To make Fizz Oil affect movement without touching engine code, he plans/implements dynamic surface modification: when Mario overlaps the enemy radius and is standing on a floor triangle, the triangle’s surface type is temporarily changed to ‘slippery,’ then restored when conditions end.",
+      "quote": null
+    },
+    {
+      "topic": "philosophy",
+      "importance": "high",
+      "summary": "Kaze strongly prefers avoiding engine-code changes even when they’re simpler, arguing that repeated small per-frame costs add up and that keeping features external reduces ongoing performance and maintenance risk across many systems/levels.",
+      "quote": "4 microseconds is a lot in my world."
+    },
+    {
+      "topic": "design",
       "importance": "medium",
-      "summary": "Kaze frames ROMhack distribution as effectively a full-game replacement despite being delivered as a “patch,” and he discusses Nintendo enforcement as driven by IP-protection obligations; he also mentions a ROMhacker who hired an IP lawyer to contest a takedown and may get a YouTube video reinstated.",
+      "summary": "He decides Fizz Oil should be killable with the soap mechanic as an implicit hint/teaching moment for a boss, but he worries killable enemies can create an expectation of a star reward; he considers dropping coins instead (e.g., “two coins”).",
+      "quote": null
+    },
+    {
+      "topic": "design",
+      "importance": "medium",
+      "summary": "Environmental dressing for the oil area is still pending: he wants stronger fog, oil clouds, an oil drill prop, dead fish, and a boiling-oil effect/bubbles at the bottom (damage zone) to sell the theme.",
+      "quote": null
+    },
+    {
+      "topic": "technical",
+      "importance": "medium",
+      "summary": "He notes a Fast64/Blender rendering bug (transparency) that makes the area look worse in Blender than in-game, and he plans to ‘live with it’ for now despite wishing more contributors were working on Fast64 fixes.",
+      "quote": null
+    },
+    {
+      "topic": "technical",
+      "importance": "medium",
+      "summary": "He celebrates a pipeline/engine improvement: switching to hashing tables instead of normal geo layouts frees space for more geometry/model IDs (he cites up to model ID 0x60), expanding what the project can load/display.",
+      "quote": null
+    },
+    {
+      "topic": "technical",
+      "importance": "medium",
+      "summary": "While debugging animation/texture-argument issues, he discovers a logic-path bug (an action state going to the wrong action), reinforcing how small state-machine mistakes can derail perceived animation quality.",
+      "quote": null
+    },
+    {
+      "topic": "technical",
+      "importance": "medium",
+      "summary": "He flags a specific optimization task for later: transposing a “scale table matrix” because the current layout is “terrible for cache cleaning,” framing it as a performance tweak worth tracking but not doing mid-stream.",
       "quote": null
     },
     {
       "topic": "business",
       "importance": "high",
-      "summary": "He says making a brand-new N64 game (separate from RTY’s engine/hack work) isn’t financially viable for him, especially because he now has a family to provide for, forcing more pragmatic project choices.",
-      "quote": "I do have a family now that I need to provide for, so I can’t just fuck around with my time and do that."
+      "summary": "Kaze states he’d like to make a brand-new N64 game, but says it’s not financially viable and he has a family to provide for, so he has to make ‘sensible decisions’ with his time.",
+      "quote": "I wish I could, but it’s not financially viable… I do have a family now that I need to provide for."
+    },
+    {
+      "topic": "legal-nintendo",
+      "importance": "medium",
+      "summary": "He explains the practical/legal posture of releasing as a patch: so much has changed that calling it a ‘patch’ is almost a formality, but it’s still the strategy used to navigate legal risk. He also discusses why Nintendo may enforce takedowns to demonstrate IP defense rather than purely to recover profits.",
+      "quote": null
+    },
+    {
+      "topic": "legal-nintendo",
+      "importance": "medium",
+      "summary": "He mentions a separate ROM hacker who hired an IP lawyer to contest a YouTube claim/takedown; Kaze treats it as potentially promising news that could set precedent if the video is restored.",
+      "quote": null
     },
     {
       "topic": "philosophy",
       "importance": "high",
-      "summary": "Kaze explicitly commits to open-sourcing the codebase so it can be maintained after he leaves the scene and so others can build hacks on top of his engine work.",
+      "summary": "He guarantees the project will be open-sourced, explicitly so others can maintain the codebase after he “leaves the scene” and so other creators can build hacks on top of his engine.",
       "quote": "This is guaranteed open source. I want people to be able to maintain this code base after I leave the scene, and I want other people to be able to make hacks off of my engine."
     }
   ],
   "contributor_findings": {
     "biobak": [
       {
-        "topic": "design",
-        "importance": "low",
-        "summary": "Biobak is present in chat; Kaze anticipates Biobak’s typical feedback style (notably color balance critique and polygon/triangle budget policing), and Kaze removes extra triangles preemptively to avoid being called out.",
-        "quote": null
-      }
-    ],
-    "badub": [
-      {
         "topic": "team",
         "importance": "low",
-        "summary": "Kaze reacts positively to the stream’s background music (“really nice”), implying continued iteration/review of in-game tracks during development even though no specific track decisions are finalized here.",
+        "summary": "Kaze anticipates Biobak’s feedback pressure on polygon count/cleanup (“before Biobak cusses me out”), reflecting an informal quality-control dynamic around visual/mesh efficiency.",
         "quote": null
       }
     ],
+    "badub": [],
     "zeina": [
       {
         "topic": "team",
         "importance": "medium",
-        "summary": "Zeina is producing animations needed to restore/finish the zoo course; the course’s readiness is dependent on her animation deliveries.",
+        "summary": "Kaze says progress on restoring the Zoo level is waiting on Zeina’s remaining animations, indicating she is a gating dependency for that level’s reactivation.",
+        "quote": null
+      },
+      {
+        "topic": "personal",
+        "importance": "low",
+        "summary": "Kaze mentions Zeina is out with friends during the stream; earlier he briefly takes a call from Zeina’s dad about house-related information.",
         "quote": null
       }
     ],
@@ -116,91 +127,114 @@
     {
       "speaker": "Kaze",
       "quote": "This is guaranteed open source. I want people to be able to maintain this code base after I leave the scene, and I want other people to be able to make hacks off of my engine.",
-      "context": "A clear statement of legacy intent: RTY isn’t just a game, it’s an engine/codebase meant to outlive him and empower other creators."
+      "context": "A clear long-term legacy statement: he frames RTYI not just as a hack, but as an engine/platform others can inherit."
     },
     {
       "speaker": "Kaze",
-      "quote": "I do have a family now that I need to provide for, so I can’t just fuck around with my time and do that. I have to make sensible decisions.",
-      "context": "Explains why he prioritizes RTY/engine work over riskier passion projects (like a totally new N64 game), grounding creative choices in real-life constraints."
+      "quote": "I wish I could, but it’s not financially viable… I do have a family now that I need to provide for.",
+      "context": "A candid constraint on ambition: why he’s choosing ROMhack/engine work over building an entirely new N64 game."
+    },
+    {
+      "speaker": "Kaze",
+      "quote": "4 microseconds is a lot in my world.",
+      "context": "His performance philosophy in one line—why he resists engine changes and cares about per-frame costs."
     }
   ],
   "key_stories": [
     {
-      "title": "Building an enemy that changes physics without changing the engine",
-      "summary": "Kaze wants an oil enemy that makes traversal harder by making surfaces slippery, but he tries to avoid modifying core engine code. He prototypes a solution where the enemy behavior temporarily edits the surface type of the floor triangle under Mario whenever Mario is within a radius, then resets it.",
-      "challenge": "Create a distinctive hazard (slipperiness) while minimizing engine edits and performance costs.",
-      "process": "He reasons through multiple options (engine-level flags vs external behavior), selects dynamic surface edits, adds backup state (surface pointer/type) and resets per frame for reliability, and tests the result on stair-heavy terrain where slipping matters.",
-      "outcome": "The localized slipperiness works and becomes the signature mechanic of Fizz Oil; remaining follow-up is integrating soap-kill behavior cleanly and polishing the area (boiling oil, set dressing).",
-      "key_quote": "Since we don’t want to touch engine code, we need to somehow externally do this.",
+      "title": "Fizz Oil enemy: from concept to slippery-floor gameplay",
+      "summary": "Kaze turns an ‘oil puddle’ enemy concept into an implemented hazard that changes how the player navigates a staircase-heavy oil-rig interior. The story highlights his design intent (vibes + environmental danger) and his technical preference for non-engine, low-overhead solutions.",
+      "challenge": "Create an oil-themed enemy that meaningfully affects gameplay (slipping/falling into boiling oil) without needing high damage or complex combat, and make it work within SM64’s constraints.",
+      "process": "He prototypes behaviors (crawl → swoop/flatten → return), debugs animation/state issues, then implements slipperiness by temporarily editing the surface type of the floor triangle under Mario when he’s within the enemy’s radius, avoiding engine code edits.",
+      "outcome": "Fizz Oil is working in-game as a ‘cool but not super deadly’ hazard; remaining tasks include polishing visuals (boiling oil effect, oil clouds, dead fish) and finalizing kill/loot behavior with the soap mechanic.",
+      "key_quote": "Not every enemy has to be like a super obstacle… it’s fine if he’s more optical than vibe-giving than dangerous.",
       "related_to": ["kaze"]
     },
     {
-      "title": "Course 4 and the cascade of breakage from new development",
-      "summary": "Kaze reports finishing off-stream repairs to Course 4 and preparing it for beta testing, while also noting that ongoing work regularly breaks older levels. He’s doing broad regression-style passes to restore functionality across previously completed content.",
-      "challenge": "Maintaining stability across many courses while adding new systems and assets.",
-      "process": "He revisits older levels, fixes bugs discovered during testing, and coordinates pending art/animation dependencies (notably Zeina’s zoo animations).",
-      "outcome": "Course 4 is declared ready for beta; the zoo course is mostly repaired but waiting on animations.",
+      "title": "Repairing Course 4 and the domino effect of breaking old levels",
+      "summary": "Kaze describes a recurring production pattern: new work unexpectedly breaks older content, forcing periodic ‘repair passes’ across levels. This reveals the hidden maintenance cost of a growing, heavily modified codebase/level set.",
+      "challenge": "As development progresses, older levels become partially broken or regress due to new features and changes elsewhere.",
+      "process": "He retests older stages, fixes discovered bugs, and performs targeted refurbishing (he explicitly says he finished fixing Course 4 and also repaired the Zoo).",
+      "outcome": "Course 4 is declared ready for beta testing; the Zoo is functional again but waiting on Zeina’s animations.",
       "key_quote": null,
       "related_to": ["kaze", "zeina"]
     },
     {
-      "title": "Legal posture: patches, IP enforcement, and testing a lawyer route",
-      "summary": "Kaze discusses that although hacks are distributed as patches, RTY effectively replaces almost all bytes of the original ROM. He explains Nintendo’s likely reasoning as IP-protection obligation rather than pure lost sales and mentions a separate ROMhacker hiring an IP lawyer to contest a YouTube takedown.",
-      "challenge": "Operating in a space where Nintendo enforcement can remove content and distribution is legally fragile.",
-      "process": "He describes the practical strategy of releasing as a patch and paying attention to emerging precedents (like lawyer-mediated disputes).",
-      "outcome": "No immediate action taken on stream, but it informs how the project frames distribution and risk; Kaze considers sharing the lawyer-success screenshot publicly.",
-      "key_quote": null,
+      "title": "Teaching the soap mechanic through enemy design (and avoiding ‘star’ expectations)",
+      "summary": "While finalizing Fizz Oil, Kaze notices a design-side consequence: if an enemy is killable, players may assume it’s tied to progression rewards. He considers using coins instead so the enemy can still ‘teach’ soap without turning into an implied objective.",
+      "challenge": "Make soap-killing feel rewarding/instructive without confusing players into thinking killing Fizz Oil grants a star objective.",
+      "process": "He debates interaction outcomes, proposes killing via soap as a hint for the boss, and considers dropping a small coin reward rather than tying it to stars.",
+      "outcome": "Direction is set toward ‘killable with soap’ plus minor drops (coins), but exact reward tuning/presentation remains to be finalized.",
+      "key_quote": "If we make it so that you can kill them, then you would think you get a star for doing it.",
+      "related_to": ["kaze"]
+    },
+    {
+      "title": "Open-sourcing RTYI as a maintainable engine after Kaze",
+      "summary": "Kaze frames open-sourcing as a commitment to continuity: the project should remain usable and maintainable even after he stops active development. This positions RTYI as infrastructure for a wider creator community rather than a one-off mod.",
+      "challenge": "Ensure the project doesn’t ‘die’ when Kaze leaves the scene and enable others to build on the technology.",
+      "process": "He explicitly commits on-stream to open-sourcing and ties it to maintainability and downstream hack creation.",
+      "outcome": "A public promise is made, which can be revisited for timeline, licensing, and what’s included/excluded at release.",
+      "key_quote": "I want people to be able to maintain this code base after I leave the scene.",
+      "related_to": ["kaze"]
+    },
+    {
+      "title": "Why a brand-new N64 game stays a dream",
+      "summary": "Kaze responds to a viewer question about making a new N64 game with a practical constraint: financial viability and family responsibility. It’s a direct articulation of how real-life obligations shape creative scope.",
+      "challenge": "Balancing ambitious creative goals with the economic reality of time and income.",
+      "process": "He compares the question to asking whether he’s dying ‘right now’—emphasizing that current behavior (continuing RTYI work) is evidence of his present constraints—and then states the financial/family reason clearly.",
+      "outcome": "He rules out a new N64 game for now unless circumstances change, reinforcing RTYI/engine work as the realistic path.",
+      "key_quote": "I can’t just fuck around with my time and do that. I have to make sensible decisions.",
       "related_to": ["kaze"]
     }
   ],
   "open_questions": [
     {
-      "topic": "Fizz Oil’s final design and player learning goal",
-      "context": "Fizz Oil currently focuses on vibe + traversal pressure via temporary slipperiness; Kaze debates whether it should also deal damage (e.g., boiling state) and settles on soap-kill as a hint mechanic, with coin drops to avoid star reward expectations.",
+      "topic": "Open source plan: scope, timing, and what ‘engine’ means here",
+      "context": "Kaze guarantees the project will be open-sourced so others can maintain it and build hacks off his engine, framing it as a legacy decision.",
       "questions": [
-        "What boss or later challenge is the soap-kill mechanic meant to foreshadow, and how intentionally is RTY teaching mechanics through enemies like Fizz Oil?",
-        "Did playtesting show slipperiness alone was readable/fun, or did players need additional feedback (sound, particles, animation) to understand why movement changed?",
-        "How did you decide on ‘vibes over lethality’ here—was that a broader RTY philosophy to keep some enemies as atmosphere rather than hard obstacles?"
+        "When did you decide it had to be open source, and was there a specific incident that made it feel ‘necessary’ rather than just nice-to-have?",
+        "What exactly will be open-sourced (engine/code only vs. levels/assets too), and how will you handle third-party or Nintendo-derived assets?",
+        "What license do you want, and what kinds of reuse are you hoping to enable (total conversions, new hacks, commercial experiments, educational use)?"
       ],
       "related_to": ["kaze"]
     },
     {
-      "topic": "Boiling-oil environmental effect implementation",
-      "context": "Kaze notes the bottom of the area should be boiling oil and mentions needing black bubbles, but hasn’t designed the effect yet; later he experiments with particle systems and notes some presets read like “soul leaving the body.”",
+      "topic": "Dynamic ‘slippery floor’ hazard without engine changes",
+      "context": "He implements slipperiness by temporarily editing the floor triangle’s surface type under Mario while overlapping the enemy radius, explicitly to avoid engine modifications and reduce per-frame overhead.",
       "questions": [
-        "What final visual language did you choose for boiling oil so players read it as dangerous (not water, not lava), and what constraints did N64 particle/rendering put on that choice?",
-        "Did you implement boiling oil as a surface type, an object volume, a particle/visual-only layer, or a combination?",
-        "How do you ensure hazards remain readable in foggy/blue-heavy lighting without overusing contrast or modern effects?"
+        "What failure cases worried you most here—like the surface not restoring correctly, affecting other objects, or edge cases when Mario changes floors mid-frame?",
+        "How did you test that the surface reliably resets, especially with multiple enemies, moving platforms, or transitions like warps/doors?",
+        "Was the decision to avoid engine code mainly performance, maintainability, or ‘portability to all levels’—and has that philosophy ever backfired?"
       ],
       "related_to": ["kaze"]
     },
     {
-      "topic": "Star select ‘Mario travels to the level’ concept vs special courses (zoo)",
-      "context": "Kaze says star select is meant to show Mario traveling to the level, and worries a zoo-specific star select might break that conceptual framing; he’s considering a zoo star-select solution.",
+      "topic": "Design intent for Fizz Oil: vibes vs threat, and teaching soap",
+      "context": "Kaze repeatedly frames Fizz Oil as not very dangerous but valuable for vibe and movement disruption, and he likes soap-killing as a ‘hint’ for a boss while fearing it implies star objectives.",
       "questions": [
-        "What is the exact ‘Mario travels to the level’ rule for RTY’s star select, and why was it important to you compared to a standard menu?",
-        "How did you resolve exceptions like the zoo—did you redesign the star select, the course framing, or the fiction of how Mario enters it?",
-        "Were there other levels where this star-select travel concept constrained level theming or layout decisions?"
+        "Where in the game do you want the player to first learn ‘soap kills oil,’ and is Fizz Oil meant to be that tutorial moment?",
+        "How do you stop players from treating it like an objective enemy (expecting a star) while still making the interaction feel meaningful?",
+        "What’s the bigger ‘oil rig’ encounter you’re building toward (boss or set piece), and how does Fizz Oil foreshadow it mechanically?"
+      ],
+      "related_to": ["kaze"]
+    },
+    {
+      "topic": "Course 4 beta testing and the ‘old levels keep breaking’ cycle",
+      "context": "He says Course 4 is ready for beta testing and notes that new work often breaks older levels, requiring repair passes (Zoo also repaired but waiting on Zeina animations).",
+      "questions": [
+        "Who are your beta testers, what do you ask them to focus on (difficulty, softlocks, performance on console), and how do you collect/triage feedback?",
+        "What kinds of changes most commonly ‘break old levels’ in RTYI—engine changes, asset pipeline changes, or level script assumptions?",
+        "Do you have any tooling/checklists now to prevent regressions, or is it still mostly manual rediscovery during playtests?"
       ],
       "related_to": ["kaze", "zeina"]
     },
     {
-      "topic": "Engine/optimization philosophy: avoiding engine edits and micro-optimizing cache behavior",
-      "context": "Kaze avoids an engine-level ‘treat surfaces slippery’ variable because it would add cache access and be ‘bad practice,’ and he flags a future performance tweak (transpose scale-table matrix) for better cache behavior.",
+      "topic": "Legal strategy: patches, IP enforcement, and the IP-lawyer anecdote",
+      "context": "Kaze explains why patches are used to navigate legal risk and mentions another hacker hiring an IP lawyer to fight a YouTube claim, plus his interpretation of Nintendo’s IP-defense motives.",
       "questions": [
-        "How often did you choose a more complex gameplay workaround specifically to avoid engine edits, and what were the biggest wins/losses of that philosophy?",
-        "Can you quantify the performance headroom you’re targeting on real hardware (frame time budgets, object counts, worst-case scenes)?",
-        "What were the major engine-level changes you *did* allow, and what criteria made them worth the cost compared to per-object hacks like the Fizz Oil surface edit?"
-      ],
-      "related_to": ["kaze"]
-    },
-    {
-      "topic": "Open-source commitment and succession planning",
-      "context": "Kaze promises the project will be open source so others can maintain it after he leaves the scene and so people can build hacks off his engine.",
-      "questions": [
-        "When did you decide RTY would be open source, and was it motivated by past experiences with abandoned hacks/tools?",
-        "What parts will be most reusable as an ‘engine’ for others (movement, rendering extensions, tools, build pipeline), and what parts are too RTY-specific?",
-        "How do you plan governance/maintenance—will there be trusted maintainers, documentation standards, or a roadmap for external contributors?"
+        "If RTYI gets claimed/taken down, what’s your escalation plan—counter-notice, legal counsel, mirrors, or changing distribution strategy?",
+        "What did you learn from watching someone else hire an IP lawyer—did it change your sense of what’s possible for ROMhack creators?",
+        "How do you balance being respectful to Nintendo’s IP with still making something ‘entirely new,’ especially when marketing/release time comes?"
       ],
       "related_to": ["kaze"]
     }

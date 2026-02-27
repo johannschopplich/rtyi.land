@@ -1,99 +1,81 @@
 {
   "stream_context": {
-    "summary": "Kaze iterates on the overworld “part 8” entrance, prototypes a Ghost Yoshi guide/chase sequence, debugs a broken Fast64/export/build pipeline for new model+animation assets, and finishes a full side level loop (in/out warps + star gate). He also begins planning the next side level feature: a “sleepy bomb”/rock-wall character that blocks progression and triggers a cutscene drop into the mines.",
+    "summary": "Kaze iterates on the overworld entrance to “Part 8,” then designs and implements a Ghost Yoshi guide mechanic for a mineshaft side level. The stream includes a substantial detour into toolchain/build failures (Fast64 path changes, animation build rules, filename edge cases), plus progress on warp routing and a new “sleepy bomb/rock wall” gate concept. The session ends with Part 8’s side level essentially completed and a clear next-task bug list.",
     "level": ["Overworld"],
     "significance": "milestone",
-    "significance_reason": "A complete side level flow for the part 8 area is finished on-stream (Ghost Yoshi sequence + warps + star-gated exit), and multiple pipeline-breaking build/animation issues are identified and resolved, affecting future content production."
+    "significance_reason": "A complete new side level flow for Part 8 is implemented end-to-end (Ghost Yoshi guiding, warps, gate logic) and Kaze resolves multiple blocking build/toolchain issues that were preventing assets/animations from compiling."
   },
   "findings": [
     {
       "topic": "design",
       "importance": "high",
-      "summary": "Kaze’s overworld goal is a space that visually reads as a maze but doesn’t require ‘maze gameplay’ to navigate; he wants the player to feel the maze atmosphere without getting lost.",
+      "summary": "The Part 8 overworld entrance is intentionally maze-like visually, but Kaze wants it to navigate cleanly (a ‘maze vibe’ without maze frustration).",
       "quote": null
-    },
-    {
-      "topic": "design",
-      "importance": "medium",
-      "summary": "The new beta overworld layout intentionally resembles a ‘secret test level’ aesthetic, which Kaze finds fitting and is willing to keep (including leaving certain areas in for dataminers).",
-      "quote": null
-    },
-    {
-      "topic": "technical",
-      "importance": "medium",
-      "summary": "Kaze fixed a common ROM-hack warp behavior where Mario disappears when walking through a warp; he treats the disappearing-Mario look as unacceptable polish-wise.",
-      "quote": "Remember the old days when walking through a warp would make Mario disappear. I fixed this."
     },
     {
       "topic": "design",
       "importance": "high",
-      "summary": "A Ghost Yoshi guidance mechanic is prototyped: the player follows fleeting glimpses of Ghost Yoshi along an illuminated path; Ghost Yoshi moves ahead when approached and ultimately disappears at the end with no text box to preserve a mysterious vibe.",
+      "summary": "A Ghost Yoshi is introduced as a guidance mechanic: the player follows brief glimpses of Yoshi along an illuminated path across connected maps, with Yoshi moving ahead when approached and disappearing at the end without a textbox for a stronger, moodier vibe.",
       "quote": null
     },
     {
       "topic": "design",
       "importance": "medium",
-      "summary": "Kaze tunes follow/chase parameters (distance target, fade range, velocity behavior) so Ghost Yoshi is readable but not easily ‘caught,’ and considers line-of-sight based speeding to reduce confusion at corners.",
+      "summary": "Kaze tunes Ghost Yoshi readability via parameters like distance target and fade range, aiming for occasional glimpses rather than constant visibility; he considers making Yoshi speed react to line-of-sight to prevent confusion about which direction Yoshi went.",
+      "quote": null
+    },
+    {
+      "topic": "design",
+      "importance": "medium",
+      "summary": "Access/gating idea: Part 8 could require a star-count barrier (e.g., Yoshi ‘asleep’ until ~30 stars), framing progression as a time/experience gate rather than a pure skill gate.",
       "quote": null
     },
     {
       "topic": "technical",
       "importance": "high",
-      "summary": "The team hits a major asset/build pipeline break importing Ghost Yoshi assets: Fast64 path output changes caused missing include paths, duplicate symbol definitions, and Makefile target issues; Kaze attributes the root cause to a Fast64 update changing export paths.",
-      "quote": "I blame Lilaa's Fast64 update. It made it so that the paths are no longer correct."
+      "summary": "Kaze identifies a RAM ceiling in the overworld/main area; to stay within memory limits, he may need to convert large setpieces (e.g., lighthouse-like elements) into separate side levels rather than keeping them resident in the overworld.",
+      "quote": null
     },
     {
       "topic": "technical",
       "importance": "high",
-      "summary": "A separate tooling bug blocks animation builds: an animation filename containing an unexpected suffix (e.g., “.001”) or problematic characters causes the generator that produces MarioAnimData to fail, leading to ‘empty animation table’/missing target errors; renaming resolves it.",
-      "quote": "Now it works! Now Mario is not trying to use Yoshi's animation because there was a 001 in the filename."
-    },
-    {
-      "topic": "technical",
-      "importance": "medium",
-      "summary": "Kaze notes that Blender sharp edges/smoothing settings (normals/sharps) materially affect N64 rendering output, and he corrects accidental sharps that created unwanted hard edges.",
+      "summary": "A major build failure occurs while importing Ghost Yoshi assets/animations: Fast64 path changes break expected include paths; additionally, a tool-generated dependency chain (MarioAnimData.c) requests nonexistent targets until Kaze discovers an edge-case bug caused by a “.001” (or similar) in an animation filename. Renaming fixes it.",
       "quote": null
     },
     {
       "topic": "technical",
       "importance": "medium",
-      "summary": "The overworld is RAM-tight; Kaze anticipates splitting content (e.g., lighthouse) into separate side levels if needed, framing it as manageable scope reshaping rather than a crisis.",
+      "summary": "Kaze tests the new side level’s performance on real N64 hardware and finds unexpected input lag despite frame-time readings around ~8–9ms; he suspects a bug and flags the risk that some visual effects may be too expensive even if they ‘seem fine’ in emulator/dev profiling.",
       "quote": null
     },
     {
-      "topic": "milestone",
+      "topic": "design",
       "importance": "high",
-      "summary": "Kaze completes the part 8 side level loop on-stream: verifies in/out warps, adds (or plans) death warps, and implements a star-gated exit (a gate opens after collecting the star).",
-      "quote": "That's one side level done, dude! We finished the whole side level!"
-    },
-    {
-      "topic": "design",
-      "importance": "medium",
-      "summary": "Kaze’s production expectation shifts: he predicts most side levels can be built in ~a day, and uses the speed of this completed side level as evidence the remaining side-level slate is feasible on schedule.",
-      "quote": "I suspect most of these side levels will only take like a day to do. And the fact that this one was so fast proves my suspicion right."
-    },
-    {
-      "topic": "technical",
-      "importance": "medium",
-      "summary": "He states a key overworld pillar: the final overworld should be continuous with no visible warp transitions; some loading may still occur but should be hidden as much as possible, and current ‘swarps’ are only for development traversal.",
-      "quote": "In the end, the entire overworld is going to be continuous, without any loading screens."
-    },
-    {
-      "topic": "technical",
-      "importance": "medium",
-      "summary": "Kaze questions whether the new side level is too expensive on real hardware and tests on N64, seeing ~8–9ms but also experiencing significant input lag that he calls a ‘bug for sure,’ indicating performance verification must include feel/latency, not just frame time.",
+      "summary": "Milestone progress: warp routing is validated and the Part 8 side level is declared complete (“Plus eight is done”), with remaining work focused on programming the ‘sleepy bomb’ gate/interaction and fixing edge-case warp-out behavior after death.",
       "quote": null
     },
     {
       "topic": "design",
       "importance": "medium",
-      "summary": "Next side level concept begins: a ‘sleepy bomb’/rock-wall gatekeeper character that blocks the player until progress is made (possibly star-gated), with an angry ‘wake up’ reaction and simple facial animation (blink, eye control).",
+      "summary": "A new gate character is prototyped as an ‘adult’ reinterpretation of Mario 64’s Whomp’s Fortress wall enemies: a sleepy rock-wall/bomb-like character that wakes (goes evil) when kicked/punched, potentially sending Mario into the mines as a consequence.",
       "quote": null
     },
     {
-      "topic": "design",
+      "topic": "philosophy",
       "importance": "medium",
-      "summary": "Kaze is wary of player-flow pitfalls: if an interaction (e.g., kicking the blocker) is optional/unclear, players may accidentally exit and repeat an entire mine sequence multiple times; he considers forced camera/text/cutscene solutions but wants to avoid heavy-handed prompts.",
+      "summary": "Kaze reiterates that current overworld warps are temporary dev scaffolding; the shipped vision is a continuous overworld without visible warp transitions, though he expects some unavoidable frame drops to hide loading.",
+      "quote": null
+    },
+    {
+      "topic": "team",
+      "importance": "medium",
+      "summary": "Kaze gives a rare explicit workload update: the project is no longer ‘just him.’ Biobak now helps heavily with reworking levels; Badub handles music; Sauraen did the retro-section OST and is doing music fixes; ZeroVolt is credited for a specific music piece/sequence.",
+      "quote": null
+    },
+    {
+      "topic": "personal",
+      "importance": "low",
+      "summary": "Kaze plans a birthday stream the next day; he mentions a triceps injury limiting bench press and shares a personal anecdote about gaining more computer time from parents once ROM hacking became ‘productive’ work.",
       "quote": null
     }
   ],
@@ -102,52 +84,39 @@
       {
         "topic": "design",
         "importance": "medium",
-        "summary": "Biobak indicates they already have a Ghost Yoshi model ready, prompting Kaze to proceed with integrating Ghost Yoshi immediately.",
-        "quote": "You said you have a model already for a ghost yoshi, Biobak. Let's put it in right away."
-      },
-      {
-        "topic": "team",
-        "importance": "medium",
-        "summary": "Kaze explicitly credits Biobak as a major contributor ‘nowadays,’ helping significantly with reworking levels rather than Kaze building everything solo.",
-        "quote": "Nowadays, Biobak helps a lot with reworking all the levels."
+        "summary": "Biobak indicates they already have a Ghost Yoshi model ready, enabling Kaze to implement the character immediately rather than scoping it as future asset work.",
+        "quote": null
       }
     ],
     "badub": [
       {
         "topic": "team",
-        "importance": "medium",
-        "summary": "Kaze reiterates Badub’s ownership of the project’s music output and describes tracks needing the ‘Badub shine,’ reinforcing the composer role as essential polish rather than incidental background work.",
-        "quote": "Badub does all the music."
-      }
-    ],
-    "zeina": [
-      {
-        "topic": "personal",
         "importance": "low",
-        "summary": "Zeina appears briefly in conversation, and Kaze jokes about competitive stakes (‘first place or nothing’), hinting at their casual on-stream relationship dynamic without a deeper production decision attached in this segment.",
+        "summary": "Kaze frames Badub’s role as the core ‘shine’/polish on music, contrasting with how difficult it is to edit certain N64 sequences directly in M64 format.",
         "quote": null
       }
     ],
+    "zeina": [],
     "others": [
       {
-        "name": "Lilaa",
-        "findings": [
-          {
-            "topic": "technical",
-            "importance": "high",
-            "summary": "Kaze attributes a critical export/build break to a Fast64 update (associated with Lilaa), specifically path changes that made includes/targets fail until corrected locally.",
-            "quote": "I blame Lilaa's Fast64 update. It made it so that the paths are no longer correct."
-          }
-        ]
-      },
-      {
-        "name": "Saryaen",
+        "name": "Sauraen",
         "findings": [
           {
             "topic": "team",
             "importance": "medium",
-            "summary": "Kaze credits Saryaen with composing the retro section OST and currently handling music fixes, and notes that only a tiny group can edit the SM64 credits-sequence M64 due to embedded scripting complexity.",
-            "quote": "Saryaen did the retro section OST and now he's doing some music fixes."
+            "summary": "Kaze credits Sauraen with composing the retro-section OST and now doing music fixes, and implies that very few people can comfortably work with the credits-sequence style M64 data.",
+            "quote": null
+          }
+        ]
+      },
+      {
+        "name": "ZeroVolt",
+        "findings": [
+          {
+            "topic": "team",
+            "importance": "low",
+            "summary": "Kaze credits ZeroVolt for the ‘Resonance Sequence’ music and distinguishes that kind of work from directly composing/editing complex M64 sequences.",
+            "quote": null
           }
         ]
       }
@@ -156,97 +125,96 @@
   "memorable_quotes": [
     {
       "speaker": "Kaze",
-      "quote": "Remember the old days when walking through a warp would make Mario disappear. I fixed this.",
-      "context": "Kaze frames small polish fixes as a quality line-in-the-sand for RTYI, contrasting with common ROM-hack rough edges."
+      "quote": "If your Mario 64 ROM hack includes Mario disappearing, then I disagree.",
+      "context": "After fixing an old warp-transition behavior where Mario disappears, Kaze frames it as a quality standard for his hack and a subtle critique of common jank in ROM hacks."
     },
     {
       "speaker": "Kaze",
-      "quote": "See this is why assembly hacking is nice, you don't have to deal with this bullshit.",
-      "context": "A rare candid expression of frustration about modern decomp toolchains (exports, build rules, generated files) versus older ASM workflows—useful for a documentary beat on ‘new power, new pain.’"
+      "quote": "This is why assembly hacking is nice, you don't have to deal with this bullshit.",
+      "context": "Said mid-crisis while fighting the modern decomp build/toolchain (rules, generated files, missing targets), highlighting the irony that ‘modern’ workflows can be more brittle than old-school hacking."
     },
     {
       "speaker": "Kaze",
-      "quote": "Keep in mind, these swarps are not going to be in the final game. These swarps only currently exist so that we can move around the overworld.",
-      "context": "Clarifies the behind-the-scenes development scaffolding versus the intended seamless overworld experience."
+      "quote": "I was the only one making animated characters until 2022, until literally 8 years after.",
+      "context": "During an aside on how he used to build animations via hex editing and custom converters, Kaze positions himself as an early outlier and hints at how tooling shaped what the community could create."
     }
   ],
   "key_stories": [
     {
-      "title": "Ghost Yoshi guide sequence for the part 8 entrance",
-      "summary": "Kaze designs a Ghost Yoshi encounter where the player follows brief glimpses along a dark, maze-like overworld segment. The intended feel is mysterious and guided, not exposition-heavy; at the end Ghost Yoshi disappears without a text box.",
-      "challenge": "Make the area read as a maze and feel tense/uncertain, while preventing players from getting truly lost or stuck chasing an NPC they can’t catch.",
-      "process": "He prototypes the behavior by parameterizing follow distances, fade ranges, and movement speed; he tests corner cases where Ghost Yoshi ‘jolts’ too fast and adjusts base velocity and target distances. He also explores a line-of-sight speed-up rule to reduce ambiguity.",
-      "outcome": "A working prototype exists and is integrated into a complete side-level loop (with warps and a star-gated exit), but Kaze identifies remaining tuning/UX fixes (camera facing on spawn, corner readability, post-star behavior).",
+      "title": "Ghost Yoshi as an overworld-side-level guide mechanic",
+      "summary": "Kaze converts a potentially confusing maze-like overworld segment into a guided chase by introducing a Ghost Yoshi the player only partially sees. The tone is intentionally mysterious: the player follows light and movement rather than explicit instructions.",
+      "challenge": "Make a maze-like space feel navigable and atmospheric without turning into an annoying ‘real maze’ or a tutorial-heavy sequence.",
+      "process": "He prototypes Ghost Yoshi behavior (distance targets, fade ranges), tests whether glimpses are readable, and chooses to remove the final textbox so the character can vanish silently. He also considers line-of-sight rules so Yoshi speeds up only when visible, reducing ‘where did he go?’ moments.",
+      "outcome": "Ghost Yoshi becomes a lightweight navigation layer for the mineshaft/Part 8 entrance flow, with parameters tuned for fleeting visibility and a clear end-state.",
       "key_quote": "It should just disappear at the end—no text box. I think no text box is a better vibe for this.",
       "related_to": ["kaze", "biobak"]
     },
     {
-      "title": "Fast64/export path change breaks asset and animation builds",
-      "summary": "While importing Ghost Yoshi and related animations, the project’s build system fails with missing targets, duplicate definitions, and cursed dependencies pointing into dynamically-generated animation tables. Kaze traces the core issue to a Fast64 update changing output paths and discovers an additional filename edge case that breaks the animation generator.",
-      "challenge": "A content pipeline that should enable rapid side-level production becomes brittle, blocking progress and creating uncertainty about whether extra courses/animations are supported reliably.",
-      "process": "Kaze inspects build errors (no rule to make target, redefinitions, missing inc files), corrects include paths, removes duplicate definitions, and finally fixes animation generation by renaming a problematic file (removing a “.001” style suffix/invalid name pattern).",
-      "outcome": "The build succeeds and Ghost Yoshi appears in-game; Kaze concludes the tool has a filename bug and that the team can work around it going forward, but the pipeline remains a risk area for scaling production.",
-      "key_quote": "There is some bug in author's tool. Anyway we got it working now so I am happy with this.",
+      "title": "Toolchain breakdown: Fast64 path changes and cursed animation dependencies",
+      "summary": "What starts as a straightforward model/animation import turns into a multi-layer build failure involving include paths, duplicated definitions, and a generated animation registry (MarioAnimData.c) demanding nonexistent targets. Kaze ultimately finds the issue is not ‘logic’ but brittle pipeline assumptions.",
+      "challenge": "Ghost Yoshi assets/animations refuse to compile due to missing targets and unexpected dependencies; the build system appears to reference files that exist but cannot be found.",
+      "process": "Kaze traces errors through build rules, checks whether tools are hardcoding level names, deletes/renames generated files to isolate causes, and finally discovers Fast64’s update changed path expectations. He then finds an additional bug triggered by a “.001” (or similar) in an animation filename and fixes it by renaming.",
+      "outcome": "Assets build again; Kaze regains confidence in moving forward while noting the pipeline is fragile and needs future hardening.",
+      "key_quote": "Now it works! ... There is some bug in the author's tool. Anyway we got it working now so I am happy with this.",
       "related_to": ["kaze"]
     },
     {
-      "title": "Completing the part 8 side level loop validates the ‘fast side levels’ plan",
-      "summary": "After implementing warps and a star-gated exit, Kaze confirms the in/out flow works and calls the side level ‘done.’ He uses the completion speed as evidence that the remaining slate of small side levels (including a golf-like one) may be feasible in short bursts.",
-      "challenge": "Prove that the new decomp-based workflow and asset pipeline can produce shippable ‘small levels’ quickly without ballooning scope.",
-      "process": "He adds/validates warp IDs, plans death warps, tests ‘exit course’ flow, and ensures the gate opens after the star. He then reflects on expected time-per-side-level and how reusing vanilla textures accelerates work.",
-      "outcome": "Milestone achieved: one full side level completed during the stream, giving confidence for rapid iteration—tempered by awareness that pipeline/tool issues can still stall progress.",
-      "key_quote": "This is also good in terms of, hey, looks like we're going to have the levels done pretty quickly.",
+      "title": "Part 8 side level completion and confidence shift on production speed",
+      "summary": "By validating warps and finishing the core interaction loop, Kaze closes a full ‘side level’ in a single stream. He treats the speed as evidence that the remaining side levels may be far quicker than expected, changing the project’s perceived timeline risk.",
+      "challenge": "Turn a concept (Part 8 entrance/side level) into a shippable loop: guidance, traversal, warps in/out, and gating logic.",
+      "process": "He wires up warps (Castle Grounds routing), tests entry/exit paths, adds the end gate that opens after star collection, and confirms the whole loop plays end-to-end. He immediately plans the next iteration (sleepy bomb + forced fall/cutscene + warp-out bug fix).",
+      "outcome": "Kaze declares Part 8’s side level done and marks it as a ‘plus,’ using it as proof that most side levels may only take about a day each.",
+      "key_quote": "That's one side level done, dude! We finished the whole side level!",
+      "related_to": ["kaze"]
+    },
+    {
+      "title": "Continuous overworld vision with hidden loading limits",
+      "summary": "Kaze clarifies that the current warp network is temporary scaffolding and reiterates the long-term ambition: a seamless overworld without visible transitions. He also acknowledges a hard constraint—true invisible loading may be impossible, requiring frame drops or other masking strategies.",
+      "challenge": "Achieve a continuous-feeling overworld on N64 constraints without obvious warp fades or loading screens.",
+      "process": "He uses temporary ‘swarps’ for development navigation now, while planning to remove transition effects later. He weighs technical realities: loading while the game is running is fundamentally limited, so the solution may rely on subtle frame drops or concealment tricks.",
+      "outcome": "The documentary-relevant tension is stated plainly: the design goal is clear, but technical constraints may force compromises in smoothness.",
+      "key_quote": "In the end, the entire overworld is going to be continuous, without any loading screens.",
       "related_to": ["kaze"]
     }
   ],
   "open_questions": [
     {
-      "topic": "Seamless overworld: how to hide loading without warp transitions",
-      "context": "Kaze wants a continuous overworld with no visible warp transitions, acknowledging some loading/frame drops may be unavoidable, and that current ‘swarps’ are temporary development scaffolding.",
+      "topic": "Ghost Yoshi narrative role and rules",
+      "context": "Kaze improvises a possible backstory (‘latest victim’) but says nothing is official yet; the ghost guide is implemented primarily for navigation and mood.",
       "questions": [
-        "What concrete technical approach will RTYI use to make the overworld feel continuous (streaming geometry/textures? segmented areas with hidden loads? occlusion-plane driven loads)?",
-        "What performance/UX threshold counts as ‘hidden enough’ loading for Kaze (occasional dropped frames vs. input latency vs. visible pauses)?",
-        "Which parts of the overworld are most likely to require compromises (texture variety, geometry density, NPCs, effects)?"
-      ],
-      "related_to": ["kaze"]
-    },
-    {
-      "topic": "Asset pipeline brittleness (Fast64 path changes, animation generator filename bugs)",
-      "context": "A Fast64 update changed export paths and caused build failures; additionally, certain animation filenames (e.g., with “.001” suffixes) break the generator feeding MarioAnimData.",
-      "questions": [
-        "What pipeline rules/checks did the team add after this incident (naming conventions, export presets, CI/build scripts) to prevent recurrence?",
-        "Which tool exactly is generating MarioAnimData and what are its known constraints (allowed characters, folder structure, max animation count)?",
-        "How often have tooling changes (Fast64, exporters, converters) derailed development, and what’s the team’s strategy for freezing versions vs. staying updated?"
-      ],
-      "related_to": ["kaze"]
-    },
-    {
-      "topic": "Ghost Yoshi encounter readability and player guidance",
-      "context": "Ghost Yoshi moves ahead quickly and can be hard to track around corners; Kaze considers line-of-sight speed adjustments and tuning distances/fade ranges, and prefers no text box for tone.",
-      "questions": [
-        "What final design rules ensure players understand where to go (lighting, path composition, audio cues, camera constraints) if Ghost Yoshi is intentionally hard to see?",
-        "Will Ghost Yoshi behavior change after the star is collected (stop spawning, become non-interactive, open a door), and how is that communicated without text?",
-        "What is the intended story/lore role of Ghost Yoshi in the world (one-off set dressing vs. recurring character), and who decides canon?"
+        "Do you want Ghost Yoshi to be a recurring character with a clear backstory, or is he intentionally left unexplained to keep the overworld mysterious?",
+        "What rules define when Ghost Yoshi appears/disappears—does he only exist in this mineshaft sequence, or will players see echoes of him elsewhere in the overworld?",
+        "Was removing the final textbox purely a tone decision, or did it also avoid pacing/technical issues (camera, timing, potential softlocks)?"
       ],
       "related_to": ["kaze", "biobak"]
     },
     {
-      "topic": "N64 performance validation beyond frame time (input lag bug)",
-      "context": "Kaze tests the new content on N64 and sees acceptable ms timing while also experiencing heavy input lag he calls a definite bug, raising questions about performance measurement vs. ‘feel.’",
+      "topic": "Overworld RAM constraints and level-structure implications",
+      "context": "Kaze notes the overworld/main area is tight on RAM and suggests moving large landmarks into side levels to manage memory.",
       "questions": [
-        "What caused the input lag during N64 testing (RSP/RDP stall, controller polling, emulator vs. hardware differences, debug settings)?",
-        "What is the team’s standard performance test methodology for new levels (hardware targets, acceptable budgets, automated metrics)?",
-        "Are there specific rendering techniques in RTYI (vertex iteration per frame, transparency, glow) that are now considered ‘dangerous’ on real hardware?"
+        "What’s the current RAM budget for the overworld, and which assets/features are the biggest offenders (geometry, textures, animations, collision, audio)?",
+        "How do RAM limits change the creative plan—what overworld moments did you want originally that you now might ‘spin out’ into side levels?",
+        "Does splitting landmarks into side levels risk breaking the ‘continuous overworld’ feel, and how will you hide or justify those transitions?"
       ],
       "related_to": ["kaze"]
     },
     {
-      "topic": "Progress gating for the ‘sleepy bomb’ blocker and avoiding player-flow mistakes",
-      "context": "Kaze wants a blocker that prevents leaving too early but is wary of forcing text boxes; he worries players might accidentally exit and repeat the mines multiple times if the interaction isn’t clear.",
+      "topic": "Pipeline fragility and long-term tooling strategy",
+      "context": "Fast64 updates altered paths; an animation build tool choked on a filename suffix (e.g., .001), causing MarioAnimData dependencies to request impossible targets.",
       "questions": [
-        "What final interaction is planned: forced cutscene, invisible barrier, camera turn, NPC dialogue, or optional kick that still triggers the same outcome?",
-        "How does Kaze decide when to be ‘hands-off’ vs. ‘explicit’ in player guidance, especially in an overworld hub?",
-        "Will the blocker be tied to a star count/‘time barrier’ (e.g., 30 stars) and how is that communicated diegetically?"
+        "How often do toolchain breaks like this cost you a day, and have they changed how willing you are to update tools mid-project?",
+        "Will you pin specific versions of Fast64/tools for the rest of development, or build internal scripts to normalize paths/names automatically?",
+        "Do you plan to document these pipeline pitfalls for collaborators/community so new contributors don’t hit the same ‘cursed’ errors?"
+      ],
+      "related_to": ["kaze"]
+    },
+    {
+      "topic": "Seamless overworld loading: what’s actually achievable on N64",
+      "context": "Kaze wants no warp transitions, but expects unavoidable frame drops and notes that ‘you can’t just load while the game is running.’",
+      "questions": [
+        "What’s your target definition of ‘seamless’—no fades, no camera cuts, or literally no noticeable hitching?",
+        "What techniques are you considering to mask streaming/loading (forced camera moments, narrow corridors, time-stop flags, controlled framerate dips)?",
+        "At what point would you accept a visible transition as the ‘least bad’ compromise, and what would that transition look like to fit the game’s tone?"
       ],
       "related_to": ["kaze"]
     }

@@ -1,63 +1,87 @@
 {
   "stream_context": {
-    "summary": "Kaze iterates on Course 14’s core gimmick (a cardboard box “opening” into a hell interior), debating the most fitting interaction (zipper vs tape vs box-opener tab) and prototyping a pull-tab animation. He also resolves major performance issues by fixing an accidentally infinite draw distance, and spends time debugging a Bowser-holding/letting-go bug that behaves differently across emulators, ultimately tracing it to action_arg/action_state misuse similar to vanilla SM64 conventions. He briefly outlines a Galaxy-comet-inspired “Yoshi mission” bonus-star system (~45 planned) that won’t be included in the upcoming demo.",
+    "summary": "Kaze prototypes Course 14’s core set-piece: a cardboard-box “tab/zipper to hell” opening animation that Mario triggers to drop into a hell interior. He iterates on the visual/technical approach (zipper vs tape vs box-opening pull tab), keyframes animation speed, and worries about render cost. Mid-stream he discovers a major performance culprit (infinite draw distance left over from an older hack) and fixes it, then spends significant time debugging an emulator-specific Bowser-holding/letting-go bug (Nemu vs Project64), tracing it to vanilla code using actionArg/actionState inconsistently and a reset-intro-scene path being triggered. He also shares a concrete plan for “Galaxy-comet-like” Yoshi bonus missions (~45) and notes Yoshi won’t be in the next demo, plus some thoughts on video titles/shorts monetization.",
     "level": ["Course 14"],
-    "significance": "notable",
-    "significance_reason": "Introduces/clarifies a major meta-structure feature (Galaxy-comet-style Yoshi missions), makes a key performance discovery (infinite draw distance), and captures a real emulator-dependent debugging incident that reveals engine/vanilla-SM64 variable pitfalls."
+    "significance": "milestone",
+    "significance_reason": "Introduces/clarifies a major bonus-star structure (45 Yoshi missions, excluded from upcoming demo), prototypes a signature Course 14 gate mechanic (box/tab opening into hell), and resolves major performance + emulator-specific debugging that impacts stability and platform targets."
   },
   "findings": [
     {
       "topic": "design",
       "importance": "high",
-      "summary": "Course 14’s central setpiece is a cardboard box that Mario opens and then falls into a “hell” interior; Kaze wants the interaction to feel risky and tense even if it isn’t extremely difficult.",
-      "quote": null
+      "summary": "Course 14’s intended feel is “risky to play” without necessarily being hard; Kaze explicitly tunes acceleration and traversal so the sequence feels dangerous even if success rates stay reasonable.",
+      "quote": "This is kind of how I envisioned this. It feels very risky to play… it’s fine if it’s not super difficult."
     },
     {
       "topic": "design",
       "importance": "high",
-      "summary": "Kaze reconsiders Biobak’s earlier “zipper” idea for opening the box because it reads as random/unfitting technology; he explores alternatives like tape peeling/cutting, staples, flaps, and lands on a cardboard box “opening tab”/box-opener style mechanism as the most thematically coherent.",
-      "quote": "I don’t want to make a ROM hack exhibiting random technology. That’s not what I’m interested in."
-    },
-    {
-      "topic": "technical",
-      "importance": "medium",
-      "summary": "He prototypes the pull-tab as an animated actor and tunes the animation for consistent speed, while trying to keep geometry cheap (short strip, minimal subdivisions) to avoid rendering cost.",
+      "summary": "He backs away from Biobak’s earlier “zipper” concept for opening the box-to-hell because it reads as random modern tech for a craft/cardboard world; he pivots toward a more thematically fitting cardboard-box opening method (eventually a pull-tab/box-opener style strip).",
       "quote": null
     },
     {
       "topic": "technical",
       "importance": "high",
-      "summary": "A major performance problem in the level is traced to a leftover setting from an earlier hack: draw distance for everything was set to infinite. Resetting it significantly improves framerate, alongside additional optimization like merging the mountains’ decal/material usage to reduce material changes.",
+      "summary": "The chosen direction becomes an animated “box opening tab” (pull strip) that grows as Mario pulls; Kaze immediately flags a tradeoff between visual satisfaction (length/segments) and N64 render cost, leading him to keep the strip thin/short and subdivided carefully.",
+      "quote": null
+    },
+    {
+      "topic": "technical",
+      "importance": "medium",
+      "summary": "He hand-tunes the pull animation for consistent speed by mapping world-coordinate distances to animation frames (explicitly calculating where frame 40/59/76/etc. should land), rather than relying on a naive keyframe spacing.",
       "quote": null
     },
     {
       "topic": "design",
       "importance": "medium",
-      "summary": "Kaze is concerned the ground/floor material doesn’t read as “crafty” enough; he wants a clear paper-on-paper look without resembling other craft-styled games (he references not wanting it to look like ‘Recalla’).",
+      "summary": "Kaze shows an updated ‘HD-ified’ Mario model that keeps the classic silhouette but adds higher-res details and small character features (nose jiggle, glove texture, 3D buttons) while using fewer triangles than a typical HD replacement.",
       "quote": null
     },
     {
       "topic": "technical",
       "importance": "high",
-      "summary": "While implementing/testing Bowser interaction in the level, Kaze encounters a bizarre bug where Mario’s ability to let go and certain camera/cutscene behaviors differ between emulators (works in Nemu, fails in Project64). Debugging reveals an unconditional “reset intro scene” path firing when no intro cutscene exists, and later that an action_arg value is being overwritten (set to 0) in a way tied to holding Bowser.",
+      "summary": "A major performance issue in the level was self-inflicted: the draw distance was still set to “infinite” from an older ROM hack. Reducing it substantially improves framerate; he also merges mountains to one material to avoid extra decal/material overhead.",
+      "quote": null
+    },
+    {
+      "topic": "design",
+      "importance": "medium",
+      "summary": "He’s actively calibrating the craft aesthetic: the floor should read as ‘paper on paper’ and “crafty enough,” but he wants to avoid an overly artsy look reminiscent of other craft-styled fan levels; he tweaks death-floor height and terrain/water presentation to support this vibe.",
+      "quote": null
+    },
+    {
+      "topic": "philosophy",
+      "importance": "medium",
+      "summary": "On difficulty modes, Kaze argues Mario 64’s strength is self-imposed challenge (e.g., ‘play risky’ or avoid collecting coins), but he acknowledges many players only enjoy ‘hard mode’ when the game provides extrinsic motivation/structure to push them into it.",
       "quote": null
     },
     {
       "topic": "technical",
       "importance": "high",
-      "summary": "He realizes part of the root cause is conceptual: vanilla SM64 effectively uses action_arg and action_state interchangeably in places, causing unexpected overwrites when custom logic assumes strict separation; he adjusts his approach accordingly.",
-      "quote": "They really just use action_arg and action_state interchangeably in vanilla."
+      "summary": "On N64 visual limits: he explains that the current texture setup is already at a hard ceiling (1 texel ≈ 1 screen pixel), so making eyes less pixelated isn’t feasible without increasing framebuffer size, which would be too expensive for performance.",
+      "quote": "One pixel of texture is one pixel on screen… it is physically not possible to render higher detail than that on the N64."
+    },
+    {
+      "topic": "technical",
+      "importance": "high",
+      "summary": "He hits a ‘letting go of Bowser’ bug that behaves differently across emulators (works in Nemu but fails/crashes or behaves cursed in Project64). He traces it to level-start logic unexpectedly calling/resetting an intro scene and to state variables being overwritten only in this scenario.",
+      "quote": null
+    },
+    {
+      "topic": "technical",
+      "importance": "high",
+      "summary": "Root cause insight from debugging: vanilla SM64 code uses actionArg and actionState in a way that’s effectively interchangeable in places, which can clobber expected values during custom interactions (like holding Bowser) and create level-specific side effects.",
+      "quote": "They really just use actionArg and actionState interchangeably in vanilla."
     },
     {
       "topic": "milestone",
       "importance": "high",
-      "summary": "Kaze describes a Galaxy-comet-inspired bonus-star system for Return to Yoshi’s Island: instead of comets, a Yoshi appears and offers special-condition missions (example given: red coins with two or fewer A-presses). He plans ~45 total, but states Yoshis/these missions will not be included in the current demo release.",
+      "summary": "Kaze describes a Galaxy-comet-inspired postgame/bonus structure: instead of comets, Yoshis appear to give special-condition missions that award stars (e.g., ‘red coins with two or less A presses’). He’s planning about 45 of these, and notes Yoshi won’t appear in the next demo release.",
       "quote": null
     },
     {
-      "topic": "technical",
+      "topic": "business",
       "importance": "medium",
-      "summary": "Kaze gives a quick update on his Mario model: an HD-ified version of the original with changes like a jiggling nose, glove texture, 3D-modeled buttons, higher-resolution elements, and shoe color accents; a previously existing feature that altered style dynamically is currently disabled because it’s hard to maintain during active development.",
+      "summary": "He’s preparing multiple dev/clip videos (claims ~5 are ready) and debates a “rewriting Mario 64” explainer title. He reports Twitter monetization/impressions outperforming expectations, while YouTube Shorts experiments haven’t recouped the investment and made his channel look ‘like mobile ads.’",
       "quote": null
     }
   ],
@@ -66,13 +90,7 @@
       {
         "topic": "design",
         "importance": "medium",
-        "summary": "Biobak previously proposed the box-opening interaction as a zipper attached to the box; Kaze explicitly credits this as the starting concept but rejects it after reconsidering fit with the world’s theme.",
-        "quote": null
-      },
-      {
-        "topic": "community",
-        "importance": "low",
-        "summary": "Biobak comments on Twitter impressions being something they “min-max,” which Kaze acknowledges in passing while discussing social metrics.",
+        "summary": "Biobak’s earlier suggestion for Course 14’s gate was a zipper attached to the box that Mario opens; Kaze initially follows this but later rejects it as thematically unfitting, using it as a springboard to find a more craft-authentic box-opening mechanism.",
         "quote": null
       }
     ],
@@ -81,111 +99,96 @@
       {
         "topic": "personal",
         "importance": "low",
-        "summary": "Kaze mentions Zeina’s friends are visiting that day, affecting his available time and contributing to ending the stream after debugging/iteration.",
+        "summary": "Kaze mentions Zeina’s friends are visiting that day, affecting how long he can stay live while debugging.",
         "quote": null
       }
     ],
-    "others": [
-      {
-        "name": "Lilaa",
-        "findings": [
-          {
-            "topic": "community",
-            "importance": "low",
-            "summary": "Lilaa notes the box/hell setup feels similar to a level in “Peach’s memory,” which Kaze acknowledges as an understandable association.",
-            "quote": null
-          }
-        ]
-      }
-    ]
+    "others": []
   },
   "memorable_quotes": [
     {
       "speaker": "Kaze",
       "quote": "Most people don’t actually notice, but most mods never get finished. It’s very rare that a mod gets finished—you guys are just spoiled because you are watching me.",
-      "context": "Kaze reflects on why many ROM hacks/mods disappear or stall, contrasting that with his audience’s expectation of steady completion."
+      "context": "A candid meta-commentary about completion rates in the ROM-hack scene and why his audience’s expectations may be atypical."
     },
     {
       "speaker": "Kaze",
-      "quote": "They really just use action_arg and action_state interchangeably in vanilla.",
-      "context": "Key technical/philosophical lesson from debugging: legacy SM64 code conventions can undermine clean abstractions in a modernized decomp-based project."
+      "quote": "One pixel of texture is one pixel on screen… it is physically not possible to render higher detail than that on the N64.",
+      "context": "A blunt statement of N64 rendering limits while discussing eye/texture aliasing and why ‘just make it sharper’ isn’t feasible."
     },
     {
       "speaker": "Kaze",
-      "quote": "I don’t want to make a ROM hack exhibiting random technology. That’s not what I’m interested in.",
-      "context": "Design principle used to reject the zipper concept and steer the interaction toward cardboard-native mechanics."
+      "quote": "They really just use actionArg and actionState interchangeably in vanilla.",
+      "context": "A key technical realization while debugging an emulator-dependent Bowser interaction bug."
     }
   ],
   "key_stories": [
     {
-      "title": "Course 14 performance ‘mystery’ traced to infinite draw distance",
-      "summary": "Kaze worries Course 14 is running poorly and talks about needing budget cuts. He then discovers the real culprit: a leftover setting from a previous ROM hack left the draw distance effectively infinite, forcing the game to render everything at all times.",
-      "challenge": "Low framerate in the new level threatened visual ambition and forced premature asset/design compromises.",
-      "process": "He toggles/adjusts rendering settings, tests performance live, and makes additional optimizations like reducing material usage on mountain decals.",
-      "outcome": "Performance becomes ‘a lot more acceptable,’ reframing the level’s remaining optimization as manageable rather than a fundamental limitation.",
-      "key_quote": null,
-      "related_to": ["kaze"]
-    },
-    {
-      "title": "Emulator-dependent Bowser interaction bug reveals vanilla variable misuse",
-      "summary": "While testing Bowser grabbing/letting-go, Kaze hits a bug that behaves differently on Nemu vs Project64, with camera/cutscene logic misfiring. After stepping through with a debugger, he finds unexpected intro-scene reset behavior and discovers action_arg is being overwritten in a way tied to holding Bowser, reflecting vanilla SM64’s loose variable conventions.",
-      "challenge": "Core interaction logic (holding/letting-go) becomes unreliable and inconsistent across emulators, risking a broken experience for players.",
-      "process": "He reproduces the issue across emulators, uses breakpoints/debugger inspection, audits cutscene reset calls, and traces who writes to action_arg during the Bowser-holding action.",
-      "outcome": "He identifies the conceptual mismatch (action_arg vs action_state assumptions) and adjusts implementation, noting the effect will look great once fully working and with proper hitboxes/collision.",
-      "key_quote": "It worked on Nemu but not on Project64… that would be super cursed.",
-      "related_to": ["kaze"]
-    },
-    {
-      "title": "Finding the right ‘box-opening’ metaphor for falling into hell",
-      "summary": "Kaze iterates on how Mario should open a cardboard box entrance leading to a hell area. Starting from a zipper idea (suggested earlier by Biobak), he rejects it as thematically off and explores tape peeling/cutting, staples, and flaps before latching onto a box ‘opening tab’/box-opener concept and begins animating it.",
-      "challenge": "Make the interaction readable, satisfying, and consistent with a crafted/cardboard world while staying feasible on N64 constraints.",
-      "process": "He evaluates thematic fit (‘no random tech’), prototypes an animated pull-tab actor, tunes animation speed and segment count, and keeps polygon/segment budgets in mind.",
-      "outcome": "A workable animation emerges (ending looks good; beginning still needs polish), setting the stage for an “evil glow red hell” reveal once integrated.",
-      "key_quote": null,
+      "title": "Replacing the ‘zipper to hell’ with a box-opening pull tab",
+      "summary": "Kaze tries to design a memorable, craft-themed portal into a hell interior in Course 14. The stream captures him rejecting an initially cool but off-theme idea (a zipper) and converging on a more authentic cardboard-box opening mechanic that still reads clearly in gameplay.",
+      "challenge": "Find a thematically fitting, readable way for Mario to ‘open’ a cardboard box that serves as the entrance to a hell sub-area—without introducing random modern-tech vibes.",
+      "process": "He brainstorms alternatives (tape peel, cutting, staples, carrying tools) and lands on a real-world style box-opening pull tab. He prototypes it as an animated actor and iterates on segment count, length, and keyframed speed while managing render-budget concerns.",
+      "outcome": "The pull-tab effect mostly works and sells the idea of opening/falling into hell, but the start of the animation still looks ‘iffy’ and needs speed/presentation tweaks.",
+      "key_quote": "A zipper feels so unfitting.",
       "related_to": ["kaze", "biobak"]
+    },
+    {
+      "title": "Performance mystery solved: infinite draw distance",
+      "summary": "A laggy level prompts budget-cut anxiety, but the culprit turns out to be a leftover global setting rather than the new art. Fixing it reframes optimization from ‘we built too much’ to ‘we forgot a constraint.’",
+      "challenge": "The stage is running poorly, raising concern that the level’s visuals/materials are too expensive.",
+      "process": "Kaze audits render settings and discovers draw distance for everything was still set to infinite from a prior ROM hack. He reduces it and also simplifies the mountains to a single material instead of a decal-style second material.",
+      "outcome": "Performance becomes ‘mostly fine’/acceptable, and he feels better about the area’s look and future additions like music.",
+      "key_quote": "The reason it ran poorly is because… I still had the drawing distance for everything set at infinite.",
+      "related_to": ["kaze"]
+    },
+    {
+      "title": "Emulator-dependent Bowser ‘let go’ bug and vanilla state-variable ambiguity",
+      "summary": "A core interaction breaks in a way that differs between Nemu and Project64, forcing Kaze into low-level debugging. The investigation exposes fragile assumptions in how SM64’s vanilla code uses state variables, which can be destabilizing when building custom mechanics.",
+      "challenge": "Letting go of Bowser behaves incorrectly (and can crash/act cursed) in this level—working on Nemu but failing on Project64—suggesting hidden corruption or state clobbering.",
+      "process": "He uses emulator debugging/breakpoints to watch actionArg changes, discovers it being overwritten to zero in the holding-Bowser path, and tracks surprising execution like intro-scene reset logic firing when it ‘shouldn’t.’ He concludes some vanilla logic effectively treats actionArg and actionState interchangeably, creating unexpected overwrites.",
+      "outcome": "He identifies a plausible fix direction (use the correct variable/state logic and finish proper hitbox/collision setup). The visual goal—Mario opening the tab and falling into hell—seems close once the state/collision issues are finalized.",
+      "key_quote": "Something is overwriting the actionArg only in this level… and only when you’re holding Bowser.",
+      "related_to": ["kaze"]
     }
   ],
   "open_questions": [
     {
-      "topic": "Galaxy-comet-inspired Yoshi mission system (45 planned)",
-      "context": "Kaze says the game will include Yoshi-driven special-condition missions that award bonus stars, similar to Mario Galaxy’s comets; example: red coins with ≤2 A-presses. He plans ~45 total but is excluding Yoshis/missions from the current demo.",
+      "topic": "Final gameplay choreography for opening the box",
+      "context": "Kaze considers teleporting Mario to the other side of the pull tab for better gameplay flow but worries it will look weird; he also dislikes the idea of Mario ‘carrying’ an opener tool.",
       "questions": [
-        "What design goal does the Yoshi mission system serve (replayability, skill expression, pacing, teaching advanced movement, or endgame challenge)?",
-        "How will these missions be distributed—one per course, postgame-only, or dynamically unlocked by progress/collectibles?",
-        "What makes a good ‘special condition’ for SM64 movement without turning it into a TAS-only feature?",
-        "Why specifically keep Yoshis out of the upcoming demo—scope control, narrative surprise, polish risk, or technical dependency?",
-        "How will mission acceptance/feedback be communicated diegetically (dialogue, UI overlays, star select changes)? وهل"
-      ],
-      "related_to": ["kaze"]
-    },
-    {
-      "topic": "Course 14 emulator compatibility and target platform policy",
-      "context": "A Bowser interaction/cutscene bug behaves differently between Nemu and Project64, and Kaze uses a debugger to chase it down.",
-      "questions": [
-        "Which emulators/flashcarts are ‘must-support’ for Return to Yoshi’s Island, and how do you decide what to debug vs what to declare unsupported?",
-        "Do you keep an automated regression checklist across emulators/hardware for interactions like grabbing Bowser, cutscenes, and camera logic?",
-        "How often do emulator-only bugs end up being real undefined behavior that could also break on real N64 hardware?",
-        "What’s your debugging toolchain here (Nemu debugger, breakpoints, logging), and what’s the fastest way you’ve found to isolate frame-dependent state corruption?"
-      ],
-      "related_to": ["kaze"]
-    },
-    {
-      "topic": "Course 14 ‘craft’ aesthetic rules and constraints",
-      "context": "Kaze wants the floor to look more like paper-on-paper and explicitly avoids resembling other craft-styled games; he also avoids “random technology” metaphors like zippers.",
-      "questions": [
-        "What are the explicit art-direction rules for ‘crafted’ materials in this hack (paper, cardboard, tape, staples, paint), and what’s off-limits?",
-        "How do you test whether a surface reads as ‘paper’ at N64 resolution—specific texture density, edge highlights, or lighting tricks?",
-        "Does the crafted look influence collision/hitbox design (e.g., obvious seams, folds, tabs as gameplay affordances)?"
+        "What final interaction did you settle on for opening the box—does Mario auto-snap/teleport into position, or do you keep it fully player-driven?",
+        "How did you balance ‘looks physically believable’ versus ‘feels good to play’ for the opening animation?",
+        "Did you prototype multiple versions (zipper/tape/tab) in-engine and test them with players, or was this mostly intuition-driven?"
       ],
       "related_to": ["kaze", "biobak"]
     },
     {
-      "topic": "Performance budgeting after the ‘infinite draw distance’ discovery",
-      "context": "Kaze’s level ran poorly largely because draw distance was accidentally left infinite; resetting it improved things, and he also optimized materials (mountains as one material).",
+      "topic": "Which emulator/hardware behavior is the truth source?",
+      "context": "The Bowser release bug differs between Nemu and Project64, and Kaze calls it ‘super cursed.’ This raises documentary-relevant questions about platform targets and verification.",
       "questions": [
-        "What performance budgets do you now enforce per level (triangles, materials, animated actors, draw distance ranges), and how did this incident change those rules?",
-        "Do you have tooling to detect ‘bad defaults’ like infinite draw distance before they ship into a build?",
-        "How do you balance cinematic wide vistas (seeing the whole crafted world) against N64-era constraints without compromising the mood?"
+        "When emulators disagree (Nemu vs Project64), how do you decide which behavior to treat as authoritative—real hardware tests, a preferred emulator, or decomp-based reasoning?",
+        "Do you maintain a regression checklist for ‘must work’ mechanics across emulators, or do these issues get discovered ad hoc during level work?",
+        "How often do emulator differences meaningfully change your implementation strategy for actors/interactions?"
+      ],
+      "related_to": ["kaze"]
+    },
+    {
+      "topic": "Yoshi ‘comet mission’ star structure and why Yoshi is excluded from the demo",
+      "context": "Kaze outlines ~45 Yoshi-given special-condition missions (Galaxy-comet-like) but says Yoshi won’t be in the upcoming demo release.",
+      "questions": [
+        "What made you decide on ~45 Yoshi missions—was it driven by pacing math, production capacity, or a specific endgame vision?",
+        "Why remove Yoshi from the next demo—spoilers, unfinished systems, or wanting the demo to focus on core courses?",
+        "Beyond A-press constraints, what types of special conditions best express the game’s identity (movement mastery, combat constraints, time trials, ‘craft world’ gimmicks)?"
+      ],
+      "related_to": ["kaze"]
+    },
+    {
+      "topic": "Craft aesthetic guardrails (paper-on-paper)",
+      "context": "Kaze wants the environment to read as layered craft materials and explicitly fears drifting into an ‘artsy’ look associated with other projects; he tweaks floor/death-plane/water presentation to chase the right feel.",
+      "questions": [
+        "What were your concrete reference points for ‘paper on paper’—specific Yoshi’s Island titles, Woolly World screenshots, real craft dioramas, or something else?",
+        "What’s your internal test for ‘crafty enough’ without becoming visually noisy or ‘too artsy’?",
+        "Are there technical constraints (materials, decals, draw distance) that directly shape the art direction decisions here?"
       ],
       "related_to": ["kaze"]
     }

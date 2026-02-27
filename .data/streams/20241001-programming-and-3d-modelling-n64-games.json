@@ -1,70 +1,88 @@
 {
   "stream_context": {
-    "summary": "Kaze integrates Biobak’s newly finished Course 1 visual rework in preparation for a one-stage demo. The stream focuses on N64-specific rendering constraints (draw order/layers, alpha coverage bugs), real-hardware performance benchmarking (including F3DEX3/X3 comparisons), and importing/validating multiple updated actors from Biobak (Yoshi egg, Goombas, bouncy flower, rabbits, etc.). Kaze also shows an off-stream feature: Mario’s nose jiggle implemented as a custom physics bone, and he experiments with a camera-linked rotating sun/lens flare effect for the new far-background setup.",
+    "summary": "Kaze integrates Biobak’s rework of Course 1 in preparation for a one-level demo, focusing on N64-accurate render-order/layer fixes, performance benchmarking on real hardware (including X3 microcode comparisons), and importing/triaging a batch of updated actors (Yoshi egg, Goomba King, Spike Goomba, bouncy flower, bunny Goomba, etc.). He also prototypes a new “infinitely far” background and a camera-reactive sun/lens-flare effect, and briefly explains his custom Mario nose “physics bone” system.",
     "level": ["Course 1"],
     "significance": "notable",
-    "significance_reason": "Directly tied to demo-readiness: Course 1 rework integration, hardware benchmarking, multiple actor imports, and several N64-specific rendering/ROM-size constraints that shape what the game can be."
+    "significance_reason": "Course 1 is being brought up to demo-ready quality: major visual integration work (render layers, alpha/coverage bugs), verified performance on real N64 hardware, and the first pass of importing a large set of refreshed actors from Biobak."
   },
   "findings": [
     {
       "topic": "milestone",
       "importance": "high",
-      "summary": "Course 1’s visual rework by Biobak is being integrated specifically to unblock an upcoming demo release, which Kaze states will likely include only a single stage.",
+      "summary": "The upcoming demo release is planned to be only a single stage (Course 1), and the stream’s goal is to get the Course 1 rework integrated enough to start moving toward that demo.",
       "quote": "The demo will just be one stage, nothing more."
     },
     {
       "topic": "technical",
       "importance": "high",
-      "summary": "A major integration task is fixing render order and layer usage (e.g., “layout 0” vs other layers) to handle what can draw over what; Kaze tries to move as much as possible into layout 0 while preserving correct overdraw/priority, and notes Blender/Fast64 export ordering can complicate deterministic sorting.",
+      "summary": "A central integration problem is N64 render order: Kaze tries to move as much geometry as possible into “layout 0” while preserving correct overdraw behavior, repeatedly re-sorting meshes and materials to avoid elements incorrectly drawing in front/behind each other.",
       "quote": null
     },
     {
       "topic": "technical",
       "importance": "high",
-      "summary": "Kaze runs performance benchmarks and is surprised by how much CPU idle time remains; he interprets this as headroom for additional actors/features, and notes F3DEX3 “X3” can be faster due to a larger vertex buffer. He confirms the reworked area still runs close to 60 FPS on real N64 hardware.",
-      "quote": "It actually runs on the N64 console. It doesn’t just run, dude, it runs at like nearly 60 FPS still."
+      "summary": "Kaze benchmarks the reworked Course 1 scene and confirms it runs on real N64 at close to 60 FPS in the tested segment; he notes large CPU idle time in profiling, implying the scene is not CPU-bound and still has headroom even before adding new actors.",
+      "quote": "It actually runs on the N64 console. It doesn't just run, dude, it runs at like nearly 60 FPS still."
     },
     {
-      "topic": "philosophy",
+      "topic": "technical",
+      "importance": "medium",
+      "summary": "He highlights that X3 (microcode/renderer mode) can be faster due to a larger vertex buffer, but warns that emulator/PC benchmarks can be misleading compared to real-console testing.",
+      "quote": null
+    },
+    {
+      "topic": "technical",
+      "importance": "medium",
+      "summary": "A visible rendering bug (stripes/alpha artifacts) is traced to incorrect alpha/coverage settings (e.g., accidental alpha-compare/coverage mode choices). After adjusting coverage behavior, the artifact disappears and RDP cost drops slightly.",
+      "quote": null
+    },
+    {
+      "topic": "technical",
       "importance": "high",
-      "summary": "ROM size becomes a design-ethics constraint: the ROM is ~63 MB and nearing the 64 MB “classic” ceiling. While larger ROMs may be technically possible, Kaze argues that exceeding 64 MB feels like ‘cheating’ even if it still runs on original hardware, framing authenticity as part of the project’s respect for the platform.",
+      "summary": "ROM size becomes a live constraint: his build is around ~63 MB and he discusses 64 MB as a practical N64 boundary; he argues that exceeding 64 MB feels like “cheating” even if it still runs on hardware (while acknowledging larger sizes are technically possible in some contexts).",
       "quote": "If you go over 64 MB, are you really still making an N64 game? ... It just feels like cheating to me."
-    },
-    {
-      "topic": "technical",
-      "importance": "medium",
-      "summary": "A visible rendering artifact after the rework is traced to incorrect alpha/coverage settings (including an accidentally enabled alpha-check path). Kaze tweaks coverage destination/save behavior and related render-mode choices, then re-tests on N64 to verify the bug is gone and notes minor performance improvement afterward.",
-      "quote": null
-    },
-    {
-      "topic": "technical",
-      "importance": "medium",
-      "summary": "Kaze demos an off-stream engine/character enhancement: Mario’s nose jiggle is implemented via a custom ‘physics bone’ (GeoMarioNoseJiggle) using last-frame position/acceleration to derive yaw/pitch, then applying pendulum-style integration. He describes it as hyper-optimized but fragile—small changes can crash it.",
-      "quote": "This is hyper-optimized. If you make one change to this, it’s just gonna crash."
     },
     {
       "topic": "design",
       "importance": "medium",
-      "summary": "A key art-direction change requested by Biobak is adding an “infinitely far” background rather than keeping the whole level nearby. Kaze implements it, debates cloud height relative to Biobak’s intent, and repositions the lens flare so looking upward can ‘blind’ the player in a deliberate, cinematic way.",
+      "summary": "At Biobak’s request, Course 1 is shifted to use an “infinitely far” background rather than keeping the whole level visually nearby, improving the sense of scale; Kaze implements it and then tweaks cloud/sun placement, noting Biobak may disagree with his vertical positioning changes.",
+      "quote": null
+    },
+    {
+      "topic": "design",
+      "importance": "medium",
+      "summary": "Kaze prototypes a camera-reactive sun/lens flare effect intended to feel blinding when looking upward; he chooses a UV-based solution (adjusting texture coordinates) over rotating a geometry/texture plane because rotating planes would be too expensive on N64.",
+      "quote": "That's so expensive! I'm not rotating a whole texture plane."
+    },
+    {
+      "topic": "technical",
+      "importance": "medium",
+      "summary": "He explains his Mario nose jiggle as a custom “physics bone” system that stores prior-frame nose position, derives acceleration, converts it into yaw/pitch, and applies pendulum-style integration; it’s described as hyper-optimized and fragile (small changes risk crashes).",
+      "quote": "This is hyper-optimized. If you make one change to this, it's just gonna crash."
+    },
+    {
+      "topic": "design",
+      "importance": "medium",
+      "summary": "While importing Biobak’s updated Yoshi egg actor, Kaze notes a pipeline limitation: certain lighting-color setups that look good in Blender are not viable in-game, so the team must approximate the look using prim/env color tricks (and he plans to revisit full import/programming later).",
       "quote": null
     },
     {
       "topic": "technical",
       "importance": "medium",
-      "summary": "Kaze prototypes a rotating-sun effect linked to camera movement by manipulating UVs (preferring UV math over rotating a texture plane for performance). He troubleshoots clamping/mirroring artifacts and export mistakes, eventually landing on a result he likes without fully investigating a remaining 180° flip oddity.",
-      "quote": null
+      "summary": "Importing updated Goomba-family actors reveals a common pitfall: billboard bones don’t inherit parent rotation the way the modeler expected because they use the billboard matrix, forcing Kaze to re-center/adjust the rig and animation alignment.",
+      "quote": "It doesn't copy the rotation of the parent object. Because it copies the rotation from the billboard matrix."
     },
     {
-      "topic": "team",
-      "importance": "high",
-      "summary": "Kaze begins importing a batch of Biobak’s updated actors and changelog notes, including: a customizable Yoshi egg (broken shell persists, coin-star spawn concept), a redesigned/optimized Goomba King (fewer materials, scaled to remove code scaling, added details like shoe shine), spiked Goombas, bouncy flower redesign, bunny Goomba and rabbits, and Paragoombas. Several imports reveal pipeline issues (billboard bone limitations, armature/roll mistakes, scaling mismatches) that Kaze queues for off-stream fixes.",
-      "quote": null
-    },
-    {
-      "topic": "team",
+      "topic": "design",
       "importance": "medium",
-      "summary": "Kaze clarifies division of labor and workflow priorities: visuals are being finished first, collision will be updated afterward, and Biobak is not expected to do collision work because his role is primarily 3D art.",
-      "quote": "We’re finishing the visuals first and then collision."
+      "summary": "Kaze plans a gameplay adjustment for the Goomba King encounter: the fight will change, especially how the boss moves around level geometry, and he urges viewers not to judge the current behavior as final during the import phase.",
+      "quote": "We're gonna change the Goombas fight a little bit though. So don't worry if you think it sucks right now."
+    },
+    {
+      "topic": "philosophy",
+      "importance": "medium",
+      "summary": "Kaze explicitly frames his streaming approach as “minimum effort”: he streams to get feedback and share progress, not to operate as a professional content creator, and he resists additional editorial/organizational work (like extensive playlist curation).",
+      "quote": "You need to realize my streams is like minimum effort... I will not do anything except the bare minimum."
     }
   ],
   "contributor_findings": {
@@ -72,25 +90,19 @@
       {
         "topic": "milestone",
         "importance": "high",
-        "summary": "Delivered the Course 1 rework that Kaze is integrating as a prerequisite for a demo build; integration includes N64 draw-order fixes and hardware validation.",
+        "summary": "Biobak delivered the Course 1 visual rework that Kaze is integrating for the demo, triggering the render-order/layer cleanup and the subsequent pass on collisions and actor imports.",
         "quote": null
       },
       {
         "topic": "design",
         "importance": "medium",
-        "summary": "Requested a compositional change: replacing “nearby” full-level visibility with an infinitely far background element, shifting the course’s sense of scale and readability.",
-        "quote": null
-      },
-      {
-        "topic": "team",
-        "importance": "high",
-        "summary": "Provided a large batch of updated actors with explicit optimization notes (reduced materials/triangles, removed hidden geometry, proper scaling to remove code-side scaling) and aesthetic upgrades (e.g., Goomba King details). Some files introduce rigging/export issues (billboard assumptions, armature roll/translate-rotate anomalies) that Kaze identifies during import.",
+        "summary": "Biobak requested a change in environmental presentation: swap from a nearby full-level view to an “infinitely far” background for Course 1, which Kaze implements while negotiating taste differences (cloud height, sun placement).",
         "quote": null
       },
       {
         "topic": "technical",
         "importance": "medium",
-        "summary": "Some asset choices appear not fully N64-tested (Kaze notes Biobak isn’t ‘modeling directly on the N64’), leading to artifacts that only show up on console and require Kaze to adjust render modes/coverage settings.",
+        "summary": "Biobak supplies a large set of actor updates with explicit optimization notes (fewer materials/bones/triangles, rescaled assets, removed hidden geometry, etc.), but some rigs/Blender exports don’t translate cleanly into the in-game pipeline and need Kaze-side fixes.",
         "quote": null
       }
     ],
@@ -98,109 +110,96 @@
       {
         "topic": "design",
         "importance": "medium",
-        "summary": "Kaze plays and reacts to multiple new music tracks, noting that at least one song has versions for every biome and that there are additional tracks planned/assigned to specific themed areas (e.g., ‘pyramids’).",
+        "summary": "Kaze previews new music from Badub and notes at least one track is authored with variants for each biome, supporting the project’s plan for smooth, context-sensitive musical transitions within levels.",
         "quote": "This song has versions for every biome."
       }
     ],
     "zeina": [],
-    "others": []
+    "others": [
+      {
+        "name": "Lilaa",
+        "findings": [
+          {
+            "topic": "community",
+            "importance": "low",
+            "summary": "Lilaa participates in performance/rendering discussion (including benchmark/setup confusion around X3 and repo settings), acting as a recurring technical sounding board even when Kaze rejects specific suggestions as misunderstandings.",
+            "quote": null
+          }
+        ]
+      }
+    ]
   },
   "memorable_quotes": [
     {
       "speaker": "Kaze",
       "quote": "If you go over 64 MB, are you really still making an N64 game? ... It just feels like cheating to me.",
-      "context": "While noting the ROM is ~63 MB and discussing practical vs. philosophical authenticity constraints for an N64-native project."
+      "context": "Triggered by the ROM reaching ~63 MB and discussion of what “counts” as authentic N64 development versus technically-possible modern expansions."
     },
     {
       "speaker": "Kaze",
-      "quote": "This is hyper-optimized. If you make one change to this, it’s just gonna crash.",
-      "context": "Explaining how Mario’s nose jiggle is implemented as a custom physics bone and how brittle highly optimized N64 code can be."
-    },
-    {
-      "speaker": "Kaze",
-      "quote": "The demo will just be one stage, nothing more.",
-      "context": "Setting expectations for the first public demo scope and prioritization."
+      "quote": "You need to realize my streams is like minimum effort... I will not do anything except the bare minimum.",
+      "context": "Said while rejecting a viewer request to reorganize streams/playlists; clarifies why the streams exist (feedback and transparency) rather than polished content production."
     }
   ],
   "key_stories": [
     {
-      "title": "Course 1 rework integration to unblock the demo",
-      "summary": "Kaze integrates Biobak’s newly finished Course 1 rework with the explicit goal of starting the project’s demo release process. The work quickly turns into N64-specific triage: layer/draw-order constraints, console-only rendering artifacts, and performance validation on real hardware.",
-      "challenge": "A visually richer rework introduces incorrect overdraw/render order and alpha/coverage artifacts, plus unknown performance impact, all under demo pressure.",
-      "process": "Kaze reorganizes geometry into appropriate ‘layout’ layers, adjusts draw order, fixes coverage/alpha-check mistakes, repeatedly benchmarks FPS and subsystem timings, and validates changes on N64 rather than trusting emulator-only results.",
-      "outcome": "Course 1 visuals look significantly improved and performance remains near 60 FPS on N64, but collision is explicitly deferred until visuals are finalized; remaining actor/animation issues are queued for off-stream fixes.",
-      "key_quote": "It actually runs on the N64 console. It doesn’t just run, dude, it runs at like nearly 60 FPS still.",
+      "title": "Course 1 rework integration: render layers, alpha/coverage bugs, and real-N64 performance",
+      "summary": "While integrating Biobak’s Course 1 rework for the demo, Kaze runs into classic N64 constraints: render order, layer conflicts, and alpha/coverage configuration causing visible artifacts. The arc matters because it shows the project’s core ethos—art upgrades must survive real hardware rules, not just emulator visuals.",
+      "challenge": "Imported rework looks wrong in places due to draw order/layering and an alpha/coverage bug; performance readouts are noisy and misleading until tested correctly.",
+      "process": "Kaze moves geometry into appropriate layouts, reorders display/draw order, audits render modes, fixes coverage/alpha-compare settings, and then benchmarks both in emulator settings and on real N64 (including switching to X3 for a more accurate/faster configuration).",
+      "outcome": "Major artifact (stripe/alpha issue) is removed, RDP cost drops slightly, and the scene is confirmed running close to 60 FPS on real N64 in the tested segment—supporting feasibility for a demo-quality Course 1.",
+      "key_quote": "It actually runs on the N64 console. It doesn't just run, dude, it runs at like nearly 60 FPS still.",
       "related_to": ["kaze", "biobak"]
     },
     {
-      "title": "ROM size as an authenticity boundary",
-      "summary": "While compiling/testing, Kaze notices the ROM has reached ~63 MB, close to the 64 MB ceiling he associates with ‘true’ N64-era constraints. He acknowledges larger ROMs may be technically possible, but frames going past 64 MB as undermining the project’s respect-for-platform ethos.",
-      "challenge": "Balancing an ambitious, content-rich hack against cartridge-era limits and the team’s desire to stay ‘honest’ to the original hardware context.",
-      "process": "Kaze monitors ROM size during development and publicly articulates a value judgment: the project should avoid exceeding 64 MB even if it can still run on N64 via modern means.",
-      "outcome": "A stated constraint emerges that may affect asset budgets, compression strategy, and feature scope as development continues beyond Course 14.",
-      "key_quote": "If you go over 64 MB, are you really still making an N64 game? ... It just feels like cheating to me.",
-      "related_to": ["kaze"]
+      "title": "Making the sky feel bigger: infinite background and a camera-reactive sun",
+      "summary": "Kaze implements Biobak’s request for an “infinitely far” background to improve sense of scale, then adds a sun flare that reacts to camera orientation. This story shows how the team pursues modern-looking atmosphere while staying inside N64 performance and texture constraints.",
+      "challenge": "The original background presentation makes the level feel too “nearby,” and the sun/flare behavior needs to look convincing without expensive geometry transforms; texture clamping/mirroring introduces unexpected artifacts.",
+      "process": "Kaze swaps in an infinite background setup, tunes cloud/sun vertical placement, then prototypes sun rotation by manipulating UVs (avoiding rotating planes). He iterates through clamping/mirroring settings and export mistakes until the artifacting is acceptable.",
+      "outcome": "The scene gains a stronger “look up and get blinded” effect, and the background reads as more distant—though Kaze notes it’s still not perfectly matching Biobak’s preference and will need further polish.",
+      "key_quote": "That's so expensive! I'm not rotating a whole texture plane.",
+      "related_to": ["kaze", "biobak"]
     },
     {
-      "title": "Making Mario feel new with a tiny physics flourish",
-      "summary": "Kaze shows a custom ‘nose jiggle’ feature built off-stream, implemented as a physics bone that reacts to acceleration and behaves like a pendulum. It’s presented as cheap enough to be viable on N64, but also as an example of how highly optimized features can become fragile.",
-      "challenge": "Adding ‘modern’ character charm while staying within tight N64 performance constraints and the project’s stability requirements.",
-      "process": "He stores last-frame nose position, derives acceleration, converts it to yaw/pitch, integrates angular velocity via pendulum physics, and applies the rotation through a specifically arranged bone setup.",
-      "outcome": "The effect works convincingly and cheaply, but Kaze warns that the implementation is brittle and can crash if modified carelessly—highlighting the cost of optimization on old hardware.",
-      "key_quote": "This is hyper-optimized. If you make one change to this, it’s just gonna crash.",
-      "related_to": ["kaze"]
+      "title": "Actor refresh meets engine reality: billboard bones and mismatched animations",
+      "summary": "When importing refreshed enemy models, Kaze discovers rig assumptions that break in-engine, especially around billboard bones and animation alignment. The story matters because it illustrates the hidden integration labor behind ‘just updating models’ for an N64 pipeline.",
+      "challenge": "Updated Goomba-related actors look wrong due to billboard matrix behavior and rig/roll mistakes; animation files no longer match behavior after adjustments.",
+      "process": "Kaze diagnoses that billboard bones don’t inherit rotation from the parent, re-centers/offsets the rig, repairs roll/armature issues, adds needed bones/shadows, and notes which fixes will be done off-stream.",
+      "outcome": "The actors look substantially better, but Kaze logs remaining work (notably Spike Goomba animation/ground clipping) and accepts temporary behavior-animation mismatch to keep progress moving toward the demo.",
+      "key_quote": "It doesn't copy the rotation of the parent object. Because it copies the rotation from the billboard matrix.",
+      "related_to": ["kaze", "biobak"]
     }
   ],
   "open_questions": [
     {
-      "topic": "Demo scope and release criteria",
-      "context": "Kaze says the demo will be ‘one stage’ and is currently blocked on integrating the Course 1 rework (visuals first, then actors, then collision).",
+      "topic": "Defining the demo-ready bar for Course 1",
+      "context": "Kaze says the demo will be one stage and he’s integrating visuals first, with collisions still pending and multiple actor imports deferred or incomplete.",
       "questions": [
-        "What is the exact target content of the one-stage demo (Course 1 only, which stars/objectives, which enemies/bosses)?",
-        "What has to be ‘done’ for Course 1 before you consider it demo-ready—visual polish, collision pass, actor set, performance threshold on console?",
-        "Why choose a one-stage demo instead of a vertical slice with hub/menu/presentation—what are you trying to prove to players (controls, art direction, technical legitimacy on N64, etc.)?"
-      ],
-      "related_to": ["kaze", "biobak"]
-    },
-    {
-      "topic": "Collision workflow after visual reworks",
-      "context": "Kaze repeatedly notes collision is out-of-date because visuals were reworked; he explicitly frames Biobak as a 3D artist who shouldn’t be tasked with collision.",
-      "questions": [
-        "What is your pipeline for updating collision after a geometry rework—do you regenerate from meshes, hand-author surfaces, or use a hybrid approach?",
-        "Which collision problems are the most time-consuming in RTYI (slopes, edges, camera volumes, special materials like ‘woody but slidey’)?",
-        "How do you prevent ‘visual drift’ where updated art no longer matches collision, especially with frequent reworks?"
-      ],
-      "related_to": ["kaze", "biobak"]
-    },
-    {
-      "topic": "ROM size policy: hard cap vs. flexible target",
-      "context": "Kaze reports the ROM at ~63 MB and expresses a philosophical objection to exceeding 64 MB even if bigger ROMs are possible.",
-      "questions": [
-        "Is 64 MB a hard rule for RTYI, or a preference you’ll break if necessary? What would justify breaking it?",
-        "What asset categories are driving ROM growth most right now (textures, music, animations, geometry, actor duplication across level folders)?",
-        "If you stay under 64 MB, what techniques are ‘on the table’ (texture reuse, palettization, audio compression tradeoffs, cutting variants, streaming from external hardware) and which are off-limits because they feel inauthentic?"
+        "What specific checklist makes Course 1 “demo-ready” for you—visuals, collision pass, actor set, boss polish, music transitions, or something else?",
+        "What parts of Course 1 are you intentionally leaving rough for the demo, and why?",
+        "How are you deciding what to cut versus what to finish when the demo is only one level?"
       ],
       "related_to": ["kaze"]
     },
     {
-      "topic": "N64-only rendering bugs and validation practices",
-      "context": "Kaze emphasizes that emulator numbers/behavior can be misleading and that Biobak can’t predict what will break on console; he fixes alpha/coverage issues by adjusting render settings and retesting on N64.",
+      "topic": "ROM size philosophy: authenticity versus ambition",
+      "context": "The ROM is ~63 MB and Kaze frames crossing 64 MB as feeling like “cheating,” even if larger ROMs might still run on N64 setups.",
       "questions": [
-        "What are the most common ‘only on real N64’ failures you’ve encountered in RTYI (coverage/alpha, Z-buffer quirks, RDP limits, microcode differences)?",
-        "Do you have a repeatable console test checklist for new reworks (camera angles that stress draw order, transparency torture tests, specific benchmark spots)?",
-        "How early in asset creation do you want console validation to happen—can Biobak preview N64-accurate render constraints earlier, or is that inherently a Kaze-side integration step?"
-      ],
-      "related_to": ["kaze", "biobak"]
-    },
-    {
-      "topic": "Microcode choice and performance strategy (F3DEX3/X3)",
-      "context": "Kaze mentions X3 being faster due to a larger vertex buffer and uses it for benchmarking comparisons.",
-      "questions": [
-        "What drove the decision to use F3DEX3/X3 for RTYI, and what features/perf wins matter most (vertex cache, larger buffers, command throughput)?",
-        "How do microcode choices change the art budget you can give Biobak (triangle counts, material splits, transparency usage)?",
-        "What tooling did you need to make X3 practical in your pipeline, and who on the team/community helped enable it?"
+        "Why does 64 MB feel like the ‘authentic’ line to you—historical accuracy, aesthetics, technical pride, or something else?",
+        "Have you set internal budgets per course/asset type to avoid creeping over your size target, and who enforces those tradeoffs?",
+        "If the project’s quality goals demanded it, what would convince you to allow a >64 MB release anyway?"
       ],
       "related_to": ["kaze"]
+    },
+    {
+      "topic": "Art direction negotiation: infinite background and sky composition",
+      "context": "Kaze implements Biobak’s infinite-background request but adjusts cloud height/sun placement and anticipates Biobak may disagree.",
+      "questions": [
+        "How do you and Biobak resolve disagreements when a change is ‘better technically’ but subjective aesthetically?",
+        "What was Biobak trying to fix emotionally or compositionally with the infinite background—scale, readability, nostalgia, or something else?",
+        "Do you have reference games/moments you’re both pointing at when you tune skies and distant backdrops?"
+      ],
+      "related_to": ["kaze", "biobak"]
     }
   ]
 }

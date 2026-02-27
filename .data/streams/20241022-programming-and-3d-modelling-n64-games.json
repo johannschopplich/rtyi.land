@@ -1,90 +1,114 @@
 {
   "stream_context": {
-    "summary": "Kaze iterates on a craft-themed snowy level (Course 14), refining a timed bridge hazard, paper-like snowballs, and a lightweight snowflake/confetti environment effect. He also explains core collectible design changes (no 100-coin stars, new Yoshi-coin/egg-coin structure), discusses demo scope and an overworld coin “hat upgrade” gag for the demo, and shares a surprisingly candid Nintendo DMCA anecdote.",
+    "summary": "Kaze focused on making tangible progress on a craft-themed snowy section in Course 14: refined the “styrofoam/cardboard” set dressing, designed and prototyped a timed retracting bridge (matchbox concept), implemented paper snowballs and a snowflake-style environment particle effect, and discussed broader collectible philosophy (red coins/Yoshi coins/egg-coin radar). The stream also includes a major legal anecdote about a past Nintendo DMCA and a forward-looking decision about using Godot for a future original game.",
     "level": ["Course 14"],
-    "significance": "notable",
-    "significance_reason": "Introduces/clarifies several project-wide design pillars (collectibles, mission structure, no 100-coin stars), implements a new timed-bridge setpiece and paper-snow effects for Course 14, and contains a major legal anecdote about a past Nintendo DMCA."
+    "significance": "milestone",
+    "significance_reason": "Multiple systems were either finalized or meaningfully locked in: the project-wide collectible structure (no 100-coin stars, 7th act w/ radar), a key Course 14 mission’s core obstacles (timed bridge + snowball hazard), and a new environment effect pipeline (snowflakes). Also includes a legally-relevant DMCA story and an engine decision for future non-ROM projects."
   },
   "findings": [
     {
       "topic": "design",
-      "importance": "medium",
-      "summary": "Course 14’s main setpiece is a craft-snow scene where the player retrieves a crayon, uses a spring jump, hits a button to spawn a temporary bridge, times movement with incoming snowballs, and eventually draws with the crayon to complete the objective; Kaze wants the finished result to visually resemble a messy crayon drawing.",
+      "importance": "high",
+      "summary": "Kaze reiterated and demonstrated the game’s collectible philosophy: red coins are kept in a single contained sub-area to avoid “level-wide scavenger hunts,” while Yoshi coins are rewards for rare/special interactions or off-the-path exploration.",
       "quote": null
     },
     {
       "topic": "design",
       "importance": "high",
-      "summary": "Kaze formalizes a project-wide collectible philosophy: red coins are confined to a single local area to avoid tedious backtracking; “Yoshi coins” reward rare/special interactions or unusual exploration; the game has 7 acts per course where the 7th is a dedicated egg-coin hunt with a proximity radar; all 100-coin stars are removed from every level; and red-coin/Yoshi-coin completion stars do not kick the player out of the level to reduce uncertainty and dead-end lock-ins.",
-      "quote": "No level has a 100-coin star. Not a single one."
+      "summary": "The hack uses a 7-act structure: after completing the first six stars in a course, the 7th star becomes an “egg coin hunt” mission supported by a proximity radar intended to make thorough exploration feel purposeful rather than forcing 100-coin cleanup behavior.",
+      "quote": null
+    },
+    {
+      "topic": "design",
+      "importance": "high",
+      "summary": "No level contains a 100-coin star; Kaze framed this as solving the common Mario 64 frustration of accidentally triggering a star before reaching 100 coins and feeling punished by losing coin progress.",
+      "quote": null
     },
     {
       "topic": "design",
       "importance": "medium",
-      "summary": "Kaze proposes a demo-only overworld coin sink to preview the planned global-coin economy: an NPC lets players donate coins three times to upgrade the NPC’s hat from bronze to silver to gold, explicitly giving the player no gameplay reward beyond the cosmetic change.",
+      "summary": "Kaze adopted a consistent rule for player ejection: red-coin stars and Yoshi-coin/collectathon-type stars do not kick the player out of the level, to prevent players having to guess which missions eject them and to avoid adding arbitrary escape pipes to dead-end areas.",
       "quote": null
-    },
-    {
-      "topic": "technical",
-      "importance": "medium",
-      "summary": "He prototypes the temporary bridge as two “matchbox” halves that slide out/in on a timer after a switch press, favoring readable feedback over complex animations that players wouldn’t see (e.g., an unrolling bridge). A key implementation bug was traced to a simple typing mistake (using '=' instead of '-' in a calculation), breaking motion.",
-      "quote": "Spend five hours doing a cool thing that no one’s gonna see?"
     },
     {
       "topic": "design",
-      "importance": "low",
-      "summary": "Visual theme refinement: the bridge becomes a pair of retracting matchboxes (craft-material logic), and Kaze chooses to use intentionally rough placeholder textures during implementation to verify behavior and communicate intent, planning to request a polished version from Zeina later.",
+      "importance": "medium",
+      "summary": "Course 14’s craft-snow setpiece is staged around a crayon mechanic: the player reaches a “drawing” area after timed hazards (snowballs + enemy) and the resulting visuals are intentionally meant to resemble messy, imperfect crayon coloring.",
+      "quote": "It actually ends up looking like a crayon drawing once you're done… like someone’s shitty crayon drawing, like they couldn’t follow the lines correctly."
+    },
+    {
+      "topic": "design",
+      "importance": "medium",
+      "summary": "To tie the craft theme to platforming, Kaze planned a timed bridge activated by a button; he rejected an “unrolling” bridge concept because the player wouldn’t see the animation from the switch location and he didn’t want to spend hours on spectacle the player misses.",
+      "quote": null
+    },
+    {
+      "topic": "design",
+      "importance": "medium",
+      "summary": "Kaze converged on a matchbox-based bridge concept (matchboxes on each side that open/retract), including creating a temporary in-world match brand texture (e.g., “Game & Match,” “Lethal Lava Logs”) and flagging that Zeina may create the final polished texture.",
+      "quote": null
+    },
+    {
+      "topic": "technical",
+      "importance": "high",
+      "summary": "He prototyped the matchbox bridge behavior as a timed extension/retraction: pressing a switch causes the bridge to slide out, then after a duration it retracts (with tuning for speed and timing). He debugged multiple issues including condition logic, position caching artifacts, and a simple '=' vs '-' typing error that broke motion.",
+      "quote": null
+    },
+    {
+      "topic": "technical",
+      "importance": "high",
+      "summary": "He built a new ‘paper snowball’ hazard for Course 14 by modeling it as crumpled paper rather than cotton/wool (which looked bad on N64). He implemented constant-tempo spawns using a global timer and experimented with slight Mario-targeting/randomness, while noting wall collision looked like jitter and may be reduced/removed.",
       "quote": null
     },
     {
       "topic": "technical",
       "importance": "medium",
-      "summary": "Kaze changes Shy Guy behavior logic: instead of dying at a fixed world-height threshold, each Shy Guy should record the last floor/surface height it stood on and only die if it falls ~400 units below that, matching his intended behavior across uneven terrain.",
-      "quote": null
-    },
-    {
-      "topic": "technical",
-      "importance": "medium",
-      "summary": "He iterates on craft-appropriate snowballs: wool/cotton looked wrong on N64, so he shifts to crumpled-paper snowballs built from jagged paper pieces and a paper texture. Behavior-wise, he uses a global timer to spawn them at consistent tempo and partially target Mario; he also considers reducing/removing wall collision handling because it reads as visual jitter.",
-      "quote": null
-    },
-    {
-      "topic": "technical",
-      "importance": "medium",
-      "summary": "He repurposes/extends an existing leaf environment effect to create paper-snow/confetti. He emphasizes performance accounting (e.g., ~96 particles ≈ ~182 triangles—“about as much as Mario’s arms”), and experiments with simple white/prim-color materials due to vertex/lighting constraints.",
+      "summary": "Kaze designed a confetti/snowfall environment effect by adapting the existing leaf particle system: ~96 particles (he framed this as only a few hundred triangles—roughly comparable to “Mario’s arms”), spawning only when the player is within the relevant area to reduce distant “materializing from nowhere” artifacts and to manage performance.",
       "quote": null
     },
     {
       "topic": "business",
       "importance": "medium",
-      "summary": "Demo timing and scope: Kaze expects the next demo in “a few weeks,” but only after finishing upcoming YouTube videos; he plans the demo to largely be an updated Course 1 showcase rather than a heavily expanded slice, partly to reduce pressure from repeated release-date demands.",
+      "summary": "Demo planning: he expects the next demo in “a few weeks,” but wants to keep it minimal—likely just Course 1 again—to demonstrate progress and reduce pressure from repeated release-date questions.",
       "quote": null
+    },
+    {
+      "topic": "design",
+      "importance": "medium",
+      "summary": "Because the intended overworld economy (global coins used to buy progression/helpful items) isn’t ready for the demo, Kaze proposed a temporary NPC who accepts coin “gifts” purely to upgrade his hat (bronze→silver→gold) with no gameplay reward—meant as a simple proof-of-concept for global currency.",
+      "quote": "I will literally give the player nothing for doing it other than a new hat for the guy."
     },
     {
       "topic": "legal-nintendo",
       "importance": "high",
-      "summary": "Kaze reiterates he cannot sell the hack (“Nintendo would actually murder me”) and shares a past legal incident: in 2019 he received a DMCA from Nintendo’s hired lawyer over a project/video, responded with a vulgar insult, and nothing further happened—suggesting Nintendo/legal teams may avoid escalating against unpredictable individuals. He also briefly references uncertainty around whether recent “vimstaller” takedowns are legitimate.",
-      "quote": "In 2019 I received a legit DMCA... and I responded to the email with just suck my cock... And nothing happened."
+      "summary": "Kaze stated the project must be free because charging would provoke Nintendo action; he shared a 2019 story about receiving a DMCA related to Super Mario 64 Land / The Missing Link video and responding aggressively without apparent consequences, suggesting Nintendo/legal simply ignored him.",
+      "quote": "I responded to the email with just suck my cock… and nothing happened."
+    },
+    {
+      "topic": "philosophy",
+      "importance": "medium",
+      "summary": "Outside the ROM-hack scope, Kaze said that if he makes an original game, he’s leaning toward Godot over Unreal Engine 5 due to faster iteration, less bloat, better low-end performance for the kind of game he’d make, and easier multi-platform porting.",
+      "quote": null
+    },
+    {
+      "topic": "technical",
+      "importance": "medium",
+      "summary": "He recommended SummerCart64 over EverDrive (specifically criticizing EverDrive X7’s USB upload reliability) for N64 development workflows, framing SummerCart as ‘better in every regard’ for rapid iteration.",
+      "quote": null
     }
   ],
   "contributor_findings": {
     "biobak": [
       {
         "topic": "design",
-        "importance": "low",
-        "summary": "Biobak’s feedback is actively solicited on Course 14’s new styrofoam/snow look and overall cozy scene composition, influencing whether Kaze considers the difficulty/visuals “appropriate” for the course.",
-        "quote": null
-      },
-      {
-        "topic": "design",
-        "importance": "low",
-        "summary": "Kaze mentions Biobak previously reworked some “zoo” elements (context suggests earlier level art/layout revisions), indicating ongoing iterative polish from Biobak on existing content.",
+        "importance": "medium",
+        "summary": "Kaze credited Biobak with reworking some Yoshi-coin related elements (referenced as “zoo ones”), and sought Biobak’s opinion on the updated styrofoam/snow look for Course 14, treating that feedback as decision-relevant.",
         "quote": null
       },
       {
         "topic": "technical",
-        "importance": "low",
-        "summary": "Biobak suggests (or agrees with) the idea of using pre-rendered textures for matchbox contents (matches), reducing poly cost versus modeling 3D matches.",
+        "importance": "medium",
+        "summary": "Biobak appears positioned to improve the paper-ball look via texture/art polish; Kaze expressed confidence that once Biobak ‘has had it,’ the crumpled-paper read will become clearer.",
         "quote": null
       }
     ],
@@ -93,35 +117,24 @@
       {
         "topic": "team",
         "importance": "medium",
-        "summary": "Kaze plans to ask Zeina to redo/upgrade temporary in-game textures (matchbox branding) into a final-quality asset, using his own quick mockup only as a placeholder during implementation.",
+        "summary": "Kaze indicated Zeina may be tasked with producing a final-quality version of the matchbox brand texture after he created a temporary placeholder, emphasizing placeholders are useful for communicating intent and catching breakage.",
         "quote": null
       },
       {
         "topic": "personal",
-        "importance": "low",
-        "summary": "Zeina appears briefly on stream with their baby, creating a clear snapshot of Kaze’s family life interleaving with development work during “focus” streams.",
-        "quote": null
+        "importance": "medium",
+        "summary": "Zeina briefly appeared on stream holding their baby (Reina), creating a rare on-camera family moment; Kaze framed the game as another ‘baby’ alongside his wife and daughter.",
+        "quote": "He’s got three babies now. That’s his wife, his daughter and the game."
       }
     ],
     "others": [
       {
-        "name": "Lilaa",
+        "name": "Chat (multiple viewers, unnamed in transcript)",
         "findings": [
           {
-            "topic": "community",
+            "topic": "design",
             "importance": "low",
-            "summary": "Lilaa contributes brainstorming and feedback during the matchbox/branding ideation (puns/texture direction), part of the chat-driven iteration loop that helps Kaze converge on a themed prop concept.",
-            "quote": null
-          }
-        ]
-      },
-      {
-        "name": "Chat (multiple viewers)",
-        "findings": [
-          {
-            "topic": "community",
-            "importance": "low",
-            "summary": "Chat suggestions materially influence the matchbox concept and naming direction (e.g., the “matchbox bridge” framing and brand-name ideas like “Game & Match” / “Lethal Lava Logs”), and also provide minor level-geometry critique (house alignment/landing feel).",
+            "summary": "Chat-driven ideation influenced the bridge’s theming (matchbox concept) and the in-universe match brand naming (e.g., ‘Game & Match’ / ‘Lethal Lava Logs’), which Kaze adopted as temporary texture text pending a polished art pass.",
             "quote": null
           }
         ]
@@ -131,99 +144,98 @@
   "memorable_quotes": [
     {
       "speaker": "Kaze",
-      "quote": "No level has a 100-coin star. Not a single one.",
-      "context": "Project-wide design decision that distinguishes the hack from vanilla SM64 and signals a deliberate break from common mission padding."
+      "quote": "So I can hate it more accurately.",
+      "context": "Said when challenged on why he spends so much time analyzing Mario 64 despite joking that he ‘hates’ it—captures his blunt, obsessive craft mindset."
     },
     {
       "speaker": "Kaze",
-      "quote": "In 2019 I received a legit DMCA... and I responded to the email with just suck my cock... And nothing happened.",
-      "context": "A startling legal anecdote that captures Kaze’s risk tolerance, irreverence, and the reality of Nintendo enforcement intersecting with fan creators."
+      "quote": "I responded to the email with just suck my cock… and nothing happened.",
+      "context": "A shocking anecdote about replying to a Nintendo-linked DMCA notice in 2019, highlighting both his impulsiveness and the project’s legal tension."
     },
     {
       "speaker": "Kaze",
-      "quote": "Spend five hours doing a cool thing that no one’s gonna see?",
-      "context": "His guiding production philosophy: prioritize player-visible impact and moment-to-moment feel over hidden technical flourish."
+      "quote": "God, this is such a cool mission. This is what video games should be like.",
+      "context": "Reaction to the matchbox-bridge/snowball setpiece working—useful as a statement of creative intent: tactile, toy-like obstacles with clear timing and movement fun."
     }
   ],
   "key_stories": [
     {
-      "title": "Replacing 100-coin stars with a Yoshi-coin and egg-coin exploration structure",
-      "summary": "Kaze explains a systemic redesign meant to make exploration meaningful without the frustration of SM64’s 100-coin star behavior and awkward mission flow. He reframes collectibles into localized red-coin challenges, rare-interaction Yoshi coins, and a dedicated seventh act that uses a proximity radar to guide an egg-coin treasure hunt.",
-      "challenge": "Players often stumble into the 100-coin star ‘by accident,’ then feel punished when touching a star ends the mission or when they must choose between finishing a mission and preserving coins; exploration also lacks incentives once the obvious routes are learned.",
-      "process": "He removes 100-coin stars entirely, adds a 7th act per course for egg-coin hunting, uses a radar to support completion without brute-force searching, and adjusts star exit rules so red-coin and Yoshi-coin stars don’t kick the player out (reducing uncertainty and dead ends).",
-      "outcome": "A clearer contract with the player: first acts focus on mission progression and learning space; the final act becomes a guided completionist pass that rewards deeper exploration and interactions.",
-      "key_quote": "No level has a 100-coin star. Not a single one.",
+      "title": "Replacing 100-coin stars with a 7th-act egg-coin hunt and radar",
+      "summary": "Kaze laid out a core structural redesign meant to fix Mario 64’s exploration incentives and reduce frustration. By removing 100-coin stars, containing red coins, and adding an egg-coin radar mission as the 7th act, he’s trying to make exploration feel rewarding without turning it into cleanup.",
+      "challenge": "Players often stumble into stars while holding partial coin totals, then feel punished when they can’t cash in a 100-coin star without losing progress; meanwhile, traditional red coins can feel like boring, level-wide chores.",
+      "process": "He introduced: (1) red coins confined to a focused arena/sub-challenge; (2) Yoshi coins as rewards for rare interactions; (3) a 7th act unlocked after six stars that turns remaining collectibles into a guided treasure hunt via a proximity radar.",
+      "outcome": "The game’s collectible layer becomes more ‘objective-driven’ and less ‘cleanup-driven,’ with a clear separation between standard exploration (first six acts) and guided completionism (7th act).",
+      "key_quote": null,
       "related_to": ["kaze"]
     },
     {
-      "title": "Designing a timed bridge the player can read (matchbox bridge)",
-      "summary": "While building a snowy craft setpiece in Course 14, Kaze needs a temporary bridge activated by a switch, synchronized with incoming snowball hazards. He chooses a retracting matchbox bridge because it communicates the mechanic and fits the craft-material theme without expensive, unseen animation work.",
-      "challenge": "A timed bridge needs to look coherent, match the cardboard/styrofoam craft aesthetic, and be understandable from the player’s viewpoint; complex ‘cool’ animations may be wasted if the player cannot see them trigger.",
-      "process": "He prototypes the bridge as two sliding matchbox halves with a timed retract; he uses placeholder textures to validate behavior and asks for later art polish. He debugs a movement break caused by a simple operator typo and tunes speed/timing to be readable.",
-      "outcome": "A working timed-bridge prototype that supports the mission’s difficulty pacing while respecting player visibility and production time.",
+      "title": "Course 14 craft-winter setpiece: matchbox bridge + paper snowballs",
+      "summary": "A key Course 14 mission came together around a tactile craft metaphor: a timed bridge that opens like matchboxes and hazards that read as crumpled paper ‘snowballs.’ The design balances readability, theming, and performance limits while prioritizing player-facing clarity over hidden spectacle.",
+      "challenge": "Kaze needed a timed bridge and snowball hazard that fit the handmade arts-and-crafts aesthetic and still looked good on N64 constraints; early snowball material ideas (cotton/wool) and some bridge concepts didn’t read well or weren’t worth the dev time.",
+      "process": "He iterated on bridge concepts (rejecting ‘cool’ unrolling ideas the player wouldn’t see), selected a matchbox mechanism, implemented timed extension/retraction behavior, then built a crumpled-paper snowball model and scripted constant-tempo spawns with controlled randomness/targeting.",
+      "outcome": "The obstacle course became playable and thematically coherent, with the ‘paper snowball’ read improving and the bridge behavior mostly functional pending polish (wall hitbox, spawn origin, and remaining bugs).",
       "key_quote": "Spend five hours doing a cool thing that no one’s gonna see?",
-      "related_to": ["kaze", "zeina"]
+      "related_to": ["kaze", "zeina", "biobak"]
     },
     {
-      "title": "Nintendo DMCA received—and Kaze escalates instead of complying politely",
-      "summary": "Kaze recounts a 2019 DMCA sent by a Nintendo-hired lawyer (linked to a prior project/video) and describes replying with a vulgar insult. Nothing further happened, which he interprets as the sender deciding escalation wasn’t worth the unpredictability.",
-      "challenge": "Fan creators operate under constant legal threat; enforcement can remove work and intimidate teams, shaping how they distribute and monetize.",
-      "process": "He responded defiantly rather than conciliatorily, and later frames current distribution as necessarily free because selling would increase risk.",
-      "outcome": "Kaze internalizes that the project must stay non-commercial, while also retaining a confrontational, irreverent stance toward enforcement pressure.",
-      "key_quote": "They must think I'm completely mentally unstable... And I responded suck my cock.",
+      "title": "Designing a demo economy without the overworld systems",
+      "summary": "Kaze sketched a pragmatic demo-only solution to represent global currency without building the full overworld shop/progression network. The goal is to communicate the game’s direction while keeping demo scope intentionally small.",
+      "challenge": "The planned overworld economy (spending global coins on NPCs to advance/upgrade) isn’t ready for the demo, but he still wants players to see that ‘global coins matter.’",
+      "process": "He proposed a single NPC who accepts coin donations three times to upgrade a cosmetic hat (bronze→silver→gold), explicitly providing no gameplay reward—just signaling the economy concept.",
+      "outcome": "A low-cost, low-risk demo feature that can be cut/replaced later while still showing forward progress and design intent.",
+      "key_quote": "I will literally give the player nothing for doing it other than a new hat for the guy.",
+      "related_to": ["kaze"]
+    },
+    {
+      "title": "Nintendo DMCA history and why Return to Yoshi’s Island must be free",
+      "summary": "Kaze described a past DMCA encounter tied to his Mario 64 fangame work and used it to justify a firm stance: he cannot monetize this hack. The story also reveals his combative personality and how he perceives legal risk.",
+      "challenge": "Nintendo IP enforcement creates a constant threat to fan projects, especially if money is involved.",
+      "process": "Kaze referenced a 2019 DMCA from a Nintendo-hired lawyer and his own reckless email reply; he emphasized the hack will be free because charging would invite serious legal retaliation.",
+      "outcome": "A clear distribution constraint (free release only) and a potential documentary beat about risk tolerance, bravado, and the real consequences creators weigh in this space.",
+      "key_quote": "I can't charge money for this, Nintendo would actually murder me.",
       "related_to": ["kaze"]
     }
   ],
   "open_questions": [
     {
-      "topic": "How the global coin economy and overworld ‘shops’ are intended to work beyond the demo gag",
-      "context": "Kaze mentions a planned system where coins persist globally and can be spent on overworld NPCs to advance the game, but says the demo will only include a cosmetic hat-upgrade NPC as a placeholder sink.",
+      "topic": "Collectible radar and the 7th-act ‘egg coin’ mission",
+      "context": "Kaze described a proximity radar that blinks/changes based on distance to egg coins, intended to make the final act a guided treasure hunt rather than a grind.",
       "questions": [
-        "What will players eventually be able to buy/spend global coins on, and how does that affect progression pacing?",
-        "Are global coins earned per-level, per-objective, or through special interactions (e.g., Yoshi coins/egg coins), and how do you prevent grind?",
-        "Was the ‘gift coins for nothing’ demo NPC chosen mainly as humor, as a tutorial for the economy, or to test persistence/UX?"
+        "How did you prototype and tune the radar so it feels helpful without turning the hunt into following a GPS?",
+        "What made you choose ‘unlock after six stars’ as the moment to introduce the radar, instead of integrating it earlier or tying it to an NPC/tutorial?",
+        "Were there specific playtesting moments (or your own playthrough habits) that convinced you the 100-coin star had to go entirely?"
       ],
       "related_to": ["kaze"]
     },
     {
-      "topic": "Final plan for the Course 14 snowball launcher’s visual source",
-      "context": "Kaze dislikes snowballs spawning from thin air but struggles to place a plausible craft-themed emitter (trash bin tipping, side spawner, sky spawner) without breaking platforming routes or theme coherence.",
+      "topic": "Course 14 snowball launcher source (diegetic spawn vs ‘from nowhere’)",
+      "context": "Kaze disliked snowballs spawning in midair and brainstormed a physical source (trash bin tipping over) but worried it would break the level layout/theme; he considered temporarily letting them fall from the sky.",
       "questions": [
-        "What is the final diegetic source for snowballs (if any), and what made you reject the trash-bin concept?",
-        "Will snowballs always ‘target Mario,’ or will they follow a deterministic left/right pattern to reward mastery?",
-        "How do you want players to read fairness—telegraphing, rhythm, and safe windows—given the craft aesthetic and camera constraints?"
+        "What final rule do you want for hazards like this: must every spawn be ‘explained’ by a prop, or is readability more important than diegetic consistency?",
+        "If you revisit the trash-bin idea, how would you solve the placement problem without creating an unintended shortcut platform?",
+        "How much targeting should these snowballs do before it stops being ‘timing gameplay’ and becomes ‘unfair homing’?"
       ],
-      "related_to": ["kaze"]
+      "related_to": ["kaze", "biobak"]
     },
     {
-      "topic": "Confetti/paper-snow environment effect rules and performance budget",
-      "context": "Kaze prototypes paper snowflakes by adapting the leaf effect, aiming for a cheap, localized ambience toggle when Mario enters the styrofoam area; he notes particle counts and triangle budgets explicitly.",
+      "topic": "Placeholder assets philosophy and team communication",
+      "context": "Kaze rejected advice that placeholders should never look final; he argued placeholders are necessary to communicate intent and detect breakage, and he planned to hand off the matchbox branding texture to Zeina for a final pass.",
       "questions": [
-        "What’s the performance target per effect and per scene on real N64 hardware, and what’s your internal ‘too expensive’ threshold?",
-        "How will you gate the effect (distance culling, zone triggers, camera triggers) to avoid ‘materializing in midair’ looking wrong?",
-        "Do you want confetti and snowflakes to share a system, or are they separate to keep art direction distinct?"
+        "What’s your internal rule for when a placeholder is ‘good enough’ to keep moving versus when it risks misleading the team or locking in a bad direction?",
+        "How do you communicate ‘this is temporary’ in the repo so future you (or collaborators) don’t treat it as final?",
+        "When you hand something like the matchbox texture to Zeina, what references or constraints do you provide so the final art matches the intended tone?"
       ],
-      "related_to": ["kaze"]
+      "related_to": ["kaze", "zeina"]
     },
     {
-      "topic": "Player-experience rationale for ‘stars that don’t kick you out’ vs. story/mission stars that do",
-      "context": "Kaze describes a rule: collect-x stars (red coins, Yoshi coins) don’t kick you out; many other stars do, partly because otherwise players could be stuck in dead ends and he doesn’t want arbitrary exit pipes everywhere.",
+      "topic": "Legal risk tolerance and the 2019 DMCA incident",
+      "context": "Kaze claimed he received a DMCA from a Nintendo-hired lawyer in 2019 and replied provocatively without consequences, and he repeatedly emphasized the hack must be free.",
       "questions": [
-        "Which mission types still kick the player out, and how do you communicate that rule to avoid player confusion?",
-        "Can you walk through one example where not kicking the player out would softlock or trap them?",
-        "Did you consider an explicit ‘Exit Course’ prompt after each star instead, and why accept/reject it?"
+        "Walk me through what you remember about that 2019 DMCA—what exactly was threatened, and what did you think might happen next?",
+        "Did that experience change how you name, brand, or distribute Return to Yoshi’s Island compared to earlier projects?",
+        "What does ‘safe enough’ look like to you now—are there specific lines you won’t cross anymore, even if fans ask for them?"
       ],
       "related_to": ["kaze"]
-    },
-    {
-      "topic": "Asset pipeline collaboration: placeholders vs. final art (Zeina/Biobak handoff)",
-      "context": "Kaze defends using obvious placeholder textures to validate mechanics and signal intent, and explicitly plans to have Zeina replace the matchbox branding later; he also asks if someone can redesign the exclamation box because the current one looks bad.",
-      "questions": [
-        "What’s the team workflow for turning Kaze’s placeholders into final assets—what files/tools get passed between you and Zeina/Biobak?",
-        "How do you decide when an asset is ‘good enough to ship’ versus ‘still a placeholder’ in a ROMhack context?",
-        "What’s the plan for the new exclamation box (style references, polygon/texture limits, animation) and who owns it?"
-      ],
-      "related_to": ["kaze", "zeina", "biobak"]
     }
   ]
 }

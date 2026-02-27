@@ -1,70 +1,70 @@
 {
   "stream_context": {
-    "summary": "Kaze attempts to continue a long dev stream after a power flicker, then spends most of the session debugging a crashing/garbled snow particle effect in Course 15 (“Snowplex”). The bug exposes emulator-specific instability (especially Project64/Parallel) versus real N64 behavior, leading to memory-corruption suspicions and vertex-buffer allocation auditing. Midstream he pivots into level-design adjustments (a “zipper to hell” platforming section) and broader art/performance decisions: potentially abandoning the costly normal-mapped “styrofoam” look in favor of simpler cardboard/paper staples, plus addressing severe overdraw and RDP bottlenecks that make this the worst-performing level so far.",
-    "level": ["Course 15 – Snowplex"],
+    "summary": "Kaze resumes development after a power flicker and spends most of the stream debugging Course 15’s snow particle system crashes (especially on Project64), investigating memory corruption/vertex allocation, and then pivots back into Course 15 design and performance triage. A key outcome is reconsidering the crash-prone “normal-map styrofoam” look and moving toward a simpler stapled-paper/cardboard solution (prompted by Biobak), plus real-hardware performance measurement showing the level is RDP-bound (overdraw/material cost).",
+    "level": ["Course 15 \u0013 Snowplex"],
     "significance": "notable",
-    "significance_reason": "Contains a concrete art-direction change (replace normal-mapped styrofoam with simpler stapled-paper/cardboard), clear performance diagnosis (RDP/overdraw as primary bottleneck), and strong emulator-compatibility tension (real N64 works while certain emulators crash), all of which affect release/support decisions and final visual design."
+    "significance_reason": "Introduces a concrete art-direction/tech pivot (dropping or limiting the normal-map styrofoam effect in favor of stapled paper/cardboard), plus substantial insight into emulator incompatibilities and real N64 performance bottlenecks (RDP vs CPU), which affects release/support decisions and final visual design."
   },
   "findings": [
     {
       "topic": "technical",
       "importance": "high",
-      "summary": "A snow particle/snowflake rendering crash appears to be emulator-dependent: behavior differs across emulators, while real N64 testing indicates the level can run correctly on hardware even when Project64/other setups misbehave.",
-      "quote": "The worst problem is that on real N64 it legit just works."
-    },
-    {
-      "topic": "technical",
-      "importance": "high",
-      "summary": "Kaze diagnoses likely memory corruption in the snow/particle vertex setup: degenerate triangles and “garbage” colors appear despite the combiner not using vertex colors/normals, suggesting invalid vertex data or overwritten buffers.",
-      "quote": "This has to be complete garbage data."
-    },
-    {
-      "topic": "technical",
-      "importance": "medium",
-      "summary": "A key clue: turning an inline function into a non-inline function makes Project64 stop crashing, reinforcing that some failures are tool/emulator sensitivity rather than deterministic game logic issues.",
-      "quote": "How does changing the function from an inline to not an inline make it work?"
-    },
-    {
-      "topic": "technical",
-      "importance": "medium",
-      "summary": "While debugging, Kaze realizes a vertex-buffer sizing issue (“missing the multiply by 4”) in the allocation math; he treats it as a solved mystery that may not directly explain the crash but could contribute to corruption.",
+      "summary": "Course 15’s snowflake system begins crashing and rendering “degenerate” triangles; Kaze traces it to vertex-buffer/particle math and potential memory corruption (he discovers a missing multiply-by-4 in the allocation math), and the bug presents differently across emulators versus real N64.",
       "quote": null
     },
     {
       "topic": "technical",
       "importance": "high",
-      "summary": "Performance profiling in Course 15 shows the CPU/game thread is relatively fast (~12 ms) while rendering is the bottleneck (~40 ms RDP time). The main optimization direction is reducing overdraw/material cost rather than game-logic compute.",
-      "quote": "Computing this whole thing takes 12 milliseconds, but then rendering takes 40."
-    },
-    {
-      "topic": "design",
-      "importance": "high",
-      "summary": "Kaze commits to redesigning the “styrofoam” visual approach: the normal-mapped styrofoam/grass effect is complicated, crash-prone, and potentially not worth it for limited screen space. He notes a likely replacement: cardboard with stapled paper edges (inspired by Biobak’s suggestion).",
-      "quote": "Replace styrofoam with cardboard and paper staple."
-    },
-    {
-      "topic": "design",
-      "importance": "medium",
-      "summary": "Course 15 includes a planned “zipper to hell” platforming segment (zipper entrance placed behind a platforming section). Kaze iterates on difficulty with tighter platforms and adds a spring as a safety option, noting RTYI’s more consistent physics makes platforming generally easier.",
-      "quote": "With Return to Yoshi's Island, the physics are so much more consistent that everything is easier in that sense."
+      "summary": "Kaze repeatedly hits emulator-specific instability: Project64 crashes without a useful crash screen, sometimes changes behavior based on compiler decisions (e.g., making an inline function non-inline makes it ‘work’), while real N64 testing suggests the content is largely fine on hardware.",
+      "quote": "How does changing the function from an inline to not an inline make it work? This garbage emulator, man. I swear."
     },
     {
       "topic": "technical",
       "importance": "medium",
-      "summary": "Visual-quality toggles are treated as performance levers: anti-aliasing is preferred visually but costs ~15% performance in this scene (e.g., ~23 FPS to ~26 FPS when disabled). Mipmapping is acknowledged as expensive due to combiner constraints and used sparingly.",
-      "quote": "Anti-aliasing is like a 15% performance drop, I would say."
+      "summary": "He considers the practical release implication of emulator support: Parallel/RetroArch configurations are fragile for his build, and he floats the idea of explicitly telling players to avoid Parallel and use Project64 1.6 or real hardware rather than contorting the hack to accommodate buggy cores.",
+      "quote": null
+    },
+    {
+      "topic": "technical",
+      "importance": "high",
+      "summary": "Performance diagnosis on real N64: the level is heavily RDP-bound (he observes ~12 ms game thread vs ~40 ms render time). He frames the next optimizations around reducing overdraw/material passes (e.g., cutting holes, simplifying background/mountains, removing decals, separating materials) rather than CPU-side logic.",
+      "quote": null
+    },
+    {
+      "topic": "technical",
+      "importance": "medium",
+      "summary": "Anti-aliasing is treated as a major, quantifiable toggle: he estimates ~15% cost and shows a jump from ~23 FPS (AA on) to ~26 FPS (AA off), arguing that +10 FPS can be worth minor visual compromises in some cases.",
+      "quote": null
+    },
+    {
+      "topic": "design",
+      "importance": "high",
+      "summary": "A key visual/tech reconsideration: the “normal-map styrofoam” effect (and related material tricks) is increasingly seen as crash-prone and not worth the complexity for small areas. He leans toward keeping a similar effect on grass only and replacing styrofoam/snow presentation with simpler cardboard + stapled paper edges.",
+      "quote": null
     },
     {
       "topic": "design",
       "importance": "medium",
-      "summary": "Kaze identifies the level’s bottom/void treatment as a major unresolved art problem: the current “ocean”/floor reads poorly, is performance-heavy, and invites players to think there’s something below. He considers alternatives like fading to white, a “table” surface, or gradient voids, aiming to communicate ‘death void’ without looking arbitrary.",
-      "quote": "We don't want it to feel like it's just arbitrarily floating in the sky."
+      "summary": "Course 15 platforming iteration continues despite the tech derail: he plans the ‘zipper’ placement (a zipper leading to a fall/‘hellhole’), adds safety like a spring to reduce frustration, and notes RTYI’s more consistent physics can make sections feel easier than in vanilla.",
+      "quote": null
     },
     {
       "topic": "business",
       "importance": "medium",
-      "summary": "Release/monetization thoughts surface in two ways: (1) Kaze strongly rejects release-date pressure as the project nears completion; (2) he floats pricing/market research ideas ($10–$20 range) and muses about a Steam/PC version only if all Mario assets are removed to avoid Nintendo issues.",
-      "quote": "If I were to release this game on Steam, obviously I would have to remove all the Mario assets though."
+      "summary": "He discusses commercialization hypotheticals: a Steam release would require removing Mario assets, and he casually floats price points ($10–$20) and the idea of market research to find what people would pay.",
+      "quote": null
+    },
+    {
+      "topic": "technical",
+      "importance": "medium",
+      "summary": "Kaze shares broader engine progress: he’s made major optimizations since his source-code video (claims ~2x faster again), enabling heavy scenes (e.g., a Sunshine-area import) to hit a stable-feeling 30 FPS on N64, and he contemplates an hour-long deep-dive video on three years of optimizations.",
+      "quote": null
+    },
+    {
+      "topic": "personal",
+      "importance": "low",
+      "summary": "Creator-life context: he’s frustrated by the stream restart/view-count drop after the power flicker, says he hates editing himself and prefers paying an editor, and expresses demotivation when videos underperform despite having “a million” ideas.",
+      "quote": "I just want to make games, man."
     }
   ],
   "contributor_findings": {
@@ -72,121 +72,91 @@
       {
         "topic": "design",
         "importance": "high",
-        "summary": "Biobak proposes a simpler, more readable edge treatment for the level’s ‘floor’/void: adding smooth rim edges with a bright-to-dark gradient and cutting geometry to reduce overdraw; Kaze explicitly frames this as a “good idea” and plans to implement it.",
-        "quote": "I think that was a good idea by Biobak."
+        "summary": "Biobak influences a concrete art/optimization direction for Course 15: replace the styrofoam look with stapled paper/cardboard (including smoother rim edges and tonal bands), which Kaze adopts as a to-do and ties directly to performance/overdraw reduction.",
+        "quote": null
       },
       {
         "topic": "design",
-        "importance": "high",
-        "summary": "Biobak’s direction nudges the team away from the complex normal-mapped styrofoam look toward a ‘stapled paper on cardboard’ solution, which Kaze believes will also reduce glitches and improve performance.",
+        "importance": "medium",
+        "summary": "Biobak is directly consulted on whether the normal-map styrofoam look is worth keeping at all, prompting Kaze to justify effects as either visually essential or gameplay-motivated rather than purely technical flexing.",
         "quote": null
       }
     ],
     "badub": [],
-    "zeina": [
-      {
-        "topic": "personal",
-        "importance": "low",
-        "summary": "Kaze mentions his N64 HDMI output (N64Digital) and says he didn’t install it himself; one of Zeina’s friends installed it because they had the tools and Kaze didn’t want to risk damaging the console.",
-        "quote": null
-      },
-      {
-        "topic": "personal",
-        "importance": "low",
-        "summary": "Kaze notes he’s been playing Twilight Princess with Zeina and uses it as a reference point for how shipped games sometimes tolerate rough edges.",
-        "quote": null
-      }
-    ],
+    "zeina": [],
     "others": []
   },
   "memorable_quotes": [
     {
       "speaker": "Kaze",
-      "quote": "Computing this whole thing takes 12 milliseconds, but then rendering takes 40.",
-      "context": "Clear articulation of RTYI’s performance reality in this level: the bottleneck is RDP/rendering cost (materials/overdraw), not CPU/game logic—useful for explaining how N64-era constraints shape modern hack design."
+      "quote": "I just want to make games, man.",
+      "context": "Said while discussing how video performance and content strategy affect his ability to keep game dev as a money-making hobby."
     },
     {
       "speaker": "Kaze",
-      "quote": "The worst problem is that on real N64 it legit just works.",
-      "context": "Captures the emulator-versus-hardware dilemma that affects QA, player support, and what platforms/configurations the team can reasonably target."
-    },
-    {
-      "speaker": "Kaze",
-      "quote": "Please stop asking me for release dates. I will literally lose my mind.",
-      "context": "Shows the psychological pressure of audience expectations as the project approaches completion—useful for documentary tension and creator burnout themes."
+      "quote": "I'm going to say this is the first quadruple A N64 game ever. That's going to be the marketing.",
+      "context": "A revealing mix of pride and humor while showing off custom coin visuals and emphasizing the sheer labor behind the project."
     }
   ],
   "key_stories": [
     {
-      "title": "The Snowplex snowflake crash: emulator chaos vs. real hardware",
-      "summary": "While trying to fix/optimize the snow particle system in Course 15, Kaze hits persistent crashes and visual corruption that vary by emulator. Debugging shows signs of invalid vertex data and potential memory corruption, yet the level appears to work on real N64 hardware, complicating the definition of “fixed.”",
-      "challenge": "A crashing/garbled snow effect that is inconsistent across emulators and sometimes provides no useful crash output.",
-      "process": "Kaze audits vertex buffer sizing and indices, steps through display lists/vertex writes in a debugger, tests across emulators, and even changes inlining behavior to see how Project64 reacts. He reframes the problem as potentially emulator sensitivity layered on top of a real allocation/math issue.",
-      "outcome": "He gains evidence pointing toward memory corruption and confirms a vertex allocation math issue (missing multiply-by-4). However, he does not fully resolve the emulator crash within the stream and begins considering how much the project should accommodate buggy/inaccurate emulators versus standardizing support expectations.",
-      "key_quote": "How does changing the function from an inline to not an inline make it work?",
+      "title": "The Snowplex snowflake crash and the emulator that lies",
+      "summary": "While fixing snow in Course 15, Kaze runs into crashes and corrupted particle geometry that behave inconsistently across emulators. The debugging becomes a case study in why RTYI targets real hardware first and why emulator support can become a separate product problem.",
+      "challenge": "Course 15 crashes when rendering snowflakes; Project64 offers little diagnostic value and behaves differently from other emulators and real N64.",
+      "process": "Kaze instruments/debugs the particle vertex allocation, inspects display lists and vertex memory, tests multiple emulators, and validates behavior on real N64. He identifies a missing multiply-by-4 in allocation math and suspects memory corruption as the root of the visual corruption.",
+      "outcome": "He gathers evidence that at least part of the corruption is memory-related (snowflake visuals improve), but emulator instability remains a moving target. The incident pushes him toward deprioritizing emulator-specific fixes and reconsidering complex effects that amplify risk.",
+      "key_quote": "How does changing the function from an inline to not an inline make it work? This garbage emulator, man. I swear.",
       "related_to": ["kaze"]
     },
     {
-      "title": "Abandoning normal-mapped styrofoam for a simpler paper/cardboard solution",
-      "summary": "Kaze re-evaluates the normal-mapped “styrofoam/wool grass” effect: it’s complex, hard to justify for small areas, and entangled with crashes and performance issues. Biobak’s suggestion of stapled paper edges and cleaner rim gradients provides a more readable, cheaper, and more thematically coherent direction.",
-      "challenge": "Balancing ambitious visual tricks (normal-map-like reflections) with N64 constraints, level readability, and production time/bug risk.",
-      "process": "Kaze solicits Biobak’s opinion midstream, reviews how the effect looks when active/inactive, and compares it to simpler alternatives (paper stacks/staples, rim gradients, geometry cutouts). He makes a concrete TODO note to replace the styrofoam treatment.",
-      "outcome": "A decisive art-direction pivot: keep the effect only where it truly matters (possibly grass) or replace it outright with stapled paper/cardboard, improving stability and likely reducing RDP cost.",
-      "key_quote": "Replace styrofoam with cardboard and paper staple.",
+      "title": "Dropping the normal-map styrofoam look in favor of stapled paper",
+      "summary": "A visual experiment (normal-map ‘styrofoam’) starts to feel like a tech demo that costs too much in stability and time. Through chat feedback (notably Biobak), Kaze pivots to a more readable, thematically consistent, and likely cheaper-to-render solution.",
+      "challenge": "The styrofoam/normal-map effect is hard to debug, may trigger crashes, and Kaze doubts it meaningfully improves the level’s look for the cost.",
+      "process": "He asks Biobak directly whether the effect is worth keeping, clarifies that what viewers see is sometimes the ‘inactive’ texture, and evaluates alternative craft metaphors that are modelable in low poly (stapled paper, cardboard rims, tonal edge bands).",
+      "outcome": "Kaze records a to-do to replace styrofoam with cardboard + stapled paper, and suggests limiting the normal-map-like effect to grass where it reads better and may be cheaper/safer.",
+      "key_quote": null,
       "related_to": ["kaze", "biobak"]
+    },
+    {
+      "title": "Course 15 performance reality check: CPU is fine, RDP is the villain",
+      "summary": "Kaze demonstrates that even when the simulation is fast enough, the N64’s rendering pipeline can dominate frame time. This reframes ‘optimization’ as an art-and-layout problem (materials, overdraw, background strategy), not just code speed.",
+      "challenge": "Course 15 is the worst-performing level so far (~20–26 FPS depending on settings), threatening the project’s ‘feels like 30’ goal.",
+      "process": "He measures performance on real hardware, toggles anti-aliasing, inspects triangle counts, and reasons about overdraw and material passes (decals, mountains, background floor/void).",
+      "outcome": "He concludes the level is RDP-bound (rendering far slower than game logic) and plans changes like reducing overdraw, simplifying background treatment, and giving mountains their own material to avoid double-drawing.",
+      "key_quote": null,
+      "related_to": ["kaze"]
     }
   ],
   "open_questions": [
     {
-      "topic": "Emulator support policy for RTYI",
-      "context": "Kaze repeatedly runs into situations where the game works on real N64 and some emulators, but crashes or behaves unpredictably on others (especially Project64/Parallel configurations). He considers ‘forcing’ players away from problematic emulators rather than bending the game around them.",
+      "topic": "Emulator support policy for RTYI (Project64 vs Parallel/RetroArch vs real N64)",
+      "context": "Kaze repeatedly hits crashes that appear emulator-specific (Project64 behaving inconsistently; Parallel Launcher requiring a narrow configuration he expects to disappear). He floats telling players to avoid Parallel rather than redesigning for it.",
       "questions": [
-        "Which emulator(s) will RTYI officially support at release (Project64 1.6, newer PJ64, Parallel/RetroArch, simple64, etc.) and why?",
-        "Will the team publish a ‘known good’ configuration list (plugins, cores, settings), or ship per-emulator workarounds?",
-        "Where is the line between emulator bugs and game bugs for your QA process—do you treat real hardware as the final arbiter?",
-        "Did you ever identify the specific Project64/Parallel failure mode (e.g., RSP timing, RDP edge case, undefined behavior in compiled code)?"
+        "At what point did you decide ‘real N64 correctness’ is the top priority even if it means some emulators break—and how do you want to communicate that to players?",
+        "Did you ever coordinate with emulator/core maintainers (e.g., Parallel/RetroArch) about RTYI-specific crashes, or did you treat it as out of scope?",
+        "What emulator(s) do you consider your official baseline for QA, and why?\""
       ],
       "related_to": ["kaze"]
     },
     {
-      "topic": "Root cause and final fix for the Snowplex snowflake memory corruption",
-      "context": "The stream produces strong evidence of invalid vertex data/degenerate triangles and an allocation math bug (missing multiply-by-4), but the crash behavior remains inconsistent and partially emulator-triggered.",
+      "topic": "Final visual solution for the Snowplex ‘floor/void’ and how it ties to performance and theme",
+      "context": "Kaze dislikes the current bottom ‘ocean/floor’ look (confusing and expensive), worries about players thinking they can drop down, and debates alternatives: white void/fade, table surface, gradient void, or other diorama supports.",
       "questions": [
-        "What was the final root cause of the snowflake corruption/crash (buffer sizing, pointer math, invalidation, display list lifetime, alignment, etc.)?",
-        "Did fixing the allocation math fully resolve it, or was there a separate corruption source (e.g., another actor like the ‘styrofoam/grass’ effect)?",
-        "How did you verify the fix across real N64 and the emulators you care about—did you add new debug tooling/tests?"
-      ],
-      "related_to": ["kaze"]
-    },
-    {
-      "topic": "Course 15 visual language for the ‘death void’ / floor",
-      "context": "Kaze dislikes the current bottom surface (an ‘ocean’ look): it’s expensive, hard to read, and risks misleading players into thinking there’s something below. He considers white void fade, table surface, gradient blues, and cutting geometry earlier behind mountains.",
-      "questions": [
-        "What final concept did you choose for the bottom/void and why (white fade, table, gradient, clouds, etc.)?",
-        "How did you test whether players understand ‘this is a death void’ versus ‘there’s a hidden area down there’?",
-        "What specific geometry/material changes reduced the overdraw that caused this to be the worst-performing level?"
+        "What’s the intended story/mental model for what’s ‘below’ the cardboard diorama in Course 15—table, void, sky—and how did you choose it?",
+        "How do you balance readability (players instantly understand it’s death) against the RDP cost of extra layers like clouds or gradients?",
+        "Was there an early reference (paper-craft dioramas, Yoshi’s Island visuals, real craft tables) that guided the final call?"
       ],
       "related_to": ["kaze", "biobak"]
     },
     {
-      "topic": "Unfinished/missing assets referenced in Course 15",
-      "context": "Kaze mentions missing ‘peach’ and ‘bowser noodle that shoots flame’ assets and wonders whether an asset was ever sent (name transcribed as “Lera”).",
+      "topic": "The ‘Steam version’ thought experiment: original-IP pathway and pricing",
+      "context": "Kaze says a Steam release would require removing Mario assets and casually mentions $10–$20 pricing and market research, while also implying Nintendo attention scales with popularity.",
       "questions": [
-        "Who is responsible for the missing ‘peach’ asset (was it Lilaa or someone else), and did it ever arrive?",
-        "What is the ‘Bowser noodle’ flame-shooter actor supposed to look/behave like, and who is building it (model, animation, code, SFX)?",
-        "Did these missing assets change the level layout or pacing while they were pending?"
+        "How seriously have you considered an ‘original assets’ build of RTYI—what would have to change beyond obvious Mario characters and UI?",
+        "What would you want players to be paying for (engine tech, level design volume, new IP), and what price feels ethically ‘right’ to you?",
+        "Did fear of Nintendo action ever influence design decisions (assets, branding, distribution), or was it mostly a background concern?"
       ],
       "related_to": ["kaze"]
-    },
-    {
-      "topic": "RDP bottlenecks and the team’s optimization playbook",
-      "context": "Kaze notes the level is RDP-bound (rendering ~40 ms) while CPU work is comparatively small (~12 ms). He discusses anti-aliasing costs, mipmapping combiner limitations, reducing overdraw by cutting holes, and giving mountains their own material to avoid double overdraw.",
-      "questions": [
-        "What are your top 3 most effective RDP optimizations in RTYI (materials, Z-buffer strategy, display list structure, culling, room system, etc.)?",
-        "How do you decide when to sacrifice visual features (AA, mipmaps, decals, normal-map-like tricks) for framerate?",
-        "Do you maintain a per-level ‘render budget’ (triangles, layers, translucency, overdraw), and how has that budget evolved as engine optimizations improved?"
-      ],
-      "related_to": ["kaze", "biobak"]
     }
   ]
 }

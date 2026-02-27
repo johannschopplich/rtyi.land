@@ -1,93 +1,93 @@
 {
   "stream_context": {
-    "summary": "Kaze finishes major Overworld scripting work around the “Old Man Yoshi” (hint system + dialogue/pop-up pipeline) and starts designing the next big Overworld feature (Athlete Yoshi), pivoting it from a Rainbow Ride-style idea into short stadium races that award multiple stars. He also does a real-N64 performance/profiling check showing the Overworld area can effectively hit ~60fps without anti-aliasing, then measures the AA cost and sets the next optimization target.",
+    "summary": "Kaze wraps up major scripting work for the Overworld “Part 5” village (the Old Man/Master Yoshi hint system and related star/cutscene logic), begins prototyping a new “Yoshi egg” star/event, and pivots the Athlete Yoshi concept toward a rideable stadium race system with multiple stars. He also does a real-hardware performance check, showing near-60fps on N64 without anti-aliasing and quantifying the AA cost, while discussing camera philosophy and measurable input-lag improvements at 60fps.",
     "level": ["Overworld", "Course 12"],
     "significance": "milestone",
-    "significance_reason": "He closes out a substantial Overworld NPC/hint system (plus completes two stars) and demonstrates near-60fps performance on real N64 hardware with profiling, establishing a concrete optimization milestone and the next performance target (60fps with AA)."
+    "significance_reason": "Multiple concrete deliverables land in one stream (Old Man Yoshi hint system + two stars completed), plus a real-N64 profiling milestone demonstrating near-60fps and establishing the next optimization target (60fps with anti-aliasing). The Athlete Yoshi design is also substantially re-scoped into a new race feature with star-count implications."
   },
   "findings": [
     {
-      "topic": "design",
-      "importance": "medium",
-      "summary": "Course 12 was reworked to make the critical “Dairy Bar” easier to find; Kaze replaces a foggy outskirts transition with a minecart ride and shrinks the outskirts to reduce aimless wandering.",
-      "quote": null
-    },
-    {
-      "topic": "design",
-      "importance": "low",
-      "summary": "Kaze notes Course 12 still needs NPC text for a character that hints at a nearby secret door, emphasizing his approach of using dialogue to guide secrets rather than pure obscurity.",
-      "quote": null
-    },
-    {
       "topic": "milestone",
-      "importance": "medium",
-      "summary": "Overworld progress update: parts 1–4 are finished; part 5 (the main village where the Yoshis live) is the biggest section and nearly done; many remaining parts are already modeled and mostly awaiting programming, making Kaze feel the project is “more than halfway done” in practice.",
+      "importance": "high",
+      "summary": "Kaze considers Overworld progress to be around halfway by parts, but says it’s effectively further along because most of the world is already 3D modeled and remaining work is largely programming/scripting.",
       "quote": null
     },
     {
-      "topic": "philosophy",
+      "topic": "design",
+      "importance": "high",
+      "summary": "Course 12 is being reworked to improve player guidance: Kaze restructures the approach so it’s easier to find the “Derry Bar,” shrinking the outskirts and replacing a foggy transition with a minecart ride to the destination.",
+      "quote": null
+    },
+    {
+      "topic": "business",
       "importance": "medium",
-      "summary": "Kaze argues ROMhacking/derivative works are a core reason Mario 64 remains culturally relevant today, framing modding as a way for a classic to “flourish and grow” beyond being treated as a static brand product.",
+      "summary": "He finished an “Analogue 3D” video and is waiting on sponsorship; he mentions being desperate for a sponsor and notes a previous tester flaked, delaying testing by about two weeks.",
       "quote": null
     },
     {
       "topic": "technical",
       "importance": "high",
-      "summary": "Kaze estimates RTYI’s 60fps mode substantially reduces input latency versus vanilla Mario 64: he cites ~105–110ms in original, and roughly ~51ms at 60fps due to higher-frequency buffering/present cadence (even if other parts only improve a few ms).",
+      "summary": "Kaze estimates Mario 64’s input latency around ~105–110ms, and says RTYI at 60fps effectively drops to ~51ms due to higher frame rate/triple-buffer behavior; he revises his own initial skepticism mid-explanation and acknowledges the reduction is substantial.",
       "quote": null
     },
     {
       "topic": "philosophy",
       "importance": "high",
-      "summary": "Camera design philosophy: Kaze dislikes “parallel camera” (axis-aligned camera) because it feels “too gamey” and world-axis dependent; he prefers a camera that rotates the minimum necessary to keep Mario centered and can temporarily disable auto-rotation via C-buttons until camera/movement realign.",
-      "quote": "I think a camera should be agnostic to the world axis."
-    },
-    {
-      "topic": "technical",
-      "importance": "high",
-      "summary": "Old Man Yoshi NPC implementation: Kaze uses a simple pop-up dialogue system (set desired pop-up ID, then reset to 0) and begins building a new data structure mapping text IDs to star completion states so the NPC can provide hints in a specific order and stop once all hints are exhausted.",
+      "summary": "He argues against using “parallel camera” broadly because it feels artificially locked to discrete axes; he prefers a camera that is “agnostic” to world axes and only sees parallel camera as fitting certain abstract Bowser-style geometries.",
       "quote": null
     },
     {
       "topic": "technical",
       "importance": "high",
-      "summary": "A major bug remains: the overworld star collection text/cutscene sometimes fails to end properly even after initial fixes, indicating a systemic issue in the Overworld star cutscene flow that needs dedicated debugging.",
+      "summary": "He fixes and expands the Old Man/Master Yoshi system: implements an easy-to-trigger pop-up dialogue mechanism, begins mapping hint text IDs to star states, and sets up ordered hints (including a final ‘I’ve taught you everything I know’ state).",
+      "quote": null
+    },
+    {
+      "topic": "technical",
+      "importance": "high",
+      "summary": "A major bug remains after changes: overworld star text/cutscenes sometimes fail to end properly even after initial fixes, and Kaze writes it down as a known issue for follow-up.",
       "quote": null
     },
     {
       "topic": "technical",
       "importance": "medium",
-      "summary": "Rendering-layer issue spotted: smoke/particle effects appear in the wrong order relative to shadows/decals; Kaze suspects legacy particle behavior from an older codepath (“MRO-64 particle”) and discusses intended render layers (particles vs shadows/transparent decals).",
+      "summary": "He investigates a render-layer ordering issue where particles/smoke appear to sort incorrectly relative to shadows/decals, suspecting some effects may still be inherited from older MRO-64 particle behavior and layer assignments.",
       "quote": null
     },
     {
       "topic": "design",
       "importance": "high",
-      "summary": "Athlete Yoshi design pivots: instead of launching the player to a Rainbow Ride-style slide, Kaze proposes making Athlete Yoshi rideable and initiating short stadium races (30–45s) against ~7 Yoshis with cheering spectators (potentially 2D billboards). The same NPC interaction would award three different stars across three escalating races, also helping “inflate” the star count (Kaze cites ~192 stars at this point).",
+      "summary": "Athlete Yoshi is redesigned: instead of a Rainbow Ride-style launch/slide, Kaze wants Athlete Yoshi to be rideable and take the player into a stadium race against ~7 Yoshis. The feature would award three different stars (easy/medium/hard), last ~30–45 seconds each, and use crowd billboards to sell the spectacle and boost total star count (he cites being around ~192 stars).",
       "quote": null
     },
     {
-      "topic": "design",
+      "topic": "technical",
+      "importance": "high",
+      "summary": "He completes/implements two stars during the stream (as he summarizes at the end), and validates performance on real N64 using an 800-frame-averaging profiler: without anti-aliasing he sees ~59–60fps reported, while an RDP time reading implies ~57.7fps; enabling anti-aliasing drops performance to ~52fps (about ~12% more frame time).",
+      "quote": null
+    },
+    {
+      "topic": "technical",
       "importance": "medium",
-      "summary": "Race economy/structure idea: Kaze considers an entry fee so “money needs to do something,” but notes they never made a new coin icon; he also wants races to differ enough to avoid three near-identical laps (difficulty escalation, obstacles/time-trial variants discussed).",
+      "summary": "Kaze frames the next optimization goal as achieving 60fps with anti-aliasing enabled; he notes the profiler itself adds overhead, meaning real performance may be slightly higher without profiling.",
       "quote": null
     },
     {
-      "topic": "milestone",
-      "importance": "high",
-      "summary": "Performance milestone on real N64: using an in-game profiler with 800-frame averaging, Kaze sees ~59–60fps in a consistent Overworld test spot without anti-aliasing. RDP timing suggests ~57.7fps by calculation, implying profiling/pipeline measurement nuances. Enabling anti-aliasing drops performance to ~52fps (~12% frame-time increase), defining the next optimization goal: hit 60fps with AA.",
+      "topic": "personal",
+      "importance": "medium",
+      "summary": "He mentions having become a dad about 1.5 years ago, references his child being sick, and later shares a story about his daughter bonding with a robotic lawnmower—illustrating how development/streaming happens alongside family life.",
       "quote": null
     },
     {
-      "topic": "team",
-      "importance": "low",
-      "summary": "Biobak joins in chat during the Athlete Yoshi brainstorming and later reacts to implementation details (including suggesting changes and discussing visibility/view-maximization decisions).",
+      "topic": "personal",
+      "importance": "medium",
+      "summary": "He describes being self-taught (including years of writing MIPS assembly by hand) and says he got his software/game-dev job largely because his Mario 64 modding made him known.",
       "quote": null
     },
     {
-      "topic": "community",
-      "importance": "low",
-      "summary": "Kaze publicly posts the project progress tracker link in his second-channel description during stream to make progress visible to viewers.",
+      "topic": "technical",
+      "importance": "medium",
+      "summary": "He briefly outlines a separate project: a Mario 64-playing ‘AI’ using an evolutionary algorithm with raycast-based perception (many depth samples from Mario’s position), but he hesitates to publicize it because of anticipated audience backlash against AI content.",
       "quote": null
     }
   ],
@@ -96,13 +96,13 @@
       {
         "topic": "design",
         "importance": "medium",
-        "summary": "Biobak provides real-time feedback during the Athlete Yoshi redesign discussion, validating the stadium-race approach as stronger than the earlier Rainbow Ride concept and contributing suggestions around race variety/difficulty.",
+        "summary": "Biobak joins while Kaze is planning Athlete Yoshi and reacts to the redesigned race concept; Kaze explicitly proposes that if the egg implementation is ‘bad,’ Biobak can revise/update it later—implying Biobak’s ongoing role as an asset/design iteration partner.",
         "quote": null
       },
       {
         "topic": "community",
         "importance": "low",
-        "summary": "Biobak asks Kaze to change where the progress tracker is placed (Kaze declines, preferring maximum views), illustrating small but practical push-pull between documentation/community UX and channel strategy.",
+        "summary": "Biobak suggests a distribution/publishing tactic (Kaze declines, saying he wants to maximize views), showing the team’s occasional strategic input beyond pure art/design.",
         "quote": null
       }
     ],
@@ -113,101 +113,106 @@
   "memorable_quotes": [
     {
       "speaker": "Kaze",
-      "quote": "I think a camera should be agnostic to the world axis.",
-      "context": "Explaining why he avoids the popular axis-aligned “parallel camera” used by many Mario 64 modders, tying camera behavior to immersion and world believability."
+      "quote": "I wouldn’t want to put out a game that I myself would refuse to play.",
+      "context": "Explaining why he’s pursuing engine and gameplay improvements (performance/control/camera) rather than shipping something that merely exists."
     },
     {
       "speaker": "Kaze",
-      "quote": "I wouldn't want to put out a game that I myself would refuse to play.",
-      "context": "Motivating why he keeps reworking engine feel/performance (and why vanilla Mario 64 no longer meets his own standards)."
+      "quote": "I think a camera should be agnostic to the world axis.",
+      "context": "His core design principle for rejecting parallel camera in most naturalistic areas."
+    },
+    {
+      "speaker": "Kaze",
+      "quote": "For 1 million dollars, I’m giving you Mario 64 on the original N64 in full 60 FPS.",
+      "context": "A provocative way he frames his confidence in performance/engine work and the long-term plan to re-import vanilla Mario 64 into the RTYI engine."
     }
   ],
   "key_stories": [
     {
-      "title": "Course 12 navigation redesign to surface the Dairy Bar",
-      "summary": "Kaze revisits Course 12 after an initial version he calls poor, focusing on improving player readability and ensuring a key location (the Dairy Bar) is discovered naturally. He replaces a fog-heavy outskirts transition with a minecart transport sequence and reduces the outskirts size, keeping the level’s strongest setpiece while minimizing confusion.",
-      "challenge": "Players might miss the Dairy Bar, but the bar is important to the course’s flow and content; the earlier layout made the approach unclear and meandering.",
-      "process": "Identify the navigation failure, then redesign the traversal: shrink the outskirts and create a more explicit minecart route into the important hub, plus plan NPC dialogue to hint secrets (e.g., secret door).",
-      "outcome": "A clearer, more directed Course 12 structure is in place, with remaining work mainly in hint text and cleanup (plus unrelated Fast64 visibility bugs).",
-      "key_quote": "It's very important that the player finds the Dairy Bar.",
+      "title": "Course 12 redesign to ensure players find the Derry Bar",
+      "summary": "Kaze revisits Course 12 after dissatisfaction with the initial build, targeting navigational clarity and pacing. The redesign prioritizes making a key location—the Derry Bar—hard to miss, suggesting he’s now tightening the player’s intended path through the level.",
+      "challenge": "Players might miss the Derry Bar, and the previous version’s transition/outskirts structure wasn’t serving the experience.",
+      "process": "He shrinks the outskirts, plans a minecart transport segment in place of a foggy transition, and adjusts level layout to funnel the player toward the Bar.",
+      "outcome": "A clearer, more directed Course 12 route is in place conceptually and partially implemented; remaining work includes NPC hint text and polishing/bug-fixing.",
+      "key_quote": null,
       "related_to": ["kaze"]
     },
     {
-      "title": "Old Man Yoshi hint system and persistent star-cutscene bug",
-      "summary": "Kaze implements and validates the Overworld’s “Old Man Yoshi” as a guided hint dispenser, using a lightweight pop-up dialogue mechanism and starting a structured mapping from text IDs to star progress. While the hint content and ordering are nearing completion, a serious issue remains: the overworld star text/cutscene sometimes does not terminate correctly.",
-      "challenge": "Build a robust hint NPC that responds to player progress, while also avoiding UI glitches (mis-centered text) and cutscene state bugs that can soft-lock pacing.",
-      "process": "Use the pop-up dialogue system (set ID then reset), add a star-to-hint mapping structure for ordered hints, test in-game, then instrument/debug the cutscene-ending logic when it fails.",
-      "outcome": "The hint NPC is close to “finished,” but the cutscene-end bug is explicitly logged for future debugging and is still blocking full confidence in the overworld star-collection flow.",
-      "key_quote": "The cutscene not ending is not awesome, though. That's a problem.",
+      "title": "Old Man/Master Yoshi hint system ‘done’—but cutscenes still won’t end",
+      "summary": "Kaze implements the Old Man Yoshi’s hint delivery using a lightweight pop-up dialogue system and begins formalizing hint ordering tied to star progression. Immediately after, he discovers a blocking cutscene/text completion bug in the overworld star flow, turning a ‘feature finished’ moment into a debugging thread for future streams.",
+      "challenge": "He needs scalable hint logic (multiple hints across progression) and stable overworld star/cutscene behavior.",
+      "process": "He adds pop-up dialogue toggles (set desired ID, then reset to 0), builds mapping structures from text IDs to star lists, and tests interactions. When cutscenes persist, he instruments/notes behavior and investigates related rendering/UI edge cases.",
+      "outcome": "Hint sequencing and pop-up delivery are largely implemented, but he documents a major bug: overworld star text/cutscenes sometimes never terminate and must be fixed next.",
+      "key_quote": "Overworld star text seems to also not end the cutscene.",
       "related_to": ["kaze"]
     },
     {
-      "title": "Athlete Yoshi pivots from Rainbow Ride concept to stadium racing stars",
-      "summary": "Kaze reassesses an earlier plan where Athlete Yoshi would launch the player skyward toward a Rainbow Ride-like slide. He decides this is less compelling than making Athlete Yoshi rideable and turning the interaction into a series of short, escalating stadium races that each award a star, with crowds and spectacle emphasizing Yoshi culture in the village.",
-      "challenge": "Make Athlete Yoshi content feel worthy of a major overworld character, avoid a one-off gimmick, and prevent repetitive objectives while also supporting the project’s large star count goals.",
-      "process": "Brainstorm race length and structure (30–45 seconds), crowd presentation (billboard spectators), and progression (three different stars, rising difficulty, obstacles/time-trial variants). Consider an entry fee to give currency purpose.",
-      "outcome": "A new feature direction is chosen that better fits the “ride Yoshi” fantasy and can scale into multiple stars; implementation sequencing (build stadium first vs later) remains to be decided.",
-      "key_quote": "I feel like if we have an Athlete Yoshi, then he should also be rideable.",
+      "title": "Athlete Yoshi pivots from ‘Rainbow Ride’ concept to stadium races",
+      "summary": "Kaze rethinks Athlete Yoshi as a mountable racing feature that can deliver multiple stars and a strong ‘spectacle’ moment in the Yoshi village. The change is motivated by making the character feel more thematically coherent (an athlete you actually ride) and by using the feature to boost star-count structure without adding new worlds.",
+      "challenge": "The original Athlete Yoshi idea (spawn/launch/slide to Rainbow Road) felt ‘not great’ and didn’t leverage the character concept well.",
+      "process": "He proposes a sponsor prompt, then a stadium race on the Yoshi’s back against ~7 Yoshis, using 2D billboard crowds, short 30–45 second race design, and difficulty ramping for three stars.",
+      "outcome": "A new feature direction is selected (races with three stars), pending implementation order (stadium first vs. later) and race mechanics decisions.",
+      "key_quote": null,
       "related_to": ["kaze", "biobak"]
     },
     {
-      "title": "Real N64 profiling confirms near-60fps and sets AA target",
-      "summary": "Kaze runs an N64 test using an 800-frame averaging profiler to measure stable performance in a consistent Overworld spot. The scene effectively reaches 60fps without anti-aliasing, while RDP timing math suggests ~57.7fps, revealing measurement/pipeline nuance; enabling anti-aliasing drops to ~52fps, defining the next engine optimization goal.",
-      "challenge": "Prove the decomp-based RTYI engine can sustain a modern-feeling frame rate on original hardware, then quantify the real cost of visual features like anti-aliasing.",
-      "process": "Use built-in CPU/FPS averaging and an RDP profiler to collect frame-time data; compare displayed FPS to RDP-derived FPS; toggle AA and measure delta.",
-      "outcome": "A concrete milestone is achieved (near-60fps baseline), and the next performance milestone is clearly identified (60fps with AA).",
-      "key_quote": "I think we can say that we have managed to hit 60 fps here.",
+      "title": "Real N64 performance proof point: ~60fps without AA, ~52fps with AA",
+      "summary": "Kaze uses his in-game profiler on real N64 hardware to quantify performance in a controlled scene and reconcile CPU/FPS readings with RDP timing. The test becomes a roadmap moment: he declares the next step is hitting 60fps with anti-aliasing, knowing AA currently costs a noticeable chunk of frame time.",
+      "challenge": "Achieve consistent 60fps on real hardware, and understand where the remaining bottlenecks are (especially with AA).",
+      "process": "He runs an 800-frame averaging FPS readout, then consults an RDP profiler that measures per-frame render time. He compares reported FPS with the RDP-derived theoretical FPS and repeats the test with AA enabled.",
+      "outcome": "Without AA he sees ~59–60fps reported (RDP implies ~57.7fps); enabling AA drops to ~52fps, establishing a concrete optimization target for upcoming streams.",
+      "key_quote": "I guess that means our next step is to put on anti-aliasing and hit 60 fps with that.",
       "related_to": ["kaze"]
     }
   ],
   "open_questions": [
     {
-      "topic": "Overworld star cutscene not ending",
-      "context": "Even after changes, Kaze observes the overworld star text/cutscene still failing to terminate properly, implying a broader state/flag issue in the overworld star-collection flow.",
+      "topic": "Overworld cutscene/text not terminating",
+      "context": "After implementing hint logic and testing overworld star interactions, Kaze finds that overworld star text/cutscenes still fail to end, even after an attempted fix (e.g., course number/text response logic).",
       "questions": [
-        "What exact conditions reproduce the non-ending cutscene (specific stars, specific areas, first-time vs repeat)?",
-        "Is the bug tied to a missing dialogue response/text ID path, course number handling, or a custom overworld-star script diverging from vanilla SM64?",
-        "How does Kaze want overworld star collection to differ from course star collection (UI, control lockout, camera, text)?"
+        "When did this cutscene-termination bug first appear—was it introduced by the new overworld text/hint system, or has it existed since earlier builds?",
+        "What’s the underlying state machine for ‘star collect’ in the overworld compared to regular courses, and what’s the cleanest fix that won’t break other scripted events?",
+        "How do you decide whether to ‘patch around’ SM64 legacy behaviors versus rewriting the flow entirely in RTYI’s engine?"
       ],
       "related_to": ["kaze"]
     },
     {
-      "topic": "Profiler discrepancy (displayed ~60fps vs RDP-derived ~57.7fps)",
-      "context": "Kaze calculates ~57.7fps from RDP time (~17.34ms), yet the averaged FPS display shows ~59–60, suggesting pipelining/measurement differences.",
+      "topic": "Athlete Yoshi race feature scope and implementation order",
+      "context": "Kaze’s redesigned plan includes sponsor prompts, mountable racing, multiple stars, short race durations, and stadium crowds via billboards; he’s unsure whether to build the stadium now or later and how to keep three races from feeling repetitive.",
       "questions": [
-        "Which metric does Kaze consider authoritative for ‘real’ framerate in RTYI: CPU frame start/end, VI rate, or RDP completion time?",
-        "What pipeline behavior (triple buffering, VI scheduling, RDP/CPU overlap) explains the mismatch, and how should it be communicated in the documentary without oversimplifying?",
-        "Did this discrepancy appear in other scenes or only the chosen test spot?"
-      ],
-      "related_to": ["kaze"]
-    },
-    {
-      "topic": "Anti-aliasing performance plan",
-      "context": "AA drops the tested area from near-60 to ~52fps (~12% frame-time increase). Kaze frames the next step as achieving 60fps with AA enabled.",
-      "questions": [
-        "What specific optimizations are on the table to ‘buy back’ the AA cost (geometry reduction, display-list changes, RDP state changes, texture format changes, culling)?",
-        "Is AA intended as a default setting for final release, or a toggle depending on hardware/emulator?",
-        "Will the project support multiple render paths (AA/no-AA) and how will that affect QA/testing?"
-      ],
-      "related_to": ["kaze"]
-    },
-    {
-      "topic": "Athlete Yoshi race implementation details",
-      "context": "Kaze proposes rideable Athlete Yoshi stadium races with 3 stars, entry fee, spectators, and escalating difficulty, but details are undecided.",
-      "questions": [
-        "How will Kaze implement competing Yoshis (AI/pathing/rubber-banding), and what existing code (e.g., Yoshi Garden behavior) will be reused?",
-        "What prevents the three races from feeling like the same lap repeated—obstacles, route changes, hazards, time trials, crowd/arena evolution?",
-        "How will the entry fee/currency loop work without a new coin icon, and what does money meaningfully unlock elsewhere in the overworld?"
+        "What would be the minimum viable version of the stadium race that still feels ‘spectacular’—and what’s the version you actually want if time permits?",
+        "How will you prevent the three stars from feeling like the same race three times—new routes, obstacles, AI behaviors, lap formats, or time-trial variants?",
+        "What’s the technical approach for racing AI on N64 constraints (pathing, rubber-banding, collision) given the 60fps performance budget you’re targeting?"
       ],
       "related_to": ["kaze", "biobak"]
     },
     {
-      "topic": "Course 12 ‘Dairy Bar’ narrative/design importance",
-      "context": "Kaze stresses the player must find the Dairy Bar and restructures the level around that, implying it’s a key hub or gating point.",
+      "topic": "Performance roadmap: 60fps with anti-aliasing on real N64",
+      "context": "Profiling shows AA drops framerate from ~59–60fps to ~52fps in the test scene; RDP timing suggests the GPU side is a key constraint. Kaze frames ‘60 with AA’ as the next major milestone.",
       "questions": [
-        "What role does the Dairy Bar play mechanically (quests, stars, upgrades, story beats), and why is it critical to discovery order?",
-        "How does the minecart transition support the mood/theme of Course 12 compared to the earlier foggy outskirts concept?",
-        "What player-testing feedback or internal playtest observations led to calling the first build ‘ass’?"
+        "What specific RDP-side costs does AA introduce in your pipeline (fill rate, bandwidth, extra passes), and which of those are most reducible?",
+        "Do you plan to offer multiple visual modes (AA on/off) at release, or is AA-on-60fps a hard requirement for your ‘best Mario 64’ vision?",
+        "How much of the remaining overhead comes from the profiler itself, and what non-instrumented benchmarks do you trust most for final performance claims?"
+      ],
+      "related_to": ["kaze"]
+    },
+    {
+      "topic": "Camera philosophy vs. community expectations (parallel camera debate)",
+      "context": "Kaze rejects parallel camera as too axis-locked and ‘gamey,’ and notes other modders complain he doesn’t use it. He prefers a camera that does minimal rotation to keep Mario centered with optional C-button override.",
+      "questions": [
+        "What player-testing or prior mod experience convinced you that parallel camera harms ‘world feel’ more than it helps control?",
+        "Have there been any areas in RTYI where you considered breaking your rule and using parallel camera anyway—and what made you decide against it?",
+        "How do you balance ‘cinematic/world-consistent’ camera behavior with the practical frustrations players can have in tight platforming spaces?"
+      ],
+      "related_to": ["kaze"]
+    },
+    {
+      "topic": "Unreleased Mario 64 evolutionary ‘AI’ and fear of backlash",
+      "context": "Kaze describes an evolutionary algorithm with raycast-based perception that can learn to collect stars after hours of training, but he’s hesitant to publish because he expects anger toward AI content.",
+      "questions": [
+        "What originally motivated you to build the Mario AI—was it curiosity, a tooling goal (testing), or video/entertainment potential?",
+        "If you did release it as a video, what would you want audiences to understand about it (e.g., ‘not generative art,’ small neural net, perception constraints)?",
+        "Could the AI become a practical RTYI dev tool (automated playtesting, finding softlocks), or is it strictly a side-project?"
       ],
       "related_to": ["kaze"]
     }

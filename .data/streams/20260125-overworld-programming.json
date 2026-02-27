@@ -1,93 +1,93 @@
 {
   "stream_context": {
-    "summary": "Kaze returns to active RTYI development after finishing the 0% NintendoCore project, showcasing major off-stream overworld progress and locking in a new narrative vision for Bowser’s occupied side of the island. He implements and debugs an overworld Boshi interaction/minigame loop (egg-throwing practice) with star-count progression and a small character arc, discusses planned Luigi integration with Zeina directing voice work, and shares technical insights about N64 texture quantization/combiner tricks plus his heavily-forked relationship to the SM64 decomp base.",
-    "level": ["Overworld", "Course 12"],
+    "summary": "Kaze returns to RTYI after finishing his separate “0% NintendoCore” project, showing major off-stream overworld progress and locking in a darker story direction for Bowser’s takeover area. On-stream, he prototypes/imports Boshi as an overworld NPC tied to a Course 12 mini-game and debugs a seemingly random “egg exploding” bug, then designs a star-count-driven accuracy system and dialogue arc for Boshi. He also discusses upcoming Luigi integration (with Zeina directing voice work), N64 art/math constraints (including a forthcoming video), and how little vanilla decomp code remains in RTYI.",
+    "level": ["Overworld", "Course 12", "Course 13"],
     "significance": "milestone",
-    "significance_reason": "He reports finishing major overworld sections off-stream, cements a major thematic rewrite of the overworld (Bowser industrial takeover), and completes a functional Boshi overworld interaction with star-gated behavior after diagnosing a tricky timing bug."
+    "significance_reason": "Major overworld progress was completed off-stream, the narrative direction for Bowser’s controlled island section is solidified, and an interactive overworld Boshi feature (with progression-based behavior) is implemented and debugged into a working state."
   },
   "findings": [
     {
       "topic": "milestone",
       "importance": "high",
-      "summary": "Kaze says he finished the entire Bowser-occupied portion of the overworld off-stream, and indicates he also finished another overworld segment off-stream, enabling renewed progress now that the 0% NintendoCore project is done.",
+      "summary": "Kaze says he finished the entire Bowser-controlled overworld section off-stream and is now focusing on gating/secret progression (blowing up a rock to reach the next overworld area).",
       "quote": null
     },
     {
       "topic": "design",
       "importance": "high",
-      "summary": "Major overworld narrative pivot: he abandoned the earlier plan for a mountain/Yoshi village area and reframed it as Bowser’s devastated industrial takeover—ruined nature, a giant drill, Bowser HQ, and explicit imagery of Yoshis being tortured inside the headquarters.",
+      "summary": "He radically changes the overworld story concept: instead of a Yoshi village/mountain village area, Bowser has industrially “ruined nature” with a giant drill headquarters; the player will see Yoshis being tortured inside Bowser’s HQ.",
       "quote": null
     },
     {
       "topic": "design",
       "importance": "high",
-      "summary": "He is prototyping progression gates in the overworld: a Bowser gate/final-bastion door concept that opens around 100 stars (and also triggers a “store opens” beat), plus a secret path to the next overworld segment gated by blowing up a rock.",
-      "quote": null
-    },
-    {
-      "topic": "design",
-      "importance": "medium",
-      "summary": "Star economy is being tuned against SM64’s 60% completion rule: if RTYI ends up with ~200 stars, he’s considering 100 as an achievable, round-number completion gate (instead of a 120-star equivalent), but he’s not fully committed yet.",
+      "summary": "He’s leaning toward a 100-star requirement to open a major overworld gate/store door (possibly the “final bastion”), reasoning from Mario 64’s ~60% completion gate and estimating 100 as a good round, achievable number if RTYI totals ~200 stars.",
       "quote": null
     },
     {
       "topic": "team",
       "importance": "high",
-      "summary": "Luigi is planned as an upcoming playable/imported character with unique voice lines; Kaze explicitly assigns Zeina as “voice director” for Luigi because she has a clearer sense of the desired performance, and he’s connecting her with the Luigi voice performer.",
-      "quote": null
-    },
-    {
-      "topic": "team",
-      "importance": "medium",
-      "summary": "Zeina has been working on the “Bone Dragon” (overworld feature/encounter) off-stream; Kaze says it looks extremely cool, but notes she hasn’t yet sent him the file, blocking integration on this stream.",
+      "summary": "Luigi is planned to be imported soon with his own voice set; Kaze wants Zeina to act as voice director for Luigi because she “knows what we’re looking for,” and he’s connecting her with the Luigi voice performer.",
       "quote": null
     },
     {
       "topic": "milestone",
-      "importance": "medium",
-      "summary": "Kaze mentions a content-import milestone for another area: “Ascension of Terminator” version 1 (importing all content pre-rework) is ~95% complete, but they are still waiting on Biobak’s reworks.",
+      "importance": "high",
+      "summary": "Kaze implements Boshi as an overworld character who appears after you defeat him in Grand Saint Badland; Boshi is framed as a mini-game character rather than a traditional boss.",
       "quote": null
     },
     {
       "topic": "design",
       "importance": "high",
-      "summary": "Boshi will become an overworld NPC after the player defeats him in Grand Saint Badland; Boshi is staged “practicing his shots” and initially refuses interaction. Kaze frames this as a small “maturing arc” where Boshi moves from sulking to asking the player for help.",
+      "summary": "Boshi’s overworld behavior is designed as a progression-based character arc: he practices throwing eggs at a target, initially tells you to leave him alone, then later (at a high star threshold) asks the player for tips, after which he always hits and awards a secret star.",
+      "quote": null
+    },
+    {
+      "topic": "technical",
+      "importance": "high",
+      "summary": "He tracks down a bug where Boshi’s egg sometimes “randomly” explodes in-hand; root cause is deterministic state logic—an action transitions without resetting a timer, so the egg can start with an invalid timer value depending on update order. Resetting the timer fixes it.",
       "quote": null
     },
     {
       "topic": "design",
-      "importance": "high",
-      "summary": "Kaze implements Boshi’s egg-throwing practice loop as a progression-driven gag/reward: until ~120 stars Boshi always misses; as star count increases his hit rate improves; later he asks the player for “tips,” then consistently hits and awards a secret star for this overworld interaction.",
-      "quote": null
-    },
-    {
-      "topic": "design",
       "importance": "medium",
-      "summary": "Course 12 contains two minigames; Kaze calls one a “BoshiBoss” even though it’s not a traditional boss fight—more like a reaction-time minigame. Early tests have been positive (“so far, I really like them”).",
-      "quote": null
-    },
-    {
-      "topic": "technical",
-      "importance": "high",
-      "summary": "He diagnoses an intermittent bug where Boshi’s held/thrown egg would sometimes “explode” due to state/timing: the action was set without resetting a timer, and because Boshi updated before the egg, the egg inherited a bad timer value. Resetting the timer when switching actions resolves the non-obvious, seemingly “random” behavior.",
+      "summary": "Kaze adds an accuracy/miss system for Boshi tied to star count: Boshi always misses until ~120 stars, then gradually improves as the player gains more stars, eventually becoming consistent enough to trigger the ‘tips’ conversation and reward.",
       "quote": null
     },
     {
       "topic": "technical",
       "importance": "medium",
-      "summary": "Kaze praises using an emulator for both playtesting and debugging (specifically Luna’s Project64) because of built-in debugging/assembly inspection and plugin support, and contrasts this with inaccurate emulator/PC-port behavior that effectively targets “Mario 64 only” features rather than full N64 accuracy.",
+      "summary": "Kaze praises Luna’s Project64 as his preferred dev emulator because it combines GLideN64, legacy ROMhack support, strong plugin support (e.g., N-Rage), built-in debugging/assembly inspection, and low-spec modes—useful for both playing and debugging.",
       "quote": null
     },
     {
       "topic": "technical",
       "importance": "medium",
-      "summary": "He previews an upcoming video (“Why Nintendo 64 artists need to be mathematicians”) and gives a concrete N64 art workaround: because intensity values are quantized (multiples of 16), he uses a combiner trick (rescaling via primitive color alpha/base color) to remap the available steps into a usable contrast range, preventing ugly banding/blur filtering artifacts.",
+      "summary": "He shares N64 texture/lighting constraints: many issues come from color quantization (multiples of 16) and filtering; he explains using a combiner “rescale” trick to remap 0–256 ranges to smaller ranges to get smoother-looking steps on limited formats (e.g., I4/I8 workflows).",
       "quote": null
+    },
+    {
+      "topic": "business",
+      "importance": "medium",
+      "summary": "He mentions an upcoming video he’s excited about: “why Nintendo 64 artists need to be mathematicians,” suggesting a documentary-relevant angle on the hidden technical burden of N64 art production.",
+      "quote": "I have a new video coming soon. It’s called why Nintendo 64 artists need to be mathematicians."
     },
     {
       "topic": "technical",
       "importance": "high",
-      "summary": "RTYI has diverged heavily from upstream SM64 decomp: Kaze claims there’s “very little Mario 64 decomp left,” and he can’t compile the latest decomp due to upstream changes; he starts fresh projects from an older revision (“R8”) to avoid dealing with newer build issues.",
+      "summary": "Kaze states RTYI now contains very little remaining Mario 64 decomp code; he can’t compile the latest upstream decomp and instead starts fresh projects from an older revision (R8), because later upstream changes break his build flow.",
+      "quote": "There is very little Mario 64 Decomp left in RTYI."
+    },
+    {
+      "topic": "philosophy",
+      "importance": "medium",
+      "summary": "He explicitly prioritizes shipping progress over clean architecture when implementing object behaviors, describing his approach as pragmatic and time-driven.",
+      "quote": "We care about development time, not about code quality here."
+    },
+    {
+      "topic": "technical",
+      "importance": "medium",
+      "summary": "He notes codebase scale creep: a single file is nearing ~10,000 lines and may exceed that by release, indicating growing complexity and possible maintainability risks.",
       "quote": null
     }
   ],
@@ -96,7 +96,13 @@
       {
         "topic": "team",
         "importance": "medium",
-        "summary": "Kaze indicates Biobak is expected to “rework” content/areas; Kaze previously deprioritized polish in at least one overworld area because Biobak told him not to worry about visuals yet, and Kaze is currently waiting on Biobak’s reworks for a near-complete content-import milestone.",
+        "summary": "Kaze recounts that while working on a rough overworld area, Biobak told him not to worry about visuals because Biobak would rework it later—leading Kaze to deprioritize polishing that section in the moment.",
+        "quote": null
+      },
+      {
+        "topic": "milestone",
+        "importance": "medium",
+        "summary": "Kaze says “Ascension of Terminator” (content-import version before Biobak’s rework) is ~95% complete, but they’re still waiting on Biobak’s reworks to finalize that content pass.",
         "quote": null
       }
     ],
@@ -105,13 +111,19 @@
       {
         "topic": "team",
         "importance": "high",
-        "summary": "Zeina is set to act as voice director for Luigi voice lines and will coordinate with the Luigi voice performer to achieve the tone/performance Kaze wants.",
+        "summary": "Zeina is being brought in as voice director for Luigi voice lines, with Kaze positioning her as the creative lead for finding the right performance.",
         "quote": null
       },
       {
         "topic": "design",
         "importance": "medium",
-        "summary": "Zeina is producing the Bone Dragon asset/feature for an overworld segment; Kaze describes it as a standout visual (“holy shit, that’s the coolest thing ever”), but notes he still needs the file delivered to integrate it.",
+        "summary": "Kaze shows additional overworld updates that include a planned Bone Dragon encounter/area; he says Zeina has been working on Bone Dragon off-stream and he’s waiting on her to send the file.",
+        "quote": "Bone Dragon looks so cool. You’re going to be like, holy shit, that’s the coolest thing ever once you see it."
+      },
+      {
+        "topic": "personal",
+        "importance": "low",
+        "summary": "Kaze shares a small family moment: their child reacts to Baby Mario’s long jumps with “Ma! Yahoo!” and appears to enjoy Mario, grounding the project in their day-to-day life.",
         "quote": null
       }
     ],
@@ -122,7 +134,7 @@
           {
             "topic": "team",
             "importance": "low",
-            "summary": "Kaze references Marty as a collaborator who has been making models alongside him and could “tell stories” relevant to the N64-math/graphics video topic.",
+            "summary": "Kaze references Marty collaborating on models and implies Marty has first-hand experience with the math/constraints behind N64 art, which ties into Kaze’s upcoming “N64 artists need to be mathematicians” video.",
             "quote": null
           }
         ]
@@ -132,98 +144,99 @@
   "memorable_quotes": [
     {
       "speaker": "Kaze",
-      "quote": "There is very little Mario 64 decomp left in RTYI.",
-      "context": "Kaze frames how far the project has diverged from the original SM64 decomp base, underscoring the ‘build something new on old hardware’ theme."
+      "quote": "There is very little Mario 64 Decomp left in RTYI.",
+      "context": "A strong statement of authorship and transformation: the hack has moved far beyond “modding Mario 64” into a largely custom codebase."
     },
     {
       "speaker": "Kaze",
       "quote": "We care about development time, not about code quality here.",
-      "context": "Said while copying object behavior code; it captures a pragmatic production mindset likely shaping many RTYI implementation decisions."
+      "context": "Captures Kaze’s pragmatic development philosophy and the trade-offs he’s willing to make to keep momentum."
+    },
+    {
+      "speaker": "Kaze",
+      "quote": "You’re going to see Yoshis being tortured inside the headquarters.",
+      "context": "Defines the project’s darker tone shift and what Bowser’s occupation means thematically in the overworld narrative."
     }
   ],
   "key_stories": [
     {
-      "title": "Overworld vision rewrite into Bowser’s industrial occupation",
-      "summary": "Kaze explains that the overworld is now explicitly split into a Bowser-occupied, nature-destroyed zone featuring a giant drill and Bowser’s headquarters. This replaces an earlier concept for a mountain village/Yoshi village area and reorients the story tone toward oppression and rescue.",
-      "challenge": "Finding a compelling overworld identity that feels new while still ‘Yoshi’s Island’-adjacent, and deciding what the player’s long-term goal in the overworld should be.",
-      "process": "Kaze iterated off-stream, rebuilt the overworld layout, and designed progression beats (final-bastion door, store unlock, secret path via rock explosion).",
-      "outcome": "A new, more intense thematic direction is locked in; remaining work includes implementing the rock-explosion gate and tuning star requirements for the late-game door.",
-      "key_quote": "So the vision for this overworld here is, this is the part of the island Bowser has taken over.",
+      "title": "Overworld tone shift: from village plan to Bowser’s industrial occupation",
+      "summary": "Kaze reveals he finished major overworld work off-stream and, more importantly, rewrote the premise of this overworld section. Instead of a village, the area becomes a visual statement of Bowser’s control—industrial drilling, ruined nature, and imprisoned Yoshis—setting the emotional stakes for the overworld progression.",
+      "challenge": "The original overworld concept (village/mountain village) no longer matched the story/feel Kaze wanted for Bowser’s presence on the island.",
+      "process": "Kaze reblocked/reframed the space around a Bowser gate/HQ concept and plans progression gates (star requirements, secret path requiring blowing up a rock) to structure access through the overworld.",
+      "outcome": "A clearer, darker narrative identity for the Bowser-controlled zone and concrete progression hooks (100-star door, secret rock-blowup path).",
+      "key_quote": "Instead of the Yoshi village, I kind of changed my mind entirely.",
       "related_to": ["kaze"]
     },
     {
-      "title": "Boshi overworld arc and secret-star reward loop",
-      "summary": "Kaze imports Boshi into the overworld as a recurring character after the player beats him in Grand Saint Badland. Boshi starts off practicing and dismissive, then gradually acknowledges the player’s skill and eventually rewards a star through a dialogue-and-progression sequence.",
-      "challenge": "Making an overworld NPC interaction that evolves over time (not just a static NPC), and tying it cleanly to star progression without feeling arbitrary.",
-      "process": "He scripts an egg-throwing practice behavior and ties hit/miss behavior to star thresholds: always miss until ~120 stars, then improved accuracy with more stars, then a ‘tips’ conversation that flips him to consistent bullseyes and grants a secret star.",
-      "outcome": "Core behavior loop is implemented and playing as intended; remaining work is finalizing the dialogue/questions for the ‘tips’ moment and polishing presentation (sounds, timing, preventing duplicate spawns).",
-      "key_quote": "So at first he’s kind of sulking over it, but eventually he starts being like, okay well actually you’re kind of really skilled at what you do—teach me.",
+      "title": "Boshi becomes an overworld mini-game character with a progression arc",
+      "summary": "Kaze imports Boshi into the overworld and turns him into a recurring character tied to Course 12 mini-games and post-level world continuity. Boshi’s behavior changes with star progress, creating a small “maturing” narrative where he goes from sulking/practicing to asking for tips and rewarding a star.",
+      "challenge": "Boshi needed to feel like more than a one-off encounter and provide a meaningful overworld interaction that scales with player progress.",
+      "process": "Kaze implements Boshi practicing throws at a target; he designs a hit/miss system tied to star count (initially always misses, then improves), and plans a dialogue trigger where Boshi requests advice and then always hits.",
+      "outcome": "A working prototype of Boshi’s throwing behavior and the scaffolding of a progression-gated character interaction that also fills a missing “secret star” slot in that overworld area.",
+      "key_quote": "He has a little maturing arc, you know.",
       "related_to": ["kaze"]
     },
     {
-      "title": "The ‘random’ egg explosion bug that was actually a timer/state ordering issue",
-      "summary": "While testing Boshi’s egg throw, the egg would sometimes explode in-hand or behave inconsistently, which initially looked like nondeterminism. Kaze traces it to incorrect state transitions: setting the action without clearing a timer, compounded by update-order (Boshi updating before the egg).",
-      "challenge": "Intermittent behavior that looked random and would be time-consuming to debug purely in assembly, especially with non-deterministic test conditions.",
-      "process": "He reasoned about determinism, suspected hidden state, and inspected the script flow until he identified the timer not being reset when changing actions; he then explicitly resets the timer at the transition point.",
-      "outcome": "Bug understood and fixed; Kaze emphasizes how much faster it is to fix by understanding the code’s state machine rather than stepping through assembly for a ‘random’ repro.",
-      "key_quote": "Oh my god, it’s the timer. Obviously. Okay, now I know why.",
+      "title": "The “random” exploding egg bug wasn’t random: update-order timer state",
+      "summary": "While testing Boshi’s throws, Kaze encounters a bug where the egg sometimes explodes in Boshi’s hand, appearing nondeterministic. He reasons about determinism and allocation/state order, then discovers the timer wasn’t reset when switching actions, causing invalid starting timer values depending on script update order.",
+      "challenge": "An intermittent bug that looked like randomness threatened the reliability of the mini-game behavior.",
+      "process": "Kaze avoids deep assembly debugging by first auditing logic/state transitions; he identifies that an action is set without clearing the timer and fixes it by resetting the timer at the transition point.",
+      "outcome": "Egg behavior stabilizes; Kaze can proceed to implementing misses and dialogue without the intermittent explosion breaking the sequence.",
+      "key_quote": "Oh my god, it’s the timer.",
       "related_to": ["kaze"]
     }
   ],
   "open_questions": [
     {
-      "topic": "Final star count and endgame gate philosophy (100 vs 120/200-star scaling)",
-      "context": "Kaze is leaning toward a 100-star completion requirement as a ‘nice round number,’ but he also compares against SM64’s 60% rule and acknowledges that if RTYI has ~200 stars, 120 would be the analogous threshold.",
+      "topic": "How far will RTYI go in depicting Bowser’s cruelty (tortured Yoshis) and what is the intended player emotion?",
+      "context": "Kaze describes Bowser’s overworld HQ with ruined nature and ‘Yoshis being tortured inside the headquarters,’ a notable tonal commitment for a Mario 64-based project.",
       "questions": [
-        "How many total stars are you targeting for RTYI (roughly 120, 150, 200+), and when did that target stabilize?",
-        "What does ‘beating the game’ mean for you here: credits roll, final Bowser/HQ cleared, or a postgame unlock?",
-        "What player-behavior data or playtest feedback would make you raise or lower the 100-star gate?",
-        "Is the ‘store opens at 100’ a separate pacing beat from the ‘final bastion door,’ or are those the same gate?"
+        "What made you decide to push the tone darker here—was it influenced by Yoshi’s Island, other media, or just where the project naturally evolved?",
+        "How explicit will the ‘torture’ depiction be in-game, and how do you keep it within a Mario/Yoshi emotional palette without feeling out of place?",
+        "Did you discuss this tonal shift with the team (Zeina/Biobak), and did anyone push back or suggest guardrails?"
+      ],
+      "related_to": ["kaze", "zeina", "biobak"]
+    },
+    {
+      "topic": "Final star economy and gate philosophy (100 vs 120 vs 180+)",
+      "context": "Kaze floats multiple thresholds: a 100-star door/store, Boshi’s arc keying off ~120 and ~180 stars, and the possibility of ~200 total stars (using Mario 64’s 60% rule as reference).",
+      "questions": [
+        "How many total stars are you targeting, and what ‘completion percentage’ do you want the main ending to require?",
+        "Are these thresholds meant to pace players through the overworld in a specific order, or are they primarily motivational ‘optional mastery’ gates?",
+        "How do you prevent late-game star gates from feeling grindy while still communicating ‘you’re ready for the final bastion’?"
       ],
       "related_to": ["kaze"]
     },
     {
-      "topic": "Luigi integration scope and voice production pipeline",
-      "context": "Kaze says Luigi will be imported soon with unique voice lines, and Zeina will direct the Luigi voice performer.",
+      "topic": "Luigi integration scope and pipeline (voices + gameplay role)",
+      "context": "Kaze says Luigi will be imported soon, get his own voices, and Zeina will direct the voice performance.",
       "questions": [
-        "Is Luigi fully playable, a story character, or a limited-use mechanic (e.g., swaps in certain courses)?",
-        "What exactly does ‘voice director’ mean in your workflow—reference clips, live direction sessions, iteration notes, or in-engine timing passes?",
-        "How are you implementing voice playback technically (banking, compression, triggers) to fit N64 constraints alongside new music and SFX?",
-        "What was the creative reason to add Luigi to a Yoshi’s Island-themed hack—what does he add to the story or gameplay tone?"
+        "What is Luigi’s role in RTYI—playable character, story NPC, co-op feature, or something else?",
+        "What does ‘voice director’ mean in your pipeline—does Zeina set a style guide, approve takes, direct sessions live, or just curate submissions?",
+        "How do you keep Luigi’s voice consistent with the tone of RTYI (especially with darker overworld themes)?"
       ],
       "related_to": ["kaze", "zeina"]
     },
     {
-      "topic": "Bone Dragon: role in overworld pacing and technical integration",
-      "context": "Kaze says Zeina is building a Bone Dragon for an overworld segment and treats it as a major ‘wow’ element, but it wasn’t delivered during the stream.",
+      "topic": "Why RTYI moved away from upstream decomp and what that cost/earned",
+      "context": "Kaze says RTYI now has very little decomp left; he can’t compile newer upstream decomp and starts from an older revision (R8) to avoid build-breaking changes.",
       "questions": [
-        "What is the Bone Dragon’s function: a boss, setpiece, background spectacle, or navigation hazard?",
-        "Is it tied to a course entrance, a collectible requirement, or a story beat in the Bowser-occupied region?",
-        "What were the hardest constraints Zeina had to design around (skeleton rigging, animation budget, segment memory, collision)?",
-        "What’s the handoff process from Zeina to Kaze—what file formats/tools, and what tends to break during import?"
-      ],
-      "related_to": ["kaze", "zeina"]
-    },
-    {
-      "topic": "Biobak ‘rework’ dependencies and how art passes are scheduled",
-      "context": "Kaze describes leaving areas visually rough because Biobak planned to polish them later, and mentions waiting on Biobak reworks to finish a ‘version 1’ content-import milestone for another area.",
-      "questions": [
-        "What exactly constitutes a ‘Biobak rework’—textures, layout changes, lighting/vertex color passes, new props, or full redesign?",
-        "How do you decide when you can safely build gameplay in an area before the art pass lands, without causing rework churn?",
-        "What parts of RTYI are currently blocked on Biobak, and what parts are blocked on you (code/tools) for Biobak to proceed?"
-      ],
-      "related_to": ["kaze", "biobak"]
-    },
-    {
-      "topic": "Forking away from upstream SM64 decomp: compilation break and maintenance strategy",
-      "context": "Kaze says he can’t compile the latest SM64 decomp due to upstream changes and starts projects from an older revision; he also claims RTYI has replaced most of the original codebase with his own.",
-      "questions": [
-        "What specific upstream changes broke your ability to compile (toolchain changes, build system, platform assumptions, ABI changes)?",
-        "Do you maintain a long-lived internal fork/branch of decomp, or is RTYI effectively its own engine now with a decomp-derived ancestry?",
-        "What’s the cost of not merging upstream—are there bugfixes/optimizations/documentation you miss, and how do you replicate what you need?",
-        "When you say ‘very little decomp left,’ which subsystems are most rewritten (rendering, camera, object system, audio, UI)?"
+        "What were the upstream changes that broke your ability to compile—toolchain changes, code structure changes, platform assumptions, or something else?",
+        "What did you gain creatively/technically by replacing so much of the original code, and what did you lose (tooling, community compatibility, ease of merging updates)?",
+        "If you were starting RTYI today, would you still fork from an older revision, or would you build a compatibility layer to track upstream?"
       ],
       "related_to": ["kaze"]
+    },
+    {
+      "topic": "Bone Dragon: intended setpiece and production ownership",
+      "context": "Kaze previews a Bone Dragon in a new overworld section and says Zeina is working on it off-stream; he hasn’t received the file yet.",
+      "questions": [
+        "What is the Bone Dragon’s narrative function in the overworld—boss, environmental threat, cinematic moment, or gatekeeper?",
+        "What’s Zeina’s process for a creature like this (concept → model/rig/anim → export), and what are the biggest N64 constraints shaping its design?",
+        "When the asset handoff happens, what usually breaks first—animation import, skeleton compatibility, collision, or rendering limits?"
+      ],
+      "related_to": ["kaze", "zeina"]
     }
   ]
 }

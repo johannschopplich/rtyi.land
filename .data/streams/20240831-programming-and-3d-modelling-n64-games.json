@@ -1,105 +1,116 @@
 {
   "stream_context": {
-    "summary": "Kaze showcases recent Course 13 castle-platforming progress, then brings on Sauraen to deep-dive F3DEX3 (X3) microcode integration. They benchmark X3 vs custom X2, identify RSP-bound bottlenecks, test/validate optimizations (display-list “hints,” material auto-batching), debug a profiler text corruption issue, and confirm Kaze’s plan to ship RTYI on X3 with emulator-specific lighting compatibility.",
+    "summary": "Kaze showcases progress on a late-game icy castle section (Course 13), then hosts Sauraen for a deep technical session on integrating and optimizing F3DEX3 (“X3”) microcode. They measure real performance gains (RSP/RDP timings), discuss display-list hinting and automatic texture/material batching, debug a corrupted on-screen profiler font issue, and Kaze commits to adopting EX3—pending emulator-safe lighting-command support.",
     "level": ["Course 13"],
     "significance": "milestone",
-    "significance_reason": "Sauraen joins as a guest to benchmark and validate major F3DEX3 performance wins; Kaze explicitly commits to adopting X3 for RTYI and they resolve a key on-screen profiler/text corruption bug, clarifying remaining integration work (lighting command compatibility on emulators)."
+    "significance_reason": "Major technical adoption decision: EX3/F3DEX3 is confirmed as the project’s rendering microcode going forward, backed by measured performance wins and concrete next steps (emulator lighting compatibility, future occlusion-plane version). Also includes a resolved debugging thread (profiler text corruption) and a clear state-of-production update (castle platforming finished; visuals remaining)."
   },
   "findings": [
     {
       "topic": "milestone",
       "importance": "high",
-      "summary": "Kaze and Sauraen confirm measurable performance gains from F3DEX3 (X3) compared to Kaze’s custom F3DEX2 baseline, including ~300 microseconds faster graphics time and close to ~1 millisecond RDP improvement in tested scenes, making X3 a clear upgrade path for RTYI.",
-      "quote": null
-    },
-    {
-      "topic": "technical",
-      "importance": "high",
-      "summary": "They identify that some of RTYI’s heaviest scenes have become RSP-bound specifically because Kaze has already optimized RDP enough that the traditional N64 bottleneck shifts; this reframes where future performance work should focus (RSP microcode and display-list structure).",
-      "quote": "For like the last 28 years I was like, well the reason the N64 is slow is because of fill rate and memory throughput… and now we’re at this point and actually it’s the RSP."
-    },
-    {
-      "topic": "technical",
-      "importance": "high",
-      "summary": "Sauraen explains key X3 architectural work: rewriting vertex processing (register allocation, loop pipelining tradeoffs), increasing the vertex buffer to 56 vertices, and adding RDP-side optimizations like auto-batched rendering that can skip repeated texture loads when the same material is executed multiple times.",
-      "quote": null
-    },
-    {
-      "topic": "technical",
-      "importance": "high",
-      "summary": "They validate that X3’s material auto-batching can dramatically reduce redundant texture loads in cases like Kaze’s rabbit actor, where the same material was being loaded repeatedly across limbs/parts; the optimization can yield multi-millisecond savings in texture-related RDP time in worst cases.",
-      "quote": null
-    },
-    {
-      "topic": "technical",
-      "importance": "medium",
-      "summary": "Sauraen describes and tests a display-list buffer optimization using per-call/return “hints” to avoid refilling a 21-command buffer unnecessarily; Kaze previously hard-coded a global hint value of 2 because many call sites are typically “matrix/material then call,” producing measurable E2E improvements (~100–250 microseconds in their spot check).",
-      "quote": null
-    },
-    {
-      "topic": "technical",
-      "importance": "high",
-      "summary": "They confirm a critical compatibility requirement: X3 is largely binary compatible with X2 for static display lists, but lighting commands are not. Kaze will add runtime logic so emulator runs can send X2 lighting commands while console runs use X3 lighting commands (or otherwise detect microcode/engine mode).",
-      "quote": null
-    },
-    {
-      "topic": "technical",
-      "importance": "medium",
-      "summary": "A recurring on-screen profiler text corruption issue is traced not to X3 batching but to a “rainbow text” routine that loads extra TLUT/tiles; removing/disable-commenting that block fixes the corruption for Kaze’s profiler display under X3.",
-      "quote": null
-    },
-    {
-      "topic": "technical",
-      "importance": "medium",
-      "summary": "Kaze outlines recent engine rendering-layer changes: Layer 6 now handles transparent decals; Layer 5 is used to invert render order so decals can draw first to satisfy Z-order constraints for transparency, improving decal correctness.",
+      "summary": "Kaze says the platforming for the castle interior in Course 13 is finished; remaining work is largely aesthetic (“make the castle look good”), plus some planned setpieces (mirror wallkick/punching ‘mirror Mario’).",
       "quote": null
     },
     {
       "topic": "design",
       "importance": "medium",
-      "summary": "Course 13’s castle interior platforming is described as largely complete; remaining work is art/visual polish. Kaze shows hazards (fire shooters, “toxic ice”), narrowing paths, far jumps, and a planned mirror-wallkick sequence meant to feel appropriate for late-game difficulty.",
+      "summary": "Course 13’s difficulty is being tuned around progressively narrower icy paths, toxic ice damage zones, and recovery routes (coins as guides/heal, fall-recovery paths) to keep failure ‘fair’ while still punishing mistakes.",
       "quote": null
     },
     {
-      "topic": "design",
+      "topic": "technical",
       "importance": "medium",
-      "summary": "Kaze explicitly designs ‘fair failure’ recovery routes: if players miss slides or fall, coin trails guide them back, healing coins are placed on the slide, and some falls remain survivable via alternate movement options.",
+      "summary": "Kaze explains his custom render-layer approach: Layer 6 is used for transparent decals; Layer 5 is used to invert transparency order to render decals first, because transparent objects must be drawn in Z order and decals are likely to be behind other geometry.",
+      "quote": null
+    },
+    {
+      "topic": "technical",
+      "importance": "medium",
+      "summary": "A crash occurs unexpectedly during traversal; Kaze flags it as a real bug and notes he’s emulating with console-accuracy in mind (“for console compatibility”).",
       "quote": null
     },
     {
       "topic": "business",
       "importance": "medium",
-      "summary": "Kaze gives a rough production beat: editor has been working about a week; a new video is planned soon; after that, they are aiming for a demo in “a few more weeks,” implying a near-term milestone driven by content readiness rather than exact dates.",
+      "summary": "Kaze outlines near-term schedule pressure: an edited video is imminent, then the demo, implying only “a few more weeks” of stream development runway before demo-focused deliverables.",
+      "quote": null
+    },
+    {
+      "topic": "design",
+      "importance": "low",
+      "summary": "Kaze wants to replace/redo Mario’s grind animation because the current one “is not it,” indicating polish tasks remain even where mechanics are functional.",
+      "quote": null
+    },
+    {
+      "topic": "personal",
+      "importance": "medium",
+      "summary": "Kaze and Zeina confirm they recently became parents; the baby is with grandparents during the stream, and Kaze notes Zeina is having a lot of fun with the baby.",
+      "quote": null
+    },
+    {
+      "topic": "technical",
+      "importance": "high",
+      "summary": "With Sauraen on voice, they benchmark F3DEX3/X3 improvements: Kaze sees ~300 microseconds faster graphics time and nearly ~1 ms RDP improvement in some comparisons, plus additional global savings potential from display-list ‘hint’ tuning.",
+      "quote": null
+    },
+    {
+      "topic": "technical",
+      "importance": "high",
+      "summary": "Sauraen explains EX3’s performance work: rewriting/porting vertex processing (including a ‘legacy vertex pipeline’ LVP variant), cycle-counting against EX2, improving command dispatch, triangle paths (cull/clip), and reorganizing RDP command handling to reduce per-command cycles (e.g., ‘small RDP command’ 14 cycles → 5).",
+      "quote": null
+    },
+    {
+      "topic": "technical",
+      "importance": "high",
+      "summary": "They isolate a big win from EX3’s “material auto-batching” (skipping repeated texture/material loads when the same material is encountered again). In Kaze’s ‘rabbit’ scene, repeated material reloads were causing a multi-millisecond texture cost; EX3 batching reduces texture time dramatically (e.g., ~5.2 ms → ~2.2 ms in their test).",
+      "quote": null
+    },
+    {
+      "topic": "technical",
+      "importance": "high",
+      "summary": "They discuss an EX3 feature to add ‘hints’ to call/jump/return display-list commands to avoid always refilling the full 21-command buffer on control-flow changes; Kaze previously hard-coded a return hint of 2 because many display-list returns are followed by ~2 commands (often a matrix/material + call). Enabling hints appears to reduce end-to-end time by ~100–250 microseconds in the tested scene.",
+      "quote": null
+    },
+    {
+      "topic": "technical",
+      "importance": "high",
+      "summary": "They confirm EX3 is not fully backwards compatible with EX2 for lighting-related commands; Kaze plans to add runtime logic so emulators (often HLE) can receive EX2 lighting commands while real hardware uses EX3 lighting, ideally via self-modifying code to avoid i-cache pollution.",
+      "quote": null
+    },
+    {
+      "topic": "technical",
+      "importance": "high",
+      "summary": "They debug corrupted on-screen profiler text. Sauraen suspects the issue is not microcode batching but the text-rendering display list: a copied ‘rainbow’ routine was loading additional texture/TLUT state and breaking the font draw under EX3. Kaze removes the rainbow block and the corruption goes away.",
+      "quote": null
+    },
+    {
+      "topic": "technical",
+      "importance": "medium",
+      "summary": "Sauraen advises about an occlusion-plane variant of EX3: it can be faster when it actually culls significant geometry (saving both RSP triangle work and RDP draw), but it adds per-vertex overhead (discussed as ~16 extra cycles per vertex-pair in the current implementation). Kaze considers swapping microcodes per area/level-load rather than dynamically mid-frame.",
       "quote": null
     },
     {
       "topic": "team",
       "importance": "medium",
-      "summary": "Kaze mentions an upcoming outside area (a small village with penguin huts) and credits Zeina as actively creating assets for it during this period, indicating parallel production on environment art while Kaze finishes core level gameplay and engine work.",
-      "quote": null
+      "summary": "Sauraen asks whether it’s ‘official’ Kaze will use EX3; Kaze commits to it, and Sauraen expects to continue delivering updates (including upcoming decal/Z-fighting work that will require minor GBI changes).",
+      "quote": "Oh yeah, for sure. I’m just gonna add the lighting support… and then I think we’re all good."
     }
   ],
   "contributor_findings": {
-    "biobak": [
-      {
-        "topic": "design",
-        "importance": "low",
-        "summary": "Biobak gives quick feedback in chat (e.g., remarks about progress pace and level aesthetics), and Kaze reacts by considering additional enemies/visual density in a room that still feels barren.",
-        "quote": null
-      }
-    ],
+    "biobak": [],
     "badub": [],
     "zeina": [
       {
-        "topic": "team",
-        "importance": "medium",
-        "summary": "Zeina is referenced as currently producing assets for the planned outside penguin-hut village area, suggesting she is driving environment/prop creation while Kaze focuses on engine and level assembly.",
+        "topic": "milestone",
+        "importance": "low",
+        "summary": "Kaze mentions Zeina is actively producing assets for a planned outside hub/village area (“penguin huts”) connected to the project’s worldbuilding.",
         "quote": null
       },
       {
         "topic": "personal",
-        "importance": "low",
-        "summary": "Kaze briefly discusses their new baby (with grandparents during stream time), indicating a major life change occurring alongside late-stage development.",
+        "importance": "medium",
+        "summary": "Zeina is referenced as enjoying time with their new baby; the baby is with grandparents during the stream.",
         "quote": null
       }
     ],
@@ -110,19 +121,25 @@
           {
             "topic": "technical",
             "importance": "high",
-            "summary": "Sauraen joins voice as a guest to benchmark and explain F3DEX3 (X3), including cycle-level reasoning, vertex pipeline rewrites, command dispatch table compression (one-byte handler addresses /4), and multiple optimizations that collectively improve RTYI performance.",
+            "summary": "Sauraen provides the roadmap and rationale for F3DEX3 (X3): performance-driven microcode evolution (larger vertex buffer, refactored vertex pipeline, command dispatch efficiency, triangle path optimizations, RDP command handler restructuring) and ongoing profiling/cycle-counting work to beat or match EX2 in RSP-bound scenes.",
             "quote": null
           },
           {
             "topic": "technical",
             "importance": "high",
-            "summary": "Sauraen provides and iterates a latest X3 build (e.g., LVP-NOC) that delivers ‘free’ performance in Kaze’s scene; they also explore optional occlusion-plane variants and explain when it’s worth paying extra RSP cycles to reduce RDP workload.",
+            "summary": "Sauraen explains and tests two key optimization mechanisms with measurable impact for Kaze: (1) display-list refill ‘hints’ to reduce wasted DMA of command buffers on returns/calls, and (2) material auto-batching that skips redundant texture loads when the same material address repeats.",
+            "quote": null
+          },
+          {
+            "topic": "technical",
+            "importance": "high",
+            "summary": "Sauraen helps diagnose and resolve the corrupted profiler font by inspecting the text-render pipeline and identifying extra TLUT/texture loads (the ‘rainbow’ block) as the likely culprit under EX3 state handling.",
             "quote": null
           },
           {
             "topic": "technical",
             "importance": "medium",
-            "summary": "He explains the ‘material call mode’ finite-state approach used by X3 auto-batching: it tracks the start address of a material block and skips redundant loads when revisiting the same material sequence, but only helps when draw order revisits identical material blocks without intervening differences.",
+            "summary": "Sauraen outlines how Ocarina of Time’s skeletal mesh pipeline differs from SM64-style geo layouts, including how OOT can reload matrices and vertices across limbs to support shared vertices, and how that interacts with batching/material strategies for skinned characters.",
             "quote": null
           }
         ]
@@ -133,7 +150,7 @@
           {
             "topic": "community",
             "importance": "low",
-            "summary": "Lilaa (Fast64 dev) comments on map bleed/export behavior and version differences (main vs release), which frames the pipeline friction between exporter output and microcode/runtime batching expectations.",
+            "summary": "Lilaa (Fast64 dev) appears in the discussion around map-bleed/batching behavior and repo differences between Fast64 ‘main’ and released builds, influencing Kaze’s mental model of why batching/material duplication occurs (even if Kaze chooses to proceed with his own approach).",
             "quote": null
           }
         ]
@@ -142,83 +159,97 @@
   },
   "memorable_quotes": [
     {
+      "speaker": "Kaze",
+      "quote": "Oh yeah, for sure. I’m just gonna add the lighting support… and then I think we’re all good.",
+      "context": "Kaze commits to shipping RTYI on EX3/F3DEX3, making the microcode choice a settled production decision rather than an experiment."
+    },
+    {
       "speaker": "Sauraen",
       "quote": "The fact that I was able to get this any faster is because of mistakes on the part of Nintendo.",
-      "context": "Used to explain why X3 can beat original microcode paths: some baseline routines had avoidable inefficiencies that a modern rewrite can remove."
+      "context": "Sauraen frames some EX3 wins as fixing avoidable inefficiencies in the original microcode—useful documentary material for ‘rewriting the rules’ on 1990s hardware."
     },
     {
       "speaker": "Kaze",
-      "quote": "I’m just gonna add the lighting support… and then I think we’re all good.",
-      "context": "Kaze commits to the remaining blocker for adopting X3 in RTYI: emulator/lighting command compatibility logic."
+      "quote": "I’m about to fail a fucking QuickTime event and go on a full rant about how terrible Banjo-Kazooie optimizes.",
+      "context": "A rare candid moment showing Kaze’s standards and frustration with revered N64-era engineering myths, contrasting ‘nostalgia’ with deep technical scrutiny."
     }
   ],
   "key_stories": [
     {
-      "title": "Committing RTYI to F3DEX3 after performance validation",
-      "summary": "Kaze invites Sauraen onto the stream to test the latest F3DEX3 builds against Kaze’s current custom F3DEX2 setup. After benchmarking and examining RSP/RDP counters, Kaze concludes X3 is the path forward and plans to finish the remaining compatibility work (lighting commands for emulators).",
-      "challenge": "RTYI scenes are pushing performance limits; Kaze needs real, measurable gains without breaking compatibility or introducing new rendering bugs.",
-      "process": "They compare profiler results between X2 and X3, isolate which optimizations matter (auto-batching, call/return hints, vertex pipeline changes), and discuss which commands are/aren’t binary compatible across microcodes.",
-      "outcome": "Kaze decides he will ship on X3, with a clear TODO list: implement lighting-command switching/detection for emulator support and continue incremental microcode improvements (including occlusion-plane variant tuning).",
-      "key_quote": "I’m just gonna add the lighting support… and then I think we’re all good.",
-      "related_to": ["kaze"]
-    },
-    {
-      "title": "Profiler text corruption debug traced to rainbow text routine",
-      "summary": "While testing X3, Kaze sees consistent corruption in profiler letters/numbers and initially suspects a microcode or pipeline-sync issue. Sauraen proposes checking the text rendering path; they identify an extra ‘rainbow’ block doing additional TLUT/texture loads and remove it, fixing the corruption.",
-      "challenge": "On-screen profiler text corruption undermines performance testing and risks masking real rendering issues.",
-      "process": "They test hypotheses (pipe/tile sync changes), then pivot to reviewing the text renderer code and selectively comment out the secondary multi-tile/TLUT load block associated with rainbow text.",
-      "outcome": "Text corruption is resolved; Sauraen plans to investigate the rainbow implementation later and potentially PR a fix upstream.",
+      "title": "Course 13 castle platforming finished; visuals and setpieces remain",
+      "summary": "Kaze tours an icy castle segment he’s been building, explaining how the difficulty curve is controlled through narrow paths, hazards, and recovery routes. He positions the remaining work as aesthetic and setpiece-driven rather than mechanical, indicating the level is entering a polish phase.",
+      "challenge": "Make a late-game platforming section feel challenging but fair, while keeping navigation readable and recoverable after mistakes.",
+      "process": "Kaze adds coin lines as guides, healing coin clusters, and safe recovery paths after falls; he evaluates hazard density and proposes future setpieces (mirror wallkick).",
+      "outcome": "Platforming is ‘done’ for the interior; remaining work is visual polish and planned scripted moments. A crash is discovered and flagged as a compatibility-relevant bug.",
       "key_quote": null,
       "related_to": ["kaze"]
     },
     {
-      "title": "Material auto-batching reveals exporter/rigging draw-order problems",
-      "summary": "Auto-batching shows major savings when the same material is reloaded repeatedly, but it depends on draw order. Their rabbit actor exposes how limb/armature segmentation can cause the same textures to be loaded many times, creating worst-case texture overhead unless batching or re-export strategies are used.",
-      "challenge": "Skinned/rigged actors and exported display lists can unintentionally repeat material loads, wasting RDP time.",
-      "process": "They inspect the actor’s materials, discuss map bleed and how OOT-style skeleton rendering differs, and consider simplifications (fewer materials / unified texture atlas) versus longer-term tooling (mesh compiler changes).",
-      "outcome": "Immediate mitigation is reducing rabbit materials and relying on X3 batching; longer-term solutions remain open (mesh compiler/exporter and armature pipeline changes).",
+      "title": "EX3 performance validation leads to a firm adoption decision",
+      "summary": "Sauraen joins to benchmark and explain F3DEX3 (X3) improvements in RTYI’s real scenes. After measuring gains and discussing remaining compatibility work, Kaze confirms EX3 will be the project’s microcode moving forward.",
+      "challenge": "RTYI’s scenes can be RSP-bound after other optimizations; EX3 initially regressed performance and required targeted microcode tuning to be viable.",
+      "process": "They compare EX2 vs EX3 timings, explain pipeline rewrites (legacy vertex pipeline, command dispatch), test display-list ‘hints,’ and validate auto-batched material skipping in a real ‘rabbit’ scene.",
+      "outcome": "EX3 shows clear wins (hundreds of microseconds to milliseconds depending on workload). Kaze commits to EX3 contingent on adding emulator-safe lighting support.",
+      "key_quote": "Oh yeah, for sure. I’m just gonna add the lighting support… and then I think we’re all good.",
+      "related_to": ["kaze"]
+    },
+    {
+      "title": "Corrupted profiler text traced to a ‘rainbow’ text-render block",
+      "summary": "A persistent issue where profiler labels render with missing/corrupted characters becomes a focused debugging target. Sauraen steers the investigation toward the text-render display list rather than microcode batching, leading to a concrete fix.",
+      "challenge": "Profiler font corruption under EX3 makes performance tooling unreliable and raises fear of deeper graphics state bugs.",
+      "process": "They inspect the text drawing routine, add sync experiments, then isolate a secondary multi-tile/TLUT load block (‘rainbow’ feature) that appears to alter state unexpectedly under EX3; Kaze removes it.",
+      "outcome": "Text corruption is resolved by deleting/commenting the rainbow block; Sauraen plans to review/PR the upstream issue later.",
+      "key_quote": null,
+      "related_to": ["kaze"]
+    },
+    {
+      "title": "Planning an occlusion-plane EX3 variant and per-area microcode swaps",
+      "summary": "They explore whether an occlusion-plane microcode variant is worth it given RTYI’s changing bottlenecks. The conversation turns into practical production planning: where to pay extra per-vertex overhead to reduce overdraw and triangle work.",
+      "challenge": "Occlusion-plane checks cost extra RSP cycles but can reduce triangle processing and RDP load when large areas are hidden; the benefit depends heavily on scene composition.",
+      "process": "Sauraen estimates overhead (~extra cycles per vertex-pair) and frames the tradeoff in terms of vertices vs triangles saved; Kaze proposes swapping microcode per level/area load rather than dynamically mid-frame.",
+      "outcome": "They agree it’s useful for overdraw-heavy areas; Sauraen plans to update the occlusion-plane version with the latest optimizations so Kaze can deploy it selectively.",
       "key_quote": null,
       "related_to": ["kaze"]
     }
   ],
   "open_questions": [
     {
-      "topic": "X3 lighting command compatibility strategy for emulators",
-      "context": "X3 is mostly backwards compatible with X2 for static display lists, but lighting commands differ. Kaze says he still needs to implement emulator-side X2 lighting commands while keeping X3 on console (and mentions possibly using self-modifying code to avoid i-cache pollution).",
+      "topic": "EX3 emulator lighting compatibility implementation",
+      "context": "EX3 is backward compatible with EX2 for most static display lists but not for lighting-related commands. Kaze plans runtime selection of lighting commands (EX2 for emulator/HLE, EX3 for hardware), possibly using self-modifying code to avoid i-cache impacts.",
       "questions": [
-        "What exact emulator-detection or runtime-switch mechanism will RTYI use to decide between X2 vs X3 lighting commands?",
-        "What lighting/material content in RTYI still bakes X2-style lighting commands into static display lists, and what’s the plan/timeline to eliminate or refactor those?",
-        "What does the ‘self-modifying code’ approach look like in practice on N64 for this use case, and what risks (stability, cache effects) does it introduce?"
+        "What exactly is your planned detection method for ‘emulator vs hardware’ in RTYI, and how confident are you it won’t produce false positives/negatives?",
+        "Can you walk me through your self-modifying-code idea—what will you patch at runtime, and what risks (debuggability, determinism, crashes) does it introduce?",
+        "What’s your fallback plan if some emulators still break with the hybrid lighting approach? Will you ship an emulator-specific build, toggles, or warnings?"
       ],
       "related_to": ["kaze"]
     },
     {
-      "topic": "Exporter/mesh compiler plan to reduce redundant material loads in skinned actors",
-      "context": "They observe repeated material reloads across rabbit limbs and discuss OOT’s skeleton/matrix handling and potential mesh compiler/export changes (map bleed interactions, buffering per material, or atlasing).",
+      "topic": "Material/texture batching vs skinned-mesh authoring pipeline",
+      "context": "EX3’s material auto-batching can save multiple milliseconds when a scene repeatedly reloads identical materials (as seen with the rabbits). But authoring/export structure (multiple materials per limb, call structure, map-bleed behavior) can prevent batching from triggering.",
       "questions": [
-        "What concrete exporter or mesh-compiler changes are planned to minimize material reloads for armatures in RTYI’s pipeline?",
-        "Will RTYI move closer to an OOT-style skeleton draw architecture, or keep SM64-style geolayout and patch around it?",
-        "Which actors/levels are currently the biggest offenders for redundant texture/material loads, and how will you prioritize fixes versus relying on X3 batching?"
+        "What pipeline changes are you willing to make to ensure batching actually triggers—re-authoring textures into atlases, restructuring armature exports, or changing how Fast64 emits display lists?",
+        "Where do you draw the line between ‘optimize content’ (one material per character) versus ‘optimize engine’ (mesh compiler / OOT-style skeleton pipeline)?",
+        "Which characters/areas in RTYI are currently the worst offenders for redundant material loads, and how will you prioritize fixing them before the demo/release?"
       ],
       "related_to": ["kaze"]
     },
     {
-      "topic": "When and where to use occlusion-plane microcode variants",
-      "context": "Sauraen explains an occlusion-plane version can save work when large portions of geometry are hidden, but adds per-vertex overhead; Kaze considers swapping microcode per area at load zones rather than dynamically mid-frame.",
+      "topic": "Occlusion-plane microcode deployment strategy",
+      "context": "Sauraen argues occlusion planes are worthwhile when they cull meaningful geometry; Kaze considers swapping microcodes per area at loading zones rather than dynamically based on counters.",
       "questions": [
-        "Which RTYI levels/areas are candidates for enabling occlusion-plane microcode, and what profiling criteria will decide that?",
-        "Will RTYI ever switch microcode dynamically (beyond loading zones), or is the plan strictly ‘one microcode per area/level’ to avoid swap cost/complexity?",
-        "How will you validate occlusion-plane correctness so it never hides geometry that should be visible (edge cases with camera angles, moving platforms, etc.)?"
+        "Which specific RTYI areas do you already suspect are overdraw-heavy enough to justify an occlusion-plane microcode?",
+        "How will you decide ‘this area uses occlusion-plane EX3’—manual profiling passes, automated heuristics, or art/design constraints?",
+        "What’s the player-facing risk if an area is misclassified (e.g., occlusion plane gives minimal cull but adds overhead)?"
       ],
       "related_to": ["kaze"]
     },
     {
-      "topic": "Layer 5/6 decal system and upcoming Z-fighting fixes",
-      "context": "Kaze describes Layer 6 as transparent decals and Layer 5 as a transparency-order workaround; Sauraen notes upcoming decal/Z-fighting changes may require GBI updates and removal of an older decal fix path in X3.",
+      "topic": "Course 13 polish decisions and remaining crash/visual issues",
+      "context": "Kaze says Course 13’s platforming is done but visuals still feel barren in places; he also hits at least one unexpected crash and notes some blend/coverage artifacts on walls elsewhere.",
       "questions": [
-        "What specific visual issues (Z-fighting, sorting artifacts) drove the Layer 5/6 redesign, and what tests confirm it’s correct on real hardware?",
-        "What GBI/API changes will the ‘new decal Z-fighting fix’ require, and how will you keep tool/exporter compatibility stable?",
-        "Are there any levels/effects in RTYI that depend on the old decal behavior and will need re-authoring after the change?"
+        "What’s the root cause of the crash you hit in the castle traversal—resource limits, display list corruption, collision edge case—and how will you ensure it doesn’t only reproduce on hardware?",
+        "For Course 13, what are the remaining ‘signature’ moments you still want (mirror wallkick, enemy density, new grind animation), and what’s the order of operations to get it demo-ready?",
+        "How do you balance ‘visual density’ (more enemies/props) against performance now that you’re microcode-tuning for RSP/RDP bottlenecks?"
       ],
       "related_to": ["kaze"]
     }

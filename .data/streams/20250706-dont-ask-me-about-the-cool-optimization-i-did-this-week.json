@@ -1,99 +1,75 @@
 {
   "stream_context": {
-    "summary": "Kaze implements a major renderer/engine optimization by eliminating pointer-based scene graph traversal and instead compiling GeoLayouts into a bytecode/command list for rendering, yielding meaningful RAM and render-time savings. He also finishes core logic for a new overworld spool/rope interaction (including cutscene logic and collision/push behavior), and begins designing/implementing the Sand Thwomp (Sandwomp) overworld NPC with star-count–gated progression and save-file star ID handling.",
+    "summary": "Kaze implemented a major rendering-engine optimization by replacing pointer-heavy scene graph traversal with a compiled GeoLayout bytecode/command list, then continued overworld gameplay scripting by finishing a spool/rope setpiece (flags, cutscene behavior, pushing physics) and outlining the multi-stage “Sand Thwomp/Sand Swamp” overworld character progression gated by star counts. He also touched on camera.c having been heavily rewritten, future animation optimizations (bone animation conversion), and sponsorship economics for his secondary channel.",
     "level": ["Overworld"],
     "significance": "milestone",
-    "significance_reason": "Kaze completes a multi-day, project-wide engine/rendering refactor (“killed pointers” by compiling GeoLayouts to bytecode) with measurable performance gains (~5% render-time improvement) and memory savings, while also landing a playable overworld interaction (spool/rope) and establishing the star-gated plan for a multi-stage overworld NPC (Sand Thwomp)."
+    "significance_reason": "The stream includes a substantial engine-level rendering refactor (no pointers/linked lists, GeoLayouts compiled to bytecode with measurable frame-time improvement and RAM savings) plus completion of a key overworld interactable (spool/rope) and concrete planning for a multi-stage overworld NPC progression system tied to save data/star IDs."
   },
   "findings": [
     {
       "topic": "technical",
       "importance": "high",
-      "summary": "Kaze refactors rendering to remove pointer-heavy scene graph traversal by compiling GeoLayouts into a bytecode/command list that a renderer can interpret, producing identical visual output without changing the external API (it compiles from the existing “Mario API” GeoLayout usage).",
-      "quote": null
+      "summary": "Kaze replaced SM64-style pointer-based scene graph traversal with a system that compiles GeoLayouts into a bytecode/command list that can be interpreted during rendering, producing identical visuals while removing pointer chasing and linked-list overhead.",
+      "quote": "TLDR, we killed pointers. No more linked lists. With that, we compiled GeoLayouts into a list of graph commands."
     },
     {
       "topic": "technical",
       "importance": "high",
-      "summary": "The new bytecode-based render path reduces memory usage and data-cache/throughput costs; Kaze estimates about ~200 microseconds saved on a ~4 ms render budget (~5% improvement), with the exact percentage depending on use case.",
+      "summary": "He reports the new render-path improves performance by roughly ~200 microseconds per frame versus ~4 ms prior render time (~5% improvement), while also saving RAM and data-cache throughput; tradeoff is slightly longer load time unless precompiled layouts are stored.",
+      "quote": "Considering the render time before was around 4 milliseconds, 200 microseconds is kind of a shit ton. It's like 5%."
+    },
+    {
+      "topic": "technical",
+      "importance": "medium",
+      "summary": "Kaze emphasized the optimization is API-compatible: existing ‘Mario API’ GeoLayout authoring doesn’t need to change because it compiles down into the new bytecode representation.",
       "quote": null
     },
     {
       "topic": "technical",
       "importance": "medium",
-      "summary": "Tradeoff of the GeoLayout compilation approach: slightly longer loading due to compilation, but Kaze notes they can avoid that by storing pre-compiled GeoLayouts in-game (i.e., caching/serializing compiled layouts).",
-      "quote": null
-    },
-    {
-      "topic": "technical",
-      "importance": "medium",
-      "summary": "Kaze describes pointer usage as a performance problem on N64-era constraints; the goal is to reduce metadata chasing (pointers/linked lists) that doesn’t directly render anything.",
-      "quote": null
-    },
-    {
-      "topic": "technical",
-      "importance": "medium",
-      "summary": "He highlights how heavily modified his camera system is: camera.c has been changed so much that there’s “not that much R64 code left,” and he removed the original camera modes; he expects it may still need another optimization pass.",
-      "quote": null
-    },
-    {
-      "topic": "design",
-      "importance": "medium",
-      "summary": "Kaze completes (or largely completes) cutscene logic needed for the new overworld interaction, then notes the next step is creating a “good cutscene” to match the logic.",
+      "summary": "He indicated camera.c has been heavily modified to the point that little original SM64/R64 camera code remains; he has removed all camera modes and believes another optimization pass may still be needed.",
       "quote": null
     },
     {
       "topic": "design",
       "importance": "high",
-      "summary": "The overworld spool/rope interaction is implemented using flags: the spool despawns once a “safe flag” is set and a pole becomes active/usable; this creates a before/after state change in the overworld.",
-      "quote": null
+      "summary": "Kaze implemented and iterated on an overworld spool/rope interaction: the spool despawns based on a save/flag state, unlocks a pole after being pushed, and required fixes for push physics, player displacement, and animation timing; he also removed an “obvious” skip once he found it.",
+      "quote": "I found a skip. I don't like that you can skip that. I'm sorry, speedrunners."
     },
     {
       "topic": "technical",
       "importance": "high",
-      "summary": "While debugging the spool state/flag behavior, Kaze finds and immediately fixes an engine bug (behavior only executing for one frame / incorrect state application), which was blocking correct despawn/activation sequencing.",
-      "quote": null
-    },
-    {
-      "topic": "technical",
-      "importance": "medium",
-      "summary": "To make the spool feel correct, Kaze iterates on push physics and collision simplification, ultimately moving Mario along with the spool by applying object-derived motion to Mario (fixing an earlier mistake where he added position instead of velocity).",
+      "summary": "While testing the spool sequence, Kaze discovered and immediately fixed an engine bug where behavior/logic executed for only a single frame (causing state changes like visibility/alpha to behave incorrectly), calling out the importance of understanding frame-level execution timing in his engine.",
       "quote": null
     },
     {
       "topic": "design",
       "importance": "medium",
-      "summary": "Kaze explicitly decides to remove (or at least patch) an “obvious” cutscene skip after discovering it, prioritizing intended flow over speedrunner-friendly exploits, while acknowledging many skips will likely still exist.",
-      "quote": "I found a skip. I don’t like that you can skip that. I’m sorry, speedrunners."
-    },
-    {
-      "topic": "team",
-      "importance": "medium",
-      "summary": "Rope visual direction is discussed collaboratively: Biobak proposes an unravel effect using multiple offset alpha lines (green-ish like an existing rope), and Kaze considers alternatives (3D model with armature + scaling) before committing to an unraveled multi-thread look.",
+      "summary": "For the spool rope reveal, the team discussed multiple visual approaches (alpha-green rope lines vs. 3D modeled rope vs. scaling/armature animation). The chosen direction leaned toward a more “thread-by-thread” unravel effect rather than a simple scale-down.",
       "quote": null
     },
     {
       "topic": "design",
       "importance": "high",
-      "summary": "Kaze plans the Sand Thwomp (Sandwomp) as an evolving overworld character gag/questline with multiple dialogue states across the game: initially stuck in sand and denying it, later transformed into a sand castle, and continuing to change tone over major star milestones (he sketches 4 different textboxes/events).",
-      "quote": null
+      "summary": "Kaze outlined a new overworld character arc concept for a sand-swamp/sand-thwomp character (“Thomas”) who denies being stuck, changes dialogue across milestones, and eventually becomes a sand castle; the arc escalates to comedic “life progression” beats at very high star counts (marriage to a sand-bucket ‘wife’).",
+      "quote": "Someone built me a wife. She's pretty."
     },
     {
       "topic": "design",
       "importance": "high",
-      "summary": "He decides the Sand Thwomp should not appear immediately after the intro; instead, he wants early overworld change to come from other events first (e.g., Goomba King appearing early, Poochie appearing after an escort mission), and targets Sand Thwomp’s first appearance around ~12 stars to make the overworld feel like it changes when you return from exploration.",
+      "summary": "He decided the Sand Thwomp’s first appearance should be gated later than the intro (so the overworld isn’t immediately dominated by that interaction), tentatively choosing ~12 stars for first appearance, with later dialogue/transform stages at higher star milestones (he floated values like ~65/100/120).",
       "quote": null
     },
     {
       "topic": "technical",
-      "importance": "high",
-      "summary": "To support overworld stars/NPC progression, Kaze notes they need a consistent system of overworld star IDs and begins working through save-file manipulation; he identifies a place to store up to 32 overworld stars using an existing “ground secret star” field (U30), then traces older code paths with multiple HasStar checks and indexing quirks.",
+      "importance": "medium",
+      "summary": "Implementing the Sand Thwomp requires overworld star tracking and IDs tied into the save file: Kaze noted an existing 32-bit field (U32) that can store up to 32 overworld stars, and he began wiring spawn logic based on star count/state.",
       "quote": null
     },
     {
-      "topic": "team",
-      "importance": "low",
-      "summary": "Badub continues providing music; Kaze mentions receiving a new remix of “All Alone Bubble Dome,” though it’s not yet assigned to a specific in-game use.",
+      "topic": "business",
+      "importance": "medium",
+      "summary": "Kaze explained a sponsorship decision: for a phone review he accepted the product rather than cash because he didn’t want to “scam” and the sponsor was overseas; he also compared sponsor rates between his main and second channel and suggested he may pursue frequent sponsored ‘case clips’ on the secondary channel.",
       "quote": null
     }
   ],
@@ -102,21 +78,21 @@
       {
         "topic": "technical",
         "importance": "medium",
-        "summary": "Biobak suggests mitigating compilation-time cost by storing pre-compiled GeoLayouts in the game (caching compiled results rather than compiling at runtime).",
+        "summary": "Biobak suggested mitigating the new GeoLayout-bytecode system’s load-time cost by storing precompiled GeoLayouts in-game rather than compiling at runtime; Kaze agreed this was a good point.",
         "quote": null
       },
       {
         "topic": "design",
         "importance": "medium",
-        "summary": "Biobak proposes the spool rope unraveling effect: alpha-green rope styling like another rope asset, but made of many offset lines to sell the unraveling illusion.",
-        "quote": "An alpha green on the rope, like the other one, but with many offset lines instead of one, so it looks like the rope is being unraveled."
+        "summary": "Biobak pushed for a clearer rope-unravel visual: using an alpha-green rope style like an existing rope, but with multiple offset lines so it reads as strands unraveling, potentially even unraveling ‘three threads’ sequentially; Kaze iterated toward making it work via modeling/armature.",
+        "quote": null
       }
     ],
     "badub": [
       {
         "topic": "design",
         "importance": "low",
-        "summary": "Badub sends Kaze a remix of “All Alone Bubble Dome,” apparently as a standalone creative deliverable not yet attached to a specific mission/scene.",
+        "summary": "Kaze mentioned Badub sent a remix of “All Alone Bubble Dome” (purpose unclear to Kaze), and Kaze briefly evaluated whether vocal elements fit the game’s tone even if they’re ‘not video game-like.’",
         "quote": null
       }
     ],
@@ -127,100 +103,87 @@
     {
       "speaker": "Kaze",
       "quote": "TLDR, we killed pointers. No more linked lists.",
-      "context": "Kaze summarizes the week’s major engine/rendering refactor, framing it as a decisive break from pointer-heavy traversal."
+      "context": "His plain-language summary of a deep engine refactor—useful as a documentary beat for “modernizing” SM64-era architecture under N64 constraints."
     },
     {
       "speaker": "Kaze",
       "quote": "I have 8 megabytes of memory, okay? I am allowed to do that.",
-      "context": "While resolving compilation/storage issues (including stashing data in an unconventional place), he underscores the N64’s hard constraints and the pragmatic mindset needed to ship features."
+      "context": "Said while justifying a hacky-but-practical storage choice (using Z-buffer memory) under N64 limitations—captures the project’s constraint-driven mindset."
     },
     {
       "speaker": "Kaze",
-      "quote": "If you don’t like camera.c, that means you haven’t modified it enough.",
-      "context": "A revealing statement about how aggressively he rewrites foundational SM64 systems rather than treating them as untouchable legacy code."
+      "quote": "I found a skip. I don't like that you can skip that. I'm sorry, speedrunners.",
+      "context": "A candid statement of priorities: protecting intended pacing/experience over leaving obvious exploits."
     }
   ],
   "key_stories": [
     {
-      "title": "Replacing pointer-based GeoLayout traversal with a compiled render bytecode",
-      "summary": "Kaze spends roughly four days refactoring the renderer so it no longer traverses pointer-based graph nodes for models like Mario’s hierarchical body parts. Instead, GeoLayouts are compiled into a bytecode/command list that is interpreted to generate identical visual output, but with reduced pointer chasing.",
-      "challenge": "Pointer-heavy scene graphs/linked structures cost memory and performance on N64 constraints, and are largely metadata overhead rather than rendering work.",
-      "process": "He changes the pipeline to compile GeoLayouts into bytecode, keeps the external API unchanged by compiling from the existing GeoLayout authoring interface, and validates 1:1 visual output. He considers pre-compiling/storing compiled layouts to avoid runtime load-time compilation costs.",
-      "outcome": "Meaningful optimization: reduced RAM/throughput and ~200µs render-time improvement on a ~4ms render budget (~5%). It unlocks further engine cleanups by removing linked-list-like traversal patterns.",
-      "key_quote": "TLDR, we killed pointers. No more linked lists.",
+      "title": "Replacing SM64 scene graph traversal with compiled GeoLayout bytecode",
+      "summary": "Kaze spent most of the week restructuring the game’s rendering pipeline, removing pointer-heavy graph traversal in favor of a compiled command list generated from GeoLayouts. He frames it as identical visual output with meaningful performance and RAM gains—an engine milestone that affects the whole project.",
+      "challenge": "Pointer chasing and linked-list traversal in the render graph cost memory, cache throughput, and performance on N64-class hardware.",
+      "process": "He designed a compiler that turns existing GeoLayouts (via the existing API) into a bytecode/command list, then wrote an interpreter to traverse those commands at render time. He measured frame-time impact and considered load-time tradeoffs, discussing precompiling as a future improvement.",
+      "outcome": "The new system removes pointers from the render graph, keeps visuals 1:1, and yields ~200 µs improvement on ~4 ms render time (~5%), plus memory savings, at the cost of some compile/load time unless layouts are stored precompiled.",
+      "key_quote": "Considering the render time before was around 4 milliseconds, 200 microseconds is kind of a shit ton. It's like 5%.",
       "related_to": ["kaze", "biobak"]
     },
     {
-      "title": "Spool/rope overworld interaction: flags, push physics, and an engine bug fix",
-      "summary": "Kaze implements an overworld spool interaction that changes the environment state (spool despawns, pole becomes usable) when a progression flag is set. While debugging the sequence, he discovers a one-frame/ordering bug in his engine logic and fixes it, then tunes pushing and player/object motion to make the interaction playable.",
-      "challenge": "The spool needed correct state transitions, convincing push behavior, and stable collision; incorrect execution/ordering caused inconsistent results (e.g., state applying for only a frame).",
-      "process": "He ties spool/pole behavior to flags, tests save/reset behavior, identifies the engine bug causing incorrect behavior, fixes it immediately, then iterates on collision simplification and makes Mario move with the spool by applying object-derived velocity correctly.",
-      "outcome": "The spool interaction reaches a “done” state for the session, with functional state transitions and improved feel; remaining work shifts to visuals/animation (rope unravel).",
-      "key_quote": null,
-      "related_to": ["kaze", "biobak"]
+      "title": "Finishing the overworld spool interaction and catching a one-frame engine bug",
+      "summary": "While implementing the spool/pole progression and rope unroll animation, Kaze hit multiple issues: flags not resetting as expected, physics/animation looking wrong, and a critical engine bug where behavior executed for only one frame. Debugging this sequence forced both gameplay scripting decisions and engine-level corrections.",
+      "challenge": "Make a spool object that can be pushed, visually unroll a rope, despawn correctly via flags, and unlock/enable a pole—without janky player motion or accidental sequence breaks.",
+      "process": "He iterated through despawn conditions (safe flag), push detection vs standing on the spool, collision simplification, adjusting forces and timing (including low-gravity tweaks), and attempted to move Mario with the rotating object. He diagnosed unexpected one-frame execution behavior and patched the engine.",
+      "outcome": "The spool sequence largely works as intended (unroll + despawn + pole activation) with improved timing and fewer visual artifacts; the engine bug was fixed, and Kaze decided to remove at least one obvious skip to protect pacing.",
+      "key_quote": "I found a skip. I don't like that you can skip that.",
+      "related_to": ["kaze"]
     },
     {
-      "title": "Sand Thwomp as an overworld-changing character arc gated by star count",
-      "summary": "Kaze outlines a comedic overworld NPC questline: a Sand Thwomp stuck in sand denies it, later becomes a sand castle, and evolves across multiple star milestones with new dialogue/behavior beats. He focuses on when the character should first appear so the overworld feels like it changes after exploration rather than dumping the gag immediately after the intro.",
-      "challenge": "Balancing immediate overworld reactivity with pacing: he wants early overworld events, but not for the Sand Thwomp to be the very first post-intro interaction.",
-      "process": "He compares other overworld event timings (Goomba King early, Poochie after an escort mission), decides Sand Thwomp should appear later (~12 stars), and plans multiple later milestones (e.g., around 65/100/120 stars) which implies multi-stage save gating and text states.",
-      "outcome": "A clear plan for star-gated overworld storytelling, plus the technical need to formalize overworld star IDs and save-file storage to drive those states.",
-      "key_quote": "It would be very fun if you went exploring and when you came back, the first overworld had changed.",
+      "title": "Designing the Sand Thwomp’s multi-stage overworld progression (star-gated)",
+      "summary": "Kaze brainstormed a comedic overworld NPC arc (a sand-stuck thwomp/character) that changes over time, including a later transformation into a sand castle and escalating dialogue across major star milestones. The key design tension is pacing: he wants overworld events early, but not this one immediately after the intro.",
+      "challenge": "Introduce an overworld character that evolves over the player’s journey without frontloading it at the start, while also supporting multiple dialogue states and eventual transformations tied to progression.",
+      "process": "He reasoned about existing early overworld events (Goomba King, Poochie), then selected a later spawn threshold (~12 stars) and sketched later state changes at higher milestones. He began considering implementation details: star IDs, save-file storage, and spawn logic.",
+      "outcome": "A tentative plan: Sand Thwomp appears around ~12 stars, with multiple subsequent dialogue/visual stages at much higher star counts; implementation will require overworld star ID bookkeeping in the save system.",
+      "key_quote": "So something like 12 stars seems very good to me.",
       "related_to": ["kaze"]
     }
   ],
   "open_questions": [
     {
-      "topic": "GeoLayout bytecode system: storage, tooling, and integration risk",
-      "context": "Kaze’s new renderer compiles GeoLayouts to bytecode/command lists for pointerless traversal, with an idea to store pre-compiled layouts to avoid load-time cost.",
+      "topic": "GeoLayout bytecode renderer: rollout plan and risks",
+      "context": "Kaze’s new rendering approach compiles GeoLayouts into bytecode/command lists to eliminate pointers, improving performance but introducing compile/load considerations and a new system that must stay compatible with existing assets and tooling.",
       "questions": [
-        "What exactly is the bytecode format (command set), and how does it map to existing GeoLayout authoring patterns used by the team?",
-        "How much RAM is saved (in concrete numbers) by removing the two pointers per graph node, and how does that translate into budget for levels/animations?",
-        "What are the failure modes—are there edge-case GeoLayouts (conditional nodes, dynamic transforms) that are harder to compile deterministically?",
-        "Will pre-compiling GeoLayouts be part of the build pipeline (asset step), or done at runtime with caching? How will versioning/invalidation work when assets change?"
-      ],
-      "related_to": ["kaze"]
-    },
-    {
-      "topic": "Spool/rope interaction: final visual/animation implementation plan",
-      "context": "The spool logic is working, but the rope unraveling effect is still being decided/implemented (alpha-line trick vs 3D model + armature scaling/unravel threads).",
-      "questions": [
-        "Which approach shipped best visually on real N64 performance: multi-line alpha rope, 3D modeled rope, or a hybrid?",
-        "How is rope unravel progress synchronized with spool rotation and player force (i.e., what variable drives the animation timeline)?",
-        "Did the team need special rendering settings/combiners for alpha rope to avoid sorting/visibility artifacts in the overworld?",
-        "What was the specific engine bug found during spool debugging (one-frame execution/ordering), and did it affect other objects/flags elsewhere?"
+        "When did you first realize pointer-heavy graph traversal was a bottleneck worth redesigning, and what finally convinced you to spend four days rewriting it?",
+        "What were the scariest failure modes you worried about (visual mismatches, subtle ordering bugs, memory corruption), and how did you validate the output was truly 1:1?",
+        "Do you plan to ship with runtime compilation, precompiled GeoLayouts stored in ROM, or a hybrid—and what does that mean for iteration speed during development?",
+        "How broadly does this change ripple through the project (custom objects, cutscenes, animation nodes), and did it break any existing team workflows?"
       ],
       "related_to": ["kaze", "biobak"]
     },
     {
-      "topic": "Overworld progression system: star IDs and save-file schema",
-      "context": "Kaze notes the need to “program overworld stars,” assign star IDs, and store them in save data; he identifies using a U30 field that can store 32 stars, and encounters older code paths with duplicated HasStar logic.",
+      "topic": "Spool/rope setpiece: defining ‘acceptable jank’ vs polish",
+      "context": "Kaze repeatedly weighed collision simplicity against visual correctness, tried (and initially failed) to move Mario convincingly with a rotating/moving object, and chose to remove an obvious skip once discovered.",
       "questions": [
-        "How are overworld stars conceptually separated from course stars in the final design—do they share the same ID space or run parallel?",
-        "What save-file field did you ultimately use (and why), and did that choice constrain the maximum number of overworld stars or events?",
-        "How did you resolve the duplicated HasStar logic and indexing quirks—was there a refactor or compatibility layer?",
-        "How are NPC spawn thresholds (e.g., Sand Thwomp at ~12 stars) implemented: by total star count, specific star flags, or mission completion flags?"
+        "What’s your bar for ‘good enough’ on movement interactions like the spool—what kinds of jank do you accept to keep collision simple, and what crosses the line?",
+        "You found a skip and reacted instinctively—how do you decide which skips to kill versus leaving for advanced players?",
+        "Who ultimately owns the rope visual execution (modeling vs shader/alpha tricks), and how do you coordinate that handoff with your artists?"
+      ],
+      "related_to": ["kaze", "biobak"]
+    },
+    {
+      "topic": "Sand Thwomp progression: narrative intent and star milestone tuning",
+      "context": "Kaze proposed a multi-stage overworld NPC story (stuck → sand castle → later ‘life events’) and debated when it should first appear to avoid undermining the intro pacing, landing tentatively around ~12 stars with later milestones much higher.",
+      "questions": [
+        "What feeling do you want the player to get when returning to the overworld and seeing it changed—surprise, reward, comedy, or a sense of time passing?",
+        "Why is ~12 stars the right first appearance—what player behaviors or routes are you predicting at that point in the game?",
+        "How do you keep long-tail jokes (65/100/120-star dialogue) from feeling too ‘meta,’ and what’s the underlying character theme you want the Sand Thwomp to represent?"
       ],
       "related_to": ["kaze"]
     },
     {
-      "topic": "Sand Thwomp narrative pacing and thresholds",
-      "context": "Kaze proposes Sand Thwomp first appearing ~12 stars, then evolving with later milestones (mentions 65/100/120) with multiple dialogue boxes and transformations like becoming a sand castle.",
+      "topic": "Overworld stars and save-file structure",
+      "context": "Kaze noted he needs a way to program overworld stars with IDs and discovered/used a U32 field that can store 32 star states; he also mentioned old code paths and duplicate ‘HasStar’ logic that’s annoying to maintain.",
       "questions": [
-        "What final star thresholds did you settle on for each Sand Thwomp state, and what design reasoning drove those exact numbers?",
-        "What gameplay does ‘keep the sand castle tiles off him’ mean mechanically—combat, timing, physics interaction, or a minigame?",
-        "How do you prevent players from triggering the gag too early (right after intro) while still making the overworld feel reactive from the start?",
-        "What other overworld events (Poochie, Goomba King, Deathwomp King) were considered the ‘early hooks,’ and how did you decide their order?"
-      ],
-      "related_to": ["kaze"]
-    },
-    {
-      "topic": "Pipeline/tooling issue: collision shifting on export",
-      "context": "Kaze observes a recurring bug where collision moves when exporting from the modeling pipeline (“as soon as I hit export, it moves the collision”), despite having “fixed it before.”",
-      "questions": [
-        "What tool/export step caused collision transforms to drift, and what was the root cause (scale/apply transforms, axis conversion, script bug)?",
-        "How many times did this regress, and what safeguard/check was added to prevent silent collision movement in future exports?",
-        "Did collision drift ever ship into a build and cause gameplay issues, or was it always caught during testing?"
+        "How are you planning to unify ‘course stars’ and ‘overworld stars’ so the save system stays readable and doesn’t become a patchwork of special cases?",
+        "What’s the long-term plan for star IDs as content grows—do you expect to outgrow the 32-bit slot, and how would you migrate saves safely?",
+        "You ran into ‘old code’ and duplicate functions—what parts of the codebase are you most worried about ossifying as technical debt?"
       ],
       "related_to": ["kaze"]
     }

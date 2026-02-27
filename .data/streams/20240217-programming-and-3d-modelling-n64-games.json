@@ -1,109 +1,108 @@
 {
   "stream_context": {
-    "summary": "Kaze continues building and reworking Course 12, focusing on a mine area that will become a Goomba bandit hideout with campfires, cork-gun enemies, red coin placement, and planned minecart rides. He also discusses emulator accuracy (Project64 Legacy), engine/performance considerations (mesh ordering and render-state batching), and some broader design philosophy (hardcore audience, dislike of bosses, lives as a mechanic).",
+    "summary": "Kaze iterates on Course 12’s mine/train-station structure, pitches a Wild-West “Boshi duel” setpiece, finishes red-coin placement in the mine area, and prototypes environmental lighting (campfires) while discussing emulator stability (Project64 1.6 crashes vs an in-development “Project64 Legacy”) and several engine/design philosophies (bootless red-coin stars, no lives, boss-fight pacing).",
     "level": ["Course 12"],
     "significance": "notable",
-    "significance_reason": "Contains several interview-useful technical and design revelations: Course 12 was significantly restructured due to quality concerns; red coins are implemented with cross-area parameters and produce bootless stars; Kaze explains a practical N64 performance trick (alphabetical mesh export order to control Z-sorting) and discusses emulator accuracy as a constraint for effects."
+    "significance_reason": "Contains concrete Course 12 redesign decisions (area removal + new train station placement), a new scripted setpiece idea (Boshi quickdraw duel), details on red-coin implementation across areas (B-params + bootless star), and a near-term roadmap beat (minecart programming next stream), plus meaningful technical/emulator context."
   },
   "findings": [
     {
       "topic": "design",
       "importance": "high",
-      "summary": "Kaze significantly restructured Course 12 after deciding the course \"was not very good,\" including removing an area and relocating the train station to improve overall flow.",
+      "summary": "Kaze says he significantly restructured Course 12 because he decided the course “was not very good” and reworked it until he felt it was good, including removing an area and relocating the train station to a new spot.",
+      "quote": null
+    },
+    {
+      "topic": "design",
+      "importance": "high",
+      "summary": "He proposes replacing an encounter near the new train-station area with a “Boshi” Wild-West quickdraw shootout: a cutscene leads into a countdown, and the player must press B before Boshi to win a star, after which Boshi apologizes and vows to stop being a bandit.",
       "quote": null
     },
     {
       "topic": "design",
       "importance": "medium",
-      "summary": "He pitches a new set-piece encounter at the train station: a \"Boshi\" Wild West duel with a cutscene and a quick-draw mechanic (press B before Boshi) that awards a star and ends with Boshi renouncing banditry.",
+      "summary": "The mine sub-area’s identity is set as the Goomba gang’s hideout: Goombas with cork guns, a camp area, and “crazy mine cart stuff,” emphasizing free-flowing platforming and momentum routes.",
       "quote": null
     },
     {
       "topic": "design",
       "importance": "medium",
-      "summary": "The mine sub-area is being designed as a Goomba gang hideout: Goombas with cork guns, a camp area with multiple fire pits, and \"crazy\" minecart traversal intended to support free-flowing platforming and momentum jumps.",
+      "summary": "Kaze identifies a navigation problem in the mine area: some locations currently force backtracking the way you came, and he wants additional connections/paths to make movement feel more continuous.",
+      "quote": null
+    },
+    {
+      "topic": "milestone",
+      "importance": "medium",
+      "summary": "He settles on a “spicy” placement for the final red coin in the mine area (using the campfire setup as part of the platforming/placement), and confirms the red-coin star is bootless.",
       "quote": null
     },
     {
       "topic": "technical",
       "importance": "high",
-      "summary": "Red coins are implemented with custom parameters so they can persist across multiple areas; Kaze initially places them at the level start for setup, then distributes them. The resulting red coin star is \"bootless\" (does not kick Mario out).",
+      "summary": "Red coins in this hack require B-parameters so a single red-coin mission can span multiple areas; as a workflow hack he initially places red coins at spawn and later relocates them once parameters/areas are decided.",
       "quote": null
     },
     {
       "topic": "technical",
       "importance": "medium",
-      "summary": "Kaze believes a recurring crash/issue is likely a missing \"pipe sync\" on a VFX asset; he expects to fix remaining emulator/hardware quirks later rather than immediately.",
+      "summary": "He plans minecarts as a momentum-based traversal mechanic: ride down, jump off, and use inertia to reach higher/alternate platforms. Next step after this stream is implementing/programming minecart behavior.",
       "quote": null
     },
     {
       "topic": "technical",
       "importance": "medium",
-      "summary": "He has been fixing many compiler warnings but can’t eliminate a specific warning involving the frame pointer register being bound to multiple values; he states it’s necessary because the register differs across threads.",
+      "summary": "Kaze notes Project64 1.6 still crashes for him and suspects a rendering pipeline issue (e.g., a missing pipe sync on a VFX asset). He intends to fix such crashes later rather than immediately switching emulators due to repeated unhelpful emulator recommendations.",
       "quote": null
     },
     {
       "topic": "technical",
-      "importance": "high",
-      "summary": "Kaze describes an N64 performance workflow: he names meshes to control alphabetical export order so certain geometry renders first, improving Z-sorting efficiency and overall performance (a human-facing naming hack to influence the renderer).",
-      "quote": "I have it named that way because the export order of the meshes is by alphabet… by rendering geometry that is likely to be below first I can make the performance better."
+      "importance": "medium",
+      "summary": "He describes using an in-development emulator build he calls “Project64 Legacy”: it keeps the 1.6 UI but adds newer emulation features—improved accuracy, better performance, reduced audio crackle, and fewer crashes.",
+      "quote": null
     },
     {
       "topic": "technical",
       "importance": "medium",
-      "summary": "Emulator choice is treated as a production constraint: he’s using an in-development \"Project64 Legacy\" build (Project64 1.6 UI with improved emulation features) because it reduces audio crackling, improves accuracy/performance, and avoids crashes he sees in standard 1.6.",
+      "summary": "For performance and determinism in rendering order, he sometimes names meshes to control alphabetical export order so certain geometry renders first (a manual Z-sort strategy for better performance/visual stability).",
       "quote": null
     },
     {
-      "topic": "design",
-      "importance": "medium",
-      "summary": "Course 12’s mine area draws inspiration from Wario’s Gold Mine and also evokes the cave vibe from Tiny-Huge Island; Kaze aims for \"free-flowing platforming\" rather than linear routes, and is actively adjusting jumps for accessibility.",
+      "topic": "technical",
+      "importance": "low",
+      "summary": "He’s been cleaning up compiler warnings and is frustrated by at least one warning he believes cannot be disabled because an FP register is bound differently per thread, implying constraints from his multithreaded or multi-context setup.",
       "quote": null
     },
     {
       "topic": "philosophy",
       "importance": "medium",
-      "summary": "Kaze frames Return to Yoshi’s Island as intentionally serving a more hardcore, long-time Nintendo movement-tech audience versus Nintendo’s mass-appeal audience; he also argues that Mario 64-style bosses work mainly as set pieces and that forced waiting phases are bad design.",
-      "quote": "For a weird nerd that’s been playing Nintendo games in his basement for 25 years, my game is definitely going to be way better."
+      "summary": "Kaze argues “lives are a stupid mechanic” in a Mario 64-style game and prefers modernized fail-states; he points to approaches like returning to a safe location instead of traditional lives.",
+      "quote": "Lives are a stupid mechanic. Lives don’t make sense in a game like Mario 64."
+    },
+    {
+      "topic": "philosophy",
+      "importance": "medium",
+      "summary": "He outlines boss philosophy for the project: prioritize freeform bosses where players can deal damage without long forced waiting; if invulnerability phases exist, skilled play should accelerate them to avoid idle downtime.",
+      "quote": null
+    },
+    {
+      "topic": "philosophy",
+      "importance": "low",
+      "summary": "He frames his hack as serving a more hardcore/longtime movement-mastery audience compared to Nintendo’s broad mass-appeal design goals for modern mainline entries.",
+      "quote": null
     }
   ],
   "contributor_findings": {
-    "biobak": [
-      {
-        "topic": "team",
-        "importance": "medium",
-        "summary": "Kaze anticipates a major upcoming \"Biobak rework\" that will make the course significantly better; he also notes Biobak may remove/replace some existing environmental details during rework.",
-        "quote": "The Biobak rework is going to make the course instantly much better."
-      }
-    ],
+    "biobak": [],
     "badub": [],
-    "zeina": [
-      {
-        "topic": "personal",
-        "importance": "low",
-        "summary": "Zeina is referenced directly in a brief off-topic exchange about bowling/Wii Sports, suggesting casual on-stream couple banter continues even during dev work.",
-        "quote": null
-      }
-    ],
+    "zeina": [],
     "others": [
       {
-        "name": "Lilaa",
+        "name": "KakiDev",
         "findings": [
           {
-            "topic": "community",
+            "topic": "technical",
             "importance": "low",
-            "summary": "Lilaa repeatedly prompts emulator/tool discussions in chat; Kaze expresses frustration at repetitive emulator recommendations and clarifies that libdragon is fine but separate from emulators.",
-            "quote": null
-          }
-        ]
-      },
-      {
-        "name": "lolxt",
-        "findings": [
-          {
-            "topic": "community",
-            "importance": "low",
-            "summary": "A recurring donation triggers \"Crazy Bus\" audio; Kaze has developed a routine for quickly skipping it, indicating an ongoing stream meme rather than a dev item.",
+            "summary": "Suggests a performance/data-structure idea (arrays formed when the level boots rather than linked-list style organization); Kaze notes it as a potentially sensible change to consider.",
             "quote": null
           }
         ]
@@ -113,97 +112,72 @@
   "memorable_quotes": [
     {
       "speaker": "Kaze",
-      "quote": "For a weird nerd that’s been playing Nintendo games in his basement for 25 years, my game is definitely going to be way better.",
-      "context": "Kaze contrasts Nintendo’s mass-appeal design goals with the specific hardcore audience he’s targeting for Return to Yoshi’s Island."
+      "quote": "But for a weird nerd that’s been playing Nintendo games in his basement for 25 years, my game is definitely going to be way better.",
+      "context": "Kaze contrasts his target audience (hardcore longtime players) with Nintendo’s mass-appeal design constraints when asked whether a future 3D Mario would be ‘better’ than his hack."
     },
     {
       "speaker": "Kaze",
       "quote": "Lives are a stupid mechanic. Lives don’t make sense in a game like Mario 64.",
-      "context": "While demonstrating bootless red coin stars, he critiques classic Mario conventions and implies selective modernization while keeping the core feel."
-    },
-    {
-      "speaker": "Kaze",
-      "quote": "I have it named that way because the export order of the meshes is by alphabet… by rendering geometry that is likely to be below first I can make the performance better.",
-      "context": "A concrete, documentary-friendly example of how building a new game on N64 hardware forces unconventional workflows and constraints."
+      "context": "He explains a modernization philosophy (bootless red-coin star, fewer legacy punishments) tied to how he wants the hack to feel to play."
     }
   ],
   "key_stories": [
     {
-      "title": "Course 12 restructured after quality concerns",
-      "summary": "Kaze explains that he made \"big restructures\" to Course 12 after realizing the course wasn’t good, and believes the revised layout is now good. The changes include removing an entire area and repositioning the train station to improve the course’s structure and pacing.",
-      "challenge": "Recognizing mid-production that a nearly-finished course layout wasn’t meeting his quality bar.",
-      "process": "He removed an area, relocated major landmarks (train station), and began rethinking encounters (Boshi duel) and traversal (minecarts, connective routes) to make the space feel better to play.",
-      "outcome": "A clearer direction for Course 12: train-station duel set piece plus a mine bandit hideout built around momentum traversal and red coin objectives.",
-      "key_quote": "I realized the course is not very good. And I think now it is good.",
+      "title": "Course 12 redesign and the Boshi quickdraw setpiece",
+      "summary": "Kaze openly reassesses Course 12’s quality and restructures it, treating level layout as something that can be cut and rebuilt until it serves the intended pacing. Out of that restructure comes a new signature idea: a cinematic quickdraw duel with Boshi at the train station, designed as a simple, readable skill test with story flavor.",
+      "challenge": "Course 12 wasn’t meeting his quality bar; navigation and encounter beats didn’t feel strong enough.",
+      "process": "He removes an area, relocates the train station, and plans a replacement encounter beat (Boshi) with a countdown + reaction-timing mechanic and a short cutscene framing.",
+      "outcome": "A clearer course structure and a memorable planned setpiece that can anchor the ‘Wild West bandit’ theme for this section of the game.",
+      "key_quote": null,
       "related_to": ["kaze"]
     },
     {
-      "title": "Bootless red coin stars and removing classic friction",
-      "summary": "While placing red coins, Kaze demonstrates that red coin stars don’t boot Mario out, and says lives are a bad fit for Mario 64. This reflects a deliberate choice to keep Mario 64’s movement/gamefeel while removing older pacing friction.",
-      "challenge": "Balancing respect for Mario 64’s structure with modern expectations for pacing and retry loops.",
-      "process": "He implements red coins with cross-area parameters and configures the resulting star behavior to be bootless, while explicitly questioning the value of the lives system in this genre.",
-      "outcome": "A more seamless objective loop for multi-area levels: collect across areas and continue exploring without forced ejection.",
-      "key_quote": "Lives don’t make sense in a game like Mario 64.",
+      "title": "Stabilizing development around emulator crashes and tooling friction",
+      "summary": "Kaze’s development is periodically disrupted by emulator crashes and community pressure to switch tools. Instead of following repeated emulator recommendations, he sticks with what works and adopts an in-development Project64-based build that improves accuracy and stability for his needs.",
+      "challenge": "Project64 1.6 crashes; chat repeatedly pushes alternative emulators, adding frustration and noise.",
+      "process": "Kaze diagnoses likely graphics pipeline causes (e.g., missing pipe sync on a VFX asset) and tests an in-development “Project64 Legacy” build that retains familiar UI while improving emulation behavior.",
+      "outcome": "He continues development with a more stable workflow while deferring root-cause crash fixes to later cleanup passes.",
+      "key_quote": null,
       "related_to": ["kaze"]
     },
     {
-      "title": "Emulator accuracy as a development constraint",
-      "summary": "Kaze details why he’s using an in-development Project64 Legacy build: fewer crashes than 1.6, better accuracy/performance, and reduced audio crackling. He also notes that certain visual effects are hard because they must work reliably on emulators, not just hardware.",
-      "challenge": "Developing and testing advanced engine features/effects when common emulators behave inconsistently or crash.",
-      "process": "He adopts a newer, not-fully-public emulator build and treats certain fixes (e.g., suspected missing pipe sync on VFX) as end-of-project cleanup while prioritizing forward progress.",
-      "outcome": "A pragmatic test setup and an implicit requirement: features/effects must be robust across the emulator ecosystem his audience will use.",
-      "key_quote": "Your number one issue is making effects that actually work well on the emulator.",
+      "title": "Finishing the mine area’s red-coin route and locking the ‘Goomba campfire’ mood",
+      "summary": "The mine area needed one more red coin and stronger visual identity. Kaze experiments with campfire placement/lighting and uses it to create a more interesting red-coin pickup while reinforcing the idea that this space is a bandit hideout rather than a working mine.",
+      "challenge": "He was ‘out of creative ideas’ for the final red coin and felt certain routes/jumps might be too awkward or too hard to read.",
+      "process": "He adds multiple fires where Goombas will gather, tweaks flame color/parameters, checks jump difficulty from a novice perspective, and chooses a more daring (“spicy”) red coin placement around the fire setup.",
+      "outcome": "The red-coin objective is complete for the area, and the scene’s lighting/theme direction is clearer; next planned step is implementing minecart traversal to complete the intended flow.",
+      "key_quote": "This red coin is spicy, I like it.",
       "related_to": ["kaze"]
     }
   ],
   "open_questions": [
     {
-      "topic": "Course 12 overhaul decision and criteria",
-      "context": "Kaze says Course 12 wasn’t good and he restructured it heavily, but he doesn’t fully articulate what specifically failed or how he evaluated the improved version.",
+      "topic": "Implementing the Boshi quickdraw duel (timing, cutscene, fairness)",
+      "context": "Kaze pitches a Wild-West quickdraw where the player must press B before Boshi after a countdown; it’s framed as a cutscene-to-gameplay transition that awards a star and includes character reaction/animations.",
       "questions": [
-        "What specific playtest feedback or personal criteria made you conclude Course 12 \"was not very good\"? (navigation, pacing, theme, difficulty, readability?)",
-        "What were the biggest structural changes (areas removed/combined, star objectives changed) and how did you decide what to cut?",
-        "Did Biobak’s feedback influence the restructuring, or was it primarily Kaze’s solo judgment?"
-      ],
-      "related_to": ["kaze", "biobak"]
-    },
-    {
-      "topic": "Boshi Wild West duel implementation",
-      "context": "Kaze outlines a cutscene-based quick-draw duel (countdown, press B first) with unique animations as a joke, but it implies real cutscene and timing mechanics are planned.",
-      "questions": [
-        "Is the Boshi duel a real planned mechanic or a concept pitch—what scope is committed?",
-        "How will you implement the countdown/quick-draw fairly on N64 (input latency, reaction window, difficulty scaling)?",
-        "Will the duel be repeatable, fail-able, or tied to a specific star mission? What happens if the player loses?"
+        "What made you choose a reaction-timing quickdraw as the ‘train station’ moment—was it inspired by a specific game or film beat?",
+        "How do you plan to make the duel feel fair on N64 hardware (input latency, countdown readability, animation tells), and what will happen if the player loses?",
+        "Will Boshi be a reusable character/mechanic elsewhere in the hack, or is this intended as a one-off signature setpiece for Course 12?"
       ],
       "related_to": ["kaze"]
     },
     {
-      "topic": "Red coin system across areas (B-parameters)",
-      "context": "Kaze states red coins require parameters so they can be collected across areas; this is a concrete engine-level deviation from vanilla SM64 behavior.",
+      "topic": "Red coins spanning multiple areas via B-parameters (system design + production workflow)",
+      "context": "Kaze explains his red coins require B-parameters so they can exist across areas, and he temporarily places them at spawn before final placement; the red-coin star is bootless.",
       "questions": [
-        "What exactly are the red coin \"B-parameters\"—how do they map coins to a shared star across multiple areas?",
-        "What were the technical constraints in SM64’s original red coin implementation that forced a redesign?",
-        "Does this system support other cross-area collectibles/objectives (switches, secrets), or is it red-coin-specific?"
+        "Can you walk through how the ‘B-parameter’ system works in practice—what exactly is stored per coin, and how does the game validate a cross-area set?",
+        "What production problems did this system solve (or create) compared to vanilla Mario 64’s per-area design?",
+        "At what point in your level pipeline do you ‘lock’ red-coin locations, given that layout changes can cascade into parameter/area logic changes?"
       ],
       "related_to": ["kaze"]
     },
     {
-      "topic": "Bootless stars design philosophy and exceptions",
-      "context": "Kaze confirms red coin stars are bootless and argues lives don’t make sense for SM64; this implies a broader stance on modernizing friction while keeping the core.",
+      "topic": "Minecarts as a momentum traversal mechanic (engineering + playtesting)",
+      "context": "Kaze’s intended flow depends on riding minecarts, jumping off, and using inertia to reach alternate platforms; he says programming minecarts is the next stream’s focus.",
       "questions": [
-        "Which stars are bootless vs. booting, and what gameplay rules determine that choice?",
-        "What are the \"gameplay reasons\" some stars must still boot Mario out—memory resets, mission state, pacing?",
-        "Are lives removed entirely, replaced, or just de-emphasized? How does that change difficulty tuning?"
-      ],
-      "related_to": ["kaze"]
-    },
-    {
-      "topic": "Minecart feature scope and engine implementation",
-      "context": "Kaze ends the stream planning to program minecarts: rideable carts, momentum-based jumps, and likely track logic.",
-      "questions": [
-        "Are minecarts spline/rail-based, physics-based, or scripted actor movement?",
-        "How will mounting/dismounting work with Mario 64 movement (snap points, preserving velocity, camera behavior)?",
-        "What performance constraints (collision complexity, draw distance, animated parts) are shaping minecart design?"
+        "What’s the core technical approach for minecarts—are they moving platforms, a vehicle state for Mario, or something else entirely in the engine?",
+        "How will you teach players the ‘jump off and use momentum’ trick without explicit tutorials, especially for less advanced players?",
+        "What failure cases are you anticipating (camera, collision, desync on emulators/hardware), and how will you test minecarts across the different target platforms?"
       ],
       "related_to": ["kaze"]
     }

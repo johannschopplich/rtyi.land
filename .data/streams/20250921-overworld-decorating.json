@@ -1,236 +1,250 @@
 {
   "stream_context": {
-    "summary": "Kaze prototypes a rare “giant coin” secret collectible (imported from Mario Odyssey with a CPU-driven material look) and integrates it into RTYI’s progression/speedrun economy. He also implements and debugs the Pandora’s Box quest actor (dialogue, cutscene timing, and a ‘storm of ghosts’ visual) while fighting tooling issues (Fast64/Nova64 export path problems) and gameplay bugs (Dorrie transport logic, emulator-specific RNG issues). The stream ends with a major progress update: the first demo is complete and the first chunk of the overworld is functionally finished, but testing is constrained by leak fears.",
+    "summary": "Kaze prototypes a rare Mario Odyssey-style giant coin collectible meant for hidden Easter eggs and speedrun routing, then builds out the Pandora’s Box quest sequence (destroy box → dialogue/cutscene → ghost-storm VFX → save flags → enemy spawns). He also describes demo/testing logistics due to leak fears, hits tooling/export issues with Fast64/Nova64, and debugs an overworld transport NPC (Dory) with emulator-specific randomness problems.",
     "level": ["Overworld"],
     "significance": "milestone",
-    "significance_reason": "Kaze states the first demo is finished and he’s finished the first part/first third tier of the overworld’s required programming, shifting next toward building the next overworld segment and organizing secure playtesting."
+    "significance_reason": "Kaze claims the first demo is fully finished and needs a tester, states multiple overworld sections are now complete, and locks in several project-shaping decisions (secret persistent mega-coin system to prevent coin-farming in runs; Pandora’s Box as a stateful quest trigger with cutscene/VFX)."
   },
   "findings": [
     {
       "topic": "design",
       "importance": "high",
-      "summary": "Kaze adds a new ultra-rare ‘giant coin’ collectible intended only for super-hidden Easter egg locations; most players should finish without ever seeing one, and that is intentional.",
+      "summary": "Kaze introduces an ultra-rare, Mario Odyssey-inspired “giant coin” intended only for deeply hidden Easter egg areas; most players should miss them, and the game will not hint at their existence or count them toward 100% completion.",
+      "quote": "I imagine a lot of players will play the game without ever seeing one. And that's good. I want it that way."
+    },
+    {
+      "topic": "design",
+      "importance": "high",
+      "summary": "The giant coin is planned to be worth ~500 coins and is persistent: once collected, it sets a save flag so it cannot be collected again (stored in the save file).",
+      "quote": null
+    },
+    {
+      "topic": "community",
+      "importance": "high",
+      "summary": "A core motivation for the giant coins is speedrun design: Kaze wants to eliminate coin-farming routes and instead make replays/speedruns seek out hidden Easter-egg sections (“e-stack areas”) for large coin payouts.",
+      "quote": null
+    },
+    {
+      "topic": "design",
+      "importance": "medium",
+      "summary": "Kaze discovered during internal playthroughs that progress sometimes required grinding coins; the new mega-coin system is a direct response to that pacing issue in the early overworld.",
+      "quote": null
+    },
+    {
+      "topic": "technical",
+      "importance": "medium",
+      "summary": "Kaze says the Odyssey coin model/shading effect runs acceptably even on real N64 hardware; the look uses multiple maps (normal + roughness) and CPU-side shading tricks rather than a conventional GPU shader pipeline.",
       "quote": null
     },
     {
       "topic": "design",
       "importance": "high",
-      "summary": "The giant coin awards roughly 500 coins and permanently saves as collected (one-time pickup via a save flag), but it will not be hinted at, will not have a unique reward, and will not count toward 100% completion.",
-      "quote": null
-    },
-    {
-      "topic": "design",
-      "importance": "high",
-      "summary": "Primary rationale for giant coins is to improve replayability/speedrunning: Kaze wants speedruns/progression routes to ‘farm Easter eggs/secret areas’ rather than grind regular coins, after noticing coin-farming friction when he assembled and playtested the first third of the overworld.",
-      "quote": null
-    },
-    {
-      "topic": "technical",
-      "importance": "medium",
-      "summary": "The giant coin is a 1:1 import of the Mario Odyssey coin model; Kaze recreated its look via a CPU-driven material approach (he calls it ‘kind of a shader’), including normal and roughness maps, and confirmed it runs fine on real N64 without framerate collapse.",
+      "summary": "Pandora’s Box is framed as a stateful quest object in the overworld: first interaction triggers dialogue; subsequent interaction “kills” the box, sets a save flag, and causes “booblas” (ghost enemies) to begin spawning in Overworld 3 context.",
       "quote": null
     },
     {
       "topic": "design",
       "importance": "medium",
-      "summary": "Pandora’s Box is designed as a quest/trigger object: first interaction speaks to the player; second interaction ‘kills’ the box, sets a save flag, and causes enemy spawns (the ‘booblas’) to appear in Overworld 3 areas.",
-      "quote": null
-    },
-    {
-      "topic": "design",
-      "importance": "medium",
-      "summary": "Kaze decides Pandora’s Box opening should be presented as a cutscene with subsequent text; he drafts the tone as mocking/mischievous ghosts (‘you fool’) rather than an angry scolding, including adding a ghost-laugh cue to sell the sarcasm.",
-      "quote": "They’re like, you fool… it’s like, oh no, you ruined your life."
-    },
-    {
-      "topic": "technical",
-      "importance": "medium",
-      "summary": "For the Pandora’s Box ‘storm of ghosts’ effect, Kaze prototypes a rotating, scaling visual using scrolling textures on planes; issues encountered include z-fighting, visibility/brightness tuning (primitive color influence), late spawn timing, and needing a larger culling radius.",
+      "summary": "For the Pandora’s Box moment, Kaze decides it should be a cutscene followed by text, and that the tone should feel more like ghosts mocking the player (“you ruined your life”) than genuinely angry tragedy; he experiments with ghost laughter audio cues.",
       "quote": null
     },
     {
       "topic": "technical",
       "importance": "medium",
-      "summary": "Engine/pipeline pitfall revealed: when spawning an object, graphics state isn’t fully reset; if a behavior doesn’t assign its own shadow scale, it can inherit a ‘leaked’ shadow from a prior actor occupying the same slot/spot, producing incorrect shadows.",
-      "quote": null
-    },
-    {
-      "topic": "technical",
-      "importance": "medium",
-      "summary": "Tooling issue: Fast64/Nova64 exports a wrong file path (missing relative path handling), causing build/compile problems unless Kaze exports twice and/or manually fixes paths; Kaze suspects his decomp repo/build setup hasn’t been updated/configured correctly and notes the issue has existed since around August.",
-      "quote": null
-    },
-    {
-      "topic": "technical",
-      "importance": "low",
-      "summary": "Kaze notices what seems like a minor memory leak while playtesting Overworld 1; he’s confident it’s fixable but flags it as a real issue to revisit.",
+      "summary": "Kaze prototypes the ghost-storm VFX as rotating, scrolling-texture planes emitting outward; issues encountered include culling radius, time-stop behavior (objects not active), Z-fighting, late spawn timing, and brightness/primitive-color influence mismatches between preview and in-game render.",
       "quote": null
     },
     {
       "topic": "milestone",
       "importance": "high",
-      "summary": "Kaze states he has finished the entirety of the first RTYI demo and is now looking for a tester to play through it end-to-end before proceeding.",
+      "summary": "Kaze states the first RTYI demo is fully finished and he now needs a playtester to run through it end-to-end before it’s considered ready.",
+      "quote": null
+    },
+    {
+      "topic": "business",
+      "importance": "high",
+      "summary": "Because he fears leaks, Kaze refuses to send the ROM over the internet for certain builds (specifically Overworld 1 content) and says he needs an in-person tester in the Halifax region to evaluate it safely.",
+      "quote": "I need someone to actually come to my house to play it, because I don't want to send the ROM to anyone over the internet. There's too much content in there to risk a leak."
+    },
+    {
+      "topic": "technical",
+      "importance": "medium",
+      "summary": "Tooling/export pipeline issue: Kaze hits a Fast64/Nova64 export problem where generated paths lack relative-path handling and output to the wrong folder, breaking compilation unless he manually compensates (exporting twice / fixing paths post-export).",
+      "quote": null
+    },
+    {
+      "topic": "technical",
+      "importance": "medium",
+      "summary": "Engine pitfall: when spawning an object, the engine doesn’t reset graphics state; if the new behavior doesn’t explicitly set shadow scale, it can inherit “memory-leaked” shadow settings from a previously spawned actor, causing visual artifacts.",
+      "quote": null
+    },
+    {
+      "topic": "milestone",
+      "importance": "high",
+      "summary": "Progress update: Kaze says the first four parts of the overworld are “completely finished,” with 12 more parts remaining; he also says there’s “nothing more we have to program in the first third tier” besides remaining world work and actor priorities.",
+      "quote": null
+    },
+    {
+      "topic": "technical",
+      "importance": "medium",
+      "summary": "Overworld traversal debugging: a warp failed because its trigger was placed too high above ground; Dory (the transport) can get stuck, and Kaze traces issues to a combination of movement logic and emulator-specific randomness behavior (Project64 count register affecting his random function).",
       "quote": null
     },
     {
       "topic": "legal-nintendo",
       "importance": "high",
-      "summary": "Kaze refuses to send the ROM over the internet for testing because there is ‘too much content’ and he’s worried about leaks; for at least one key area (Overworld 1), he says testing would require an in-person visitor in the Halifax region.",
-      "quote": null
-    },
-    {
-      "topic": "milestone",
-      "importance": "high",
-      "summary": "Progress update: Kaze says the first part of the overworld/‘first third tier’ has no remaining required programming tasks, and later clarifies that the first four overworld parts are completely finished (with 12 more still needed overall).",
-      "quote": null
-    },
-    {
-      "topic": "design",
-      "importance": "low",
-      "summary": "Gameplay tweak: Kaze ‘nerfed the umbrellas’ so they no longer behave wildly when jumped on.",
-      "quote": null
-    },
-    {
-      "topic": "technical",
-      "importance": "medium",
-      "summary": "Overworld traversal bug: Dorrie (the transport) can get stuck; Kaze debugs and fixes turning behavior, discovering the logic breaks when the goal is behind Dorrie due to a speed multiplier/turning rule.",
-      "quote": null
+      "summary": "Kaze explicitly states he would prefer Nintendo to target RTYI, because that would “free” him to convert the project into an original commercial game rather than a Mario-branded hack.",
+      "quote": "As soon as they go after RTYI, I am free. I can turn this into my own game and sell it."
     }
   ],
   "contributor_findings": {
-    "biobak": [
-      {
-        "topic": "technical",
-        "importance": "low",
-        "summary": "Kaze notes the project should remain under a 64MB cartridge limit ‘even with Biobak saving anything,’ emphasizing that ROM space pressure is dominated by audio rather than graphics assets.",
-        "quote": null
-      }
-    ],
-    "badub": [
+    "biobak": [],
+    "badub": [],
+    "zeina": [
       {
         "topic": "team",
         "importance": "low",
-        "summary": "Badub briefly appears in chat (resub); no new music implementation details are discussed in this stream.",
+        "summary": "Kaze runs into workflow friction from a Blender file associated with Zeina that had “auto-merge by distance” enabled, preventing him from closing/adjusting Pandora’s Box until he figured out how to disable the setting.",
         "quote": null
       }
     ],
-    "zeina": [
+    "others": [
       {
-        "topic": "technical",
-        "importance": "medium",
-        "summary": "Kaze runs into a Blender workflow problem traced to Zeina’s file settings (‘auto-merge by distance’ unexpectedly enabled), which prevented him from closing/adjusting Pandora’s Box until he disabled it.",
-        "quote": null
+        "name": "Lilaa",
+        "findings": [
+          {
+            "topic": "community",
+            "importance": "low",
+            "summary": "Lilaa is present in chat and Kaze reacts to them multiple times, including discussing controversial off-topic chat history; no concrete RTYI development decision is directly attributed to Lilaa in this stream beyond general chatter presence.",
+            "quote": null
+          }
+        ]
       },
       {
-        "topic": "design",
-        "importance": "low",
-        "summary": "Zeina provides a ghost texture for the Pandora’s Box ‘ghost storm’ cutscene effect; Kaze attempts to modify it in GIMP to better match his intended mischievous look and readability in-game.",
-        "quote": null
+        "name": "Unclear (possibly Zeina; transcribed as “Eina”)",
+        "findings": [
+          {
+            "topic": "team",
+            "importance": "low",
+            "summary": "A participant sends Kaze a ghost texture to use for the Pandora’s Box ghost-storm VFX; Kaze says it’s well-made but not exactly what he envisioned, then attempts to modify it in GIMP.",
+            "quote": null
+          }
+        ]
       }
-    ],
-    "others": []
+    ]
   },
   "memorable_quotes": [
     {
       "speaker": "Kaze",
+      "quote": "I imagine a lot of players will play the game without ever seeing one. And that's good. I want it that way.",
+      "context": "His philosophy for ultra-hidden Easter egg rewards (giant Odyssey coin) that are intentionally untelegraphed and missable."
+    },
+    {
+      "speaker": "Kaze",
+      "quote": "I need someone to actually come to my house to play it, because I don't want to send the ROM to anyone over the internet. There's too much content in there to risk a leak.",
+      "context": "A rare, concrete look at his leak fears and the practical constraints they impose on testing and collaboration."
+    },
+    {
+      "speaker": "Kaze",
       "quote": "As soon as they go after RTYI, I am free. I can turn this into my own game and sell it.",
-      "context": "Said while discussing Nintendo/DMCA risk; reveals a contingency plan and frames legal pressure as a potential ‘escape hatch’ into an original commercial title."
-    },
-    {
-      "speaker": "Kaze",
-      "quote": "I really want to prevent speedruns from farming coins.",
-      "context": "Explains why the giant 500-coin Easter egg collectibles exist: to reshape replay routes away from repetitive coin grinding."
-    },
-    {
-      "speaker": "Kaze",
-      "quote": "Speedrunning is essentially like a replay experience, right? And I do care about replayability, so by thinking about replayers I believe I am also thinking a lot about speedrunners.",
-      "context": "A clear statement of how he values speedrunners as a design input without designing only for them."
+      "context": "Unusually direct statement connecting Nintendo enforcement risk to an exit strategy (rebranding into an original commercial project)."
     }
   ],
   "key_stories": [
     {
-      "title": "The giant Odyssey coin as a hidden economy for replayability",
-      "summary": "Kaze imports the Mario Odyssey coin and rebuilds its look for N64 performance, then reframes it as an ultra-rare, one-time collectible worth ~500 coins. He explicitly wants most players never to find it and for it to exist outside completion metrics.",
-      "challenge": "During assembly/playtests of the first third of the overworld, Kaze realized players (and especially speedrunners) could be forced into boring coin-farming to meet progression needs.",
-      "process": "He prototypes a ‘giant coin’ that persists via save flags, places it only in deep Easter egg zones, and positions it as an optional route optimization: hunt secrets instead of grinding currency.",
-      "outcome": "A new replay/speedrun-friendly progression tool is defined: rare, unhinted, non-100% collectibles that permanently boost the player’s coin total.",
+      "title": "Designing the giant Odyssey coin as a secret anti-grind system",
+      "summary": "Kaze creates an Odyssey-style giant coin and decides it will be a persistent, one-time collectible hidden in extremely secret areas. Beyond being a fun discovery, it’s meant to change the replay/speedrun economy away from repetitive coin-farming and toward exploring optional “easter egg” spaces.",
+      "challenge": "Early overworld playthroughs revealed occasional forced coin grinding, and Kaze wants speedruns to route through interesting hidden areas instead of farming safe coin spots.",
+      "process": "He imports the Odyssey coin model, rebuilds the look with CPU-side shading tricks (including normal/roughness), tests N64 performance, and defines game rules: worth ~500 coins, saved as collected, unhinted, not required for 100%.",
+      "outcome": "A clear design direction is established: rare mega-coins as missable Easter eggs that also solve coin-economy issues for replays/speedruns.",
       "key_quote": "I really want to prevent speedruns from farming coins.",
       "related_to": ["kaze"]
     },
     {
-      "title": "Pandora’s Box quest object becomes a cutscene with a ‘ghost storm’",
-      "summary": "Kaze implements Pandora’s Box as a two-stage interaction that culminates in the box ‘dying,’ setting a save flag, and unleashing ghosts/related spawns in the overworld. He iterates on a visual effect of rotating, scaling ghost textures and on the tone of the dialogue to feel mocking rather than angry.",
-      "challenge": "He needed a clear, readable signal that the player triggered a lasting world-state change, plus an appealing N64-feasible visual for ‘a storm of ghosts.’",
-      "process": "He prototypes the effect with scrolling textures, adjusts culling radius/shadows, tunes brightness via primitive color influence, and adds audio/text timing (ghost laugh + ‘you fool’ style line) to sell the intended tone.",
-      "outcome": "The effect and event sequence are working in principle, with parameter tuning ongoing (timing, size, readability), and the quest flow (talk → destroy → save flag) established.",
-      "key_quote": "Okay, this has to be a cutscene and then after the cutscene there is a text.",
-      "related_to": ["kaze", "zeina"]
+      "title": "Pandora’s Box becomes a stateful quest trigger with cutscene ghost-storm",
+      "summary": "Kaze formalizes Pandora’s Box as a multi-stage interaction: first encounter speaks to the player; the second triggers a “death” state, sets a save flag, and unleashes a wave of ghosts. He prototypes the ghost-storm VFX using rotating scrolling textures and iterates on visibility, timing, and tone.",
+      "challenge": "He needs a strong visual and systemic payoff for opening the box, plus robust state management (save flags) so the world changes permanently after the event.",
+      "process": "He builds behavior logic, adds dialogue planning, decides it should be a cutscene + text, prototypes ghost emission VFX, fixes issues (time-stop activation, culling radius, Z-fighting, brightness), and tweaks presentation (mocking laugh / tone).",
+      "outcome": "The Pandora’s Box sequence is playable with ghosts appearing and the star obtainable, though he notes at least one possible bypass route where the star can be gotten without ghosts (which he accepts).",
+      "key_quote": "Okay, it is very possible to get this without the ghosts. You know what, I'm fine with it.",
+      "related_to": ["kaze"]
     },
     {
-      "title": "Finishing the first demo—but playtesting is constrained by leak risk",
-      "summary": "Kaze announces the entire first RTYI demo is finished and he wants a tester to play it through. However, he refuses to distribute ROMs online due to the amount of unreleased content and instead considers in-person testing locally (Halifax region) for at least some material.",
-      "challenge": "He needs real external feedback and validation on the demo’s full playthrough, but distributing builds increases the chance of leaks.",
-      "process": "He searches for a tester and sketches a geographic/in-person solution instead of sending the ROM, implying a need for controlled access to builds.",
-      "outcome": "Demo completion becomes a new production bottleneck: secure testing logistics.",
-      "key_quote": "I need someone to actually come to my house to play it, because I don't want to send the ROM to anyone over the internet.",
+      "title": "Demo finished, but testing is blocked by leak risk",
+      "summary": "Kaze says the first demo is complete and needs an external playthrough, but he refuses to distribute certain ROM builds online due to fear of leaks. This forces him to consider in-person testing and geographic constraints (Halifax region).",
+      "challenge": "He needs real-user testing to validate the demo, while protecting unreleased content from being shared publicly.",
+      "process": "He requests a tester for the demo, then explains that Overworld 1 must be tested in person and he’s unsure how to arrange that securely.",
+      "outcome": "Testing becomes a logistical problem rather than a development one; the next step depends on finding a trusted local tester.",
+      "key_quote": "I don't want to send the ROM to anyone over the internet. There's too much content in there to risk a leak.",
+      "related_to": ["kaze"]
+    },
+    {
+      "title": "Fast64/Nova64 export path bug forces manual workarounds",
+      "summary": "Kaze encounters an export issue where the tool outputs files into a subfolder but the build expects them in a different path, seemingly due to missing relative-path support in his decomp setup. The problem interrupts iteration and adds repeated overhead to every export.",
+      "challenge": "Exports break compilation because generated include paths don’t match the decomp folder layout.",
+      "process": "He inspects folder structure live, identifies lack of relative path handling as the root cause, and adopts a workaround: export twice and/or fix paths manually after export.",
+      "outcome": "Work continues, but with persistent friction and uncertainty about whether the issue is tool-side, repo-version-side, or configuration-specific.",
+      "key_quote": null,
+      "related_to": ["kaze"]
+    },
+    {
+      "title": "Dory traversal bug traced to emulator randomness and movement logic edge case",
+      "summary": "A key overworld traversal NPC (Dory) gets stuck and behaves inconsistently, threatening navigation to the next overworld section. Kaze discovers part of the debugging signal is distorted by emulator behavior (Project64 mishandling the count register), then finds an actual logic issue when the goal point is behind Dory.",
+      "challenge": "Dory must reliably ferry the player; getting stuck breaks progression and undermines hub usability.",
+      "process": "He adds debug, tests on different emulators, realizes Project64 breaks his RNG assumptions, then corrects his earlier analysis and identifies a movement/turning edge case tied to speed multipliers when the target is behind the NPC.",
+      "outcome": "Dory begins behaving as intended again, and Kaze ends the stream planning to move on to the next overworld section in the next session.",
+      "key_quote": "I think this is a Project64 bug... It doesn't emulate the count register correctly.",
       "related_to": ["kaze"]
     }
   ],
   "open_questions": [
     {
-      "topic": "Secure playtesting pipeline for RTYI builds",
-      "context": "Kaze says the first demo is complete and he needs a tester, but he also says he won’t send ROMs online and may require in-person testing in Halifax due to leak risk.",
+      "topic": "Balancing secrecy vs. fairness for the giant coins",
+      "context": "Kaze wants mega-coins to be extremely hidden, unhinted, persistent, and not tied to completion—yet they materially affect coin economy and speedrun routing.",
       "questions": [
-        "What content specifically makes a remote build ‘too risky’ right now (unfinished worlds, secret tech, story beats, assets)?",
-        "Has RTYI experienced leaks before, or is this a preventative policy based on other projects’ experiences?",
-        "What would a secure remote testing approach look like for you (NDA, time-limited builds, watermarks, per-tester builds, partial-content slices)?",
-        "Which parts of the demo could safely be shared digitally, and which must remain in-person only?",
-        "Who ultimately tested the first demo, and what were the most important changes that came from that playtest?"
+        "What player experience are you aiming for with “no hint they exist”—mystery, community discovery, or rewarding obsessive exploration?",
+        "How do you prevent unhinted mega-rewards from feeling like arbitrary ‘gotcha’ advantages for players who saw spoilers or watched streams?",
+        "Did you consider alternate anti-grind solutions (economy rebalance, different gating), and what made the mega-coin idea feel most ‘RTYI’ to you?"
       ],
       "related_to": ["kaze"]
     },
     {
-      "topic": "Giant coin integration rules and progression math",
-      "context": "Giant coins award ~500 coins and save permanently, are unhinted, and are not part of 100% completion; Kaze’s goal is reducing coin grinding and improving speedrun routes.",
+      "topic": "Leak risk and in-person testing constraints",
+      "context": "Kaze says the first demo is finished but insists some builds can only be tested by someone physically visiting him in Halifax to avoid ROM leaks.",
       "questions": [
-        "How many giant coins do you expect to ship in the full game, and what’s your target ‘discovery rate’ (e.g., 10% of players find 1)?",
-        "How do you balance coin requirements so normal players never need to grind, but secret-hunters can still feel rewarded?",
-        "How are these ‘one-time’ collectibles tracked technically (save flags per coin vs a global bitset, per-overworld vs per-level)?",
-        "Will you communicate anywhere (manual, optional NPC, postgame stats) that ‘secret economy’ items exist, or is it purely for community discovery?",
-        "Are giant coins meant to influence any progression gates, or only serve as a convenience buffer?"
+        "What specific past experiences (in the ROM hacking scene or your own projects) made you treat leaks as such a serious threat?",
+        "How do you plan to scale QA as the game grows if distribution is constrained—trusted testers, watermarked builds, segmented content, or something else?",
+        "What would ‘success’ look like from this first external playtest—what are you most afraid will be broken or unclear to a fresh player?"
       ],
       "related_to": ["kaze"]
     },
     {
-      "topic": "Pandora’s Box narrative/quest scripting ownership",
-      "context": "Kaze says ‘I’m not a writer’ while drafting Pandora’s Box dialogue and tone, and he’s deciding how much intro dialogue the star/quest needs.",
+      "topic": "Pandora’s Box tone, writing, and cutscene structure",
+      "context": "Kaze repeatedly says he’s “not a writer,” but is building a dialogue-heavy set piece with mocking ghosts, a cutscene, and persistent world-state change.",
       "questions": [
-        "Who, if anyone, is responsible for writing/voice/tone across RTYI—does the team have a process for it?",
-        "What is the intended player takeaway from Pandora’s Box (warning about curiosity, comedic guilt, foreshadowing, lore)?",
-        "How many times will the box address the player, and will the dialogue evolve if the player revisits the area later?",
-        "How do you decide when an interaction needs a cutscene versus in-game text only, especially given pacing in hub worlds?"
+        "How do you decide when RTYI should be comedic/mockery versus mythic/serious, especially in set pieces like Pandora’s Box?",
+        "Do you have anyone reviewing or helping with writing/dialogue beats, or is it entirely your instinct during implementation?",
+        "What is the intended ‘lesson’ for the player in this moment—curiosity punished, world-building, tutorial for persistent changes, or something else?"
       ],
       "related_to": ["kaze"]
     },
     {
-      "topic": "Fast64/Nova64 export path issue and repo divergence",
-      "context": "Kaze reports an export bug where tools write files to a subfolder but the build expects them in the main folder; he suspects missing ‘relative path’ support/config in his decomp and says he’s had the issue since ~August.",
+      "topic": "Nintendo enforcement as an ‘escape hatch’ to commercialization",
+      "context": "Kaze says a Nintendo takedown would free him to rebrand RTYI into an original sellable game.",
       "questions": [
-        "What specific version(s) of Fast64/Nova64 and the SM64 decomp are you on when this breaks?",
-        "Did you choose not to update your decomp for stability reasons, or did the break happen after an update?",
-        "What is the exact workaround you use now (export twice, manual move, script), and how much time does it cost per iteration?",
-        "Is this issue affecting other team members’ workflows (artists exporting assets), and did it force any pipeline conventions?"
+        "Have you already identified what would need to change to make RTYI a legally distinct commercial title (characters, story framing, mechanics, art direction)?",
+        "Emotionally, do you view a takedown as failure, relief, or a pivot you’d welcome—and why?",
+        "What parts of RTYI are you most determined to preserve even in a hypothetical rebrand into an original IP?"
       ],
-      "related_to": ["kaze", "zeina"]
+      "related_to": ["kaze"]
     },
     {
-      "topic": "Emulator accuracy policy for development and for players",
-      "context": "Kaze suspects a Dorrie bug was due to Project64 not emulating the count register correctly, breaking his random function’s low bits; he switches to a ‘good emulator’ for verification.",
+      "topic": "Toolchain fragility and its impact on production pace",
+      "context": "Fast64/Nova64 export path issues and decomp configuration mismatches force repeated manual fixes; Kaze also describes engine pitfalls like non-reset graphics state on spawn.",
       "questions": [
-        "Which emulators and hardware do you officially test against, and what is your ‘minimum bar’ for claiming compatibility?",
-        "Have you implemented any mitigations for emulator timing/RNG differences (e.g., avoid count-register dependence, add deterministic RNG options)?",
-        "Will RTYI communicate recommended emulators (or discourage Project64) to players/speedrunners?",
-        "How often do emulator-specific bugs masquerade as game bugs in your workflow, and how do you triage them quickly?"
+        "How much of RTYI’s timeline has been dictated by toolchain instability versus pure feature work?",
+        "Do you keep a ‘known good’ environment/version lock for tools and decomp, or do you update continuously and absorb breakages as they come?",
+        "If you could redesign one part of your pipeline today (Blender→export→build→test), what would you change first to protect your momentum?"
       ],
       "related_to": ["kaze"]
     }

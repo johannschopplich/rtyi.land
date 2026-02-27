@@ -1,87 +1,81 @@
 {
   "stream_context": {
-    "summary": "Kaze designs and implements a hidden late-game secret path that loops the player back to Course 1’s windmill interior, evolving it from a small blue-coin bonus into a full side-level/star. He prototypes the encounter (Goombas powering the mill), debugs object loading/exports and AI/pathing issues, and reinforces a design goal that optional discoveries can exist for atmosphere and world-building—while still weighing the value of rewarding players with an extra star.",
+    "summary": "Kaze designs and builds a hidden windmill interior accessed from a secret overworld tunnel that returns the player to Course 1’s backside late in the game. What begins as a “pure secret area” concept evolves into a full side-level/star: defeat staged “Mill Goombas” inside the windmill to earn a star and permanently stop the windmill, emphasizing world-state consequences. The stream also includes debugging crashes/export mistakes, enemy pathing hacks, and memory/asset-budget considerations.",
     "level": ["Overworld", "Course 1"],
     "significance": "milestone",
-    "significance_reason": "By the end of the stream, Kaze considers the windmill interior a full side-level and states they finished an entire star/side level (including ideation + implementation) in one day, locking in a late-game return-to-early-level secret concept."
+    "significance_reason": "A complete new side-level/star is ideated, implemented, and integrated into the world flow in a single session, including bespoke encounter scripting (multi-wave Goomba fight) and a persistent world-state change (windmill deactivation)."
   },
   "findings": [
     {
       "topic": "design",
       "importance": "high",
-      "summary": "A new secret overworld path is intended to unlock much later in the game (after significant progress) and route the player to the back side of Course 1, creating a ‘return to an earlier place with new access’ moment.",
+      "summary": "A secret overworld tunnel is planned to lead to the backside of Course 1 late in the game (Kaze frames it as something you find after ~70% completion), giving players access to a previously-unreachable windmill interior.",
       "quote": null
     },
     {
       "topic": "design",
       "importance": "high",
-      "summary": "The Course 1 windmill interior starts as a purely optional secret area (blue coins only), then Kaze becomes convinced it should instead award a secret star so it doesn’t have to be part of Course 1’s main star list and functions as a ‘free extra star’ hidden in the world.",
+      "summary": "The windmill interior starts as a no-star secret area (blue coins only) meant to be “very difficult to find,” but Kaze shifts toward making it a dedicated side-level star because it’s an efficient way to add content without expanding Course 1’s main star list.",
       "quote": null
     },
     {
       "topic": "philosophy",
       "importance": "high",
-      "summary": "Kaze articulates a core stance on discovery: optional spaces can exist purely because they’re nice, not because they’re required for progression—yet he still weighs the player’s expectation of a meaningful reward when a location feels like something players “should be able to enter.”",
+      "summary": "Kaze articulates a guiding principle that secret spaces can exist purely for delight, not necessarily for rewards, but also weighs reward design pragmatically when it strengthens the game’s overall star economy.",
       "quote": "Secret areas don’t need stars. They can just exist. They can just be nice."
     },
     {
       "topic": "design",
       "importance": "high",
-      "summary": "He wants player actions to affect the world state (e.g., the windmill stopping after the encounter), and actively brainstorms in-fiction reasons for the mill being powered or obstructed, rejecting ideas that clash with Course 1’s tone (e.g., haunted Boo).",
+      "summary": "He avoids directly copying Ocarina of Time’s windmill interior because he doesn’t want the space to read as an obvious reference; he frames OoT’s windmill mechanisms as unrealistic and “made up,” which affects how he designs RTYI’s windmill read/interaction.",
+      "quote": null
+    },
+    {
+      "topic": "design",
+      "importance": "high",
+      "summary": "The final concept becomes a staged combat encounter: two “Mill Goombas” are fought first, then additional Goombas pop out and attack; defeating all spawns the star, and the windmill stops afterward.",
+      "quote": null
+    },
+    {
+      "topic": "design",
+      "importance": "medium",
+      "summary": "Kaze repeatedly returns to the idea that player actions should affect the world (e.g., stopping the windmill after the star), exploring multiple lore/implementation angles before settling on a simple mechanical cause-and-effect.",
       "quote": "We want your actions to affect the world."
     },
     {
-      "topic": "design",
-      "importance": "medium",
-      "summary": "The windmill encounter concept solidifies into: defeat two visible ‘mill Goombas,’ then additional Goombas jump out and attack; after all are defeated, a star spawns, and the windmill becomes deactivated afterward.",
-      "quote": null
-    },
-    {
-      "topic": "design",
-      "importance": "medium",
-      "summary": "Kaze explicitly manages tone/lore boundaries: he considers and then rejects “dark lore” twists (e.g., enslaved bunnies/slaveholder reversal), aiming to keep the bunny village/course identity coherent rather than edgy.",
-      "quote": null
-    },
-    {
       "topic": "technical",
       "importance": "high",
-      "summary": "He hits multiple stability/engine issues during iteration: a crash triggered while testing (earlier), later a ‘graphics thread’ crash after changing an act/name, reinforcing that rapid engine upgrades can cause unexpected breakage across content.",
-      "quote": "Stuff breaks all the time when you upgrade the engine so much. That’s completely normal and expected."
-    },
-    {
-      "topic": "technical",
-      "importance": "high",
-      "summary": "A missing Goomba and other odd behavior leads to a concrete diagnosis: the level wasn’t loading the general-purpose object set; once corrected, spawns behave as expected.",
+      "summary": "He scripts and debugs custom star logic tied to Goomba kill counts/waves (including wrong-star issues and preventing the star from “kicking you out”), while also chasing a missing-object problem caused by not loading general-purpose objects in the level.",
       "quote": null
     },
     {
       "topic": "technical",
       "importance": "medium",
-      "summary": "Goomba group AI/pathing misbehaves in the windmill interior (they run upstairs or fall out of the world). Instead of solving general navigation/geometry perfectly, Kaze decides to ‘cheat’ with level-specific fixes because the behavior only matters in this one contained side level.",
+      "summary": "Enemy navigation breaks in the tight interior (Goombas run upstairs, cling to walls, or fall out of the world). Kaze decides to “cheat” by constraining/relocating enemies rather than reworking geometry or fully fixing AI, since it’s a one-off encounter.",
       "quote": null
     },
     {
       "topic": "technical",
       "importance": "medium",
-      "summary": "Kaze discovers a testing failure was caused by not exporting/building the updated level, not by the gameplay logic—highlighting a common decomp workflow pitfall where content changes silently don’t make it into the ROM.",
+      "summary": "He hits multiple stability issues (game crash from an unknown trigger; graphics thread crash; confusion over missing star caused by forgetting to export the level), reinforcing that rapid iteration often fails due to pipeline steps rather than code logic.",
       "quote": null
     },
     {
       "topic": "technical",
       "importance": "medium",
-      "summary": "He evaluates asset/detail constraints: triangle count is not the key issue here; memory/RAM budget is the bigger concern for detailed rooms, though he believes he recently freed memory and can afford more detail cautiously.",
+      "summary": "When asked about triangle counts, Kaze says triangles aren’t the main concern here; RAM/memory size is. He believes he freed enough memory but remains wary of running out if the room gets too detailed.",
       "quote": null
     },
     {
-      "topic": "team",
+      "topic": "business",
       "importance": "medium",
-      "summary": "He references external tech collaboration/knowledge in the project ecosystem by praising the F3DEX3 microcode as “very, very good,” indicating the hack’s rendering/engine ambitions and reliance on advanced community tooling.",
-      "quote": null
+      "summary": "Kaze admits a prior naming/positioning decision was click-driven: he used a GTA-related name because it would get clicks, even though the game isn’t much like GTA.",
+      "quote": "I used a GTA name because I knew that would get clicks."
     },
     {
       "topic": "personal",
       "importance": "low",
-      "summary": "Kaze mentions a recurring production/admin issue: Patreon credits haven’t been updated for 2–3 months, which he flags as a mistake to fix—useful for understanding ongoing operational load beyond pure dev work.",
+      "summary": "Kaze mentions he forgot to update Patreon credits for 2–3 months, calling it a mistake he needs to fix.",
       "quote": null
     }
   ],
@@ -90,7 +84,7 @@
       {
         "topic": "design",
         "importance": "medium",
-        "summary": "Kaze references ‘Biobak’s idea’ as an option for the windmill interior interaction: a spinning mechanism the player physically pushes against (leveraging existing push mechanics) to make the concept work without overcomplicated lore.",
+        "summary": "Kaze references a suggestion attributed to Biobak: make the windmill interaction physical (Mario pushing against a spinning mechanism) as a straightforward way to communicate function without complex story/lore.",
         "quote": null
       }
     ],
@@ -99,7 +93,7 @@
       {
         "topic": "personal",
         "importance": "low",
-        "summary": "Zeina found a crypto mining rig via Facebook Marketplace (and/or on the street, as Kaze jokes), which is now taking up space; Kaze focuses on selling it, offering small insight into their household/work environment during development.",
+        "summary": "Zeina is mentioned in passing as the one who found a crypto mining rig (via Facebook Marketplace / “on the street”), which Kaze wants to sell to clear space at home.",
         "quote": null
       }
     ],
@@ -109,8 +103,8 @@
         "findings": [
           {
             "topic": "team",
-            "importance": "medium",
-            "summary": "Kaze identifies Pixel Palabra as an animator on the project and implies an ongoing collaboration need around music reference: Pixel Palabra asked Kaze for an OST reference, which Kaze recalls as ‘Neverhood.’",
+            "importance": "low",
+            "summary": "Kaze identifies Pixel Palabra as an animator on the project and notes they asked him for an OST reference (“Neverhood”), which he tries to pull up during the stream.",
             "quote": null
           }
         ]
@@ -121,86 +115,86 @@
     {
       "speaker": "Kaze",
       "quote": "Secret areas don’t need stars. They can just exist. They can just be nice.",
-      "context": "While debating whether the windmill interior should be rewardless atmosphere (blue coins only) versus a full secret star."
+      "context": "Kaze states a core design philosophy while debating whether the hidden windmill interior should reward a star or simply be an optional discovery."
     },
     {
       "speaker": "Kaze",
-      "quote": "We want your actions to affect the world.",
-      "context": "Explaining why the windmill should change state (e.g., stop) after the player completes the encounter."
+      "quote": "This is a perfect example of how this mission has zero difficulty. Obviously it’s easy as hell, but it’s cool.",
+      "context": "He frames the windmill side-level as a ‘reward for curiosity and progression’ rather than a skill check—important for pacing and late-game delight."
     },
     {
       "speaker": "Kaze",
-      "quote": "We finished an entire star today. An entire side level. In one day. Plus, we finished ideating it.",
-      "context": "End-of-stream wrap-up framing the session as a discrete production milestone."
+      "quote": "We finished an entire side level. In one day.",
+      "context": "Marks the session as a production milestone: ideation + implementation + integration."
     }
   ],
   "key_stories": [
     {
-      "title": "Turning a hidden windmill room into a late-game return secret star",
-      "summary": "Kaze starts with a secret windmill interior planned as a hard-to-find bonus room, initially imagining it as a simple blue-coin payoff. Mid-stream, he becomes convinced that the better structure is to make it a self-contained side level that awards a secret star, discovered later via an overworld tunnel that loops back to Course 1.",
-      "challenge": "How to make a secret space feel satisfying without bloating Course 1’s main objectives, while still honoring player curiosity and the desire for world reactivity.",
-      "process": "He prototypes the interior layout and interaction hook, debates reward structure (no star vs secret star), and builds an encounter where Goombas ‘power’ the mechanism. He also considers tone/lore implications and rejects ideas that would make the bunny village story too dark or off-theme.",
-      "outcome": "The windmill interior is treated as a side level with a star and a plan for persistent world feedback (windmill deactivation), described by Kaze as completed within the stream day.",
-      "key_quote": "The fact that you get to, after beating 9 different levels, you get to go back here and find the secret windmill… and now you actually get to enter it… and it’s like, yeah, there’s just one more star.",
-      "related_to": ["kaze", "biobak"]
+      "title": "The hidden windmill: from optional secret to full side-level star",
+      "summary": "Kaze begins with a hidden windmill interior intended to be a starless bonus space (blue coins only), accessible from a secret late-game tunnel that loops back to Course 1. As he considers overall star count and course scope, he pivots to turning it into a side-level that grants a star, giving players a tangible reward for a place he knows demo players already want to enter.",
+      "challenge": "How to make a deeply hidden space feel worthwhile without bloating Course 1’s core structure—and without it reading like a direct Ocarina of Time reference.",
+      "process": "He debates ‘no reward’ vs ‘secret star,’ discusses how players will discover it late in the game, and evaluates the production advantage of a ‘free’ star that doesn’t require reshaping Course 1’s main acts.",
+      "outcome": "The windmill interior is re-scoped into a star-granting side-level, positioned as a late-game payoff for exploration and world knowledge.",
+      "key_quote": "Secret areas don’t need stars. They can just exist. They can just be nice.",
+      "related_to": ["kaze"]
     },
     {
-      "title": "Debugging enemy spawns and behavior in a one-off encounter",
-      "summary": "While implementing the windmill Goomba encounter, Kaze runs into missing spawns and erratic enemy behavior (pathing upstairs, falling out of the world). He traces at least one issue to level configuration (general-purpose objects not loaded) and discovers another problem was simply that the level hadn’t been exported.",
-      "challenge": "Rapid iteration in the decomp workflow can create false negatives (logic seems broken when the ROM content didn’t update) and one-level navigation quirks that aren’t worth solving globally.",
-      "process": "He checks object set loading, tweaks actions/radii, observes failure modes, and ultimately decides to apply contained ‘cheats’ for this specific room rather than perfect systemic AI navigation.",
-      "outcome": "The encounter works in principle (kill initial Goombas, more appear, star spawns, no forced kick-out), but Kaze notes it still needs polish (e.g., enemies jumping out more convincingly; preventing fall-outs).",
-      "key_quote": "We can cheat a little bit, because they’re only in this one level, and this one level is easy to cheat.",
+      "title": "Scripting the Mill Goomba encounter (and choosing to ‘cheat’ enemy behavior)",
+      "summary": "Kaze implements a bespoke combat script inside the windmill: initial Goombas, then a wave of additional Goombas, culminating in a star spawn. The tight interior reveals AI/pathing edge cases—Goombas run upstairs, get stuck, or fall out of the world—so he opts for pragmatic constraints rather than deep AI fixes.",
+      "challenge": "Make a multi-wave fight readable and reliable inside cramped windmill geometry without spending days fixing generic navigation.",
+      "process": "He iterates on kill-count logic, star spawning, chase targeting, and wave triggers; then mitigates navigation failures by adjusting enemy placement/behavior (“hack this together”) since it’s a contained, one-off space.",
+      "outcome": "A functional encounter that feels ‘cool’ even if easy, with known rough edges and targeted workarounds to prevent softlocks/falls.",
+      "key_quote": "Fuck it. I guess we just hack this together.",
+      "related_to": ["kaze"]
+    },
+    {
+      "title": "Persistent world-state: stopping the windmill after the star",
+      "summary": "Kaze wants player actions to leave a mark on the world, exploring story hooks for why the windmill stops. He ultimately treats the windmill as a world object that deactivates after completing the side-level, prioritizing a simple, legible cause-and-effect over dark lore twists.",
+      "challenge": "Create a satisfying ‘the world changed because of you’ beat without introducing tonal whiplash or complicated narrative justification in the bunny village context.",
+      "process": "He brainstorms multiple premises (including darker subversions), rejects those that don’t fit Course 1’s tone, and returns to a straightforward mechanical interaction that results in the windmill stopping.",
+      "outcome": "Windmill deactivation becomes a clean persistent payoff for the side-level, reinforcing the game’s interconnected overworld/course design.",
+      "key_quote": "We want your actions to affect the world.",
       "related_to": ["kaze"]
     }
   ],
   "open_questions": [
     {
-      "topic": "Persistent world-state changes (windmill stops after completion)",
-      "context": "Kaze wants the windmill to deactivate after the player earns the secret star, as an example of actions affecting the world. He debates timing/implementation details and notes potential timing issues with certain approaches.",
+      "topic": "How the late-game secret tunnel is discovered and gated",
+      "context": "Kaze frames the overworld tunnel as something you find very late (~70% of the game), looping you back into Course 1’s backside and into the windmill.",
       "questions": [
-        "How are you persisting the windmill ‘stopped’ state across revisits—save flags, star flags, custom event bits, or per-level object state?",
-        "What timing issues were you trying to avoid with the approach you explicitly didn’t want to use?",
-        "Do you have a broader design rule for which world changes persist (cosmetic vs gameplay-relevant)?"
+        "What specific conditions will gate access to the tunnel—an ability unlock, a star threshold, a narrative event, or pure exploration skill?",
+        "How do you plan to hint at the tunnel’s existence without making it obvious (environmental tells, NPC dialogue, camera framing, sound cues)?",
+        "Did watching players try to enter the windmill in the demo directly influence where you’ll place clues or how you’ll hide the entrance?"
       ],
       "related_to": ["kaze"]
     },
     {
-      "topic": "Structuring ‘return later’ secrets across the overworld and courses",
-      "context": "The plan is: deep into the game, the player finds a hidden overworld tunnel that places them behind Course 1’s entrance and into a previously inaccessible windmill interior.",
+      "topic": "Persistence rules for the windmill deactivation",
+      "context": "Kaze wants the windmill to stop after the star, reflecting world-state changes, but mentions concerns about timing issues and implementation details.",
       "questions": [
-        "What triggers access to the secret tunnel (progress gates, items, completion count, narrative beats)?",
-        "How do you telegraph the existence of the windmill interior without making it obvious early on?",
-        "Was this ‘recontextualize an early course later’ idea planned from the beginning or did it emerge from watching demo players want to enter the windmill?"
+        "Will the windmill’s stopped state persist across re-entries, save/load, and different Course 1 stars/acts—or is it tied only to the side-level completion flag?",
+        "What’s the technical mechanism you’re using to sync the windmill state between the side-level and Course 1’s exterior scene?",
+        "What kinds of timing/race-condition issues were you worried about when you said you explicitly didn’t want to do it a certain way?"
       ],
       "related_to": ["kaze"]
     },
     {
-      "topic": "One-off encounter engineering vs systemic AI fixes",
-      "context": "Goombas misbehave in the windmill interior (running upstairs, falling out of the world). Kaze prefers to ‘cheat’ because it’s a single contained side level.",
+      "topic": "Design stance on ‘cheating’ AI vs fixing geometry",
+      "context": "When Goombas misbehave (running upstairs, falling out of the world), Kaze chooses to ‘cheat’ by relocating/constraining enemies because it’s a one-off interior encounter.",
       "questions": [
-        "What specific cheat did you settle on (teleport bounds, invisible walls, kill planes, custom path nodes, door/elevator gating)?",
-        "Where do you draw the line between fixing core behaviors globally and patching an individual room?",
-        "Did any of these issues come from custom collision/level geometry or from Goomba behavior code changes elsewhere in the project?"
+        "What’s your rule of thumb for when to invest in systemic fixes (AI/geometry) versus encounter-specific hacks?",
+        "Have similar navigation issues shown up elsewhere in RTYI, and do you worry that local hacks will create inconsistent enemy behavior across the game?",
+        "If you later add more tight interiors, would you revisit this with a more general solution?"
       ],
       "related_to": ["kaze"]
     },
     {
-      "topic": "Content pipeline reliability (export/build pitfalls)",
-      "context": "A major ‘why isn’t it working?’ moment was resolved by realizing the level hadn’t exported, not that the logic was wrong.",
+      "topic": "Memory-budget tradeoffs in dense interior spaces",
+      "context": "Kaze says triangle count isn’t the main constraint; RAM/memory is, especially with added detail and texture-heavy areas (he references blinking lights elsewhere).",
       "questions": [
-        "What is your current build/export workflow for levels, and what safeguards (scripts/checks) do you use to prevent ‘forgot to export’ mistakes?",
-        "How often do you hit ‘works in editor, not in ROM’ issues, and what debugging checklist do you follow now?"
-      ],
-      "related_to": ["kaze"]
-    },
-    {
-      "topic": "Side-level roadmap: Chomp Rock, ‘conspiracy theory Yoshi,’ and Shy Guy Swamp entrance",
-      "context": "Kaze closes by naming upcoming tasks: a chomp rock area with a conspiracy-theory Yoshi behind it, and/or building the entrance to a Shy Guy Swamp side level.",
-      "questions": [
-        "What is the narrative joke or mechanic behind ‘conspiracy theory Yoshi’—is it dialogue, collectibles, or a quest hook?",
-        "What is the core mechanic of Shy Guy Swamp, and why is the entrance design still unresolved?",
-        "How do these side levels support the main arc of the overworld (pacing, theming, mechanical variety)?"
+        "What were the biggest memory wins that made you feel safer here—texture consolidation, object bank cleanup, display list reduction, something else?",
+        "How do you decide which details are ‘worth the RAM’ in a room most players might never find?",
+        "Do you track memory per-level as a formal budget, or is it mostly intuition until something breaks?"
       ],
       "related_to": ["kaze"]
     }

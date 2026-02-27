@@ -1,100 +1,94 @@
 {
   "stream_context": {
-    "summary": "Kaze iterates on a disappearing light-bridge mechanic (player-triggered arcade button) but spends most of the stream integrating and debugging Biobak’s upgraded Mario model. The session focuses on N64 rendering constraints: TMEM reductions, texture format changes (CI8/I4/RGBA16), combiner/render-mode limitations, anti-aliasing tradeoffs, and implementing a new cap-color system via HSV-shifting a palette. Late in the stream he notices lighting-limit side effects (crystal color appearing wrong) and an RCP crash likely caused by VFX particles; he ends by confirming the new Mario model is working and looks great.",
-    "level": ["Course 4 – CoreOS"],
+    "summary": "Kaze prototypes visuals/UX for a disappearing “light bridge” triggered by an arcade button, then pivots into a deep integration pass on Biobak’s new Mario model: validating large TMEM savings, fixing shading/normal artifacts, reworking N64 combiner/render-mode decisions for the hat ‘M’ and button highlights, and implementing an HSV-based palette shift so cap colors still work across power-ups. The stream ends with a hardware-side concern: too many concurrent lights/VFX may be causing color shifts (yellow reading as green) and an RCP crash on real N64.",
+    "level": ["Overworld", "Course 4 – CoreOS"],
     "significance": "milestone",
-    "significance_reason": "The stream lands a major player-facing upgrade: a new Mario model that looks substantially better while reducing TMEM usage (~39–40%) and slightly reducing triangles, plus a new approach to recoloring Mario’s cap by HSV-shifting a palette—despite N64 combiner/AA constraints."
+    "significance_reason": "A major, game-wide asset upgrade lands: Biobak’s new Mario model is evaluated and largely integrated with measurable TMEM reduction and improved visuals, plus Kaze makes a key technical decision/workaround for hat-logo anti-aliasing that forces an HSV palette-shift approach for cap recolors. This is a meaningful convergence of art direction + N64 rendering constraints + pipeline decisions."
   },
   "findings": [
     {
       "topic": "design",
-      "importance": "medium",
-      "summary": "Kaze plans a light-bridge platform that the player explicitly triggers via an arcade-style button, then the bridge changes color and eventually disappears; he rejects an immediate alpha fade because the player needs a clear warning before it vanishes.",
+      "importance": "high",
+      "summary": "Kaze defines the intended player-facing behavior for a temporary/disappearing light bridge: it should appear after a switch press, be walkable, change color, then vanish—but it needs a clear warning phase before disappearing to avoid cheap deaths.",
       "quote": null
     },
     {
       "topic": "design",
-      "importance": "low",
-      "summary": "He wants the overall space/arcade area to feel like an 'arcade vibe' rather than being packed with literal mini arcade games, because he worries traditional arcade games don’t fit the core playstyle.",
+      "importance": "medium",
+      "summary": "He chooses an arcade-button-style switch as the most fitting trigger for the light bridge, aiming for a reflective/semi-transparent look to match an arcade/space vibe rather than traditional Mario switches.",
       "quote": null
     },
     {
       "topic": "technical",
       "importance": "medium",
-      "summary": "To make the light-bridge’s visibility state unambiguous, he considers using a distinct visual layer (\"layer 4\") and tests dithering as a stylistic solution for gradients/alpha transitions.",
+      "summary": "Kaze experiments with transparency/gradient/dither approaches (and considers using a different visual layer) to make the bridge’s state changes unambiguous at a glance.",
       "quote": null
     },
     {
       "topic": "technical",
       "importance": "high",
-      "summary": "Kaze outlines multiple experimental N64 cache/OS optimizations he still wants to try: (1) in the idle thread, read iCache state and the last-run thread to predict the next thread and prefetch instructions into iCache; (2) when sending an RCP task, use hit+invalidate on only the last few relevant RAM addresses instead of index+invalidate across all cache indices to reduce memory throughput; (3) rewrite OS-level functions to use a small cache-resident scratch area (dirty-exclusive bytes) and invalidate/flush it so those routines can run without touching RAM.",
-      "quote": "CPU cycles don't matter."
+      "summary": "Kaze outlines multiple N64 cache/OS optimization ideas he still wants to try: predicting the next thread and prefetching instructions into iCache; reducing RAM bandwidth when submitting RCP tasks by validating only likely-relevant addresses; and making OS-level functions operate out of a small “dirty-exclusive” cache region to avoid touching RAM.",
+      "quote": null
+    },
+    {
+      "topic": "design",
+      "importance": "medium",
+      "summary": "He floats the idea of hiding an easter egg by storing an ASCII message in otherwise-unused/hidden bits at boot—discoverable only by dumping RAM from a real N64—framing it as a long-tail secret players might uncover years later.",
+      "quote": null
     },
     {
       "topic": "technical",
       "importance": "medium",
-      "summary": "He runs into Fast64 export/tooling issues during object work (collision/placement appearing wrong), calling out that some placement issues are a Fast64 bug he can’t directly fix in-level.",
-      "quote": "It's a Fast64 bug and there's literally nothing I can do about it."
+      "summary": "A confusing in-level behavior (bridge/button not behaving as expected) is ultimately traced to a practical content mistake: an object was still duplicated/present in the level; removing it makes the behavior work again, reinforcing how easy it is to misdiagnose Fast64/export issues when the scene has leftovers.",
+      "quote": null
     },
     {
       "topic": "milestone",
       "importance": "high",
-      "summary": "Biobak delivers a revised Mario model that Kaze evaluates as a clear visual upgrade while being cheaper to render: ~39–40% TMEM usage reduction and a small triangle reduction (about 639 → 595 triangles for the main mesh shown).",
+      "summary": "Biobak delivers an updated Mario model that Kaze verifies as both prettier and cheaper: ~39–40% TMEM usage reduction plus a small triangle reduction (old ~639 tris → new ~595) while improving eyes, shoes, eyebrows, cap details, and overall shading fidelity.",
       "quote": null
     },
     {
       "topic": "technical",
       "importance": "high",
-      "summary": "Kaze reviews and accepts multiple concrete rendering optimizations in the new Mario model: downsizing textures (e.g., eyes and sideburn textures reduced), switching appropriate materials to I4, and simplifying combiner setups so some materials can render in one cycle with anti-aliasing where possible.",
+      "summary": "Kaze identifies a visible ‘eye shadow’/shading artifact as a Blender vertex-normal issue (normals ‘getting messed up’), not an intentional texture detail, and fixes/adjusts accordingly.",
       "quote": null
     },
     {
       "topic": "technical",
       "importance": "high",
-      "summary": "He diagnoses an 'eye shadow' artifact as broken vertex normals from Blender modeling, where incorrect normals caused excessive shade-color influence on parts of the face.",
+      "summary": "After wrestling with N64 combiner/render-mode constraints to keep the hat ‘M’ looking right with anti-aliasing, Kaze concludes his preferred approach is effectively impossible under the current setup and adopts a pragmatic workaround: expand the head/hat I4 texture data slightly (adding a small amount of extra bytes) to avoid the combiner dead-end.",
       "quote": null
     },
     {
       "topic": "technical",
       "importance": "high",
-      "summary": "A key blocker becomes the hat 'M' logo: Kaze tries (and ultimately abandons) a combiner-based solution that would preserve anti-aliasing and shading as intended, concluding the original approach is effectively impossible under the constraints without changing the texture strategy.",
-      "quote": "I have to call this impossible."
-    },
-    {
-      "topic": "technical",
-      "importance": "high",
-      "summary": "Breakthrough workaround for the hat logo: since the head/hat uses an I4 texture, he opts to add a small amount of extra texture data (\"adding 32 bytes\") rather than fighting the combiner—accepting the tradeoff that recoloring now requires updating a full 16-color palette instead of setting a single color.",
-      "quote": "This solution is possible, unlike the other solution, which is not possible."
-    },
-    {
-      "topic": "technical",
-      "importance": "high",
-      "summary": "New cap-color system implication: because the hat/head now uses a dynamic palette, Mario cap recolors must HSV-shift the palette (keep S and V, change H) instead of applying a single primitive color; Kaze begins implementing this in code and validates it via cap-color tests (e.g., ice cap).",
+      "summary": "That workaround introduces a pipeline consequence: instead of setting a single cap color, Kaze now needs to HSV-shift an entire 16-color palette for cap recolors (keeping S/V while changing H). He implements it and fixes a bug where he was effectively saturating rather than desaturating, restoring correct cap-color behavior (e.g., ice cap) without breaking the logo.",
       "quote": null
     },
     {
       "topic": "technical",
       "importance": "medium",
-      "summary": "He fixes an HSV math bug where saturation was being added instead of reduced, causing over-saturation; after correction, the cap recolor works as intended.",
+      "summary": "Kaze tunes the overall-button material so it reads as ‘shiny’ rather than ‘glowing’ by altering how shade color/alpha influences the combiner, trying to match vanilla behavior more closely.",
       "quote": null
     },
     {
       "topic": "technical",
       "importance": "medium",
-      "summary": "He improves the overall-button material so buttons look shiny rather than 'glowing' by adjusting the combiner to increase lighting influence (double influence) while keeping them visually closer to vanilla.",
-      "quote": null
-    },
-    {
-      "topic": "design",
-      "importance": "low",
-      "summary": "Kaze adds a subtle 'butt crease' via shading/vertex color tweaks despite anticipating it could be controversial; he keeps it small so it reads in motion without being distracting.",
+      "summary": "He suspects a hard limit on how many lights can affect Mario simultaneously (he mentions ~5), causing a yellow/orange crystal light to appear green when too many are active; he attempts validation on real N64 but hits instability.",
       "quote": null
     },
     {
       "topic": "technical",
-      "importance": "medium",
-      "summary": "He observes a lighting-limit issue: crystals that should read orange/yellow sometimes appear green, which he attributes to too many concurrent lights affecting Mario and possibly exceeding the per-object light budget; testing on real N64 is used to confirm behavior.",
+      "importance": "high",
+      "summary": "Testing on real hardware suggests certain VFX/particle setups can trigger an RCP crash; Kaze decides to stop chasing the lighting-color issue on-stream and treats ‘Mario model integration looks awesome’ as the main outcome for the day.",
       "quote": null
+    },
+    {
+      "topic": "legal-nintendo",
+      "importance": "medium",
+      "summary": "Kaze frames the upgraded Mario model as potential marquee content for a big video and expresses hope it becomes his first ‘million-view’ Mario 64-related upload that Nintendo doesn’t take down.",
+      "quote": "This Mario model is going to be my first 1 million viewer video that Nintendo doesn't take down."
     }
   ],
   "contributor_findings": {
@@ -102,13 +96,19 @@
       {
         "topic": "milestone",
         "importance": "high",
-        "summary": "Delivered a new Mario model that Kaze says makes the old one look like a beta model, while reducing TMEM time/usage by roughly 39–40% and keeping geometry slightly cheaper than before.",
+        "summary": "Biobak supplies a new Mario model iteration focused on N64 practicality: large TMEM savings (~39–40%), improved facial/eye assets (multiple eye variations), refined cap shape (flatter bottom ‘official’ look), texture remaps to smaller sizes (e.g., I8→I4), and material changes that reduce cycles/duplicate loads.",
         "quote": null
       },
       {
         "topic": "technical",
         "importance": "high",
-        "summary": "Provided a broad pass of texture and material optimizations: downsized multiple textures (e.g., 32x64 → 32x32), converted some maps to I4 where acceptable, improved eyes (three variations), updated cap logo shape to match official design, improved shoes (shine/salt detail), and reworked materials to better fit N64 combiner constraints.",
+        "summary": "Biobak’s guidance (as relayed/used by Kaze) pushes the solution toward palette-level manipulation: for cap recolors, keep saturation/value while shifting hue across the palette, which Kaze then implements in code.",
+        "quote": null
+      },
+      {
+        "topic": "design",
+        "importance": "low",
+        "summary": "Biobak’s preferences shape small aesthetic choices (e.g., hesitance about an explicit ‘butt crease’), though Kaze ultimately adds a subtle crease/shading tweak after seeing how it reads in-game.",
         "quote": null
       }
     ],
@@ -117,106 +117,108 @@
       {
         "topic": "team",
         "importance": "low",
-        "summary": "Briefly chimes in during a discussion about generating colored highlights from a grayscale approach; Kaze pushes back due to lack of a clear method under the current constraints.",
+        "summary": "Zeina is present peripherally (Kaze references her input on an art question and leaves early for an appointment at her parents’), indicating real-life scheduling constraints impacting stream/dev time.",
         "quote": null
       }
     ],
-    "others": []
+    "others": [
+      {
+        "name": "Clayman",
+        "findings": [
+          {
+            "topic": "community",
+            "importance": "low",
+            "summary": "Clayman sends a song Kaze plays on stream after a browser crash; it functions as background/stream vibe rather than a project deliverable.",
+            "quote": null
+          }
+        ]
+      }
+    ]
   },
   "memorable_quotes": [
     {
       "speaker": "Kaze",
-      "quote": "This model here is lower poly and lower resolution than the original Mario model. And it has smaller textures than the original Mario model.",
-      "context": "He frames the new Mario model as an unusually 'free' visual upgrade achieved through technical discipline—better-looking while cheaper than Nintendo’s original asset."
-    },
-    {
-      "speaker": "Kaze",
-      "quote": "Game studios would never understand. They'll never let us do this.",
-      "context": "Reflects his philosophy that big studios often avoid extreme low-level optimization, contrasting with the hack’s handcrafted N64-era constraints."
-    },
-    {
-      "speaker": "Kaze",
       "quote": "This Mario model is going to be my first 1 million viewer video that Nintendo doesn't take down.",
-      "context": "A candid moment tying technical work to the broader Nintendo/legal anxiety hovering over his channel and the project’s visibility."
+      "context": "While admiring the upgraded Mario model, Kaze frames it as standout content for a future video and references the persistent risk of Nintendo takedowns."
+    },
+    {
+      "speaker": "Kaze",
+      "quote": "Why does turning on the N64 have to be such a torture every single time?",
+      "context": "During hardware testing and render-mode experimentation, he vents about the repeated friction of real-console iteration."
+    },
+    {
+      "speaker": "Kaze",
+      "quote": "Multiplayer modes in video games should always be going as fast as the fastest player, not the slowest one.",
+      "context": "A tangent from discussing modern Yoshi games, but it reveals Kaze’s strong design philosophy around pacing and co-op friction."
     }
   ],
   "key_stories": [
     {
-      "title": "The light-bridge concept gets postponed by a Mario model integration crunch",
-      "summary": "Kaze begins planning a player-triggered light-bridge in an arcade-themed area, focusing on clarity: the bridge must visibly change state before disappearing. Midstream, the work shifts as a new Mario model arrives, and the session becomes a deep dive into rendering constraints and toolchain issues.",
-      "challenge": "Implement a bridge that communicates timing and safety while fitting the visual language of the space/arcade area, all under N64 rendering limits and Fast64 workflow constraints.",
-      "process": "He prototypes transparency/alpha behavior, considers dithering and using a separate render layer for unambiguous state changes, and designs the interaction around an arcade button trigger.",
-      "outcome": "The bridge work is acknowledged as the original goal but is deprioritized; the stream ends with Kaze satisfied about major progress elsewhere (the Mario model).",
-      "key_quote": "We were supposed to make the light bridge today. But that's fine. We made other good progress.",
+      "title": "Designing the disappearing light bridge (readability and fairness)",
+      "summary": "Kaze prototypes the visual language for a temporary platform/bridge that the player activates, then must cross before it disappears. The core tension is making the effect readable enough that failure feels fair rather than random.",
+      "challenge": "A bridge that fades straight to transparent risks becoming an unclear, unfair hazard; players need an obvious ‘about to vanish’ warning state.",
+      "process": "He mocks up transparency changes, discusses avoiding an immediate alpha drop, and considers alternative visual layers and dither to make state changes unambiguous. He also decides the trigger should be an arcade-button-style switch to fit the area’s vibe.",
+      "outcome": "A concrete behavior plan emerges (appear → usable → warning/color change → vanish), but implementation is deferred; Kaze notes they didn’t make as much progress on the bridge actors as planned.",
+      "key_quote": null,
       "related_to": ["kaze"]
     },
     {
-      "title": "Making Mario look better while costing less: TMEM cuts, combiner limits, and a palette-based cap system",
-      "summary": "Biobak’s new Mario model becomes the centerpiece: Kaze verifies it looks significantly better while reducing TMEM usage and not increasing polygon cost. The hardest problem is the hat logo and anti-aliasing/shading constraints—Kaze tries multiple combiner strategies, then chooses a texture/palette workaround that forces a new cap recolor pipeline.",
-      "challenge": "Preserve anti-aliasing and correct shading for the hat logo and other materials within the N64’s two-cycle combiner/render-mode limitations, without ballooning texture size or render cost.",
-      "process": "He audits materials (I4/CI8/RGBA16), fixes artifacts (vertex normals), experiments with combiner setups and render modes, then switches strategy: add small texture data and recolor by HSV-shifting an entire 16-color palette. He debugs HSV math (saturation handling) and validates with cap-color tests.",
-      "outcome": "Mario looks 'insanely good' and is cheaper to render; the tradeoff is a more complex cap recolor system (palette-wide HSV shifting) that must be supported across cap variants.",
-      "key_quote": "This solution is possible, unlike the other solution, which is not possible.",
+      "title": "Integrating Biobak’s Mario model: performance wins force new rendering/palette decisions",
+      "summary": "A major Mario model upgrade lands mid-stream, and Kaze treats it like a full production integration: validating performance metrics, fixing shading artifacts, and reconciling visual goals with N64 combiner limitations. The result is a better-looking Mario that’s also cheaper to render, but it changes how cap recoloring must work.",
+      "challenge": "Keeping the hat ‘M’ and other highlights anti-aliased and correct under N64 render modes/combiner constraints while preserving cap-color changes (ice/metal/other variants) and avoiding glow artifacts.",
+      "process": "Kaze reviews Biobak’s changelog and metrics (triangles/TMEM), diagnoses a Blender vertex-normal issue causing ‘eye shadow,’ experiments with combiner setups, then abandons an ‘impossible’ approach and adopts a workaround that requires HSV-shifting the full 16-color palette for cap recolors. He also adjusts the overall-button material to read shiny instead of glowing and adds a subtle butt-crease shading tweak.",
+      "outcome": "The new Mario model is considered a success (better visuals, ~40% TMEM reduction, slightly fewer triangles). The cap-color system works again under the new palette approach, with remaining minor polish items noted (e.g., occasional lighting quirks).",
+      "key_quote": "This model here is lower poly and lower resolution than the original Mario model. And it has smaller textures than the original Mario model.",
       "related_to": ["kaze", "biobak"]
     },
     {
-      "title": "Lighting budget weirdness: crystals reading green and an RCP crash",
-      "summary": "While testing, Kaze notices crystals that should appear orange/yellow sometimes read as green. He hypothesizes a per-object concurrent light limit and attempts to confirm by testing on real hardware, but a VFX particle setup appears to trigger an RCP crash.",
-      "challenge": "Diagnose whether incorrect perceived color is a palette/texture bug or a light accumulation/budget limitation, and ensure the effect doesn’t destabilize the RCP.",
-      "process": "He checks RGB values, swaps/compares crystal colors, reasons about too many active lights, and then tests on N64 hardware to separate emulator artifacts from real constraints.",
-      "outcome": "He tentatively concludes too many concurrent lights are the cause and deprioritizes further debugging in favor of locking in the Mario model progress; the RCP crash is noted as likely VFX-related.",
+      "title": "‘Why is yellow green?’: diagnosing lighting limits and a real-N64 RCP crash",
+      "summary": "While validating lighting on the upgraded model, Kaze perceives a crystal light as green despite the underlying RGB values indicating yellow/orange. He suspects the issue is a hard limit on concurrent lights affecting Mario, then hardware testing introduces instability.",
+      "challenge": "Color output doesn’t match expected RGB values in-game, suggesting a lighting accumulation/limit issue; testing on real N64 is slowed by iteration friction and potential crashes.",
+      "process": "He checks RGB values, compares multiple crystals, theorizes that too many active lights prevent the intended light from applying, and attempts a real-N64 test to confirm. During hardware testing, VFX particles appear to trigger an RCP crash.",
+      "outcome": "Kaze deprioritizes resolving the lighting anomaly on-stream; he concludes the Mario model is in a good place and notes the lighting/VFX crash risk for later investigation.",
       "key_quote": "I think the VFX particles there caused an RCP crash.",
       "related_to": ["kaze"]
     }
   ],
   "open_questions": [
     {
-      "topic": "Cache/OS optimization experiments (iCache prefetch, selective invalidate, RAMless OS routines)",
-      "context": "Kaze describes three concrete, not-yet-implemented optimization ideas involving predicting thread execution for iCache prefetching, reducing RCP-task cache invalidation bandwidth, and rewriting OS-level functions to operate from cache-resident scratch memory.",
+      "topic": "Light bridge final readability solution",
+      "context": "Kaze sketches a bridge that appears on button press, becomes walkable, then needs a warning phase before disappearing; he debates dither/layers/alpha timing to keep it unambiguous.",
       "questions": [
-        "Which of the three cache/OS optimization ideas ended up being implemented (if any), and what measurable gains did they produce on real N64 hardware?",
-        "How did Kaze validate correctness for speculative iCache prefetching based on thread history (profiling approach, edge cases, regressions)?",
-        "Did any of these optimizations create new classes of bugs (timing, cache coherency, rare crashes), and how were they debugged?"
+        "What final visual language did you settle on for the light bridge’s ‘warning’ state—color shift, dither, animation, sound cue—and how did you test that players read it instantly?",
+        "Did the arcade-button trigger survive playtesting, or did you switch to a more ‘Mario’ affordance for readability?",
+        "What constraints (render layers, alpha, TMEM, readability on real hardware) most strongly shaped the final implementation?"
       ],
       "related_to": ["kaze"]
     },
     {
-      "topic": "Final light-bridge behavior and readability",
-      "context": "The planned bridge transitions from transparent to solid after a switch press, changes color, then disappears—Kaze emphasizes needing a warning phase so players aren’t blindsided.",
+      "topic": "Whether Kaze’s cache/OS optimizations shipped (and what they bought)",
+      "context": "Kaze lists several advanced optimization ideas: iCache prefetch based on thread history, narrower hit/invalidate when submitting RCP tasks, and OS functions operating out of cache to avoid RAM touches.",
       "questions": [
-        "What final visual language did you settle on for the bridge’s warning state (color shift, dither, layer choice), and how did you test that players understood it?",
-        "Did the disappearing bridge become a core mechanic in Course 4/CoreOS or remain a one-off set piece?",
-        "Were there N64-specific rendering constraints (alpha sorting, layers, fillrate) that forced a redesign of the effect?"
+        "Which of these cache/OS optimization experiments actually made it into the game, and what measurable gains did you see (frame time, RSP/RDP throughput, reduced hitches)?",
+        "How did you validate that these optimizations were correct and stable on real N64 hardware—did you build bespoke profiling tools or rely on gameplay-driven tests?",
+        "Were there any ‘clever’ optimizations you abandoned because they made debugging or determinism worse?"
       ],
       "related_to": ["kaze"]
     },
     {
-      "topic": "Mario cap recolor pipeline after switching to a dynamic palette",
-      "context": "Kaze’s workaround makes the hat logo feasible but requires recoloring by HSV-shifting an entire 16-color palette, instead of setting a single color for cap variants (e.g., ice cap).",
+      "topic": "Mario cap recolor pipeline after switching to palette/HSV shifting",
+      "context": "To solve hat-logo rendering constraints, Kaze moves to a setup where cap colors require HSV-shifting a 16-color palette instead of setting a single color, with at least one bug fix needed around saturation/value handling.",
       "questions": [
-        "How many cap states/variants needed to be supported, and did any require special-case palettes (Metal/transparent/decal ideas)?",
-        "Where in the codebase did you centralize the HSV-shift logic to avoid duplicating cap-state behavior across Mario actions?",
-        "What were the visual tradeoffs of hue-shifting a palette (banding, loss of subtle shading), and how did you tune S/V preservation?"
+        "How did this palette-shift decision ripple through other effects—Metal Mario, invisibility/decal ideas, damage flashes, ice cap—did it simplify or complicate those systems?",
+        "What was the hardest bug to track down once cap recoloring became ‘shift a whole palette,’ and how did you prove it wouldn’t break edge cases?",
+        "If you were starting over, would you still choose this workaround, or would you redesign the asset/material approach to avoid palette shifting entirely?"
       ],
       "related_to": ["kaze", "biobak"]
     },
     {
-      "topic": "Lighting limits and the 'green crystal' issue",
-      "context": "Kaze suspects too many concurrent lights can make orange/yellow crystals appear green, and that only a small number of lights can affect Mario at once; testing on N64 is attempted.",
+      "topic": "Lighting limits and the RCP crash from VFX particles",
+      "context": "Kaze suspects a limit on concurrent lights affecting Mario (~5) and sees a possible RCP crash on real N64 when certain VFX particles are present.",
       "questions": [
-        "What is the actual hard limit you observed for concurrent lights affecting Mario (engine-side vs microcode/F3D constraints)?",
-        "Did you implement a prioritization system (nearest lights win, last-spawned win, brightness-based selection) to make lighting stable?",
-        "Was the RCP crash reproducibly tied to a specific VFX emitter, and what was the eventual fix (particle count, task size, state leakage)?"
-      ],
-      "related_to": ["kaze"]
-    },
-    {
-      "topic": "Fast64 tooling limitations impacting level/object iteration",
-      "context": "Kaze attributes some placement/collision weirdness and export inaccuracies to Fast64 bugs, implying workflow friction outside the game code.",
-      "questions": [
-        "Which Fast64 issues were the biggest blockers over the project (collision accuracy, object transforms, materials), and how often did they force redesigns?",
-        "Did the team create internal scripts/workarounds to validate exports or patch Fast64 output automatically?",
-        "Who (if anyone) on the team ended up maintaining tooling fixes versus adapting design around the bugs?"
+        "Did you confirm an exact limit on how many dynamic lights can affect Mario, and did you implement prioritization (nearest/brightest) to make lighting deterministic?",
+        "What ultimately caused the RCP crash—too many particles, a specific render mode, memory corruption, or task scheduling—and what was the fix?",
+        "How often did ‘works in emulator’ diverge from ‘works on N64’ for VFX/lighting, and did that change how you built your testing workflow?"
       ],
       "related_to": ["kaze"]
     }

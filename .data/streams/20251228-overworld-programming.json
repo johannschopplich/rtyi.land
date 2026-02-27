@@ -1,76 +1,70 @@
 {
   "stream_context": {
-    "summary": "Kaze applies a batch of playtester-driven fixes, then returns to overworld development: blocking out/iterating on the Yoshi Village melon area and the MS Yoshi airship setpiece that leads into the second Bowser (“Bozo”) sequence. He identifies a build-flag mistake causing a warp/actor issue, discusses engine constraints (Expansion Pak, terrain sliding, normal-map/coin rendering cost), and makes a narrative-design pass to clarify player motivation for the next major objective via NPC spawning and dialogue changes.",
+    "summary": "Kaze incorporates a tester’s feedback with a batch of gameplay clarity fixes (minecart UI, warps, egg-coin behavior, guidance coins), then returns to overworld work: prototyping a low-poly melon patch, revisiting an older “MS Yoshi / Bozo’s Airship Armada” ship setup that broke after engine changes, and identifying a narrative problem (players aren’t told why they’re going to the second Bozo/Bowser encounter). He also outlines a new hidden, persistent “super big coin” system intended to help replays and speedruns without affecting normal completion.",
     "level": ["Overworld", "Course 15"],
     "significance": "notable",
-    "significance_reason": "Contains concrete changes based on external testing, reveals several underlying engine/design constraints (Expansion Pak choice, terrain sliding implementation, performance limits on normal-mapped objects), and includes a clear narrative-design problem/solution around communicating the second Bowser objective."
+    "significance_reason": "Introduces/clarifies multiple player-facing systems that shape the final experience (persistent hidden “super big coins,” narrative gating/character spawn logic to motivate Bozo 2, and updating an old ship level for current engine changes), alongside concrete playtest-driven fixes."
   },
   "findings": [
     {
-      "topic": "community",
-      "importance": "medium",
-      "summary": "Kaze ships a set of targeted fixes after watching a tester’s playthrough, including: adding a B-button popup for minecart shooting, making digging mounds appear after a bank break, swapping a change block to a rock, adding coin trails to guide an end-of-retro-section climb, fixing egg-coin position updates for a bandit segment, adjusting egg-coin range multipliers for bandit/thief to reduce misleading placement, changing an NPC (“piano guy”) to instruct players to listen to the music, and adding a normal warp for the minecart sequence (plus stopping a “weird minecart thing” Mario could do).",
-      "quote": null
-    },
-    {
-      "topic": "technical",
-      "importance": "medium",
-      "summary": "A missing/incorrect warp actor situation was traced to the project still having a “beta build flag” enabled; with the flag on, a warp ID displayed as 0 and caused confusion about why an added warp actor wasn’t present/working.",
-      "quote": "We still have the beta build flag on. No wonder."
-    },
-    {
-      "topic": "technical",
-      "importance": "medium",
-      "summary": "Kaze explains his terrain sliding system: each area defines a terrain type (e.g., snow/sand/slippery), and on slippery terrain Mario is forced into sliding whenever he touches any slanted surface; he calls it a simple/inelegant implementation but functional for the project’s needs.",
-      "quote": null
-    },
-    {
-      "topic": "technical",
-      "importance": "medium",
-      "summary": "Return to Yoshi’s Island is currently built to use the N64 Expansion Pak primarily to reduce development friction and shorten iteration time; Kaze believes the hack likely doesn’t strictly require it, aside from potentially more noticeable loading hitches without the extra memory.",
-      "quote": null
-    },
-    {
-      "topic": "technical",
-      "importance": "medium",
-      "summary": "Kaze reiterates that modern SM64 hacking should favor the decompilation pipeline over older binary modding tools (e.g., Bowser’s Blueprint / boss64), because decomp is dramatically more powerful and flexible for large-scale changes.",
-      "quote": "I don’t see a reason to use Bowser’s Blueprint in today’s age when the decompilation exists."
-    },
-    {
-      "topic": "design",
-      "importance": "medium",
-      "summary": "For the overworld “melon patch” idea, Kaze flags polygon budget as the limiting factor (a patch implies “a ton” of melons). He experiments with a very low-poly melon approach (~20 triangles) and decides that, at that density, the melons read well enough given their size—shifting the problem from modeling to efficient set dressing and texture choice.",
-      "quote": null
-    },
-    {
-      "topic": "technical",
-      "importance": "medium",
-      "summary": "Texture pipeline pain point: Kaze rejects certain wood/ground textures because the downscaling introduced visible artifacts; he expresses a preference for starting with higher-quality sources and downscaling carefully rather than relying on poor pre-downscaled assets.",
-      "quote": "I wish I had an HD version of this that I could downscale myself."
-    },
-    {
-      "topic": "technical",
-      "importance": "high",
-      "summary": "The MS Yoshi / airship-entrance setpiece is based on an older level chunk that is now incompatible with the current engine due to accumulated engine changes. Kaze plans to update it (not “that much work”), potentially splitting collision and visual model responsibilities (e.g., making ships solid via collision while keeping the 3D model separately) to restore intended gameplay: jumping ship-to-ship toward Bowser’s fleet/doors.",
-      "quote": "This level is old. It’s not compatible with all the engine changes we’ve made since then."
-    },
-    {
-      "topic": "philosophy",
-      "importance": "high",
-      "summary": "Kaze articulates a narrative philosophy for RTYI: some story gaps are intentionally left for player headcanon; the game will have “ground truth” rules in-universe, but not every detail needs explicit explanation. He also draws a firm line that immersion matters even in children’s platformers and rejects excusing poor craft with “it’s for kids.”",
-      "quote": "The game leaves gaps on purpose, so you can fill them with things you like."
-    },
-    {
       "topic": "design",
       "importance": "high",
-      "summary": "Kaze describes a hidden “super big coin” system intended as an exploration/speedrunner aid: these coins are placed in extremely non-obvious locations, persistently save to the file so they cannot be collected twice, do not count toward 100% completion and have no in-game counter, and award a large one-time coin payout (roughly 200–500 coins per coin, tunable per instance). The goal is to reduce repeat-play coin grinding and improve speedrun routing without affecting a normal first playthrough (because most players won’t find them).",
+      "summary": "Kaze identifies a story/telegraphing issue: after Bozo 1, players arrive in the ship armada area but aren’t clearly told why they should pursue Bozo 2 or that more Yoshis still need saving. He plans to restructure NPC presence and dialogue so the area initially feels emptier (or more ‘under occupation’) and explicitly points to the remaining objective.",
       "quote": null
     },
     {
       "topic": "design",
       "importance": "high",
-      "summary": "Kaze identifies a clarity problem in the overworld hub progression: after the first Bowser/Bozo level, players may not understand why they should pursue Bozo 2 or that more Yoshis remain under threat. Proposed fix: control Yoshi NPC presence via spawn flags (keeping the area mostly empty pre-Bozo and spawning more Yoshis later) and update Yoshi dialogue to explicitly frame remaining Yoshis and Bozo’s control/armada as the motivation.",
-      "quote": "You never really know what you’re doing… or why you are even going to the second Bozo level."
+      "summary": "He plans to change Yoshi spawning and dialogue beats: keep most Yoshis absent until later progression, make the Yoshis who are present talk about Bozo’s control and the remaining trapped Yoshis, and delay spawning a set of Yoshis until after Bozo 2 to reinforce progression.",
+      "quote": null
+    },
+    {
+      "topic": "design",
+      "importance": "high",
+      "summary": "A new ‘super big coin’ feature is defined as a rare, hidden, one-time collectible that saves to the game file, gives a large coin payout (~200–500 coins each, tunable), and is meant as an exploration reward and a replay/speedrun economy tool—while staying invisible to normal players and not counting toward 100% completion.",
+      "quote": null
+    },
+    {
+      "topic": "technical",
+      "importance": "high",
+      "summary": "Kaze explains why he can’t simply increase the big coin’s texture resolution: the coin is rendered in real time and scaling up resolution scales render cost to the point of unplayable performance (he cites frame-time impact even from doubling).",
+      "quote": null
+    },
+    {
+      "topic": "technical",
+      "importance": "medium",
+      "summary": "He discovers the project is still running with a ‘beta build’ flag enabled, which helps explain oddities like incorrect warp IDs/behavior in the current build while debugging overworld warps.",
+      "quote": null
+    },
+    {
+      "topic": "technical",
+      "importance": "medium",
+      "summary": "Sliding mode is implemented via a per-area terrain type (e.g., snow/sand/slippery). On slippery terrain, any slanted surface forces Mario into sliding—described as a blunt but functional rule.",
+      "quote": null
+    },
+    {
+      "topic": "technical",
+      "importance": "low",
+      "summary": "The hack targets the Expansion Pak for easier development and fewer hitches, but Kaze believes it’s not strictly required for the final experience (main difference would be more load-time hitches without it).",
+      "quote": null
+    },
+    {
+      "topic": "milestone",
+      "importance": "medium",
+      "summary": "After watching a tester play, Kaze applies a batch of usability/logic fixes: adds an on-screen B-button prompt for minecart shooting; adds a standard warp for minecart content; stops a ‘weird minecart thing’ involving Mario; makes digging mounds appear after a bank break; replaces a change block with a rock; uses coin trails to guide the mountain ascent in a retro section; fixes temple/bandit egg-coin position updates; increases bandit/thief egg-coin range multipliers; and updates an NPC (“piano guy”) to direct players to listen to the music.",
+      "quote": null
+    },
+    {
+      "topic": "design",
+      "importance": "medium",
+      "summary": "Kaze considers one of MartyZawa’s levels ‘experimental’ and initially felt least sure about it, but tester feedback suggests the level is already ‘pretty good’ with remaining problems concentrated in two egg cards near the end.",
+      "quote": null
+    },
+    {
+      "topic": "design",
+      "importance": "medium",
+      "summary": "He revisits an older ship-based Bowser/Bozo setup (“MS Yoshi” and jumping between enemy ships) and notes it looks broken because it predates multiple engine changes; he expects updating compatibility won’t be too much work and suggests separating collision and visuals for easier iteration.",
+      "quote": null
     }
   ],
   "contributor_findings": {
@@ -78,27 +72,27 @@
       {
         "topic": "team",
         "importance": "medium",
-        "summary": "Kaze expects Biobak to do a later visual rework of the MS Yoshi ship (and related “spaghetti” geometry/visual cleanup), so Kaze intentionally limits time spent polishing placeholder visuals now to avoid duplicated effort.",
-        "quote": "Biobak is definitely going to rework the ship in the end, so I don’t want to put too much time into just making it look good right now."
+        "summary": "Kaze anticipates Biobak will do a later visual rework of the ship area/asset, so he avoids spending too much time polishing the placeholder ship geometry right now.",
+        "quote": null
       }
     ],
     "badub": [],
     "zeina": [
       {
         "topic": "team",
-        "importance": "medium",
-        "summary": "Kaze explicitly defers certain wearable/costume assets (“hats”) to Zeina and marks it as a dependency before the area can be finalized.",
+        "importance": "low",
+        "summary": "Kaze notes he wants Zeina to create hats for certain characters/props in the area, and leaves a TODO rather than tackling it himself.",
         "quote": null
       }
     ],
     "others": [
       {
-        "name": "Lilaa",
+        "name": "Lemon Lover (tester)",
         "findings": [
           {
             "topic": "community",
-            "importance": "low",
-            "summary": "Lilaa appears in chat; no concrete asset or decision is attributed beyond general presence.",
+            "importance": "medium",
+            "summary": "A tester’s playthrough directly triggers a targeted patch list (minecart prompt/warp fixes, clearer navigation via coins, egg-coin behavior/multiplier adjustments, and small object/NPC text tweaks), after which Kaze declares the build ready for the next tester.",
             "quote": null
           }
         ]
@@ -108,93 +102,72 @@
   "memorable_quotes": [
     {
       "speaker": "Kaze",
-      "quote": "Immersion is important, even if it’s a children’s platformer.",
-      "context": "Said while rejecting the idea that quality gaps or unexplained elements can be excused because the game is ‘for kids.’"
+      "quote": "This game is explicitly asking you to have a headcanon about some things. The game leaves gaps on purpose, so you can fill them with things you like.",
+      "context": "During a discussion about whether Yoshis ‘building’ or possessing a large ship creates a plot hole, Kaze explains his philosophy of intentional ambiguity and player-driven interpretation."
     },
     {
       "speaker": "Kaze",
-      "quote": "The game leaves gaps on purpose, so you can fill them with things you like.",
-      "context": "Kaze frames an intentional approach to story/worldbuilding: leaving room for headcanon while maintaining some fixed in-universe rules."
+      "quote": "Immersion is important, even if it's a children's platformer.",
+      "context": "He pushes back against excusing weak logic/worldbuilding on the grounds that the audience is children, framing immersion as a non-negotiable design value."
     }
   ],
   "key_stories": [
     {
-      "title": "Playtester-driven patch pass and build readiness",
-      "summary": "Kaze opens by listing a concrete set of fixes made after watching a tester’s playthrough and declares the build ready for the next tester. The changes focus on onboarding/clarity (button prompts, coin guidance), correctness (egg-coin updates), and stability/flow (warp fixes, stopping minecart oddities).",
-      "challenge": "Playthrough feedback revealed confusing interactions and small progression/logic issues that could mislead or frustrate players.",
-      "process": "He implements targeted UI prompts, object/trigger fixes, guidance coin placement, and warp/transition adjustments; then updates internal progress tracking and prepares for the next testing session.",
-      "outcome": "A cleaned-up build is prepared for the next round of testing, with remaining known issues (e.g., two egg-related items near the end) still flagged for later resolution.",
-      "key_quote": "So this is all done. We’re ready for the next tester.",
+      "title": "Playtest-driven clarity pass on minecart and egg-coin guidance",
+      "summary": "After reviewing a tester’s playthrough, Kaze applies a concentrated set of fixes focused on player communication and reducing confusion. The changes are small individually but collectively aim to make the level read cleanly without external explanation.",
+      "challenge": "A playthrough revealed confusing interactions and misleading guidance (minecart behavior/UI, unclear navigation beats, and egg-coin positioning/ranges that misled players).",
+      "process": "Kaze adds explicit UI prompts (B-button popup), normalizes warps for minecart segments, replaces/adjusts problematic objects (change block → rock), uses coin trails to guide movement, and adjusts egg-coin logic and range multipliers for bandit/thief interactions; he also updates NPC text to better match intent.",
+      "outcome": "Kaze considers the level/build “ready for the next tester,” with remaining issues narrowed to a couple of egg-card problems near the end of Marty’s experimental level.",
+      "key_quote": null,
       "related_to": ["kaze"]
     },
     {
-      "title": "Restoring an older MS Yoshi ship setpiece after engine evolution",
-      "summary": "Kaze inspects an older ship/armada setup meant to bridge into the second Bowser sequence and discovers missing elements and incompatibilities with the current engine. He outlines that the original intended gameplay is ship-to-ship traversal with solid ships and door entry points, and he anticipates an update pass to bring it up to current standards.",
-      "challenge": "Legacy content no longer behaves correctly after substantial engine changes, creating missing collisions/actors and visual/interaction mismatches.",
-      "process": "He evaluates the old geometry and collision, considers separating collision from visual meshes, and decides to keep the blockout functional while deferring major visual polish to later art passes (notably Biobak).",
-      "outcome": "The ship setpiece remains a work-in-progress, with a clear plan to modernize it for the current engine while keeping iteration time efficient.",
-      "key_quote": "This level is old. It’s not compatible with all the engine changes we’ve made since then.",
-      "related_to": ["kaze", "biobak"]
+      "title": "Designing the hidden, persistent 'super big coin' economy for replays and speedruns",
+      "summary": "Kaze formalizes a system of secret, one-time big coins that meaningfully reduce future coin grinding without turning normal play into an easy mode. The system is built to be discovered organically by explorers and exploited deliberately by speedrunners.",
+      "challenge": "Players who replay or speedrun may lack coins due to rushing, but overt coin economy changes risk altering the balance/feel of a normal first playthrough and completion pacing.",
+      "process": "He defines big coins as rare, hard-to-find collectibles that save to the game file (cannot be collected twice), don’t count toward 100% completion, and aren’t tracked in a visible checklist; each yields a large configurable payout (roughly 200–500). He also chooses not to reveal placements publicly to preserve discovery.",
+      "outcome": "A clear feature spec is established: normal players likely never notice the system, while repeat players/speedrunners can route to these coins to reduce grind and stabilize coin economy across runs.",
+      "key_quote": "I expect the average player to play through the entire game and not even know these coins exist.",
+      "related_to": ["kaze"]
     },
     {
-      "title": "Designing hidden ‘super big coin’ collectibles for replayability and speedruns",
-      "summary": "Kaze explains a meta-progression aid: extremely hidden large coins that persistently save, can’t be collected twice, and don’t count toward completion. They are designed to reward deep exploration and to reduce coin grinding on repeat playthroughs while helping speedrunners who typically skip coin collection.",
-      "challenge": "Balancing coin economy and replay convenience without making first-play completion trivial or forcing grind, especially for speedrunning routes.",
-      "process": "He defines strict properties (non-repeatable, untracked, optional) and tunes payouts (200–500 coins each, configurable per placement). He also plans to avoid spoiling locations publicly so discovery remains organic.",
-      "outcome": "A clear intended role for these coins is established: optional, discovery-based economy shortcuts that primarily affect knowledgeable replays and speedruns.",
-      "key_quote": "I expect the average player to play through the entire game and not even know these coins exist.",
+      "title": "Fixing the 'why am I going to Bozo 2?' motivation gap in the ship armada area",
+      "summary": "While staging the ship armada hub, Kaze realizes the player’s objective isn’t being communicated: the world state doesn’t clearly indicate that more Yoshis remain trapped or that Bozo’s control continues. He responds by planning progression-based NPC spawning and more explicit dialogue.",
+      "challenge": "After Bozo 1, the area contains Yoshis and the armada setpiece, but the game doesn’t sufficiently tell the player why they must proceed to Bozo 2 or what changed in the world that demands action.",
+      "process": "Kaze proposes removing or delaying many Yoshi NPC spawns until after Bozo 2, leaving only a small number present earlier; those that remain should talk directly about remaining Yoshis and Bozo’s control. He also floats adding additional Bozo dialogue after the first fight to reinforce stakes.",
+      "outcome": "He creates notes/TODOs to rewrite NPC spawn conditions and dialogue so the armada hub itself communicates stakes and progression instead of relying on player assumption.",
+      "key_quote": "You never really know why you are doing anything right now.",
       "related_to": ["kaze"]
     }
   ],
   "open_questions": [
     {
-      "topic": "Hidden ‘super big coin’ system scope and economy impact",
-      "context": "Kaze defines these as ultra-hidden, one-time, untracked collectibles worth ~200–500 coins each, aimed at replay/speedrun convenience and not normal balance.",
+      "topic": "Resolving the two problematic egg cards at the end of Marty’s level",
+      "context": "Kaze says the playtest went well overall, but two egg cards at the end are still a known issue he must solve.",
       "questions": [
-        "How many of these coins exist across the full game, and what rules determine where they can be placed (e.g., only in optional subareas, only after certain abilities, etc.)?",
-        "What are the main coin sinks (shops, island changes) that this system is designed to support, and how did you decide typical payouts like 200–500?",
-        "How will you validate that speedrun routes benefit without creating a ‘mandatory secret’ that undermines route variety?",
-        "Was there debate about tracking these coins (or hinting them) versus keeping them completely opaque to completionists?"
+        "What exactly is going wrong with the two egg cards—confusing rules, unclear visibility, inconsistent mechanics, or difficulty spikes?",
+        "Did the tester misunderstand the intended solution, or is the intended solution itself too opaque?",
+        "What redesign options are on the table (layout changes, new tutorials, different rewards, removing the cards entirely), and what would you consider the ‘cleanest’ fix?"
       ],
       "related_to": ["kaze"]
     },
     {
-      "topic": "Communicating progression to Bozo/Bowser 2 through NPC spawning and dialogue",
-      "context": "Kaze worries players won’t understand why they should go to the second Bozo level after the first, and proposes reducing Yoshi presence pre-clear and using dialogue/spawn flags to emphasize remaining captured Yoshis and Bozo’s control.",
+      "topic": "Implementing narrative guidance to Bozo 2 via Yoshi spawns and dialogue",
+      "context": "Kaze plans to reduce early Yoshi presence in the armada hub and rewrite dialogue so players understand Bozo still controls remaining Yoshis and that Bozo 2 is the next goal.",
       "questions": [
-        "What exact story beat is supposed to land after Bozo 1, and what does Bozo say/do (cutscene, dialogue) to motivate the next objective?",
-        "Which areas/NPC groups are controlled by spawn flags, and how granular is the system (per-NPC, per-region, per-quest state)?",
-        "How do you test ‘player understanding’—do you ask testers comprehension questions, or infer it from how they roam/hesitate in the hub?"
+        "What is the intended story beat after Bozo 1—what should the player emotionally and cognitively understand in the first 30 seconds back in the hub?",
+        "How will you communicate ‘remaining Yoshis are still trapped’ without turning the hub into a wall of exposition?",
+        "Will Bozo get an explicit taunt/cutscene after Bozo 1, and how do you balance that with the project’s preference for letting players form headcanon?"
       ],
       "related_to": ["kaze"]
     },
     {
-      "topic": "Engine-change incompatibility with legacy levels and the cost of iteration",
-      "context": "Kaze describes the ship/armada chunk as old content that is no longer compatible with current engine changes, but expects it won’t be a huge amount of work to update.",
+      "topic": "Tuning the 'super big coin' system without breaking the economy",
+      "context": "Kaze expects normal players won’t find big coins, but speedrunners and repeat players will; each coin may grant ~200–500 coins and is saved permanently.",
       "questions": [
-        "What were the engine changes that most commonly broke older levels (actor system changes, collision format changes, rendering/material changes, scripting/warps)?",
-        "Do you maintain any formal migration process or compatibility layer, or is upgrading old content mostly manual triage per level?",
-        "How do you decide whether to salvage an old level blockout versus rebuild it from scratch with current tools/pipelines?"
-      ],
-      "related_to": ["kaze"]
-    },
-    {
-      "topic": "Visual fidelity constraints for normal-mapped objects on N64",
-      "context": "Kaze discusses wanting better-looking materials/normal maps for a special coin but rejects simply increasing texture resolution due to real-time rendering cost; he implies significant frame-time sensitivity and a strong desire to keep the coin’s look consistent with the rest of the game’s ‘crunch.’",
-      "questions": [
-        "What is the actual performance budget for rendering special objects like the big coin (triangle count, texture size, material passes), and how do you measure it during development?",
-        "What rendering trick are you using for the coin’s reflections/normal-map look, and what are the main artifacts you’re trying to avoid (color stepping, pixel crawling, diagonal aliasing)?",
-        "What are the ‘non-negotiable’ visual consistency rules you use so one asset doesn’t look like it came from a different console generation?"
-      ],
-      "related_to": ["kaze"]
-    },
-    {
-      "topic": "Expansion Pak requirement: dev convenience vs final player expectations",
-      "context": "Kaze says the project uses the Expansion Pak to reduce dev time and friction, but likely doesn’t strictly need it (aside from more load hitches).",
-      "questions": [
-        "Which development workflows become meaningfully easier with Expansion Pak enabled (asset sizes, caching, debug tooling, memory headroom for iteration)?",
-        "At what point would you decide to officially require Expansion Pak for players (or not), and how would you communicate/justify that choice to a hardware-focused audience?",
-        "Have any testers run the build without Expansion Pak, and what concrete differences showed up (load hitches, stability, texture/object streaming)?"
+        "How many big coins do you expect to include across the full ~200-star game, and what portion of the map do you want them to incentivize exploring?",
+        "How did you arrive at the 200–500 payout range—was it based on shop pricing, average coin needs per quest, or speedrun routing constraints?",
+        "Do you worry about a ‘rich-get-richer’ effect for advanced players, and if so what guardrails (placement difficulty, opportunity cost, progression gating) keep it healthy?"
       ],
       "related_to": ["kaze"]
     }

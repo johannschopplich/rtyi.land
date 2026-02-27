@@ -1,105 +1,117 @@
 {
   "stream_context": {
-    "summary": "Kaze reports major stability/refactor work (game running on N64 again, crashes fixed) and then focuses the stream on implementing a new small enemy for the current ice/castle level: ice “ravens” that spawn from the ground, walk along surfaces, turn at edges/corners, and disappear. The session includes performance/engine optimizations, a Fast64 export gotcha, collaboration with Zeina (model) and Biobak (design pivot), and a broader design discussion about movement tech (dive-jump) and avoiding puzzle-heavy level design.",
-    "level": ["Overworld", "Course 13"],
-    "significance": "notable",
-    "significance_reason": "Contains meaningful project-status updates (refactor/stability, N64 performance), a concrete new enemy implementation with a design pivot driven by Biobak, and a significant design-philosophy discussion about whether to nerf/remove a player movement mechanic after feedback from Dan Salvato."
+    "summary": "Kaze reports a major RTUI codebase refactor that restores N64 compatibility and stability, then spends the stream prototyping an ice-themed “Raven” enemy for the Freezy/ice-castle course. The session includes optimization discussions (microseconds saved per frame, framebuffer segmentation idea), a chat-driven redesign of the Raven into an “ice minion spawner” concept, and a significant design debate about nerfing the dive jump after feedback from Dan Salvato.",
+    "level": ["Course 13", "Overworld"],
+    "significance": "milestone",
+    "significance_reason": "Substantial technical milestone (refactor + crash fixes + N64-running stability + new debug overworld) alongside completing a full first pass of a new enemy behavior (ice Ravens/spawners) and reopening a core movement-design decision (dive jump) based on external design feedback."
   },
   "findings": [
     {
       "topic": "technical",
       "importance": "high",
-      "summary": "Kaze refactored parts of the RTUI codebase during the week, got the game running on N64 again, and fixed many crashes, making the build significantly more stable.",
+      "summary": "Kaze refactored the RTUI codebase during the week, got it running on N64 again, and fixed many crashes, resulting in a noticeably more stable build.",
       "quote": null
     },
     {
       "topic": "technical",
       "importance": "medium",
-      "summary": "He replaced the first overworld with a new debug overworld to support development/testing after refactors.",
+      "summary": "He replaced the first overworld with a new debug overworld to support development/testing workflows.",
       "quote": null
     },
     {
       "topic": "technical",
       "importance": "medium",
-      "summary": "He implemented a new rendering/engine approach that allows rendering certain HUD/overlay (“hot”) elements on-demand via his delegate system instead of hard-coding, saving a small amount of time globally (he estimates a couple microseconds).",
+      "summary": "A new rendering/delegate system now lets him render certain “hot elements” on demand instead of hard-coding them, saving small but meaningful time globally (on the order of microseconds) across levels.",
       "quote": null
     },
     {
       "topic": "technical",
       "importance": "medium",
-      "summary": "He proposes a future optimization: placing framebuffers into separate memory segments, expecting a ~2–3% performance gain (which he frames as roughly a full FPS on N64).",
-      "quote": null
-    },
-    {
-      "topic": "design",
-      "importance": "high",
-      "summary": "The ice/castle course is intended to be a surreal ice-palace/ice-dungeon with “mindfuck” elements; Kaze pushes back on puzzle elements, arguing the hack should remain a “pure platformer” because puzzles conflict with the game’s core design.",
-      "quote": "I don't think puzzle elements really fit because this is like a pure platformer; puzzle stuff kind of seems against the basic design of this game."
-    },
-    {
-      "topic": "design",
-      "importance": "high",
-      "summary": "The team adds a small “raven” enemy (from Yoshi’s Island inspiration) and decides it should function as an ice minion: pop out of the ground/walls, walk a short path (including along walls), turn at edges/corners, then disappear—chosen because it’s both cooler and easier to program than free-roaming AI.",
-      "quote": null
-    },
-    {
-      "topic": "team",
-      "importance": "high",
-      "summary": "Biobak influences a mid-stream design pivot: instead of figuring out complex wall-following turning logic for free-moving ravens, Kaze adopts Biobak’s suggestion to make them spawn/disappear as ice minions, reducing programming complexity while improving presentation.",
-      "quote": "Dang, you have some convincing arguments, Biobak… It's cooler and easier to program."
-    },
-    {
-      "topic": "technical",
-      "importance": "medium",
-      "summary": "Kaze struggles with and then resolves enemy orientation/turning issues involving angles vs. surface normals; he notes that “working with angles and normals at the same time sucks,” and implements an angles-to-normal/vector approach for correct spawning/orientation on geometry.",
-      "quote": null
-    },
-    {
-      "topic": "technical",
-      "importance": "medium",
-      "summary": "He identifies a Fast64 export/serialization issue related to order of operations/left shifts and fixes it by adding brackets; he jokingly blames Lilaa/Fast64 after incorrect values were coming through into the game.",
-      "quote": "This is a Fast64 bug… you need to add brackets to that."
-    },
-    {
-      "topic": "design",
-      "importance": "high",
-      "summary": "Kaze revisits the “dive jump” movement tech after Dan Salvato comments it’s against Mario 64’s design because it allows midair angle correction; Kaze considers limiting it so it becomes an advanced minor advantage rather than a powerful midair correction tool, to preserve Mario 64’s commitment-based jumps and keep weaker players from relying on it.",
-      "quote": null
-    },
-    {
-      "topic": "milestone",
-      "importance": "medium",
-      "summary": "Project scope/progress snapshot: Kaze says the game targets ~180 stars; he mentions having ~12 levels done plus side levels, and that he’s currently working on the 13th level, with boss levels, two side levels, and a “huge part of the overworld” still remaining, followed by bug/beta testing.",
+      "summary": "He’s considering a deeper optimization: moving framebuffers into separate memory segments, estimating a ~2–3% performance gain (potentially about 1 FPS).",
       "quote": null
     },
     {
       "topic": "design",
       "importance": "medium",
-      "summary": "The raven boss (“Raffle the Raven”) is planned for this course with moon/cosmic elements; Kaze implies it will not follow standard SM64 boss conventions (special attacks/knockback mechanics) and may be colored black to work with a moon-themed cutscene; he clarifies the boss will be an actual raven while the small enemies are ice minions.",
+      "summary": "The ice course tone is framed as a surreal ice palace/ice dungeon with “mindfuck” elements; the Raven boss fight is planned to include moon/cosmic motifs.",
       "quote": null
+    },
+    {
+      "topic": "community",
+      "importance": "high",
+      "summary": "Enemy concept pivot: after struggling to justify and place a simple walking Raven, Kaze adopts Biobak’s suggestion to make them “ice minions” that pop out of surfaces, follow a short path, then disappear—both cooler visually and easier to program/position in the level.",
+      "quote": null
+    },
+    {
+      "topic": "design",
+      "importance": "high",
+      "summary": "Movement-design reassessment: after Dan Salvato’s feedback, Kaze questions whether the current dive jump breaks Mario 64’s commitment-based aerial control (midair angle correction). He considers restricting the move to a smaller, skill-based angle adjustment rather than a strong recovery tool.",
+      "quote": "In Mario 64, you jump, you’re kind of committed."
+    },
+    {
+      "topic": "technical",
+      "importance": "medium",
+      "summary": "He implements and debugs the Raven behavior (spawn offset out of ground/walls, movement, turning, timing/actions). A recurring pain point is angle/normal math (pitch/yaw/roll interactions) and ensuring transforms aren’t influenced by corrupted/uninitialized animation state.",
+      "quote": null
+    },
+    {
+      "topic": "technical",
+      "importance": "medium",
+      "summary": "Kaze hits an export/value issue he attributes to Fast64/order-of-operations (missing parentheses causing wrong behavior parameter values). Adding brackets fixes it; he jokes-blames Lilaa for the mistake.",
+      "quote": null
+    },
+    {
+      "topic": "business",
+      "importance": "high",
+      "summary": "Scope/status update: he frames the project as ~180 stars and says they have ~12 finished main levels plus side levels (elsewhere he mentions working on the 13th). Remaining work includes boss levels, at least two additional side levels, a large portion of the overworld, then bug/beta testing. When pressed, he loosely suggests it could still take ~2–3 more years.",
+      "quote": null
+    },
+    {
+      "topic": "community",
+      "importance": "medium",
+      "summary": "A large raid (~1,500 viewers) prompts Kaze to give a concise public pitch: RTUI runs near 60 FPS on real N64 hardware, and the team has done extensive optimization—though he can’t show native hardware on stream because his N64 is PAL while he’s in Canada.",
+      "quote": null
+    },
+    {
+      "topic": "philosophy",
+      "importance": "medium",
+      "summary": "Kaze argues against adding puzzle elements because he sees RTUI’s core as “pure platformer,” and he critiques platforming-heavy hacks for feeling samey if they don’t deliver new ideas/adventure.",
+      "quote": null
+    },
+    {
+      "topic": "personal",
+      "importance": "medium",
+      "summary": "He describes the project’s emotional/effort burden with a stark metaphor, also noting he’s unusually tired during the session (affecting debugging and mental math).",
+      "quote": "Making this game is honestly like scaling 50 Everests."
     }
   ],
   "contributor_findings": {
     "biobak": [
       {
-        "topic": "design",
+        "topic": "community",
         "importance": "high",
-        "summary": "Proposes turning the small ravens into ice minions that spawn from the ground, walk briefly (including around a corner), then disappear—framing it as both visually cooler and far easier to program than persistent pathfinding/wall-following AI.",
+        "summary": "Biobak directly changes the enemy design by pitching the “ice minions pop out → traverse → disappear” concept, which Kaze immediately adopts as both cooler and simpler than complex wall-walking AI.",
         "quote": null
       },
       {
         "topic": "design",
         "importance": "medium",
-        "summary": "Suggests a more involved interaction idea (punch to make them slide and shatter on impact), which Kaze notes is feasible but would require additional plane movement/raycasting work; it is not adopted in this stream.",
+        "summary": "Biobak suggests additional interactions/uses (e.g., Yoshi coin reward for bumping them on walls; ice-minion framing for atmosphere), influencing how Kaze thinks about placement and purpose.",
         "quote": null
       }
     ],
     "badub": [],
     "zeina": [
       {
-        "topic": "design",
+        "topic": "team",
         "importance": "medium",
-        "summary": "Provides the raven model asset used for the enemy; Kaze imports it and adjusts sizing/material approach based on level needs (eventually deciding small enemies are ice-minions while the boss remains a true raven).",
+        "summary": "Zeina provides the Raven model/asset pipeline input during the stream (Kaze requests the model, imports it, and iterates on scale/material/color decisions).",
+        "quote": null
+      },
+      {
+        "topic": "personal",
+        "importance": "low",
+        "summary": "Zeina appears briefly around the “cum shake” bit (a channel-points gag), underscoring the casual home/work overlap during development streams.",
         "quote": null
       }
     ],
@@ -108,20 +120,20 @@
         "name": "Dan Salvato",
         "findings": [
           {
-            "topic": "philosophy",
+            "topic": "design",
             "importance": "high",
-            "summary": "Gives outside-design feedback that the hack’s dive-jump mechanic conflicts with Mario 64’s commitment-based jump design by enabling midair angle correction; this triggers Kaze’s reconsideration of the move’s power/role.",
+            "summary": "Dan Salvato tells Kaze the dive jump feels against Mario 64’s design language because it allows midair angle correction that other moves don’t, triggering Kaze’s plan to nerf/reframe the move.",
             "quote": null
           }
         ]
       },
       {
-        "name": "Michi",
+        "name": "Lilaa",
         "findings": [
           {
             "topic": "technical",
-            "importance": "low",
-            "summary": "Kaze mentions reviewing Michi’s functions and integrating some of them into the codebase during refactoring work.",
+            "importance": "medium",
+            "summary": "Kaze attributes a Fast64/export parentheses issue to Lilaa in a joking way, but the underlying point is practical: behavior parameters exported with shifts/operations need explicit parentheses to preserve intended values.",
             "quote": null
           }
         ]
@@ -132,89 +144,96 @@
     {
       "speaker": "Kaze",
       "quote": "Making this game is honestly like scaling 50 Everests.",
-      "context": "Kaze describes the overall difficulty and endurance required to build a full-scale N64 ROM hack with many levels, systems, and polish."
+      "context": "Kaze summarizes the perceived magnitude and endurance required to finish RTUI, capturing the long-haul emotional reality behind “just making a romhack.”"
     },
     {
       "speaker": "Kaze",
-      "quote": "The N64 is so much stronger than people give it credit for.",
-      "context": "Said while discussing native hardware performance/optimizations and the project running near 60 FPS on real N64."
+      "quote": "In Mario 64, you jump, you’re kind of committed.",
+      "context": "His core argument for why the dive jump may be philosophically inconsistent with SM64 movement, and why he’s considering limiting it."
     }
   ],
   "key_stories": [
     {
-      "title": "Refactor week leads to N64 stability and a debug overworld",
-      "summary": "Kaze explains he spent the week refactoring RTUI’s codebase and regained N64 compatibility while fixing numerous crashes. He also replaces the first overworld with a debug overworld, emphasizing iteration speed and stability during heavy engine/level work.",
-      "challenge": "Refactors caused instability and crashes, risking loss of progress and making testing unreliable on target hardware.",
-      "process": "Refactor and re-integrate systems carefully, fix crashes, validate on N64 again, and swap in a debug overworld for easier testing.",
-      "outcome": "A more stable build and a development-oriented overworld setup, enabling faster iteration on levels/enemies.",
+      "title": "Refactor week: RTUI returns to stable N64 builds",
+      "summary": "Kaze opens by reporting a behind-the-scenes refactor that restores N64 compatibility and eliminates many crashes. This is a classic “invisible progress” moment: less flashy than new content, but foundational for shipping a large hack on real hardware.",
+      "challenge": "The RTUI codebase had regressed into crashes/instability and needed structural refactoring to reliably run on original N64 hardware again.",
+      "process": "Kaze refactors core code, fixes crash sources, verifies N64 functionality, and swaps in a debug overworld to improve ongoing testing.",
+      "outcome": "A significantly more stable build that runs on N64 again, setting a stronger base for continuing level/enemy production.",
       "key_quote": null,
       "related_to": ["kaze"]
     },
     {
-      "title": "Ice raven enemy pivots from complex AI to spawn-and-disappear minions",
-      "summary": "Kaze starts by attempting a more complex wall-following raven behavior with turning logic tied to geometry raycasts and rotations. After Biobak suggests making them ice minions that pop out, walk a short segment, then disappear, Kaze adopts the approach for both coolness and implementation simplicity.",
-      "challenge": "Free-roaming wall-walking ravens required complicated turning/orientation logic and raised questions about placement and purpose.",
-      "process": "Prototype movement/turning, confront complexity (angles/normals, animation timing), then redesign as spawner-based minions and implement the spawner behavior and timing.",
-      "outcome": "Working enemy concept that fits the ice theme and is easier to place and tune; remaining work depends on finishing the level layout/visuals.",
-      "key_quote": "It's cooler and easier to program.",
-      "related_to": ["kaze", "biobak", "zeina"]
+      "title": "Ice Ravens redesign: from awkward walker to pop-out ice minion",
+      "summary": "While implementing the Raven enemy, Kaze realizes a simple walker is hard to justify and place meaningfully. A chat suggestion reframes the enemy as an ice-themed spawning hazard that fits the level’s vibe and reduces AI complexity.",
+      "challenge": "The Raven felt inconsequential, difficult to place without looking weird, and programming full wall-walking/turn logic was becoming overcomplicated relative to its gameplay value.",
+      "process": "Kaze prototypes turning/path logic, then reacts to Biobak’s suggestion: spawn them from the ground/walls, have them travel a short path, and disappear—turning them into an atmospheric hazard and simplifying behavior requirements.",
+      "outcome": "Kaze commits to the new approach (“cooler and easier to program”) and begins adapting the implementation toward spawners rather than static placements.",
+      "key_quote": null,
+      "related_to": ["kaze", "biobak"]
+    },
+    {
+      "title": "Fast64/export bug derails enemy tuning until parentheses fix",
+      "summary": "During behavior tuning, Kaze observes that parameters (like turn timing/values) don’t match what he set, creating ‘am I going insane?’ debugging moments. He concludes it’s an order-of-operations/parentheses issue in exported values and fixes it by adding brackets.",
+      "challenge": "Enemy behavior parameters behave inconsistently (printed values don’t match configured ones), breaking turning timing and causing confusion about whether the code or data is wrong.",
+      "process": "He prints runtime values, traces the issue to how values are exported/shifted, and applies explicit parentheses/brackets to force correct evaluation. He publicly attributes blame to Fast64 (and jokingly to Lilaa).",
+      "outcome": "The Raven turning values begin behaving as intended; remaining inaccuracies are described as minor and “very fixable.”",
+      "key_quote": null,
+      "related_to": ["kaze"]
+    },
+    {
+      "title": "Dive jump under scrutiny after Dan Salvato feedback",
+      "summary": "Kaze revisits a core physics move because an outside designer flags it as inconsistent with Mario 64’s movement language. This shows Kaze balancing ‘player expression’ against ‘authentic feel,’ and acknowledging skill-gap implications.",
+      "challenge": "The dive jump allows midair angle correction and may undermine Mario 64’s commitment-based jump arcs; it’s also a hard input that benefits experts more than novices.",
+      "process": "Kaze explains Salvato’s critique, compares it to other recovery moves (kicks/safer noob-friendly options), and proposes limiting dive jump to a small, skill-based angle adjustment rather than a major save tool.",
+      "outcome": "No final decision yet, but Kaze signals an intent to nerf/reframe the move and asks for more feedback; he also floats making small physics demo builds of Course 1 to evaluate preferences.",
+      "key_quote": "In Mario 64, you jump, you’re kind of committed.",
+      "related_to": ["kaze"]
     }
   ],
   "open_questions": [
     {
-      "topic": "Dive-jump mechanic redesign after Dan Salvato feedback",
-      "context": "Kaze believes the current dive-jump allows too much midair angle correction, conflicting with Mario 64’s committed jump arcs and potentially trivializing mistakes for skilled players while remaining inaccessible to novices.",
+      "topic": "Final decision on dive jump nerf and playtest method",
+      "context": "Kaze is persuaded by Dan Salvato’s argument that dive jump breaks Mario 64’s commitment-based air control and considers reducing it to minor angle influence. He also mentions making Course 1 physics demo variants to learn what players prefer.",
       "questions": [
-        "What specific player-testing or level-design problems made the dive-jump feel ‘too powerful’—were there particular jumps/sections it broke?",
-        "What final direction did you choose: nerf (reduced angle change), higher execution barrier, limited contexts, or removal?",
-        "How do you decide which movement tech is ‘advanced reward’ versus ‘core expected tool’ for a 180-star hack?",
-        "Did you adjust any existing courses that were implicitly designed around the old dive-jump behavior?"
+        "What was Dan Salvato responding to specifically—was it a particular level segment, a speedrun-like optimization, or just the overall ‘feel’ of movement?",
+        "What version of the dive jump did you ultimately ship (if any), and what criteria decided ‘this still feels like Mario 64’ vs ‘this becomes a different game’?",
+        "Did you end up building Course 1 physics demos, and how did you collect/interpret player feedback without it devolving into preference wars?",
+        "Were any existing jumps/sections designed around the stronger dive jump, and how painful was it to retrofit levels after changing the move?"
       ],
       "related_to": ["kaze"]
     },
     {
-      "topic": "Raven boss fight design (moon/cosmic cutscene and mechanics)",
-      "context": "Kaze hints that “Raffle the Raven” will be a boss with moon/cosmic elements and special knockback/attack patterns (not classic SM64 boss rules). He also mentions a possible black coloration to support a moon-themed cutscene.",
+      "topic": "Ice Raven minion behavior: damage, freezing, bounce-top, and shatter mechanics",
+      "context": "Kaze debates whether the ice Ravens should freeze Mario or simply damage him, and considers alternate interactions (e.g., not bounce-top; punch → slide → shatter) but worries about added complexity (plane movement/raycasting).",
       "questions": [
-        "What is the narrative/visual concept of the moon/cosmic sequence, and how does it connect to the ice-palace theme?",
-        "What are the concrete player verbs in the boss fight—how do you ‘knock him back’ and what triggers phases?",
-        "Why make the boss black for the cutscene—was it a technical readability constraint, lighting/material limitation, or a story/character choice?",
-        "How do you balance ‘Yoshi’s Island respect’ with ‘Mario 64 readability’ for a boss silhouette and attacks?"
+        "What role do you want these ice minions to play moment-to-moment—spacing hazard, timing pressure, resource drain, or a ‘vibe’ enemy that mainly sells the theme?",
+        "Did you test ‘freeze’ vs ‘damage’ with real players, and how did freezing change the fairness/readability of platforming sections?",
+        "Did you ever prototype the punch-slide-shatter idea, and if so, what made it worth keeping or cutting?",
+        "How did you decide where enemies belong in a level when you’ve said you don’t want them to feel like ‘nonsense’ filler?"
+      ],
+      "related_to": ["kaze", "biobak"]
+    },
+    {
+      "topic": "Raven boss fight concept with moon/cosmic elements",
+      "context": "Kaze hints the boss (an actual Raven, possibly black for a moon-themed cutscene) is planned to “go crazy,” with cosmic elements, but defers details.",
+      "questions": [
+        "What’s the core fantasy of the Raven boss—what do you want the player to feel that’s different from SM64 bosses?",
+        "How did the moon/cosmic motif emerge—was it driven by Yoshi’s Island references, level art direction, or a specific mechanic idea?",
+        "What does ‘not like SM64 bosses’ mean in concrete mechanical terms (hit conditions, pacing, telegraphing, arena design)?",
+        "How do you plan cutscenes and boss visuals around N64 lighting/material constraints (e.g., making the boss black for moon readability)?"
       ],
       "related_to": ["kaze", "zeina"]
     },
     {
-      "topic": "Performance strategy and N64 target validation",
-      "context": "Kaze claims near-60 FPS on real N64, mentions micro-optimizations (hot-element rendering) and a planned framebuffer segmentation change for a 2–3% boost; he also notes he can’t currently boot his N64 due to being in Canada with a European plug.",
+      "topic": "Optimization plan: framebuffer segmentation and the ‘last mile’ to stable 60 FPS",
+      "context": "Kaze estimates that placing framebuffers into separate memory segments could yield ~2–3% performance (about 1 FPS). He also notes the build already runs near 60 FPS on real N64 and that he’s saving tiny slices of time via systems changes.",
       "questions": [
-        "What’s your actual performance target across the whole game (true 60, ‘near 60’, or per-level budgets), and how do you measure it?",
-        "How often do you test on real N64 vs emulator, and what’s your workflow when you can’t access hardware?",
-        "Did the new hot-element/delegate rendering system remove any major bottleneck elsewhere, or is it part of an ‘every microsecond counts’ philosophy?",
-        "Did the framebuffer segmentation idea end up working, and what tradeoffs (memory fragmentation, complexity, compatibility) did it introduce?"
+        "Did you implement the framebuffer segmentation idea, and what were the real-world gains and tradeoffs (memory layout complexity, bugs, compatibility)?",
+        "At this stage, how do you decide which optimizations are worth the risk of destabilizing the codebase again?",
+        "What tools/metrics do you rely on when improvements are down in the microseconds-per-frame range?",
+        "How did the push for native-hardware performance shape art direction and gameplay density in later levels?"
       ],
       "related_to": ["kaze"]
-    },
-    {
-      "topic": "Fast64 pipeline reliability and exporter pitfalls",
-      "context": "A behavior value mismatch was traced to an order-of-operations/left-shift issue in exported values, fixed by adding brackets; Kaze labels it a Fast64 bug and notes values came through wrong until corrected.",
-      "questions": [
-        "How often do toolchain/exporter issues (Fast64) create silent gameplay bugs, and how do you detect them?",
-        "Do you maintain any conventions or code-side validation to catch ‘exported numeric values are wrong’ errors early?",
-        "Was this an actual Fast64 bug, or a usage/format expectation (e.g., needing explicit parentheses)?",
-        "How has dependence on Fast64 shaped your iteration speed compared to pre-decomp ASM-era workflows?"
-      ],
-      "related_to": ["kaze"]
-    },
-    {
-      "topic": "Ice raven minion final behavior and placement role",
-      "context": "Kaze ends with a working enemy but admits placement depends on finishing the level; he also debates whether they should freeze or just damage, and whether bounce-top interaction should remain.",
-      "questions": [
-        "What final role do the ice ravens play in the level’s rhythm—pressure in traversal, timing hazards, or atmosphere?",
-        "Did you choose ‘freeze’ status, plain damage, or a hybrid (e.g., freeze on wall-walk only)? Why?",
-        "How did you decide whether the player can jump on them versus needing punches/sliding mechanics?",
-        "What specific parts of the ice-castle layout were designed around raven spawners once the level visuals/paths were finalized?"
-      ],
-      "related_to": ["kaze", "biobak", "zeina"]
     }
   ]
 }

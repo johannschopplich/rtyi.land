@@ -1,75 +1,87 @@
 {
   "stream_context": {
-    "summary": "Kaze works on an in-progress Bowser boss fight set on a flying ship, focusing on Bowser’s movement/stepping collision, making Bowser grabbable by the tail, and polishing fight flow (platform/landing-strip layout, sliding/dust, pop-in). The stream also includes a major engine optimization to floor collision queries, debugging 60 FPS interpolation issues that caused objects/signs to jitter, discussion of ROM size limits driven by streamed audio, and a brief legal/release strategy note about delaying open-sourcing to reduce Nintendo takedown risk. Kaze also explains broader design philosophy (minimal options, consistent player experience) and notes a platform shift from Twitch to YouTube for streams.",
+    "summary": "Kaze moves his dev streams from Twitch to YouTube based on community polls and monetization/ads concerns, then spends most of the session building and debugging a new Bowser-on-a-ship boss sequence (walk/run behavior, stepping up geometry, tail-grab/throw logic, sliding/dust, and animation needs). He also shares a major engine-side optimization to Mario 64’s floor-query logic (to both fix “floor clacking” and improve cache behavior), discusses ROM size pressure from streamed music under the 64MB limit, and briefly outlines a release/open-source strategy meant to reduce immediate Nintendo takedown risk.",
     "level": ["Course 6"],
-    "significance": "notable",
-    "significance_reason": "Contains a concrete new engine optimization (floor query/DCACHE idea), boss-fight direction for Bowser-on-ship, ROM-size/music constraints, and a clear legal/release tactic (delay open-sourcing)."
+    "significance": "milestone",
+    "significance_reason": "Introduces a concrete engine optimization with performance implications, establishes a tentative post-release open-sourcing delay due to Nintendo risk, and implements core Bowser fight interactions (grab/throw) while resolving refactor-induced bugs that affected object interpolation and animation timing."
   },
   "findings": [
     {
       "topic": "business",
       "importance": "medium",
-      "summary": "Kaze indicates a likely permanent shift of dev streams from Twitch to YouTube, citing community preference polling and Twitch’s ad experience; he also mentions YouTube’s revenue split being more favorable than Twitch’s.",
+      "summary": "Kaze says he is likely switching streams permanently from Twitch to YouTube after running community polls (most preferred YouTube), citing Twitch’s ad experience and the inability to comfortably follow two chats at once.",
+      "quote": null
+    },
+    {
+      "topic": "business",
+      "importance": "medium",
+      "summary": "He highlights platform monetization differences as a reason to prefer YouTube (claims Twitch effectively takes ~50% while YouTube is closer to 70/30), framing Twitch donations as partially “donating to Amazon.”",
       "quote": null
     },
     {
       "topic": "design",
       "importance": "high",
-      "summary": "Bowser ship boss fight direction: the player will grab Bowser’s tail from the ship’s edge; after being thrown, Bowser jumps back to his castle/ship, with early phases intended to be easier and later phases faster/harder. Kaze also considers adding coins for mid-fight healing if difficulty spikes.",
-      "quote": null
-    },
-    {
-      "topic": "technical",
-      "importance": "medium",
-      "summary": "Bowser navigation/collision problem: Bowser could not “step up” onto a raised surface because step height thresholds (e.g., 20 vs 50 units) prevented it; Kaze considers converting the ledge into a slope/beveled ramp to make both Mario and Bowser interactions feel less awkward.",
+      "summary": "He outlines the intended structure of the Bowser ship encounter: early phase should be easy, and each subsequent tail-grab/throw cycle should escalate (faster Bowser, more pressure). The player’s main verb is grabbing Bowser’s tail near an edge and throwing him off so he “jumps back” to his castle/ship state.",
       "quote": null
     },
     {
       "topic": "technical",
       "importance": "high",
-      "summary": "New optimization in floor collision queries: Kaze explains a Mario 64 bug/behavior where floor iteration stops after finding a single surface (which can cause surfaces to “hide” other surfaces). To keep sorting priority while avoiding extra memory loads, he proposes/implements an approach that “kills” floors that are too high and only iterates/loads a small subset of each surface struct (upperY/lowerY), reducing DCACHE pressure and improving runtime.",
+      "summary": "Boss AI/physics work focuses on making Bowser feel grounded rather than “floating”: adding a proper walk/run cycle, decelerating when leaving the run state, tuning turn speed (potentially scaling with damage), and fixing navigation failures by changing ship geometry to slopes/step-up-friendly surfaces.",
       "quote": null
     },
     {
       "topic": "technical",
-      "importance": "medium",
-      "summary": "Kaze mentions replacing/adding a “most correct” sine/cosine implementation and notes using a GCC trick with imaginary/complex numbers to return multiple values at once (used for performance-oriented math utilities).",
-      "quote": null
-    },
-    {
-      "topic": "technical",
-      "importance": "medium",
-      "summary": "A gameplay-interaction regression (tiny interaction boxes / falling through a star) was traced to recent header/include changes; removing an engine include from mario.h restored behavior. He also notes RTYI stores random values in a precomputed table instead of generating them at runtime (calling the vanilla approach inefficient).",
-      "quote": null
-    },
-    {
-      "topic": "technical",
-      "importance": "medium",
-      "summary": "A 60 FPS-only “bouncing/jitter” bug in static tutorial sign objects was caused by spawned objects not having interpolated positions set correctly combined with per-frame positional offsets after a spawn helper function ran. Fix: ensure spawned objects initialize interpolated position properly, and avoid using that spawn helper for objects that offset themselves every frame.",
-      "quote": null
-    },
-    {
-      "topic": "legal-nintendo",
       "importance": "high",
-      "summary": "Kaze argues the work is legal but still suggests delaying open-sourcing for a short period after initial release (suggested ~2 months) to reduce the chance of an immediate Nintendo takedown and to preserve hidden content/easter eggs.",
+      "summary": "Kaze describes a newly found floor-collision optimization: Mario 64’s find_floor_from_list stops after the first valid surface, which can cause surfaces to hide each other unless sorting is used. His approach keeps a useful sort priority but pre-filters “floors that are too high,” then loads only the upper/lower Y bounds (small subset of each surface struct) into cache so iteration touches ~0x10 bytes per floor, improving performance while avoiding the original floor-hiding problem.",
+      "quote": null
+    },
+    {
+      "topic": "technical",
+      "importance": "medium",
+      "summary": "He mentions continued engine-level math/physics improvements, including a “most correct” sine/cosine implementation and using complex/imaginary-number tricks to return multiple values efficiently in GCC (crediting a Discord suggestion).",
+      "quote": null
+    },
+    {
+      "topic": "technical",
+      "importance": "high",
+      "summary": "A refactor/regression caused tutorial sign prompts to jitter/bounce in sync with framerate due to interpolation/spawn-state handling. He diagnoses it as a spawned-object interpolated position not being initialized correctly and fixes it by ensuring spawned objects set interpolated position properly (and by avoiding a helper function that interacted badly with per-frame offsets).",
+      "quote": null
+    },
+    {
+      "topic": "technical",
+      "importance": "high",
+      "summary": "While implementing Bowser tail grabbing/throwing, he discovers broken interactions (e.g., unexpectedly punching Reznor) caused by a missing interaction subtype flag—an example of how a small behavior-setup omission cascades into seemingly unrelated bugs.",
       "quote": null
     },
     {
       "topic": "philosophy",
       "importance": "medium",
-      "summary": "Design philosophy: Kaze strongly prefers minimizing options/settings so players share a consistent experience, citing “choice overload” style reasoning and his dislike of fragmented play experiences driven by many toggles.",
-      "quote": "I think games should give you as few options as possible, as little as you can get away with."
+      "summary": "Kaze argues strongly against adding many user options (including refusing music-selection options), saying too many choices dilute a shared intended experience and increase confusion; he prefers shipping the “minimum options you can get away with.”",
+      "quote": null
+    },
+    {
+      "topic": "legal-nintendo",
+      "importance": "high",
+      "summary": "He claims the project is legal in principle but still proposes delaying open-sourcing for a short period after release so Nintendo does not “instantly” take it down; he also cites protecting Easter eggs as a secondary benefit.",
+      "quote": null
     },
     {
       "topic": "technical",
       "importance": "high",
-      "summary": "ROM size constraint is actively affecting content decisions: Kaze reports the ROM at ~44.6 MB, with ~32.1 MB being music alone because RTYI uses many streamed tracks (better sound/performance but huge file sizes), highlighting the 64 MB ceiling as a real limit—especially for audio.",
-      "quote": "Currently, the ROM is 44.6 megabytes and 32.1 megabytes is music."
+      "summary": "ROM size is already heavily constrained by audio: he says the build is ~44.6MB, with ~32.1MB of that being music because RTYI uses a lot of streamed music (better performance/sound but huge file size), making the 64MB cap materially relevant for content decisions.",
+      "quote": null
+    },
+    {
+      "topic": "personal",
+      "importance": "medium",
+      "summary": "Kaze shares that he currently works as a kitchen cook and dislikes kitchen work (though he likes his current team), and that Patreon is his biggest income source. He also says he is already a professional Unreal Engine developer and would use Unreal for an original game, partly to earn more and to support long-term goals like buying a house.",
+      "quote": null
     },
     {
       "topic": "technical",
       "importance": "medium",
-      "summary": "To reduce polygon cost on ship background elements, Kaze uses a modeling/render trick: ships are “half modeled,” then mirrored with a negative scale while flipping culling (front-face on, back-face off). This halves polygon count but introduced a bug when only one ship instance applied the negative scale; he identifies the need for consistent handling per instance.",
+      "summary": "He experiments with mitigating N64 background pop-in on ships/balloons: fog is possible but complicated by alpha sorting and multi-plane setup, so he tests a scale-in approach. He also notes an optimization technique for ships: negative scaling + face culling to reuse half-modeled geometry and reduce polygons, but it can introduce visual/culling edge cases if not handled carefully.",
       "quote": null
     }
   ],
@@ -78,7 +90,7 @@
       {
         "topic": "design",
         "importance": "medium",
-        "summary": "Biobak provides a model update for tutorial bunnies/signs, prompting Kaze to switch tasks and implement/fix textbox/tutorial assets sooner than planned; their feedback loop directly affects onboarding/tutorial presentation.",
+        "summary": "Biobak sends Kaze a model for tutorial bunnies/sign prompts; Kaze reviews how the texture is split across multiple textures and uses it to prioritize adding/repairing tutorial textboxes and prompt visuals.",
         "quote": null
       }
     ],
@@ -87,13 +99,13 @@
       {
         "topic": "team",
         "importance": "medium",
-        "summary": "Zeina speaks on-stream, clarifying her role as animations/artwork and promoting her animation channel; she frames a cadence expectation (“every month you’ll see a new animation posted”), implying a structured pipeline for animation drops.",
+        "summary": "Zeina speaks on-stream to clarify her role (animations/artwork) and plugs that she has been posting animations to her own YouTube channel; she says viewers can expect a new animation about monthly, with a Bowser showcase planned next.",
         "quote": null
       },
       {
         "topic": "personal",
         "importance": "low",
-        "summary": "Zeina and Kaze briefly discuss gifts from Kaze’s parents (German cereal/chocolate) and their dynamic banter while Kaze is debugging, showing the home/work overlap during development.",
+        "summary": "On-stream couple dynamic: Zeina corrects Kaze’s joke about her being his “sister-in-law” and reiterates she is his wife, reflecting the casual, collaborative home-studio environment of development.",
         "quote": null
       }
     ],
@@ -104,8 +116,8 @@
           {
             "topic": "technical",
             "importance": "medium",
-            "summary": "Kaze mentions Lilaa is creating a new Mario animation format; he expects it to break existing systems but accepts the churn as worthwhile long-term quality improvement.",
-            "quote": "Mario's going to get a new animation format that Lilaa's making. And that's going to fuck a lot of shit up here, too."
+            "summary": "Kaze says a new Mario animation format being made by Lilaa is planned and will likely break existing content, but he accepts the short-term disruption because it improves the game long-term.",
+            "quote": null
           }
         ]
       },
@@ -114,8 +126,8 @@
         "findings": [
           {
             "topic": "technical",
-            "importance": "low",
-            "summary": "Kaze credits a Discord community idea (easyaspi) for using imaginary/complex numbers as a GCC trick to return two values at once in performance-sensitive code.",
+            "importance": "medium",
+            "summary": "Kaze credits a Discord idea (from easyaspi) that uses GCC/complex-number tricks to return multiple values efficiently, part of his broader approach to micro-optimizing math/engine routines on N64.",
             "quote": null
           }
         ]
@@ -125,99 +137,93 @@
   "memorable_quotes": [
     {
       "speaker": "Kaze",
-      "quote": "We should probably delay open sourcing the game a little from the initial release, just so Nintendo doesn't instantly take it down.",
-      "context": "Release/legal strategy: separating initial launch from source availability to reduce takedown risk and preserve secrets."
+      "quote": "We should probably delay open sourcing the game a little from the initial release, just so Nintendo doesn’t instantly take it down.",
+      "context": "He discusses post-release strategy and how to reduce immediate takedown risk despite believing the work is legally defensible."
     },
     {
       "speaker": "Kaze",
-      "quote": "I think games should give you as few options as possible, as little as you can get away with.",
-      "context": "Core design philosophy: consistent experience over player-configurable settings."
+      "quote": "Options are bad. You don’t want to give your players too much choice.",
+      "context": "He explains his design philosophy for minimizing settings (including refusing music-selection options) to preserve a consistent intended experience."
     },
     {
       "speaker": "Kaze",
-      "quote": "Currently, the ROM is 44.6 megabytes and 32.1 megabytes is music.",
-      "context": "Concrete production constraint: audio format choice is consuming most of the remaining ROM budget under the 64 MB limit."
+      "quote": "This is going to be a much bigger deal than Lost Impact. I think everyone’s going to love this game and that’s going to make its popularity skyrocket.",
+      "context": "He contrasts RTYI’s expected reception with his previous project and predicts a major jump in popularity."
     }
   ],
   "key_stories": [
     {
-      "title": "Floor-collision bug leads to a cache-focused optimization",
-      "summary": "Kaze explains a Mario 64 floor-query behavior where iteration stops after the first valid surface, creating cases where surfaces “hide” each other. While addressing the resulting sorting/priority complications, he proposes keeping sorting but early-rejecting floors and only loading the minimal needed surface fields (upperY/lowerY) to reduce DCACHE loads.",
-      "challenge": "Fix floor surface correctness issues (hidden floors / ‘floor clacking’) without making collision queries slower.",
-      "process": "Analyze vanilla find_floor_from_list behavior; preserve sorting priority; implement an approach that prunes floors ‘too high’ and iterates only minimal struct bytes needed for the test to avoid loading unused data into cache.",
-      "outcome": "A new engine optimization that improves runtime while maintaining more correct floor selection behavior; presented as a recent “sick optimization.”",
+      "title": "Floor-query optimization to fix surface hiding while improving cache performance",
+      "summary": "Kaze explains a long-standing Mario 64 floor-query pitfall (surfaces hiding each other) and how fixes can be expensive if done naïvely. He proposes a performance-conscious solution that preserves useful sorting while reducing memory touched per surface, framing it as one of the many RTYI engine optimizations he keeps discovering late in development.",
+      "challenge": "Mario 64’s find_floor_from_list stops iterating after finding a surface, which can produce wrong results when multiple surfaces overlap; sorting can help but creates other slope/ordering edge cases and costs performance.",
+      "process": "He keeps a form of sorting priority but pre-filters floors above a threshold and only loads the upper/lower Y bounds of each surface into cache, iterating a tiny fixed subset (~0x10 bytes) instead of the full surface struct.",
+      "outcome": "He reports improved runtime behavior/performance and a more robust fix against “floor clacking”/surface-hiding issues, reinforcing why he is postponing backporting optimizations to other branches until RTYI is finished.",
       "key_quote": null,
       "related_to": ["kaze"]
     },
     {
-      "title": "60 FPS interpolation/jitter bug in static tutorial signs",
-      "summary": "Tutorial sign/prompts jittered/bounced in a way that correlated with 60 FPS. Kaze traces it to how newly spawned objects’ interpolated positions were initialized combined with per-frame offsets applied after a helper spawn function executed.",
-      "challenge": "Static tutorial assets visibly jitter at 60 FPS, undermining polish and readability.",
-      "process": "Hypothesize interpolation mismatch; locate the spawn/initialization function; note that some objects offset themselves every frame; adjust initialization so spawned objects have interpolated position set correctly and avoid the unsafe helper for offsetting objects.",
-      "outcome": "Signs behave correctly again and the fix becomes a rule-of-thumb for which spawn helpers are safe to use with which object behaviors.",
+      "title": "Turning Bowser from a 'Roomba' into a grabbable, escalating ship boss",
+      "summary": "The stream’s main practical arc is making the Bowser ship fight playable: grounded movement, step-up navigation, and tail-grab/throw interactions. Along the way, Kaze hits cascading behavior bugs triggered by missing flags and refactor side effects, illustrating how boss mechanics often require deep engine-state correctness (interactions, held-object transforms, interpolation).",
+      "challenge": "Bowser looks comical/floaty, can’t step up ship geometry, and the tail-grab/throw system has missing pieces (Kaze previously removed parts of Mario’s Bowser-grab logic). Bugs emerge where interactions and held-object transforms behave unexpectedly.",
+      "process": "He changes ship geometry toward slopes/step-friendly shapes, tunes Bowser state transitions (speed loss outside run, turning), adds/repurposes a tail hitbox and interaction subtype flags, and isolates issues by removing suspected held-object/rotation code until the culprit is found.",
+      "outcome": "Bowser can be grabbed/spun and the fight is closer to end-to-end playable, but animations and polish are still missing; Kaze identifies next steps such as sliding behavior, dust effects, and additional jump-back/transition animations (possibly Lakitu-assisted).",
       "key_quote": null,
-      "related_to": ["kaze"]
+      "related_to": ["kaze", "zeina"]
     },
     {
-      "title": "Audio quality vs ROM budget becomes a hard constraint",
-      "summary": "Kaze reveals that streamed music is consuming the majority of the ROM size, pushing RTYI near the 64 MB ceiling. He frames streamed audio as sounding better and performing better, but acknowledges its huge size cost.",
-      "challenge": "Fit a large, modern-feeling soundtrack into a hard 64 MB N64 ROM limit while keeping quality high.",
-      "process": "Use streamed tracks for quality/perf; monitor ROM size; consider where sequenced versions might replace streamed ones (implied by chat and his responses).",
-      "outcome": "Audio is identified as a primary limiter (over ~70% of ROM usage at the moment), likely forcing future tradeoffs in soundtrack approach or content scope.",
-      "key_quote": "Currently, the ROM is 44.6 megabytes and 32.1 megabytes is music.",
-      "related_to": ["kaze", "badub"]
+      "title": "Release planning under Nintendo risk: delaying open-source after launch",
+      "summary": "Kaze draws a pragmatic line between what he believes is legally permissible and what is strategically safe. He suggests holding back the project’s open-source release for a short window to reduce instant takedown risk and to protect secrets/Easter eggs.",
+      "challenge": "Open-sourcing immediately could make the project an easier target for rapid takedown actions, even if Kaze believes the work is lawful.",
+      "process": "He floats a concrete delay period (about two months) and ties it to both risk management and creative reasons (Easter eggs).",
+      "outcome": "A tentative release tactic is established that an interviewer can probe: what gets released when, and how the team balances transparency with survivability.",
+      "key_quote": "We should probably delay open sourcing the game a little from the initial release, just so Nintendo doesn’t instantly take it down.",
+      "related_to": ["kaze"]
     }
   ],
   "open_questions": [
     {
-      "topic": "Floor-query/DCACHE optimization impact and risk",
-      "context": "Kaze describes pruning floors and loading only upperY/lowerY fields to reduce DCACHE loads while keeping sorting priority to avoid hidden-floor issues.",
+      "topic": "Delayed open-sourcing strategy and takedown risk assessment",
+      "context": "Kaze proposes delaying open-sourcing after release (roughly two months) to reduce immediate Nintendo takedown risk and to protect Easter eggs, despite saying the work is legal.",
       "questions": [
-        "How did you validate correctness (no new edge-case fall-through) after changing floor iteration behavior—did you build specific test maps or rely on playtesting across levels?",
-        "What measurable performance gains did you see (frame time, worst-case rooms, object-heavy scenes), and where does it matter most in RTYI?",
-        "Did this optimization require changing surface data layouts/structs, and did it ripple into tooling (FAST64 exports, collision generation)?"
+        "What specific scenario are you trying to avoid by not open-sourcing immediately—DMCA on downloads, a repo takedown, YouTube strikes, or something else?",
+        "How did you arrive at “about two months”? Was that based on prior experiences (yours or other modders), or a strategic guess?",
+        "What parts do you plan to open-source first (engine, tools, patches), and what—if anything—will remain closed longer?",
+        "Did you ever consult anyone (lawyer, other creators) about the legal/PR angle, or is this purely risk management from experience?"
       ],
       "related_to": ["kaze"]
     },
     {
-      "topic": "Delaying open-source as anti-takedown strategy",
-      "context": "Kaze suggests open-sourcing a short time after release (~2 months) to reduce immediate Nintendo action and preserve easter eggs.",
+      "topic": "Audio memory budget: streamed music vs sequenced music tradeoffs",
+      "context": "He says the ROM is ~44.6MB and ~32.1MB is music because streamed tracks sound/perform better but are huge, making the 64MB ceiling a real constraint.",
       "questions": [
-        "What specific takedown scenario are you trying to avoid—video/patch distribution, GitHub repo removal, or something else?",
-        "What does ‘release’ mean in this plan (patch only, full repo build scripts, assets excluded), and what exactly would be withheld during the delay?",
-        "Have past Nintendo actions against other decomp-based projects informed this timing, and did you consult anyone about risk?"
+        "What was the moment you realized music—not levels—was going to dominate the ROM size, and how did that change your content plans?",
+        "How do you decide which tracks must be streamed versus which can be sequenced without losing the game’s identity?",
+        "Do you have a target ROM size budget for non-music assets (levels, models, animations) as release approaches?",
+        "Have you explored hybrid approaches (short streamed intros + sequenced loops), or tooling changes, to claw back space?"
       ],
       "related_to": ["kaze"]
     },
     {
-      "topic": "Soundtrack format strategy under the 64 MB limit",
-      "context": "Kaze states the ROM is ~44.6 MB with ~32.1 MB of it being music due to many streamed tracks; this makes music the dominant budget consumer.",
+      "topic": "Design philosophy of minimal options vs accessibility/comfort",
+      "context": "Kaze argues “options are bad,” rejects music-selection options, and prefers a consistent intended experience; he also makes blunt comments about not targeting blind accessibility for a 3D platformer.",
       "questions": [
-        "What criteria decide whether a track is streamed vs sequenced (scene importance, instrumentation, loop length, CPU cost, memory)?",
-        "How much of the soundtrack is currently placeholder vs final, and do you anticipate a late-stage ‘audio downscope’ pass?",
-        "How does Badub deliver music for RTYI today (streamed files, MIDI-like sequences), and what conversion/iteration loop do you use?"
+        "Where is your hard line between ‘too many options’ and ‘necessary accessibility/comfort’—camera settings, sensitivity, subtitles, colorblind support, etc.?",
+        "Did your stance on options come from a specific game you played (or shipped) where options harmed the experience?",
+        "How do you square a speedrun-focused design with minimizing settings, given speedrunners often want granular control?",
+        "If you had to pick one ‘exception’ option you would add, what would it be and why?"
       ],
-      "related_to": ["kaze", "badub"]
+      "related_to": ["kaze"]
     },
     {
-      "topic": "Bowser ship boss fight final choreography and difficulty curve",
-      "context": "Kaze is implementing tail-grab/throw logic, Bowser stepping/sliding, and mentions phases getting faster plus possible coins for healing; he also floats the idea of Lakitu pulling Bowser up after being knocked down.",
+      "topic": "Movement feel changes that make RTYI 'built for speedrunning'",
+      "context": "Kaze highlights specific feel changes (e.g., long-jumping out of long-jump landing, jumping out of triple-jump landing) and says the game is “basically built for speedrunning.”",
       "questions": [
-        "What is the intended player learning arc for this fight (what do you teach in phase 1, and what twists appear later)?",
-        "How many phases/throws are planned, and what changes between them (speed, hazards, arena layout, ship behavior)?",
-        "Is the ‘Lakitu pull-up’ idea still on the table, and what tone are you aiming for (comedic, threatening, classic Mario 64 homage)?"
+        "What prompted you to allow cancels like long-jump-land → long-jump—was it a deliberate speedrun feature or an emergent improvement you decided to keep?",
+        "How do you test that movement changes still feel ‘Mario 64’ while enabling more skill expression?",
+        "Were there any movement tech ideas you rejected because they broke readability or level design constraints?",
+        "Do you expect the speedrun community to influence final tuning, and if so, how will you gather and act on that feedback?"
       ],
-      "related_to": ["kaze", "zeina"]
-    },
-    {
-      "topic": "Animation pipeline changes and breakage tolerance",
-      "context": "Kaze expects Lilaa’s new Mario animation format to break existing systems but sees it as worth it; Zeina targets monthly animation drops and Bowser showcase animations.",
-      "questions": [
-        "What limitations in the current animation format forced the redesign (memory, tooling, blending, framerate interpolation, authoring workflow)?",
-        "Which systems are most at risk from the format change (player states, held-object rendering, cutscenes), and how are you planning the migration?",
-        "How do Zeina’s monthly animation deliveries integrate into the build—do you have an asset lock process or a ‘drop-in’ pipeline?"
-      ],
-      "related_to": ["kaze", "zeina"]
+      "related_to": ["kaze"]
     }
   ]
 }

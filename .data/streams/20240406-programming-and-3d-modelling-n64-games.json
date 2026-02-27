@@ -1,116 +1,104 @@
 {
   "stream_context": {
-    "summary": "Kaze finishes implementing a new \"bandit\" NPC that steals Mario’s coins and ties it to the final Yoshi coin in the level, then debugs the level’s train spline/pathing and notes remaining polish tasks. He also discusses the project’s 100% design philosophy (Yoshi coins replacing 100-coin stars), real-hardware targeting, toolchain frustrations, and monetization/payment platform issues.",
+    "summary": "Kaze finishes a new bandit NPC encounter that steals coins and drops a Yoshi Coin via a short cutscene, completes (or nearly completes) all five Yoshi Coin setups for the current level, and spends significant time fixing train spline/pathing issues and other polish bugs (camera start direction, particle despawn across area transitions). He also explains the project’s broader collectible philosophy (Yoshi Coins replacing 100-coin stars), shares scope signals (410 textboxes; ~3× vanilla content), and vents about practical realities (Stack Overflow compiler-note chase, Patreon/PayPal payment failures, not targeting real hardware, and anti-bootleg/copy-protection thoughts).",
     "level": ["Course 12"],
     "significance": "milestone",
-    "significance_reason": "The stream closes out the level’s five Yoshi-coin interactions (core 100% structure), completes a new bandit/cutscene mechanic, and indicates the course is essentially finished pending animations/sign/collision polish."
+    "significance_reason": "The stream ends with a concrete ‘level is basically done’ checkpoint: the coin-stealing bandit/Yoshi Coin interaction is completed, five Yoshi Coins are largely finished for the course, trains are made to properly follow track splines, and Kaze lists remaining tasks (Zeina’s animations, signage, collision/climbables, wood/sfx). It also contains key project-wide statements about replacing 100-coin stars and the hack’s scale (410 text boxes; ~3× vanilla)."
   },
   "findings": [
     {
       "topic": "design",
       "importance": "high",
-      "summary": "A new bandit NPC is implemented as a special interaction: when Mario looks away the bandit steals coins directly from the player’s coin inventory; when caught, the bandit plays a short cutscene, drops coins, and the interaction yields a Yoshi coin (intended as the level’s last Yoshi coin).",
+      "summary": "Kaze implements a new ‘bandit’ NPC whose core loop is: if you look away, it steals coins from your inventory; if you catch it, it plays a short cutscene where it runs off and drops a Yoshi Coin (with an added comedic ‘broke’ variant if you have zero coins).",
       "quote": null
     },
     {
       "topic": "design",
       "importance": "medium",
-      "summary": "An easter-egg variant is planned for players with zero coins: the bandit comments that Mario is broke and gives a Yoshi coin out of pity instead of stealing.",
-      "quote": null
-    },
-    {
-      "topic": "technical",
-      "importance": "medium",
-      "summary": "The stolen-coin visual was initially invisible due to missing coin-specific rendering/config flags; once corrected, the stolen coin now appears and can be tuned for speed/feel (lerp/math adjustments).",
-      "quote": null
-    },
-    {
-      "topic": "design",
-      "importance": "medium",
-      "summary": "Kaze decides to add a comedic “trip/stumble” beat to the bandit’s escape sequence (after chat suggestion), but notes it requires a dedicated animation asset to sell the moment.",
-      "quote": null
-    },
-    {
-      "topic": "milestone",
-      "importance": "high",
-      "summary": "Kaze states Course 12 is effectively done: all five Yoshi-coin interactions are complete, and remaining work is primarily polish/finishing tasks—animations (being done by Zeina), a sign asset, collision pass, climbable flags, and sound hooks (e.g., wood sounds).",
+      "summary": "He chooses not to make the bandit a longer chase mechanic because the level already contains two bandit chases, and he doesn’t want to overuse the same interaction pattern.",
       "quote": null
     },
     {
       "topic": "design",
       "importance": "high",
-      "summary": "Yoshi coins are confirmed as the hack’s replacement for 100-coin stars; collecting five Yoshi coins in a level awards a star, reframing 100% completion around bespoke exploration interactions rather than coin grinding.",
+      "summary": "Yoshi Coins are explicitly positioned as the game’s replacement for 100-coin stars: each five Yoshi Coins in a level yields a star, and Kaze wants them earned through creative/environmental interactions (similar to how Sunshine’s 100-coin shines encourage interacting with the environment, but without requiring it all in one run).",
       "quote": "The Yoshi coins are our replacement for the 100 coin stars."
     },
     {
-      "topic": "philosophy",
-      "importance": "high",
-      "summary": "Kaze cites Super Mario Sunshine’s 100-coin shines as the conceptual model: the best versions of “coin objectives” come from interacting with the environment creatively, and he wants Yoshi coins to reward exploration and experimentation rather than repetitive collection.",
-      "quote": "You get them by interacting with the environment in creative ways—and that's how I want the Yoshi coins to work as well."
+      "topic": "community",
+      "importance": "medium",
+      "summary": "Kaze credits earlier community feedback on the course geometry/platforming as meaningfully improving the level; he showed the level to people before finalizing it, then incorporated their suggestions and ideas from his own clip reviews.",
+      "quote": null
     },
     {
-      "topic": "design",
+      "topic": "technical",
+      "importance": "high",
+      "summary": "Train systems: he highlights improved audio tech (a sound render radius with falloff, beyond what original SM64 did), fixes trains to properly follow track splines (after finding they were snapping/falling to the floor), and confirms players can ride trains between station areas (intended traversal).",
+      "quote": null
+    },
+    {
+      "topic": "technical",
       "importance": "medium",
-      "summary": "The game will include a radar/feedback system so players can discover “special actions” tied to Yoshi coins, acknowledging that some Yoshi coins are intentionally non-obvious and may otherwise be missed.",
+      "summary": "He notices and flags a bug where particle effects do not despawn during area transitions, marks it as ‘very important,’ and adds it to the fix list for upcoming streams.",
+      "quote": null
+    },
+    {
+      "topic": "technical",
+      "importance": "medium",
+      "summary": "Performance/engine hygiene: Kaze discovers Pokey originally performed an excessive number of raycasts (one per segment plus extra for shadows, ~31 total) and reduces it to a single raycast as a reasonable optimization.",
+      "quote": null
+    },
+    {
+      "topic": "milestone",
+      "importance": "high",
+      "summary": "He states the course is effectively ‘done’ except for a clear remaining checklist: missing animations (Zeina), signage, collision work, some climbables, and sound/interaction polish (e.g., wood sounds).",
       "quote": null
     },
     {
       "topic": "milestone",
       "importance": "medium",
-      "summary": "Kaze reports the project has 410 text boxes, roughly 2.5–3× vanilla Mario 64, and expects similar scaling in total content once remaining levels are added.",
-      "quote": "We have 410 text boxes in this game now… almost three times vanilla Mario 64."
-    },
-    {
-      "topic": "technical",
-      "importance": "high",
-      "summary": "Train tech: trains have a sound render radius/falloff system that Kaze says vanilla SM64 didn’t support; he debugs train placement/pathing where trains were snapping to the floor and drifting off-track, then corrects spline/path-follow behavior so trains run properly on the tracks.",
-      "quote": null
-    },
-    {
-      "topic": "technical",
-      "importance": "high",
-      "summary": "A significant engine/level bug is identified: certain particles do not despawn correctly when transitioning between areas; Kaze flags this as “very important” to fix and plans a bug-fix focused stream.",
-      "quote": null
-    },
-    {
-      "topic": "technical",
-      "importance": "medium",
-      "summary": "Performance optimization insight: Pokey was extremely expensive—~31 raycasts per tick due to per-segment raycasts plus extra shadow checks; Kaze reduced this to 1 raycast to make it reasonable.",
-      "quote": "Turns out it's more like 31… there's one raycast per piece… and then there's extra raycasts for every single body part's shadow."
-    },
-    {
-      "topic": "technical",
-      "importance": "medium",
-      "summary": "Toolchain frustration: Kaze repeatedly receives a GCC “note” (not a warning) related to floating-point register usage across threads on N64, and complains Stack Overflow demanded an unrealistic minimal reproducible example (multi-threaded N64 project w/ libultra). He finds a workaround by changing/casting types (e.g., to f32) instead of inline casting.",
-      "quote": null
-    },
-    {
-      "topic": "philosophy",
-      "importance": "medium",
-      "summary": "Platform targeting stance: Kaze says most advanced hack tech won’t work on real N64 hardware, and that hack developers typically decide early whether real hardware is a target—most choose not to.",
-      "quote": "Usually when someone makes a hack, at the very beginning they decide whether they wanna target real hardware or not… and then most of the time people say no."
+      "summary": "Project scope signal: the hack now has ~410 text boxes—around 2.5–3× vanilla SM64—and Kaze frames that as consistent with having ~3× vanilla content, with three levels still missing.",
+      "quote": "We have 410 text boxes in this game now… we probably have three times as much content as vanilla Mario 64 as well, which is kind of insane."
     },
     {
       "topic": "business",
       "importance": "high",
-      "summary": "Monetization/payment disruption: Kaze says Patreon payments were broken for ~1.5 years and only just resumed; PayPal is still frozen (money sent there is unusable). He advises creators to consider alternatives like Ko-fi due to lower fees and better reliability, while acknowledging Patreon’s brand trust helps conversions.",
-      "quote": "Guys if you ever wanna make a Patreon, do not use Patreon, use Ko-fi or something."
+      "summary": "Monetization and platform friction: after ~1.5 years of being unable to receive Patreon payments, his Patreon account finally works again; PayPal remains frozen (money sent there is unusable). He advises creators to avoid Patreon and use alternatives like Ko-fi, but also notes Patreon has higher ‘customer trust’ than lesser-known platforms.",
+      "quote": "Guys if you ever wanna make a Patreon, do not use Patreon, use Ko-fi or something. They take a smaller cut and they're not as dogshit to work with."
+    },
+    {
+      "topic": "technical",
+      "importance": "medium",
+      "summary": "Tooling frustration story beat: he describes asking on Stack Overflow about a recurring GCC ‘note’ related to floating-point register use across threads on N64/MIPS, and finds the demand for a minimal reproducible N64 multi-thread ROM example unrealistic; he later resolves a related issue by changing how he casts/handles a float value (not doing an inline cast).",
+      "quote": null
+    },
+    {
+      "topic": "legal-nintendo",
+      "importance": "medium",
+      "summary": "Kaze reiterates a core ROMhack reality: many hacks decide early whether to target real hardware, and most choose not to; he implies Return to Yoshi’s Island will not support certain tech/features on real N64 hardware.",
+      "quote": "Usually when someone makes a hack, at the very beginning they decide whether they wanna target real hardware or not. And then most of the time people say no."
+    },
+    {
+      "topic": "legal-nintendo",
+      "importance": "medium",
+      "summary": "He discusses wanting some form of copy protection/bootleg detection (e.g., to identify false cartridges/flashcarts), mentioning an idea involving a ‘new IPL thing’ he’s not fully clear on, referenced via ‘Rusky the Death of the Dragon.’",
+      "quote": null
     }
   ],
   "contributor_findings": {
     "biobak": [
       {
-        "topic": "design",
+        "topic": "team",
         "importance": "medium",
-        "summary": "Kaze credits showing the level to others early (including Biobak’s ongoing involvement) with improving platforming/geometry based on feedback; he also notes Biobak still has remaining work on the course, while Kaze will clean up lingering placement issues later.",
-        "quote": "It was a good thing I showed this to people before I started making this because people had a lot of really good feedback on it to make the platforming better."
+        "summary": "Biobak is referenced as still having remaining work on/after this course; Kaze also explicitly tells Biobak there are visible course issues (missing trains/under-geometry details) that Kaze will fix later in a final polish pass.",
+        "quote": null
       }
     ],
     "badub": [
       {
         "topic": "team",
         "importance": "medium",
-        "summary": "Badub is actively composing a new track for a “Western duel” scene; Kaze frames it as upcoming fun content and implies the duel music will be stylistically related to an existing cave/hideout track but without certain effects (e.g., reverb).",
+        "summary": "Badub is mentioned as actively composing a new track for the ‘Western duel scene,’ which Kaze expects to be ‘very fun.’",
         "quote": null
       }
     ],
@@ -118,131 +106,107 @@
       {
         "topic": "team",
         "importance": "high",
-        "summary": "Zeina is responsible for remaining course animations needed to finalize the level (including bandit-related beats like tripping) and is also making the level’s sign asset; Kaze positions these as the main blockers to calling the course finished.",
+        "summary": "Zeina is identified as currently responsible for key remaining course deliverables: animations needed to finalize the level’s interactions/cutscenes (including the bandit sequence).",
         "quote": null
       }
     ],
-    "others": [
-      {
-        "name": "Rusky, the Death of the Dragon",
-        "findings": [
-          {
-            "topic": "business",
-            "importance": "medium",
-            "summary": "Kaze mentions Rusky suggested a “new IPL” approach (Kaze is not fully sure what it entails) to help detect counterfeit/bootleg cartridges and reduce false positives if Kaze pursues copy-protection measures.",
-            "quote": null
-          }
-        ]
-      },
-      {
-        "name": "Lilaa",
-        "findings": [
-          {
-            "topic": "design",
-            "importance": "low",
-            "summary": "Kaze confirms an adjustment to the course’s train track at the start (“made the train track lower”), implying level geometry iteration influenced by collaborator/community feedback.",
-            "quote": null
-          }
-        ]
-      }
-    ]
+    "others": []
   },
   "memorable_quotes": [
     {
       "speaker": "Kaze",
-      "quote": "The Yoshi coins are our replacement for the 100 coin stars.",
-      "context": "Clear articulation of a core design shift: redefining completion goals away from 100-coin grinding and toward bespoke exploration interactions."
+      "quote": "We have 410 text boxes in this game now… we probably have three times as much content as vanilla Mario 64 as well, which is kind of insane.",
+      "context": "A concrete, headline-worthy scope claim that helps a documentary quantify how much bigger the hack is than the original."
     },
     {
       "speaker": "Kaze",
-      "quote": "We have 410 text boxes in this game now… almost three times vanilla Mario 64.",
-      "context": "A concrete metric that conveys the hack’s scope compared to the original and can anchor a documentary segment about expanding narrative/mission complexity."
+      "quote": "Guys can you believe that after one and a half years of being unable to get payments from Patreon, they finally made it so that my account works again?",
+      "context": "A raw creator-economy moment that connects the project’s longevity to real-life financial/admin friction."
     },
     {
       "speaker": "Kaze",
-      "quote": "Usually when someone makes a hack, at the very beginning they decide whether they wanna target real hardware or not… and then most of the time people say no.",
-      "context": "Blunt statement of a defining technical/philosophical constraint: the project’s ambition implies leaving real hardware behind."
+      "quote": "Usually when someone makes a hack, at the very beginning they decide whether they wanna target real hardware or not. And then most of the time people say no.",
+      "context": "A succinct statement of a fundamental ROMhack constraint/choice that shapes technical direction and audience expectations."
     }
   ],
   "key_stories": [
     {
-      "title": "Designing the coin-stealing bandit as a Yoshi-coin interaction",
-      "summary": "Kaze builds a new bandit character who steals coins directly from Mario when the player looks away, then triggers a short reaction/cutscene when caught. The mechanic doubles as the final Yoshi-coin method for the level, including an alternate “broke” easter egg where the bandit gives a Yoshi coin out of pity.",
-      "challenge": "Create a memorable, readable special interaction that encourages curiosity and exploration while fitting the level’s western tone and not repeating existing “chase bandit” objectives.",
-      "process": "Implemented coin inventory theft, fixed invisible stolen-coin rendering, tuned movement/math, drafted cowboy-flavored dialogue, and added an optional comedic trip beat (pending animation).",
-      "outcome": "Bandit interaction is considered finished mechanically; only animation assets remain to fully sell the cutscene beats.",
-      "key_quote": "Oh, you're broke… I take pity on you. Here's a Yoshi coin for you.",
+      "title": "Designing the coin-stealing bandit as a ‘special action’ Yoshi Coin",
+      "summary": "Kaze builds a scripted bandit encounter that steals coins when the player looks away, then triggers a short ‘caught’ cutscene that drops a Yoshi Coin. The interaction is tuned to feel discoverable and funny (including a ‘broke’ pity outcome at zero coins) without turning into yet another chase sequence in a level that already has multiple bandit chases.",
+      "challenge": "Create an original, readable Yoshi Coin acquisition method that encourages curiosity/exploration, while avoiding repetitive chase mechanics.",
+      "process": "He prototypes coin theft directly from the inventory, adds visual feedback (stolen coin rendering), fixes missing coin rendering via coin-specific flags/billboarding, writes character text (including cowboy-style phrasing), implements a follow-path escape route, and decides to add a trip/stumble moment that drops the coin for clarity.",
+      "outcome": "The ‘stealing guy’ is declared finished; remaining dependency is animation support (Zeina) to fully sell the stumble/cutscene.",
+      "key_quote": "This is gonna be the last Yoshi coin in this level and after that it is time to make the collision work.",
       "related_to": ["kaze", "zeina"]
     },
     {
-      "title": "Train system polish: spline/path-follow vs. floor snapping",
-      "summary": "Kaze tests the course’s trains and finds instances of trains spawning on the floor or drifting off the track due to path/spline issues and an apparent snap-to-floor behavior. After adjustments, trains follow the tracks correctly and the intended station transport setup becomes functional.",
-      "challenge": "Make a moving setpiece feel reliable and readable in a complex multi-area level while preserving performance and avoiding janky collisions/placement issues.",
-      "process": "Debugged spline selection/indices, adjusted path-follow logic, tested in-game by riding/landing on trains, and validated audio falloff behavior.",
-      "outcome": "Trains are “working now,” but the level still needs final cleanup passes for missing placements and other polish tasks.",
-      "key_quote": null,
-      "related_to": ["kaze", "biobak"]
+      "title": "Trains that kept snapping to the floor",
+      "summary": "Kaze troubleshoots why trains placed in the level appear on the floor and drift off their track path. He identifies that the path-following logic was snapping to ground collision instead of adhering to the spline, then adjusts the setup until trains follow the track cleanly and remain rideable as intended.",
+      "challenge": "Get moving trains to follow track splines reliably (position/orientation) without snapping to ground collision or spawning misaligned.",
+      "process": "He tests riding trains in-game, inspects spline/NERBS configuration, observes off-track behavior, tweaks placement/parameters, and re-tests until the train adheres to the track through the station sequence.",
+      "outcome": "Train motion looks correct and functional by the end of the stream; Kaze confirms intended station traversal and improved feel.",
+      "key_quote": "There we go. I think we've got it.",
+      "related_to": ["kaze"]
     },
     {
-      "title": "Payment platform outages impacting development and content plans",
-      "summary": "Kaze describes prolonged inability to receive or use creator income: Patreon payments were broken for about 1.5 years, only recently restored, while PayPal funds remain frozen. He advises using alternatives like Ko-fi but notes Patreon’s brand trust can make supporters more comfortable.",
-      "challenge": "Maintaining financial stability and reliable supporter infrastructure during long-term development.",
-      "process": "Waited out platform-side resolution, rerouted/reconsidered monetization options, and publicly communicated recommendations and constraints to the community.",
-      "outcome": "Patreon works again; PayPal remains unresolved, affecting donation flows and usability of funds.",
-      "key_quote": "Any money you send me on PayPal, I can't use it. It's all just frozen in time.",
+      "title": "The ‘Stack Overflow minimal repro’ wall (N64 GCC ‘note’)",
+      "summary": "Kaze describes a demoralizing support loop: he asks Stack Overflow about a GCC ‘note’ that spams his build due to floating-point register usage across threads on N64/MIPS, and responders demand an unrealistic minimal reproducible example. On-stream, he experiments with workarounds and ultimately gets a related compile issue to go away by changing how a value is cast/handled (avoiding an inline cast).",
+      "challenge": "Reduce noisy, persistent build diagnostics tied to N64-specific multi-threaded compilation constraints that are hard to reproduce outside his project.",
+      "process": "He attempts pragmas/disable-warning approaches (not applicable because it’s a ‘note’), tests alternative casting/typing approaches, and reframes the situation as a support/community mismatch (desktop assumptions vs. N64 reality).",
+      "outcome": "He reports progress (a casting change removes one issue), but the broader story remains: general-purpose programming forums struggle with niche N64 toolchain realities.",
+      "key_quote": "Do you have an N64 so I can give that to you?",
+      "related_to": ["kaze"]
+    },
+    {
+      "title": "Creator cashflow disruption: Patreon restored, PayPal still frozen",
+      "summary": "Kaze reveals a long-running administrative failure: Patreon payments were unusable for ~1.5 years and only just got restored, while PayPal funds are still locked. He warns other creators off Patreon operationally, while acknowledging Patreon’s audience trust advantage over alternatives.",
+      "challenge": "Sustaining a long-term fan-funded dev project while core payment platforms malfunction or lock funds.",
+      "process": "He works through support/verification issues over a long period, adjusts expectations for donation flows, and considers alternative platforms (Ko-fi, SubscribeStar) weighed against audience trust.",
+      "outcome": "Patreon is working again; PayPal remains unusable, and he changes how he thinks about donation infrastructure going forward.",
+      "key_quote": "Any money you send me on Paypal, I can't use it. It's all just frozen in time.",
       "related_to": ["kaze"]
     }
   ],
   "open_questions": [
     {
-      "topic": "Yoshi-coin radar and discoverability rules",
-      "context": "Kaze notes some Yoshi coins are intentionally hard to find and says players will “need the radar” to see all special actions in the end.",
+      "topic": "Yoshi Coins as a systemic replacement for 100-coin stars",
+      "context": "Kaze frames Yoshi Coins as the new exploration reward layer: five per level yields a star, and he wants them tied to creative environmental interactions (with a radar system to surface ‘special actions’).",
       "questions": [
-        "What exactly does the radar show (distance, direction, category of interaction), and when/how is it unlocked?",
-        "How do you balance mystery vs. frustration—what percentage of Yoshi coins are expected to be found without radar?",
-        "Does the radar change how you design late-game Yoshi coin interactions (more cryptic, more multi-step)?"
+        "When did you commit to replacing 100-coin stars with Yoshi Coins, and what early playtesting or design fears pushed you there?",
+        "What are your rules for a ‘good’ Yoshi Coin setup—what makes one feel like exploration instead of a checklist?",
+        "How do you balance ‘discoverable on your own’ vs. ‘needs radar,’ and do you worry the radar changes the player’s mindset?"
       ],
       "related_to": ["kaze"]
     },
     {
-      "topic": "100% structure and “champion route” concept",
-      "context": "Kaze briefly floats a broader 100% endgame idea (“probably like a champion's route”) beyond simply earning stars from five Yoshi coins.",
+      "topic": "Course 12 finish-line: what’s left and why those tasks are deferred",
+      "context": "Kaze calls the level basically done, but lists remaining work: Zeina’s animations, signage, collision/climbables, wood SFX, and a final ambient-audio pass across the whole game.",
       "questions": [
-        "What is the intended 100% reward loop beyond stars—does a “champion route” mean a bonus course, harder missions, or a new progression layer?",
-        "When did you decide to replace 100-coin stars entirely, and what alternatives were considered (hybrid systems, optional 100-coin challenges, etc.)?",
-        "How do Yoshi coins scale difficulty across the game—are later levels designed with more complex environment interactions by default?"
-      ],
-      "related_to": ["kaze"]
-    },
-    {
-      "topic": "Real-hardware decision point and its implications",
-      "context": "Kaze reiterates that many hacks decide early whether to target real N64 hardware and says most choose not to; he also tells viewers many techniques won’t work on real hardware.",
-      "questions": [
-        "When did you personally decide Return to Yoshi’s Island would not primarily target real hardware, and what features/tech forced that decision?",
-        "What would you have to cut or redesign to make a real-hardware build feasible (memory, microcode, threading, assets, dynamic systems like trains/sound falloff)?",
-        "Do you plan any ‘compatibility mode’ or is the project fully committed to emulator/modern play?"
-      ],
-      "related_to": ["kaze"]
-    },
-    {
-      "topic": "Copy-protection plans and “new IPL” idea",
-      "context": "Kaze expects bootleg carts in the future and mentions wanting copy protection that can detect false cartridges, citing a “new IPL” approach suggested by Rusky, the Death of the Dragon.",
-      "questions": [
-        "What copy-protection methods are you considering (hardware checks, timing checks, IPL-based validation), and what player harm are you trying to avoid (false positives, bricking saves, etc.)?",
-        "What did Rusky mean by “new IPL” in this context—how would it be integrated and what does it detect reliably?",
-        "How do legal considerations affect whether you would ever ship on cartridge, even unofficially?"
-      ],
-      "related_to": ["kaze"]
-    },
-    {
-      "topic": "Remaining Course 12 polish dependencies (animations, signage, collision/audio hooks)",
-      "context": "Kaze says the level is done except animations (Zeina), a sign (also Zeina), and Kaze-owned tasks like collision making climbable objects work and adding wood sounds.",
-      "questions": [
-        "Which specific animations are still needed to ‘finish’ the bandit and other setpieces (trip, reaction, idle, etc.), and how do you scope/approve them with Zeina?",
-        "What’s the workflow for collision and interaction passes—do you do a dedicated sweep across all levels at the end or iterate per course?",
-        "What is the design purpose of the sign—tutorialization, lore, navigation, or comedy—and how do signs fit into the broader UX of the hack?"
+        "What’s your internal definition of ‘a level is done’—does it mean playable, shippable, or just content-complete?",
+        "Which remaining tasks (animations, collision, signage, SFX) historically cause the most last-minute delays, and why?",
+        "How do you and Zeina coordinate animation needs—do you design around what’s feasible for her, or does her animation capability expand what you design?"
       ],
       "related_to": ["kaze", "zeina"]
+    },
+    {
+      "topic": "Copy-protection/bootleg detection (the ‘new IPL thing’)",
+      "context": "Kaze wants some defense against bootleg cartridges/false carts and mentions an IPL-based idea relayed by ‘Rusky the Death of the Dragon,’ but he’s not sure what it entails.",
+      "questions": [
+        "What problem are you actually trying to solve with copy protection—piracy optics, quality control, brand protection, or preventing broken bootlegs from hurting the game’s reputation?",
+        "What did ‘Rusky’ propose with the IPL approach, and what would implementation realistically look like inside an SM64-decomp-based project?",
+        "How do you plan to avoid false positives that could lock out legitimate players on flashcarts or community setups?"
+      ],
+      "related_to": ["kaze"]
+    },
+    {
+      "topic": "The hard ‘no’ on real-hardware targets",
+      "context": "Kaze states most hacks choose early not to target real hardware, and implies many advanced techs won’t work on N64.",
+      "questions": [
+        "When did Return to Yoshi’s Island stop being a ‘real hardware’ project, and what was the deciding feature or constraint?",
+        "What do you think players misunderstand most about ‘runs on N64’ claims, especially once you add modern rendering/engine-like systems?",
+        "If you ever shipped a ‘real hardware’ compatibility mode, what would you have to cut first?"
+      ],
+      "related_to": ["kaze"]
     }
   ]
 }

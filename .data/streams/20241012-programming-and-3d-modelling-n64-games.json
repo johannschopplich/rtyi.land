@@ -1,129 +1,86 @@
 {
   "stream_context": {
-    "summary": "Kaze implements and iterates on a new “Egg Coin/Yoshi coin” collection mission by adding a 7th act per course and introducing a Sonic Adventure–style proximity radar. He also outlines a coin-driven upgrade/overworld-change economy, discusses demo packaging constraints, and resolves a mysterious dynamic-light object that refused to spawn due to an engine parameter edge case.",
-    "level": [
-      "Course 1",
-      "Course 13 – Ice Castle",
-      "Course 14 – Craft World",
-      "Course 15 – Space Arcade",
-      "Overworld"
-    ],
+    "summary": "Kaze implements and iterates on a new “Egg Coin” (Yoshi coin) collection mission with a Sonic Adventure–style proximity radar, changes act select from 6 to 7 missions per course, and discusses broader progression plans where collected coins become a global currency used to buy upgrades that permanently change the overworld. He also debugs a missing dynamic-light object caused by a surprising Mario 64 engine parameter edge case and outlines demo release constraints (levels missing from demo will crash if forced-loaded).",
+    "level": ["Course (unspecified)", "Course 13", "Course 14", "Course 15"],
     "significance": "milestone",
-    "significance_reason": "This stream locks in a structural design change (7 acts instead of 6) to support an “Egg Coin/Yoshi coin” mission with a dedicated radar UI, and it includes a notable technical breakthrough explaining why certain light objects were not spawning."
+    "significance_reason": "Introduces a major structure change (7th mission/act dedicated to Egg Coins) plus a core guidance system (radar) and clarifies the game’s economy/progression philosophy (coins as global currency that can change the overworld). Also contains a concrete engine discovery about object spawning that unblocks missing dynamic lights."
   },
   "findings": [
     {
       "topic": "milestone",
       "importance": "high",
-      "summary": "Kaze changes the act/mission structure from 6 to 7 acts, with the last act always dedicated to collecting Egg Coins/Yoshi coins (“Find the Egg Coins”), and that act grants access to a radar UI.",
+      "summary": "Kaze changed act select from 6 to 7 missions per course: the 7th act is always a dedicated “Find the Egg Coins” mission that grants a coin radar UI to support that objective.",
       "quote": null
     },
     {
       "topic": "design",
       "importance": "high",
-      "summary": "The radar is explicitly inspired by Sonic Adventure 1’s treasure-hunt radar (Knuckles-style): icons blink faster and shift toward red as the player gets closer to a coin source (including coins held by NPCs like a bunny).",
+      "summary": "The Egg Coin radar is explicitly modeled after Sonic Adventure 1’s treasure radar: icons blink faster and shift toward red as the player gets closer to the associated coin source (including moving sources like a bunny).",
       "quote": null
     },
     {
       "topic": "design",
       "importance": "high",
-      "summary": "Kaze decides the radar should likely be available automatically (not something the player must buy) to prevent a worst-case experience where a player starts the coin-collection act with no hint system and becomes frustrated.",
-      "quote": "Imagine you have not bought the radar and you're doing mission 7 and the game doesn't give you any hint at all—that's going to suck."
-    },
-    {
-      "topic": "design",
-      "importance": "medium",
-      "summary": "He acknowledges a tradeoff: making the radar automatic could reduce the value/importance of other items/upgrades (he mentions a “lens” becoming less valuable if the radar is always present).",
-      "quote": null
-    },
-    {
-      "topic": "design",
-      "importance": "high",
-      "summary": "Coins are planned to have long-term value beyond star collection: Kaze describes spending/donating coins for upgrades and even overworld changes (e.g., funding an NPC to build a bridge, which permanently changes the overworld).",
-      "quote": "You're actually going to affect the world by giving people money."
-    },
-    {
-      "topic": "philosophy",
-      "importance": "medium",
-      "summary": "Kaze positions the coin economy as a major motivator meant to make coins feel meaningful and exciting rather than incidental collectibles.",
-      "quote": "Trust me, the coins are not going to feel worthless—the coins are going to feel very cool."
+      "summary": "Kaze reconsidered making the radar a purchasable item; he leans toward making it automatically available in the Egg Coin mission to avoid players having “no hint at all” and hating the experience.",
+      "quote": "Imagine you have not bought the radar and you're doing mission 7 and the game doesn't give you any hint at all. That's going to suck. That's going to be a miserable experience; people are going to hate that."
     },
     {
       "topic": "business",
+      "importance": "medium",
+      "summary": "Demo strategy: if players use a patch to access levels not included in the demo, the game will crash because those levels won’t be packaged. Kaze mentions a second demo plan that would contain only Course 1.",
+      "quote": null
+    },
+    {
+      "topic": "design",
       "importance": "high",
-      "summary": "Demo plan/constraint: if players patch or force access to levels that are not included in the demo build, the game will crash because those levels won’t exist in the demo ROM; he also says a future “second demo” will contain only Course 1.",
-      "quote": null
+      "summary": "Coins are positioned as a meaningful global progression currency (not “worthless” collectibles). Kaze describes using coin donations to fund NPC projects (e.g., paying 500 coins to build a bridge), permanently changing the overworld as a result.",
+      "quote": "Trust me, the coins are not going to feel worthless. The coins are going to feel very cool… more valuable than Mario Odyssey."
     },
     {
       "topic": "technical",
       "importance": "high",
-      "summary": "Kaze diagnoses why certain dynamic light objects in a level would not appear: in the SM64 engine, if a behavior parameter is set to 255, the object will not spawn. Adjusting this resolves the issue.",
-      "quote": "If you set the behavior parameter to 255, the object does not spawn."
+      "summary": "He debugged why certain dynamic “crystal light” objects didn’t spawn/run in an area: in the Mario 64 engine, setting a behavior parameter to 255 prevents the object from spawning at all.",
+      "quote": "There's a functionality in the Mario 64 engine where if you set the behavior parameter to 255 the object does not spawn. This is so fucking wild."
     },
     {
       "topic": "design",
       "importance": "medium",
-      "summary": "UI/readability iteration: the team discusses that rapid blinking “eyes” on the radar may be distracting; Kaze explores alternatives like slower blinking, transparency that increases as you get closer, and brightness/saturation-based proximity feedback.",
-      "quote": null
-    },
-    {
-      "topic": "technical",
-      "importance": "medium",
-      "summary": "N64 rendering constraint affects UI animation options: Kaze notes that scaling UI textures can look bad because one texture pixel maps directly to one output pixel on N64, limiting smooth grow/shrink effects for radar icons.",
-      "quote": null
-    },
-    {
-      "topic": "technical",
-      "importance": "medium",
-      "summary": "Kaze considers proximity curves using time functions (e.g., sine-squared) to make radar feedback smoother and less abrupt, rather than harsh step changes.",
+      "summary": "Radar readability issues surfaced: blinking may be distracting, and coin colors differ by level, so using color shifts (green→red / yellow→red) in the radar can overlap with a level’s coin color and with the “collected” state, creating confusion.",
       "quote": null
     },
     {
       "topic": "design",
       "importance": "medium",
-      "summary": "Color-coding is complicated by per-level coin colors and existing radar “heat” colors (green→red) plus separate “collected” states; Kaze worries overlap will confuse players and explores using transparency/halo effects instead of more colors.",
-      "quote": null
-    },
-    {
-      "topic": "milestone",
-      "importance": "medium",
-      "summary": "Core course roadmap update: Kaze states all main courses are now planned; Course 13 (Ice Castle) is largely done but its outside area isn’t finished, Course 14 (Craft World) is mostly done, and Course 15 (Space Arcade) is still more of a planned pathway needing work.",
+      "summary": "UI iteration ideas discussed: slowing blink rate; switching from pure color cues to brightness/saturation; adding a pulsating halo; experimenting with transparency so icons become more solid as you get closer (and/or to distinguish uncollected/collected states).",
       "quote": null
     },
     {
       "topic": "design",
       "importance": "medium",
-      "summary": "He confirms a prior mission type is being removed/changed: “100 coin missions do not exist anymore,” with progression/points described as global now (implying a systemic restructure of mission goals and reward economy).",
+      "summary": "Kaze confirmed a progression rules change: traditional 100-coin missions are removed; “points/coins are global now,” reinforcing the economy concept rather than per-level coin-star goals.",
+      "quote": null
+    },
+    {
+      "topic": "design",
+      "importance": "medium",
+      "summary": "Roadmap clarity: Kaze says all main courses are planned and have some work done. He identifies Course 13 as an ice castle (outside area not finished), Course 14 as a craft world, and Course 15 as a “space arcade.”",
       "quote": null
     },
     {
       "topic": "technical",
       "importance": "low",
-      "summary": "Testing workflow note: Kaze uses Project64 for convenience but relies on Parallel Launcher to ensure the hack runs in a more accuracy-focused environment, despite frustration with frequent launcher update prompts.",
+      "summary": "Rumble Pack support is currently disabled; Kaze frames it as non-trivial because it would require a dedicated thread, and he doesn’t own a Rumble Pak to test with.",
       "quote": null
     }
   ],
   "contributor_findings": {
-    "biobak": [
-      {
-        "topic": "team",
-        "importance": "medium",
-        "summary": "Biobak is actively contributing level assets/layout work during the demo push; Kaze mentions a “line of mushrooms” Biobak is working on that still needs to be placed into the course.",
-        "quote": null
-      },
-      {
-        "topic": "community",
-        "importance": "low",
-        "summary": "Biobak (via chat) engages with the radar feature discussion; Kaze offers to show the radar and solicits feedback on its behavior/visibility.",
-        "quote": null
-      }
-    ],
+    "biobak": [],
     "badub": [],
     "zeina": [
       {
         "topic": "personal",
         "importance": "low",
-        "summary": "Zeina is present on stream, and Kaze briefly mentions coordinating with her to pick up/handle acquiring a second N64 for testing purposes (suggesting practical support for hardware validation).",
+        "summary": "Zeina is present on stream; there’s light personal banter but no clear development decision attributed directly to her in this transcript.",
         "quote": null
       }
     ],
@@ -132,87 +89,94 @@
   "memorable_quotes": [
     {
       "speaker": "Kaze",
-      "quote": "Imagine you have not bought the radar and you're doing mission 7 and the game doesn't give you any hint at all—that's going to suck.",
-      "context": "Explains why he leans toward making the radar automatic: preventing a miserable player experience in the new coin-collection act."
+      "quote": "Imagine you have not bought the radar and you're doing mission 7 and the game doesn't give you any hint at all. That's going to suck. That's going to be a miserable experience; people are going to hate that.",
+      "context": "Kaze justifies a design pivot away from making the radar an optional/purchasable item, prioritizing player experience in the dedicated Egg Coin mission."
     },
     {
       "speaker": "Kaze",
-      "quote": "You're actually going to affect the world by giving people money.",
-      "context": "Core statement of intent for the coin economy: spending coins changes the overworld, making collectibles feel meaningful."
+      "quote": "Trust me, the coins are not going to feel worthless. The coins are going to feel very cool… more valuable than Mario Odyssey.",
+      "context": "He frames the game’s coin economy as a central progression pillar, meant to feel impactful rather than cosmetic."
+    },
+    {
+      "speaker": "Kaze",
+      "quote": "There's a functionality in the Mario 64 engine where if you set the behavior parameter to 255 the object does not spawn. This is so fucking wild.",
+      "context": "A key technical discovery while debugging missing dynamic light objects—useful as an example of surprising legacy-engine constraints in the documentary."
     }
   ],
   "key_stories": [
     {
-      "title": "Turning coin hunting into a dedicated 7th act with a proximity radar",
-      "summary": "Kaze rethinks how Yoshi/Egg coins fit into the mission structure: rather than being an optional side-collectible, they become a dedicated act (“Find the Egg Coins”) supported by a proximity radar. He frames it as preventing frustration and ensuring players understand the value of coins and the intended loop.",
-      "challenge": "Players could enter the coin-collection objective without guidance (especially if the radar were a purchasable item), making the mission feel unfair and undermining the coin system’s value.",
-      "process": "He adds a 7th act slot, implements a Sonic Adventure–style radar, then iterates on UI clarity (blink rate, transparency, brightness curves) while debating purchase vs. automatic availability.",
-      "outcome": "Structural decision is implemented (7 acts + radar). UI is still being tuned to avoid distraction and color confusion, but the direction is set: coin hunting is now a formal mission type.",
-      "key_quote": "Imagine you have not bought the radar and you're doing mission 7 and the game doesn't give you any hint at all—that's going to suck.",
+      "title": "Creating a dedicated Egg Coin mission with a Sonic Adventure–style radar",
+      "summary": "Kaze formalizes Egg Coins as a first-class objective by adding a seventh act to every course, then builds a proximity radar to make hunting feasible and fun. The segment reveals his balancing act between ‘treasure hunt’ ambiguity and avoiding player frustration.",
+      "challenge": "Egg Coin hunts risk becoming miserable if players don’t know where to search, especially if the radar were optional or hidden behind a purchase.",
+      "process": "He changes act select from 6 to 7 missions, labels the new mission “Find the Egg Coins,” and enables a radar that blinks faster/changes color as you approach each coin source. He then iterates on presentation (blink rate, halo, transparency) to reduce distraction and confusion with per-level coin colors and collected-state indicators.",
+      "outcome": "A new mission structure and guidance system is in place; Kaze is actively refining the UI language (color vs brightness vs transparency) to keep the hunt readable without over-spoiling it.",
+      "key_quote": "That's going to be a miserable experience; people are going to hate that.",
       "related_to": ["kaze"]
     },
     {
-      "title": "Dynamic light objects not spawning due to behavior parameter edge case",
-      "summary": "While polishing a demo course, Kaze investigates why certain decorative/dynamic light objects fail to appear. He traces it to a surprising engine behavior parameter value that silently prevents spawning.",
-      "challenge": "A set of level lights would not spawn/function despite being placed and active for the act, blocking visual polish for the demo.",
-      "process": "He inspects object behavior settings and discovers SM64’s object-spawn logic treats a behavior parameter value of 255 as “do not spawn.” He adjusts the parameter to restore spawning.",
-      "outcome": "Root cause identified and effectively resolved, unblocking dynamic lighting polish for the demo area.",
-      "key_quote": "If you set the behavior parameter to 255, the object does not spawn.",
+      "title": "Missing dynamic lights traced to an engine parameter edge case",
+      "summary": "While preparing a demo build, Kaze notices certain light objects don’t appear or run despite being placed and active. The fix comes from uncovering a non-obvious engine rule that silently prevents spawning.",
+      "challenge": "Specific “crystal light” objects fail to spawn in an area for unknown reasons, raising concern about reliability for the demo.",
+      "process": "He verifies the objects are present and active, then investigates engine/spawn logic until finding a parameter value that disables spawning.",
+      "outcome": "Root cause identified: behavior parameter 255 prevents the object from spawning, unblocking the lighting pass for the area.",
+      "key_quote": "If you set the behavior parameter to 255 the object does not spawn.",
+      "related_to": ["kaze"]
+    },
+    {
+      "title": "Coins reframed as global currency that can reshape the overworld",
+      "summary": "Kaze explains that coins will matter beyond one-off collectibles: they become global progression currency used for upgrades and world changes. This provides a documentary-friendly rationale for why exploration and collection remain meaningful across the whole game.",
+      "challenge": "Players may assume coin collection is low-value busywork unless the game clearly rewards it in impactful ways.",
+      "process": "He describes using coins to buy upgrades and fund NPC-driven projects (example: donating 500 coins to build a bridge), causing permanent overworld changes. He also states that 100-coin missions no longer exist and ‘points’ are global now.",
+      "outcome": "A clear design direction emerges: coins are the backbone of progression and world evolution rather than isolated level objectives.",
+      "key_quote": "You're actually going to affect the world by giving people money.",
+      "related_to": ["kaze"]
+    },
+    {
+      "title": "Demo packaging constraints and crash risk from out-of-demo warps",
+      "summary": "Kaze anticipates players attempting to access content not included in the demo via patches, and he warns this will crash because those levels won’t exist in the build. He also hints at a staged demo plan.",
+      "challenge": "Preventing (or at least explaining) crashes and confusion when players force access to levels that aren’t shipped in a demo build.",
+      "process": "He clarifies that non-demo levels will be absent, so any forced warp to them will crash. He mentions planning a second demo that would include only Course 1.",
+      "outcome": "Public expectations are set: demo builds are intentionally limited; accessing cut content isn’t supported and will break.",
+      "key_quote": null,
       "related_to": ["kaze"]
     }
   ],
   "open_questions": [
     {
-      "topic": "Coin economy specifics and overworld change system",
-      "context": "Kaze describes coins being used to buy upgrades and to fund NPC-driven overworld changes (e.g., donating 500 coins to build a bridge), and claims coins will feel more valuable than Mario Odyssey.",
+      "topic": "Final radar UI language (color/brightness/transparency)",
+      "context": "Kaze worries that blinking and color shifts are distracting and that per-level coin colors plus collected-state colors will conflict with the radar’s green→red/yellow→red feedback. He experiments with transparency and discusses alternatives like brightness/saturation and halos.",
       "questions": [
-        "What are the full categories of things coins can buy (movement upgrades, hints, cosmetic changes, access gating, world changes)?",
-        "How do you prevent coin spending from soft-locking progression (e.g., spending coins on non-essential changes and lacking coins later)?",
-        "Are overworld changes permanent per save file, and how do you communicate those changes to the player (cutscenes, NPC dialogue, map updates)?",
-        "How did you balance coin costs (like 500 coins) against expected coin income per course/mission? Are there anti-grind principles you’re following?"
+        "What final visual rule did you land on for the radar—color shift, brightness, transparency, halo—and what was the deciding test that convinced you it was ‘readable but not spoilery’?",
+        "How did you solve the ‘coin color differs by level’ problem without making the radar lie or become visually noisy?",
+        "Did you playtest the radar with people unfamiliar with the level layouts, and what surprising behaviors did you see (e.g., confusion, motion sickness, ignoring the UI)?"
       ],
       "related_to": ["kaze"]
     },
     {
-      "topic": "Radar availability vs. purchasable upgrades (and the ‘lens’ item)",
-      "context": "Kaze worries that making the radar automatic could reduce the value of another upgrade (“lens”), yet he wants to avoid players starting the coin mission with no hint system.",
+      "topic": "Making the radar automatic vs. purchasable and how the game teaches it",
+      "context": "Kaze leans toward making the radar always available during the Egg Coin mission to avoid players entering mission 7 with no guidance and having a bad experience, but he also notes it reduces the value of buying it (and players may not know the radar exists).",
       "questions": [
-        "What is the ‘lens’ intended to do, and how would a permanent radar undermine it?",
-        "Did you prototype a version where the radar is purchasable—what did playtesting (or imagined user flow) reveal?",
-        "What is your final rule for when the radar appears (only act 7, always on, toggleable, unlockable globally after first use)?",
-        "How do you tutorialize the radar so players understand it without stopping gameplay?"
+        "Did you ultimately remove the radar as a shop item entirely, or is there still an upgrade path tied to it (range, number of pings, multi-coin tracking)?",
+        "How do you introduce the Egg Coin mission and radar in-game so players understand the new 7th act and what makes it different?"
       ],
       "related_to": ["kaze"]
     },
     {
-      "topic": "Radar UI final language (color, transparency, blinking) under N64 constraints",
-      "context": "The team debates blink distraction, color conflicts with per-level coin colors, and N64 limitations (poor-looking scaling due to texel-to-pixel mapping). Kaze experiments with transparency that increases when closer and with smoother time-based intensity curves.",
+      "topic": "Overworld-economy plan: world changes bought with coins",
+      "context": "Kaze pitches coins funding NPC projects (bridge building, overworld changing) and says coins will feel highly valuable; 100-coin missions are removed and currency is global.",
       "questions": [
-        "What final visual signals will you use for proximity: blink speed, brightness, transparency, saturation, sound, or a combination?",
-        "How do you distinguish: (1) coin is in another sub-area, (2) coin is nearby, (3) coin already collected, without relying on confusing colors?",
-        "Did you consider adding directional information (arrows/compass) and reject it purely on design grounds, or also technical/UI clutter reasons?",
-        "Will the radar be adjustable in accessibility settings (reduced blinking, alternate cues)?"
+        "What are the most important overworld changes you want players to ‘buy’—and how do those changes tie into new courses, shortcuts, or narrative beats?",
+        "How did you balance coin costs so the economy feels exciting (big goals) without turning into grind?",
+        "How will you communicate ‘global currency’ clearly to players used to Mario 64’s per-level coin logic?"
       ],
       "related_to": ["kaze"]
     },
     {
-      "topic": "Demo packaging strategy and crash risk when forcing access to cut content",
-      "context": "Kaze says the demo will crash if players patch/walk into levels not included, and mentions a future demo that only includes Course 1.",
+      "topic": "Demo rollout and the ‘second demo is only Course 1’ decision",
+      "context": "Kaze states that forcing access to missing levels will crash, and mentions a second demo that would contain only Course 1—an unusual choice that implies either a vertical slice strategy or a major refactor/testing need.",
       "questions": [
-        "What is the exact scope of Demo 1 vs Demo 2 (which courses/areas, which features enabled/disabled)?",
-        "Why not stub missing levels with safe placeholders to avoid crashes—was it ROM space, time, or complexity?",
-        "How are you communicating to players that hacked access beyond demo boundaries will crash (and that it’s expected)?",
-        "What feedback from demo players are you specifically seeking (controls, difficulty, exploration, performance, art style)?"
-      ],
-      "related_to": ["kaze"]
-    },
-    {
-      "topic": "Global points/mission restructuring and removal of “100 coin missions”",
-      "context": "Kaze states that “100 coin missions do not exist anymore” and that points are global now, implying a shift away from classic SM64 star/coin mission conventions.",
-      "questions": [
-        "What does ‘points are global’ mean in RTYI: a unified currency across courses, a score system, or progression tracking replacing certain stars?",
-        "How did removing 100-coin stars change the game’s pacing and the value of exploration?",
-        "How do you keep optional exploration rewarding without the classic 100-coin star structure?"
+        "Why make the second demo only Course 1—was it about polish, onboarding, technical stability, or controlling first impressions?",
+        "What did you consider ‘must prove’ in the demo (core mechanics, performance, art direction, economy hooks), and what did you intentionally hold back?"
       ],
       "related_to": ["kaze"]
     }

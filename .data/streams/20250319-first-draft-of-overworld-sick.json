@@ -1,114 +1,96 @@
 {
   "stream_context": {
-    "summary": "Kaze fixes a major end-screen/render bug, then blocks out “Overworld Part 4,” a cave/tunnel meant to connect overworld regions so the player eventually loops back to the lighthouse first seen at the start. The stream includes a substantial design/technical discussion about making the entire overworld feel seamless (hidden area loading, memory/compression limits), plus a debate about how to implement fast travel (corked pipes vs a pause-menu world map).",
-    "level": ["Overworld"],
+    "summary": "Kaze fixes a previously complained-about end-screen/render bug, then spends most of the stream building “Overworld Part 4,” the cave/tunnel that connects Overworld 3 back to the lighthouse seen at the start of Overworld 1. The stream becomes a major design/technical planning session: committing (eventually) to seamless overworld area transitions, grappling with N64 memory/loading constraints, and debating fast-travel unlock systems (corked pipes vs. a pause-menu world map). He also notes that all 12 main courses are technically done, though many are still being reworked.",
+    "level": ["Overworld", "Course 2"],
     "significance": "milestone",
-    "significance_reason": "Kaze states all 12 main courses are now done (pending reworks), while making a project-defining overworld decision: the hub/overworld should ultimately feel seamless and include an explicit “return to the lighthouse” loop."
+    "significance_reason": "Kaze states all 12 main courses are complete (with reworks pending) and locks in several high-level hub/overworld decisions: a new hub philosophy, a loopback overworld structure anchored by the lighthouse, and a plan for seamless multi-area overworld transitions plus fast-travel unlocks."
   },
   "findings": [
     {
       "topic": "technical",
       "importance": "medium",
-      "summary": "Kaze fixed a “nasty bug” affecting the end screen transition: the transition is faster now and a render bug is gone, addressing common player complaints.",
+      "summary": "Kaze fixed a “nasty” bug affecting the end-screen transition: it plays faster now and a render bug is gone, specifically addressing viewer complaints.",
       "quote": null
     },
     {
       "topic": "design",
       "importance": "high",
-      "summary": "Overworld Part 4 is designed as a cave/tunnel that connects Overworld 3 back to Overworld 1 near the lighthouse, creating a deliberate “loopback” moment where the player reaches a landmark they’ve wanted since the beginning.",
+      "summary": "Overworld Part 4 is designed as a cave/tunnel that connects Overworld 3 back up to the lighthouse first seen at the start, creating a loopback moment where players finally reach a place they’ve been seeing since the beginning.",
       "quote": null
     },
     {
       "topic": "design",
       "importance": "high",
-      "summary": "Kaze frames the overworld experience as: start seeing the lighthouse in the distance, progress through multiple overworld regions, enter an “inside-the-mountain” cave section, and emerge back near the lighthouse—turning early visual foreshadowing into payoff.",
+      "summary": "Kaze decides the long-term goal is a seamless overworld experience: separate areas/levels that connect via seamless transitions rather than obvious warp transitions, but he wants to implement seamlessness late, once adjacent areas are finalized.",
+      "quote": "We’re gonna make it seamless at the very end though, because making one area seamless requires knowing how the next area will look like."
+    },
+    {
+      "topic": "technical",
+      "importance": "high",
+      "summary": "Seamless overworld transitions are constrained by N64 memory and the SM64 engine’s loading model: they must unload old areas and rebuild graph nodes, which prevents rendering (including Mario) during the transition, making typical screen-wipes difficult.",
+      "quote": null
+    },
+    {
+      "topic": "technical",
+      "importance": "high",
+      "summary": "Kaze outlines a likely compromise for seamless transitions: accept a brief freeze/blank-frame moment (or preserve the last frame as an image) during loads, since the engine can’t render while loading and can’t keep both areas loaded at once.",
       "quote": null
     },
     {
       "topic": "design",
       "importance": "medium",
-      "summary": "Because equal-sized overworld partitions are hard to manage, Kaze considers making Part 4 essentially a longer cave segment rather than forcing symmetry between overworld parts.",
+      "summary": "He notes the overworld will effectively be multiple “levels” (castle grounds/inside/courtyard-style segmentation) stitched together; pre-loading collision across those boundaries may be difficult and needs experimentation.",
       "quote": null
     },
     {
-      "topic": "technical",
+      "topic": "design",
       "importance": "high",
-      "summary": "Kaze agrees (with caveats) to make the overworld “seamless” eventually, but clarifies it will likely be implemented as seamless-feeling transitions between separate level areas (not one giant continuously-loaded map) due to memory and engine limitations.",
+      "summary": "Kaze is rebuilding the hub because he thinks the previous hub “sucked,” and articulates a production philosophy: hub design should be decided later, after enough content exists to make informed layout/navigation decisions.",
+      "quote": "It’s much better to decide on a hub in post than to do it while you’re making the game."
+    },
+    {
+      "topic": "design",
+      "importance": "high",
+      "summary": "Fast travel becomes a major design thread: Kaze’s standing idea is “corked pipes” that can only be uncorked from one side (unlocking one-way-to-two-way traversal) as both a tutorialized mechanic and an overworld traversal solution.",
       "quote": null
     },
     {
-      "topic": "technical",
+      "topic": "design",
       "importance": "high",
-      "summary": "He explains why seamless transitions are difficult: to move between areas the engine unloads the old area, destroys graph nodes (meaning Mario can’t be rendered), then loads and rebuilds the new area. The current engine can’t render a screen wipe during this loading window, and there isn’t enough memory to keep both areas resident.",
-      "quote": null
+      "summary": "A new alternative fast-travel concept emerges: replacing (or augmenting) the pause menu with a world map cursor that lets players warp to unlocked course entrances after they’ve seen a level’s cutscene.",
+      "quote": "Imagine the pause menu here instead was a world map with a cursor… and you could warp to course entrances."
     },
     {
       "topic": "technical",
       "importance": "medium",
-      "summary": "A pragmatic fallback for seamless-feeling transitions is discussed: a brief freeze-frame while loading, possibly using an image of the last rendered frame (framebuffer capture) or a short fade to hide blank frames, since true “render while loading” would require major engine changes.",
-      "quote": null
-    },
-    {
-      "topic": "design",
-      "importance": "high",
-      "summary": "Kaze rejects placing a cannon to reach a cloud/wing-cap entrance as originally planned, because the new overworld layout (and the cave connection) makes that approach impractical; he relocates the cannon concept nearer the wing-cap stage entrance and worries about the player falling and being unable to easily return.",
-      "quote": null
-    },
-    {
-      "topic": "design",
-      "importance": "high",
-      "summary": "Shortcut/fast-travel unlock design is actively rethought: Kaze wants a permanent ‘once you’ve been here once, getting back is easier’ mechanism for the lighthouse area (initially rope/vine, then pipes).",
-      "quote": null
-    },
-    {
-      "topic": "design",
-      "importance": "high",
-      "summary": "Kaze’s ‘corked pipe’ idea: pipes are blocked with corks and can only be uncorked from one side, creating one-way unlocks that become fast traversal routes later. He also calls this a good “teaching moment” for the mechanic early in the overworld.",
-      "quote": null
-    },
-    {
-      "topic": "philosophy",
-      "importance": "high",
-      "summary": "Kaze articulates a hub/overworld philosophy: the hub is the most important part and should be decided ‘in post’ (after more of the game is known) rather than locked in too early, because hub structure depends on complete information about all destinations.",
-      "quote": "It’s much better to decide on a hub in post than to do it while you’re making the game. The hub is the most important part; you need to make it with all the information available to you."
-    },
-    {
-      "topic": "design",
-      "importance": "high",
-      "summary": "Kaze invents a concept he calls a ‘suspense treadmill’: keeping the player curious about a future payoff/goal. He believes the lighthouse sightline and eventual return supports that pacing principle.",
-      "quote": "I’m gonna call this the suspense treadmill. You always want the player to have suspense for something that’s going to happen."
-    },
-    {
-      "topic": "design",
-      "importance": "high",
-      "summary": "A major alternative to physical fast-travel objects emerges: Kaze likes the idea of a pause-menu world map with a cursor that lets the player warp to unlocked course entrances (unlocking when you enter a level and finish its intro/cutscene). He explicitly notes it as something to pursue.",
+      "summary": "Kaze is messaging Sauraen offscreen about an “animation compression” idea that could save performance, indicating ongoing optimization work tied to animation data costs.",
       "quote": null
     },
     {
       "topic": "milestone",
       "importance": "high",
-      "summary": "Kaze states that all 12 main courses are done, but many will still be reworked (primarily by Biobak), implying the project is shifting from “building all courses” to “polish/rework and systems/overworld integration.”",
-      "quote": "All 12 main courses are done, but Biobak still will rework a lot of them."
+      "summary": "Kaze states that all 12 main courses are done, but emphasizes substantial remaining work via Biobak-led reworks and additional overworld/system tasks (e.g., deathwarps in overworlds, filling the new cave section, possible side level).",
+      "quote": "All 12 main courses are done, but Biobak still will rework a lot of them. So there’s still lots of work to do."
     },
     {
-      "topic": "team",
+      "topic": "business",
       "importance": "medium",
-      "summary": "Kaze is actively messaging Sauraen during the stream about a new animation compression idea that could improve performance, indicating ongoing collaboration on low-level optimization.",
-      "quote": null
+      "summary": "Kaze floats the idea of a physical cartridge release for the game’s OST (not the game), while explicitly avoiding a physical game release due to legal risk; he also mentions hopes for a legally distinct version in the future.",
+      "quote": "I can’t release the game physically and I will actually get murdered."
     }
   ],
   "contributor_findings": {
     "biobak": [
       {
         "topic": "design",
-        "importance": "high",
-        "summary": "Kaze says Biobak is handling most level reworks and is close to finishing a rework of Course 2, positioning Biobak as the main driver of iteration/polish on existing courses.",
+        "importance": "medium",
+        "summary": "Kaze reports Biobak is handling many level reworks and is “almost done with Course 2,” indicating parallel production where Kaze focuses on overworld systems while Biobak polishes earlier courses.",
         "quote": null
       },
       {
-        "topic": "team",
+        "topic": "design",
         "importance": "medium",
-        "summary": "Biobak challenges the ‘pipes as fast travel’ idea (Kaze asks him directly what he’d prefer), prompting Kaze to consider alternatives like a pause-menu world map warp system.",
+        "summary": "Biobak is directly involved in the fast-travel debate (Kaze asks what Biobak would prefer if not pipes), signaling that traversal UX is being negotiated rather than dictated unilaterally.",
         "quote": null
       }
     ],
@@ -117,13 +99,7 @@
       {
         "topic": "personal",
         "importance": "low",
-        "summary": "Zeina is present off-mic; Kaze discovers the persistent heater/fan noise is caused by Zeina turning on heat upstairs, giving a slice-of-life look at their shared home/work environment.",
-        "quote": null
-      },
-      {
-        "topic": "design",
-        "importance": "low",
-        "summary": "Zeina reacts to the seamless-overworld plan (“at least that’s the hope”), functioning as informal live feedback/banter rather than a design driver in this segment.",
+        "summary": "Zeina is present off-mic; Kaze discovers the persistent heater/vent noise was caused by Zeina having heat on upstairs, a small but revealing slice of their shared work-from-home dynamic during streams.",
         "quote": null
       }
     ],
@@ -134,18 +110,7 @@
           {
             "topic": "technical",
             "importance": "high",
-            "summary": "Kaze references Sauraen proposing an animation compression approach intended to save performance, which Kaze is discussing in real time during the stream.",
-            "quote": null
-          }
-        ]
-      },
-      {
-        "name": "ZeroVolt",
-        "findings": [
-          {
-            "topic": "team",
-            "importance": "low",
-            "summary": "Kaze plays/uses music attributed to ZeroVolt (“Haunted Mansion”), suggesting ongoing use/testing of community/composer music assets during dev streams.",
+            "summary": "Sauraen is actively discussing an animation compression approach with Kaze during the stream, positioned as a potential performance win (likely reducing animation memory/CPU overhead).",
             "quote": null
           }
         ]
@@ -155,101 +120,96 @@
   "memorable_quotes": [
     {
       "speaker": "Kaze",
-      "quote": "It’s much better to decide on a hub in post than to do it while you’re making the game. The hub is the most important part; you need to make it with all the information available to you.",
-      "context": "Kaze explains why he’s rebuilding the hub/overworld rather than committing early, revealing a core production philosophy for RTYI."
+      "quote": "The hub is the most important part; you need to make it with all the information available to you.",
+      "context": "Kaze explains why he’s rebuilding the hub and why hub design should be delayed until later in production."
     },
     {
       "speaker": "Kaze",
-      "quote": "I’m gonna call this the suspense treadmill. You always want the player to have suspense for something that’s going to happen.",
-      "context": "He describes his overworld pacing principle—teasing the lighthouse early and paying it off later via the cave connection."
+      "quote": "We’re gonna make it seamless at the very end though, because making one area seamless requires knowing how the next area will look like.",
+      "context": "He commits to seamless overworld transitions as a goal, but frames it as a late-stage integration task."
     },
     {
       "speaker": "Kaze",
-      "quote": "All 12 main courses are done, but Biobak still will rework a lot of them.",
-      "context": "Major production-status update: course creation phase is complete, but iteration/polish remains."
+      "quote": "I can’t release the game physically and I will actually get murdered.",
+      "context": "A blunt, character-defining way of expressing how seriously he takes Nintendo/legal exposure; contrasted with his excitement about a physical OST release."
     }
   ],
   "key_stories": [
     {
-      "title": "Designing the overworld loopback to the lighthouse",
-      "summary": "Kaze outlines the intended emotional arc of the overworld: you see the lighthouse early, can’t reach it, then much later you traverse Overworld 3’s icy region, enter a mountain cave (Part 4), and emerge near the lighthouse where you started. He believes the loopback will feel like a payoff for long-term curiosity.",
-      "challenge": "How to make the overworld structure feel meaningful and rewarding rather than a set of disconnected areas.",
-      "process": "He blocks out the Part 4 cave/tunnel, adjusts its curvature/length to fit memory/space constraints, and confirms the spatial connection from the cave exit to the lighthouse overlook.",
-      "outcome": "Part 4’s role is clarified as the connective tissue that turns distant landmark foreshadowing into a ‘finally I’m here’ moment; Kaze still needs to populate the cave with gameplay and possibly a side level.",
+      "title": "Fixing the end-screen transition and render bug",
+      "summary": "Early in the stream, Kaze addresses two issues players had complained about: a slow end-screen transition and a rendering bug. The fix acts as a small example of his feedback loop—shipping polish changes in response to audience playtesting.",
+      "challenge": "Players complained the end-screen transition was slow and there was a render bug.",
+      "process": "Kaze tracks down and fixes the bug(s), then tweaks the transition timing and tests it live.",
+      "outcome": "Transition is faster and the render bug is gone; Kaze is satisfied with how it looks.",
       "key_quote": null,
       "related_to": ["kaze"]
     },
     {
-      "title": "Attempting a seamless overworld under N64-era constraints",
-      "summary": "Chat proposes a fully seamless overworld. Kaze initially resists, then agrees to aim for seamless-feeling transitions later, but explains why true seamless streaming is hard in the current engine: during area loads Mario and the scene can’t render because graph nodes are rebuilt.",
-      "challenge": "Delivering modern-feeling seamless traversal without enough memory to keep adjacent areas loaded and without an engine capable of rendering during loads.",
-      "process": "Kaze reasons through memory/compression limitations, the unload/rebuild pipeline, and explores masking strategies (freeze-frame, fade, or framebuffer image) as workable compromises.",
-      "outcome": "He treats seamless transitions as an end-of-production task once adjacent areas are finalized, with a likely fallback of brief freezes/hidden blank frames rather than true continuous rendering.",
+      "title": "Designing the lighthouse loopback in the overworld",
+      "summary": "Kaze clarifies the intended emotional “payoff” of the overworld: you see the lighthouse immediately, but only reach it much later by traversing multiple overworld sections and a cave that returns you to the top. This is framed as an experience he worries he hasn’t communicated well, suggesting the team may need to ensure the game telegraphs the promise clearly.",
+      "challenge": "Creating a coherent, motivating overworld journey that makes a distant landmark feel meaningful rather than decorative.",
+      "process": "He lays out the player path across overworld parts, prototypes the tunnel connection, and considers adding a secret/side level in the cave to make the long connection feel like gameplay rather than a hallway.",
+      "outcome": "Part 4 becomes the connecting cave; Kaze is excited about the “back where you started” reveal and plans to fill the cave with content.",
       "key_quote": null,
       "related_to": ["kaze"]
     },
     {
-      "title": "Fast travel debate: corked pipes vs pause-menu world map warps",
-      "summary": "While planning permanent shortcuts, Kaze considers ‘corked pipes’ that can only be unlocked from one side as a tutorialized fast-travel system. Pushback and practical routing concerns lead him to seriously entertain a different approach: a pause menu world map where players warp to unlocked entrances.",
-      "challenge": "Preventing late-game overworld backtracking from becoming tedious while keeping traversal logical and not easily exploitable for sequence breaks.",
-      "process": "He compares genre conventions (Banjo cooking pots, DK warp pads, cannons), evaluates pipes’ pros/cons, and proposes a warp-unlock rule tied to entering a level and completing its intro/cutscene.",
-      "outcome": "Kaze makes a note to pursue the pause-menu map warp concept, suggesting a potential pivot away from purely physical fast-travel objects.",
-      "key_quote": null,
+      "title": "Committing to seamless overworld transitions despite engine constraints",
+      "summary": "A viewer suggestion pushes Kaze toward a seamless overworld, but he then confronts the reality of SM64’s loading model: unloading areas destroys graph nodes, so the engine cannot render during loads, and memory limits prevent dual-loading areas. The stream captures the negotiation between ideal immersion and implementable engineering.",
+      "challenge": "How to make multiple overworld areas feel seamless when the engine can’t render during area loads and can’t keep two areas in memory.",
+      "process": "Kaze reasons through options (true seamlessness, fade-to-black cave entry, screen wipes), explains the engine’s limitations, and considers a “freeze frame” approach that preserves the last image while loading occurs.",
+      "outcome": "Plan: build areas normally now; attempt seamlessness late; if necessary, use freeze-frame/fade tricks to hide unavoidable blank frames.",
+      "key_quote": "The engine… cannot render while a new area is loading in.",
+      "related_to": ["kaze"]
+    },
+    {
+      "title": "Fast-travel design pivot: corked pipes vs. world-map pause menu",
+      "summary": "While planning shortcuts near the lighthouse, Kaze revisits corked pipes as an unlockable traversal mechanic, then gets intrigued by an alternative: a pause-menu world map that warps to unlocked entrances after a cutscene. This is a key UX/system decision that will shape how ‘big’ the overworld feels versus how tedious backtracking becomes.",
+      "challenge": "Preventing overworld traversal from becoming annoying as players revisit earlier areas, without enabling sequence breaks that trivialize exploration.",
+      "process": "Kaze evaluates multiple conventions (warp pads, cannons, Banjo-style pots), critiques their drawbacks, and notes the strongest need is a first fast-travel path to Overworld Part 3 for midgame convenience. He then records a note to explore a world-map warp system tied to level-entry unlocks.",
+      "outcome": "No final implementation is chosen on-stream, but Kaze explicitly logs the world-map idea as a serious contender and keeps corked pipes as the default baseline.",
+      "key_quote": "That sounds so cool. I think we need to do that.",
       "related_to": ["kaze", "biobak"]
     }
   ],
   "open_questions": [
     {
-      "topic": "Animation compression proposal from Sauraen",
-      "context": "Kaze says Sauraen is discussing an animation compression idea that could save performance, and Kaze is responding mid-stream.",
+      "topic": "Animation compression and performance savings (Sauraen’s idea)",
+      "context": "Kaze is actively DM’ing Sauraen, who is proposing an animation compression approach that “might save a little bit of performance,” but details aren’t explained on-stream.",
       "questions": [
-        "What exactly is Sauraen’s animation compression approach (quantization, keyframe reduction, delta encoding, shared tables, etc.)?",
-        "Which animations/assets are the biggest performance or memory offenders that this would target (Mario, enemies, cutscenes, overworld NPCs)?",
-        "Did the idea ship into RTYI, and if not, what blocked it (quality loss, tooling, integration time)?",
-        "How did Kaze and Sauraen coordinate testing/benchmarking for the performance gain?"
+        "What exactly is being compressed (keyframes, bone transforms, per-frame data, DMA layout), and what performance bottleneck is it targeting?",
+        "How risky is this change—does it affect visual fidelity/animation quality, or toolchain complexity?",
+        "If this works, what does it unlock elsewhere (more enemies, more complex overworlds, higher animation variety)?"
       ],
       "related_to": ["kaze"]
     },
     {
-      "topic": "How ‘seamless’ overworld transitions will be implemented",
-      "context": "Kaze wants seamless-feeling transitions but explains the engine cannot render while loading a new area; graph nodes are torn down and rebuilt, and memory can’t keep both areas loaded.",
+      "topic": "Seamless overworld transitions: what will the player actually see?",
+      "context": "Kaze explains the engine can’t render during area loads because it unloads graph nodes and reloads everything, so a true seamless transition may require freezes or preserved-frame tricks.",
       "questions": [
-        "What exact transition will RTYI use (freeze-frame, fade, framebuffer snapshot, brief black frames)?",
-        "How many frames of stall are typical for an area load, and how variable is it by device/emulator/console?",
-        "What code path causes Mario to disappear (graph node rebuild), and is there a smaller-scope refactor that would allow rendering a minimal overlay during loads?",
-        "How will collision and object state be handled at the boundary (preload collision? preserve momentum? handle enemies/particles across the seam)?"
+        "What transition is your ‘minimum acceptable’ UX: a brief freeze, a fade, or a stylized transition (e.g., cave darkness) that doesn’t feel like a warp?",
+        "How long are the worst-case loads right now (frames/ms), and what content changes make them worse?",
+        "What would it take (architecturally) to keep Mario rendered while streaming the next area in—are you ruling that out for time, risk, or feasibility?"
       ],
       "related_to": ["kaze"]
     },
     {
-      "topic": "Compression/memory limits blocking a ‘perfectly seamless’ overworld",
-      "context": "Kaze mentions that making everything perfectly seamless “doesn’t work because of compression,” and also cites overall memory limits.",
+      "topic": "Fast travel system decision: corked pipes vs. pause-menu world map",
+      "context": "Kaze debates pipes (uncorkable from one side) versus a world-map pause menu warp to unlocked entrances (after viewing a cutscene).",
       "questions": [
-        "What compression limitation specifically prevents perfect seamlessness (segment layout, MIO0/Yay0 constraints, decompression time, bank limits, Fast64 export constraints)?",
-        "What is the concrete memory budget for an overworld area (geometry, textures, collision, objects), and how close is RTYI to those ceilings?",
-        "What optimization strategies are on the table (LOD, culling, texture atlas changes, split collision, dynamic object spawning)?"
-      ],
-      "related_to": ["kaze"]
-    },
-    {
-      "topic": "Final decision for fast travel: pipes vs world-map pause menu",
-      "context": "Kaze strongly considers pivoting from corked pipes to a pause-menu world map warp system with unlocks triggered by entering levels and watching their intro cutscene.",
-      "questions": [
-        "Which fast travel approach did RTYI ultimately choose, and why?",
-        "If the pause-menu map warp exists: how is it presented diegetically (map art style, cursor, restrictions), and how does it avoid breaking the sense of place?",
-        "How do you prevent warping from enabling sequence breaks (e.g., skipping overworld gating) while still reducing backtracking?",
-        "What was Biobak’s specific objection to pipes, and how did that feedback influence the final system?"
+        "What do you want fast travel to communicate thematically—physical traversal (pipes) or ‘player convenience UI’ (map)?",
+        "How will you prevent sequence breaks if warping is allowed—do you only warp to course entrances, or to overworld nodes too?",
+        "What’s the intended ‘first’ fast-travel unlock point in the game, and how do you teach it without interrupting pacing?"
       ],
       "related_to": ["kaze", "biobak"]
     },
     {
-      "topic": "Hub/overworld production strategy (‘design in post’)",
-      "context": "Kaze says the old hub “sucked,” he’s making a completely new one, and argues the hub should be decided late with full information.",
+      "topic": "Overworld scaling and memory budget as the overworld grows to 15 parts",
+      "context": "Kaze notes current maps can be larger, but this is only 4 of a planned ~15 overworld parts, raising questions about how seamlessness and distant rendering/LOD will scale.",
       "questions": [
-        "What went wrong with the old hub—layout, pacing, navigation, aesthetics, technical constraints, or player comprehension?",
-        "What information did Kaze feel he lacked earlier that made early hub work premature (final course themes, gating rules, collectible economy, story beats)?",
-        "How does the team test hub readability and navigation—playtests, internal heuristics, community builds?",
-        "Did ‘design in post’ create any rework costs elsewhere (moving entrances, rewriting scripts, changing cutscenes)?"
+        "What are the hard limits you’re hitting first: geometry, textures, collision complexity, or object count?",
+        "Do you already have a target for maximum area size per segment to keep load times acceptable?",
+        "How will distant landmarks (like the lighthouse) remain visible/meaningful if the overworld is heavily segmented for memory?"
       ],
       "related_to": ["kaze"]
     }

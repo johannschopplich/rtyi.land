@@ -1,82 +1,70 @@
 {
   "stream_context": {
-    "summary": "Kaze returns to active development on Return to Yoshi’s Island during a weekday stream, focusing on (1) toolchain friction around the Fast64/level-export “Upgrader UI,” (2) tracking down an emulator crash caused by a specific coin-formation object, and (3) preproduction for the “retro section” in Course 13—locking in a Super Mario Land 1-inspired black-and-white segment with a fixed-camera, screen-space movement concept and a simple 3D plane model derived from 16x16 sprite reference.",
+    "summary": "Kaze juggles tooling issues (Fast64/Upgrader UI), debugs a persistent crash in Course 13 caused by specific coin formations, and then spends a long segment nailing down the concept for the next “retro” section—committing to a black-and-white Super Mario Land 1-inspired level with a forced-perspective, on-rails/Star Fox-like plane segment. He also lays out a pragmatic emulator support stance: focus on Project64 + GlideN64 and avoid Parallel due to incompatibility and maintenance burden.",
     "level": ["Course 13"],
     "significance": "notable",
-    "significance_reason": "Contains project-defining constraints for the retro section (pre-Mario-64 rule, SML1 is mandatory, black-and-white aesthetic), a concrete engine limitation shaping level presentation (no area background support → corridor/fog/borders), and a practical stance on emulator support (Project64/GLideN64 as the target)."
+    "significance_reason": "Contains concrete production decisions (retro section concept + strict “pre-Mario 64 only” rule), a resolved crash root-cause, and a clear stance on emulator compatibility/support that affects how players will experience the hack."
   },
   "findings": [
     {
       "topic": "technical",
-      "importance": "medium",
-      "summary": "Kaze notes he did off-stream work to apply basic UV mapping across assets (including a brick texture set), aiming to make wall textures look “half decent” before moving on to the retro section.",
-      "quote": null
-    },
-    {
-      "topic": "team",
-      "importance": "medium",
-      "summary": "Kaze references being “in PR” (a pull request) for the upgraded/tool changes rather than privately requesting them, indicating toolchain updates are being handled through a shared repo workflow with other maintainers.",
+      "importance": "high",
+      "summary": "A recurring Course 13 crash is traced to a specific coin formation actor; removing three formations and checking their IDs reveals one untracked formation as the culprit, after which the level can proceed without crashing.",
       "quote": null
     },
     {
       "topic": "technical",
       "importance": "high",
-      "summary": "A persistent crash is traced to a specific coin formation object; removing/selectively disabling coin formations confirms the culprit and resolves the crash, highlighting coin formations as a recurring stability risk in this pipeline.",
-      "quote": "Coin formations love to crash."
-    },
-    {
-      "topic": "technical",
-      "importance": "medium",
-      "summary": "Kaze confirms the project is using the N64 Expansion Pak memory, describing it as making “everything a little easier,” implying RTYI content/tech targets expanded memory rather than strict stock N64 constraints.",
-      "quote": null
-    },
-    {
-      "topic": "technical",
-      "importance": "high",
-      "summary": "Kaze commits to a pragmatic emulator-support strategy: he primarily targets Project64 with modern GLideN64, arguing every emulator has unique bugs and supporting multiple emulators would multiply workaround effort; he considers Parallel effectively unusable for their needs.",
-      "quote": "Every emulator is broken as fuck. I just have to pick one emulator and run with it."
+      "summary": "Kaze states he will effectively target Project64 using GlideN64 and does not want to support Parallel due to persistent breakage and the added workload of working around a second emulator’s bugs.",
+      "quote": "Every emulator is broken as fuck… If I wanted to support a second emulator, I would have to also work around all the bugs in that emulator. So for me, I just have to pick one emulator and run with it."
     },
     {
       "topic": "design",
       "importance": "high",
-      "summary": "For Course 13’s retro segment, Kaze sets a firm rule: only games released before Mario 64 are eligible for references, to preserve the “fits in the time” feeling of an N64-era alternate history.",
-      "quote": "Only games that released before Mario 64 are eligible."
+      "summary": "For the retro section, Kaze locks in Super Mario Land 1 as mandatory (“non-negotiable”) and reiterates a project rule that only games released before Mario 64 are eligible for retro tributes.",
+      "quote": "It being Land 1 is non-negotiable. This will be a Land 1 level."
     },
     {
       "topic": "design",
       "importance": "high",
-      "summary": "Kaze makes Super Mario Land 1 inclusion a non-negotiable retro reference (partly driven by his own nostalgia), debating which Land 1 level concept translates best without becoming “the same game, but worse.”",
-      "quote": "It being Land 1 is non-negotiable."
+      "summary": "He explores how to adapt Mario Land 1’s vehicle/submarine/plane ideas without making “the same game but worse,” leaning toward a Star Fox-style forced-perspective plane segment to keep it fresh in a 3D engine.",
+      "quote": null
+    },
+    {
+      "topic": "technical",
+      "importance": "medium",
+      "summary": "Because the engine doesn’t support a true “area background,” Kaze opts for building a corridor-like environment rather than implementing a full background-clear approach, citing engineering cost and simplicity; he expects the segment to run at 60 FPS with this approach.",
+      "quote": null
     },
     {
       "topic": "design",
       "importance": "medium",
-      "summary": "Kaze explores a Land 1-inspired vehicle segment (plane/submarine/space) but favors a fixed-perspective corridor with forced camera and player movement in screen space; enemies approach the camera, creating a rail-shooter-like feel without requiring full “front sprites for everything.”",
+      "summary": "He commits to an essential black-and-white aesthetic for the Mario Land 1 tribute level/segment (both visuals and overall vibe), treating monochrome as core to the retro identity rather than optional styling.",
       "quote": null
     },
     {
       "topic": "technical",
       "importance": "medium",
-      "summary": "Engine limitation: true area-background rendering (solid white void) isn’t supported; rather than adding expensive engine support, Kaze chooses a corridor solution (walls/rims) and considers fog/borders to control visibility and keep the aesthetic from looking empty or “ass.”",
+      "summary": "Kaze mentions he permanently swapped draw layers 5 and 6 across his repo and now has to propagate the change to every level; he struggles with inconsistent layer naming versus enum mapping, especially for transparency vs decals ordering.",
       "quote": null
     },
     {
-      "topic": "technical",
+      "topic": "design",
       "importance": "medium",
-      "summary": "Repository-wide rendering change: Kaze says he has permanently swapped draw layers 5 and 6 (and then has to reconcile naming/enum mapping), implying a systemic change affecting transparency/decals ordering across levels.",
+      "summary": "He debates adding fog: it slightly harms the clean aesthetic, but without fog players can see too far and the level looks worse; he leans toward using fog as a necessary presentation tool.",
       "quote": null
     },
     {
-      "topic": "milestone",
+      "topic": "business",
       "importance": "medium",
-      "summary": "Kaze situates progress: they are in Course 13; the “Space Arcade” and “Papercraft” levels are stated to be the last two major levels remaining after this course. He also mentions Yoshi’s Story was previously considered but cut as “unfitting.”",
+      "summary": "Kaze says he plans to stream “basically every day” because working on-stream is efficient and he wants to earn more money, contextualized by having a child and limited time off.",
       "quote": null
     },
     {
       "topic": "personal",
-      "importance": "medium",
-      "summary": "Kaze describes external pressures shaping output cadence: new parenting time constraints and desire for more income; he plans to stream “basically every day” because he’s efficient working live. He also mentions his parents visiting in Germany for 10 days, consuming time/energy.",
-      "quote": "I need to work more because I want to make more money. So that's why I'm gonna just stream like basically every day now."
+      "importance": "low",
+      "summary": "He shares life context: his parents are visiting in Germany for 10 days, creating extra chores/time demands (garden work, setting up an automatic lawnmower), and they brought many Yoshi plushies.",
+      "quote": null
     }
   ],
   "contributor_findings": {
@@ -84,7 +72,7 @@
       {
         "topic": "design",
         "importance": "low",
-        "summary": "Biobak appears to be consulted for agreement on retro-game selection (Kaze explicitly checks whether a proposed direction “works”), using chat as real-time validation for direction before committing.",
+        "summary": "Biobak is consulted during retro brainstorming and appears to agree that a Mario Land 1 direction can work, but no specific asset or final decision is directly attributed beyond general affirmation.",
         "quote": null
       }
     ],
@@ -97,24 +85,7 @@
           {
             "topic": "technical",
             "importance": "medium",
-            "summary": "Lilaa provides concrete guidance for updating the tool/plugin via preferences (Kaze follows the step sequence in-stream), helping unblock the “Upgrader UI” update workflow.",
-            "quote": null
-          },
-          {
-            "topic": "technical",
-            "importance": "medium",
-            "summary": "During a layer/enum naming confusion, Lilaa (or a collaborator Kaze addresses directly) appears to have renamed items to match the enum, resolving Kaze’s immediate friction and reinforcing the importance of consistent naming for render-layer mapping.",
-            "quote": "Oh, you renamed them? Perfect."
-          }
-        ]
-      },
-      {
-        "name": "Strygon",
-        "findings": [
-          {
-            "topic": "technical",
-            "importance": "low",
-            "summary": "Kaze mentions “run Strygon to update the Upgrader UI,” implying Strygon is a specific script/tool or maintainer involved in the upgrade system Kaze relies on for exporting/engine integration.",
+            "summary": "Lilaa helps Kaze locate repo/settings and guides the correct updater workflow (e.g., “check for update and install main”), unblocking confusion around the Upgrader UI/update process.",
             "quote": null
           }
         ]
@@ -124,78 +95,72 @@
   "memorable_quotes": [
     {
       "speaker": "Kaze",
-      "quote": "It being Land 1 is non-negotiable.",
-      "context": "He locks in Super Mario Land 1 as a required retro reference for the Course 13 retro section, framing it as a hard constraint tied to coverage of 2D Mario history and his personal nostalgia."
+      "quote": "Every emulator is broken as fuck… If I wanted to support a second emulator, I would have to also work around all the bugs in that emulator. So for me, I just have to pick one emulator and run with it.",
+      "context": "Explains his pragmatic stance on emulator compatibility and why the project will likely be tuned around one primary emulator setup (Project64 + GlideN64)."
     },
     {
       "speaker": "Kaze",
-      "quote": "Every emulator is broken as fuck. I just have to pick one emulator and run with it.",
-      "context": "He justifies why RTYI development effectively targets a single emulator setup (Project64 + modern GLideN64), because multi-emulator support would require multiplying bug workarounds."
-    },
-    {
-      "speaker": "Kaze",
-      "quote": "I don't want to make the same game, but worse.",
-      "context": "While designing the SML1-inspired segment, he rejects straightforward recreations and looks for a translation that respects the original without becoming a lesser imitation in 3D/N64 constraints."
+      "quote": "It being Land 1 is non-negotiable. This will be a Land 1 level.",
+      "context": "A firm creative boundary for the retro section—useful for documenting how nostalgia and project rules constrain design choices."
     }
   ],
   "key_stories": [
     {
-      "title": "Crash traced to a coin formation object",
-      "summary": "Kaze hits a repeatable crash while testing the level and initially suspects memory or collision complexity. After isolating actors, he identifies a specific coin formation as the culprit and removes targeted coin formations until the crash disappears.",
-      "challenge": "A persistent crash during runtime testing with unclear root cause (could be collision triangles, memory, or an actor).",
-      "process": "He narrows the issue to actors, hypothesizes coin formations, removes multiple coin formations, checks object IDs/notes, and finds the specific formation responsible.",
-      "outcome": "Crash is resolved by removing/fixing the offending coin formation; coin formations are reaffirmed as a high-risk object type to verify early in testing.",
-      "key_quote": "Coin formations love to crash.",
+      "title": "Course 13 crash traced to a coin formation actor",
+      "summary": "Kaze hits a stubborn crash in Course 13 and initially suspects collision or memory issues. By systematically removing and identifying coin formations, he finds a specific formation ID that wasn’t in his notes and confirms it as the crash source—turning a vague, frustrating bug into an actionable fix.",
+      "challenge": "Course 13 keeps crashing with unclear cause (collision triangles removed didn’t help).",
+      "process": "He suspects an actor; narrows suspicion to coin formations; removes multiple formations; checks their internal IDs/positions; compares against his notes until one untracked formation matches the crash.",
+      "outcome": "The crash is attributed to a specific coin formation instance; removing it stabilizes the level and clarifies the fix path.",
+      "key_quote": null,
       "related_to": ["kaze"]
     },
     {
-      "title": "Locking the retro section constraints for Course 13",
-      "summary": "While preparing the ‘retro section,’ Kaze sets rules for what games can be referenced (pre–Mario 64 only) and insists Super Mario Land 1 must be represented. He iterates on how to translate Land 1’s vehicle levels into a compelling N64 segment without requiring costly art tasks like front-facing sprites for everything.",
-      "challenge": "Choosing a retro-game homage that fits the project’s time-period fiction and is feasible with current art/engine constraints.",
-      "process": "He surveys candidate Land 1 levels (submarine/space/plane), evaluates gameplay translation risks (‘same game but worse’), then converges on a forced-perspective corridor with fixed camera and screen-space movement, plus a simple 3D plane model based on 16x16 sprite reference.",
-      "outcome": "A clear direction emerges: SML1 black-and-white aesthetic, fixed camera, corridor/borders/fog to control visibility; avoid heavy sprite-front-facing requirements by using simple 3D enemies/objects where possible.",
-      "key_quote": "Only games that released before Mario 64 are eligible.",
+      "title": "Choosing the next retro tribute: committing to Super Mario Land 1",
+      "summary": "While planning the remaining retro content, Kaze sets a hard constraint: the next tribute must be Super Mario Land 1 and must fit the project’s ‘pre–Mario 64 releases only’ rule. He then pivots from a risky submarine idea (front-sprite workload, gameplay mismatch) toward a forced-perspective plane segment that feels meaningfully different inside a 3D Mario 64 hack.",
+      "challenge": "Find a retro concept that honors Mario Land 1 without becoming “the same game but worse,” and without exploding art workload (front-facing sprites).",
+      "process": "He surveys Mario Land 1 level options (submarine/space/underground); debates rail-shooter vs platforming; considers 3D enemies/models to avoid sprite requirements; commits to monochrome aesthetics and a locked-camera forced-perspective control scheme.",
+      "outcome": "Mario Land 1 is locked as the required retro target; a Star Fox-like plane approach becomes the leading implementation direction, with black-and-white presentation treated as essential.",
+      "key_quote": "It being Land 1 is non-negotiable. This will be a Land 1 level.",
+      "related_to": ["kaze"]
+    },
+    {
+      "title": "Emulator strategy: pick one and ship around it",
+      "summary": "Kaze articulates a production reality: supporting multiple N64 emulators multiplies bug-workarounds and slows development. He argues that Parallel is effectively untenable for his use case and positions Project64 with modern GlideN64 updates as the practical play path for this project.",
+      "challenge": "Community pressure/expectations around emulator choice vs. development time and stability.",
+      "process": "He compares usability and reliability across emulators (Project64 boots fast; Parallel causes recurring issues/pop-ups and incompatibilities); frames emulator support as ongoing maintenance cost.",
+      "outcome": "A clear support posture emerges: develop and test primarily on Project64 + GlideN64 and avoid Parallel where possible.",
+      "key_quote": "If I wanted to support a second emulator, I would have to also work around all the bugs in that emulator.",
       "related_to": ["kaze"]
     }
   ],
   "open_questions": [
     {
-      "topic": "Toolchain: what exactly is the “Upgrader UI” and what changed in the PR?",
-      "context": "Kaze struggles with an Upgrader UI update flow, follows a specific ‘preferences → check for update → install main’ path, and mentions the changes are being handled via PR. This sounds like a critical part of the export/upgrade pipeline for Fast64/decomp-based workflows.",
+      "topic": "Emulator support and player-facing guidance",
+      "context": "Kaze indicates Project64 + GlideN64 may be “the only way to play this,” and strongly rejects Parallel due to constant issues and added maintenance burden.",
       "questions": [
-        "What is the Upgrader UI responsible for in RTYI’s pipeline (exporting levels, materials, actors, microcode settings, or repo syncing)?",
-        "What broke or confused users that prompted this update (and why did Kaze believe ‘if I'm doing it wrong, everyone must be doing it wrong’)?",
-        "Who maintains it (Lilaa, Lina, Strygon, others), and how does Kaze coordinate changes—does the team rely on a specific fork/branch for RTYI?"
+        "When did you realize emulator support was going to be a ‘pick one and commit’ decision rather than a compatibility goal—was there a specific bug or breaking point?",
+        "Do you plan to officially recommend one emulator/graphics plugin combo at release, and how will you communicate that to players without creating backlash?",
+        "What would have to change (technically or in your workflow) for you to reconsider supporting Parallel or other emulators?"
       ],
       "related_to": ["kaze"]
     },
     {
-      "topic": "Emulator targeting as an implicit platform decision",
-      "context": "Kaze argues Project64 with modern GLideN64 is the practical target; he claims Parallel ‘will literally never work’ for them. This affects accessibility, QA, and how ‘authentic N64’ the final experience is.",
+      "topic": "The layer 5/layer 6 swap across every level",
+      "context": "Kaze says he permanently swapped draw layers 5 and 6 in the repo and now must apply it to every level; he also notes confusion caused by layer names not matching the enum mapping, especially around transparency and decals ordering.",
       "questions": [
-        "Which specific RTYI features/behaviors break on Parallel (rendering, timing, RSP/RDP accuracy, memory behavior, microcode)?",
-        "Is real-hardware testing a parallel track, or does Project64 effectively define correctness during development?",
-        "Does the project plan to document ‘supported emulator + plugin versions’ at release, and how will you communicate that without alienating players?"
+        "What visual or technical bug forced the decision to swap layers 5 and 6—was it a specific scene or rendering artifact that made it unavoidable?",
+        "How risky was it to propagate this change ‘in every level’—did it break existing art setups, and how did you audit the fallout?",
+        "What’s the correct mental model for your team now: how should artists/designers think about transparent geometry vs decals so they don’t fight the renderer?"
       ],
       "related_to": ["kaze"]
     },
     {
-      "topic": "Course 13 retro section: final gameplay spec and art budget decisions",
-      "context": "Kaze converges on a fixed-camera, screen-space movement corridor concept with black-and-white SML1 aesthetics, but several implementation choices remain open (fog amount, enemy presentation, how to constrain play area visually).",
+      "topic": "Making Super Mario Land 1 feel new inside a 3D Mario 64 hack",
+      "context": "Kaze wants Mario Land 1 in black-and-white but worries about creating a worse version of the original; he considers a forced-perspective plane segment to avoid heavy front-sprite demands and to differentiate gameplay.",
       "questions": [
-        "Is the Course 13 SML1 segment ultimately a rail shooter, a pseudo-rail corridor with free movement, or a platforming segment with vehicle flavor?",
-        "What is the minimum set of enemies/objects needed for the homage, and how will you avoid ‘front sprite’ requirements—3D models, billboards, voxel art, or simplified sprites?",
-        "How do you want players to read the playable space—borders, rim textures, fog, collision rails, or camera framing—and what playtests informed this?"
-      ],
-      "related_to": ["kaze"]
-    },
-    {
-      "topic": "Repo-wide render-layer swap (layers 5 and 6)",
-      "context": "Kaze says he ‘permanently swapped the draw layers’ and then discovers naming/enum mapping confusion. This sounds like a systemic rendering-order change that could affect transparency, decals, and level authoring rules.",
-      "questions": [
-        "What problem motivated swapping layers 5 and 6 (specific artifact, decal ordering, transparency sorting, performance)?",
-        "How many assets/levels were impacted, and did it cause regressions that required manual cleanup?",
-        "What is the current authoring rule for level designers/artists so the layer system stays consistent going forward?"
+        "What is the ‘core feeling’ of Mario Land 1 that you’re trying to preserve—visual identity, music, movement, or specific set pieces?",
+        "If the plane segment becomes Star Fox-like, what are the non-negotiable mechanics (shooting, dodging, speed, enemy density) that make it fun rather than a gimmick?",
+        "How will you solve the art direction tension between voxel/simple 3D enemies and the rest of the game’s style—what’s your threshold where ‘retro abstraction’ still feels intentional?"
       ],
       "related_to": ["kaze"]
     }

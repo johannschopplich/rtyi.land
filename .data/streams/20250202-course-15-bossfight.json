@@ -1,86 +1,80 @@
 {
   "stream_context": {
-    "summary": "Kaze prototypes the Course 15 boss fight: a corrupted “Pentapus” Yoshi who attacks with spline-based tentacles emerging from portals/“blue holes.” He iterates on tentacle animation timing, collision/damage logic, camera shake, and a readable telegraph (light beam) so players can dodge. The stream also includes discussion of how hard it is to accurately port his hacks to SM64 Co-op Deluxe/PC ports due to custom code, plus a shader collaboration that adds cheap reflective highlights to the Power Plant level.",
+    "summary": "Kaze prototypes the Course 15 boss fight: a corrupted “Pentapus Yoshi” who attacks with tentacles emerging from blue/black-hole portals. He implements tentacle animation timing, collision/damage handling to prevent player softlocks, camera shake, and a portal “warning light” readability pass. The stream also includes discussion of PC/co-op ports of his hacks, hidden code-only easter eggs, and a shader collaboration with community member Akumoid for reflective materials.",
     "level": ["Course 15", "Course 11 – Power Plant"],
     "significance": "notable",
-    "significance_reason": "Introduces a clear boss-fight design loop for Course 15, plus concrete implementation approaches (spline hitboxes/collision + telegraphing) and reveals collaboration on N64-friendly shader tricks; also shows Kaze’s stance on unofficial ports and how custom code blocks accurate PC/Co-op conversions."
+    "significance_reason": "Substantial boss-fight design is clarified (full 3-hit loop + weak points), multiple core gameplay behaviors are implemented (portal telegraph, collision/damage, anti-stuck behavior), and a new outside collaborator (Akumoid) contributes a meaningful rendering/shader technique."
   },
   "findings": [
     {
       "topic": "design",
       "importance": "high",
-      "summary": "Course 15’s boss concept is a corrupted/mutated Yoshi (“Pentapus”) framed as a friendly creature the player is healing; the win condition is destroying tumor-like weak points rather than ‘killing’ Yoshi.",
-      "quote": "It’s a nice Yoshi who’s just sick and needs your help."
+      "summary": "Course 15’s boss concept is locked in as a corrupted, floating “Pentapus Yoshi” (not a kraken/octopus) who is healed—rather than killed—by destroying tumor-like weak points on tentacles and then on Yoshi’s nose during a knockdown phase.",
+      "quote": null
     },
     {
       "topic": "design",
       "importance": "high",
-      "summary": "Boss fight loop: approach triggers hostile ‘alien’ dialogue; tentacles attack from portals; player jumps onto tentacle to destroy pulsating weak spots; this stuns Yoshi, drops his head, exposes additional weak spot(s) on his nose; repeat ~3 cycles to win.",
-      "quote": "You destroy the ward and then Yoshi gets weak… his nose is exposed… you punch the ward… he shakes you off and then you repeat that three times."
+      "summary": "Kaze outlines the intended boss loop: Yoshi begins unreachable and speaks in an unintelligible ‘alien’ language; tentacles spawn from portals, each with pulsating weak-point ‘wards’; destroying a ward weakens Yoshi, lowers his head, exposes nose weak points, and the player repeats this three times to win.",
+      "quote": null
     },
     {
       "topic": "technical",
       "importance": "high",
-      "summary": "Tentacle interaction is planned around spline-based hitboxes/collision rather than full dynamic collision; Kaze plans to detect whether Mario is ‘in the spline’ to apply damage, reusing existing code he already has for spline damage checks.",
-      "quote": "This one is gonna be a spline collision, and I’m just gonna have to make it so that if Mario’s in spline, he takes damage."
-    },
-    {
-      "topic": "technical",
-      "importance": "medium",
-      "summary": "He adds/iterates on fight readability: portals (‘blue holes’) spawn the tentacles and a light/beam telegraph should be visible before impact; he tunes opacity/size/shape to make the warning readable even from behind (render distance issue).",
+      "summary": "Tentacle gameplay is planned around spline-based collision/hit detection rather than fully dynamic collision: Kaze will compute hit/damage based on Mario’s position along the tentacle spline, and he already has reusable code for spline damage checks.",
       "quote": null
     },
     {
       "topic": "technical",
       "importance": "medium",
-      "summary": "To prevent softlocks/awkward physics where Mario gets stuck inside the tentacle, Kaze changes behavior so the tentacle retracts immediately on hit; he expects some players may not realize this is a safety measure.",
-      "quote": "They don’t know it’s for their own benefit, because I don’t want them to get stuck like that."
+      "summary": "To avoid softlocks where Mario gets stuck inside a tentacle, Kaze changes behavior so the tentacle retracts immediately after hitting Mario (even if that feels harsher), prioritizing playability over animation purity.",
+      "quote": null
     },
     {
-      "topic": "design",
+      "topic": "technical",
       "importance": "medium",
-      "summary": "The boss is intended to scale up in difficulty: later phases will be faster and may use multiple simultaneous tentacle attacks (two or three at once), plus additional attacks (e.g., ‘babies’ being thrown).",
-      "quote": "He’s definitely going to get a lot faster later on… I’m imagining him attacking with two or three tentacles at the same time."
-    },
-    {
-      "topic": "philosophy",
-      "importance": "medium",
-      "summary": "Kaze wants long-tail secrets: the boss and/or game will include cryptic messages and hidden easter eggs, including some that may only be discoverable by decompiling/reading code; he explicitly wants them to remain undiscovered for a long time after release.",
-      "quote": "He’s going to leave cryptic messages for you as well, that hopefully no one figures out until much longer after release."
-    },
-    {
-      "topic": "team",
-      "importance": "medium",
-      "summary": "Course production status update: Courses 13 and 14 are described as ‘basically 95% done,’ but Course 13 is missing an outside area Zeina has been working on for a long time; Course 14’s visuals still need polish from an artist named Violet.",
+      "summary": "Kaze prototypes portal visuals for tentacle spawns: he experiments with ‘blue holes’/black-hole portals and adds a telegraphing light effect so players can see where an attack will emerge even from behind, adjusting for render distance and readability.",
       "quote": null
     },
     {
       "topic": "community",
       "importance": "medium",
-      "summary": "Kaze reviews Co-op Deluxe/PC-style ports of his content and argues most attempts are incomplete because his hacks rely on extensive custom code; he sees ‘map-only’ ports as close to a demo/‘Roblox port’ and is reluctant to provide support beyond minor help.",
-      "quote": "If someone ported Return to Yoshi’s Island… they would just port the maps… you wouldn’t actually be able to play it… just a demo."
+      "summary": "Kaze reviews fan attempts to port his hacks to Mario 64 co-op/PC ecosystems and is frustrated by incomplete ports (missing water/backgrounds, wrong collision, broken setpieces). His policy: people may port freely, but he doesn’t want to spend his own time supporting major porting work.",
+      "quote": "My general policy is: if you can do it yourself without my help, you can do with my hacks whatever you want—but as soon as you start asking me for help, I’m gonna be annoyed."
+    },
+    {
+      "topic": "milestone",
+      "importance": "medium",
+      "summary": "Progress update on broader game scope: over the last ~5 days he finished two areas in the current level, and the side-level plan has grown from an earlier idea of ~6 side levels to potentially ~9.",
+      "quote": null
+    },
+    {
+      "topic": "team",
+      "importance": "medium",
+      "summary": "Two late-game courses are described as ~95% complete but blocked by art/visual polish: Course 13 is missing an outside area that Zeina has been working on “for a long time,” and Course 14 is mechanically done but still needs visuals ‘left for Violet’ to make it look as pretty as intended.",
+      "quote": null
     },
     {
       "topic": "technical",
-      "importance": "medium",
-      "summary": "He shows a new N64-friendly reflection shader workflow for the Power Plant level: a separate reflection mask from the base texture produces convincing reflections at low runtime cost, developed via DM collaboration with a community member (Akumoid).",
+      "importance": "high",
+      "summary": "A new rendering/shader technique is developed with community member Akumoid: Kaze shows a reflection effect using a separate reflection mask from the base texture, describing it as visually strong but computationally cheap on N64—time-expensive to author, not expensive to run.",
       "quote": "You’d think this is expensive, but this is literally free."
     }
   ],
   "contributor_findings": {
     "biobak": [
       {
-        "topic": "team",
-        "importance": "medium",
-        "summary": "Biobak is positioned as the person who will remake/finalize Kaze’s placeholder boss model and uses Kaze’s rough texturing/shape as a symbolic target; Kaze also mentions having concept art to coordinate with Biobak.",
-        "quote": "The textures… are more like a symbolic representation… so that when Biobak remakes my model, he knows what I was going for."
+        "topic": "design",
+        "importance": "low",
+        "summary": "Kaze frames the current boss textures/models as placeholders intended to communicate intent so Biobak can later remake the model properly; he also references having shared concept art back-and-forth with Biobak for planning.",
+        "quote": null
       }
     ],
     "badub": [
       {
-        "topic": "team",
+        "topic": "community",
         "importance": "low",
-        "summary": "Badub’s growing visibility/fame is noted (Kaze reacts to chat recognizing releases/credits), but no new music-specific implementation details are discussed in this stream.",
+        "summary": "Kaze jokes that Badub is “royalty”/famous after chat references his work showing up elsewhere, implying Badub’s music is circulating beyond the immediate dev stream audience.",
         "quote": null
       }
     ],
@@ -88,7 +82,7 @@
       {
         "topic": "team",
         "importance": "medium",
-        "summary": "Zeina is responsible for an ‘outside area’ missing from Course 13 and has been working on it for a long time; this is framed as the main remaining blocker for that course being fully finished.",
+        "summary": "Zeina is singled out as the blocker for Course 13’s missing outside area, with Kaze noting she has been working on it for a long time—suggesting a parallel art/level-assembly pipeline late in production.",
         "quote": null
       }
     ],
@@ -97,20 +91,20 @@
         "name": "Akumoid",
         "findings": [
           {
-            "topic": "community",
-            "importance": "medium",
-            "summary": "Akumoid is actively collaborating with Kaze via DMs to learn/help with N64 shader work; together they produced a reflection effect (using a reflection mask) for the Power Plant building, and Akumoid is now working on a similar shader pass for a rocket asset.",
+            "topic": "technical",
+            "importance": "high",
+            "summary": "Akumoid DMed Kaze to learn N64 shaders and ended up collaborating on a reflective-material shader for a building using a reflection mask; Akumoid is also actively working on a similar shader/material setup for a rocket asset.",
             "quote": null
           }
         ]
       },
       {
-        "name": "Violet",
+        "name": "Doryl / Aeza",
         "findings": [
           {
             "topic": "team",
-            "importance": "medium",
-            "summary": "An artist named Violet is called out as still needed to complete/polish visuals for Course 14, implying art completion is partially dependent on her availability/output.",
+            "importance": "low",
+            "summary": "Kaze mentions a separate romhack project (with Doryl and Aeza) where Kaze is the villain stopping Mario from saving Peach, and briefly considers showcasing an update labeled “Team Genocide.”",
             "quote": null
           }
         ]
@@ -120,102 +114,63 @@
   "memorable_quotes": [
     {
       "speaker": "Kaze",
-      "quote": "You’d think this is expensive, but this is literally free.",
-      "context": "Explaining the Power Plant reflection shader: visually impressive, low runtime cost, but requires developer time/know-how."
+      "quote": "If no one knows what my political beliefs are, then people are more likely to assume my political beliefs overlap with theirs, and they will like me for it.",
+      "context": "Kaze explains why he avoids political statements on stream, framing it as an intentional ‘halo effect’ strategy for audience perception and avoiding cancellation."
     },
     {
       "speaker": "Kaze",
-      "quote": "They don’t know it’s for their own benefit, because I don’t want them to get stuck like that.",
-      "context": "Design justification for forcing tentacles to retract instantly when they hit Mario (anti-softlock/anti-jank measure)."
-    },
-    {
-      "speaker": "Kaze",
-      "quote": "If you can do it on yourself without my help you can do with my hacks whatever you want, but as soon as you start asking me for help I’m gonna be annoyed.",
-      "context": "His boundary-setting philosophy about community ports to Co-op Deluxe/PC and the support burden caused by heavy custom code."
+      "quote": "In some of my old ROM hacks… I would import the 3D model of a large cock into Castle Grounds… so if you used a ROM hacking tool to open my hack, you would just see a large cock.",
+      "context": "A candid example of Kaze’s history of hidden dev-tool-only jokes/easter eggs, which parallels his current comments about code-only easter eggs requiring decompilation to find."
     }
   ],
   "key_stories": [
     {
-      "title": "Designing a ‘healing’ boss fight for a corrupted Yoshi",
-      "summary": "Kaze frames the Course 15 boss as a friendly Yoshi corrupted into a tentacled ‘Pentapus,’ shifting the player’s goal from defeating an enemy to curing an ally. He outlines a repeatable combat loop built around destroying visible weak spots on attacking tentacles to create openings on Yoshi’s head.",
-      "challenge": "Make a boss that feels thematically ‘respectful’ to Yoshi (friend, not villain) while still delivering a mechanically readable and fun fight.",
-      "process": "Prototype tentacle attacks and weak points, define a 3-cycle stun-and-hit loop, and plan telegraphs (portals + light warning) to help players anticipate strikes.",
-      "outcome": "A clear intended boss loop is established, with ongoing iteration on telegraph visibility and attack timing; art and final presentation are still placeholder.",
-      "key_quote": "You end up saving him. All Yoshis are friends.",
+      "title": "Course 15 ‘Pentapus Yoshi’ boss loop: healing via tentacle weak points",
+      "summary": "Kaze solidifies the boss’s narrative framing (Yoshi is corrupted/sick) and the mechanical loop (destroy tentacle tumors to force a vulnerable head/nose phase). He treats the fight as both spectacle (portals/black holes) and a readability problem (telegraphs, hitboxes, softlock prevention).",
+      "challenge": "Designing a multi-limbed boss that is readable and fun on N64 constraints while avoiding collision jank (e.g., Mario getting stuck) and ensuring the weak-point loop is clear.",
+      "process": "He prototypes tentacle animation and plans spline-based hit detection; implements damage/solid timing and camera shake; adds logic for immediate retraction on hit to prevent stuck states; experiments with portal visuals and a warning light that must be visible even from behind (render distance adjustments).",
+      "outcome": "A working early prototype exists: tentacles spawn from portals, interact with Mario, and are telegraphed; the intended three-cycle weak-point loop is articulated, with remaining work including polish, multiple simultaneous tentacle attacks, additional attacks, and final art.",
+      "key_quote": "It’s not a hentai monster, it’s just a nice Yoshi who’s just sick and needs your help.",
       "related_to": ["kaze"]
     },
     {
-      "title": "Making tentacle attacks work on N64: spline hitboxes, telegraphs, and anti-softlock behavior",
-      "summary": "Kaze iterates on the technical foundation for tentacle attacks: using spline-based hit detection, adding camera shake, tuning when the tentacle becomes solid/damaging, and ensuring the telegraph can be seen even from behind. He also adds a safety behavior to retract the tentacle immediately on hit to prevent Mario getting stuck.",
-      "challenge": "Tentacles need to look/feel physical, be dodgeable, and not cause jank or player trapping on an N64-era engine.",
-      "process": "Implement spline collision logic, adjust animation timing (including speeding up retraction), debug rotation/ward alignment issues, and iterate on portal + light beam telegraph while accounting for render distance.",
-      "outcome": "A functioning prototype emerges (attack spawns, telegraph appears, collision mostly works), with remaining work on visual polish and multi-attack concurrency.",
-      "key_quote": "This one is gonna be a spline collision, and I’m just gonna have to make it so that if Mario’s in spline, he takes damage.",
-      "related_to": ["kaze"]
-    },
-    {
-      "title": "Why accurate PC/Co-op Deluxe ports of the hacks keep failing",
-      "summary": "Kaze reviews examples of Co-op Deluxe/PC-style ports and points out missing water/backgrounds, broken rendering, absent custom mechanics (e.g., carousel/slide behavior), and generally ‘map-only’ ports. He explains that Return to Yoshi’s Island would be especially hard to port because so much gameplay depends on custom code not present in vanilla or older shared codebases.",
-      "challenge": "Community demand to play hacks outside emulators collides with the reality that custom code and bespoke mechanics don’t transfer cleanly.",
-      "process": "Kaze evaluates ports, identifies what’s broken (rendering/collision/mechanics), and clarifies his support policy: he won’t shoulder major porting work for others.",
-      "outcome": "He remains skeptical of accurate ports; at best, he expects partial/demo-like ports unless someone recreates or re-implements large chunks of behavior.",
-      "key_quote": "There’s so much custom code… they would just port the maps… it’d be like a roblox port basically.",
+      "title": "Shader collaboration with Akumoid to get ‘free’ reflections on N64",
+      "summary": "A viewer outreach turns into an asset-level rendering upgrade: Kaze and Akumoid develop a reflection look using a separate mask, improving perceived material quality without blowing performance. Kaze highlights the real cost as developer time and know-how, not runtime expense.",
+      "challenge": "Making advanced-looking materials (reflections) that fit N64 performance budgets and the project’s custom rendering pipeline.",
+      "process": "Akumoid contacts Kaze to learn N64 shaders; together they iterate on a reflection-masked approach and test it on a building. Akumoid then begins applying the approach to another hero asset (a rocket).",
+      "outcome": "Kaze is “very happy” with the reflections, calls the effect extremely cheap computationally, and expects further improvement as Akumoid extends the technique to additional assets.",
+      "key_quote": "There’s a separate reflection mask from the actual texture here, and it looks so cool.",
       "related_to": ["kaze"]
     }
   ],
   "open_questions": [
     {
-      "topic": "Cryptic messages and encryption in the Course 15 boss",
-      "context": "Kaze says the boss will send cryptographic/‘alienese’ messages through text boxes and he already has two encryption techniques in mind but wants more.",
+      "topic": "Cryptographic/easter-egg messaging in the Course 15 boss fight",
+      "context": "Kaze says the Pentapus Yoshi will send players cryptic messages through text boxes, using ‘encryption techniques’ that he hopes won’t be solved until long after release; he already has two techniques and wants more.",
       "questions": [
-        "What are the two encryption techniques you already planned, and what constraints (font, text box length, localization) shaped them?",
-        "How do you want players to encounter and decode these messages—purely in-game clues, community ARG-style collaboration, or code-diving?",
-        "How do you balance ‘mystery’ with not blocking progress for players who never engage with the cipher?",
-        "Do the cryptic messages connect to larger RTYI lore (space civilization/Yoshis in space) or stay as optional easter eggs?"
+        "What motivated you to add real ‘encryption’ to an N64-era ROM hack—was it about mystery, community collaboration, or long-tail replayability?",
+        "What are the constraints you’re designing within (text box limits, font/encoding, localization), and how do those constraints shape the cipher choices?",
+        "How will you test whether the puzzle is solvable-but-not-trivial without accidentally leaking the solution?"
       ],
       "related_to": ["kaze"]
     },
     {
-      "topic": "Final art direction and pipeline for the Pentapus Yoshi boss",
-      "context": "Kaze repeatedly notes the boss model/textures are placeholders and meant to communicate intent to Biobak, who will remake the model; the creature’s final look may change significantly.",
+      "topic": "Late-production pipeline bottlenecks: Zeina’s outside area (Course 13) and Violet’s visual polish (Course 14)",
+      "context": "Kaze describes Courses 13 and 14 as ~95% done but waiting on an outside area Zeina has worked on for a long time and visual work ‘left for Violet.’",
       "questions": [
-        "What concrete references (games/films/creatures) are you using to guide Biobak on the final Pentapus design?",
-        "What does ‘respectful to Yoshi’ mean visually—what design elements are off-limits because they stop reading as Yoshi?",
-        "What’s the handoff process: do you provide concept paintovers, blockouts, rig requirements, texture constraints, or animation targets?",
-        "Who decides final ‘readability’ for weak spots (size, pulsing, color), and how will you test that with players?"
-      ],
-      "related_to": ["kaze", "biobak"]
-    },
-    {
-      "topic": "Course 13 and 14 completion blockers (Zeina outside area; Violet visuals)",
-      "context": "Kaze states Courses 13 and 14 are ~95% done, but Course 13 lacks an outside area Zeina has been on for a long time, and Course 14’s visuals are pending Violet.",
-      "questions": [
-        "What’s left in Course 13’s outside area—art, layout, gameplay scripting, or performance optimization?",
-        "Why has the outside area taken so long (scope changes, tooling friction, time constraints, iteration loops between you and Zeina)?",
-        "What specific visual work is Violet responsible for on Course 14, and how integrated is that with level logic or cutscenes?",
-        "Do you have a contingency plan if Violet’s work slips—do you ship ‘less pretty,’ re-scope, or reassign?"
+        "What specifically made Course 13’s outside area take so long—was it art scope, iteration churn, tooling friction, or something personal/time-related?",
+        "How do you decide when a course is ‘95% done’—what’s the remaining 5% that tends to expand unexpectedly?",
+        "What is the handoff process between you and Violet for ‘visuals left to do’—style guides, checklists, or live iteration?"
       ],
       "related_to": ["kaze", "zeina"]
     },
     {
-      "topic": "Static recompilation / no-emulator distribution (YSK mention)",
-      "context": "Kaze floats using ‘YSK static recompilation’ to import the game broadly so players wouldn’t need an emulator, implying interest in wider platform accessibility.",
+      "topic": "Kaze’s stance on co-op/PC ports of his hacks (support boundaries and quality control)",
+      "context": "Kaze critiques rough co-op/PC ports (missing water/backgrounds, broken setpieces like a carousel) and says he’s fine with people doing ports, but doesn’t want to be pulled into major support work.",
       "questions": [
-        "What would ‘static recompilation’ change for RTYI’s reach (platforms, performance, latency, controller support)?",
-        "What are the biggest blockers for RTYI specifically (custom microcode/shaders, assembly hooks, toolchain assumptions)?",
-        "Would this be an official distribution target or a community-friendly path you’re merely open to?",
-        "How do you weigh the risk of fragmentation (multiple builds/ports) versus a single ‘canonical’ N64-targeted experience?"
-      ],
-      "related_to": ["kaze"]
-    },
-    {
-      "topic": "Boss fight pacing and concurrency of tentacle attacks",
-      "context": "Kaze worries early attacks may be too fast, expects later phases to get faster, and wants multi-tentacle simultaneous attacks, which impacts readability and fairness.",
-      "questions": [
-        "What are your target difficulty goals for Course 15 relative to earlier bosses—challenge peak, or ‘final exam’ style mastery check?",
-        "How will you ensure multi-tentacle attacks don’t become unavoidable hits (camera, arena size, telegraph brightness, safe zones)?",
-        "Do you plan distinct ‘patterns’ players can learn, or semi-randomized attacks that prioritize replay variety?",
-        "What metrics or playtests will determine whether Phase 1 is ‘too fast’?"
+        "Where do you draw the line between ‘community freedom’ and protecting the reputation of the original hack when ports are buggy or incomplete?",
+        "Have you considered publishing porting guidelines or a ‘known-good’ compatibility layer so ports don’t misrepresent the experience?",
+        "What would an ideal official pathway look like—static recompilation (YSK), a sanctioned PC build, or simply better tooling for the community?"
       ],
       "related_to": ["kaze"]
     }

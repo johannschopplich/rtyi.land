@@ -1,70 +1,82 @@
 {
   "stream_context": {
-    "summary": "Kaze continues development on Course 13 by blocking out and art-pass planning for the Raphael the Raven boss arena (tower, nest, moon backdrop). He imports and loops a new Ice Dungeon/Ice Castle music track, then spends most of the stream brainstorming a boss fight concept that feels like a strong set-piece while staying feasible within SM64 decomp constraints (actor-level changes vs engine-wide gravity changes).",
-    "level": ["Course 13", "Course 12", "Overworld"],
-    "significance": "notable",
-    "significance_reason": "Contains concrete design direction for the Raphael boss (multi-phase concept and visual intro), technical constraints that shape the fight (avoid engine-wide gravity changes), and several project-scope facts (star counts, OST size, demo intention)."
+    "summary": "Kaze works on Course 13’s Raphael the Raven boss area, focusing on building the arena tower/nest set-piece and—more importantly—brainstorming the full boss fight structure (moon set-piece, anti-gravity/fall-into-stars interludes, and a damage mechanic). Mid-stream he also imports and manually sets loop points for the Ice Dungeon track, and shares broader project status (star/enemy counts, OST size) plus a few tooling/engine constraints that shape design choices.",
+    "level": ["Course 13"],
+    "significance": "milestone",
+    "significance_reason": "A complete high-level design for the Raphael the Raven boss fight is mapped out (phases, visuals, and damage loop), along with concrete next steps (moon/cutscene + planetary-gravity code). He also provides meaningful project-wide progress numbers (stars/enemies) and confirms the game’s unusually large OST count."
   },
   "findings": [
     {
       "topic": "design",
       "importance": "high",
-      "summary": "Kaze outlines a full draft concept for the Raphael the Raven boss fight: an intro set-piece where Raphael eclipses the moon, followed by a sequence where Mario is launched into star-dodging space, lands on a low-gravity moon surface, dodges ground-pound-induced shooting stars, then uses a spawned pickup (concept: “frozen cheese ninja star” that becomes collectible where projectiles collide) to damage Raphael; repeat for multiple hits and potentially return to the tower for a later phase.",
+      "summary": "Kaze’s top priority for bosses is creating a memorable visual set-piece first, then fitting innovative gameplay to it; for Raphael the Raven, the moon/tower reveal is treated as non-negotiable spectacle.",
+      "quote": "It being a cool set-piece is my number one priority for bosses, always."
+    },
+    {
+      "topic": "design",
+      "importance": "high",
+      "summary": "The stream’s main outcome is a sketched boss-fight loop: Raphael stomps/attacks to launch Mario into a ‘falling into stars’ dodge sequence; after landing on a (likely low-gravity) moon arena, Raphael performs a ground-pound that sends multiple projectiles around the moon that collide on the far side, spawning a throwable ‘unfrozen’ pickup used to damage him; repeat for multiple hits/phases.",
       "quote": null
     },
     {
-      "topic": "philosophy",
+      "topic": "design",
       "importance": "high",
-      "summary": "Kaze reiterates a core design philosophy for the project: SM64’s strength is player freedom and self-chosen risk, and he resists designs that over-direct players (e.g., heavy checkpointing) or equate quality with forced difficulty.",
-      "quote": "The point is that you're free. It's all freedom."
+      "summary": "Kaze explicitly rejects a true ‘hollow moon / inside-outside’ fight concept because it would require universal gravity changes; he wants the fight implementable mostly at the actor level to avoid risky engine-wide modifications.",
+      "quote": null
     },
     {
       "topic": "technical",
       "importance": "high",
-      "summary": "A key feasibility constraint for the Raphael fight: Kaze wants new mechanics to be implementable at the actor level (local to the boss/scene) rather than requiring engine-wide gravity changes. This leads him to reject (for now) a “hollow moon with inside/outside gravity” concept because it would require universal gravity behavior changes.",
+      "summary": "Because the boss concept likely needs moon rotation/planetary-gravity-like behavior (even if simplified), Kaze plans to ask Arthur for existing planetary gravity code rather than reinventing it from scratch.",
+      "quote": "I’m going to ask Arthur for his planetary gravity code because he already knows what to do, I think."
+    },
+    {
+      "topic": "design",
+      "importance": "medium",
+      "summary": "He debates whether Raphael should be an ‘ice variant’ to match the ice ravens already used in the castle; however, the iconic intro visual (moon goes dark, eyes appear) pushes him back toward a darker/black Raphael for maximum ‘oh shit’ impact.",
       "quote": null
     },
     {
       "topic": "design",
       "importance": "medium",
-      "summary": "Boss design priority statement: Kaze’s #1 priority for bosses is a memorable visual set-piece first, then ensuring the gameplay is still fun and novel. This informs keeping the moon-eclipse intro even if it complicates using an “ice Raphael” variant.",
-      "quote": "Being a cool set-piece is my number one priority for bosses, always."
+      "summary": "A specific thematic prop payoff is proposed: a nest in the arena containing an egg; after victory the egg ‘explodes’ into the reward star—framing the boss as guarding the egg. Kaze debates whether the egg should be a Raven egg or a captured Yoshi egg for story flavor.",
+      "quote": "There should be an egg here. And then at the end when you win, the egg just explodes and you get a star out of the egg."
     },
     {
       "topic": "technical",
       "importance": "medium",
-      "summary": "Kaze identifies a Fast64 export/rendering issue: a fog state can remain enabled across materials inside a single large display list (often when using material bleeding), causing unexpected fog behavior (notably making Course 12 look “bugged” on real N64 compared to stream footage).",
+      "summary": "He demonstrates hands-on audio implementation: imports an Ice Dungeon track and manually finds loop points by visually/aurally aligning beats, then converts loop timestamps into the game’s loop format (multiplying by 32) and tests in-game.",
       "quote": null
     },
     {
       "topic": "technical",
       "importance": "medium",
-      "summary": "Music pipeline snapshot: ~80–90% of the OST uses an N64 MIDI-like format (M64 via SaC64), while ~20% is “streamed music” in a large custom format, so it must be used sparingly due to size constraints.",
+      "summary": "Kaze clarifies the project’s music pipeline: most of the OST is in an M64 ‘MIDI-like’ format using SAx64, with a smaller portion as streamed audio in a large custom format that must be used sparingly due to size constraints.",
       "quote": null
     },
     {
       "topic": "milestone",
       "importance": "medium",
-      "summary": "Project scope details: Kaze estimates roughly ~180 stars planned, plus Yoshi-coin-like collectibles (5 per level across ~15 levels ≈ 75). He notes the game currently has 98 songs, which he compares to Mario Odyssey’s 82.",
-      "quote": null
+      "summary": "Project scope/status snapshot: ~98 songs are already in the build (he notes this exceeds Mario Odyssey’s track count), ~120 stars are done, overworld + enemies are in active development, and he estimates ~30% of enemies are implemented.",
+      "quote": "We are currently like 120 stars done and we're working on the overworld and the enemies."
     },
     {
       "topic": "technical",
       "importance": "medium",
-      "summary": "Kaze imports and manually sets loop points for an Ice Dungeon/Ice Castle track, ensuring it loops correctly in-game. He confirms he keeps songs in stereo (splitting left/right channels into separate imports rather than mono).",
+      "summary": "He describes a Fast64 export bug: fog state can get ‘stuck on’ in a single large display list when using material bleeding, causing visual mismatches—he cites Course 12 looking more bugged on N64 than on stream due to this.",
       "quote": null
     },
     {
-      "topic": "team",
+      "topic": "philosophy",
       "importance": "medium",
-      "summary": "Kaze plans to ask “Arthur” for existing planetary gravity code to support the moon portion of the Raphael fight, implying a dependency on external expertise/code reuse for complex movement/physics features.",
-      "quote": null
+      "summary": "Kaze pushes back on a recurring audience desire for ‘more difficulty,’ arguing Mario 64’s core appeal is freedom and self-imposed risk; players can choose riskier movement lines for challenge without the game forcing it.",
+      "quote": "The point is that you're free. It's all freedom."
     },
     {
-      "topic": "design",
+      "topic": "legal-nintendo",
       "importance": "low",
-      "summary": "Camera/control UX decision: Kaze intentionally removed a camera ‘snap’ behavior because many players use a GameCube controller C-stick and would accidentally trigger up/down; he now prefers the smoother non-snap behavior.",
-      "quote": null
+      "summary": "He avoids looking into the ‘gigaleak’ content, describing it as ‘cursed knowledge’ that could create trouble even from awareness alone.",
+      "quote": "Even just knowing about things in the gigaleak can get you in trouble. It's like the cursed knowledge."
     }
   ],
   "contributor_findings": {
@@ -72,46 +84,46 @@
       {
         "topic": "design",
         "importance": "medium",
-        "summary": "Kaze references a video Biobak previously sent showing a cool Raphael-related visual idea; Kaze reacts positively (“That’s so cool”) and uses it as part of brainstorming the boss presentation.",
-        "quote": null
+        "summary": "Kaze references a video concept Biobak sent earlier that he uses as inspiration while thinking through the Raphael arena/moon staging.",
+        "quote": "Let me just see if I can find the video that Biobak had sent me here a while ago… This is what he was thinking. That's so cool."
       }
     ],
     "badub": [
       {
         "topic": "team",
-        "importance": "medium",
-        "summary": "Badub’s music is actively integrated during development; Kaze highlights Badub’s creativity and uses his tracks for Course 13 adjacent areas (e.g., Ice Dungeon/Ice Castle) and previously-made themes like Bowser’s office/elevator.",
+        "importance": "low",
+        "summary": "Kaze praises Badub’s composition quality and creativity while working on importing/playing tracks during the stream.",
         "quote": "Badub's music is great. The creativity he brings to the table is very, very sick."
       }
     ],
     "zeina": [
       {
         "topic": "team",
-        "importance": "medium",
-        "summary": "Zeina is present and comments during music integration (stereo/mono discussion). Kaze also notes Zeina currently has significantly more workload than him due to caring for their newborn.",
-        "quote": null
+        "importance": "low",
+        "summary": "Zeina briefly participates in the audio discussion (mono vs stereo). Kaze also mentions she has significantly more workload than he does right now, and they banter about parenting tasks.",
+        "quote": "Of course, Zeina has a lot more work with it than I do."
       }
     ],
     "others": [
       {
-        "name": "Arthur",
+        "name": "ZeroVolt",
         "findings": [
           {
-            "topic": "technical",
-            "importance": "high",
-            "summary": "Kaze intends to request Arthur’s planetary gravity code to make the rotating/low-gravity moon gameplay feasible, suggesting Arthur has already solved similar physics problems for N64/SM64 decomp work.",
+            "topic": "design",
+            "importance": "low",
+            "summary": "ZeroVolt suggests a specific timing/interaction idea around where the orbiting projectiles meet; Kaze reacts positively to the direction while refining what the spawned throwable should be.",
             "quote": null
           }
         ]
       },
       {
-        "name": "Dot Star Money",
+        "name": "Kiddos (chat)",
         "findings": [
           {
-            "topic": "technical",
-            "importance": "medium",
-            "summary": "Kaze credits Dot Star Money with developing a song conversion tool that enabled “insane” results by preserving/using effects properly, improving the quality ceiling for SM64 music conversions.",
-            "quote": null
+            "topic": "design",
+            "importance": "low",
+            "summary": "A chat suggestion reframes collectible persistence as Banjo-Kazooie-style notes (already collected items remain collected), which Kaze acknowledges as a viable concept in principle while discussing alternatives to Mario 64’s 100-coin-star ejection behavior.",
+            "quote": "So you mean just Banjo-Kazooie notes? Yes."
           }
         ]
       }
@@ -120,83 +132,97 @@
   "memorable_quotes": [
     {
       "speaker": "Kaze",
-      "quote": "Being a cool set-piece is my number one priority for bosses, always.",
-      "context": "Stated while choosing between multiple Raphael fight concepts; anchors how spectacle and atmosphere drive boss design decisions."
+      "quote": "It being a cool set-piece is my number one priority for bosses, always.",
+      "context": "Sums up his boss-design philosophy and why spectacle (moon reveal, tower staging) drives technical and gameplay decisions."
     },
     {
       "speaker": "Kaze",
-      "quote": "The point is that you're free. It's all freedom.",
-      "context": "Explains why he dislikes ‘forced difficulty’ discourse and heavy direction/checkpointing; frames RTYI’s goals as respecting SM64’s core appeal."
+      "quote": "The point is that you're free. It's it's all freedom.",
+      "context": "A clear statement of his design north star when arguing against forced difficulty and overly directed structure."
+    },
+    {
+      "speaker": "Kaze",
+      "quote": "Even just knowing about things in the gigaleak can get you in trouble. It's like the cursed knowledge.",
+      "context": "A revealing moment about Nintendo/legal risk management and self-censorship boundaries during development."
     }
   ],
   "key_stories": [
     {
-      "title": "Designing the Raphael the Raven boss under N64/SM64 constraints",
-      "summary": "Kaze begins with a strong visual goal: Raphael eclipsing the moon for an “oh shit” intro moment. He explores multiple fight structures (hollow moon with inside/outside traversal, upside-down flipping arena, ice vs black Raphael variants), then narrows to a moon-based multi-phase fight that he believes can be implemented without changing global game gravity.",
-      "challenge": "How to create a boss that feels fresh and cinematic (worthy of a remake) without copying Yoshi’s Island 1:1 and without requiring risky engine-wide physics changes.",
-      "process": "He brainstorms attacks (star-dodging fall sequence, ground-pound star waves), tests arena scale, rejects the hollow-moon approach due to gravity complexity, and drafts a damage loop involving a pickup spawned where projectiles collide (frozen→unfrozen ‘cheese’ idea as a readability cue).",
-      "outcome": "A provisional phase-based design is ‘mapped out’ for implementation next: build the moon, create the intro cutscene, and prototype moon physics/rotation. He anticipates the moon programming as the hardest part and plans to consult Arthur’s existing gravity code.",
+      "title": "Mapping the Raphael the Raven boss fight around a moon set-piece",
+      "summary": "Kaze uses this stream to get from ‘we need a raven boss’ to a concrete multi-phase fight concept anchored by a moon/tower visual reveal. The story shows how technical constraints (gravity/actor scope) and thematic callbacks (Yoshi’s Island / Galaxy vibes) shape what he’s willing to build.",
+      "challenge": "Design a Raphael the Raven boss fight that feels iconic and ‘Yoshi’s Island’ themed without being a cheap 1:1 remake, and that is feasible within Mario 64’s engine constraints.",
+      "process": "He brainstorms with chat, explores variants (ice Raphael, cheese moon, hollow moon with inside/outside traversal, flipping arena). He rejects hollow-moon universal-gravity changes and instead converges on an actor-friendly approach: low-gravity moon arena + an interlude where Mario is launched into a starfield dodge sequence. He then invents a damage loop: orbiting projectiles meet and create a throwable pickup (eventually ‘frozen cheese’ that becomes ‘unfrozen/sparkling’ to signal interactivity).",
+      "outcome": "By end of stream, Kaze says the boss fight is ‘mapped out’ and identifies next steps: build the moon asset/behavior, implement the intro cutscene, and tackle rotation/planet-gravity via existing code help.",
+      "key_quote": "But I think I'm done for today. We got the boss fight mapped out, which is very good.",
+      "related_to": ["kaze"]
+    },
+    {
+      "title": "Choosing actor-level solutions over engine-wide gravity changes",
+      "summary": "While exploring the coolest version of the idea (a hollow moon you can traverse inside and outside), Kaze articulates a production rule: avoid global physics rewrites if the feature can be faked at the actor level. This becomes a decision filter for boss concepts going forward.",
+      "challenge": "A true inside/outside moon fight implies custom gravity behavior that could destabilize the project or require widespread engine changes.",
+      "process": "Kaze reasons through how Mario 64 gravity would need to change ‘universally’ for a hollow moon, then reframes the problem: if the fight stays ‘outside only,’ he can rotate actors/geometry to mimic the effect without touching global physics.",
+      "outcome": "He deprioritizes the hollow moon concept and commits to an implementation path that keeps gravity hacks localized/minimized, even if it limits some spectacle options.",
       "key_quote": "We need to make sure that the things we add can be done entirely on an actor level.",
       "related_to": ["kaze"]
     },
     {
-      "title": "Making the Ice Dungeon music loop work in-game",
-      "summary": "Mid-stream, Kaze imports the Ice Dungeon/Ice Castle track and fixes looping by manually locating repeat points in the waveform and translating them into the game’s loop parameters. He insists on stereo playback and tests the result in-game.",
-      "challenge": "Ensuring custom music loops cleanly within the hack’s audio system and data constraints.",
-      "process": "He listens for repeating motifs, adjusts loop points by beat, calculates required loop values (including multiplying by 32 for a second loop-related parameter), and re-tests in-game.",
-      "outcome": "Track is successfully looped and imported, reinforcing that music integration is still hands-on and technical even late in production.",
-      "key_quote": null,
-      "related_to": ["kaze"]
+      "title": "Ice Dungeon music import and loop-point debugging",
+      "summary": "In parallel to boss work, Kaze demonstrates the practical realities of building a custom OST into a ROM hack: formats, constraints, and hands-on loop editing. It’s a concrete ‘how the sausage is made’ moment that connects composer output to in-game integration.",
+      "challenge": "An Ice Dungeon track needs correct looping and stereo behavior in-game, and Kaze doesn’t have loop points provided.",
+      "process": "He listens for repeatable musical cues, visually aligns waveform/beat patterns, corrects being ‘off by one beat,’ chooses loop in/out times, converts them into engine units (including the ×32 conversion), and tests the result in-game.",
+      "outcome": "The song loops successfully, reinforcing the project’s near-100-track scope and the integration workload involved.",
+      "key_quote": "Time to find the loop points.",
+      "related_to": ["kaze", "badub"]
     }
   ],
   "open_questions": [
     {
-      "topic": "Raphael fight final form: ice vs black Raphael and moon material",
-      "context": "Kaze likes an ice variant (fits existing ice ravens in the castle) but also wants a moon-eclipse intro where Raphael ‘darkens’ the moon and only eyes are visible, which may work better with a black silhouette version. He also toys with ‘cheese moon’ vs ‘frozen cheese’ readability for pickups.",
+      "topic": "Arthur’s planetary gravity code and how it changes the boss scope",
+      "context": "Kaze plans to ask Arthur for planetary gravity/rotation code to support the moon concept, but he’s wary of engine-wide changes versus actor-level tricks.",
       "questions": [
-        "Which version shipped in your head after the stream: ice Raphael, black Raphael, or a transformation between them?",
-        "What was the final decision on the moon’s look (cheese, ice, normal moon), and what narrative reason ties it to Raphael and the ice castle?",
-        "How do you ensure players understand the ‘frozen → collectible’ state change for the thrown item without UI/tutorial text?"
+        "Who is Arthur in the context of RTYI (team member, community contributor), and what past feature did his planetary gravity code support?",
+        "When you say ‘actor-level’ solutions, what’s your internal rule for when a feature is allowed to touch global physics?",
+        "Did the moon end up using true planetary gravity, a simplified low-gravity field, or a purely visual/rotation trick? What broke during implementation?"
       ],
       "related_to": ["kaze"]
     },
     {
-      "topic": "Planetary gravity implementation strategy",
-      "context": "Kaze rejects a hollow-moon idea because it would require engine-wide gravity changes; he prefers actor-level tricks (rotating actor/world) but still expects moon programming to be difficult and wants Arthur’s planetary gravity code.",
+      "topic": "Final Raphael the Raven fight implementation vs this brainstorm",
+      "context": "The stream produces a full concept: launch-to-stars dodge interludes, moon arena, orbiting projectiles that collide into a throwable damage item, plus nest/egg theming.",
       "questions": [
-        "What does ‘actor-level’ mean in your internal architecture—what’s allowed to change locally vs globally?",
-        "What exactly would Arthur’s planetary gravity code provide (surface alignment, camera support, collision queries, rotation math)?",
-        "If planetary gravity proved too hard/buggy on N64 hardware, what was your fallback design for the moon phase?"
+        "What parts of this brainstorm survived unchanged into the playable boss, and what parts had to be cut for technical or pacing reasons?",
+        "How did you tune the ‘one to two minutes’ target without making the fight feel trivial?",
+        "What did playtesting reveal about camera behavior and readability on a spherical/rotating arena?"
       ],
       "related_to": ["kaze"]
     },
     {
-      "topic": "Raphael arena layout and pacing (tower climb, exits, checkpointing)",
-      "context": "Kaze debates shortening the tower stairs (atmosphere vs annoyance) and dislikes designs that over-direct players. He also questions whether an exit in the boss area would make the set-piece worse.",
+      "topic": "Egg choice as narrative signal (Yoshi egg vs raven egg)",
+      "context": "Kaze likes the idea that the nest egg ‘becomes’ the reward star and debates whether the egg should be a captured Yoshi egg to motivate the villainy.",
       "questions": [
-        "Did you end up shortening the stairs, and how do you evaluate ‘atmosphere’ versus traversal friction in RTYI?",
-        "How do you handle retry pacing for bosses while staying true to the ‘freedom/exploration’ ethos—any checkpoints, quick re-entry, or diegetic shortcuts?",
-        "What’s the intended player route into and out of the Raphael arena (one-way gauntlet, optional detour, warp, etc.)?"
+        "What story beat did you want the egg to communicate—Raphael protecting something, stealing from Yoshis, or a twist reveal?",
+        "Did you end up tying that egg to any broader plot/collectible throughline in RTYI, or is it purely a boss-room payoff?",
+        "How did you design the visual effect of the egg ‘exploding into a star’ within N64 constraints?"
       ],
-      "related_to": ["kaze"]
+      "related_to": ["kaze", "zeina"]
     },
     {
-      "topic": "The egg reward concept and story implication",
-      "context": "Kaze proposes a nest with an egg; on victory the egg ‘explodes’ into the reward star. He then debates whether it should be a Raven egg or a Yoshi egg (captured/stolen, tying into villainy and Yoshi rescue themes).",
+      "topic": "Fast64 fog/material bleeding bug and shipping on real hardware",
+      "context": "Kaze attributes Course 12’s N64 visuals looking worse than stream footage to a Fast64 issue where fog state isn’t properly disabled within a large display list when material bleeding is used.",
       "questions": [
-        "Did the reward remain ‘star inside the egg,’ and how did you justify that diegetically?",
-        "Which egg did you choose (Yoshi vs raven), and how does that connect to RTYI’s broader story beats?",
-        "Did you consider making the egg itself a collectible type (e.g., equivalent to Yoshi coins) or is it strictly a boss reward prop?"
+        "How often do Fast64 export bugs force you to redesign materials/level art, versus fixing them with post-export tooling or manual display-list edits?",
+        "Did this fog-state issue lead to any pipeline changes (e.g., avoiding certain material setups, splitting display lists, different authoring rules)?",
+        "How do you validate that what viewers see on emulator/stream will match real N64 output before release?"
       ],
-      "related_to": ["kaze"]
+      "related_to": ["kaze", "biobak"]
     },
     {
-      "topic": "Demo scope and timing (Course 1 only)",
-      "context": "Kaze says he is still thinking about releasing a demo limited to Course 1 (referred to as a ‘plant’ course by chat).",
+      "topic": "Avoiding ‘cursed knowledge’ from the gigaleak",
+      "context": "Kaze says he intentionally avoided looking at the Nintendo gigaleak because merely knowing about it could ‘get you in trouble.’",
       "questions": [
-        "What would the Course 1 demo need to prove (performance, tone, mechanics, art bar) before you’d ship it publicly?",
-        "What did you cut from Course 1 to keep a demo self-contained (overworld hooks, story elements, later mechanics)?",
-        "How did you balance demo polish versus not wanting to ‘release an unfinished product’?"
+        "Was that a legal fear (copyright/trade secrets) or a community/ethical line you didn’t want to cross—or both?",
+        "Did avoiding the gigaleak ever cost you time (rebuilding something that leaked docs could have clarified), and was that tradeoff worth it?",
+        "Did you set any explicit rules for collaborators about what references/tools are allowed?"
       ],
       "related_to": ["kaze"]
     }

@@ -1,88 +1,100 @@
 {
   "stream_context": {
-    "summary": "Kaze works on the ice-castle/Freezy enemy encounter in the Ice Castle course, showing recent lighting/camera improvements, debugging a missing “room darkening” effect, and prototyping the Freezy’s inhale/shot VFX and freeze behavior. The stream also contains a major design discussion about whether to nerf/remove the ground-pound dive to keep platforming aligned with Mario 64’s commitment-based movement, plus broader planning on total star count and optional Yoshi-side missions. Personal updates include imminent parenthood and Zeina briefly joining to explain the meaning behind their daughter’s name.",
-    "level": ["Course 11 – Ice Castle"],
-    "significance": "notable",
-    "significance_reason": "Contains a project-defining movement-design debate (nerfing/removing dive), concrete content-structure planning (target star count + Yoshi mission concepts), and meaningful personal context (parenthood + naming story) that will shape interview direction."
+    "summary": "Kaze demos recent progress in the Ice Castle/Freezy factory area (lighting experiments, camera fixes, and a darkness-room effect), then pivots into implementing and tuning the Freezy enemy’s inhale/shot VFX and freeze mechanic. Mid-stream he discusses a proposed nerf/rework of Mario’s ground-pound dive to better match Mario 64’s movement philosophy, outlines ideas for “choose-your-own difficulty”/accessibility, and does major scope talk about total star count and endgame content (Yoshi missions and possible Sonic Adventure–style “emerald hunts”). Personal life becomes prominent: parental leave plans, their daughter’s imminent birth, and Zeina briefly joins to explain the meaning behind the name “Reyna.”",
+    "level": ["Course 13 – Ice Castle (Freezy/Factory)"],
+    "significance": "milestone",
+    "significance_reason": "Contains a major personal milestone (baby due in ~4 weeks; Zeina explains the child’s name origin), plus multiple project-shaping decisions: rethinking a core movement tech (dive), defining endgame structure/total star count (~180) with a concrete mission list, and implementing a new enemy mechanic/VFX (Freezy inhale/ice shot + freezing)."
   },
   "findings": [
     {
-      "topic": "technical",
-      "importance": "medium",
-      "summary": "Kaze demonstrates a new lighting technique he calls “spline light,” where light appears to emanate along a spline path and reacts dynamically as platforms move; the moving light dots were inspired by a Biobak suggestion.",
+      "topic": "milestone",
+      "importance": "high",
+      "summary": "They are about four weeks away from the birth of Kaze and Zeina’s daughter, and Kaze expects parental leave to create extra time (and potentially more streams).",
       "quote": null
     },
     {
-      "topic": "technical",
-      "importance": "medium",
-      "summary": "A previously working scripted effect (talking to an NPC/worker to darken the room) stops triggering; Kaze pauses planned work to investigate, treating it as a regression bug that needs off-stream debugging.",
-      "quote": null
-    },
-    {
-      "topic": "design",
-      "importance": "medium",
-      "summary": "Kaze highlights a deliberate effort to make difficult camera setups “just work,” showing a secret-path area where he’s proud of the camera behavior compared to typical Mario camera jank.",
-      "quote": "Have you ever seen a camera like this in a Mario game? Unbelievable."
-    },
-    {
-      "topic": "technical",
-      "importance": "low",
-      "summary": "He describes an internal UI/overlay system designed to be extremely cheap when inactive (on the order of 0.1 microseconds), enabling effects like speed lines or other UI elements with negligible performance impact when not used.",
-      "quote": null
-    },
-    {
-      "topic": "technical",
-      "importance": "low",
-      "summary": "Kaze frames performance pitfalls as death-by-conditions: repeated special-case checks (switch cases) add up; he cites Mario Kart 64 as an example where level-specific switch logic creates unnecessary overhead.",
-      "quote": null
-    },
-    {
-      "topic": "technical",
-      "importance": "medium",
-      "summary": "He prototypes the Freezy enemy’s attack: an inhale phase that pulls snow/particles in, then a shot phase that blasts projectiles/particles toward Mario. He notes an on-screen timer already exists for freezing, but Mario’s actual frozen-state logic is not implemented yet.",
-      "quote": null
-    },
-    {
-      "topic": "technical",
-      "importance": "medium",
-      "summary": "Freezing Mario raises animation/render-thread constraints: Kaze considers freezing Mario’s animation by manipulating graphics-thread data but flags it as risky due to multithreading and the project’s 60 FPS + separate thread setup; he experiments with alternative animations (bonk, keeping default) to sell the frozen effect.",
+      "topic": "personal",
+      "importance": "high",
+      "summary": "Zeina states their daughter will be named Reyna, in memory of a friend who died when Zeina was 12 (the friend died on her 12th birthday).",
       "quote": null
     },
     {
       "topic": "design",
       "importance": "high",
-      "summary": "After talking with another game designer, Kaze re-evaluates the ground-pound dive: he agrees it may be “antithetical” to Mario 64’s committed jumps and could trivialize level design for skilled players while offering little accessibility benefit to casual players. His proposed compromise is a nerfed dive with limited angle change (e.g., ~30 degrees) so it still feels good without being a universal correction tool.",
-      "quote": "Through the dive you are kind of making a lot of level design trivial."
+      "summary": "Kaze is considering changing/nerfing the Mario 64-style ground-pound dive because another designer argued it’s antithetical to Mario 64’s committed jump arcs and because it trivializes level design for skilled players while offering little help to casual players (too hard to execute as a recovery tool).",
+      "quote": null
+    },
+    {
+      "topic": "design",
+      "importance": "high",
+      "summary": "Proposed dive revision: keep the move because it “feels really good,” but restrict angle control—forward input keeps forward velocity, sideways/back reduces it, and steering is capped to a small angle range (he mentions ~30 degrees) so it’s less of a midair “get out of jail free” option.",
+      "quote": null
     },
     {
       "topic": "philosophy",
       "importance": "high",
-      "summary": "Kaze reiterates a core design goal: the hack should feel non-punishing and allow ‘pick your own difficulty’ through optional risky movement/jumps rather than explicit difficulty modes; he’s skeptical that HP toggles alone meaningfully change difficulty and instead considers physics changes for an accessibility/sightseeing option.",
-      "quote": "I want it to be like pick your own difficulty."
+      "summary": "Kaze reiterates a key difficulty philosophy: the game shouldn’t be inherently difficult; instead it should support ‘pick your own difficulty’ where players can choose safer lines or attempt riskier, cooler jumps/tech for advantage.",
+      "quote": "I want it to be like pick your own difficulty—where you can go for risky jumps and do the difficult thing, or you can do the easy thing whenever you want."
+    },
+    {
+      "topic": "design",
+      "importance": "medium",
+      "summary": "He floats accessibility ideas beyond HP tweaks: e.g., a change that respawns Mario at the last stable position instead of falling could meaningfully reduce difficulty, whereas HP alone doesn’t drive difficulty much in this project.",
+      "quote": null
+    },
+    {
+      "topic": "design",
+      "importance": "medium",
+      "summary": "He discusses (then partially backs away from) the idea of separate play modes like a ‘sightseeing mode’ that would change physics (slower Mario, reduced gravity/jump tuning) rather than simply removing HP, to better preserve intended feel.",
+      "quote": null
+    },
+    {
+      "topic": "technical",
+      "importance": "medium",
+      "summary": "In the Ice Castle/Factory area he showcases a lighting experiment he calls a “spline light,” with moving dot/lighting behavior that responds to a moving platform (crediting Biobak’s idea for the dots tracking platform motion).",
+      "quote": "Look, I invented the spline light."
+    },
+    {
+      "topic": "technical",
+      "importance": "medium",
+      "summary": "A scripted ‘room darkens’ effect tied to interacting with an NPC/scene in the factory suddenly stops triggering; Kaze decides some bugs (including inconsistent red-light behavior) will be investigated off-stream.",
+      "quote": null
+    },
+    {
+      "topic": "milestone",
+      "importance": "medium",
+      "summary": "He implements and iterates on the Freezy enemy’s inhale/attack presentation: experimenting with particle direction, cone vs cylinder emission, speed/opacity, and reusing/adjusting an older T-Rex “nose particle” system; the Freezy is intended to suck snow and then shoot it at Mario.",
+      "quote": null
+    },
+    {
+      "topic": "technical",
+      "importance": "medium",
+      "summary": "Kaze confirms the level already displays a freeze timer UI, but Mario’s actual freezing behavior/animation handling is still being programmed; he tests approaches like swapping/locking animations (even keeping blinking because it sells ‘still conscious’ while frozen).",
+      "quote": null
     },
     {
       "topic": "design",
       "importance": "high",
-      "summary": "He gives a concrete content-structure update: expects ~180 stars, with a current breakdown concept of ~130 main stars, ~9 overworld stars, and additional “Yoshi missions” inspired by Mario Galaxy comets (constraints like time limits or low A-press counts). He also considers adding Sonic Adventure 1–style ‘Emerald Hunt’ scavenger missions as a fast-to-produce but fun optional star type, while worrying about diluting star value.",
-      "quote": "Dude, you know what’s sick? The Emerald Hunts in Sonic Adventure 1."
+      "summary": "Late-stream he lays out evolving scope for total stars: currently envisioning ~130 main stars plus overworld stars and a set of Yoshi-driven challenge missions (Mario Galaxy comet-like modifiers). He then considers adding Sonic Adventure 1–inspired ‘Emerald Hunts’ as fast, endgame-friendly optional stars—potentially folded into Yoshi missions to avoid devaluing stars.",
+      "quote": null
     },
     {
-      "topic": "team",
+      "topic": "design",
       "importance": "medium",
-      "summary": "Zeina joins briefly and shares that their daughter (due in ~4 weeks) will be named Reyna, after Kaze’s childhood friend who died young; Kaze also mentions he’ll have more streaming time during parental leave, implying scheduling changes and potential bonus streams.",
+      "summary": "He reads and critiques a draft list of Yoshi mission concepts (some he calls “cringe,” others “very good”), and anchors a constraint: only ~3–4 total 100-coin stars in the whole game to avoid overuse.",
       "quote": null
     },
     {
       "topic": "business",
       "importance": "medium",
-      "summary": "Kaze says his YouTube output is bottlenecked by his dislike of editing; he’s considering hiring an editor who offered $16 per minute of edited video, which could enable many more releases from a backlog of high-confidence video ideas.",
-      "quote": "My YouTube output is so hard-bottlenecked by my unwillingness to make videos."
+      "summary": "Kaze says his YouTube output is bottlenecked by his dislike of video editing; he’s considering hiring an editor who offered $16 per minute of edited video, which he believes could unlock many high-performing video ideas sitting in his backlog.",
+      "quote": null
     },
     {
       "topic": "legal-nintendo",
       "importance": "medium",
-      "summary": "Kaze claims Nintendo has taken down roughly 70 of his videos, shaping his risk perception and mistrust; he jokes that even a job offer/invitation could feel like a trap, reflecting ongoing tension with Nintendo enforcement.",
-      "quote": "They took literally 70 of my videos down. Seventy."
+      "summary": "He claims Nintendo has taken down around 70 of his videos, framing it as evidence that Nintendo enforcement is inconsistent but substantial; he jokes he’d assume a Nintendo invitation/job offer was a trap.",
+      "quote": "They took literally 70 of my videos down—70."
     }
   ],
   "contributor_findings": {
@@ -90,19 +102,19 @@
       {
         "topic": "design",
         "importance": "medium",
-        "summary": "Biobak suggests making the moving light dots react to platform motion, which Kaze implements and showcases as a key part of the spline-light effect.",
+        "summary": "Biobak suggests details that improve perceived polish/feedback in the Ice Castle factory: e.g., spacing electric hazards so players can react, and reinforcing ‘shock’ impact; Kaze responds positively to the emphasis on feel.",
         "quote": null
       },
       {
-        "topic": "design",
+        "topic": "technical",
         "importance": "medium",
-        "summary": "Biobak critiques the Freezy wind VFX as being too ‘cylindrical’/wide and suggests a cone-like emission from a single mouth point to avoid looking like the enemy is summoning wind around itself; Kaze agrees he’ll likely change it.",
+        "summary": "Biobak originates the idea that the moving light ‘dots’ should shift based on platform movement, which Kaze implements as part of the spline-light showcase.",
         "quote": null
       },
       {
-        "topic": "design",
+        "topic": "personal",
         "importance": "low",
-        "summary": "Biobak proposes matching parent/child hats with initials (Z for Zeina, R for Reyna), which Kaze reacts to enthusiastically as a personal/family detail.",
+        "summary": "Biobak proposes a sentimental customization: matching hats/‘caps’ with a Z for Zeina and an R for Reyna, which Kaze and Zeina react to as a “perfect” idea.",
         "quote": null
       }
     ],
@@ -111,112 +123,123 @@
       {
         "topic": "personal",
         "importance": "high",
-        "summary": "Zeina explains the origin of the baby name Reyna: it honors Kaze’s friend who died when he was 12 (two years after her own 12th birthday), giving the project timeline a poignant real-life backdrop as the release continues during new parenthood.",
-        "quote": null
+        "summary": "Zeina joins briefly on call and explains the origin of the name Reyna: it honors a childhood friend who died when Zeina was 12, on the friend’s 12th birthday.",
+        "quote": "She’s named after a friend of mine that passed away when I was 12 years old."
       }
     ],
-    "others": []
+    "others": [
+      {
+        "name": "Dan",
+        "findings": [
+          {
+            "topic": "technical",
+            "importance": "low",
+            "summary": "Kaze mentions Dan helped him investigate/iterate on a visual effect for the Ice Castle walls, contributing to the current look even though Kaze still considers it improvable.",
+            "quote": null
+          }
+        ]
+      }
+    ]
   },
   "memorable_quotes": [
     {
       "speaker": "Kaze",
-      "quote": "I want it to be like pick your own difficulty.",
-      "context": "Explains his core philosophy: difficulty should emerge from optional risk and player-chosen challenge rather than rigid modes."
+      "quote": "I want it to be like pick your own difficulty—where you can go for risky jumps and do the difficult thing, or you can do the easy thing whenever you want.",
+      "context": "Kaze’s core design philosophy while debating whether to nerf/remove the dive (balancing advanced tech vs intended platforming)."
+    },
+    {
+      "speaker": "Zeina",
+      "quote": "She’s named after a friend of mine that passed away when I was 12 years old.",
+      "context": "Zeina’s explanation of the meaning behind their daughter’s name, turning a casual stream moment into a clear emotional anchor."
     },
     {
       "speaker": "Kaze",
-      "quote": "Through the dive you are kind of making a lot of level design trivial.",
-      "context": "Key movement-design rationale for potentially nerfing/removing the ground-pound dive to preserve Mario 64-style commitment."
-    },
-    {
-      "speaker": "Kaze",
-      "quote": "My YouTube output is so hard-bottlenecked by my unwillingness to make videos.",
-      "context": "Explains why progress/communication can lag and why hiring an editor could change the public development narrative."
+      "quote": "They took literally 70 of my videos down—70.",
+      "context": "A concrete number that frames the ongoing tension with Nintendo enforcement, useful for documentary stakes and timeline questions."
     }
   ],
   "key_stories": [
     {
+      "title": "Naming Reyna",
+      "summary": "A routine dev stream briefly becomes a personal milestone when Zeina joins voice and explains that their soon-to-be-born daughter will be named Reyna in memory of a childhood friend. This provides a rare, direct emotional window into the couple behind the project.",
+      "challenge": "Choosing a meaningful name while approaching the birth (four weeks away) and carrying a long-held memory of loss.",
+      "process": "Kaze mentions the due date and parental leave; Zeina joins a call and shares the backstory behind the name in plain terms.",
+      "outcome": "The name is publicly cemented with a clear personal meaning; the stream context shifts from pure development to legacy/family.",
+      "key_quote": "She’s named after a friend of mine that passed away when I was 12 years old.",
+      "related_to": ["zeina", "kaze"]
+    },
+    {
       "title": "Re-evaluating the ground-pound dive",
-      "summary": "Kaze recounts feedback from another game designer that the ground-pound dive conflicts with Mario 64’s committed jumps and is too hard for casual players to use as ‘accessibility,’ while giving skilled players a tool that can trivialize platforming. Kaze explores a compromise: keep the satisfying feel but restrict angle control so it can’t be used as a universal midair correction.",
-      "challenge": "Balancing expressive movement tech with level-design integrity and fair challenge across skill levels.",
-      "process": "Discusses player-skill usage, compares to Odyssey-style limited control, proposes a capped angle change (~30 degrees), and frames it within his broader ‘pick your own difficulty’ philosophy.",
-      "outcome": "No final decision in-stream; Kaze leans toward a nerfed dive rather than full removal and asks the audience for feedback.",
-      "key_quote": "I agree it feels really good… so I was thinking maybe a better way… is you can’t really change your angle with it anymore.",
+      "summary": "Kaze relays feedback from another game designer arguing Mario 64’s dive undermines the game’s ‘committed jump’ language and trivializes level design for experts without helping casual players. Kaze responds by proposing a compromise: keep the dive’s fun, but restrict steering/angle control so it better fits Mario 64’s movement rules.",
+      "challenge": "Balancing advanced movement tech (fun, expressive, speedrun-friendly) against level-design integrity and accessibility for casual players.",
+      "process": "Kaze explains the critique, tests/imagines alternative control behavior, and asks chat for reactions while tying it to his broader ‘pick your own difficulty’ philosophy.",
+      "outcome": "A concrete direction emerges: a nerfed dive with limited angle change (~30 degrees) and input-dependent velocity, rather than removing it outright.",
+      "key_quote": "I want it to be like pick your own difficulty—where you can go for risky jumps and do the difficult thing, or you can do the easy thing whenever you want.",
       "related_to": ["kaze"]
     },
     {
-      "title": "Parenthood enters the production schedule",
-      "summary": "Kaze shares their daughter will be born in about four weeks and that parental leave may allow extra streams, including fulfilling a long-running stream-joke redemption. Zeina joins briefly to share the personal meaning behind the name Reyna, honoring Kaze’s late childhood friend.",
-      "challenge": "Maintaining momentum on a long, technically demanding ROM-hack while preparing for a major life change.",
-      "process": "Kaze discusses scheduling implications (more time off/possible bonus streams) and brings Zeina on voice to tell the naming story directly.",
-      "outcome": "The documentary gains a clear real-life timeline anchor and an emotional context for the period of development leading up to release.",
-      "key_quote": "My daughter will be born in four weeks… she will be named Reyna.",
-      "related_to": ["kaze", "zeina"]
+      "title": "Endgame scope and the ‘180-star’ plan",
+      "summary": "Kaze workshifts into late-game structure planning: a base of ~130 main stars, additional overworld stars, and Yoshi-triggered missions akin to Mario Galaxy comets. He then gets excited by the idea of Sonic Adventure 1–style ‘Emerald Hunts’ as fast optional stars, but worries they may ‘inflate’/devalue star importance—so he considers making them a subset of Yoshi missions.",
+      "challenge": "Adding substantial optional playtime without bloating the game or making star rewards feel cheap.",
+      "process": "Kaze enumerates categories of stars, describes Yoshi mission modifiers (timers, move limits like ‘two A presses’), reviews a drafted mission list, and brainstorms how to integrate Emerald Hunts responsibly.",
+      "outcome": "A provisional target of ~180–185 total stars with constraints (only ~3–4 100-coin stars) and a clear candidate for expandable endgame content (treasure-hunt missions).",
+      "key_quote": "Dude, you know what’s sick? The Emerald Hunts in Sonic Adventure 1. That should just be a thing.",
+      "related_to": ["kaze"]
     },
     {
-      "title": "Video output bottleneck and the editor offer",
-      "summary": "Kaze says he has a backlog of video ideas he believes would perform strongly, but editing friction prevents him from shipping them. He reports an offer from someone willing to edit at $16 per minute of finished footage, which he’s inclined to accept to unlock more frequent releases.",
-      "challenge": "Turning development work into published videos without burning time/energy on editing.",
-      "process": "Evaluates the cost and describes the size of the idea backlog and his aversion to editing.",
-      "outcome": "Potential shift in how the project is communicated publicly (more videos, more consistent narrative updates).",
-      "key_quote": "There’s at least like 20 ideas that would be 100,000 views if I was just not so… spiteful of video editing.",
+      "title": "YouTube output bottleneck and hiring an editor",
+      "summary": "Kaze candidly states that he has many high-potential video ideas but is bottlenecked by his dislike of video editing. He considers hiring an editor at $16 per minute of edited footage, implying a potential shift in how the project is communicated and documented publicly.",
+      "challenge": "Sustaining a consistent YouTube pipeline while actively building the game—editing is the limiting factor.",
+      "process": "He shares the editor’s offer and estimates he has ~20 strong ideas capable of ~100k views if editing were no longer a friction point.",
+      "outcome": "He signals he is likely to take the deal if it materializes, which could meaningfully increase releases and visibility for the project.",
+      "key_quote": "My YouTube output is so hard bottlenecked by my unwillingness to make videos.",
       "related_to": ["kaze"]
     }
   ],
   "open_questions": [
     {
-      "topic": "Ground-pound dive redesign",
-      "context": "Kaze is weighing whether the dive trivializes level design and conflicts with Mario 64’s ‘commitment’ movement; he proposes limiting angle control instead of removing it outright.",
+      "topic": "Dive rework decision (and who influenced it)",
+      "context": "Kaze cites a conversation with “a different game designer than Salvato” who argued the ground-pound dive conflicts with Mario 64’s movement language and level design. Kaze proposes a limited-steering dive instead of removal.",
       "questions": [
-        "What specific levels or jumps in Return to Yoshi’s Island became ‘too easy’ because of the current dive implementation?",
-        "Did you prototype multiple dive variants (angle cap, speed changes, input timing windows)? Which felt best and why?",
-        "How do you decide when advanced tech should be rewarded versus when it breaks intended pacing?",
-        "Did the external designer’s feedback change any already-built sections, or is this preventative for future levels?"
+        "Who was the designer you spoke with, and what game/design background did they bring that made their critique land for you?",
+        "Can you point to a specific level section in Return to Yoshi’s Island that the current dive ‘breaks’—and what would you redesign if the dive stays?",
+        "What does your ‘limited angle’ dive prototype feel like in practice compared to stock Mario 64 and Odyssey—did it change how you design jumps?",
+        "How do you want speedrunners vs casual players to experience the dive—does ‘pick your own difficulty’ mean intentionally leaving advanced tech in?"
       ],
       "related_to": ["kaze"]
     },
     {
-      "topic": "Accessibility / ‘sightseeing mode’ vs. physics identity",
-      "context": "Kaze doubts HP toggles meaningfully affect difficulty and instead suggests an accessibility mode that changes physics (slower Mario, reduced gravity/jump velocity) to feel closer to vanilla Mario 64.",
+      "topic": "Star economy and integrating “Emerald Hunts”",
+      "context": "Kaze targets ~180–185 stars and considers Sonic Adventure 1–style treasure hunts as fast optional stars, but worries about inflating/deflating star value. He sketches Yoshi ‘comet’ missions as the main modifier system.",
       "questions": [
-        "What audience are you designing ‘sightseeing’ for (new players, kids, casual explorers, stream viewers)?",
-        "Which physics parameters are non-negotiable for the hack’s identity, and which are safe to alter for accessibility?",
-        "Did you ever formalize difficulty options in earlier design docs, and what made you abandon/keep parts of that plan?"
+        "What criteria makes a star ‘main content’ vs ‘bonus,’ and how do you keep the reward feeling meaningful at ~180+ stars?",
+        "If you implement Emerald Hunt–style missions, what prevents them from becoming repetitive filler—level-specific logic, randomization, or curated hiding spots?",
+        "Why do Yoshi missions feel like the right delivery mechanism (comet-style modifiers) for your endgame, instead of traditional objectives like red coins?",
+        "You mentioned some mission ideas felt “cringe”—what’s your internal bar for tone/humor so the game stays respectful to Mario 64?"
       ],
       "related_to": ["kaze"]
     },
     {
-      "topic": "Star economy and optional mission structure",
-      "context": "Kaze estimates ~180 stars and outlines categories: ~130 main stars, ~9 overworld stars, plus Yoshi missions inspired by Mario Galaxy comets; he also considers Sonic Adventure 1–style Emerald Hunts as optional stars but worries about ‘deflating’ star value.",
+      "topic": "Freezy enemy: intended player experience and freezing implementation",
+      "context": "Kaze builds the Freezy inhale/shot effect, confirms a freeze timer exists, but Mario’s freezing behavior/animation is still in-progress; he debates visual reads (cone vs cylinder emission, blink while frozen).",
       "questions": [
-        "What criteria makes something a ‘main’ star versus a Yoshi mission star in your structure?",
-        "How will Yoshi missions be surfaced to the player (in-world hints, menus, NPC prompts, overworld triggers)?",
-        "If you add Emerald Hunt-style scavenger missions, what stops them from feeling like padding (level size, hinting, shard count, randomness)?",
-        "How do you balance total star count against completionist fatigue—what’s the target completion time for main path vs 100%?"
+        "What is the intended ‘read’ for the Freezy—how should a player understand inhale vs projectile timing without UI?",
+        "How punishing do you want freezing to be (duration, damage, knockback), and what role should it play in teaching movement rather than just slowing the player?",
+        "What were the biggest technical constraints in making the particle directionality match the enemy’s facing angle on N64-era rendering?",
+        "You liked Mario blinking while frozen—what other small ‘character’ moments are you intentionally adding to sell the cartoon logic?"
       ],
       "related_to": ["kaze"]
     },
     {
-      "topic": "Freezy enemy: freeze state, animation lock, and multithread constraints",
-      "context": "Kaze has a freeze timer UI but hasn’t implemented Mario’s frozen state; he wants Mario to feel ‘frozen in time’ and explores freezing animation frames but notes multithreading/graphics-thread risks in the 60 FPS setup.",
+      "topic": "Nintendo enforcement history (the ‘70 videos’ claim)",
+      "context": "Kaze says Nintendo took down ~70 of his videos and jokes he’d assume a Nintendo invitation would be a trap. This implies a long, ongoing legal/platform risk thread for the project.",
       "questions": [
-        "What is the exact gameplay contract of freezing (movement lock, damage over time, mash-out, invulnerability, camera behavior)?",
-        "How does the 60 FPS + separate thread architecture constrain per-frame animation overrides?",
-        "Did you find a safe method to ‘freeze’ animation without graphics-thread hacks (e.g., alternate animations, animation speed = 0, pose caching)?",
-        "How do you keep the frozen state readable without expensive rendering effects (ice block, texture overlay, particles)?"
+        "What was the timeline of the ~70 takedowns—were they clustered around specific releases, or spread out over years?",
+        "What types of videos were most likely to be removed (music, footage, mod demos), and what did you change in response?",
+        "How has enforcement shaped how you market Return to Yoshi’s Island (naming, footage, distribution), and what risks do you still think remain?",
+        "Did the takedowns ever affect your motivation or the project scope—and did it push you toward the decomp route in any way?"
       ],
       "related_to": ["kaze"]
-    },
-    {
-      "topic": "Spline-light system and moving platform light behavior",
-      "context": "Kaze showcases ‘spline light’ with light emanating along a spline path and dynamic dot motion tied to platform movement; a separate scripted room-darkening effect regressed and stopped working.",
-      "questions": [
-        "How is the spline-light implemented on N64 constraints (texture scrolling, vertex colors, custom display lists, shader-like tricks)?",
-        "What performance trade-offs did you make to get this effect stable at runtime?",
-        "What caused the room-darkening regression—was it an event system issue, object state, or rendering order problem?",
-        "Where else in the game do you plan to reuse spline-light as a visual language (factories, caves, guiding paths)?"
-      ],
-      "related_to": ["kaze", "biobak"]
     }
   ]
 }

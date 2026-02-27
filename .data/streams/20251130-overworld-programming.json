@@ -1,113 +1,131 @@
 {
   "stream_context": {
-    "summary": "Kaze implements and tests systems meant to make the overworld feel more alive: a pop-up dialogue UI, conditional dialogue branching for Yoshi NPCs based on game progress, and auto-generated Yoshi colors. He also begins integrating the “Old Master Yoshi” dojo encounter (with Zeina’s animations) as a comedic hint-giver you must fight, and outlines future gating content (Kamek event and rhyming ‘evil’ message blocks) tied to progression to a later overworld.",
+    "summary": "Kaze showcases major overworld/NPC work: a new pop-up dialogue system and conditional, progress-sensitive dialogue trees for many Yoshi NPCs (including automatic per-Yoshi color assignment). He then prototypes the “Old Master Yoshi” dojo NPC (animated by Zeina) as a comedic hint-giver you must fight, using Kaze’s newer interaction/attack helper system, while debugging flags, facing direction, hitboxes, and dialogue pitch.",
     "level": ["Overworld"],
-    "significance": "notable",
-    "significance_reason": "Introduces concrete overworld narrative systems (progress-reactive NPC dialogue + pop-up UI) and establishes a repeatable ‘hint via fight’ dojo concept, both of which strongly shape how the hack feels like a new game while still using SM64’s structure."
+    "significance": "milestone",
+    "significance_reason": "Introduces/validates foundational NPC infrastructure (mandatory pop-up text + conditional dialogue branching tied to game progress) and gets the Old Master Yoshi dojo encounter largely working—both are core overworld UX systems that will scale across the whole hack."
   },
   "findings": [
     {
-      "topic": "design",
-      "importance": "high",
-      "summary": "Kaze built a conditional dialogue-branching system for Yoshi NPCs that updates based on game progress (e.g., star count thresholds and specific stars collected in specific courses), intended to make the overworld feel reactive and “alive.”",
-      "quote": "We now have Yoshis that have conditional dialogue branches… and these dialogue branches update whenever you make progress in the game."
-    },
-    {
-      "topic": "design",
-      "importance": "high",
-      "summary": "A new pop-up dialogue functionality is used to distinguish mandatory/important NPC text from optional flavor chatter, solving the problem of players missing required information while still allowing lots of ambient dialogue.",
-      "quote": "With the pop-up dialogue functionality, we can very clearly mark any important NPCs… and all these unnecessary texts players will not find it."
-    },
-    {
       "topic": "technical",
-      "importance": "medium",
-      "summary": "Kaze demonstrates that NPC dialogue can change in real time as progress flags update, and he quickly fixes a bug where the ‘right-time stuff’ wasn’t activating correctly, confirming the system works as intended in-engine.",
-      "quote": null
-    },
-    {
-      "topic": "design",
-      "importance": "medium",
-      "summary": "Yoshi NPCs now receive automatically generated colors based on placement/slot in the overworld; if two Yoshis look too similar, Kaze’s workaround is to move one NPC’s placement so it re-rolls a different assigned color.",
-      "quote": null
-    },
-    {
-      "topic": "design",
-      "importance": "medium",
-      "summary": "Kaze starts authoring a concrete ‘Bomb family’ dialogue tree tied to a local event (sleeping bomb NPC, waking up, wall removed), using the new conditional dialogue system to have NPCs react to changes in the world state.",
-      "quote": null
-    },
-    {
-      "topic": "design",
-      "importance": "medium",
-      "summary": "Progression-gating ideas are revisited: an upcoming Kamek-related event and “evil message blocks” that insult the player in rhymes; the blocks initially appear friendly/apologize and then move out of the way after requirements are met (not fully implemented yet).",
-      "quote": "Evil message block that insults you and rhymes… find the Kamek in part 5 to get past."
-    },
-    {
-      "topic": "team",
       "importance": "high",
-      "summary": "Zeina’s ‘Old Master Yoshi’ dojo character is integrated: she produced multiple animations (idle/walk/attack). Kaze discovers missing/old asset versions and texture format/size issues during import (CI4 vs I8/I4 decisions), indicating an active art→engine integration loop with technical constraints.",
+      "summary": "Kaze implemented conditional dialogue branching for Yoshi NPCs that updates based on player progress (e.g., star-count thresholds like 15/20 stars, and specific course/star completion triggers), aiming to make the overworld feel reactive and “alive.”",
       "quote": null
     },
     {
       "topic": "design",
       "importance": "high",
-      "summary": "The Old Master Yoshi encounter is designed as a comedic bait-and-switch: he presents himself as a skilled instructor/rival, but is extremely weak and dies in one hit; Kaze finds the humor in players repeatedly returning to beat him up for hints.",
-      "quote": "Every five minutes you go back to him to beat the fuck out of an old man. I like that."
-    },
-    {
-      "topic": "design",
-      "importance": "medium",
-      "summary": "A structured hint system is planned around the dojo: hints may cost coins (and potentially become cheaper later in the game), and the first hint points players to a secret door inside the dojo leading to a secret star area behind the walls.",
+      "summary": "A new pop-up dialogue functionality lets the team clearly distinguish mandatory/critical NPC text from optional flavor text, reducing the risk that players miss key instructions while keeping the town full of optional chatter.",
       "quote": null
     },
     {
       "topic": "technical",
       "importance": "medium",
-      "summary": "While implementing dojo behavior, Kaze identifies and fixes multiple integration gotchas: MakeTalkable was resetting flags unexpectedly; he also had missing interaction/tangible settings and a hitbox offset problem that prevented intended combat interactions from working reliably.",
-      "quote": "Could it be that MakeTalkable destroys the flags? It does."
+      "summary": "He added a system that auto-generates/assigns a (pseudo-)random color palette per Yoshi NPC based on where they’re placed in the overworld, allowing many NPCs without manually picking colors each time.",
+      "quote": null
+    },
+    {
+      "topic": "design",
+      "importance": "medium",
+      "summary": "Kaze begins authoring a “Bob-omb family” dialogue tree where an NPC’s lines change based on world state (sleeping vs awake, wall removed, etc.), reinforcing the idea that NPCs react to in-world events rather than being static signposts.",
+      "quote": null
     },
     {
       "topic": "technical",
       "importance": "medium",
-      "summary": "Kaze emphasizes his newer interaction/attack system and helper functions as a major productivity win, enabling faster creation of new enemy/NPC combat behaviors than the original SM64 interaction model.",
-      "quote": "I really love the new system for attacks that made this so easy to do. And all these new helper functions."
+      "summary": "He verifies that dialogue can update in real time as progress flags change, and fixes a bug where the wrong “time/progress” conditions were being activated so the text didn’t reflect the latest state.",
+      "quote": null
+    },
+    {
+      "topic": "design",
+      "importance": "medium",
+      "summary": "He revisits (but can’t fully recall) an earlier plan for a Kamek-related overworld gate: “evil message blocks” that insult/rhyme at the player and require finding Kamek in “part 5” to progress to the next overworld; he postpones implementation because Biobak may redesign the visuals, which would force rework.",
+      "quote": null
+    },
+    {
+      "topic": "technical",
+      "importance": "low",
+      "summary": "For palm tree collision, Kaze proposes swapping between a static model and a dynamic/collidable model when the player is close (to keep performance reasonable while allowing interaction).",
+      "quote": null
+    },
+    {
+      "topic": "milestone",
+      "importance": "high",
+      "summary": "The “Old Master Yoshi” dojo NPC is brought into the game as a hint-giver you must fight to earn hints; Kaze implements most of the behavior quickly by reusing his newer interaction/attack system and helper functions (with VFX/SFX deferred).",
+      "quote": null
+    },
+    {
+      "topic": "design",
+      "importance": "high",
+      "summary": "The Old Master Yoshi concept is intentionally comedic: he postures like a wise martial-arts mentor, but is extremely frail and dies in a single hit, turning the hint system into a running gag (you repeatedly ‘beat up’ the old man to get more hints).",
+      "quote": null
     },
     {
       "topic": "technical",
       "importance": "medium",
-      "summary": "Kaze compares real N64 performance to the Analogue 3D FPGA hardware and finds it materially inaccurate (notably slower RSP and lower framerate). He states he spoke to an Analogue engineer who claims to have a plan to fix the performance discrepancy.",
-      "quote": "The RSP is 30% slower than on the real N64. The framerate is 15% lower."
+      "summary": "Integration issues surfaced while importing Zeina’s Old Master Yoshi assets: missing/incorrect animation files, confusion about idle animation ordering, and texture-format/size constraints (e.g., converting to CI4/I4/I8 and fixing oversized textures) before the model could be used reliably.",
+      "quote": null
+    },
+    {
+      "topic": "technical",
+      "importance": "medium",
+      "summary": "A key debugging discovery: the MakeTalkable step was clearing/overwriting behavior flags, which explained why certain flag-driven logic stopped working after making the NPC talkable.",
+      "quote": null
     },
     {
       "topic": "community",
       "importance": "low",
-      "summary": "Kaze vents about early N64 modding culture where people claimed assembly expertise but gave wrong guidance, arguing that relying on self-proclaimed experts slowed his learning—an example of how community knowledge quality can affect development pace.",
-      "quote": "Asking the people that claimed that they were able to assembly program for help made it take longer to learn to assembly program."
+      "summary": "Kaze criticizes the Mario in the Multiverse / HackerSM64 engine direction for not adopting performance improvements he’s made elsewhere, attributing it more to unwillingness to do the work than to “unreadable/bad code” concerns.",
+      "quote": null
+    },
+    {
+      "topic": "technical",
+      "importance": "medium",
+      "summary": "He compares hardware accuracy between real N64 and the Analogue 3D FPGA device, noting the Analogue’s RSP appears ~30% slower and overall framerate ~15% lower; he says he spoke to an engineer who thinks they can fix it.",
+      "quote": null
+    },
+    {
+      "topic": "personal",
+      "importance": "low",
+      "summary": "Kaze shares a personal update: their baby strongly associates phones with JoJo music and repeatedly asks for Bloody Stream, highlighting how stream/dev life overlaps with family life.",
+      "quote": null
     }
   ],
   "contributor_findings": {
     "biobak": [
       {
-        "topic": "team",
+        "topic": "design",
         "importance": "medium",
-        "summary": "Kaze delays implementing the rhyming ‘evil message blocks’ gate logic because he expects Biobak to redesign/improve their visuals; he plans to leave notes for Biobak to avoid rework when the asset changes.",
-        "quote": "I don't want to program this yet because I'm pretty sure Biobak is going to make this look nicer and then I'd have to reprogram it."
+        "summary": "Kaze delays implementing the ‘evil message blocks’ gate because he expects Biobak will redesign/improve their look, and Kaze wants to avoid reprogramming the event logic around changing art.",
+        "quote": null
+      },
+      {
+        "topic": "personal",
+        "importance": "low",
+        "summary": "Kaze says Biobak recommended a show (transcribed as “Blurry Bus/Pluribus”), which Kaze then discusses at length as an AI/robotics-themed narrative.",
+        "quote": null
       }
     ],
     "badub": [
       {
-        "topic": "team",
-        "importance": "medium",
-        "summary": "Badub appears in chat; Kaze notes that ZeroVolt sent a newest song and Kaze plans to import it later in the session (audio pipeline dependency: composition/conversion → in-game import).",
-        "quote": "ZeroVolt just sent me the newest song he made. So I will import that later today."
+        "topic": "milestone",
+        "importance": "low",
+        "summary": "Badub appears in chat; Kaze notes ZeroVolt has sent a newest song and plans to import it later now that his storage constraints are resolved.",
+        "quote": null
       }
     ],
     "zeina": [
       {
-        "topic": "team",
+        "topic": "milestone",
         "importance": "high",
-        "summary": "Zeina created the Old Master Yoshi model/animations used for the dojo encounter. Kaze discovers he only has one/old file locally and requests the newest model; he also identifies texture format sizing/lighting issues that must be corrected to fit N64 constraints before import.",
-        "quote": "Zeina made some animations for him… send me the newest model then."
+        "summary": "Zeina created the Old Master Yoshi animations, enabling the dojo hint-giver concept; Kaze actively integrates them and discusses animation ordering/idle variants with her.",
+        "quote": null
+      },
+      {
+        "topic": "technical",
+        "importance": "medium",
+        "summary": "Zeina’s asset drop required import-side fixes (texture formats/sizes and missing/misplaced animation files), revealing the practical integration friction between art delivery and N64 pipeline constraints.",
+        "quote": null
       }
     ],
     "others": [
@@ -115,9 +133,9 @@
         "name": "ZeroVolt",
         "findings": [
           {
-            "topic": "team",
-            "importance": "medium",
-            "summary": "ZeroVolt is actively producing/sending newly converted music for RTYI’s soundtrack pipeline; Kaze expects to integrate the latest track soon.",
+            "topic": "milestone",
+            "importance": "low",
+            "summary": "Kaze says ZeroVolt sent a newly made song; Kaze intends to import it later in the session/workflow.",
             "quote": null
           }
         ]
@@ -127,95 +145,97 @@
   "memorable_quotes": [
     {
       "speaker": "Kaze",
-      "quote": "We now have Yoshis that have conditional dialogue branches… and these dialogue branches update whenever you make progress in the game.",
-      "context": "Core statement of intent: making the overworld reactive and story-like via systemic dialogue changes rather than static NPC text."
-    },
-    {
-      "speaker": "Kaze",
-      "quote": "With the pop-up dialogue functionality, we can very clearly mark any important NPCs… and all these unnecessary texts players will not find it.",
-      "context": "Design principle for player guidance: separating critical information from optional flavor, enabling dense worldbuilding without blocking progress."
+      "quote": "He’s going to pretend to be the master of fighting and your instructor, and then he just fucking dies in one hit.",
+      "context": "Captures the project’s comedic tone and how mechanics (hint NPC) are shaped around humor and subversion."
     },
     {
       "speaker": "Kaze",
       "quote": "Every five minutes you go back to him to beat the fuck out of an old man. I like that.",
-      "context": "Captures RTYI’s comedic subversion: remixing classic SM64 NPC/help tropes into a repeatable gag that still serves progression."
+      "context": "Summarizes the intended player loop for the hint system and its deliberately absurd framing."
+    },
+    {
+      "speaker": "Kaze",
+      "quote": "Genuinely asking the people that claimed they were able to assembly program for help made it take longer to learn to assembly program.",
+      "context": "A candid reflection on early learning friction and unreliable expertise in the modding scene—useful for an interview about how he became self-sufficient."
     }
   ],
   "key_stories": [
     {
-      "title": "Making the overworld feel alive with progress-reactive Yoshi NPCs",
-      "summary": "Kaze describes and demonstrates a system where Yoshi NPC dialogue branches change based on milestones like star thresholds and specific course progress. He pairs this with a pop-up dialogue UI so mandatory information is clearly surfaced while optional chatter remains discoverable but not required.",
-      "challenge": "A Mario 64-style hub can feel static, and important instructions can be missed if buried among flavor NPC text.",
-      "process": "Implement conditional dialogue flags and branching; add pop-up dialogue to clearly mark important NPCs; test that dialogue updates live as game state changes and patch activation bugs.",
-      "outcome": "A scalable framework for dozens/hundreds of NPC lines that can evolve across the playthrough without confusing the player about what matters.",
-      "key_quote": "We now have Yoshis that have conditional dialogue branches… and these dialogue branches update whenever you make progress in the game.",
+      "title": "Making the overworld feel alive with conditional Yoshi dialogue",
+      "summary": "Kaze describes being unusually productive during the week and shows a system where Yoshi NPC dialogue changes as the player progresses (star thresholds and specific achievements). This supports a more reactive overworld and also lets the team add lots of optional flavor without confusing players about what matters.",
+      "challenge": "Overworld NPCs risk feeling static, and important guidance text can get lost among optional chatter.",
+      "process": "Kaze builds a dialogue-tree system with conditional branches tied to progress flags (e.g., star counts, specific course-star events) and adds a pop-up dialogue mode to clearly mark mandatory text. He tests and fixes a bug where progress conditions weren’t activating correctly.",
+      "outcome": "Dialogue updates live as progress changes, enabling many NPCs with evolving lines while keeping critical information clearly surfaced.",
+      "key_quote": null,
       "related_to": ["kaze"]
     },
     {
-      "title": "Old Master Yoshi dojo as a hint system with a comedic fight loop",
-      "summary": "Kaze integrates Zeina’s Old Master Yoshi animations and builds a dojo interaction where the ‘master’ challenges Mario but is intentionally incompetent and dies in one hit. The dojo is also planned as a repeatable hint source, with hints potentially costing coins and pointing toward secrets like a hidden door and secret star area.",
-      "challenge": "Provide guidance to stuck players without breaking immersion or turning the game into a checklist; also integrate a new animated NPC within N64 technical limits.",
-      "process": "Import and validate Zeina’s assets; fix texture format/size issues; implement behavior using Kaze’s new interaction system; debug flags being reset by MakeTalkable and missing interaction settings; draft hint economy and first dojo secret design.",
-      "outcome": "A functional prototype of the dojo encounter plus a clear plan for hint delivery and an embedded secret-star tutorial inside the dojo.",
-      "key_quote": "I really love the new system for attacks that made this so easy to do.",
+      "title": "Old Master Yoshi dojo: a hint system disguised as a joke boss fight",
+      "summary": "Kaze integrates Zeina’s Old Master Yoshi and turns him into a dojo mentor who provides hints only after you fight him. The encounter is intentionally a bait-and-switch: he talks like a master but is frail, making the hint loop funny rather than purely utilitarian.",
+      "challenge": "Create an in-world hint delivery mechanism that fits Mario 64’s tone and encourages revisiting, without feeling like a menu or an immersion-breaking help screen.",
+      "process": "Kaze imports Zeina’s model/animations, fixes N64 texture format/size issues, and wires up behavior using his newer interaction/attack helper system. He debugs issues like facing direction, hitboxes, action states, dialogue pitch, and discovers MakeTalkable was wiping flags.",
+      "outcome": "The dojo NPC mostly works (walks up, talks, can be attacked, reacts), with VFX/SFX and remaining polish deferred; the hint loop design is established.",
+      "key_quote": "Every five minutes you go back to him to beat the fuck out of an old man. I like that.",
       "related_to": ["kaze", "zeina"]
     },
     {
-      "title": "Progression gating concept with Kamek and rhyming ‘evil message blocks’",
-      "summary": "Kaze revisits a previously discussed event intended to gate access to a later overworld: message blocks that insult the player in rhymes and only move after a Kamek-related requirement is met. He postpones implementation because the visuals are likely to change (Biobak expected to refine them), and he doesn’t want to reprogram against unstable assets.",
-      "challenge": "Create a clear, characterful progression gate that feels like a new adventure rather than a generic locked door, while managing rework risk as art evolves.",
-      "process": "Reconstruct the intended design from notes; outline block behavior (initially friendly/apologetic, then move); decide to defer coding until Biobak’s final visuals are available; leave notes for future implementation.",
-      "outcome": "Design direction is re-established, but implementation is intentionally delayed to avoid asset-driven rework.",
-      "key_quote": "I don't want to program this yet because I'm pretty sure Biobak is going to make this look nicer and then I'd have to reprogram it.",
+      "title": "Avoiding rework by postponing the Kamek ‘evil message blocks’ gate",
+      "summary": "Kaze revisits an earlier plan for a progression gate involving insulting/rhyming message blocks and a Kamek event tied to reaching a later overworld. He decides not to implement it yet because the visuals are likely to change, which would force logic rework.",
+      "challenge": "Progression-gate events require tight coupling between level scripting/logic and final art/layout; implementing too early risks wasted time.",
+      "process": "He tries to recall the exact original design, sketches the intended behavior in notes, and explicitly calls out that Biobak will likely improve the blocks’ look—so Kaze defers coding until the asset direction stabilizes.",
+      "outcome": "The concept remains planned but not committed in code, reducing immediate technical debt and rework risk.",
+      "key_quote": null,
       "related_to": ["kaze", "biobak"]
     }
   ],
   "open_questions": [
     {
-      "topic": "Conditional dialogue system architecture and scalability",
-      "context": "Kaze references dialogue conditions tied to star totals and specific star/course events, and mentions a very large number of Yoshi NPC placements.",
+      "topic": "Progress-sensitive NPC dialogue authoring at scale",
+      "context": "Kaze now has conditional dialogue branches that can key off star counts and specific events (e.g., a particular star in Course 4), plus a pop-up system for mandatory text.",
       "questions": [
-        "What is the underlying condition system (bitflags, event IDs, script nodes), and how are conditions authored and tested at scale?",
-        "How do you prevent running out of text IDs / memory as dialogue grows, especially with multiple branches per NPC?",
-        "What rules determine which conditions are worth reacting to (to avoid over-branching and narrative noise)?"
+        "What’s the full set of progress signals you plan to expose to dialogue authors (stars, per-course milestones, boss clears, item flags, overworld events)?",
+        "How do you keep the dialogue conditions understandable and maintainable once you have hundreds of NPCs—do you have tooling/notation to prevent contradictions or dead branches?",
+        "Who is responsible for writing and maintaining the evolving dialogue (you, Biobak, others), and what does your review process look like to keep tone consistent?"
       ],
       "related_to": ["kaze"]
     },
     {
-      "topic": "Pop-up dialogue: rules for ‘mandatory’ vs ‘optional’ information",
-      "context": "Kaze positions pop-up dialogue as the solution for ensuring players see required information while allowing lots of ambient NPC chatter.",
+      "topic": "Hint economy and pacing for Old Master Yoshi",
+      "context": "Kaze floats adding a coin cost for hints that decreases later in the game, and likes the repeated ‘fight for hints’ loop.",
       "questions": [
-        "What exact UX rules decide when text becomes pop-up/mandatory versus standard talk text?",
-        "Are there any cases where optional flavor text becomes mandatory later (e.g., after an event unlock), and how is that handled?"
+        "How many hints do you want available, and are they tied specifically to secret stars, optional mechanics, or also main progression blockers?",
+        "What’s the intended ‘cost’ loop—coins, cooldowns, requiring specific moves, or escalating fight patterns—and why that choice?",
+        "How do you prevent the hint system from trivializing discovery while still helping genuinely stuck players?"
       ],
       "related_to": ["kaze"]
     },
     {
-      "topic": "Old Master Yoshi dojo: hint economy and progression logic",
-      "context": "Hints may cost coins and become cheaper later; hints are tied to secret stars, and the first hint points to a hidden dojo door/secret area.",
+      "topic": "Final design of the Kamek + evil message blocks overworld gate",
+      "context": "Kaze recalls a planned gate where rhyming/insulting blocks block passage until a Kamek-related objective is completed, but he postpones implementation pending Biobak’s visual pass.",
       "questions": [
-        "How many hints will exist, and are they authored per secret star or per ‘stuck state’ (e.g., detecting player progress stalls)?",
-        "How do you ensure the hint system doesn’t trivialize exploration while still being genuinely helpful for completionists?",
-        "Will the master’s ‘fight’ ever change (moveset/behavior) as the player progresses, or is the joke always that he’s helpless?"
-      ],
-      "related_to": ["kaze", "zeina"]
-    },
-    {
-      "topic": "Kamek + rhyming message blocks gate to later overworld(s)",
-      "context": "Kaze reconstructs an idea: blocks that rhyme-insult and move after a Kamek requirement, seemingly to unlock the second overworld transition.",
-      "questions": [
-        "What is the final intended player requirement to clear the gate (find Kamek where, do what, in which world/course)?",
-        "Is the rhyme/insult text purely comedic, or does it also provide actionable direction without breaking tone?",
-        "What does Biobak plan visually for these blocks (and will visuals affect how the player understands the gate mechanic)?"
+        "What was the original narrative/logic rationale for Kamek being tied to this gate—why is Kamek involved, and what’s the player fantasy of ‘exposing’ or defeating him here?",
+        "Do the ‘evil message blocks’ stay purely comedic, or do they foreshadow a larger theme (corruption, illusions, a disguised Yoshi with Kamek glasses, etc.)?",
+        "What needs to be finalized in the art/layout before you feel safe implementing the event logic without rework?"
       ],
       "related_to": ["kaze", "biobak"]
     },
     {
-      "topic": "Palm tree collision plan (dynamic vs static model swapping)",
-      "context": "Kaze proposes handling palm trees by swapping a dynamic model in when the player is close, otherwise using a static model.",
+      "topic": "Asset pipeline constraints revealed by the Old Master Yoshi import",
+      "context": "While integrating Zeina’s model, Kaze hits texture format/size issues (CI4/I4/I8), missing animation files, and unclear idle ordering.",
       "questions": [
-        "What triggered the need for dynamic palm collision (gameplay interaction, performance, or animation)?",
-        "What distance/criteria triggers the model swap, and how do you avoid visible popping or collision desync?"
+        "What checklists or export guidelines do you want for future character assets so import doesn’t become a repeated bottleneck?",
+        "How do you coordinate animation state naming/order between Blender and the in-game action system so these mismatches don’t recur?",
+        "Which constraints are hard N64 limits versus project conventions you could relax with tooling or automation?"
+      ],
+      "related_to": ["kaze", "zeina"]
+    },
+    {
+      "topic": "Analogue 3D accuracy concerns and their impact on development/testing",
+      "context": "Kaze claims the Analogue 3D’s RSP is significantly slower and overall framerate lower than real hardware, though an engineer said they have an idea to fix it.",
+      "questions": [
+        "What specific benchmarks/tests convinced you the device is off-spec (RSP timing, VI timing, microcode behavior, specific scenes in RTYI)?",
+        "Did you adjust any development/testing workflow because of this (e.g., avoiding certain hardware for performance validation)?",
+        "What did the engineer propose as the likely fix, and how confident are you it will match real N64 behavior?"
       ],
       "related_to": ["kaze"]
     }

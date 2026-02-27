@@ -1,87 +1,81 @@
 {
   "stream_context": {
-    "summary": "Kaze focuses on importing and integrating a batch of Biobak’s updated models (switches, fish, Goomba, fire, pipe, boss block), while troubleshooting N64/emu rendering and collision issues. The stream reveals ongoing workflow friction with Fast64 (textures, combiners, armatures, render areas) and highlights the need to validate the hack on real N64 hardware for recording and stability.",
-    "level": [],
+    "summary": "Kaze primarily imports and iterates on a batch of Biobak’s remade models (switches, fish, Goomba, fire, an “oil/sludge” enemy block), while debugging rendering/material issues (Fast64 + N64 combiner quirks) and making performance-minded decisions about textures, lighting, and batching. He also notes new N64-only crashes discovered while capturing footage for a “sign” video and realizes NEMU reproduces N64 crashes—potentially accelerating hardware debugging.",
+    "level": ["Course 1", "Course 15 – Bowser’s Office", "Overworld"],
     "significance": "notable",
-    "significance_reason": "Contains concrete pipeline decisions (avoiding switch bones, using multiple models for switch states), performance-driven art constraints (texture batching/CI formats), discovery that NEMU reproduces N64 crashes for debugging, and multiple real-hardware blockers (floating point exceptions, swimming/water raycast bug)."
+    "significance_reason": "Substantial art/asset integration and several workflow/technical revelations (N64 floating-point exceptions during capture, Fast64 texture/armature limitations, and confirming NEMU can reproduce N64 crashes for faster debugging). Also includes a clearer scope update on remaining levels/overworlds."
   },
   "findings": [
     {
       "topic": "technical",
       "importance": "high",
-      "summary": "While recording N64 footage for a new “sign” video, Kaze discovered multiple levels currently trigger floating point exceptions on real hardware; he expects they’re fixable but annoying, citing a Goomba crash likely caused by a scale value reaching exactly zero when crushed.",
+      "summary": "While recording N64 footage for the new “sign” video, Kaze discovers multiple levels currently trigger floating-point exceptions on real N64 hardware; he expects they’re fixable (e.g., Goomba crush scaling to exactly zero) but anticipates it will be tedious to track down across levels.",
       "quote": null
     },
     {
       "topic": "technical",
       "importance": "medium",
-      "summary": "A visual upgrade to steel beams replaces a CI4 1-bit alpha texture with an RGBA16 steel texture plus a separate alpha mask texture to achieve smoother edges (less “crusty”); Kaze notes the tradeoff that some detail becomes blurrier while edges become crisper.",
-      "quote": null
-    },
-    {
-      "topic": "team",
-      "importance": "medium",
-      "summary": "Biobak drives the stream’s agenda by delivering many remade assets for immediate integration, effectively turning the session into a bulk model-replacement pipeline pass (Kaze repeatedly frames it as a “Biobak stream”).",
+      "summary": "Kaze showcases a rendering/visual improvement for a steel beam asset by switching from a CI4 texture with 1-bit alpha to an RGBA16 texture plus a separate alpha mask texture, producing smoother edges and less “crusty” silhouettes—accepting some tradeoff in perceived sharpness/detail.",
       "quote": null
     },
     {
       "topic": "design",
       "importance": "medium",
-      "summary": "Kaze iterates on a redesigned blue coin switch model: he experiments with a press/disappear behavior, discusses whether an animation is needed (decides a 5-frame press doesn’t need extra animation), and adjusts scale/placement to read better in-level.",
+      "summary": "Bowser’s Office (“Bozo’s office” on stream) is blocked out for scale; Kaze describes a planned interaction point where an NPC embedded in the wall denies entry (a small comedic world-building beat).",
+      "quote": null
+    },
+    {
+      "topic": "design",
+      "importance": "high",
+      "summary": "Blue coin switch redesign becomes a collaborative art+implementation loop: Kaze combines Biobak’s ideas into a switch that reads more clearly than vanilla, debates whether it needs an animation (ultimately deciding a 5-frame press can be instant), and repeatedly adjusts brightness/contrast so the star emblem remains legible in-level lighting.",
       "quote": null
     },
     {
       "topic": "technical",
       "importance": "high",
-      "summary": "Kaze rejects vertex-color and environment-color approaches for certain materials because environment color is reused for unrelated effects and can be random; he also notes alpha-in-combiner setups can cause objects to disappear, pushing him toward baking gradients/lighting into textures where needed.",
-      "quote": null
-    },
-    {
-      "topic": "technical",
-      "importance": "high",
-      "summary": "Performance constraints directly shape art decisions: for repeated enemies like fish, Kaze strongly prefers single-texture/material setups to enable batching and avoid extra texture loads; he warns that “so many fish” makes an additional texture ‘really, really bad’ for performance.",
-      "quote": null
-    },
-    {
-      "topic": "technical",
-      "importance": "high",
-      "summary": "Fast64 is repeatedly implicated in workflow bugs/limitations: CI4 palette/color-count issues on reimport, armature reimport breaking colors, GL layout changes producing worse results, and animation pivot problems (e.g., a fish fin pivoting incorrectly). Kaze anticipates manual editing to work around Fast64 not being “perfect.”",
-      "quote": null
-    },
-    {
-      "topic": "technical",
-      "importance": "high",
-      "summary": "Cap switches are reworked rather than preserved: Kaze dislikes the original cap-switch table/structure and plans to ‘fuse’ parts and change the implementation. He opts for multiple discrete models (including 1–2 in-between states) instead of switch bones/armature-driven switching, citing jank and naming/translation issues with bones and claiming switch bones ‘never’ work reliably for him.",
-      "quote": null
-    },
-    {
-      "topic": "technical",
-      "importance": "high",
-      "summary": "A crash during cap switch testing was traced to implementation mistakes (e.g., forgetting to increment model IDs / incorrect prim-color handling). After fixes, Kaze prefers the new pressed-down behavior visually, but notes he should change collision immediately so Mario falls naturally rather than hovering on an outdated collider.",
-      "quote": null
-    },
-    {
-      "topic": "technical",
-      "importance": "high",
-      "summary": "A serious water/swimming regression appears: Kaze reports ‘something really weird with swimming,’ suspects a collision/raycasting issue underwater, and demonstrates that entering a water level can cause instant death and loss of control.",
+      "summary": "Kaze rejects using vertex coloring and certain combiner approaches for switch shading because the project’s environment/world color state can be “random stuff,” causing alpha/combiner-driven disappearances or mismatches between Blender preview and in-game rendering. He pivots toward baking coloration into textures and/or using separate models per state to ensure consistent world lighting behavior.",
       "quote": null
     },
     {
       "topic": "technical",
       "importance": "medium",
-      "summary": "Kaze discovers NEMU reproduces crashes similarly to real N64 hardware, implying it can be used to debug N64-only crashes faster than his previous workflow.",
+      "summary": "He strongly prefers swapping between multiple switch models (and defining a tight box-shaped render area) over implementing “switch bones”/armature-driven state changes, citing repeated reliability issues and workflow overhead in Fast64 (bone name constraints, jank transforms, poor behavior).",
+      "quote": "You’re wasting minutes of my life having me implement a switch bone when they basically don’t really work at all."
+    },
+    {
+      "topic": "technical",
+      "importance": "high",
+      "summary": "Fish model update surfaces a performance constraint: with many fish instances, adding extra textures/material passes would be “really, really bad” for batching and draw performance. Kaze prioritizes single-texture/material solutions, but notes Fast64 can break CI4 constraints on reimport (too many colors), forcing larger RGBA formats in some cases.",
+      "quote": null
+    },
+    {
+      "topic": "technical",
+      "importance": "high",
+      "summary": "Kaze identifies/attributes multiple issues to Fast64 (texture format handling, GL layout/export quirks, pivot/fin deformation) and ends up manually counteracting exporter behavior (“doing the exact opposite”) and rebuilding combiner settings from scratch when a specific combiner setup renders incorrectly across emulators.",
+      "quote": null
+    },
+    {
+      "topic": "technical",
+      "importance": "high",
+      "summary": "A key workflow discovery: NEMU appears to crash in the same places real N64 would, implying it can be used to reproduce and debug hardware crashes faster than his prior workflow—potentially a major time saver for N64-accuracy debugging.",
       "quote": null
     },
     {
       "topic": "milestone",
       "importance": "medium",
-      "summary": "Project scope/status update: Kaze states there are ‘like four and a half levels left,’ plus ‘the Bowser level and two extra levels,’ and ‘the three overworlds.’",
+      "summary": "Kaze gives a scope/status snapshot: roughly “four and a half levels left,” plus a Bowser level and two extra levels, and then “the three overworlds,” suggesting the content roadmap is finite and trackable even though he’s currently in an asset-integration phase.",
       "quote": null
     },
     {
-      "topic": "business",
-      "importance": "low",
-      "summary": "Kaze mentions he studies MrBeast videos to understand viewer appeal and apply lessons to his own content strategy, indicating he actively analyzes YouTube retention/packaging alongside development.",
+      "topic": "technical",
+      "importance": "medium",
+      "summary": "He notes gameplay regressions discovered during testing (e.g., “something really weird with swimming,” underwater raycasting/collision issues, and some cutscenes crashing), but deprioritizes broader bug-fixing in favor of current asset/model work.",
+      "quote": null
+    },
+    {
+      "topic": "design",
+      "importance": "medium",
+      "summary": "On a later imported enemy/block (“oil and sludge” character with beams/teeth), Kaze realizes certain material goals are constrained by N64 pipeline rules (e.g., can’t combine vertex colors with environment mapping the way he’d like). This leads him to adjust lighting settings and inspires a possible damage feedback effect using prim/combiner-driven color shifts (e.g., flashing toward red).",
       "quote": null
     }
   ],
@@ -90,43 +84,24 @@
       {
         "topic": "design",
         "importance": "high",
-        "summary": "Biobak supplies a large batch of remade models that Kaze imports live (switches, fish, Goomba, fire variants, 8-bit pipe, and a ‘boss block’/sludge character). These assets drive immediate iteration on readability (contrast), style fit, and performance feasibility.",
-        "quote": null
-      },
-      {
-        "topic": "design",
-        "importance": "high",
-        "summary": "Biobak’s cap/blue switch designs lead to an on-stream redesign: Kaze combines ideas (coin-on-switch concept), adjusts geometry and textures, and coordinates with Biobak to revise button brightness/contrast so the star emblem reads in-game.",
-        "quote": null
-      },
-      {
-        "topic": "technical",
-        "importance": "medium",
-        "summary": "Biobak’s fish update includes an “optimized surface”/material setup intended to avoid extra textures; Kaze validates the UV/material arrangement and flags CI4/texture-import constraints that may force RGBA depending on tooling limits.",
+        "summary": "Biobak provides a large batch of remade models and textures (switch variants, fish, Goomba, fire, pipe, and the “sludge/oil” character), driving the stream’s agenda and forcing Kaze to make implementation and performance decisions around N64 constraints.",
         "quote": null
       },
       {
         "topic": "design",
         "importance": "medium",
-        "summary": "Biobak updates enemy visuals (Goomba ‘looks so modern now’) while preserving triangle count, and provides new fire color/geo tweaks that Kaze tests across flame variants (including a blue flame geo located in BBH assets).",
+        "summary": "Biobak iterates live based on feedback (e.g., improving blue coin switch textures for contrast/legibility; supplying updated coin texture), enabling rapid art-direction loops inside the stream.",
         "quote": null
       },
       {
         "topic": "design",
         "importance": "medium",
-        "summary": "Biobak’s ‘boss block’/sludge concept (with beams/teeth and infrared textures scrolling in different directions) impresses Kaze; Kaze considers using lighting/combiner behavior to create damage feedback (e.g., tinting toward red when hurt).",
-        "quote": "Biobak deserves a medal for that."
+        "summary": "Biobak’s “sludge” character design choice (beams/teeth + scrolling textures) earns strong praise from Kaze and opens up new gameplay/FX ideas (damage color-shift via prim/combiner).",
+        "quote": "The beams and teeth is genius. Biobak deserves a medal for that."
       }
     ],
     "badub": [],
-    "zeina": [
-      {
-        "topic": "team",
-        "importance": "low",
-        "summary": "A second voice (likely Zeina) helps Kaze locate and use an image-editor gradient tool and discusses opacity/contrast adjustments during texture iteration, reflecting informal real-time support during asset polish.",
-        "quote": null
-      }
-    ],
+    "zeina": [],
     "others": [
       {
         "name": "Lilaa",
@@ -134,13 +109,24 @@
           {
             "topic": "community",
             "importance": "medium",
-            "summary": "Lilaa gives actionable visual feedback (button/star contrast and brightness), prompting Kaze to pause imports while Biobak revises textures so critical symbols remain readable in-level.",
+            "summary": "Lilaa repeatedly pushes for readability improvements (notably contrast/brightness on the blue coin switch so the star icon reads in-game) and challenges certain technical assumptions, prompting Kaze to test and refine.",
             "quote": null
           },
           {
             "topic": "technical",
             "importance": "medium",
-            "summary": "Lilaa discusses texture/memory behavior (whether textures can be kept in RAM and reused) during the Goomba texture-layout debate; this influences Kaze’s plan to possibly do manual model edits to work around Fast64 limitations.",
+            "summary": "Lilaa proposes and discusses exporter/asset pipeline ideas (e.g., render area computation approaches; texture sharing implications on Goomba), which Kaze evaluates against N64 batching/memory behavior and Fast64 limitations.",
+            "quote": null
+          }
+        ]
+      },
+      {
+        "name": "XPM",
+        "findings": [
+          {
+            "topic": "design",
+            "importance": "low",
+            "summary": "Kaze notes he is still using a cloud texture attributed to XPM, describing it as having “survived the test of time.”",
             "quote": null
           }
         ]
@@ -151,92 +137,81 @@
     {
       "speaker": "Kaze",
       "quote": "A wise man once said that the hardest question in programming is whether something is divine intellect or too much voodoo. And private is too much voodoo.",
-      "context": "During a tangent about code style, Kaze goes on a passionate rant against private variables, revealing his low-level, hardware-grounded mindset and skepticism of abstractions that don’t map to the processor."
+      "context": "During an aside about coding philosophy, Kaze launches into a blunt anti-\"private variables\" rant that reveals his taste for pragmatic, hardware-grounded reasoning over abstract language features."
     },
     {
       "speaker": "Kaze",
-      "quote": "All the vanilla models are awful.",
-      "context": "Said while justifying why he’s replacing familiar Mario 64 assets—useful for framing how he balances respect for the original with a desire to modernize/upgrade visuals."
+      "quote": "NEMU crashes here just like N64 would? That’s crazy. I could probably debug a lot of N64 crashes in NEMU then. Oh my god, that is going to save me so much time.",
+      "context": "A clear turning point where he realizes an emulator can reproduce real-hardware failure modes, changing his debugging workflow expectations."
     }
   ],
   "key_stories": [
     {
-      "title": "Real-N64 recording reveals floating point exceptions across levels",
-      "summary": "While preparing N64 footage for an in-progress “sign” video, Kaze discovers that entering some levels on real hardware triggers floating point exceptions. He identifies at least one likely cause: an enemy (Goomba) crash when crushed, possibly due to scale hitting exactly zero.",
-      "challenge": "The project must run reliably on original hardware for capture and legitimacy, but real-N64 testing exposes crashes that may not show up in typical emulator workflows.",
-      "process": "Kaze triages by noting suspected mathematical edge cases (scale-to-zero), acknowledges the fixes are feasible but time-consuming, and flags it as a blocking annoyance for video production.",
-      "outcome": "No fix implemented in this stream, but it becomes a clear upcoming task list item tied to hardware validation and content creation.",
-      "key_quote": null,
+      "title": "N64 floating-point exceptions discovered while capturing footage",
+      "summary": "While capturing N64 gameplay clips for a new “sign” video, Kaze finds multiple levels crash on hardware due to floating-point exceptions. This shifts what should have been a simple capture task into a looming stability pass needed for real-console compatibility.",
+      "challenge": "Real N64 capture reveals crashes that don’t necessarily appear in his normal development environment.",
+      "process": "Kaze hypothesizes likely causes (e.g., Goomba crush scaling to zero) and frames the work as straightforward but annoying: identify each exception source and patch it level-by-level.",
+      "outcome": "No fixes completed on-stream, but the issue becomes a concrete upcoming task for N64 readiness and video production.",
+      "key_quote": "Unfortunately, I found out that a lot of the levels have floating point exceptions when you enter them right now on N64.",
       "related_to": ["kaze"]
     },
     {
-      "title": "Switch redesign driven by performance constraints and Fast64 friction",
-      "summary": "Kaze integrates Biobak’s switch models and iterates on appearance, lighting, and pressed states. He rejects switch bones and instead uses multiple discrete models (including in-between states), citing Fast64 armature/switch-bone unreliability and workflow cost.",
-      "challenge": "Create switches that look modern, read clearly under level lighting, animate convincingly, and remain efficient to render—without fighting Fast64’s tooling limitations.",
-      "process": "Kaze experiments with combiner/lighting approaches (baked vs world light), adjusts render areas with bounding boxes, debugs crashes caused by model ID/prim-color mistakes, and plans collision behavior improvements so Mario falls naturally when the switch depresses.",
-      "outcome": "The new cap switch behavior looks better to Kaze than vanilla, but requires follow-up: fix underwater collision regression and refine collision timing/placement for the pressed state.",
-      "key_quote": "You're wasting minutes of my life having me implement a switch bone when they basically don't really work at all.",
+      "title": "Cap/coin switch overhaul: art direction vs N64 lighting/combiner reality",
+      "summary": "A large portion of the stream is a practical case study in how art intentions collide with N64 rendering constraints. Kaze and Biobak iterate on switch look/feel (textures, contrast, pressed states), but Kaze repeatedly rejects approaches that won’t survive real in-game world lighting and combiner behavior.",
+      "challenge": "Make new switch assets look clean and readable while still behaving correctly under world lighting and the project’s rendering state (environment color, alpha combiner quirks).",
+      "process": "Kaze tests multiple solutions: vertex colors vs baked textures; combiner variants; multi-state models vs bone-driven switch states; plus render-area boxing for performance and correctness.",
+      "outcome": "The new pressed behavior looks better to Kaze than vanilla, but he identifies remaining tasks (e.g., collision timing feel, color/brightness tuning, and avoiding crashes from model ID/prim color setup).",
+      "key_quote": "I much prefer that over the original vanilla switch behavior.",
       "related_to": ["kaze", "biobak"]
     },
     {
-      "title": "Combiner/rendering bug diagnosis leads to NEMU as a crash-debug tool",
-      "summary": "A model/material combiner setup renders incorrectly, and Kaze suspects emulator/plugin quirks. Testing on NEMU shows the same behavior and even reproduces crashes similarly to N64, shifting his view of NEMU as a useful debugging environment for hardware-accurate failures.",
-      "challenge": "Determine whether a rendering issue is a plugin artifact or an actual combiner/config mistake that will affect hardware builds.",
-      "process": "Kaze toggles combiner settings, tests clamps/stretching, swaps to NEMU, observes identical failure, then rebuilds the combiner “from nothing” and finds a working setting—though he can’t pinpoint the exact original misconfiguration.",
-      "outcome": "Rendering is fixed for the tested case, and Kaze realizes NEMU can potentially save significant time debugging N64 crashes going forward.",
-      "key_quote": "NEMU crashes here just like N64 would? That's crazy. I could probably debug a lot of N64 crashes in NEMU then.",
+      "title": "Combiner rendering looks wrong until Kaze rebuilds it—and NEMU reveals real crash behavior",
+      "summary": "Kaze battles a confusing render artifact that appears across emulators and suspects a problematic combiner configuration rather than purely an emulator/plugin bug. Testing in NEMU unexpectedly shows N64-like crashes too, suggesting a new, faster debugging path for hardware-accurate issues.",
+      "challenge": "A specific material/combiner setup renders incorrectly (and sometimes crashes), and Blender previews are unreliable for final N64 output.",
+      "process": "He toggles clamp/shift/mirror settings, cross-tests emulators, and finally remakes the combiner/material setup “from nothing” to isolate a wrong setting.",
+      "outcome": "The visual issue resolves after rebuilding settings, and Kaze leaves with a major workflow insight: NEMU can be used to debug N64 crash sites efficiently.",
+      "key_quote": "There must be a combiner setting somewhere that fucked it up and I don't know what the setting was.",
       "related_to": ["kaze"]
     }
   ],
   "open_questions": [
     {
-      "topic": "Floating point exceptions on real N64 when entering levels",
-      "context": "Kaze says multiple levels currently throw floating point exceptions on N64; one suspected case is crushing a Goomba causing scale to hit exactly zero.",
+      "topic": "Hardware stability pass prompted by N64 floating-point exceptions",
+      "context": "Kaze discovers multiple levels currently throw floating-point exceptions on real N64 during capture, with at least one suspected cause being a scale hitting exactly zero when crushing a Goomba.",
       "questions": [
-        "Which specific levels/objects are known to trigger floating point exceptions on real hardware right now, and how many are blockers for a playable build?",
-        "Are these exceptions primarily scale/animation edge cases (e.g., divide-by-zero, sqrt of negative, NaNs), and do they come from decomp code, custom code, or tool-generated animation data?",
-        "What is Kaze’s standard approach for preventing these (clamps, epsilons, fixed-point conversions), and will there be a dedicated ‘hardware compliance’ pass?",
-        "Did these issues appear after specific engine changes (render optimizations, collision rewrites, animation system changes), or have they existed unnoticed due to emulator tolerance?"
+        "How many distinct N64-only crash sources have you found so far, and do they cluster around a few common patterns (scale-to-zero, divide-by-zero, NaNs in collision, etc.)?",
+        "What’s your plan for systematically finding and verifying these across the whole game—especially when a level is only entered briefly for footage capture?",
+        "Did any of these exceptions change your coding standards (e.g., clamping, epsilon checks) for future enemy/animation logic?"
       ],
       "related_to": ["kaze"]
     },
     {
-      "topic": "Underwater collision/raycasting regression causing instant death / no movement",
-      "context": "Kaze reports swimming feels wrong and demonstrates entering a water area can instantly kill Mario; he suspects an underwater raycasting bug and mentions collision functions may have been changed.",
+      "topic": "Fast64 reliability vs hand-editing as an emerging pipeline requirement",
+      "context": "Several assets (fish CI4 color limits, pivot/fin issues, GL layout weirdness, switch-bone jank) push Kaze toward manual edits or alternate approaches rather than relying on exporter defaults.",
       "questions": [
-        "What change most likely introduced the underwater raycasting/swimming regression (collision refactor, water surface logic, raycast optimization, camera/state transitions)?",
-        "How does Kaze test collision correctness across emulator vs hardware, and what tools/logging does he use to localize collision/raycast bugs in SM64 decomp?",
-        "Is this bug isolated to one level/area or systemic across any water volume in the hack?"
+        "At what point did you decide Fast64 is a tool you work around rather than a tool you trust—and what were the most expensive failures that caused that shift?",
+        "Which kinds of assets are ‘safe’ to round-trip through Fast64, and which ones do you now treat as ‘export once, then hand-edit’?",
+        "Do you track these exporter pitfalls anywhere for the team (so Biobak can avoid patterns that later break batching, palette limits, or pivots)?"
       ],
       "related_to": ["kaze"]
     },
     {
-      "topic": "Replacing switch bones with multiple models for animation states",
-      "context": "Kaze chooses discrete models (with in-between states) over switch bones/armatures, arguing switch bones are janky and costly to implement in his pipeline.",
+      "topic": "NEMU as a new N64-crash reproduction tool",
+      "context": "Kaze is surprised to see NEMU crash the same way real N64 does, implying it can reproduce and help debug hardware issues without constantly deploying to console.",
       "questions": [
-        "What specific Fast64/switch-bone failure modes made Kaze abandon them (naming collisions, transforms drifting upward, export bugs), and did he attempt custom tooling to fix them?",
-        "How does the multi-model approach impact ROM/RAM usage and iteration speed, and where is the cutoff where he’d revisit a bone-based solution?",
-        "How are the in-between states authored and maintained across color variants (red/green/blue/cyan etc.) without exploding asset maintenance?"
+        "What crash types does NEMU reliably reproduce for you so far, and where does it still diverge from real hardware?",
+        "How will this change your workflow—do you expect to move earlier hardware-accuracy testing into NEMU before doing final EverDrive/N64 verification?",
+        "Can you walk through the first bug you plan to ‘solve faster’ now that you know NEMU can crash like N64?"
       ],
-      "related_to": ["kaze", "biobak"]
+      "related_to": ["kaze"]
     },
     {
-      "topic": "Texture/material rules dictated by performance (batching, CI formats, texture loads)",
-      "context": "Kaze repeatedly prioritizes single-texture/material setups for frequently-instanced objects (fish, Goombas), and discusses CI4 palette limits and Fast64 not exporting optimally.",
+      "topic": "Endgame scope and sequencing (remaining levels + three overworlds)",
+      "context": "Kaze states there are about four and a half levels left, plus a Bowser level and two extra levels, then three overworlds—while also noting he’s not in a bug-fixing phase currently.",
       "questions": [
-        "What are Kaze’s concrete performance budgets (texture loads per frame, triangle counts, render time targets) and how do they differ between emulator and N64 hardware?",
-        "When does he accept extra textures/materials for quality, and when is it a hard ‘no’ (e.g., repeated enemies)?",
-        "How often does Fast64 force suboptimal texture splitting, and what manual steps does Kaze take to reclaim batching/performance?"
-      ],
-      "related_to": ["kaze", "biobak"]
-    },
-    {
-      "topic": "Using NEMU for hardware-accurate crash debugging",
-      "context": "Kaze realizes NEMU reproduces N64-like crashes, suggesting a new debugging workflow for hardware-only failures.",
-      "questions": [
-        "How will Kaze integrate NEMU into his debugging pipeline (breakpoints, logging, repro scripts), and what limitations does it still have compared to testing on an actual console?",
-        "Which categories of bugs has he historically struggled with on real N64 (FPU exceptions, RSP/RDP edge cases, memory alignment), and does NEMU cover them reliably?",
-        "Will this change how often the team does real-hardware test passes during development milestones?"
+        "What does ‘four and a half levels left’ mean in your internal definition—layout complete, art complete, gameplay complete, or just blocked out?",
+        "How are you sequencing the final stretch: finish content first, then stability/performance, or do you expect more back-and-forth as new assets expose new N64 constraints?",
+        "Which remaining areas are the biggest unknowns (Bowser content, overworld complexity, or technical debt like swimming/cutscene crashes)?"
       ],
       "related_to": ["kaze"]
     }

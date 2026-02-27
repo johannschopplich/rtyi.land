@@ -1,135 +1,103 @@
 {
   "stream_context": {
-    "summary": "Kaze shifts from finishing “part one” into “part two” focused on overworld polish and release-readiness: visual upgrades (animated caustics/water), warp/crash fixes, and rethinking an underwhelming “retro section.” Mid-stream, a serious build failure appears (BBH/leveldata linking) that Kaze traces back to removed/“useless” linked segments, leading to a make/asset-linking investigation he plans to resolve around the F3 showcase.",
+    "summary": "Kaze transitions from finishing “part one” into “part two” of development focused on polishing and restructuring the overworld: water/caustics visuals, warp fixes, draw-distance, collision exploits, and rethinking a “retro section.” Mid-stream, he shares several major technical updates (ROM size reduction, faster decompression, 30/60fps modes) and then hits a serious build failure caused by deleting “useless” assets/segments—eventually tracing the issue to a missing always-linked segment and partially restoring build stability before leaving for F3.",
     "level": ["Overworld"],
     "significance": "milestone",
-    "significance_reason": "Kaze states all 15 main courses are finished and development is now primarily overworld + side levels; he also highlights engine/ROM-size upgrades and hits a major build/linking failure that forces a deeper look at the project’s build system and asset segments."
+    "significance_reason": "Kaze states all 15 main courses are done and the project has moved into an overworld-focused phase; he also reports substantial technical progress (ROM size reduction, faster decompression) and a significant build-break incident tied to asset/segment linkage that affects the project’s pipeline."
   },
   "findings": [
     {
       "topic": "milestone",
       "importance": "high",
-      "summary": "Kaze says all 15 main courses are complete; remaining work is focused on the overworld and some side levels rather than core course creation.",
+      "summary": "Kaze says the hack’s 15 main courses are finished; remaining work is primarily the overworld plus some side levels, positioning the overworld as the next major production phase.",
       "quote": null
     },
     {
       "topic": "design",
       "importance": "high",
-      "summary": "Kaze frames the overworld as the key quality multiplier for the whole project, claiming it will elevate the game significantly beyond what the standalone levels achieve.",
-      "quote": "The overworld is going to take the levels from being like a 7 out of 10 to a 9 out of 10."
+      "summary": "He frames the overworld as the key differentiator that will substantially raise the perceived quality of the game, emphasizing camera/angle control to hide limits and manage polygon budget while still teasing other areas from select viewpoints.",
+      "quote": "The overworld is the most important part of the game… the overworld is going to take the levels from being like a 7 out of 10 to a 9 out of 10."
     },
     {
       "topic": "design",
       "importance": "medium",
-      "summary": "He plans to change how Yoshi Coins work (mechanics not fully detailed here), indicating a systems-level adjustment rather than pure cosmetic polish.",
+      "summary": "Kaze plans to change how Yoshi coins work and is considering a full rework of a current “retro section,” criticizing it for cramped walls and overall feel; he references a Bobby Ivor video as inspiration for a more spacious, layered cave-background look.",
       "quote": null
     },
     {
       "topic": "design",
       "importance": "medium",
-      "summary": "Kaze is unhappy with the current “retro section” and expects to rework it substantially; he specifically dislikes tight wall spacing and wants a stronger sense of depth/background scenery inspired by a Bobby Ivor video reference (a cave-like backdrop visible behind the playable space).",
+      "summary": "Overworld visual polish work includes more barnacles/rock dressing and a CPU-generated animated caustics texture for water; Kaze is also improving water visual effects but notes remaining pop-in/popup issues.",
       "quote": null
     },
     {
-      "topic": "design",
+      "topic": "technical",
+      "importance": "high",
+      "summary": "A minor engine upgrade adds a new decompression algorithm (credited to 'iClub') that reduces file size slightly (~0.1) and improves decompression speed by ~15%, aiming to reduce loading times that are currently higher than vanilla SM64.",
+      "quote": null
+    },
+    {
+      "topic": "technical",
+      "importance": "high",
+      "summary": "Kaze says he saved around half a megabyte of ROM size by deleting unused SM64 actor groups, and claims the ROM will ultimately contain no original SM64 content—everything remaining is re-imported/replaced.",
+      "quote": "The ROM is actually just not going to have any content from SM64… not a single thing that isn’t reimported."
+    },
+    {
+      "topic": "technical",
       "importance": "medium",
-      "summary": "He notes a need to limit where players can go in the overworld due to sightlines: players reaching unintended vantage points could see other overworld areas, which impacts presentation and polygon-budget planning.",
+      "summary": "He mentions an idea to reduce loading using asynchronous DMA, but it crashes only on real N64 hardware (not on the IRIX/IDO environment), indicating a hardware-specific stability issue that’s hard to reproduce in his current tooling.",
+      "quote": null
+    },
+    {
+      "topic": "technical",
+      "importance": "high",
+      "summary": "Kaze describes the project supporting both 30fps and 60fps modes with user selection; 60fps does not work on real N64 and is framed as more realistic for recompilation/PC targets where performance headroom exists.",
       "quote": null
     },
     {
       "topic": "technical",
       "importance": "medium",
-      "summary": "Visual upgrades to the overworld include more barnacles, improved rock shading via a “CPU-generated caustics texture,” and animated caustic effects that look better in-level than in the editor preview; he also mentions remaining render errors to fix.",
+      "summary": "He explains the difference between a decomp-based PC port and N64 recompilation (recompiling the ROM rather than source), noting the recomp effort is higher-fidelity for his shader/rendering needs and provides extensive modding via function overrides.",
       "quote": null
     },
     {
-      "topic": "design",
+      "topic": "technical",
+      "importance": "medium",
+      "summary": "A recurring music import issue is traced to an obsolete/unsupported sequence “comment” (e.g., 'chan_set_pan_mix'); Kaze demonstrates quickly removing it in his tooling and explains why the directive is undesirable (it interferes with intended panning).",
+      "quote": null
+    },
+    {
+      "topic": "technical",
+      "importance": "high",
+      "summary": "A major pipeline disruption occurs when the ROM suddenly stops building; Kaze suspects corruption because even older commits fail, then realizes a prior 'killed useless files' commit removed segments that were still being linked globally, requiring restoration/placeholder fixes to resume building.",
+      "quote": null
+    },
+    {
+      "topic": "business",
       "importance": "low",
-      "summary": "Kaze critiques specific aesthetic elements: an older model he made as a kid looks “hideous,” chain geometry “makes zero sense,” and some platforms look ugly; he intends to replace/reuse better assets rather than keep early placeholder-quality models.",
-      "quote": null
-    },
-    {
-      "topic": "technical",
-      "importance": "high",
-      "summary": "Engine upgrade: a newly imported decompression algorithm slightly reduces ROM size (~0.1, as stated) and improves decompression speed by ~15%, reducing loading times (though he still feels loads are heavier than vanilla SM64).",
-      "quote": null
-    },
-    {
-      "topic": "technical",
-      "importance": "high",
-      "summary": "He mentions an idea to further reduce loading times with asynchronous DMA, but it currently crashes only on real N64 hardware (not even on the “IRIX”/emulator setup he references), highlighting a hardware-only bug that blocks that optimization.",
-      "quote": null
-    },
-    {
-      "topic": "technical",
-      "importance": "medium",
-      "summary": "Kaze says he saved about half a megabyte of ROM space by deleting unused SM64 actor groups; he emphasizes the goal that the ROM should not contain leftover SM64 content—everything remaining should be reimported specifically for the hack.",
-      "quote": "The ROM is actually just not going to have any content from SM64… not a single thing that isn't reimported."
-    },
-    {
-      "topic": "team",
-      "importance": "medium",
-      "summary": "Kaze wants to replace the current flamethrower VFX with a higher-quality one made by Dorian and considers asking her for help implementing/updating effects (smaller particles, better look).",
-      "quote": null
-    },
-    {
-      "topic": "technical",
-      "importance": "medium",
-      "summary": "Music pipeline issue: imported sequences sometimes include an unsupported/comment directive like “chan set pan mix,” which breaks behavior; Kaze demonstrates a quick fix by removing/adjusting the comment so panning behaves properly and the sequence works in-game.",
-      "quote": null
-    },
-    {
-      "topic": "technical",
-      "importance": "high",
-      "summary": "A major build failure occurs: the ROM suddenly stops building due to BBH/leveldata linkage. Kaze initially suspects corruption because even older commits stop building, then discovers the culprit is a previously removed/“useless” segment/file (named “spooky” in his investigation) that is still being referenced/linked. Re-adding/creating the file restores the build, confirming hidden build dependencies and prompting a plan to properly unlink the segment rather than keep a hacky placeholder.",
-      "quote": null
-    },
-    {
-      "topic": "philosophy",
-      "importance": "medium",
-      "summary": "Kaze voices frustration with “fake” online game-dev content and claims most successful creators pivot to being YouTubers rather than committed game developers; he positions his streams as genuine development rather than performative content.",
-      "quote": "95 percent of successful YouTubers that do game creation online… they don't want to be game creators, they want to be YouTubers."
-    },
-    {
-      "topic": "technical",
-      "importance": "medium",
-      "summary": "He explains performance/platform targets: the game includes both 30fps and 60fps modes (selectable), but 60fps does not work on real N64; he suggests recompilation as the likely best platform for stable higher performance and broader compatibility.",
+      "summary": "Kaze says he has no release timeline; when pushed, he jokes that 2026 seems “very realistic,” but he refuses to commit until he understands performance and remaining scope.",
       "quote": null
     }
   ],
   "contributor_findings": {
-    "biobak": [
-      {
-        "topic": "team",
-        "importance": "low",
-        "summary": "Kaze suggests Biobak could help polish/replace an especially old/ugly model in the overworld (one of Kaze’s earliest 3D models).",
-        "quote": null
-      }
-    ],
+    "biobak": [],
     "badub": [
       {
-        "topic": "team",
-        "importance": "medium",
-        "summary": "Kaze reiterates that Badub composed the music used for the second demo (contrasting with earlier stitched-together placeholder music) and reacts to Badub appearing in chat/subscribing during the stream.",
-        "quote": null
-      }
-    ],
-    "zeina": [
-      {
-        "topic": "team",
+        "topic": "milestone",
         "importance": "low",
-        "summary": "Zeina appears via a donation/message (“it’s Kaza time”) and is briefly referenced in planning a social post for the upcoming F3 showcase (timing mentioned around 3:30).",
+        "summary": "Kaze reiterates that the second demo’s music was Badub’s (contrasting with the first demo where Kaze stitched music together himself).",
         "quote": null
       }
     ],
+    "zeina": [],
     "others": [
       {
-        "name": "Dorian",
+        "name": "Viewer (unnamed)",
         "findings": [
           {
-            "topic": "team",
-            "importance": "medium",
-            "summary": "Kaze cites Dorian’s flamethrower VFX as significantly better than the current effect and considers reaching out for help to upgrade overworld effects.",
+            "topic": "community",
+            "importance": "low",
+            "summary": "A viewer mentions a scrapped 'Mario Bros arcade mode' concept from SM64; Kaze says it’s his first time hearing about it and hadn’t considered it.",
             "quote": null
           }
         ]
@@ -138,9 +106,9 @@
         "name": "ZeroVolt",
         "findings": [
           {
-            "topic": "team",
+            "topic": "technical",
             "importance": "low",
-            "summary": "ZeroVolt appears in chat; discussion nearby touches the music conversion tool inserting problematic comments (converter behavior), implying ongoing reliance on conversion tooling and occasional cleanup work in the pipeline.",
+            "summary": "ZeroVolt appears in chat while Kaze is fixing a music-sequence conversion issue; Kaze attributes the problematic comment to the converter/toolchain rather than the composer.",
             "quote": null
           }
         ]
@@ -150,97 +118,106 @@
   "memorable_quotes": [
     {
       "speaker": "Kaze",
-      "quote": "The overworld is going to take the levels from being like a 7 out of 10 to a 9 out of 10.",
-      "context": "He argues the overworld is the main differentiator that will make the project feel cohesive and elevate perceived quality beyond individual courses."
+      "quote": "The overworld is the most important part of the game… the overworld is going to take the levels from being like a 7 out of 10 to a 9 out of 10.",
+      "context": "He argues that the overworld is not optional set dressing but the thing that elevates the entire hack’s perceived quality and cohesion."
     },
     {
       "speaker": "Kaze",
-      "quote": "95 percent of successful YouTubers that do game creation online… they don't want to be game creators, they want to be YouTubers.",
-      "context": "A blunt statement about authenticity in online game-dev content, useful for framing Kaze’s identity and motivation in the documentary."
+      "quote": "95 percent of successful YouTubers that do game creation online… they don’t want to be game creators, they want to be YouTubers.",
+      "context": "A candid philosophy rant about authenticity in public-facing game dev and why he distrusts “game-dev content” that isn’t anchored in real production."
     },
     {
       "speaker": "Kaze",
-      "quote": "If there is a gambling sponsor and they offer me like 50k a video I'm doing it. That's like my child's college fund right there.",
-      "context": "A candid, ethically messy aside about finances/sponsorship that could open discussion about funding pressures and sustainability."
+      "quote": "If there is a gambling sponsor and they offer me like 50k a video, I’m doing it. That’s like my child’s college fund right there.",
+      "context": "A raw, morally gray aside about money pressures and compromise—useful for probing how he balances creator identity with financial reality."
     }
   ],
   "key_stories": [
     {
-      "title": "Overworld as the project’s quality multiplier",
-      "summary": "While doing overworld polish and beta-prep updates, Kaze insists the overworld is the most important component for the final experience. He describes it as the element that will transform strong standalone levels into a cohesive, higher-quality game.",
-      "challenge": "Making the hack feel like a complete, new-yet-respectful Mario 64-like adventure rather than a set of disconnected courses, while also controlling sightlines and polygon budgets.",
-      "process": "He iterates on overworld visuals (animated caustics, water look), fixes warps and pop-in issues, and considers player movement constraints to preserve intended angles and hide other areas.",
-      "outcome": "Overworld becomes the focus of the next phase, positioned as the key step from “done levels” to “finished game.”",
-      "key_quote": "The overworld is going to take the levels from being like a 7 out of 10 to a 9 out of 10.",
+      "title": "The project crosses into an overworld-only phase",
+      "summary": "Kaze states that the main course lineup is complete and that remaining work is now concentrated on the overworld and a few side areas. He frames the overworld as the piece that makes the whole experience feel like a cohesive new game rather than a set of levels.",
+      "challenge": "How to turn a collection of finished courses into a unified, high-quality game experience with pacing, secrecy, and visual cohesion.",
+      "process": "He begins beta-prep polish: fixing warps, draw distance, collision exploits, and upgrading water/caustics visuals; he also flags systemic redesigns (Yoshi coins, retro-section rework).",
+      "outcome": "Clear milestone: 'all 15 courses are done' and the production focus shifts to overworld execution, with multiple polish and redesign tasks queued.",
+      "key_quote": "The overworld is the most important part of the game…",
       "related_to": ["kaze"]
     },
     {
-      "title": "The build suddenly stops working: tracing hidden segment dependencies",
-      "summary": "Mid-stream, Kaze encounters a scary failure where the ROM won’t build, seemingly even for older commits. After suspecting local corruption, he discovers that a previously removed ‘useless’ segment/file is still referenced during linking (manifesting as BBH/leveldata build errors).",
-      "challenge": "A blocking build error with unclear cause, compounded by the observation that older revisions also fail, which undermines confidence in version control as a safety net.",
-      "process": "He tests older commits, diffs files, clears build folders, considers WSL/system issues, and then isolates the problem to removed segments by reintroducing a placeholder file (‘spooky’) that restores the build; he then tries to remove the dependency properly rather than keeping a hack.",
-      "outcome": "Build is restored via re-adding the referenced segment, but Kaze still needs to properly unlink/clean the dependency and fix intro/segment configuration afterward.",
+      "title": "Loading-time push: new decompression and the async DMA dead-end (for now)",
+      "summary": "Kaze shares an engine upgrade that speeds decompression and slightly reduces size, aimed at noticeable loading compared to vanilla SM64. He also describes an unshipped idea—async DMA—that fails specifically on real N64 hardware.",
+      "challenge": "Reduce loading times while maintaining stability on real N64 hardware, not just emulator/dev environments.",
+      "process": "He imports a new decompression algorithm (credited to iClub) and evaluates loading; in parallel he discusses async DMA experimentation but notes a hardware-only crash that’s difficult to reproduce elsewhere.",
+      "outcome": "Decompression upgrade lands (measurable speed gain); async DMA remains blocked by real-hardware crashes.",
       "key_quote": null,
       "related_to": ["kaze"]
     },
     {
-      "title": "Music import bug caused by converter-inserted pan-mix comment",
-      "summary": "A music sequence fails due to an inserted directive (‘chan set pan mix’) that Kaze says is unsupported and functionally undesirable. He shows how quickly he can remove/fix the directive and re-export to restore correct panning and playback.",
-      "challenge": "Tooling/conversion artifacts introduce subtle playback bugs that can appear repeatedly across tracks.",
-      "process": "He opens the music sequence, identifies the inserted comment, explains why it’s unwanted, removes/adjusts it, and re-exports to prove the fix is simple.",
-      "outcome": "The immediate issue is fixed; Kaze notes the comment appears again elsewhere, implying the pipeline may keep reintroducing it and may need a broader prevention step.",
-      "key_quote": "You never want to use it anyway… that's why it's an unsupported comment.",
-      "related_to": ["kaze", "badub"]
+      "title": "A scary build failure traced to “useless” assets that weren’t useless",
+      "summary": "Mid-stream, the ROM abruptly stops building—even older commits fail—prompting Kaze to suspect repository or filesystem corruption. He eventually connects the break to a prior cleanup commit that removed globally linked segments; restoring a missing segment file gets BBH building again, revealing hidden coupling in the build system.",
+      "challenge": "The project’s build pipeline becomes unreliable: the ROM won’t compile, and rolling back commits doesn’t help.",
+      "process": "He diffs/rolls back, clears build artifacts, considers WSL/PC restart, and then inspects a past commit ('killed useless files'). By reintroducing a removed segment (a 'spooky' segment file), he proves something is being referenced/linked everywhere and starts experimenting with unlinking/placeholder data.",
+      "outcome": "Immediate crisis reduced: the build can be made to compile again by restoring the missing segment, but the underlying linkage/unlinking problem isn’t fully resolved before he leaves for F3.",
+      "key_quote": "I can’t build the build that we were building at the start of the stream anymore.",
+      "related_to": ["kaze"]
+    },
+    {
+      "title": "Purging vanilla SM64: ROM size reclaimed and identity reinforced",
+      "summary": "Kaze describes deleting unused SM64 actor groups to reclaim ROM space and asserts that the final ROM will not contain original SM64 content that isn’t reimported. It’s both a technical optimization and a statement about authorship/identity of the hack.",
+      "challenge": "Fit a large, modernized hack into N64-era constraints while also distancing the project from 'just SM64 with edits.'",
+      "process": "He removes unused actor groups/assets (saving ~0.5MB) and commits to a full replacement approach rather than leaving remnants of vanilla content.",
+      "outcome": "More ROM headroom and a clearer philosophical stance: a rebuilt game on SM64 tech rather than a patched SM64.",
+      "key_quote": "Not a single thing that isn’t reimported.",
+      "related_to": ["kaze"]
     }
   ],
   "open_questions": [
     {
-      "topic": "Yoshi Coin redesign",
-      "context": "Kaze says they are going to change how Yoshi Coins work but does not describe the new behavior, criteria, or purpose.",
+      "topic": "Overworld as the “9/10” multiplier",
+      "context": "Kaze claims the overworld is the most important part of the game and must restrict player angles/routes to control what they can see and keep budgets manageable.",
       "questions": [
-        "What problem with the current Yoshi Coin implementation motivated the change (difficulty, clarity, collectathon pacing, reward structure)?",
-        "What will the new Yoshi Coin rules be (tracking across levels, spending/unlocks, star gating, overworld integration)?",
-        "How do Yoshi Coins reinforce the ‘Yoshi’s Island’ identity while still feeling at home in SM64’s structure?"
+        "What specific problems in earlier demos made you realize the overworld would be the thing that elevates the whole project?",
+        "How do you decide where to restrict player movement versus letting them explore—especially when restrictions are partly about hiding other areas and polygon limits?",
+        "What are the non-negotiables for the overworld to feel like a 'new game' rather than a hub with doors?"
       ],
       "related_to": ["kaze"]
     },
     {
-      "topic": "Retro section rework inspired by Bobby Ivor cave depth",
-      "context": "Kaze dislikes the current retro section (tight walls, not matching his memory/intent) and wants a version that evokes a deeper cave/background environment like a reference video.",
+      "topic": "Retro section redesign (Bobby Ivor inspiration)",
+      "context": "Kaze dislikes the current retro area (tight walls, “kind of bad”) and wants a deeper cave/backdrop look inspired by a video reference.",
       "questions": [
-        "What was the original intent of the retro section (tone, nostalgia target, gameplay twist), and why does the current version fail that intent?",
-        "What specific visual tricks will sell the depth/background cave look on N64 (parallax, matte painting style geometry, fog, constrained camera angles)?",
-        "How will you prevent the retro section from feeling like a gimmick that disrupts the overworld’s cohesion?"
+        "What did the current retro section fail to achieve—tone, readability, movement, or simply vibe?",
+        "What was it about the Bobby Ivor cave composition that felt right for your retro section, and how do you translate that into N64 constraints?",
+        "Is the retro section supposed to be a short novelty, a core traversal space, or a thematic statement about the project’s relationship to the past?"
       ],
       "related_to": ["kaze"]
     },
     {
-      "topic": "Overworld movement constraints vs player freedom",
-      "context": "Kaze mentions needing to limit player traversal to protect sightlines and hide other overworld areas, partially due to polygon budget and limited angles.",
+      "topic": "Real-hardware instability: async DMA and 60fps mode",
+      "context": "Async DMA appears to crash only on real N64; 60fps is selectable but doesn’t work on real hardware, with recompilation positioned as the better target for high-performance modes.",
       "questions": [
-        "What rules or tools do you use to decide where players are allowed to go in the overworld (invisible walls, collision-only barriers, camera rails, diegetic gates)?",
-        "How do you balance ‘exploration joy’ with the technical necessity of hiding distant geometry/areas on N64?",
-        "Were there any moments where a speedrunner/tester broke the overworld in a way that forced a redesign?"
+        "What evidence convinced you the async DMA crash is truly hardware-specific, and how do you test or reproduce it without clear emulator parity?",
+        "How do you want players to think about the 'real N64' experience versus recomp/PC—are they equal versions or different 'editions' of the game?",
+        "At what point do you decide a feature is 'recomp-only' instead of continuing to chase real-hardware compatibility?"
       ],
       "related_to": ["kaze"]
     },
     {
-      "topic": "Asynchronous DMA idea that crashes only on real N64",
-      "context": "Kaze suggests async DMA could reduce loading but currently causes crashes on real hardware while behaving fine elsewhere, making it hard to debug.",
+      "topic": "Build pipeline coupling revealed by the 'killed useless files' incident",
+      "context": "Deleting supposedly unused segments caused BBH (and overall builds) to fail, implying hidden always-linked dependencies or build-system assumptions.",
       "questions": [
-        "What exactly is the async DMA approach you wanted (what data is loaded asynchronously, and when)?",
-        "How are you validating behavior on real N64 vs emulators, and what tools/logging do you have when the bug only appears on hardware?",
-        "Did you decide to abandon async DMA, or is it still planned for release/recomp builds only?"
+        "What was the exact dependency chain that caused a removed segment to be required by everything—was it linker script behavior, YAML segmentation, or legacy engine assumptions?",
+        "Did this incident change how you approach cleanup/optimization commits going forward (e.g., automated checks, CI builds, smoke tests)?",
+        "How often do these 'invisible coupling' problems happen in SM64 decomp workflows compared to modern engines?"
       ],
       "related_to": ["kaze"]
     },
     {
-      "topic": "Recompilation vs PC port as the best ‘modern’ way to play",
-      "context": "Kaze explains recompilation as more accurate than the current PC port for his shader-heavy visuals, and mentions the recomp’s modding support and engineering effort (wiseguy, Dario).",
+      "topic": "Toolchain friction in music conversion (unsupported comments)",
+      "context": "Kaze demonstrates fixing a 'chan_set_pan_mix' comment inserted by a converter/tool, explaining it breaks intended panning and is considered a bug.",
       "questions": [
-        "When did you decide to prioritize recomp compatibility, and how does that affect your technical choices (shaders, performance modes, asset formats)?",
-        "What are the non-negotiable visuals/features that must match N64 1:1, and what are you willing to enhance on recomp?",
-        "Do you envision ‘Return to Yoshi’s Island’ as a platform for mods on recomp, and if so, what would you want the community to build?"
+        "How common are these 'converter inserted something obsolete' issues, and how much time do they cost across a full OST?",
+        "What does your ideal music pipeline look like now—who owns the final QA step: composer, converter, or you?",
+        "Are there other toolchain constraints (sequence limits, instrument banks, memory) that have shaped composition decisions for Return to Yoshi’s Island?"
       ],
       "related_to": ["kaze"]
     }

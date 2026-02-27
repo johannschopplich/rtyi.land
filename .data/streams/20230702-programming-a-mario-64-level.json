@@ -1,70 +1,88 @@
 {
   "stream_context": {
-    "summary": "Kaze reviews and integrates major visual/model updates from Biobak across the Zoo hub areas (zoo exterior, aquarium, prison, Wario’s office), fixes export/render issues from Fast64/material settings, and debugs a game-breaking interaction/crash bug caused by object-field layout changes. He also outlines upcoming monthly single-course playtesting, discusses readiness work before adding multiplayer, and previews a new animation system that streams frames to allow much longer character animations (e.g., Mari’s dance).",
-    "level": ["Course 1", "Overworld"],
-    "significance": "notable",
-    "significance_reason": "Introduces concrete QA/process changes (monthly course testing), clarifies multiplayer integration intent (all-in-one ROM), reveals major engine/asset-pipeline constraints (Fast64 culling/material pitfalls, engine changes breaking SM64 presets), and contains a clear design philosophy statement about embracing risk vs. modern “frustration-minimized” games plus a substantial debug story (interaction/crash traced to object-field misuse)."
+    "summary": "Kaze reviews a major Biobak-led visual/geo rework of the Zoo level (aquarium, prison, office, props), fixes export/material/render issues (Fast64 quirks, UVs, culling, shade/environment alpha), and identifies a few gameplay/logic bugs introduced by recent engine changes. He also outlines process changes (monthly single-course playtesting), discusses multiplayer implementation goals (all-in-one ROM), shows an important animation breakthrough (streaming animation frames to allow arbitrarily long animations), and shares a clear design philosophy about embracing difficulty and risk over modern “frustration-minimized” design.",
+    "level": ["Course 1"],
+    "significance": "milestone",
+    "significance_reason": "Introduces a new animation system (frame streaming) that changes what’s possible for cutscenes/character acting, establishes a renewed playtesting process, and documents a large integration pass on a heavily reworked Zoo level (plus key engine/material constraints and bug fixes) while reiterating major project direction decisions like built-in multiplayer and open-sourcing the engine/hack."
   },
   "findings": [
     {
-      "topic": "technical",
+      "topic": "milestone",
       "importance": "high",
-      "summary": "Kaze spent the week preparing multiple prerequisites for multiplayer (code prep, stability work, minor performance improvements, and new functionalities) and wants to finish additional groundwork before implementing multiplayer so the integration is easier.",
-      "quote": null
-    },
-    {
-      "topic": "community",
-      "importance": "high",
-      "summary": "Kaze plans to revive “monthly course testing”: distributing a ROM build containing a single course to one external tester per month, to evaluate moment-to-moment gameplay and catch issues early; Course 1 is the first candidate because it’s currently the only course he considers “ready,” and he only wants to test courses after Biobak’s visual reworks to avoid feedback on non-final versions.",
+      "summary": "Kaze plans to restart “monthly course testing”: shipping a ROM containing a single course to one external tester at a time (starting with Course 1) to validate gameplay quality and expectations, prioritizing only courses that have already been reworked by Biobak.",
       "quote": null
     },
     {
       "topic": "technical",
       "importance": "high",
-      "summary": "A regression prevented Mario from talking/interacting with NPCs/objects; Kaze traced it to behavior-script changes that effectively reset interaction state (comments/commands setting interaction subtype/status to 0), then adjusted the relevant value to restore interaction.",
+      "summary": "Kaze demonstrates/mentions smoother level transitions (radius/scale code) and notes recent under-the-hood work toward multiplayer: minor performance improvements, stability fixes, and new functionality prepared specifically to support multiplayer integration.",
       "quote": null
     },
     {
       "topic": "technical",
       "importance": "high",
-      "summary": "Kaze debugged a crash involving object behavior execution where an object field overwrite caused an invalid behavior-script pointer; he identified that a value written into an object field (notably involving an interact type/value at 0x3E) corrupted adjacent fields and concluded he must keep a particular field at 0x40 to avoid the crash.",
+      "summary": "A major animation pipeline breakthrough is introduced: instead of loading a full animation into memory, the engine can stream individual frames. This effectively removes animation length limits (bounded mainly by cartridge/ROM space), enabling longer, more complex dances/cutscenes (e.g., Mari’s dance).",
+      "quote": null
+    },
+    {
+      "topic": "technical",
+      "importance": "high",
+      "summary": "Kaze hits and fixes a regression where NPC/object interaction broke (couldn’t “talk” to penguins/NPCs). Root cause: behavior-script processing/comments reset interaction subtype/status back to 0 after Kaze’s recent change; he patches the logic and confirms it works again.",
+      "quote": null
+    },
+    {
+      "topic": "technical",
+      "importance": "high",
+      "summary": "A crash investigation reveals object-field/behavior corruption tied to a reused object-field offset (0x3E) and related values (e.g., needing 0x40). The key takeaway is that engine changes are colliding with legacy object field layouts, causing behavior script pointers to become invalid and crash in behavior processing.",
+      "quote": null
+    },
+    {
+      "topic": "design",
+      "importance": "high",
+      "summary": "Kaze explicitly decides multiplayer should be built into the main ROM rather than shipped as a separate ROM, because making it separate “feels like cheating” and he wants everything in one cohesive build.",
+      "quote": "Making it a separate ROM kind of feels like cheating to me. I want it all in one ROM."
+    },
+    {
+      "topic": "design",
+      "importance": "medium",
+      "summary": "Biobak’s Zoo overhaul significantly increases environmental readability and “life” (new benches, bushes, funny signs, updated gate, updated prison/aquarium/office dressing, catwalks, treasure-room concept). Kaze’s main integration workload becomes collision remakes, correcting UV/material issues, and reconciling engine-specific material constraints.",
       "quote": null
     },
     {
       "topic": "technical",
       "importance": "medium",
-      "summary": "Kaze demonstrates smoother scene/area transitions: instead of popping in instantly, transitions now slide/animate in from the side, improving presentation.",
+      "summary": "Kaze repeatedly flags Fast64 tooling mismatches with RTYI’s modified engine: Fast64’s SM64 material presets can look correct in stock SM64 but break under RTYI’s engine changes (e.g., environment color alpha / shade color alpha usage causing unexpected visuals). He considers sharing a safer internal material list (e.g., solid materials optimal with final combiner column 0,0,0,1).",
+      "quote": null
+    },
+    {
+      "topic": "technical",
+      "importance": "medium",
+      "summary": "He calls out Fast64 export/render quirks and performance pitfalls: “render bug” cases where Blender/Fast64 preview differs from in-game, culling being enabled by default on assets and generally undesirable (wasted vertices / no benefit in his context), and armature/material optimizations matter most when they reduce texture reloads.",
       "quote": null
     },
     {
       "topic": "team",
       "importance": "medium",
-      "summary": "Biobak delivered extensive reworks to the Zoo areas (zoo exterior, aquarium, prison, office) including new props, benches, signs, lighting, and layout tweaks; Kaze’s role in this stream is primarily integration, validation in-game vs. Fast64 preview, and planning collision-map rebuilds needed after geometry changes.",
-      "quote": null
-    },
-    {
-      "topic": "design",
-      "importance": "medium",
-      "summary": "Aquarium design adjustments include: fixing Unagi transparency/decals, noting Unagi currently enables skipping to the aquarium end (plan: raise a blocking wall to the top), and identifying readability issues where the aquarium glass and water are too invisible (plan: add reflective/tinted glass, possibly fingerprints/coffee stains as a visual cue).",
-      "quote": null
-    },
-    {
-      "topic": "technical",
-      "importance": "medium",
-      "summary": "Kaze repeatedly encounters asset-pipeline issues from Fast64/material settings: Fast64 preview bugs (assets look wrong in-editor but correct in-game), “culling enabled by default” causing broken renders and wasted vertex loads, and use of environment/shade color alpha in materials breaking in RTYI because engine changes mean standard SM64 Fast64 material presets don’t always apply; he suggests a safer material guideline (solid materials should end with a 0 0 0 1-like final column).",
-      "quote": null
-    },
-    {
-      "topic": "technical",
-      "importance": "high",
-      "summary": "Kaze and Zeina discuss a new animation system that streams individual animation frames into memory rather than loading full animations at once; this removes prior length constraints and allows very long animations (limited mainly by cartridge space), which affects planned animations like Mari’s dance.",
+      "summary": "Kaze describes the team pipeline: he originally models and designs levels (with Biobak/chat input), then sends them to Biobak to improve/rework; Zeina contributes some models/animation work but Biobak has reworked several of her earlier models. Kaze is actively waiting on an updated Wario model before fully committing to Wario animation work.",
       "quote": null
     },
     {
       "topic": "philosophy",
       "importance": "high",
-      "summary": "Kaze articulates a core design stance: he intentionally allows more “risk” and friction than many modern games, rejecting “frustration-minimized” design where nothing offends and nothing challenges; he prefers that players can struggle, get briefly stuck, and feel payoff when overcoming obstacles, using modern Pokémon as an example of over-correcting toward low-frustration design.",
-      "quote": "I try not to do that. I refuse to subscribe to that. I want my games to take the risks—there’s a risk something doesn’t work out for the player right away, there’s a risk that they get stuck somewhere and have to struggle to get past the obstacle."
+      "summary": "Kaze articulates a strong design stance against “frustration-minimized” modern game design: he prefers taking risks where players may struggle, get stuck briefly, or fail, because that’s part of making moments feel earned (he cites Pokémon as especially guilty, and notes even Tears of the Kingdom trends that way).",
+      "quote": "I want my games to take the risks… there’s a risk that they get stuck somewhere and have to struggle at all to get past the obstacle."
+    },
+    {
+      "topic": "business",
+      "importance": "medium",
+      "summary": "Kaze states the RTYI engine and the entire hack are intended to be completely open source.",
+      "quote": "The engine will be completely open source. The entire hack here will be open source."
+    },
+    {
+      "topic": "design",
+      "importance": "medium",
+      "summary": "The Antarctic flying minigame gets concrete iteration notes based on feedback: fixing “stuck in corners” behavior may matter more than increasing the time limit; he’s open to a larger neutral zone for control precision; he also designs permanent achievement statues/trophies that unlock for specific performance feats but don’t affect progression, while worrying players may expect tangible rewards and repeatedly restart to chase them.",
+      "quote": null
     }
   ],
   "contributor_findings": {
@@ -72,25 +90,13 @@
       {
         "topic": "design",
         "importance": "high",
-        "summary": "Delivered a large “Zoo” rework pass affecting the look and readability of multiple sub-areas (zoo exterior, aquarium, prison, Wario’s office): new benches/props/signage, revised water look, improved gate textures, more foliage placement, and multiple comedic environmental storytelling details (e.g., ‘Please feed the animals’ sign; burger stand; Wario’s immaculate office contrasted with the grim rest of the level).",
+        "summary": "Biobak delivers a wide-ranging Zoo visual/geo pass (gate, bushes, benches, aquarium layout and lighting, prison cells/cafeteria/props, Wario office set dressing, treasure room coin pile and chest concept, vents as entrance, comedic signage). Kaze’s reaction is largely positive, but integration requires collision remakes and material/shader fixes to match RTYI’s engine.",
         "quote": null
       },
       {
         "topic": "technical",
         "importance": "medium",
-        "summary": "Provided new object/asset zips and blend files (including a chest/coffer concept for the treasure room); Kaze notes Biobak’s Blender files can be structured in unfamiliar/complex ways, sometimes making integration and bone/animation inspection harder.",
-        "quote": null
-      },
-      {
-        "topic": "design",
-        "importance": "medium",
-        "summary": "Proposed/implemented a treasure-room rework where the star reward should be placed inside chests (with considerations like opening from the correct side for animation consistency, and adding a glow to cue the player to punch it).",
-        "quote": null
-      },
-      {
-        "topic": "technical",
-        "importance": "medium",
-        "summary": "Some updates introduced or exposed pipeline problems (e.g., materials combined in ways that complicate identification, some assets shipped with culling enabled, and some materials relying on environment/shade alpha behaviors that don’t translate cleanly under RTYI’s modified engine).",
+        "summary": "Biobak’s assets expose several integration edge cases: UV mapping problems Kaze refuses to ship, transparency/decal mistakes (e.g., Unagi eye texture/decal confusion), culling accidentally enabled, and materials consolidated in ways that can help or hurt depending on whether it reduces texture reloads or increases texture size.",
         "quote": null
       }
     ],
@@ -99,19 +105,19 @@
       {
         "topic": "design",
         "importance": "medium",
-        "summary": "Created and iterated a small but important gameplay decal/texture (“butt print”) for the Zoo interactions; Kaze/Zeina discuss symmetry/mirroring and finalizing it as a clean transparent dot within tight texture constraints (e.g., 12x12).",
+        "summary": "Zeina creates/iterates a small but important UI/visual detail (a symmetrical “butt print” texture) used for gameplay readability/decals, coordinating size and mirroring with Kaze.",
         "quote": null
       },
       {
-        "topic": "technical",
+        "topic": "milestone",
         "importance": "high",
-        "summary": "Is animating “Mari’s dance” and reacts live to the new frame-streaming animation technique that allows much longer animations; credits the usefulness of Yoshi Milkman’s and Zeina’s IK rig for producing better animation quickly.",
+        "summary": "Zeina is actively animating Mari’s dance; Kaze credits the IK rig (from Zeina/Yoshi Milkman) as a major enabler and ties it directly to the new animation frame-streaming technique that removes length constraints.",
         "quote": null
       },
       {
         "topic": "personal",
         "importance": "low",
-        "summary": "Zeina briefly takes over the stream segment while Kaze is away, drawing comedic MS Paint prompts and reinforcing her on-stream creative presence around the project.",
+        "summary": "Zeina briefly takes over the stream while Kaze steps away, drawing comedic art prompts (stinky Wario, cat, elephant Mario) and interacting with chat, showing the couple’s on-stream dynamic.",
         "quote": null
       }
     ],
@@ -122,18 +128,18 @@
           {
             "topic": "design",
             "importance": "medium",
-            "summary": "Updated the level’s zip lines to read more coherently as actual zip lines (improved visual clarity and theme consistency).",
+            "summary": "Lilaa contributes a level art pass element (zip lines updated to look more coherent/readable) and also helps identify a bug context: Kaze’s clipping/animation-format issue appears in the last room Lilaa was sent, suggesting a format transition problem.",
             "quote": null
           }
         ]
       },
       {
-        "name": "ZeroVolt",
+        "name": "Yoshi Milkman",
         "findings": [
           {
-            "topic": "community",
-            "importance": "low",
-            "summary": "Appears briefly in chat; no concrete music conversion work is discussed in this transcript beyond the greeting.",
+            "topic": "technical",
+            "importance": "medium",
+            "summary": "Kaze explicitly credits Yoshi Milkman (along with Zeina) for an IK rig that made Mari’s dance/foot shuffling animation significantly easier to produce.",
             "quote": null
           }
         ]
@@ -143,103 +149,102 @@
   "memorable_quotes": [
     {
       "speaker": "Kaze",
-      "quote": "If your level is shit and people tell you it’s shit, you should still be happy that at least someone is telling you it’s shit. That’s better than people just being nice for no reason.",
-      "context": "Kaze responds to a viewer mentioning a harsh level rating; he frames criticism as valuable QA feedback when it’s specific and honest."
+      "quote": "If your level is shit and people tell you it’s shit, you should still be happy that at least someone’s telling you it’s shit. That’s better than people just being nice for no reason.",
+      "context": "Kaze responds to a harsh YouTube rating of his ROM hack level, reframing criticism as valuable feedback for iteration."
     },
     {
       "speaker": "Kaze",
-      "quote": "I try not to do that. I refuse to subscribe to that. I want my games to take the risks—there’s a risk something doesn’t work out for the player right away, there’s a risk that they get stuck somewhere and have to struggle to get past the obstacle.",
-      "context": "Design philosophy discussion contrasting RTYI’s intended friction/challenge with modern “frustration-minimized” design trends."
+      "quote": "Making it a separate ROM kind of feels like cheating to me. I want it all in one ROM.",
+      "context": "A clear product philosophy decision about how multiplayer should ship and be experienced."
     },
     {
       "speaker": "Kaze",
-      "quote": "The engine will be completely open source. The entire hack here will be open source.",
-      "context": "Kaze answers an F3 question and explicitly states an open-source intention for RTYI’s engine/project, which affects community contributions and documentary framing of preservation/learning."
+      "quote": "I want my games to take the risks… there’s a risk that they get stuck somewhere and have to struggle at all to get past the obstacle.",
+      "context": "Kaze’s explicit stance against “frustration-minimized” modern design, clarifying the intended feel of RTYI challenges."
     }
   ],
   "key_stories": [
     {
-      "title": "Monthly single-course testing returns",
-      "summary": "Kaze proposes a structured external playtest cadence: one course per month, one tester, using ROM builds limited to a single level. He wants feedback focused on gameplay feel and expectation mismatches, and he intends to test only post-Biobak rework versions to avoid wasted iteration.",
-      "challenge": "RTYI’s scope and ongoing art/geo revisions make it easy to get feedback on non-final content, and in-stream testing doesn’t simulate first-time player experience well.",
-      "process": "Plan to curate a course build, select one tester, and repeat monthly (Course 1 first, then Course 2, etc.).",
-      "outcome": "A concrete QA pipeline change is introduced; Kaze still needs to pick the first tester for Course 1.",
-      "key_quote": "We’re going to have one person test the course… just to make sure the gameplay is good.",
-      "related_to": ["kaze"]
+      "title": "Monthly single-course playtesting returns",
+      "summary": "Kaze proposes a structured testing cadence to keep RTYI’s feel honest: one course per month, one tester at a time, focusing on gameplay expectations rather than just asset progress. This signals a shift from pure building to validation, and may shape how difficulty and readability are tuned across the project.",
+      "challenge": "Course quality and moment-to-moment gameplay need external validation without overwhelming testing scope across the whole game.",
+      "process": "Kaze plans to package a ROM containing only one course at a time, selecting courses already reworked by Biobak to avoid feedback on placeholder versions, starting with Course 1.",
+      "outcome": "Process decision made on-stream; Kaze now needs to pick a Course 1 tester and define what feedback he wants captured.",
+      "key_quote": "We are bringing back monthly testing… one person test the course… to make sure that the game is gonna turn out good.",
+      "related_to": ["kaze", "biobak"]
     },
     {
-      "title": "Object interaction and crash bug caused by object-field misuse",
-      "summary": "During testing, Kaze discovers he can no longer talk to NPCs/objects and later hits a crash related to behavior execution. He traces the issues to incorrect interaction state resets and an object-field overwrite that corrupts behavior pointers after engine/object layout changes.",
-      "challenge": "A recent change created a hard-to-notice systemic failure (interaction broke across the level) and a crash tied to invalid behavior command processing.",
-      "process": "He reasons from what he changed recently, inspects behavior script processing, then uses addresses/field offsets to identify a write past the intended object field (notably involving values around 0x3E/0x40) and restores safer values to prevent corruption.",
-      "outcome": "Interaction is restored and the crash source is identified and mitigated; the episode reinforces the fragility of engine modifications and the importance of field-layout discipline.",
-      "key_quote": "Setting that value might cause the behavior script pointer to become an invalid value, which would cause the bug that just happened.",
-      "related_to": ["kaze"]
-    },
-    {
-      "title": "Animation length constraint removed via frame streaming",
-      "summary": "Kaze explains to Zeina that they’re switching to a method where animations are loaded frame-by-frame into memory instead of as a complete animation blob. This allows dramatically longer animations—constrained mainly by cartridge space—unlocking more expressive character moments like Mari’s dance.",
-      "challenge": "Traditional SM64-style animation loading imposes practical limits on animation length and memory usage.",
-      "process": "Adopt a new “stream individual frames” technique and plan to use it for upcoming animation work; Zeina immediately considers extending the dance length.",
-      "outcome": "The team gains a new expressive capability that can change how cutscenes/emotes are designed across the project.",
+      "title": "Animation frame streaming removes length limits for character acting",
+      "summary": "A new animation loading technique changes the ceiling for cutscenes and character personality in RTYI. By streaming individual frames, the team can create longer dances and sequences than traditional N64-era memory assumptions would allow.",
+      "challenge": "Long, expressive animations are typically constrained by memory when loading full animation data at once.",
+      "process": "Kaze explains a technique that loads individual animation frames into memory rather than the full animation, enabling effectively arbitrary length as long as ROM space permits.",
+      "outcome": "Zeina can extend Mari’s dance significantly; the technique sets up more ambitious animation-driven moments later in development.",
       "key_quote": "You can make it as long as you want… we’re loading individual frames of the animation into memory.",
       "related_to": ["kaze", "zeina"]
+    },
+    {
+      "title": "A small engine change breaks all NPC interaction, then gets traced and fixed",
+      "summary": "Kaze’s rapid diagnosis of a “can’t talk to anything” bug shows the cost of engine iteration and the advantage of deep code ownership. It’s also a concrete example of why comprehensive playthrough testing after every change is impractical for a project of this size.",
+      "challenge": "NPC interaction stops working (penguins and other talkable objects), blocking level traversal and mission entry.",
+      "process": "Kaze identifies that behavior-script processing resets interaction subtype/status to 0 after his recent changes; he patches the logic to preserve correct interaction state.",
+      "outcome": "Interaction is restored; Kaze frames this as a predictable, fixable consequence of moving fast rather than fully regression-testing the whole game each change.",
+      "key_quote": "Am I supposed to just play the entire game every time I make any change? That is completely unreasonable.",
+      "related_to": ["kaze"]
+    },
+    {
+      "title": "Zoo integration pass reveals the real work: collisions and engine-specific materials",
+      "summary": "Biobak’s rework makes the Zoo feel more alive, but Kaze’s integration shows the hidden labor: UV cleanup, collision remapping, and correcting material/shader setups that break under RTYI’s modified engine. This is a strong ‘art meets engineering’ story for interviews with both Kaze and Biobak.",
+      "challenge": "A large batch of reworked Zoo assets introduces UV issues, transparency/decal mistakes, culling defaults, and material presets that don’t match RTYI’s engine changes; collision maps need to be remade to fit new geometry.",
+      "process": "Kaze fixes unacceptable UV mapping, tests differences between Fast64 preview and in-game rendering, adjusts transparency/decal setups (e.g., Unagi), disables problematic culling, and notes he must rebuild the collision map for the level.",
+      "outcome": "Visual upgrades largely land successfully in-game, but a sizable to-do remains (collisions, object logic polish, readability like aquarium glass/water visibility).",
+      "key_quote": "The biggest thing is gonna be making all these collisions work.",
+      "related_to": ["kaze", "biobak"]
     }
   ],
   "open_questions": [
     {
-      "topic": "Monthly course testing logistics and selection criteria",
-      "context": "Kaze wants one external tester per month for a single-course ROM build, starting with Course 1, and only after Biobak’s reworks.",
+      "topic": "Monthly one-course testing strategy",
+      "context": "Kaze wants one person per month to test a single course ROM (starting with Course 1), focusing on courses already reworked by Biobak.",
       "questions": [
-        "What exact build format does a ‘single-course ROM’ use (separate entry point, stripped assets, dedicated save)?",
-        "What kind of feedback does Kaze want (timings, difficulty, readability, fun factor), and how will it be collected (form, recorded playthrough, annotated notes)?",
-        "How will testers be chosen to avoid bias (skill level, familiarity with SM64 hacks, hardware vs emulator)?",
-        "What changes are most likely to be made based on those tests—mission structure, movement tuning, collision cleanup, signposting?"
-      ],
-      "related_to": ["kaze"]
-    },
-    {
-      "topic": "Multiplayer integration approach and constraints",
-      "context": "Kaze is doing prerequisite stability/performance work before multiplayer and insists it should live in the same ROM (not a separate ROM) because separating it feels like ‘cheating.’",
-      "questions": [
-        "What technical blockers must be solved before multiplayer can safely land (object syncing, camera, level scripts, save/state management)?",
-        "What drove the decision to keep multiplayer in the same ROM despite complexity—creative vision, user experience, or distribution reasons?",
-        "How will multiplayer affect course design (mission objectives, collectibles, enemy behaviors, minigames like the plane section)?",
-        "What is the relationship between multiplayer delivery and the planned Worms Fortress HD demo timing?"
-      ],
-      "related_to": ["kaze"]
-    },
-    {
-      "topic": "Open-source plan and licensing boundaries",
-      "context": "Kaze states the engine and entire hack will be open source.",
-      "questions": [
-        "What license does Kaze intend to use, and what portions can be safely open-sourced given Nintendo IP concerns (tools, engine changes, original assets, patch scripts)?",
-        "What does ‘open source’ mean practically for RTYI: full repo history, build system, asset pipeline, documentation for contributors?",
-        "How does open-sourcing tie into community contributions (e.g., reviewing PRs, accepting third-party code like RNG/material helpers)?"
-      ],
-      "related_to": ["kaze"]
-    },
-    {
-      "topic": "RTYI engine divergence from SM64 and Fast64 compatibility rules",
-      "context": "Kaze notes Fast64’s SM64 presets can break in RTYI due to engine changes (materials using environment/shade color alpha), and culling enabled in Fast64 frequently causes problems and wasted vertex loads.",
-      "questions": [
-        "What are the key engine/render changes that make standard SM64 material presets unreliable in RTYI?",
-        "What concrete rules/guidelines does Kaze want artists to follow (e.g., ‘final column 0 0 0 1’ for solids, avoid env/shade alpha, disable culling), and where are these documented?",
-        "How often do Fast64 updates break existing assets (e.g., armature offsets), and how does the team version-control toolchains to prevent regressions?",
-        "Would it help to maintain a shared ‘RTYI material library’ file that all contributors import from, and who owns maintaining it?"
+        "What problem were you trying to solve by limiting it to one tester at a time—time, consistency of feedback, or avoiding design-by-committee?",
+        "What exact feedback do you want from a monthly tester (time-to-fun, where they get lost, difficulty spikes, exploits, speedrun routes)?",
+        "How will you choose testers so the feedback represents your target player—not just highly skilled community members?",
+        "What’s your threshold for changing a course based on one person’s feedback versus waiting for more data?"
       ],
       "related_to": ["kaze", "biobak"]
     },
     {
-      "topic": "Frame-streamed animation system implementation details",
-      "context": "Kaze explains a new technique: stream individual animation frames into memory to remove animation length constraints; Zeina is actively animating Mari’s dance using IK rigs.",
+      "topic": "Animation frame streaming: technical and creative implications",
+      "context": "Kaze says animations can be arbitrarily long by streaming frames into memory, enabling longer dances and sequences.",
       "questions": [
-        "How is frame streaming implemented on N64 constraints (DMA strategy, caching, frame timing, decompression if any)?",
-        "What are the tradeoffs vs. classic animation loading (CPU overhead, ROM size, stutter risk), and how will they be tested on hardware/emulators?",
-        "Does this system enable new cinematic ideas (longer emotes, in-engine cutscenes), and how will the team decide where to use it?",
-        "Who created the IK rig(s) credited (Yoshi Milkman/Zeina), and what pipeline makes those rigs compatible with the N64 animation export format?"
+        "What technical tradeoffs did you accept to stream frames (CPU time, DMA complexity, ROM size, emulator compatibility)?",
+        "Was there a specific ‘we can’t do this on N64’ moment that motivated this technique?",
+        "How does this change your creative plans—more cutscenes, more character idles, more comedy beats, or boss animations?",
+        "What did Zeina need from the engine to make Mari’s dance production-friendly (tooling, preview, iteration speed)?"
       ],
       "related_to": ["kaze", "zeina"]
+    },
+    {
+      "topic": "Multiplayer must be in one ROM",
+      "context": "Kaze rejects the idea of a separate multiplayer ROM because it feels like cheating and wants it all in one build.",
+      "questions": [
+        "What does ‘cheating’ mean to you here—community expectations, technical pride, preservation, or the feel of a cohesive product?",
+        "How early did you commit to multiplayer being integrated, and what design areas does that decision constrain (movesets, camera, level layouts, mission scripting)?",
+        "What would have to go wrong for you to reconsider and ship it separately anyway?",
+        "How do you plan to keep single-player pacing intact while engineering for multiplayer from the same codebase?"
+      ],
+      "related_to": ["kaze"]
+    },
+    {
+      "topic": "Open-sourcing the engine and hack",
+      "context": "Kaze states both the engine and the entire hack will be open source.",
+      "questions": [
+        "When did you decide ‘fully open source’—and what do you hope it changes for the community after release?",
+        "How are you thinking about Nintendo/legal risk and distribution logistics if the whole hack is open sourced?",
+        "What parts are you most excited for others to learn from or build on (animation streaming, multiplayer, rendering pipeline, tooling)?",
+        "Do you worry open sourcing will increase forks that dilute the ‘official’ RTYI experience, or do you see that as a win?"
+      ],
+      "related_to": ["kaze"]
     }
   ]
 }

@@ -1,81 +1,98 @@
 {
   "stream_context": {
-    "summary": "Kaze continues building Course 11 (nicknamed “Oily Boily Bay”), focusing on new platforming mechanics (timed wind turbines and crane hooks) for the red-coin mission layout. He discusses ROM size limits (targeting 64MB), level flow ideas (wrapping platforms around Bowser), performance/visual ambitions (very long draw distance on real N64 with interpolation artifacts under 30 FPS), and broader design philosophy about avoiding excessive cosmetic options.",
+    "summary": "Kaze continues building Course 11 (provisionally titled “Oily Boily Bay”), focusing on new platforming mechanics: a timed wind-turbine actor (vertical and horizontal variants) and hookable cranes for red-coin traversal. The stream also includes performance/engine talk (ROM size, FPS gains, real N64 footage with extreme draw distance), plus broader creator-life topics: YouTube vs Twitch, video strategy, and a recent tennis-elbow diagnosis.",
     "level": ["Course 11 – Oily Boily Bay"],
     "significance": "notable",
-    "significance_reason": "Introduces/implements a key new movement mechanic (timed wind turbines) and a reusable crane-hook attachment system, plus substantial commentary on design philosophy (options, difficulty) and N64 performance goals (draw distance, FPS/interpolation)."
+    "significance_reason": "Introduces and debugs a new core traversal mechanic (timed turbines) and expands traversal tooling (hookable cranes), while also surfacing meaningful creator/business context (Twitch→YouTube transition, algorithm frustration) and engine/performance milestones (ROM size tracking, real N64 showcase)."
   },
   "findings": [
     {
+      "topic": "milestone",
+      "importance": "medium",
+      "summary": "Course 11 is the current focus (11 of 15 total courses), with major areas largely modeled and attention shifting toward platforming mechanics and mission structure.",
+      "quote": null
+    },
+    {
+      "topic": "technical",
+      "importance": "high",
+      "summary": "Kaze confirms the project is being kept within the N64’s 64MB ROM ceiling; during the stream the build sits around ~42.8MB while editing content as he goes.",
+      "quote": null
+    },
+    {
       "topic": "design",
       "importance": "high",
-      "summary": "Course 11’s red-coin mission is being designed around new traversal toys—especially wind turbines that launch Mario vertically/horizontally—because Kaze feels the level currently lacks enough platforming mechanics for engaging red-coin routing.",
+      "summary": "He defines the three mission slots/ideas for the course (including a boss-focused mission and a separate “eaten by a block” sub-area concept), and frames the power-generator zone as a key setpiece for traversal and red coins.",
+      "quote": null
+    },
+    {
+      "topic": "design",
+      "importance": "high",
+      "summary": "Kaze prototypes a wind-turbine platforming mechanic and decides it should likely operate on an on/off timing cycle to create deliberate timing jumps (e.g., long jump into a turbine at the right moment to get launched farther).",
+      "quote": null
+    },
+    {
+      "topic": "technical",
+      "importance": "high",
+      "summary": "He implements the turbine behavior by referencing/adapting existing windmill/propeller code, adds parameters for timing and direction, adjusts collision so players don’t fall into the turbine, and iterates on acceleration, max speed, and particle direction/feedback.",
+      "quote": null
+    },
+    {
+      "topic": "technical",
+      "importance": "high",
+      "summary": "A major blocker appears when trying to rotate turbines to different orientations: Euler-angle/gimbal-lock behavior prevents achieving the desired axis rotation. Kaze resolves it by rotating the model 90° in the 3D asset itself and creating a separate oriented model variant so the in-engine rotation behaves correctly.",
       "quote": null
     },
     {
       "topic": "design",
       "importance": "medium",
-      "summary": "Kaze considers reshaping the course’s macro layout by creating a circular/wrapping platform path around Bowser (instead of a secluded construction-beam section), so the ‘secluded’ space becomes visually and gameplay-distinct rather than an awkward dead zone.",
-      "quote": null
-    },
-    {
-      "topic": "technical",
-      "importance": "high",
-      "summary": "Kaze implements a turbine behavior with timed on/off periods (timing challenge) and directional variants, tuning acceleration, max push, and particle direction; he borrows/repurposes logic from an existing windmill/propeller behavior in the codebase.",
-      "quote": null
-    },
-    {
-      "topic": "technical",
-      "importance": "high",
-      "summary": "A major blocker for turbine orientation is engine rotation behavior (Euler/gimbal lock). The practical fix is to rotate the turbine model in the 3D asset itself (creating a separate rotated model) rather than relying on pitch/roll/yaw at runtime.",
-      "quote": "MFs will never believe you how fucking hard it was to make this thing spin this way around."
-    },
-    {
-      "topic": "technical",
-      "importance": "medium",
-      "summary": "Kaze flags a recurring pipeline reality: some geometry/texturing decisions are driven by triangle budget and visual readability (e.g., turbine initially ~150 tris, later reduced; texture choice affects whether the turbine ‘reads’ as metal and whether rotation looks correct under lighting).",
-      "quote": null
-    },
-    {
-      "topic": "technical",
-      "importance": "high",
-      "summary": "The project is still targeting a 64MB ROM ceiling; Kaze shows the current build at ~42.8MB while working in Course 11, implying remaining budget must cover later courses, assets, and systems.",
-      "quote": null
+      "summary": "Red-coin platforming is planned to be “baby easy,” emphasizing readability and avoiding awkward requirements like back-jumps; he places early red coins around turbines to make the intended movement obvious.",
+      "quote": "Basically anything should be possible without a back jump."
     },
     {
       "topic": "philosophy",
-      "importance": "high",
-      "summary": "Kaze pushes back against adding lots of cosmetic toggles (UI meters/fonts/legacy HUD variants), arguing too many options dilute a cohesive vision; he views meaningful options as those that materially affect play (e.g., accessibility, tutorial toggles) rather than ‘preference cloning’ of the original.",
-      "quote": "At that point, just make your own game."
-    },
-    {
-      "topic": "design",
       "importance": "medium",
-      "summary": "He debates difficulty structure: a very hard final level is only fair if optional completion content exists as a ‘buffer’ so casual players can still feel finished; he leans toward a tough finale but worries about 100% frustration.",
-      "quote": null
+      "summary": "Kaze argues against excessive cosmetic toggles (old/new UI elements, fonts, meters), saying that beyond accessibility and meaningful gameplay settings, too many options dilute design intent and add unproductive work.",
+      "quote": "At that point, just make your own game."
     },
     {
       "topic": "technical",
       "importance": "medium",
-      "summary": "Kaze describes one of the hardest past bugs: a DMA copy depended on stack alignment (16-byte), causing invalid data only on real N64 (not emulators), making it difficult to diagnose—highlighting how hardware-accurate constraints shape development.",
+      "summary": "He adds/extends crane traversal by making hooks that can attach to crane actors via a simple hierarchical setup (placing actors near each other to auto-attach), then tunes positioning/rotation to enable skillful “pro gamer” movement on cranes.",
       "quote": null
+    },
+    {
+      "topic": "technical",
+      "importance": "high",
+      "summary": "Engine/performance context: Kaze cites major FPS gains since earlier engine rewrites (e.g., the “zoo” area improving from ~9 FPS on the original engine to ~40–50 now) and shows real N64 footage of Course 1 with extreme/infinite draw distance; he notes interpolation artifacts below 30 FPS that may need fixing and acknowledges current instability/crashes despite fast performance.",
+      "quote": "I literally don’t even think it’s crazy to say anymore that this looks like a GameCube game."
     },
     {
       "topic": "business",
       "importance": "medium",
-      "summary": "Kaze explicitly states he is trying to transition streaming from Twitch to YouTube due to Twitch ‘going down the gutter,’ and is encouraged by a record ~50 live viewers on YouTube during this stream.",
+      "summary": "He’s actively transitioning streaming from Twitch to YouTube, celebrates a ~50-viewer record on YouTube, and frames Twitch as “going down the gutter,” making YouTube growth strategically important.",
+      "quote": null
+    },
+    {
+      "topic": "business",
+      "importance": "high",
+      "summary": "Kaze vents that an April Fools “touching grass” meme video outperformed several high-effort technical and level-preview videos, reinforcing his belief that YouTube currently rewards background-noise content and pushes creators toward more shitposting.",
+      "quote": "This stupid fucking meme video, 160k… No one gives a shit about anything."
+    },
+    {
+      "topic": "personal",
+      "importance": "medium",
+      "summary": "Personal update: his bike was stolen (putting him in a bad mood), and he missed a stream due to a long doctor visit where he was diagnosed with tennis elbow; he rejects suggested painkillers and a cortisol injection, preferring to self-treat and expressing frustration with the healthcare system.",
+      "quote": null
+    },
+    {
+      "topic": "technical",
+      "importance": "medium",
+      "summary": "He briefly identifies one of the hardest past bugs he’s faced: a DMA copy issue tied to a stack variable causing 16-byte alignment problems that only manifested on real N64 hardware (not emulators), making it difficult to diagnose.",
       "quote": null
     }
   ],
   "contributor_findings": {
-    "biobak": [
-      {
-        "topic": "technical",
-        "importance": "low",
-        "summary": "Biobak is referenced as being in chat while Kaze struggles to locate an old texture/PSD; Kaze notes it may be faster to recreate than to track down the original source file, reflecting asset-management friction in a long-running hack.",
-        "quote": null
-      }
-    ],
+    "biobak": [],
     "badub": [],
     "zeina": [],
     "others": [
@@ -85,13 +102,19 @@
           {
             "topic": "community",
             "importance": "low",
-            "summary": "Lilaa previously complained about the camera framing; Kaze adjusted the stream camera setup after seeing the point of the feedback.",
+            "summary": "Lilaa previously complained about the stream camera framing; Kaze adjusted it and solicited feedback on whether it works better now.",
+            "quote": null
+          },
+          {
+            "topic": "community",
+            "importance": "medium",
+            "summary": "Lilaa provides a new stream banner asset during the stream; Kaze adopts it immediately and praises it, noting how hard it is to find good YouTube banner references.",
             "quote": null
           },
           {
             "topic": "technical",
-            "importance": "low",
-            "summary": "Lilaa offers to ‘fix’ cutout/outline issues (black borders) and sends a texture to Kaze during the stream; Kaze attempts an indexed-color workflow experiment to address the cutout issue but doesn’t resolve it immediately.",
+            "importance": "medium",
+            "summary": "A contributor suggestion (in chat) proposes tying turbine particle spawn speed to the turbine’s angular speed and smoothing acceleration; Kaze agrees and implements the idea during debugging.",
             "quote": null
           }
         ]
@@ -101,97 +124,72 @@
   "memorable_quotes": [
     {
       "speaker": "Kaze",
+      "quote": "This stupid fucking meme video, 160k… No one gives a shit about anything.",
+      "context": "He compares view counts between high-effort programming/level work and a viral April Fools meme, revealing frustration with what the platform rewards."
+    },
+    {
+      "speaker": "Kaze",
       "quote": "At that point, just make your own game.",
-      "context": "Kaze arguing against adding endless cosmetic/legacy UI options and advocating for a coherent, opinionated presentation."
-    },
-    {
-      "speaker": "Kaze",
-      "quote": "MFs will never believe you how fucking hard it was to make this thing spin this way around.",
-      "context": "After fighting gimbal lock/rotation order issues, he resorts to rotating the turbine model in the asset to get the intended behavior."
-    },
-    {
-      "speaker": "Kaze",
-      "quote": "Guys, I’m good at programming. I’m not good with technology.",
-      "context": "While debugging editor/tooling issues (VS Code squiggles, workflow friction), he separates programming ability from tool wrangling—useful characterization for the documentary."
+      "context": "His pushback against viewers asking for endless cosmetic toggles (old HUD, meters, fonts), emphasizing authorial intent and scope control."
     }
   ],
   "key_stories": [
     {
-      "title": "Building the wind turbine mechanic (and losing to gimbal lock)",
-      "summary": "Kaze prototypes wind turbines as a new platforming mechanic for Course 11’s red-coin area, aiming for snappy movement and timing-based launches. Midway, he discovers the engine’s rotation application causes gimbal lock-like behavior, making pitch/roll/yaw unusable for the orientation he needs.",
-      "challenge": "A turbine that pushes Mario in the right direction needs correct rotation and readable feedback (particles/animation), but Euler rotations behave unpredictably in this engine setup.",
-      "process": "He reuses an existing windmill/propeller behavior as a base, adds on/off timing parameters, tunes acceleration/max push, and iterates on particle direction. When rotation fails, he experiments with different axes/orders, then ultimately rotates the model in the 3D asset itself as a workaround.",
-      "outcome": "A functional timed turbine system exists (vertical and horizontal variants), and turbines become a cornerstone mechanic for red-coin routing; the pipeline now includes ‘pre-rotated’ turbine models to avoid engine rotation pitfalls.",
+      "title": "Building the timed wind-turbine mechanic (and losing a fight to gimbal lock)",
+      "summary": "Kaze designs a new turbine traversal tool intended to create timing-based jumps and satisfying movement in Course 11’s industrial/oil setting. The effort becomes a case study in how small-feeling mechanical features can explode into deep technical and asset-pipeline problems on a retro engine.",
+      "challenge": "Create vertical/horizontal turbines that push Mario reliably, look readable, and support red-coin platforming—while fighting engine rotation limitations (Euler/gimbal lock).",
+      "process": "He adapts existing windmill/propeller code, adds timing (on/off cycles) and direction parameters, tunes acceleration/max speed, fixes collision so Mario can’t fall into the turbine, and improves particle feedback. When rotations refuse to behave (yaw/roll/pitch not affecting the expected axis), he diagnoses gimbal lock and ultimately rotates the turbine model in the 3D asset to produce a separate oriented variant.",
+      "outcome": "A working turbine actor exists with timing-based behavior and usable vertical/horizontal variants, enabling planned red-coin routes; however, the solution requires asset duplication/orientation work and highlights engine constraints.",
       "key_quote": "MFs will never believe you how fucking hard it was to make this thing spin this way around.",
       "related_to": ["kaze"]
     },
     {
-      "title": "Hardware-only DMA alignment bug as a reality check",
-      "summary": "Kaze recounts a difficult historical bug where DMA copying produced invalid values only on real N64 hardware, not emulators. The root cause was stack-pointer misalignment (not 16-byte aligned) depending on call context.",
-      "challenge": "A bug that cannot be reproduced reliably in emulators is hard to isolate, and it undermines confidence in builds that seem stable in development tools.",
-      "process": "He traced the issue to a stack variable used in a DMA copy path, linking incorrect behavior to alignment requirements and call-site stack layout.",
-      "outcome": "The story reinforces why RTYI development must respect real-console constraints and why testing on hardware can change priorities and timelines.",
-      "key_quote": "DMA copy would produce invalid values only on real N64 and not on the emulator.",
+      "title": "A meme beats the work: YouTube incentives vs serious dev videos",
+      "summary": "Kaze openly wrestles with the mismatch between what he values (technical breakthroughs, level work) and what the algorithm rewards (jokes and background-noise content). This becomes both a business decision point and a creative identity tension he’s actively navigating.",
+      "challenge": "High-effort engineering and level-preview videos underperform compared to an April Fools meme, threatening motivation and shaping what content he ‘should’ make.",
+      "process": "He compares view counts across multiple uploads, theorizes that YouTube has entered a “background noise” era, and brainstorms clickbaitier/ChatGPT-generated video ideas while acknowledging his core audience split (programmers vs casual viewers).",
+      "outcome": "He considers making a similar April 1st video annually as a tradition, while still wanting to pursue deep technical topics—even if they draw fewer views.",
+      "key_quote": "Even though that video was an April Fool’s joke, it did better than most of my normal videos.",
       "related_to": ["kaze"]
     },
     {
-      "title": "Designing difficulty without ‘misery loops’",
-      "summary": "Kaze discusses difficulty and player support systems while considering suggestions like purchasable ‘bubbles’ to prevent falling. He argues that shop-based consumables can create a repetitive, demoralizing loop (leave level → buy item → retry → repeat) rather than improving core movement satisfaction.",
-      "challenge": "Making challenging content (especially a potentially hard final level) without turning failure into tedious meta-grinding or adding excessive ‘options’ that erode the intended experience.",
-      "process": "He evaluates proposed assists (bubbles, checkpoints-as-options) against a principle of keeping tension high but misery low, preferring level design and clear movement expectations over external crutches.",
-      "outcome": "No assist system is adopted here, but the discussion clarifies the project’s stance on difficulty tuning and what kinds of player aids are acceptable.",
-      "key_quote": "It adds a lot of misery to the game and takes away the tension.",
+      "title": "Proving the engine: real-N64 footage with extreme draw distance and big FPS gains",
+      "summary": "Kaze uses real-hardware footage to show how far the project’s engine optimizations have pushed Mario 64 visually—especially draw distance and scene complexity. It’s a credibility moment: he’s not just promising improvements; he’s demonstrating them on original hardware.",
+      "challenge": "Make large, detail-heavy RTYI environments run acceptably (and look modern) under N64 constraints; also address artifacts when FPS dips below 30 due to interpolation behavior.",
+      "process": "He references earlier performance baselines (e.g., the zoo area at ~9 FPS on the original engine), describes subsequent rewrites and major optimizations, then demonstrates Course 1 with near-infinite draw distance on N64 while observing interpolation glitches around ~20 FPS.",
+      "outcome": "The project is positioned as visually comparable to later-generation consoles in some scenarios, with remaining technical debt around stability/crashes and low-FPS interpolation edge cases.",
+      "key_quote": "Look at this. This is an N64 game.",
       "related_to": ["kaze"]
     }
   ],
   "open_questions": [
     {
-      "topic": "Course 11 red-coin mission structure and mechanics",
-      "context": "Kaze is actively inventing the red-coin route for Course 11, anchored by turbines, cranes/hooks, and moving platforms, but he’s still unsure how the underground section and some platforming ‘tricks’ should work.",
+      "topic": "Final-level difficulty vs 100% completion expectations",
+      "context": "Kaze wants a very hard final level/boss, but worries that if one level is much harder than the rest, 100% players will get disproportionately frustrated. He suggests a buffer of ~44–45 Yoshi stars so casual players can finish without full completion, while completionists face the hardest content.",
       "questions": [
-        "What is the final intended layout for Course 11’s underground section (theme, mechanics, objective), and how does it connect back to the main area?",
-        "What other mechanics besides turbines/cranes were considered to make the red-coin mission feel varied (e.g., oil spots, buttons that invert turbine states)?",
-        "How do you decide when a red-coin route is ‘baby easy’ versus frustrating, given Mario 64’s movement variance?"
+        "What’s your ideal ‘contract’ with the player for RTYI—should beating the story be accessible while 100% is brutally hard, or should difficulty stay consistent throughout?",
+        "Do you envision the final level being gated by a specific completion threshold (e.g., all Yoshi stars), and how did you land on that threshold?",
+        "Can you recall other games that shaped your thinking here (positive or negative examples), and what you want RTYI to avoid?"
       ],
       "related_to": ["kaze"]
     },
     {
-      "topic": "Rotation system limitations and engine-level solution",
-      "context": "Turbine orientation required rotating the model in the asset due to gimbal lock/rotation order issues; runtime pitch/roll/yaw did not behave as expected.",
+      "topic": "Where to draw the line on player options (accessibility vs scope creep)",
+      "context": "Kaze is annoyed by requests for cosmetic toggles (old HUD/meters/fonts) and prefers fewer, more meaningful options. He’s open to some accessibility-like options (e.g., tutorials off), but doesn’t want every detail configurable.",
       "questions": [
-        "Is the rotation issue a known limitation of the current actor/transform pipeline, and could it be solved engine-side (e.g., quaternions) instead of per-asset workarounds?",
-        "How many other objects/behaviors in RTYI require ‘pre-rotated’ duplicate models because of transform limitations?",
-        "Did this influence how Zeina/other artists are asked to export assets (naming conventions, orientation standards)?"
-      ],
-      "related_to": ["kaze", "zeina"]
-    },
-    {
-      "topic": "ROM size and content budgeting",
-      "context": "Kaze shows the project at ~42.8MB while targeting a 64MB cap, with 15 courses total (currently working on Course 11).",
-      "questions": [
-        "What is the planned asset budget for the remaining courses and overworld—do you track size per course, per asset type (textures/music/geo), or only at the ROM level?",
-        "What content is most likely to be cut or compressed if the project approaches the 64MB ceiling?",
-        "Are there technical reasons you chose 64MB specifically (hardware flashcarts/emulator expectations), or is it a design constraint to stay ‘N64-authentic’?"
+        "What criteria do you use to decide ‘this should be an option’ versus ‘this is the definitive RTYI experience’?",
+        "Have viewer requests for options ever changed your mind in a meaningful way—either adding something you later liked or refusing something that later caused backlash?",
+        "How do you want players to talk about RTYI—one shared experience, or many personalized variants?"
       ],
       "related_to": ["kaze"]
     },
     {
-      "topic": "Performance goals on real N64 (draw distance + interpolation artifacts)",
-      "context": "Kaze showcases extremely long draw distance on real N64 and notes interpolation/rotation flicker artifacts under ~30 FPS, plus prior large performance gains (e.g., ‘cashbox optimization’).",
+      "topic": "Stability and performance roadmap (especially real-N64 edge cases)",
+      "context": "Kaze says the game currently runs fast but isn’t stable (crashes). He also observes interpolation artifacts when FPS drops below 30 and highlights past bugs that only happened on real N64 (DMA alignment).",
       "questions": [
-        "What is the interpolation system doing to make 20 FPS look smoother, and what specifically causes the rotation/visual flicker under 30 FPS?",
-        "What were the biggest engine optimizations that enabled the ‘GameCube-like’ look (e.g., cashbox optimization), and what tradeoffs did they require?",
-        "Which levels/areas are still expected to be worst-case FPS, and how do you decide whether a slowdown is acceptable (scenery vista vs platforming section)?"
-      ],
-      "related_to": ["kaze"]
-    },
-    {
-      "topic": "Final level difficulty and completion structure",
-      "context": "Kaze wants a very hard final/boss level but worries about frustrating 100% players; he suggests optional content might act as a buffer so casual players can ‘finish’ without full completion.",
-      "questions": [
-        "What does ‘finishing’ RTYI mean in your design: credits, beating final boss, or collecting a threshold of Yoshi stars?",
-        "How will you communicate to players that the hardest content is optional (if it is), without adding intrusive UI/tutorials?",
-        "Have you mapped which collectibles are required for what endings/unlocks, and did that plan change over development?"
+        "What are the main root causes behind the current instability/crashing—content issues, engine issues, memory fragmentation, or something else?",
+        "How do you test and prioritize emulator vs real-hardware bugs, given the time cost of diagnosing N64-only issues like DMA alignment?",
+        "What’s your plan for handling sub-30 FPS interpolation artifacts—fix the algorithm, clamp behaviors, or design levels to avoid dips?"
       ],
       "related_to": ["kaze"]
     }

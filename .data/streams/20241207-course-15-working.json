@@ -1,217 +1,233 @@
 {
   "stream_context": {
-    "summary": "Kaze continues building Course 15 (the final main course), themed as a space arcade (“Astro Arcade”), focusing on pinball-like flipper/bounce assets, lighting/textures, and player physics tuning (air control, gravity gimmicks). He also reviews playtest footage/notes from an earlier demo (notably Course 3), discusses how to better guide players to early objectives, previews plans for a small public demo (Course 1 + an overworld), and shares several technical constraints (Expansion Pak memory layout, emulator-vs-hardware differences, a Fast64 export bug, and a discovered ‘extra 1MB’ technique that won’t work on emulators).",
+    "summary": "Kaze builds core gameplay assets for Course 15 (a space-themed arcade/pinball-inspired final main course), iterating on flippers/bumpers/trampolines and wrestling with readability, player guidance, and visual identity (more Mario Galaxy than Sonic). The stream also surfaces playtest feedback (Course 3 and Course 15 navigation), demo/overworld plans, technical N64 memory strategies (Expansion Pak layout and a hinted “extra 1MB” technique), and pipeline friction from a Fast64 export/collision offset bug.",
     "level": ["Course 15 – Astro Arcade", "Course 3", "Overworld"],
-    "significance": "notable",
-    "significance_reason": "Contains concrete playtest-driven redesign decisions (Course 3 guidance and gating), confirmation that Course 15 is the final main course, details on the planned demo scope/overworld, and unusually specific technical disclosures about N64 memory usage plus toolchain blockers (Fast64 bug)."
+    "significance": "milestone",
+    "significance_reason": "Kaze is actively constructing the final main course’s core interactive systems (pinball/arcade physics pieces) while incorporating concrete external playtest feedback that implies redesign of player onboarding (Star 1 guidance, gating the 8-bit pipe). He also reveals significant technical direction around N64 memory usage and a new low-level “extra 1MB” discovery destined for a standalone video."
   },
   "findings": [
     {
-      "topic": "design",
+      "topic": "milestone",
       "importance": "high",
-      "summary": "Course 15 is positioned as the ‘final main course’ and is themed as a space arcade (“Astro Arcade”), aiming for a Mario Galaxy–like vibe while actively avoiding comparisons to Sonic despite pinball/arcade inspirations.",
+      "summary": "Kaze confirms the stream’s primary focus is Course 15, described as the final main course; after it, only a few side levels and overworld work remain.",
       "quote": null
     },
     {
       "topic": "design",
       "importance": "high",
-      "summary": "Playtest footage from Course 3 revealed a major onboarding failure: one tester found the 8-bit pipe quickly, got stuck for ~15 minutes, then wandered the main area without finding objectives and quit after earning only one star. Kaze concludes Course 3 must guide players more aggressively toward Star 1 (mirroring how Mario 64 funnels players toward an obvious first objective while previewing other points of interest).",
+      "summary": "Course 15’s fantasy is locked in as a space arcade (renamed “Astro Arcade”), aiming for a Mario Galaxy-like vibe and explicitly avoiding comparisons to Sonic/casino aesthetics.",
       "quote": null
     },
     {
       "topic": "design",
       "importance": "high",
-      "summary": "To address Course 3 issues, Kaze plans to (1) make the 8-bit/retro pipe visible early but inaccessible until later (tease-and-gate), (2) reduce difficulty of early ‘retropipe’ challenges and hard jumps (including the Mario World castle section), and (3) make the initial ‘critical path’ more obvious so players naturally traverse ~80% of the level before free exploration.",
-      "quote": "Mario 64 levels… have a very clear forward that gets you through like 80% of the level and gets your foot in the door."
+      "summary": "A Course 15 beta test exposed a critical readability issue: at least one tester failed to notice the intended main path/level area at all, prompting Kaze to plan stronger initial guidance and clearer ‘forward’ directioning (like vanilla Mario 64’s onboarding philosophy).",
+      "quote": "Mario 64 levels have a very clear forward that gets you through like 80% of the level… and that’s what we want to do."
     },
     {
-      "topic": "technical",
+      "topic": "design",
       "importance": "high",
-      "summary": "Kaze implements and tunes multiple pinball-like interactables for Astro Arcade: flippers that launch the player/ball back upward, spherical bumpers, directional triangle bumpers, and trampoline/bounce pads. He adjusts launch direction by biasing surface normals upward, adds extra air control post-launch to reduce unfair deaths, and considers custom sounds/visual feedback (e.g., star lighting states) to make these objects readable.",
+      "summary": "Separate playtest footage for Course 3 was “depressing” because the player found the 8-bit pipe immediately, struggled for ~15 minutes, then wandered the main course without finding objectives and quit—reinforcing that Star 1 needs heavier guidance and that optional challenges must be harder to stumble into early.",
       "quote": null
     },
     {
       "topic": "design",
       "importance": "medium",
-      "summary": "Kaze rejects a recurring suggestion to arrange flippers into a literal pinball machine layout, saying prior ROMhack experience taught him not to build full pinball tables; instead, he wants pinball mechanics integrated into broader 3D platforming spaces (including the fantasy of navigating “under the stage,” like Mario Sunshine’s underside traversal).",
+      "summary": "Kaze’s emerging solution pattern for both Course 3 and Course 15: make the 8-bit/retro pipe visible early as a tease, but physically inaccessible until later, so curiosity builds without letting players derail their first-session progression.",
       "quote": null
+    },
+    {
+      "topic": "technical",
+      "importance": "high",
+      "summary": "Kaze outlines the core ‘pinball piece’ kit he’s implementing for Course 15: rotating flippers, spherical bumpers that push you back, directional triangle bumpers, trampoline/spring pads, and general platform pieces—then iterates on air control, launch normals, animation snappiness, and sound feedback to make them survivable and readable.",
+      "quote": null
+    },
+    {
+      "topic": "technical",
+      "importance": "high",
+      "summary": "He notes emulator-vs-hardware differences: some visuals will look better on real N64 due to emulator bugs, and he generally targets features that work on both except for a few experiments.",
+      "quote": null
+    },
+    {
+      "topic": "technical",
+      "importance": "high",
+      "summary": "Kaze confirms the hack uses the Expansion Pak primarily for convenience; he describes a highly fragmented but fast memory layout using multiple framebuffers (and gaps between them) as allocatable space for data.",
+      "quote": null
+    },
+    {
+      "topic": "technical",
+      "importance": "high",
+      "summary": "He previews a separate technical breakthrough: a method to access roughly an extra 1MB on N64 via a “hidden ninth bit,” which he says does not work on emulators and will be covered in an upcoming video (alongside cache-instruction content).",
+      "quote": "We found a way to use an extra one megabyte in the N64. And it doesn’t work on emulators."
     },
     {
       "topic": "milestone",
       "importance": "medium",
-      "summary": "Kaze reports that multiple demo players unanimously praised the hack’s updated controls and camera, which he takes as a key validation point while other level-guidance issues remain.",
+      "summary": "Kaze reports unanimous demo feedback that the new controls and camera feel great, framing it as a major relief/validation of foundational engine changes.",
       "quote": null
     },
     {
-      "topic": "milestone",
+      "topic": "business",
       "importance": "medium",
-      "summary": "A public demo plan is described: a release with ‘just Course 1’ plus an overworld area, potentially including Delfino Plaza content (e.g., an 8-red-coin activity) as a showcase/flex. He shows an in-progress overworld model intended to include many signs explaining controls/options.",
+      "summary": "He describes a planned demo release: “just course one” plus a Delfino Plaza-style area (possibly with an 8 red coins challenge) and an “under construction” overworld with signage teaching controls/options.",
+      "quote": null
+    },
+    {
+      "topic": "design",
+      "importance": "medium",
+      "summary": "Kaze is reconsidering inconsistent ‘void protection’ across levels (some levels save you via birds/clouds/oil, others kill you instantly). He leans toward players not expecting protection, but acknowledges inconsistency can confuse and may need clearer signaling or broader application.",
       "quote": null
     },
     {
       "topic": "technical",
-      "importance": "high",
-      "summary": "The project uses the Expansion Pak ‘mostly out of convenience.’ Kaze describes a highly fragmented but fast memory setup using multiple framebuffers placed at specific addresses to create usable gaps for data. He also mentions a discovered method to access an extra ~1MB via a ‘hidden ninth bit’ on N64 hardware, but it won’t work on emulators (and may be the subject of an upcoming video).",
-      "quote": null
-    },
-    {
-      "topic": "technical",
       "importance": "medium",
-      "summary": "A Fast64 export/toolchain bug is blocking correct level export: collision appears offset despite transforms being applied, and Kaze attributes it to issues around geotranslate/rotate nodes in the generated geometry; he can’t fix it during the stream and moves on.",
+      "summary": "A Fast64 export/collision offset bug appears to break correct level export (geo translate/rotate node issues), blocking a clean fix mid-stream and forcing Kaze to move on to other tasks.",
       "quote": null
     },
     {
       "topic": "legal-nintendo",
       "importance": "medium",
-      "summary": "Kaze is cautious about marketing assets: he’s unsure how to make a release trailer ‘fair use’ and expects Nintendo is more likely to target YouTube videos/trailers than the hack itself. He also reiterates that physical cartridges are not feasible due to Nintendo enforcement risk.",
-      "quote": "With the release trailer, I want to be very careful, because I feel like Nintendo is going to try to take that down."
+      "summary": "For marketing, Kaze is cautious about a release trailer because he expects Nintendo takedown attempts; he wants to ensure ‘fair use’ but isn’t sure what a safe trailer format looks like yet.",
+      "quote": null
     },
     {
       "topic": "community",
       "importance": "medium",
-      "summary": "Kaze notes a demo text-box issue: an enemy name/term (‘nippers’) was read by some players as a slur. Even if unintended, he treats it as a recurring complaint and says the text likely needs to be changed/removed to prevent misinterpretation.",
+      "summary": "Kaze flags a user-facing text problem: an enemy/term (‘nippers’ meaning biting) is being interpreted by some demo players as a slur; he considers removing/rephrasing the text to avoid the perception problem even if unintentional.",
       "quote": null
     }
   ],
   "contributor_findings": {
     "biobak": [
       {
-        "topic": "team",
+        "topic": "community",
         "importance": "medium",
-        "summary": "Biobak provides/coordinates key art and environment assets for the demo overworld (Kaze believes it was missing, then finds it), and is asked for concepts to solve specific visual/design problems (e.g., how the central star should blink/activate, and what reusable platform style should replace ‘ugly’ metal pieces in Astro Arcade).",
+        "summary": "Biobak participates in design back-and-forth (e.g., debating pinball-machine layout requests and platform ideas) and is invited by Kaze to propose a better ‘blinking/glowing star’ behavior for Course 15’s visual signaling.",
         "quote": null
       },
       {
         "topic": "design",
-        "importance": "low",
-        "summary": "Biobak pitches ideas like ‘ball tube’ structures for the arcade, which Kaze hesitates on because it could intensify ‘Sonic’ comparisons; this reflects an ongoing art-direction constraint: arcade spectacle without losing Mario identity.",
+        "importance": "medium",
+        "summary": "Biobak pushes (again) for arranging elements into a literal pinball machine; Kaze rejects this as a hard-earned lesson from prior hacks and instead prefers using pinball mechanics as traversal under/around the main stage.",
         "quote": null
       }
     ],
-    "badub": [
-      {
-        "topic": "team",
-        "importance": "low",
-        "summary": "Badub is referenced as the likely person to contact for media files of unused sound effects; a viewer wants to play them on flute, and Kaze suggests Badub would probably be open to sharing.",
-        "quote": null
-      }
-    ],
+    "badub": [],
     "zeina": [
       {
         "topic": "personal",
         "importance": "low",
-        "summary": "Zeina briefly appears on mic, asks what object Kaze called ugly (the metal pinball ‘stand-on’ pieces), then leaves to pick up the baby, reinforcing the stream’s blend of family life and development work-in-progress.",
+        "summary": "Zeina briefly appears on mic during family/baby logistics, and earlier asks for clarification about which object Kaze called “ugly,” grounding the stream in the couple’s day-to-day collaboration context.",
         "quote": null
       }
     ],
-    "others": [
-      {
-        "name": "Layra",
-        "findings": [
-          {
-            "topic": "team",
-            "importance": "low",
-            "summary": "Kaze asks Layra about a previously discussed ‘Bowser thing’ asset/task and notes he has already moved on to a later level while waiting, implying occasional async dependencies on contributor deliverables.",
-            "quote": null
-          }
-        ]
-      },
-      {
-        "name": "Nathaniel Bandy",
-        "findings": [
-          {
-            "topic": "community",
-            "importance": "low",
-            "summary": "Nathaniel Bandy appears in chat; Kaze explains he’s working on Course 15 and flipper mechanics. No direct design decision results from the interaction.",
-            "quote": null
-          }
-        ]
-      }
-    ]
+    "others": []
   },
   "memorable_quotes": [
     {
       "speaker": "Kaze",
-      "quote": "Mario 64 levels… have a very clear forward that gets you through like 80% of the level and gets your foot in the door.",
-      "context": "He uses Mario 64’s onboarding clarity to justify redesigning Course 3 so players reliably find the first star and learn the level layout naturally."
+      "quote": "We found a way to use an extra one megabyte in the N64. And it doesn’t work on emulators.",
+      "context": "A rare concrete teaser of a new low-level N64 capability that affects compatibility and could become a major behind-the-scenes documentary beat."
     },
     {
       "speaker": "Kaze",
-      "quote": "The beauty in competitive games is to get complex interactions out of simple rules.",
-      "context": "While discussing Smash, Kaze articulates a broader design philosophy relevant to ROMhacking a classic: respecting the original’s simplicity while creating new emergent depth."
+      "quote": "Mario 64 levels have a very clear forward that gets you through like 80% of the level… and that’s what we want to do.",
+      "context": "Kaze explicitly articulates the project’s onboarding philosophy in response to playtest failure—an anchor quote for ‘respectful to Mario 64’ design intent."
     },
     {
       "speaker": "Kaze",
-      "quote": "With the release trailer, I want to be very careful, because I feel like Nintendo is going to try to take that down.",
-      "context": "He frames marketing materials—not the hack itself—as the most likely legal takedown surface, affecting how the team can present the project publicly."
+      "quote": "If there’s one lesson that I’ve had to learn from all my romhacks up to 2024: do not arrange flipper pieces into a pinball machine.",
+      "context": "A funny but revealing ‘scar tissue’ rule that captures how past experiments shape current design boundaries."
     }
   ],
   "key_stories": [
     {
-      "title": "Course 3 playtest failure reveals onboarding and gating problems",
-      "summary": "Kaze recounts a recorded playtest where a player beelined into the 8-bit pipe, failed it repeatedly, then could not find meaningful progress in the main course and quit after earning only one star. Other testers enjoyed it, but the outlier experience exposes how a single navigation miss can collapse the level’s first impression.",
-      "challenge": "A subset of players don’t notice the intended critical path, reach optional challenges too early, and lack sufficient guidance to discover the first reliable objective.",
-      "process": "Kaze reviews the footage, writes down concrete issues (pipe visibility/accessibility, overly hard early jumps, unclear traversal across a key gap), and compares his desired fix to Mario 64’s ‘obvious first star’ funnel that teaches the space while you pursue it.",
-      "outcome": "He plans to rework early guidance and restructure gating so the retro pipe is teased but not immediately accessible, and to adjust difficulty/clarity so Star 1 is discoverable without prior knowledge.",
-      "key_quote": "The player really needs to be guided to Star 1 a lot more.",
+      "title": "Playtest footage reveals Course 3 onboarding failure",
+      "summary": "Kaze watches a tester’s recording where the player beelines into an optional 8-bit pipe challenge, fails for a long stretch, then can’t find meaningful progress in the main course and quits. The moment crystallizes a documentary-friendly theme: the hack’s ambition can overwhelm players unless the first star path is unmistakable.",
+      "challenge": "Players are finding optional ‘retro pipe’ challenges too early and missing the intended first-star learning path; key jumps/gaps and the Mario World castle difficulty create early frustration.",
+      "process": "Kaze lists issues he wrote down (pipe visibility/access, jump difficulty, gap readability) and compares his desired fix to Mario 64’s ‘clear forward’ onboarding where Star 1 teaches the level’s layout and points of interest.",
+      "outcome": "He concludes Star 1 must be guided much more strongly and that 8-bit pipe access should likely be delayed (visible but inaccessible) to prevent early derailment.",
+      "key_quote": "The overall conclusion is the player really needs to be guided to Star 1 a lot more.",
       "related_to": ["kaze"]
     },
     {
-      "title": "Toolchain blocker: Fast64 collision export offset",
-      "summary": "While implementing Astro Arcade assets, Kaze discovers collision/export behavior that appears offset even after transforms are applied. He traces it to Fast64/export node behavior and concludes he can’t resolve it during the stream.",
-      "challenge": "A Fast64 bug prevents correct level export, risking incorrect collision placement and slowing iteration.",
-      "process": "He inspects transforms, tests attempted fixes, and identifies that geotranslate/rotate node output seems to ‘ruin everything’ for this case.",
-      "outcome": "He postpones the fix and continues work on other tasks (programming behaviors/animations) to avoid stalling the whole session.",
-      "key_quote": null,
+      "title": "Course 15’s entrance path is being missed by some testers",
+      "summary": "In a smaller beta test for Course 15, one player had a “miserable” time because they didn’t notice the intended route and effectively missed the level content. Kaze treats this as a design responsibility rather than a player mistake, reinforcing his commitment to readability.",
+      "challenge": "A player didn’t realize there was a whole level path, suggesting the environment fails to communicate where ‘the level begins.’",
+      "process": "Kaze brainstorms guidance tools (e.g., signage/visual cues) but dislikes simple coin-arrow solutions; he frames the fix via Mario 64’s macro-flow principle: make the first traversal path obvious and let exploration emerge after.",
+      "outcome": "He commits to adding stronger first-time directioning and separately wants the retro pipe to be harder to access early (to control progression order).",
+      "key_quote": "I feel like I do need to accommodate that somehow.",
+      "related_to": ["kaze"]
+    },
+    {
+      "title": "Building the pinball toolkit for Astro Arcade",
+      "summary": "Kaze prototypes and tunes the interactive ‘pinball’ parts that define Course 15: flippers, bumpers, and launch pads. The work is less about raw implementation and more about feel—survivability, direction bias, air control, feedback sounds, and how these systems could enable speedrun tech.",
+      "challenge": "Early versions launch Mario unpredictably (often into death), feel inconsistent depending on approach angle, and lack satisfying audiovisual feedback.",
+      "process": "He adjusts collision normals to bias upward launches, increases air control post-bounce, tweaks animation timing, fixes scaling math bugs, experiments with sound selection, and considers how rigid the behavior should be to avoid ‘randomness.’",
+      "outcome": "By stream end, the flipper behavior feels controllable to him and the core pieces are largely functional, but platform visuals/materials (especially metal pieces) still need a cohesive solution.",
+      "key_quote": "This feels very controllable to me, but I’m also the guy that programmed it.",
+      "related_to": ["kaze"]
+    },
+    {
+      "title": "Pipeline blocker: Fast64 collision/export offset bug",
+      "summary": "While trying to finalize geometry/collision details, Kaze hits a Fast64 bug that appears to offset collision or break exported geo translate/rotate nodes, making correct export impossible in the moment. It’s a classic ‘tooling vs creativity’ beat—progress halts not because the idea is hard, but because the pipeline is unreliable.",
+      "challenge": "Fast64 produces incorrect offsets/values that disrupt level export, particularly around geo translate/rotate nodes.",
+      "process": "Kaze attempts quick fixes (reapplying transforms, checking nodes/values) but observes the exporter reverting to wrong values and concludes it’s not solvable quickly mid-stream.",
+      "outcome": "He parks the issue and continues with other tasks, implying the fix requires a deeper tooling investigation later.",
+      "key_quote": "This Fast64 bug actually makes it so that we can’t export the level correctly… that actually really, really sucks.",
       "related_to": ["kaze"]
     }
   ],
   "open_questions": [
     {
-      "topic": "Course 3 rework: how to guide players to Star 1 without ‘coin arrow’ crutches",
-      "context": "Kaze wants Mario 64–style readability but dislikes obvious coin-arrow signage; he needs a more diegetic or elegant funnel to the intended first route.",
+      "topic": "Redesigning early-game guidance (Star 1) after playtest failures",
+      "context": "Course 3 playtest footage shows players getting trapped in optional difficulty and missing the main course objectives; Course 15 testing also shows players missing the intended ‘walk this way’ entry path.",
       "questions": [
-        "What specific changes did you end up making to Course 3 after this playtest (geometry, camera framing, lighting, landmarks, NPC/signposting)?",
-        "Did you introduce a formal ‘critical path’ rule (e.g., every course must have a visually dominant forward route to the first star)?",
-        "How do you balance discovery (secrets) against preventing early access to hard optional content like the 8-bit pipe?"
+        "When you watched that Course 3 recording, what specifically did it change in your mental model of ‘how a new player reads a level’—was there a single moment that convinced you the design had to change?",
+        "What are your concrete rules now for Star 1 placement and signaling (camera framing, landmarks, enemy placement, lighting, terrain funnels) to ensure the first objective is found without coin arrows?",
+        "How do you decide when it’s acceptable for a player to get lost (as exploration) versus when it’s a readability failure you must fix?",
+        "Do you plan to re-order or gate optional challenges (like the 8-bit pipe) across the entire game, or only in specific courses like 3 and 15?"
       ],
       "related_to": ["kaze"]
     },
     {
-      "topic": "Gating strategy for the 8-bit/retro pipe",
-      "context": "He proposes making the retro pipe visible but inaccessible early so it becomes a later goal rather than an early trap.",
+      "topic": "Gating ‘retro/8-bit pipe’ challenges without killing curiosity",
+      "context": "Kaze repeatedly returns to the idea of making the pipe visible but inaccessible early, so players wonder how to reach it rather than immediately entering and stalling out.",
       "questions": [
-        "What final mechanism gates the retro pipe (progress flags, physical barriers, ability unlocks, star count, switch states)?",
-        "How do you ensure the tease reads as intentional (a promise) rather than a frustrating ‘blocked door’?"
+        "What are the best gating patterns you’ve found that still feel ‘Mario 64 natural’—pure collision gating, star-count locks, moving platforms, NPC triggers, or environmental puzzles?",
+        "How do you ensure a visible-but-inaccessible tease reads as ‘come back later’ rather than ‘I’m missing an ability/bugged’?",
+        "Are there cases where you want the pipe to be accessible early on purpose (to reward explorers), and how do you prevent that from becoming the default critical path for casual players?"
       ],
       "related_to": ["kaze"]
     },
     {
-      "topic": "Astro Arcade: defining the function of the ‘cool ring’ setpiece",
-      "context": "Kaze sees a striking ring effect in reference material and insists it must be included, but admits he doesn’t know what it does yet.",
+      "topic": "Inconsistent ‘void protection’ rules across courses",
+      "context": "Some levels save the player from falling (birds/cloud/oil), while others kill instantly; chat prompts Kaze to consider whether inconsistency is confusing and whether it should be explained or standardized.",
       "questions": [
-        "What did the ring ultimately become (pure background spectacle, gameplay hazard, collectible loop, warp, score mechanic)?",
-        "How do you decide when to add a setpiece first and design its mechanics later—does that approach usually pay off or create rework?"
+        "Was ‘void protection’ originally a thematic gimmick per level, or did it evolve as a difficulty-smoothing tool you add when a section feels too punishing?",
+        "How do you want players to form expectations—should they assume falling kills unless signposted, or should protection be consistent enough that falling usually returns you with a penalty?",
+        "If you add a universal solution (bubble respawn, checkpoint pad, etc.), how do you avoid undermining levels built around talking to birds/clouds as diegetic save points?"
       ],
       "related_to": ["kaze"]
     },
     {
-      "topic": "Consistency of ‘void protection’ (bubble/bird/cloud save) across courses",
-      "context": "Some levels save you from falling (birds, clouds, oil), others kill you; Kaze worries this inconsistency can confuse players but also likes the surprise of being saved sometimes.",
+      "topic": "N64 hardware-only techniques vs emulator compatibility (the “extra 1MB” and memory layout)",
+      "context": "Kaze describes a fragmented Expansion Pak framebuffer/data layout and teases an ‘extra 1MB’ method via a hidden ninth bit that won’t work on emulators.",
       "questions": [
-        "Did you settle on a consistent rule for void protection across the game, or keep it contextual per level?",
-        "How do you communicate (or intentionally not communicate) when a level will save the player from falling?",
-        "Was Course 3 changed to reduce ‘fall = instant death’ after seeing testers quit?"
+        "What problem were you trying to solve when you went looking for ‘an extra megabyte’—was it textures, level geo, audio, animation data, or something else?",
+        "How do you decide which hardware-only tricks are worth it when they break emulator support—do you ship two builds, provide fallbacks, or pick one target platform?",
+        "For the documentary: what’s the story of discovering the hidden ninth bit—was it your idea, community research, or a happy accident while profiling memory?",
+        "Does your fragmented framebuffer/data setup ever create debugging nightmares, and what tools/visualizations do you rely on to keep it sane?"
       ],
       "related_to": ["kaze"]
     },
     {
-      "topic": "Expansion Pak use and emulator compatibility policy",
-      "context": "Kaze says the Expansion Pak is mostly for convenience; without it he’d use ‘cursed magic’ and he also mentions a hardware-only extra ~1MB technique (hidden ninth bit) that won’t work on emulators.",
+      "topic": "Trailer strategy under Nintendo takedown risk",
+      "context": "Kaze wants a release trailer but fears Nintendo will target it; he explicitly says he needs to ensure fair use but doesn’t yet know how.",
       "questions": [
-        "What is your project’s compatibility target now: real hardware first, emulator first, or ‘both when feasible’?",
-        "Where does the ‘hidden ninth bit’ extra memory come from (what hardware behavior are you exploiting) and what would you use it for in the hack?",
-        "How do you decide whether a feature is worth excluding emulators for, given player accessibility?"
+        "What would a ‘fair use-safe’ trailer look like for a Mario 64-based project—engine/dev footage, disclaimers, minimal Nintendo assets, commentary framing, or something else?",
+        "Have past takedowns shaped what you’re willing to show publicly (music, logos, character renders), and do you plan to consult a lawyer or rely on creator precedent?",
+        "Is the bigger risk the trailer itself getting removed, or the trailer amplifying attention that triggers broader enforcement against the project?"
       ],
       "related_to": ["kaze"]
     }

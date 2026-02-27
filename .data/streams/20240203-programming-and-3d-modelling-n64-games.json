@@ -1,130 +1,99 @@
 {
   "stream_context": {
-    "summary": "Kaze continues building the Wild West course content while simultaneously undertaking a major engine-level change: rewriting Mario’s collision/step system. The stream includes integrating Zeina’s new texture assets (a wanted-poster bulletin board), showing the now-finished minecart chase mission, prototyping the next “bank robbery / Monty Mole tunnel” mission flow, and demonstrating a new quality-of-life feature: auto-sizing dialogue boxes to fit longer text (useful for songs and localization).",
-    "level": ["Course 12 – Wild West"],
-    "significance": "notable",
-    "significance_reason": "Introduces a foundational collision/step-system rewrite (with rationale vs prior approaches), completes and showcases a mission (minecart chase), adds a dialogue-system feature that impacts writing/localization, and captures an in-progress level-flow decision about how players discover the bank tunnel entrance."
+    "summary": "Kaze demos a newly rewritten Mario collision/step system and explains why SM64’s original collision approach causes clipping and ceiling issues. He then implements/adjusts environmental props and textures (a Wild West bulletin board and posters), showcases a finished minecart mini‑mission (currently crashing due to the new collision code), and designs the next Wild West bank-robbery/Monty Mole tunnel objective—iterating on how to telegraph the hidden entrance (particles, breakable boulder, bomb cap). The stream also introduces a new dialogue feature that auto-sizes textboxes to fit longer lines, and ends with a higher-level discussion about what makes SM64 levels feel like meaningful “places,” plus a tentative reordering of late-game courses for better pacing.",
+    "level": ["Course 12"],
+    "significance": "milestone",
+    "significance_reason": "A foundational technical pivot (rewriting Mario’s collision/step system) is underway, a new dialogue auto-sizing feature is demonstrated, and a complete minecart mini-mission is shown (though unstable). The stream also locks in key design decisions for guiding the player into the Wild West bank-robbery tunnel and raises course-order/pacing changes—material shifts that affect the whole project."
   },
   "findings": [
     {
       "topic": "technical",
       "importance": "high",
-      "summary": "Kaze began rewriting Mario’s collision/step handling from scratch; the stream runs on a new step function that already improves general interactions but still has bugs (notably ceiling behavior and occasional incorrect roll-out-to-kick transitions).",
+      "summary": "Kaze began rewriting Mario’s collision “entirely,” replacing the previous step/clipping logic with a new step function. The current build already feels better but still has known issues (e.g., ceiling handling) and can trigger crashes while testing missions.",
+      "quote": "I had an idea yesterday to just rewrite Mario's collision entirely."
+    },
+    {
+      "topic": "technical",
+      "importance": "high",
+      "summary": "He explains the new collision approach: binary-searching for the largest viable step, using raycasts to speed up the search, and adding multiple move-verification checks (floor existence, vertical clearance, etc.) to reduce unsafe placements like pushing Mario into ceilings.",
       "quote": null
     },
     {
       "topic": "technical",
       "importance": "high",
-      "summary": "He explains why previous collision approaches were insufficient: the original SM64 step logic “allows multiple clips”; a prior raycast-physics approach reduced some clipping but introduced cases where Mario could be pushed below ceilings or required overly short steps. The new approach binary-searches for the largest viable step, uses raycasts to accelerate the search, and adds move-verification checks (floor/vertical clearance) for safety and speed.",
+      "summary": "A key limitation driving design choices: the project avoids implementing sphere/capsule shape-casts for now, so raycasts may pass through tiny collision gaps. Kaze argues this is acceptable because their hand-authored collision should not contain micro-holes and performance gains matter.",
       "quote": null
     },
     {
       "topic": "milestone",
       "importance": "medium",
-      "summary": "Kaze considers the minecart mission “finished” and shows it: a hidden door in the bar leads to a chase/minigame sequence where enemies get closer over time; straying too far from the tracks triggers a fade-out death; stepping in front of a minecart can run Mario over.",
+      "summary": "Kaze shows a completed minecart mini-mission: it starts from a bar, requires noticing a secret door, then becomes a chase mini-game that ramps difficulty as enemies close in. It currently crashes due to the unfinished new collision functions.",
       "quote": null
     },
     {
-      "topic": "technical",
-      "importance": "medium",
-      "summary": "The minecart mission demo crashes due to the new collision functions not being fully finished, indicating the collision rewrite is currently destabilizing playtesting in some areas.",
+      "topic": "design",
+      "importance": "high",
+      "summary": "For the Wild West bank-robbery setup, Kaze worries players could stumble into the tunnel/boss area without understanding the narrative (that a Monty Mole robbed the bank). He iterates on adding clearer, layered hinting before the entrance.",
+      "quote": null
+    },
+    {
+      "topic": "design",
+      "importance": "high",
+      "summary": "He lands on a more “sane” entrance read: use particle hints along the tunnel path, an NPC bank employee describing the break-in, and a clearly breakable obstruction (eventually leaning toward a real breakable boulder rather than an obviously fake cardboard prop) so players seek the route rather than accidentally discovering it.",
       "quote": null
     },
     {
       "topic": "design",
       "importance": "medium",
-      "summary": "Spin-jump presentation choice: Kaze disliked the “twirl” and chose a spin-jump animation inspired by Mario’s Down-B from Smash Melee as the closest ‘official’ 1996-era reference. Zeina animated it; Kaze polished it. He’s uncertain about a Smash-derived voice line because it feels noticeably non-SM64, and he floats hiring a voice actor (e.g., Fiverr) as an alternative.",
-      "quote": "The closest you have to an official version of the spin jump from 1996 is Mario's Down-B from Smash Melee."
+      "summary": "A concrete mechanic decision emerges: use the underused Bomb Cap as the tool to break the boulder/entrance obstruction in this segment, tying progression to cap design and reinforcing Yoshi’s Island-inspired mechanics (Yoshi coins replacing 100-coin stars are also reiterated).",
+      "quote": null
     },
     {
       "topic": "technical",
       "importance": "medium",
-      "summary": "To implement the Wild West bulletin board/wanted posters, Kaze converts textures into fog-shaded decals and corrects render settings (avoiding ‘environment’ color defaults that caused bugs elsewhere). He diagnoses blurry/incorrect poster rendering as coordinate quantization and fixes it by ensuring decals share exact coordinates and aligning them to a world axis.",
+      "summary": "While placing “bulletin board” poster textures, Kaze hits recurring N64 rendering pitfalls: objects defaulting to environment color can render incorrectly; decals require careful coordinate alignment; fog-shaded decals and coordinate quantization can make decals look detached from the world unless aligned to axes.",
       "quote": null
     },
     {
       "topic": "milestone",
       "importance": "medium",
-      "summary": "Kaze demonstrates a new dialogue feature not present in the original SM64: text boxes can automatically resize to fit the full string (e.g., if an NPC ‘sings’ longer text), removing the need for manual sizing and improving usability for translation/localization.",
-      "quote": "It will automatically find the right size to encapsulate the text."
-    },
-    {
-      "topic": "design",
-      "importance": "high",
-      "summary": "For the next Wild West mission (bank robbery / Monty Mole tunnel), Kaze identifies a pacing/readability problem: players might stumble into the tunnel/boss sequence without understanding the robbery context. He iterates on how to guide discovery (NPC hints + environmental cues) while preventing accidental entry.",
+      "summary": "Kaze demonstrates a new dialogue system feature: text boxes can automatically resize to encapsulate longer strings, which he calls especially useful for translation/localization work (explicitly calling out Biobak’s interest if translating the game).",
       "quote": null
-    },
-    {
-      "topic": "design",
-      "importance": "high",
-      "summary": "Kaze and chat iterate on gating the tunnel entrance. He initially likes a comedic ‘fake cardboard boulder/cloth’ concept but rejects it as too obvious and too costly to implement convincingly (cloth physics + interaction). He lands on a straightforward design: a breakable boulder gated by the Bomb Cap (also helping tie caps into progression), plus hinting via particles and NPC dialogue about the tunnel.",
-      "quote": "I think just ground pounds a rock here is the most sane and the best option."
     },
     {
       "topic": "philosophy",
-      "importance": "high",
-      "summary": "Kaze articulates a core goal for Return to Yoshi’s Island: SM64’s movement is brilliant, but many original levels feel like generic ‘places’ without a strong theme. He aims to keep the movement feel while improving level identity (theme/vibe) and making worlds feel like they exist independently of Mario.",
+      "importance": "medium",
+      "summary": "Kaze articulates a core design thesis: SM64’s level design is often weaker than its movement; many original levels feel like generic “placeness” without a clear vibe/theme. Return to Yoshi’s Island aims to keep movement excellence while making levels more conceptually identifiable and like places that exist beyond Mario.",
       "quote": "I don't think Mario 64 is that great either, except for the movement design."
     },
     {
       "topic": "design",
       "importance": "medium",
-      "summary": "He reinforces a deliberate content-structure choice: not every level will be story-heavy. The game mixes levels with story and character interactions and levels that are more purely ‘places’ Mario visits, to avoid making every course feel built specifically for the player-character.",
-      "quote": "We don't want every level to feel like it's made for Mario. We want a lot of them to feel more like they are there and Mario is experiencing them."
-    },
-    {
-      "topic": "design",
-      "importance": "medium",
-      "summary": "Kaze mentions there are “like three and a half levels left” and begins reconsidering course ordering to improve pacing—specifically noting the last planned courses skew toward ‘natural places’ rather than Mario-centric or story-driven levels, and he makes a note about moving the Wild West course to Course 13 / adjusting Course 12.",
-      "quote": null
-    },
-    {
-      "topic": "design",
-      "importance": "low",
-      "summary": "Progression/collectible structure note: Yoshi coins replace 100-coin stars; there are no 100-coin challenges in this project.",
+      "summary": "He notes the team may adjust course order for pacing—so late-game doesn’t cluster too many “natural places” (levels not explicitly ‘made for Mario’) in a row. He specifically considers moving the Wild West world later (to Course 13) and shifting a castle concept earlier (to Course 12), while leaving Course 15 (e.g., “Rainbow Reef”) open for reconsideration.",
       "quote": null
     }
   ],
   "contributor_findings": {
     "biobak": [
       {
-        "topic": "design",
-        "importance": "low",
-        "summary": "Biobak contributes to the level-design discussion by agreeing with/echoing the critique about ‘placeness’ in SM64 and is specifically called out by Kaze as someone who will benefit from the new auto-sizing dialogue boxes for translation/localization.",
-        "quote": null
-      },
-      {
-        "topic": "team",
-        "importance": "low",
-        "summary": "Kaze notes Biobak is producing substantial content for the hack (assets/level work), though specifics aren’t enumerated in this stream.",
-        "quote": null
+        "topic": "community",
+        "importance": "medium",
+        "summary": "Biobak’s chat comments are referenced during the ‘placeness’ discussion (agreeing with Kaze’s critique of certain SM64 levels) and Kaze explicitly flags that Biobak will ‘like’ the new auto-sizing dialogue feature for translation/localization.",
+        "quote": "Biobak, you're gonna like this a lot if you want to translate this game."
       }
     ],
-    "badub": [
-      {
-        "topic": "team",
-        "importance": "low",
-        "summary": "Kaze reiterates Badub is producing a lot of music for the project, but no specific new track delivery or implementation occurs in this stream.",
-        "quote": null
-      }
-    ],
+    "badub": [],
     "zeina": [
       {
         "topic": "design",
-        "importance": "medium",
-        "summary": "Zeina created the spin-jump animation (Melee-inspired), with Kaze doing final polish.",
+        "importance": "high",
+        "summary": "Zeina created the spin-jump animation (with Kaze polishing), which Kaze bases on Smash Melee’s Down‑B as the closest ‘official’ 1996-era reference for a spin jump. Zeina also supplies textures/graphics (bulletin board assets, glasses attempt for the Koopa banker) and provides live feedback on prop details like a cane.",
         "quote": null
       },
       {
-        "topic": "design",
-        "importance": "medium",
-        "summary": "Zeina provides art assets for the Wild West bulletin board/wanted posters; Kaze discovers missing/bundling issues and then integrates the textures into fog-shaded decals.",
-        "quote": null
-      },
-      {
-        "topic": "design",
+        "topic": "personal",
         "importance": "low",
-        "summary": "Zeina is involved in the Koopa banker NPC look (glasses/cane suggestions and texture ideas), though Kaze makes final calls based on N64 rendering constraints.",
+        "summary": "Zeina is present in-house and interacts intermittently (asset bundling oversight becomes a minor point of friction; Kaze’s on-stream banter underscores their collaborative workflow and occasional production annoyances).",
         "quote": null
       }
     ],
@@ -133,97 +102,108 @@
   "memorable_quotes": [
     {
       "speaker": "Kaze",
+      "quote": "I had an idea yesterday to just rewrite Mario's collision entirely.",
+      "context": "A rare, sweeping technical reset framed as an overnight insight—useful for documenting why the team chose to rebuild foundational movement physics mid-production."
+    },
+    {
+      "speaker": "Kaze",
       "quote": "I don't think Mario 64 is that great either, except for the movement design.",
-      "context": "A concise thesis for the hack: preserve what works (movement), replace what doesn’t (often-vague level identity)."
+      "context": "Clear statement of philosophy: the hack is motivated by respect for SM64 movement while actively challenging its level-design legacy."
     },
     {
       "speaker": "Kaze",
-      "quote": "We don't want every level to feel like it's made for Mario. We want a lot of them to feel more like they are there and Mario is experiencing them.",
-      "context": "Clear statement of worldbuilding intent and ‘respectful but new’ philosophy for reimagining SM64."
-    },
-    {
-      "speaker": "Kaze",
-      "quote": "It will automatically find the right size to encapsulate the text.",
-      "context": "A practical tool/engine improvement that affects writing, songs, and localization workflow."
+      "quote": "If it doesn't compile first try I'm out.",
+      "context": "A candid window into Kaze’s tolerance for toolchain friction (here, compiling GCC/custom compiler), revealing how workflow pain shapes what technical paths he does or doesn’t pursue."
     }
   ],
   "key_stories": [
     {
-      "title": "Replacing SM64’s step/collision logic mid-development",
-      "summary": "Kaze starts a ground-up rewrite of Mario’s collision/step system and is already running the game on it. He frames it as essential for making Return to Yoshi’s Island feel better than existing SM64 hacks in moment-to-moment movement, even if it temporarily introduces crashes and edge-case bugs.",
-      "challenge": "The original step logic permits clipping; a prior raycast-based approach reduced some issues but caused new ones (ceiling problems, unsafe step compromises).",
-      "process": "He removes the old step system and builds a new one that binary-searches for the largest valid step, uses raycasts for speed, and performs additional move-verification checks (floor + vertical clearance).",
-      "outcome": "Movement interactions feel improved, but ceiling behavior and occasional animation/state bugs remain; at least one crash during the minecart mission is attributed to the unfinished collision rewrite.",
+      "title": "Rewriting Mario’s collision and step system",
+      "summary": "Kaze decides the existing collision/step logic is fundamentally limiting and begins a full rewrite. This becomes a project-wide technical pivot intended to make Return to Yoshi’s Island feel better than typical SM64 hacks in moment-to-moment traversal.",
+      "challenge": "Existing collision behavior enables clipping/instability and creates ceiling/step edge cases; earlier alternatives (including raycast-based physics) introduced new failures like forcing Mario under ceilings or limiting steps.",
+      "process": "Kaze implements a new step function that binary-searches for the largest viable step, accelerates with raycasts, and validates moves with additional checks (floor presence, vertical clearance). He tests it live across geometry and acknowledges remaining ceiling issues.",
+      "outcome": "Collision already feels improved but isn’t finished; it can still crash other content (e.g., the minecart mission) until remaining bugs are resolved.",
       "key_quote": "Once my new collision system is done, dude, this game will be so nice collision-wise.",
       "related_to": ["kaze"]
     },
     {
-      "title": "Designing readable discovery for the bank robbery tunnel",
-      "summary": "While planning the next Wild West mission, Kaze realizes players might enter the tunnel/boss sequence without understanding the ‘bank robbery’ setup. He explores comedic gating (fake cardboard/cloth cover) but shifts toward a clearer, more traditional gate tied to an underused mechanic.",
-      "challenge": "Make the entrance discoverable through narrative/environmental logic, but not so visually ‘fake’ that players stumble into it immediately without context.",
-      "process": "He proposes NPC dialogue that explains the robbery and points at the tunnel, plus environmental particle hints; he evaluates fake-cover concepts (cardboard/cloth) and rejects them as too obvious or too hard to implement convincingly (cloth interaction/physics).",
-      "outcome": "He decides on a breakable boulder entrance gated by the Bomb Cap, aligning progression with cap usage while keeping the entrance thematically plausible.",
-      "key_quote": "I want players to seek out the hole, you know.",
+      "title": "Minecart mini-mission completion—then instability from new collision",
+      "summary": "Kaze presents a completed minecart mission as a self-contained mini-game with discovery, escalation, and fail states. It also becomes a concrete example of how foundational engine changes ripple into seemingly finished content.",
+      "challenge": "The mission crashes during demonstration because the new collision functions aren’t fully stable yet.",
+      "process": "He walks viewers through the intended flow: start in a bar, discover a secret door, trigger a chase sequence where enemies get closer, and enforce boundaries (fade/kill if the player strays too far; minecarts can run Mario over).",
+      "outcome": "Design is functionally complete, but the technical foundation (collision) must stabilize before it can be considered shippable.",
+      "key_quote": "Imagine this, but without the crash. The crash is because of my new collision functions.",
       "related_to": ["kaze"]
+    },
+    {
+      "title": "Designing the Wild West bank-robbery tunnel entrance (avoiding accidental discovery)",
+      "summary": "Kaze identifies a narrative clarity problem: players might enter the tunnel/boss area without understanding the bank robbery premise. He iterates on environmental and NPC hinting so the discovery feels intentional rather than accidental.",
+      "challenge": "The tunnel entrance risks being too visible/obvious, letting players bypass the story beat that Monty Mole stole the bank’s money/star.",
+      "process": "He explores fake props (cardboard cutout boulder/cloth gag) versus an actual breakable boulder, adds the idea of particle trails, writes cowboy-flavored NPC dialogue, and considers gating the break via an underused cap ability (Bomb Cap).",
+      "outcome": "He leans toward a breakable rock solution plus clearer hinting, and makes a note to revisit layout/ordering decisions later.",
+      "key_quote": "I want players to seek out the hole, you know.",
+      "related_to": ["kaze", "zeina"]
+    },
+    {
+      "title": "Auto-sizing dialogue boxes to support longer lines and translation",
+      "summary": "Kaze introduces a new UI feature that removes a long-standing friction point in SM64 hacking: fixed-size dialogue boxes. This is positioned as both a quality-of-life improvement for writing and a practical enabler for localization.",
+      "challenge": "SM64’s dialogue presentation makes longer lines and varied-length text (especially translations) annoying to author and display cleanly.",
+      "process": "Kaze implements logic that automatically computes a dialogue box size that fits the content, then demonstrates it live by making an NPC ‘sing’ a longer line.",
+      "outcome": "Feature works in-stream and is flagged as especially useful for Biobak if the team pursues translation.",
+      "key_quote": "It will automatically find the right size to encapsulate the text.",
+      "related_to": ["kaze", "biobak"]
     }
   ],
   "open_questions": [
     {
-      "topic": "Collision rewrite scope, testing, and risk management",
-      "context": "Kaze is mid-transition to a new collision/step system that changes core movement behavior and can cause crashes (seen during the minecart demo).",
+      "topic": "Collision rewrite decision and risk management",
+      "context": "Kaze started a full collision/step rewrite mid-development, aiming for safer movement and fewer clips, but it currently causes crashes and has ceiling bugs. He also accepts raycast limitations rather than implementing sphere/capsule casts for now.",
       "questions": [
-        "What specific player-facing problems (clips/softlocks) convinced you the old step/collision approach was beyond patching, and when did you first realize a full rewrite was necessary?",
-        "How are you validating the new collision system across the whole game (test levels, automated cases, known-problem spots), and what’s your ‘done’ criterion before you stop iterating?",
-        "What was the biggest unexpected bug from the rewrite so far (e.g., ceiling behavior, roll-to-kick state), and what did it teach you about SM64’s original assumptions?",
-        "How much did this rewrite affect schedule/level production, and how do you decide when engine work is worth the disruption?",
-        "You mention the new approach is faster—where does the performance win come from on N64 hardware, and what does that headroom let you do elsewhere?"
+        "What was the specific ‘last straw’ bug or playtest moment that convinced you a full collision rewrite was worth the risk mid-project?",
+        "How did you evaluate the tradeoff between correctness (shape-casts, more robust physics) and N64-era performance/complexity?",
+        "What debugging approach helped most when the new collision started crashing previously ‘finished’ missions like the minecart mini-game?",
+        "When you say you want collision ‘better than any other Mario 64 thing,’ what does ‘better’ mean in measurable player terms (fewer clips, smoother steps, fewer softlocks, etc.)?"
       ],
       "related_to": ["kaze"]
     },
     {
-      "topic": "Spin jump: authenticity vs new identity (animation + voice)",
-      "context": "Kaze chose a Melee-inspired spin jump (animation + a Melee voice line) because other options looked wrong, but he’s unsure if the voice reads as ‘not Mario 64’ and considers hiring a voice actor.",
+      "topic": "Spin jump identity (animation + voice) and authenticity",
+      "context": "Kaze chose Smash Melee’s Down‑B as the closest ‘official’ spin jump reference and is unsure about a Melee voice line feeling ‘too not-Mario-64,’ even though it is technically a Mario voice line. He considers paying a voice actor (e.g., Fiverr).",
       "questions": [
-        "What were the alternative spin jump animation concepts you tried, and what exactly made them feel ‘wrong’ in SM64’s visual language?",
-        "How do you decide when to reuse ‘official’ Nintendo references (Melee) versus creating something fully original—what’s your rule of thumb for ‘respectful’ vs ‘out of place’?",
-        "If you do hire a voice actor, what direction would you give them: imitate SM64-era Mario, or fit the new tone of Return to Yoshi’s Island even if it diverges?",
-        "How important are small audiovisual cues (voice snippets, sfx, animations) to making the hack feel cohesive rather than like a collage of Nintendo sources?"
+        "How did you and Zeina iterate on the spin jump animation to make it feel ‘official’ while still new—what were the rejected versions and why?",
+        "What criteria are you using to decide whether a voice line feels authentic to this ROM hack’s tone—even if it’s canon Mario audio from another era?",
+        "If you do hire a voice actor, would you prioritize matching 1996 Mario, or prioritize the personality and tone Return to Yoshi’s Island is aiming for?"
       ],
       "related_to": ["kaze", "zeina"]
     },
     {
-      "topic": "Dialogue auto-sizing feature and localization plans",
-      "context": "Kaze adds a system that automatically sizes text boxes to fit longer strings; he explicitly notes Biobak may like it for translation.",
+      "topic": "Wild West mission readability and ‘accidental discovery’",
+      "context": "Kaze worries players might stumble into the Monty Mole tunnel/boss without understanding the bank robbery setup, and he experiments with particles, NPC text, and a breakable boulder gated by the Bomb Cap.",
       "questions": [
-        "What was the pain point that made you build auto-sizing dialogue now—was it song text, NPC writing volume, or anticipated translation needs?",
-        "Do you plan to ship official translations, and if so, which languages and who would own that workflow?",
-        "Are there any remaining hard constraints in your dialogue system (line breaks, fonts, special characters, box placement) that translators/writers must work around?",
-        "How does auto-sizing interact with camera framing and gameplay readability—are there cases where you still need manual control?"
-      ],
-      "related_to": ["kaze", "biobak"]
-    },
-    {
-      "topic": "Wild West bank robbery mission readability and gating",
-      "context": "Kaze worries players will find the tunnel entrance without understanding the robbery plot; he iterates from comedic fake-cover ideas to a Bomb Cap breakable boulder plus hints (NPC + particles).",
-      "questions": [
-        "What’s the intended ‘player understanding sequence’—what do you want them to know before they ever see the tunnel entrance?",
-        "How will you tutorialize or remind players about the Bomb Cap at this point in the game so the boulder gate reads as a solvable problem instead of a wall?",
-        "What specific environmental hinting will you use (particles, framing, coin trails, NPC sightlines), and how do you test whether it’s too subtle or too obvious?",
-        "Does the bank robbery resolve into a boss fight immediately, or will there be intermediate gameplay beats inside the tunnel to build anticipation?",
-        "What made you reject the cardboard/cloth gag in the end—was it primarily implementation cost, player readability, tone, or all three?"
+        "How do you decide how ‘explicit’ your hints should be before a secret path stops feeling like discovery and starts feeling like signage?",
+        "Why did you ultimately prefer a real breakable boulder over the funnier fake-cardboard gag—was it purely readability, or also tone/worldbuilding?",
+        "What made the Bomb Cap feel like the right gate here—are there other places you want caps to be ‘the answer’ more often?"
       ],
       "related_to": ["kaze"]
     },
     {
-      "topic": "Course pacing/order changes late in production",
-      "context": "Kaze notes ~3.5 levels remain and considers rearranging course order for more even pacing between ‘Mario-centric’ levels and ‘place-first’ levels; he makes a note about moving Wild West to Course 13 / adjusting Course 12.",
+      "topic": "Course-order pacing and what levels are ‘for Mario’ vs ‘places Mario visits’",
+      "context": "Kaze outlines a deliberate mix: some levels have story/characters, some don’t, and he wants many areas to feel like they exist independently of Mario. He considers reordering late courses to avoid clumping similar ‘natural place’ levels together.",
       "questions": [
-        "What is the current intended course order (especially Courses 11–15), and what problem are you trying to solve by swapping Course 12/13?",
-        "When you say some levels are ‘made for Mario’ versus ‘Mario experiences them,’ what criteria do you use to categorize a course?",
-        "How do pacing and difficulty progression interact with narrative progression in your planning—are those separate tracks or tightly coupled?",
-        "What’s the final decision-making process for course-order changes: who weighs in (you, Zeina, Biobak), and what evidence changes your mind (playtests, gut feel, feedback)?"
+        "When you say a level feels like it exists ‘outside of Mario,’ what concrete design ingredients create that feeling (NPC routines, implied economy, architecture logic, lore crumbs)?",
+        "What was the initial planned course order, and what player-experience problem made you consider moving Wild West to Course 13 and shifting the castle concept to Course 12?",
+        "How do you prevent ‘place-first’ levels from feeling aimless, especially in a star-collection structure that usually depends on explicit challenges?"
       ],
-      "related_to": ["kaze", "biobak", "zeina"]
+      "related_to": ["kaze", "biobak"]
+    },
+    {
+      "topic": "Localization ambitions enabled by the new dialogue system",
+      "context": "Kaze calls out that the auto-sizing dialogue boxes would be useful if Biobak wants to translate the game, implying localization might be considered but not confirmed.",
+      "questions": [
+        "Is translation/localization a serious release goal, or more of a ‘nice if it happens’ idea—and what languages would you prioritize?",
+        "What other systems besides dialogue boxes would need to change to support translation well (font rendering, special characters, UI layout, texture text)?"
+      ],
+      "related_to": ["kaze", "biobak"]
     }
   ]
 }

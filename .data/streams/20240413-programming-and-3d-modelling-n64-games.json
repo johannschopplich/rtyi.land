@@ -1,82 +1,70 @@
 {
   "stream_context": {
-    "summary": "Kaze reworks a frustrating sub-area in Course 2 (Divine Dino Domain), replacing an earlier “leaf boat/autoscroll-ish” concept with a more open platforming playground. He blockouts geometry first (stairs, vines/roots, traversal routes), then begins thinking about UV mapping and later art pass. The stream also surfaces technical instability (crashes/slow loads), a known water crash risk due to outdated step-function support, and a deeper limitation of the decomp workflow: all areas load at once because RoamManager is binary-only, costing RAM. Broader project updates include Course 12 being essentially finished off-stream (pending Zeina animations/signage), Course 13 planning (mysterious ice castle—needs a boss), Course 14 partially built in secret, and Course 15 still undecided.",
+    "summary": "Kaze reworks a problematic sub-area inside Course 2 (Divine Dino Domain’s temple section), focusing on improving traversal (staircases, vines, safer recovery from water) before doing final art/UV work. He also gives major project-status updates (Course 12 essentially finished, only a few courses left), flags a water-related crash risk due to an outdated step-function, and explains a decomp-specific limitation that forces all level areas to be loaded at once (RAM/loading-time hit).",
     "level": ["Course 2", "Course 12", "Course 13", "Course 14"],
     "significance": "notable",
-    "significance_reason": "Contains meaningful production status updates (game ~80% done; Course 12 nearly shippable), concrete pipeline philosophy (blockout → fun → aesthetics), and a key technical constraint of decomp-based hacks (area loading/RAM) plus crash risks around water/step functions."
+    "significance_reason": "Contains concrete production-status milestones (Course 12 basically done; ~80% overall; only ~3 courses left) plus two interview-relevant technical constraints (water crash due to step-function mismatch; decomp can’t use RoamManager-style per-area loading, costing RAM and loading time)."
   },
   "findings": [
     {
-      "topic": "milestone",
+      "topic": "design",
       "importance": "high",
-      "summary": "Kaze says the project is just above 80% complete and that only three courses remain, positioning the game in late-stage production.",
+      "summary": "Course 2’s temple sub-area is being substantially reworked because the previous traversal (an older leaf/ride section) “sucked”; Kaze is shifting it into a more open “platforming playground” with multiple routes, staircases for recovery, and vine/hanging traversal, postponing final visuals until the movement feels good.",
       "quote": null
     },
     {
       "topic": "milestone",
       "importance": "high",
-      "summary": "Course 12 was finished mostly off-stream and is close to shippable, but still needs a few Zeina animations integrated plus some sign work.",
-      "quote": "I finished Course 12 off-stream… There’s a few more animations from Zeina I have to put in the game… Oh yeah, and some signs."
-    },
-    {
-      "topic": "design",
-      "importance": "high",
-      "summary": "Course planning is clarified: Course 13 is intended to be a suspenseful/mysterious ice castle; Course 14 is a “space arcade”; Course 15 is currently undecided (with chat suggesting a generic lava level or rainbow-style finale).",
+      "summary": "Kaze says the project is \"just above 80%\" complete and that only a few courses remain; he also states he finished Course 12 mostly off-stream, with only remaining polish items like Zeina’s final animations and some sign text.",
       "quote": null
     },
     {
       "topic": "design",
       "importance": "medium",
-      "summary": "In Course 2’s Divine Dino Domain rework, Kaze abandons a prior “leaf boats”/almost-autoscroll segment because it felt bad to play, replacing it with a freer platforming playground focused on movement options and recovery routes (e.g., stairs to escape water on both sides).",
-      "quote": "I realized the section sucked. So now we have a little bit of a platforming playground here."
+      "summary": "Late-game course planning is partially locked: Course 13 is planned as a suspenseful “mysterious ice castle” (still needs a boss), Course 14 is a “space arcade,” while Course 15’s concept is still undecided.",
+      "quote": null
     },
     {
-      "topic": "philosophy",
+      "topic": "milestone",
       "importance": "medium",
-      "summary": "Kaze reiterates a consistent level-production method: block out traversal with simple primitives until the jumping feels good, then do aesthetics/UVs later.",
-      "quote": "Right now we just want the platforming to be fun. And then we can think about the visuals."
+      "summary": "Kaze has already started Course 14 and has at least one major area built that he is intentionally not showing on stream, saying it’s being kept secret for a competition/pack (he attributes the request to “Eiza”).",
+      "quote": null
     },
     {
       "topic": "technical",
       "importance": "high",
-      "summary": "The build shows instability: unusually long loading times and repeated crashes; Kaze suspects “something’s wrong with this level” and notes water interactions are especially dangerous right now.",
-      "quote": "We have quite long loading times… something’s wrong for sure."
+      "summary": "A known stability risk remains: water mechanics have not been migrated to the “new step function,” and the older step functions are “not fully supported anymore,” meaning entering water can still crash the game—so Kaze is cautious about testing water-heavy sections.",
+      "quote": null
     },
     {
       "topic": "technical",
       "importance": "high",
-      "summary": "Water is currently hazardous because it hasn’t been updated to the new step function; old step functions are no longer fully supported, so entering water can crash the game.",
-      "quote": "Water hasn’t been updated to the new step function yet… being in water can just crash the game."
+      "summary": "Kaze explains why loading times/RAM usage can be worse in the decomp workflow: a legacy tool (RoamManager) could load level areas one-by-one in binary hacks, but it can’t be used with decomp as-is; doing per-area loading in decomp would require linker-script work he hasn’t learned yet, so areas currently load all-at-once, costing RAM.",
+      "quote": null
     },
     {
       "topic": "technical",
-      "importance": "high",
-      "summary": "Kaze explains a decomp-specific limitation: the current setup loads all areas at once. A tool called RoamManager could load areas one-by-one (saving RAM) but it’s built for binary hacks and doesn’t work with decomp. Solving it would require linker-script work he hasn’t learned yet.",
-      "quote": "It does [load them all in one go]… RoamManager… is made for binary, so we can’t use it with decomp… if you wanted to load the areas one by one, you need to learn a lot of linker script that I haven’t learned yet."
-    },
-    {
-      "topic": "team",
       "importance": "medium",
-      "summary": "Kaze mentions modifying earlier contributor code: he recently changed AkiDev’s Chain Chomp code to support adding a second Chain Chomp in another level, showing ongoing refactors and reuse of prior systems.",
-      "quote": "I changed your Chain Chomp code… because I wanted a second Chain Chomp in a different level."
+      "summary": "He blames several testing headaches on the Parallel emulator (frequent updates, poor hotkey responsiveness, issues that don’t reproduce on real N64, and controller problems), implying he relies on other emulators/debug builds and real hardware to validate behavior.",
+      "quote": null
     },
     {
       "topic": "legal-nintendo",
       "importance": "medium",
-      "summary": "Kaze says he avoids Patreon bonuses because it could create legal trouble with Nintendo, indicating a deliberate risk-management approach to monetization/benefits.",
-      "quote": "I also don’t give out any Patreon bonuses… because that might get me in legal trouble with Nintendo."
+      "summary": "Kaze reiterates he avoids Patreon-exclusive bonuses or distributing certain enhancements because he believes it could increase legal risk with Nintendo, framing it as a deliberate boundary in how he monetizes and shares work.",
+      "quote": null
     },
     {
-      "topic": "team",
+      "topic": "business",
       "importance": "medium",
-      "summary": "Kaze has started Course 14 but won’t show a completed area because “Eiza” asked him not to (it’s part of a competition/pack), so some development is happening privately to preserve a planned reveal.",
-      "quote": "I have a whole area done on Course 14 that I can’t show you guys. Because Eiza doesn’t want me to show it."
+      "summary": "He live-iterates on YouTube packaging strategy, changing a video title to improve click-through rate and explicitly describes this as “how YouTubers think,” showing how analytics-driven decisions influence his release workflow alongside development.",
+      "quote": null
     },
     {
-      "topic": "technical",
-      "importance": "medium",
-      "summary": "He complains that the Parallel emulator causes workflow friction (frequent updates, slower hotkey behavior, ROM-specific issues not seen on real N64, and controller problems), implying testing/QA depends on multiple emulators and real hardware.",
-      "quote": "There’s a bunch of issues… in Parallel that are not there on N64… and then… my controller doesn’t work on it."
+      "topic": "personal",
+      "importance": "low",
+      "summary": "A long comedic segment centers on Zeina accidentally shaving a bald stripe into Kaze’s hair during a haircut, leading him to hide it under a hat/hood; while mostly banter, it’s a rare candid snapshot of their day-to-day dynamic during crunch.",
+      "quote": null
     }
   ],
   "contributor_findings": {
@@ -84,16 +72,16 @@
     "badub": [],
     "zeina": [
       {
-        "topic": "team",
-        "importance": "high",
-        "summary": "Zeina’s animations are a remaining dependency for shipping Course 12; Kaze frames the remaining work as simple integration tasks once her assets are ready.",
+        "topic": "milestone",
+        "importance": "medium",
+        "summary": "Kaze says Course 12 is essentially complete but still depends on “a few more animations from Zeina” plus minor polish (e.g., signs) before it’s ready to ship.",
         "quote": null
       },
       {
         "topic": "personal",
-        "importance": "medium",
-        "summary": "A humorous but revealing personal/professional overlap: Zeina cut Kaze’s hair, the clipper guard came off, and he ended up with a visible bald line—prompting him to wear a hat/beanie for much of the stream.",
-        "quote": "Zaina slipped with the hair clippers and just put a bald spot there."
+        "importance": "low",
+        "summary": "Zeina cut Kaze’s hair and the clipper guard came off, leaving a visible bald line that Kaze hides on stream; the incident becomes an extended bit that also reveals their playful-but-blunt rapport.",
+        "quote": null
       }
     ],
     "others": [
@@ -101,20 +89,20 @@
         "name": "AkiDev",
         "findings": [
           {
-            "topic": "team",
-            "importance": "medium",
-            "summary": "AkiDev is acknowledged as the author of existing Chain Chomp code that Kaze recently altered for reuse (supporting a second Chain Chomp in another level), highlighting the project’s evolving codebase and inheritance of prior contributor systems.",
+            "topic": "technical",
+            "importance": "low",
+            "summary": "Kaze tells AkiDev he recently modified AkiDev’s Chain Chomp code so he could reuse it for a second Chain Chomp in another level, implying ongoing refactors/reuse of community-authored systems as the project expands.",
             "quote": null
           }
         ]
       },
       {
-        "name": "Eiza",
+        "name": "SimpleFlips",
         "findings": [
           {
-            "topic": "team",
-            "importance": "medium",
-            "summary": "Eiza influences public communication/reveals: Kaze withholds showing a finished Course 14 area because Eiza wants it kept secret as part of a competition/pack.",
+            "topic": "business",
+            "importance": "low",
+            "summary": "Kaze mentions a separate N64-targeted mod release is timed to happen after SimpleFlips plays it for a competition, indicating creator-ecosystem coordination affects release timing.",
             "quote": null
           }
         ]
@@ -124,93 +112,72 @@
   "memorable_quotes": [
     {
       "speaker": "Kaze",
-      "quote": "The day where you can play this game will one day come—unless someone murders me. If someone murders me, it was a Nintendo employee.",
-      "context": "Dark humor that captures both the long arc of finishing a major ROM hack and the ever-present anxiety about Nintendo/legal pressure, framed in Kaze’s characteristic comedic tone."
+      "quote": "The day where you can play this game will one day come, unless someone murders me. If someone murders me, it was a Nintendo employee.",
+      "context": "Dark-humor aside while discussing the game’s eventual public availability; it reflects his long-running anxiety/jokes about Nintendo legal pressure and the stakes he feels around finishing and releasing."
     },
     {
       "speaker": "Kaze",
-      "quote": "Right now we just want the platforming to be fun. And then we can think about the visuals.",
-      "context": "Clear statement of his level-design pipeline and priorities—function and feel first, art pass second."
+      "quote": "I also don’t give out any Patreon bonuses, because that might get me in legal trouble with Nintendo. So I stay away from that.",
+      "context": "A clear statement of his monetization/legal strategy boundaries—useful for documentary framing around risk management."
     }
   ],
   "key_stories": [
     {
-      "title": "Course 2 sub-area redesign: removing a bad autoscroll-like segment",
-      "summary": "Kaze revisits a previously-built sub-area in Divine Dino Domain and decides the earlier concept (leaf boats pushing you through a quasi-autoscroll) simply isn’t fun. He restructures it into a more open platforming playground with optional routes, recovery staircases out of water, and planned setpieces like a Yoshi-god statue and red coin challenge.",
-      "challenge": "A section of Course 2 felt annoying and unfun, with punishments for falling into water and movement constraints.",
-      "process": "He blockouts new traversal with primitives (stairs, spiral staircase ideas, vines/roots), playtests jump flow, and defers cohesive aesthetics/UV mapping until the movement reads well.",
-      "outcome": "A new layout direction is established; remaining tasks mentioned include placing the Yoshi-god statue, finalizing routes, and then proceeding to UV mapping and art style decisions.",
-      "key_quote": "I realized the section sucked. So now we have a little bit of a platforming playground here.",
+      "title": "Rebuilding Course 2’s temple sub-area around “platforming first”",
+      "summary": "Kaze revisits an older section of Divine Dino Domain because the original traversal flow felt bad and was no longer meeting his standards. He blockouts new routes (stairs, vines, recovery paths) and explicitly delays aesthetics/UV work until movement feels fun and readable.",
+      "challenge": "An earlier design (leaf/ride segment) created an unfun or overly annoying traversal experience for a relatively early course.",
+      "process": "He replaces the segment with a “platforming playground,” adds stair exits from water, tests jump lines, adjusts collision/layout, and only then plans to UV-map and settle the art style.",
+      "outcome": "The area’s new traversal direction is established; remaining tasks include adding the Yoshi-god statue setpiece and then moving on to visual polish/UV mapping.",
+      "key_quote": "Right now we just want the platforming to be fun. And then we can think about the visuals.",
       "related_to": ["kaze"]
     },
     {
-      "title": "Decomp limitation: area loading and RAM cost (RoamManager vs linker scripts)",
-      "summary": "While discussing long loads and general level stability, Kaze explains a structural technical limitation: in their decomp setup, all areas load at once. He contrasts this with RoamManager (used in binary hacks) which can load areas one-by-one, but can’t be used here. Fixing it would require deeper linker-script work.",
-      "challenge": "High RAM usage and less efficient loading because decomp workflow lacks an equivalent to binary-area streaming tools.",
-      "process": "Kaze identifies the known solution path (linker scripts / alternative asset-loading strategy) but notes it’s outside his current expertise and toolchain.",
-      "outcome": "The constraint remains and becomes an interview-worthy technical theme: what decomp enables vs what it complicates compared to classic binary ROM hacking.",
-      "key_quote": "RoamManager… is made for binary, so we can’t use it with decomp… you need to learn a lot of linker script that I haven’t learned yet.",
-      "related_to": ["kaze"]
-    },
-    {
-      "title": "Crash risk around water during engine transitions (step function mismatch)",
-      "summary": "Kaze warns chat that water is currently dangerous because it hasn’t been updated to a newer step function, while the older step functions are no longer fully supported. As a result, entering water can crash the game, shaping how he tests the level during the session.",
-      "challenge": "Ongoing engine/physics refactors create transitional periods where certain environments (water) become unstable.",
-      "process": "He avoids water during playtests, flags it as a known technical debt item, and attributes some instability to the current state of system transitions.",
-      "outcome": "A clear short-term development constraint is established: avoid water-heavy testing until the step-function migration is completed.",
+      "title": "Water can still crash the game due to outdated movement/step logic",
+      "summary": "While iterating on the temple area, Kaze flags that water interactions remain dangerous to test because the water system hasn’t been updated to the project’s newer step-function logic. This creates a real crash risk and affects how confidently he can iterate on water-adjacent platforming.",
+      "challenge": "Legacy water behavior depends on older step functions that the project no longer fully supports, causing instability.",
+      "process": "Kaze avoids unnecessary water contact during tests and treats crashes/loading weirdness as symptoms to be addressed later when water is migrated to the new movement pipeline.",
+      "outcome": "The issue remains open, shaping short-term level-design decisions (safer exits, minimizing forced water time) until the underlying water-step migration is completed.",
       "key_quote": "Being in water can just crash the game.",
+      "related_to": ["kaze"]
+    },
+    {
+      "title": "Decomp workflow forces all level areas to load at once (RAM + loading-time cost)",
+      "summary": "Kaze explains a structural drawback of decomp-based development compared with older binary-hack tooling: RoamManager-style area streaming isn’t readily available. As a result, areas currently load together, consuming extra RAM and contributing to long loads, unless he learns linker scripting to implement a decomp-compatible solution.",
+      "challenge": "Long loading times and RAM pressure, especially in multi-area levels, with limited existing tooling in the decomp environment.",
+      "process": "He describes the missing tool (RoamManager), why it doesn’t apply to decomp, and the technical barrier (linker scripts) required to restore per-area loading.",
+      "outcome": "For now, he accepts the all-at-once loading approach, while acknowledging a potential future engineering task to reclaim RAM and reduce load times.",
+      "key_quote": "If you wanted to load the areas one by one, you need to learn a lot of linker script that I haven’t learned yet.",
       "related_to": ["kaze"]
     }
   ],
   "open_questions": [
     {
-      "topic": "Decomp-based area streaming/loading strategy",
-      "context": "Kaze says decomp currently loads all areas at once; RoamManager (binary) can stream areas but is incompatible; solving it would require linker-script knowledge.",
+      "topic": "Course 13 (mysterious ice castle) boss concept",
+      "context": "Kaze says Course 13’s theme is set (suspenseful ice castle) but he still needs a boss and invites brainstorming.",
       "questions": [
-        "How much RAM is currently being lost by loading all areas at once, and what concrete constraints does that impose on RTYI (textures, geo complexity, enemy counts, music)?",
-        "Did the team ever prototype a decomp-compatible alternative to RoamManager, or consider writing a new tool?",
-        "What specifically in the decomp build system/linker scripts would need to change to allow per-area loading, and is that a realistic goal before release?",
-        "How did this limitation influence level design (e.g., fewer unique assets per course, reuse of materials, smaller sub-areas)?"
+        "What role is the Ice Castle boss supposed to play in the game’s pacing—skill check, narrative beat, or mechanical twist?",
+        "What boss ideas were considered and rejected, and what constraints (N64 performance, camera, arena size, animation budget) are shaping the final choice?",
+        "How do you decide whether an RTYI boss should feel “Mario 64-authentic” versus more experimental/modern?"
       ],
       "related_to": ["kaze"]
     },
     {
-      "topic": "Water crash risk and step-function migration",
-      "context": "Water uses an old step function that’s no longer fully supported; entering water can crash the game. This suggests a larger engine refactor mid-production.",
+      "topic": "Fixing water crashes by migrating to the new step function",
+      "context": "Kaze warns that water can crash because it hasn’t been updated to the new step-function system and old step functions aren’t fully supported.",
       "questions": [
-        "What is the ‘new step function’ migration (what changed, why was it necessary), and what remains to update water to it?",
-        "How often do crashes still occur on real N64 vs emulators, and what’s the debug process for water-related crashes?",
-        "Did this instability force any design changes (fewer water segments, different punishments for falling, extra escape staircases)?"
+        "What changed in the project’s step-function system, and why does water still rely on legacy behavior?",
+        "How often do crashes occur in practice, and what kinds of bugs do they produce (hard crash, softlock, physics corruption)?",
+        "What would it take to complete the water migration—what’s the engineering plan and what has blocked it so far?"
       ],
       "related_to": ["kaze"]
     },
     {
-      "topic": "Course 13 (mysterious ice castle) boss design",
-      "context": "Kaze states Course 13 will be a suspenseful ice castle and explicitly says they still need a boss concept for it.",
+      "topic": "Restoring per-area level loading in decomp (linker-script barrier)",
+      "context": "Kaze explains that decomp can’t easily use RoamManager and that implementing per-area loading would require linker-script knowledge he hasn’t learned yet.",
       "questions": [
-        "What emotions or references define the ‘mysterious/suspenseful’ tone of the ice castle, and what boss would reinforce that theme?",
-        "Do you prefer a mechanical/platforming boss, a puzzle boss, or a spectacle boss for Course 13—and why?",
-        "What existing systems/AI (from earlier bosses or enemies) could be reused to build the ice boss efficiently without breaking performance on N64?"
-      ],
-      "related_to": ["kaze"]
-    },
-    {
-      "topic": "Course 14 secrecy and ‘comp pack’ constraints",
-      "context": "Kaze says he built an entire area in Course 14 but cannot show it because Eiza requested secrecy as part of a competition/pack.",
-      "questions": [
-        "What is the ‘comp pack’ and what commitment did you make about not showing Course 14 content?",
-        "How does building a level ‘in secret’ affect iteration speed, feedback from chat, and coordination with artists/composer?",
-        "Is this secrecy tied to a release beat/marketing plan for RTYI or a separate competition deliverable?"
-      ],
-      "related_to": ["kaze"]
-    },
-    {
-      "topic": "Late-stage warp/order changes causing outdated level pathways",
-      "context": "Kaze notes that changing level order made at least one warp (submarine → dome) out of date, implying ongoing restructuring even late in development.",
-      "questions": [
-        "How often do you reorder courses/warps this late, and what drives those decisions (difficulty curve, story beats, technical needs)?",
-        "What tooling/checklist do you use to keep warps consistent after reorders, and how do you test for broken pathways?",
-        "Was the warp change purely organizational, or did it reflect a broader redesign of progression through the hub/overworld?"
+        "How big of a RAM/loading-time win would per-area loading be for RTYI—are there specific courses where it becomes critical?",
+        "Have you considered asking a specialist (or community contributor) to help with linker scripts, and what would collaboration on that look like?",
+        "How does the all-at-once loading constraint affect level design decisions (area count, setpiece size, texture budgets)?"
       ],
       "related_to": ["kaze"]
     }

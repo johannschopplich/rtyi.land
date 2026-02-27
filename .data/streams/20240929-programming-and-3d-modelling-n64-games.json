@@ -1,208 +1,230 @@
 {
   "stream_context": {
-    "summary": "Kaze implements and tunes a new Course 14 enemy (cardboard/thimble Shy Guys) and reviews Biobak’s major Course 1 visual/performance rework. The stream includes a notable technical debugging segment (a tile-scroll/env-map “shine” not moving due to C variable shadowing and clamp behavior), new macro-level design intent for the overworld as a fully explorable Yoshi’s Island, and concrete scope details for star/mission structure. He also reacts to a new Badub track for the level and discusses potential OST-on-cartridge merch and legal consultation.",
+    "summary": "Kaze iterates on a new Course 14 enemy (“thimble”/cardboard Shy Guys) with chase + dive behavior and bully-like knockback, then reviews a major Biobak visual/performance rework of Course 1 for an upcoming demo/Patreon update. The stream includes a deep technical debugging segment on a moving “shine” (environment-map decal/tile scrolling) that turns out to be a compiler/variable-shadowing issue, plus notable project-scope clarifications (star counts, “Yoshi stars” restriction-missions) and an important overworld vision: a 360° explorable Yoshi’s Island hub that opens up as you progress.",
     "level": ["Course 14", "Course 1", "Overworld"],
-    "significance": "notable",
-    "significance_reason": "Introduces several documentary-relevant decisions (overworld vision, star/mission counts and restriction types), a clear example of low-level N64/decomp debugging (compiler shadowing), and concrete collaboration outcomes from Biobak (major rework) and Badub (music direction + disagreement)."
+    "significance": "milestone",
+    "significance_reason": "Introduces/clarifies major project structure (approx. 135 main stars + 45 “Yoshi stars” with multiple restriction types) and articulates a key overworld vision (a 360° Yoshi’s Island hub). Also showcases a substantial Course 1 rework from Biobak with performance verification and resolves a major rendering bug via low-level compiler/assembly investigation."
   },
   "findings": [
     {
       "topic": "design",
       "importance": "high",
-      "summary": "Course 14’s new enemy concept solidifies: ‘thimble’ Shy Guys chase Mario aggressively, behave partly like Bullies (kick/knockback gameplay) and will also have a dive attack; Kaze prioritizes making the fight feel fun via knockback interactions rather than a traditional ‘kill’ animation.",
-      "quote": null
+      "summary": "Kaze frames the overworld as the entire island: players should be able to see a full 360° view (including beach/ocean) so progression feels like going deeper into one coherent place rather than hopping disconnected hubs.",
+      "quote": "It is super important that the overworld is the entirety of Yoshi’s Island… you get like a 360° round view of the beach… and then as you get more stars, you just go deeper into the island."
     },
     {
       "topic": "design",
-      "importance": "medium",
-      "summary": "Kaze realizes the enemy ‘death’/defeat logic must match the material fantasy: squishing would break the idea of a hard metal thimble, so he explores alternatives (unbeatable, knockdown/roll, or bully-style knock-off-the-platform) and settles into bully-like knockback as the most readable interaction.",
+      "importance": "high",
+      "summary": "Project scope detail: Kaze targets roughly 135 main stars plus ~45 additional “Yoshi stars” that function like restricted challenges (with multiple rule-sets, including several A-press-limited missions).",
       "quote": null
     },
     {
       "topic": "technical",
       "importance": "high",
-      "summary": "Kaze hits a rendering/material bug while trying to make a moving light reflection on the thimble enemy using an environment-map-style decal/tile scrolling; after checking behavior across emulators (Project64 vs NEMU) and stepping into assembly, he finds the root cause: variable shadowing/incorrect scoping causing the intended display-list pointer/return value to be wrong, highlighting how small C mistakes can silently break RSP/RDP display list setup.",
+      "summary": "A “moving shine” effect on the thimble enemy (an environment-map style decal/UV effect driven by camera rotation) fails due to a variable being accidentally shadowed; Kaze confirms by inspecting assembly and then fixing compilation warnings (Wshadow).",
+      "quote": "This is why you don’t trust your fucking compiler. You look at the assembly and then you find it out."
+    },
+    {
+      "topic": "design",
+      "importance": "medium",
+      "summary": "The Course 14 “thimble Shy Guys” are designed as aggressive chasers: they run toward Mario, can do a dive jump, and Kaze converges on a bully-like interaction where the player can kick them for knockback (potentially to knock them off ledges).",
       "quote": null
     },
     {
-      "topic": "technical",
+      "topic": "design",
       "importance": "medium",
-      "summary": "He discovers a constraint that affects the planned moving ‘shine’: texture scrolling doesn’t work as expected with clamp enabled, implying the effect may require smaller textures, different tiling settings, or abandoning clamp to get bidirectional/consistent scrolling.",
+      "summary": "Kaze wrestles with how to let players “defeat” thimble enemies without breaking the material fantasy (they’re metal/hard like a thimble, so squish-death feels wrong). He leans toward knockback/edge-outs rather than squashing.",
       "quote": null
     },
     {
       "topic": "team",
       "importance": "high",
-      "summary": "Biobak delivers a substantial Course 1 rework aimed at both visuals and performance (fewer triangles and materials, reduced overdraw, redesigned windmill/sky/backgrounds, forest reshaping for cutscene continuity). Kaze reviews changes live, exports for in-game/N64 testing, and confirms performance is roughly unchanged (not worse), implying the optimization tradeoffs succeeded.",
+      "summary": "Biobak delivers a sizable Course 1 rework focused on reducing overdraw/material complexity (e.g., removing trees that caused heavy overdraw, consolidating forest area, adding distant-background illusions with “one texture and zero overdraw,” and improving major setpieces like the windmill).",
       "quote": null
     },
     {
-      "topic": "design",
-      "importance": "high",
-      "summary": "Kaze states a key overworld pillar: the overworld should feel like the entirety of Yoshi’s Island with a full 360° view of the surrounding beach/ocean, so exploration reads as ‘the real island’ with secrets as physical nooks/crannies; progression is framed as going deeper into the island as stars are collected.",
-      "quote": null
-    },
-    {
-      "topic": "design",
-      "importance": "high",
-      "summary": "He gives concrete scope numbers and mission structure: ~135 main stars plus ~45 ‘Yoshi stars’ (quests given by Yoshis) that impose special restrictions/routes. He mentions one restriction category explicitly (A-press limits, four stars) and says there are 11 restriction types total.",
+      "topic": "technical",
+      "importance": "medium",
+      "summary": "Kaze validates the Course 1 rework in-game and on N64 performance: initial worry it would run worse is overturned; he concludes performance is roughly the same and could be improved further with sorting/optimization.",
       "quote": null
     },
     {
       "topic": "business",
       "importance": "medium",
-      "summary": "Kaze discusses a YouTube content plan to broaden audience beyond ‘tech nerd’ topics: a BLJ explainer, re-uploading/refreshing “The Missing Link” after a Nintendo takedown, a planned ‘first one remake,’ and potentially more general Mario 64 ‘facts’ content to grow the channel and funnel attention back to the project.",
-      "quote": "I’m just gonna make more generic videos that are not just for tech nerds."
+      "summary": "Kaze requests a level screenshot for a Patreon post because a demo is “releasing soon,” and he wants to reassure patrons that progress is continuing despite infrequent posts.",
+      "quote": null
     },
     {
       "topic": "design",
       "importance": "medium",
-      "summary": "Badub’s new level track is played for feedback. Chat reacts positively, but Kaze feels it doesn’t match the intended ‘adventure’ vibe—he hears a ‘sunset beach’ feel and wants a stronger hummable melody, indicating active music-direction iteration rather than accepting tracks by default.",
-      "quote": "For me it doesn’t fit the vibe. Feels more like a beach at sunset, not like a complete adventure."
+      "summary": "Course 14 naming remains unsettled; Kaze likes some community suggestions (e.g., “Handmade Heights,” “Paper Craft Peaks”) but isn’t fully sold and admits he personally cares less about names than the audience does.",
+      "quote": null
+    },
+    {
+      "topic": "community",
+      "importance": "medium",
+      "summary": "Kaze plays Badub’s level track for feedback “with no preconceived notions,” but personally feels it doesn’t match the intended adventure vibe; he describes it as more like a ‘beach at sunset’ and wants a more hummable melody.",
+      "quote": "For me it doesn’t fit the vibe. Feels more like a beach at sunset, not like a complete adventure… and I’m also kinda missing the melody that you can hum along to."
+    },
+    {
+      "topic": "business",
+      "importance": "high",
+      "summary": "Kaze floats a merch/publishing idea: releasing Return to Yoshi’s Island alongside a separate physical “OST cartridge” that could include bonus songs, while also planning to consult a lawyer before release (copyright/IP risk awareness).",
+      "quote": null
     },
     {
       "topic": "business",
       "importance": "medium",
-      "summary": "Kaze floats a merch/release idea: shipping the OST on a separate cartridge (including bonus tracks) in addition to a public release, leveraging the ROM-space advantage and physical novelty. He immediately notes potential copyright/legal complexity and expects to consult a lawyer before release.",
+      "summary": "He outlines near-term channel strategy: an explanatory BLJ video, then re-releasing “The Missing Link” with updates after a Nintendo takedown, followed by a “first one remake,” plus potentially broader-audience Mario 64 fact videos.",
+      "quote": null
+    },
+    {
+      "topic": "personal",
+      "importance": "low",
+      "summary": "Kaze notes he moved to Canada in 2021 and expresses strong relief at leaving Germany due to bureaucracy; he also mentions starting Minecraft casually with Zeina.",
       "quote": null
     }
   ],
   "contributor_findings": {
     "biobak": [
       {
-        "topic": "design",
+        "topic": "team",
         "importance": "high",
-        "summary": "Provides a major Course 1 rework that improves composition and readability (new backgrounds, more saturated sky, cooler sun texture, redesigned windmill, revised hole shape, mud texture patches, revised house/window designs, improved flower palette consistency) while also deliberately reducing overdraw (tree removal, smaller concentrated forest) and optimizing materials/tri count.",
-        "quote": "220 fewer tris, 7 fewer materials."
+        "summary": "Biobak’s Course 1 rework claims major efficiency gains (e.g., ~220 fewer triangles and 7 fewer materials) while adding more convincing backgrounds and improving large props like the windmill; he explicitly removed trees due to overdraw and continuity-breaking top-down views.",
+        "quote": null
+      },
+      {
+        "topic": "design",
+        "importance": "medium",
+        "summary": "Biobak proposes worldbuilding continuity: when the king’s troops take the player away in a cutscene, they should fly toward the forest area for spatial consistency with the redesigned layout.",
+        "quote": null
       },
       {
         "topic": "technical",
         "importance": "medium",
-        "summary": "Flags overdraw as a key bottleneck (e.g., trees ‘cost 8 million overdraw’) and restructures the scene to preserve the illusion from more camera angles (e.g., removing trees because the ‘illusion broke from above the windmill’).",
-        "quote": null
-      },
-      {
-        "topic": "team",
-        "importance": "medium",
-        "summary": "Notes practical pipeline issues: his Blender exports can require Kaze to fix N64 texture formats (e.g., incorrect I8 sizing/format assumptions), implying Kaze serves as final integrator/validator for N64-ready asset compliance.",
+        "summary": "Kaze notes he often has to correct texture formats from Biobak’s exports (e.g., mismatched I8 sizes), highlighting ongoing pipeline friction between art export and N64-valid texture constraints.",
         "quote": null
       }
     ],
     "badub": [
       {
         "topic": "design",
-        "importance": "high",
-        "summary": "Delivers a new music track intended for the current level; Kaze uses live audience feedback as a ‘blind’ evaluation, then articulates specific direction notes (tone/vibe mismatch, stronger melody desired), demonstrating iterative composer-director collaboration.",
+        "importance": "medium",
+        "summary": "Badub provides a featured track for the Course 14 level; chat response is positive, but Kaze flags a vibe mismatch and the need for a stronger, hummable melodic hook.",
         "quote": null
       }
     ],
-    "zeina": [
-      {
-        "topic": "personal",
-        "importance": "low",
-        "summary": "Mentioned indirectly as Kaze’s co-op partner in newly started Minecraft sessions, reflecting occasional decompression/relationship time alongside development.",
-        "quote": null
-      }
-    ],
+    "zeina": [],
     "others": []
   },
   "memorable_quotes": [
     {
       "speaker": "Kaze",
-      "quote": "And this is why you don’t trust your fucking compiler. You look at the assembly and then you find it out.",
-      "context": "Said while diagnosing why a display-list/tile-scroll ‘shine’ effect wouldn’t move; he discovers a variable shadowing/scoping issue after stepping into assembly, underscoring the ‘old console / low-level’ reality of the project."
+      "quote": "It is super important that the overworld is the entirety of Yoshi’s Island… you get like a 360° round view of the beach… and then as you get more stars, you just go deeper into the island.",
+      "context": "A clear articulation of the hub-world fantasy: one cohesive island that opens up with progression."
     },
     {
       "speaker": "Kaze",
-      "quote": "It is super important that the overworld is the entirety of Yoshi’s Island.",
-      "context": "A clear, documentary-friendly statement of the project’s ‘respectful but new’ design thesis: make the hub world feel like a real, explorable island rather than a menu."
+      "quote": "This is why you don’t trust your fucking compiler. You look at the assembly and then you find it out.",
+      "context": "Turning point in the technical debugging story—he discovers the rendering bug is caused by variable shadowing and compiler behavior."
     },
     {
       "speaker": "Kaze",
-      "quote": "For me it doesn’t fit the vibe. Feels more like a beach at sunset, not like a complete adventure.",
-      "context": "His candid reaction to a Badub track—useful for showing how the team protects a cohesive tone even when the audience likes a piece."
+      "quote": "For me it doesn’t fit the vibe. Feels more like a beach at sunset, not like a complete adventure… and I’m also kinda missing the melody that you can hum along to.",
+      "context": "Honest creative direction on music tone: he wants adventure-forward, memorable melodies rather than purely atmospheric chill."
     }
   ],
   "key_stories": [
     {
-      "title": "The thimble Shy Guy combat identity (kill vs knockback)",
-      "summary": "Kaze builds a new ‘thimble’ Shy Guy for Course 14 and realizes the usual Mario enemy defeat language (squish/flatten) conflicts with the enemy’s implied hard-material construction. He iterates toward a bully-like interaction loop—kicking/knockback and ring-out—augmented with a dive attack to keep the enemy threatening.",
-      "challenge": "Creating a defeat/interaction model that is readable, fun, and consistent with the crafted-material fantasy (metal thimble + cardboard aesthetic).",
-      "process": "Brainstorms options (unbeatable, squish, knockdown/roll puzzles), tests knockback feel in-engine, and gravitates toward bully-style physics interactions as the cleanest solution.",
-      "outcome": "Enemy behavior direction becomes clearer: aggressive chase + dive attack, with ‘defeat’ primarily via knockback/ring-out rather than a conventional death animation.",
-      "key_quote": null,
-      "related_to": ["kaze", "biobak"]
-    },
-    {
-      "title": "Why the moving ‘shine’ didn’t move (debugging down to assembly)",
-      "summary": "While implementing a camera-dependent reflection/shine on the thimble enemy, Kaze finds that tile-size/scroll parameters appear to do nothing and even behave differently across emulators. He inspects the compiled assembly and discovers the issue is caused by variable shadowing, leading to incorrect behavior in the graphics command chain.",
-      "challenge": "A visually important effect (moving highlight) fails silently, creating inconsistent results across emulators and raising doubts about rendering state, pointer handling, and display list generation.",
-      "process": "Sanity checks with random offsets, compares emulator behavior (Project64 vs NEMU), toggles rendering/material settings (including clamp), then steps into assembly to see what GCC actually emitted and identifies the shadowed variable causing incorrect state/returns.",
-      "outcome": "Fix path is identified (remove shadowing and correct the code path); Kaze also learns clamp constraints may limit how the final scrolling highlight can be implemented.",
-      "key_quote": "Fuck you, GCC. Why didn’t you warn me?",
+      "title": "The thimble enemy’s “shine” effect fails until Kaze finds a shadowed variable",
+      "summary": "While adding a moving highlight to the thimble Shy Guy, Kaze hits a baffling rendering failure across emulators (including Nemu). The fix becomes a mini detective story: he stops trusting high-level code, inspects assembly, and discovers variable shadowing that breaks the display-list math.",
+      "challenge": "A camera-driven UV/tile-scroll highlight (‘shine’) would not move (or would disappear) despite seemingly correct code and prior working patterns.",
+      "process": "He tests on multiple emulators, tries alternative tiles/material settings, sanity-checks with random offsets, then opens a debugger, reads assembly output, and identifies unintended variable shadowing; he enables/reads Wshadow warnings and adjusts code/types (float/F32 handling, clamping implications).",
+      "outcome": "The shine begins functioning (though with limitations like clamp behavior), and Kaze leaves with actionable constraints for the final effect and a reminder to treat compiler warnings seriously.",
+      "key_quote": "You look at the assembly and then you find it out.",
       "related_to": ["kaze"]
     },
     {
-      "title": "Course 1 rework: making it prettier without making it slower",
-      "summary": "Biobak submits a sweeping Course 1 art pass that also targets performance bottlenecks like overdraw, especially from trees and background layering. Kaze reviews the changes, exports to test in-game and on real N64, and confirms performance is not worse than before despite the visual upgrade.",
-      "challenge": "Achieving a more ‘crafted’ and detailed look while respecting N64-era constraints (overdraw, material count, triangle count, and consistent illusion from multiple camera angles).",
-      "process": "Biobak reduces overdraw-heavy elements (trees), consolidates forest placement, changes background strategy to ‘one texture and zero overdraw,’ and cuts tris/materials; Kaze validates via export and runtime tests.",
-      "outcome": "Rework appears to be a net win—cleaner visuals with stable performance—supporting the team’s approach of art-through-optimization rather than art-versus-optimization.",
-      "key_quote": null,
+      "title": "Biobak’s Course 1 visual rework lands without tanking N64 performance",
+      "summary": "Kaze previews a large external rework pass from Biobak aimed at making Course 1 richer while reducing cost (overdraw/material count). The suspense is whether it will run worse on real hardware; after testing, Kaze concludes performance is roughly unchanged and the upgrade is worth it for the demo.",
+      "challenge": "Major aesthetic upgrades risk lowering framerate on N64; Course 1 includes costly foliage/overdraw traps.",
+      "process": "Kaze reviews the Blender changelog, compares setpieces and backgrounds, notes overdraw rationale (tree removal), exports to the game, then checks performance on N64 and identifies remaining optimization opportunities (sorting, specific hotspots).",
+      "outcome": "Course 1 rework is accepted as a net win; Kaze plans to import/fix formats later and use screenshots for Patreon/demo hype.",
+      "key_quote": "I removed the trees because they cost 8 million overdraw.",
       "related_to": ["kaze", "biobak"]
+    },
+    {
+      "title": "Defining the game’s star structure: main stars vs restricted “Yoshi stars”",
+      "summary": "Kaze clarifies how Return to Yoshi’s Island will expand beyond classic Mario 64 star collecting by adding a parallel set of restricted challenges given by Yoshis. This creates a second progression track with rule-based missions (including A-press limits) that can be marketed as a signature feature.",
+      "challenge": "How to add meaningful extra content without feeling like filler—and how to make “bonus” objectives distinct from main course stars.",
+      "process": "He describes two buckets: ~135 main stars and ~45 Yoshi stars, then outlines that Yoshi stars are categorized into multiple restriction types (11 total types mentioned), including at least four A-press-limited challenges.",
+      "outcome": "A clear content roadmap emerges that can guide level design, pacing, and trailer beats (restrictions as headline hooks).",
+      "key_quote": null,
+      "related_to": ["kaze"]
+    },
+    {
+      "title": "Overworld reframed as an explorable, coherent Yoshi’s Island",
+      "summary": "Kaze describes a hub-world philosophy shift: the overworld should read as the entire island, with a visible coastline and exploration that feels geographically grounded. Progression becomes ‘going deeper’ into the island, reinforcing the documentary’s theme of rebuilding a classic into a new, cohesive world.",
+      "challenge": "Avoiding a “menu hub” feel and making exploration feel like uncovering a real place rather than selecting levels.",
+      "process": "He emphasizes a 360° coastal view and uses the island’s physicality (nooks, crannies, secrets) as a design north star; more stars unlock deeper access rather than arbitrary teleports.",
+      "outcome": "A strong, communicable creative pillar for interviews, marketing, and level-connection decisions across the project.",
+      "key_quote": "So it feels like you can actually explore the entire island.",
+      "related_to": ["kaze"]
     }
   ],
   "open_questions": [
     {
-      "topic": "Overworld design: 360° island readability and progression ‘deeper into the island’",
-      "context": "Kaze frames the overworld as the entire Yoshi’s Island with a 360° beach view and secrets as physical nooks/crannies, with progression represented by traveling deeper inland.",
+      "topic": "Overworld: 360° island vision and progression gating",
+      "context": "Kaze asserts the overworld should be the entirety of Yoshi’s Island with a full coastal view, and progression should move the player ‘deeper into the island.’",
       "questions": [
-        "What specific camera and traversal rules make the overworld feel like a continuous real place rather than a hub menu (loading boundaries, sightlines, shortcuts)?",
-        "How will ‘going deeper into the island’ be gated—stars, abilities, story events, or physical obstacles?",
-        "What’s the intended emotional arc of the overworld (comforting home base vs escalating mystery), and how does it stay respectful to the original Yoshi’s Island tone?"
+        "What specific mechanics will gate ‘going deeper’—star thresholds, story events, unlocked traversal abilities, or physical barriers?",
+        "How do you plan to build the 360° coastline illusion on N64 hardware (skybox tricks, distant geometry, fog bands, streaming/segmentation)?",
+        "Which existing games or moments (Mario 64 castle, Sunshine hub, Yoshi’s Island map) are you using as the emotional reference for this overworld?",
+        "Was this vision a recent pivot, or has it been the plan from the start? What changed your mind today?"
       ],
       "related_to": ["kaze"]
     },
     {
-      "topic": "Star/mission structure: 135 main stars + 45 ‘Yoshi stars’ with 11 restriction types",
-      "context": "Kaze states concrete counts and describes ‘Yoshi stars’ as special missions from Yoshis with restrictions; A-press limits are one category and there are 11 total types.",
+      "topic": "Yoshi stars: restriction categories and how they integrate with the main game",
+      "context": "Kaze cites ~45 Yoshi stars with 11 restriction types, including multiple A-press-limited missions, framed as green-star-like but ‘less sucky.’",
       "questions": [
-        "What are all 11 ‘Yoshi star’ restriction categories, and how did you decide that set (inspiration, playtesting, difficulty pacing)?",
-        "How do Yoshi stars integrate into course flow—are they optional challenge layers, narrative errands, or progression gates?",
-        "How do you prevent restriction missions from feeling like ‘romhack challenges’ and instead feel like authentic Mario/Yoshi gameplay?"
+        "What are the 11 restriction types, and which ones are you most excited about as ‘signature’ challenges?",
+        "How will Yoshi stars be surfaced diegetically (where are the Yoshis, how do they assign missions, what UI communicates constraints)?",
+        "How do you balance these restrictions so they feel like clever remixes rather than frustration (especially A-press limits)?",
+        "Will Yoshi stars require revisiting the same spaces, or do you design dedicated ‘challenge variants’ of areas within courses?"
       ],
       "related_to": ["kaze"]
     },
     {
-      "topic": "Music direction process with Badub (vibe vs audience reaction)",
-      "context": "Chat likes Badub’s track; Kaze feels it reads as ‘sunset beach’ and lacks a hummable melody for the intended adventure mood.",
+      "topic": "Course 1 rework pipeline: format fixes and acceptance criteria",
+      "context": "Kaze praises Biobak’s rework but notes recurring import friction: texture formats/sizes need manual correction for N64 validity, and some exports don’t come in correctly on first pass.",
       "questions": [
-        "What reference tracks or emotional keywords are you using to align composers with each course’s tone?",
-        "How often do you reject/iterate tracks, and what does that feedback loop look like (musical notes vs high-level vibe notes)?",
-        "Do you plan to use recurring motifs/leitmotifs across the island/overworld to unify the soundtrack?",
-        "How do N64 audio constraints (sequence format, instrument banks, memory) shape composition choices?"
-      ],
-      "related_to": ["kaze"]
-    },
-    {
-      "topic": "Physical OST cartridge idea and legal constraints",
-      "context": "Kaze suggests releasing the OST on its own cartridge as merch (with bonus tracks) and mentions consulting a lawyer due to copyright concerns.",
-      "questions": [
-        "What would the OST cartridge technically be (standalone ROM, audio player UI, bonus content), and who would manufacture/fulfill it?",
-        "Which rights are you most concerned about—Nintendo IP, samples, or platform-holder enforcement—and what legal advice are you seeking?",
-        "Would the OST cartridge include only original compositions, or also arrangements/derivatives of Nintendo melodies?"
-      ],
-      "related_to": ["kaze"]
-    },
-    {
-      "topic": "Course 14 enemy finish line: defeat logic, rewards, and readability",
-      "context": "Kaze likes the bully-like knockback feel but still debates coins/reward spawning and how to handle enemy ‘death’ when knocked off or pushed far away.",
-      "questions": [
-        "What’s the final intended player mental model—are thimble Shy Guys ‘defeated’ for good, temporarily removed, or just obstacles?",
-        "Will they drop coins or other rewards, and how do you prevent farming/exploits?",
-        "How do you teach the player the correct interaction (ring-out/kickback) without explicit tutorials?"
+        "What are the most common export/format issues that slow down integrating art, and how do you want that pipeline to evolve before the final push?",
+        "When Biobak submits a rework, what are your acceptance tests—performance thresholds, collision sanity, camera readability, or visual cohesion checks?",
+        "How do you decide when a course is ‘done enough’ to justify collision work, given your comment that collision before final layout is wasted time?"
       ],
       "related_to": ["kaze", "biobak"]
+    },
+    {
+      "topic": "Music direction and feedback loop with Badub",
+      "context": "Kaze plays Badub’s Course 14 track, chat loves it, but Kaze feels it reads like ‘beach at sunset’ and lacks a hummable melody for an adventure course.",
+      "questions": [
+        "What’s your target emotional brief for Course 14—what should the player feel minute-to-minute?",
+        "How do you and Badub iterate when the chat’s taste conflicts with your own direction? Who has final say and what’s the revision process?",
+        "Do you want the soundtrack to lean more ‘Mario 64-esque motif-driven’ or more atmospheric/modern—and does that differ by biome?"
+      ],
+      "related_to": ["kaze", "badub"]
+    },
+    {
+      "topic": "Release/legal strategy: OST cartridge and Nintendo risk",
+      "context": "Kaze mentions re-uploading “The Missing Link” after a Nintendo takedown, and says he’ll talk to a lawyer before releasing Return to Yoshi’s Island; he also considers selling an OST cartridge as merch.",
+      "questions": [
+        "What did the Nintendo takedown change in your release planning or how you present the project publicly?",
+        "What exactly would an OST cartridge contain (just audio playback, bonus tracks, interactive jukebox), and what platforms/flashcart standards would it target?",
+        "What legal advice are you seeking—music licensing, ROM distribution structure, branding, or how to handle ‘derivative work’ claims?",
+        "If legal constraints force compromises, what parts of the project are non-negotiable vs. replaceable?"
+      ],
+      "related_to": ["kaze"]
     }
   ]
 }

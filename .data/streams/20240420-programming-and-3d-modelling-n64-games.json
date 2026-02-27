@@ -1,82 +1,64 @@
 {
   "stream_context": {
-    "summary": "Kaze resumes work on a side area that was intermittently crashing, diagnoses and fixes a low-level register clobber caused by an optimization. He then iterates on platforming/readability (coin route difficulty, collision accessibility), previews a plan to remove and remake a disliked red-coin mission based on playtester feedback, and reviews new Wild West signage textures made by Zeina. He also shares early concept direction for Quest 13 (ice castle) and mentions ongoing dependency on Sauraen for F3DEX3/RQIA decisions.",
-    "level": ["Course 2", "Course 12"],
+    "summary": "Kaze debugs a severe random crash in a new side area, iterates on the area’s platform/texturing/fog, and shares forward-looking design plans (Quest 13 ice-castle concept). He also explains why an old red-coin mission is being removed after watching playtesters, and reviews Zeina’s new Wild West signage assets while reinforcing the “make it work on real N64” constraint.",
+    "level": ["Course 12 – Wild West", "Course 13 – Ice Castle (planned)"],
     "significance": "notable",
-    "significance_reason": "Contains a concrete technical crash fix (register misuse), a design pivot driven by playtester observation (removing/remaking a red-coin mission), and clear examples of collaboration (Zeina’s sign art, waiting on Sauraen for F3DEX3)."
+    "significance_reason": "Introduces the next major quest concept (Quest 13), documents a concrete playtest-driven content cut (removing a red-coin mission), and captures a meaningful technical incident (register-clobber crash) with a clear fix—useful interview anchors even though no major release milestone occurs."
   },
   "findings": [
     {
       "topic": "technical",
       "importance": "high",
-      "summary": "A random crash when entering the area (especially while swimming) was traced to Kaze’s optimization that stores the current object pointer in FP/S8; a called function overwrote S8 with a local variable, corrupting the object pointer and crashing. He modified code so the function no longer uses S8, eliminating the crash in testing.",
-      "quote": "I'm using a fucked up optimization that stores the current object pointer in the FP register, which is the same as the S8 register in GCC… this function overwrites S8… so my current object pointer gets overwritten…"
+      "summary": "A hard-to-reproduce crash when entering/using the new side area was traced to a risky optimization: Kaze stored the current object pointer in the FP register (GCC’s S8), but a swimming-related function overwrote S8 with a local variable, corrupting the object pointer and crashing the game. He refactored to reduce register pressure so the function no longer uses S8, and the crash stopped in testing.",
+      "quote": null
     },
     {
       "topic": "design",
       "importance": "high",
-      "summary": "Kaze decided to remove and rebuild an existing red-coin mission after watching playtesters; he concluded the area was \"cute\" but unfun due to waiting, awkward control, and camera problems. The mission will still be an 8-red objective but with redesigned layout/gameplay.",
-      "quote": "I watched playtesters play it and I realized this area fucking sucks… It's called Boring Red Coin Mission that will be removed from the game."
+      "summary": "Quest 13’s concept is locked in as an ice castle on top of a mountain with a “bright but scary/suspenseful” tone—white/desaturated blues rather than a simple dark/nighttime palette. Boss details are still undecided.",
+      "quote": null
     },
     {
       "topic": "design",
       "importance": "medium",
-      "summary": "Quest 13 concept pitch: an ice castle on top of a mountain with a suspenseful, “scary/gloomy” vibe achieved through bright but desaturated whites/blues rather than pure darkness; boss is not decided yet.",
+      "summary": "Kaze rejects the common suggestion to solve invisible-wall hazards with a “death floor below the level,” citing how collectathon exploration feels in Mario 64 x Banjo-Tooie-style design; he prefers fixing collision/flow rather than punishing misses with instant death.",
       "quote": null
     },
     {
-      "topic": "technical",
-      "importance": "medium",
-      "summary": "He notes an N64 performance heuristic: overdraw is a bigger concern than raw triangle count for his environments (relevant to how he partitions geometry and chooses rendering approaches).",
-      "quote": "Overdraw is much more of a concern than triangles."
+      "topic": "design",
+      "importance": "high",
+      "summary": "After watching playtesters, Kaze decided to remove/replace an existing ‘Boring Red Coin Mission’ area because it looked cute but played poorly: waiting on fling vines, awkward camera, and controls that only feel fine when played by someone highly skilled at Mario 64. The mission remains ‘8 reds’ but the space is being rebuilt.",
+      "quote": null
     },
     {
       "topic": "design",
       "importance": "medium",
-      "summary": "Platforming readability/accessibility pass: he adjusts a coin/slide setup because it feels too precise and expects less-skilled players to struggle; later he moves geometry to reduce the chance players climb to a spot that leads to a bad approach/fail state.",
+      "summary": "He lowers difficulty in a specific coin/slide setup because it demands precise landing + sliding that he expects average players (he references ‘Kristo’) to fail; he adjusts geometry/spacing to reduce common player error cases.",
       "quote": null
     },
     {
-      "topic": "technical",
+      "topic": "design",
       "importance": "medium",
-      "summary": "He begins splitting the reworked area into two sub-areas and checks that it still renders correctly (implying an optimization/scene-management step to avoid rendering or setup issues).",
-      "quote": null
-    },
-    {
-      "topic": "technical",
-      "importance": "low",
-      "summary": "Visual integration work: he adds fog/multitexture/scuffing to a moving platform texture that looked out of place, recognizing missing fog was part of why it visually “popped.”",
+      "summary": "Visual iteration in the temple/ruins side area focuses on making moving platforms feel less “out of place” by adding fog and multi-texturing/scuffing while keeping hard edges; community critique pushes him to reconsider how green/clean the ruins read and how ‘Zelda-dungeon-like’ the temple vibe is.",
       "quote": null
     },
     {
       "topic": "team",
       "importance": "medium",
-      "summary": "F3DEX3/RQIA status: Kaze is still waiting on Sauraen to make final decisions; he expects no compilation impact from the eventual change but is blocked on the decision.",
-      "quote": "I'm still waiting for Sauraen to make the final decisions on that."
-    },
-    {
-      "topic": "team",
-      "importance": "medium",
-      "summary": "Zeina produced new in-world sign textures for the Wild West hub/area (tumbleweed store, Koopa bank, milk bar). Kaze reviews them, likes the look, and calls out a sizing/scaling adjustment needed for N64 texture dimensions.",
+      "summary": "Zeina is actively producing in-game signage textures for Course 12 – Wild West (e.g., tumbleweed store, Koopa bank, milk bar). Kaze reviews sizes/scale constraints (e.g., a 64x43 texture being ‘weird’) and tweaks to fit Mario 64/N64-friendly proportions.",
       "quote": null
     },
     {
-      "topic": "philosophy",
+      "topic": "technical",
       "importance": "medium",
-      "summary": "Kaze explicitly rejects doing quick UI/sign solutions in modern engines (e.g., Unity) because it undermines the core creative challenge of making content that truly runs on original N64 constraints.",
-      "quote": "It'd be pretty easy to do this just in Unity or something, but that's kind of taking away the whole spirit of the challenge of making something that runs on N64."
+      "summary": "F3DEX3/RQIA status remains pending: Kaze is waiting on Sauraen to make final decisions and indicates it won’t affect compilation for his current work, but he’s blocked on closure/commitment until Sauraen decides.",
+      "quote": null
     },
     {
       "topic": "technical",
       "importance": "low",
-      "summary": "Kaze reiterates his workflow for collision: collision is generated from 3D geometry but he often manually tweaks vertices to ensure intended walls and avoid small gaps; he claims most invisible walls in romhacks come from misaligned vertices/corner cases rather than intentional “hole patching.”",
+      "summary": "Kaze confirms the project’s engine/codebase is intended to be open source.",
       "quote": null
-    },
-    {
-      "topic": "business",
-      "importance": "low",
-      "summary": "He confirms the engine will be open source (no timeline given in this stream).",
-      "quote": "Will the engine be open source? Yes it will be."
     }
   ],
   "contributor_findings": {
@@ -84,50 +66,33 @@
       {
         "topic": "design",
         "importance": "low",
-        "summary": "Biobak is cited as occasionally creating textures for levels the team works on, implying shared art production beyond Kaze’s found/borrowed texture library.",
-        "quote": null
-      },
-      {
-        "topic": "community",
-        "importance": "low",
-        "summary": "Biobak participates socially in chat (e.g., roasting Lilaa), and Kaze frames this as improving stream energy; no direct design decision is attributed to Biobak in this segment beyond general feedback presence.",
+        "summary": "Biobak is present in chat and participates in real-time feedback/banter; Kaze frames developer-viewers (including peers) as useful because they correct him when he’s wrong, accelerating learning.",
         "quote": null
       }
     ],
     "badub": [],
     "zeina": [
       {
-        "topic": "design",
+        "topic": "team",
         "importance": "medium",
-        "summary": "Zeina delivers multiple Wild West sign assets (tumbleweed store, Koopa bank, milk bar). Kaze approves them and notes concrete implementation constraints (texture resolution/aspect such as 64x43 vs expected sizing), indicating an iterative art-to-engine pipeline.",
+        "summary": "Zeina delivers multiple Wild West shop/bank/bar signs with strong thematic style (e.g., the milk bar sign ‘drawing on a wall’ look). Kaze integrates/reviews them on stream and requests/anticipates resized or higher-resolution variants to match N64 texture constraints.",
         "quote": null
       },
       {
-        "topic": "personal",
+        "topic": "design",
         "importance": "low",
-        "summary": "Kaze attributes his very short haircut to a home haircutting mishap with Zeina’s clippers slipping, forcing them to cut everything shorter to hide a bald line.",
+        "summary": "Kaze notes Zeina also makes textures (alongside occasional Biobak contributions), while Kaze himself usually pulls textures from existing games rather than creating originals from scratch.",
         "quote": null
       }
     ],
     "others": [
       {
-        "name": "Sauraen",
+        "name": "Lilaa",
         "findings": [
           {
-            "topic": "technical",
-            "importance": "medium",
-            "summary": "Sauraen is a dependency for final decisions on F3DEX3/RQIA; Kaze is waiting on that call before moving forward, suggesting the rendering/microcode pipeline remains a coordinated team/community effort.",
-            "quote": null
-          }
-        ]
-      },
-      {
-        "name": "Zemos",
-        "findings": [
-          {
-            "topic": "business",
+            "topic": "design",
             "importance": "low",
-            "summary": "Release timing of a separate “competition” project is being held until Zemos plays it on stream; Kaze wants to release quickly afterward but is waiting per that agreement.",
+            "summary": "Lilaa pushes on lighting/time-of-day discussions (e.g., arguing about ‘sunset’ lighting in Wild West) and suggests an exterior nighttime/aurora idea for the ice-castle concept, which Kaze responds to positively as a possibility.",
             "quote": null
           }
         ]
@@ -137,73 +102,72 @@
   "memorable_quotes": [
     {
       "speaker": "Kaze",
-      "quote": "It'd be pretty easy to do this just in Unity or something, but that's kind of taking away the whole spirit of the challenge of making something that runs on N64.",
-      "context": "A clear statement of the project’s core philosophy: authenticity through real hardware constraints, even when modern tools would be faster."
+      "quote": "The best part about having other developers watch my content is I can just confidently say something wrong and they'll correct me—and then I learn.",
+      "context": "Kaze explains why he values knowledgeable peers in chat: it turns streaming into a feedback loop that improves his technical understanding."
     },
     {
       "speaker": "Kaze",
-      "quote": "I watched playtesters play it and I realized this area fucking sucks.",
-      "context": "Blunt articulation of how external playtesting drives redesigns and removals, even when an area is visually “cute.”"
+      "quote": "This is just remaking one area of an old level because I watched playtesters play it and I realized this area fucking sucks.",
+      "context": "A blunt, playtest-driven admission that motivates a content cut and redesign—useful to capture his iterative philosophy and willingness to remove work."
     }
   ],
   "key_stories": [
     {
-      "title": "Register-clobber crash caused by an optimization",
-      "summary": "A side area intermittently crashed on entry, and Kaze reproduced it live. He traced it to an optimization: storing the current object pointer in FP/S8, which was later overwritten by a function that used S8 for a local variable.",
-      "challenge": "Random crashes tied to swimming/entry that were hard to predict but severe enough to block progress on the area.",
-      "process": "He inspected generated code/register usage, identified S8 clobbering, and refactored/adjusted code so the relevant function no longer used S8, preserving the stored object pointer.",
-      "outcome": "Crash no longer reproduced after the change, allowing him to continue building/iterating on the area.",
-      "key_quote": "This function overwrites the S8 register… so my current object pointer gets overwritten… if you're swimming.",
+      "title": "Register-clobber crash in new side area",
+      "summary": "A nasty random crash threatened progress on a new side area. Kaze traces it to an aggressive optimization that collided with compiler/register conventions, then applies a targeted refactor that removes the crash.",
+      "challenge": "The area sometimes crashed on entry/interaction, even after an attempted pre-stream fix; behavior looked random and severe.",
+      "process": "Kaze inspects the code path and discovers he stored the current object pointer in FP/S8. A swimming-related function overwrote S8 with a local variable due to register pressure, corrupting the object pointer. He restructures the function to reduce register usage so S8 is no longer used/clobbered.",
+      "outcome": "The crash disappears in subsequent testing (“one bug gone”), and he resumes level work with a warning it ‘might randomly crash’ but appears stabilized.",
+      "key_quote": "I'm using a fucked up optimization that stores the current object pointer in the FP register… and this function decides to overwrite the S8 register with some random local variable.",
       "related_to": ["kaze"]
     },
     {
-      "title": "Removing a red-coin mission after observing playtesters",
-      "summary": "Kaze previews footage of an older red-coin setup and explains that player testing revealed the mission was not fun despite being visually charming. He attributes the failure to waiting patterns, awkward control/camera, and difficulty hidden by his own skill.",
-      "challenge": "A mission that functioned technically but produced bad moment-to-moment experience for average players.",
-      "process": "He reviewed playtester behavior, identified camera/control pain points, and decided to remove the mission rather than patch symptoms (e.g., fling-vine camera). He begins remaking the area layout and rebalancing coin routes.",
-      "outcome": "The specific “boring” mission is being cut; an 8-red objective remains but will be rebuilt around better flow/readability.",
-      "key_quote": "You guys don't notice the problems… because I'm playing Mario 64 so well.",
+      "title": "Playtesters trigger removal of a red-coin mission",
+      "summary": "Kaze revisits an older red-coin section after observing playtests and decides to remove it despite it being ‘cute.’ He explains the gap between expert play (his) and average player experience (camera/control frustration), using it as justification for cutting content late in development.",
+      "challenge": "The existing red-coin setup required awkward waiting and camera behavior; it felt tolerable when played by Kaze but not fun for others.",
+      "process": "He shows the old clip (‘Boring Red Coin Mission’) and breaks down why it fails: avoiding problem areas, waiting on fling vines, poor camera visibility, and control friction. He opts to rebuild the area while keeping the mission structure (still 8 reds).",
+      "outcome": "Mission/area is slated for removal/replacement; the stream’s work shifts toward rebuilding and improving readability/flow.",
+      "key_quote": "You guys don't notice the problems in this because I'm playing Mario 64 so well.",
       "related_to": ["kaze"]
+    },
+    {
+      "title": "Zeina’s Wild West signage under N64 constraints",
+      "summary": "Kaze reviews new course signage made by Zeina, highlighting how even small environmental storytelling elements must fit strict texture sizing and in-engine presentation on N64.",
+      "challenge": "The Wild West area needs readable, thematic signs (tumbleweed store, bank, milk bar) that also conform to Mario 64/N64 texture requirements.",
+      "process": "Kaze pulls up Zeina’s textures, praises specific designs, then flags practical issues like odd dimensions (e.g., 64x43), scaling mismatches, and the need for correctly sized variants.",
+      "outcome": "Signs are accepted directionally and queued for resizing/polish, reinforcing that the hack’s identity is built from many small, constrained assets.",
+      "key_quote": "It'd be very easy to do this in Unity… but that's kind of taking away the whole spirit of the challenge of making something that runs on N64.",
+      "related_to": ["kaze", "zeina"]
     }
   ],
   "open_questions": [
     {
       "topic": "Quest 13 (ice castle) tone, structure, and boss",
-      "context": "Kaze outlines a bright-but-gloomy/suspenseful ice castle concept using desaturated whites/blues and mentions they still don’t know the boss.",
+      "context": "Kaze outlines Quest 13 as a mountain-top ice castle with bright, desaturated blues but still ‘scary/suspenseful.’ He explicitly says the boss is unknown.",
       "questions": [
-        "What specific player emotions is Quest 13 supposed to evoke (fear, isolation, awe), and what references are guiding that tone?",
-        "How will the level communicate “scary” while staying bright—through music, enemy behaviors, architecture, or narrative context?",
-        "What boss ideas have been discussed, and what constraints (N64 performance, animation workload, mechanics) are shaping the decision?"
-      ],
-      "related_to": ["kaze", "badub", "zeina"]
-    },
-    {
-      "topic": "Water-related crash and physics improvements",
-      "context": "Kaze references previously avoiding water due to a crash, but also highlights improved water-entry velocity transitions compared to vanilla.",
-      "questions": [
-        "Was the water crash the same S8/object-pointer issue, or is there still a separate water-specific crash remaining?",
-        "What exactly was changed in the movement/physics code to preserve velocity and improve water-entry transitions, and why did vanilla feel worse?",
-        "Are per-area splash colors purely cosmetic, or do they connect to a broader per-area VFX system?"
+        "When did ‘bright but scary’ become the target tone—was that driven by earlier levels feeling too dark, by player feedback, or by a specific reference you wanted to recapture?",
+        "What are the key gameplay hooks you want the ice castle to introduce (movement, puzzles, traversal), and how do those hooks inform what the boss could be?",
+        "You mentioned possible exterior elements like aurora—what would the player see/feel before entering the castle to sell the mood?"
       ],
       "related_to": ["kaze"]
     },
     {
-      "topic": "F3DEX3/RQIA dependency on Sauraen",
-      "context": "Kaze is waiting for Sauraen’s final decision on F3DEX3/RQIA and implies it won’t change compilation, but it is still a gating decision.",
+      "topic": "F3DEX3/RQIA dependency on Sauraen’s final call",
+      "context": "Kaze says he’s still waiting for Sauraen’s final decisions on F3DEX3/RQIA; he claims no compilation impact for the immediate change, but the broader decision remains pending.",
       "questions": [
-        "What decision is pending from Sauraen (feature scope, compatibility, performance targets, stability), and what options are on the table?",
-        "What is RQIA in this project’s context, and how does it affect rendering/content pipelines?",
-        "How are these decisions tested/validated (hardware tests, emulator matrix, performance captures) before locking them in?"
+        "What decisions are you specifically waiting on from Sauraen—compatibility targets, performance tradeoffs, toolchain stability, or features you need for RTYI?",
+        "What parts of the project are effectively ‘blocked’ until that decision is finalized, and what workarounds have you used in the meantime?",
+        "How do you decide when to stop waiting and commit to a fallback path if an upstream technical decision drags on?"
       ],
       "related_to": ["kaze", "biobak"]
     },
     {
-      "topic": "Zeina’s signage pipeline and N64 texture constraints",
-      "context": "Zeina provides multiple signs; Kaze likes them but flags texture size/aspect constraints (e.g., 64x43 vs expected sizing) and scaling tweaks.",
+      "topic": "Pipeline for N64-friendly signage and environmental storytelling",
+      "context": "Kaze integrates Zeina’s Wild West signs and comments on texture sizes/scaling (e.g., 64x43 being odd) while emphasizing doing things the ‘N64 way’ rather than in Unity.",
       "questions": [
-        "What toolchain does Zeina use to produce sign textures (resolution targets, palettes, export steps), and how do you iterate once it’s in-engine?",
-        "What are the hard texture constraints you’re working around (power-of-two sizes, memory budgets, filtering artifacts), and how do they shape art direction?",
-        "How do you decide when a sign should be hand-drawn (like the milk bar) versus more “gamey” signage, to keep the world cohesive?"
+        "What are the concrete texture/resolution rules you enforce for signage, and how did you arrive at them (hardware limits, readability tests, aesthetic consistency)?",
+        "How do you iterate between ‘looks good as an image’ and ‘reads correctly in-game at camera distance,’ especially with Mario 64’s filtering and lighting?",
+        "Do signs like the milk bar/bank change how you design nearby gameplay beats (landmarks, routes, player guidance), or are they purely flavor?"
       ],
       "related_to": ["kaze", "zeina"]
     }

@@ -1,70 +1,94 @@
 {
   "stream_context": {
-    "summary": "Kaze shows off major off-stream work (a massive “Only Up 64” level for a SimpleFlips competition), then returns to Return to Yoshi’s Island dev: new enemy/prop work (seesaw Goomba gag, Womp construction-worker concept), collision-system improvements, and a real N64 performance pass on a large factory/shipyard-style area. The stream includes a significant N64-only optimization decision (backface culling) and a tricky division-by-zero bug caused by compiler delay-slot scheduling, made worse by maintaining two separate repos.",
-    "level": ["Course 2", "Course 11 – Oily Boily Bay"],
-    "significance": "notable",
-    "significance_reason": "Contains concrete N64 performance measurements/optimizations, a compiler-induced crash root cause, and multiple actionable design decisions (N64-only backface culling, how to telegraph events, enemy gag behaviors), plus business context (sponsorship ended) that impacts development sustainability."
+    "summary": "Kaze prototypes a comedic seesaw setpiece (a breakable box triggers a plank to tip and eventually squash a Goomba), then stress-tests a large industrial/factory level on real N64. The stream centers on console performance triage (backface culling, geometry trimming, collision-map plans) and a real hardware crash caused by a division-by-zero that the compiler unexpectedly executes via a MIPS branch delay slot. He also shares practical business/creator context (why he streams on Kaze Clips, sponsorship ending, YouTube profitability) and begins planning a construction-worker Womp variant.",
+    "level": ["Course 2"],
+    "significance": "milestone",
+    "significance_reason": "Major N64-compatibility checkpoint: real-hardware crash diagnosed (delay-slot division-by-zero), and a concrete optimization strategy (N64-only backface culling + mesh trimming, collision-map pending) measurably improves FPS in a high-poly level."
   },
   "findings": [
     {
-      "topic": "community",
-      "importance": "medium",
-      "summary": "Kaze is building an enormous “Only Up 64” level off-stream for a SimpleFlips competition, aiming for the biggest Mario 64 level ever made and hoping it remains N64 compatible; this work temporarily reduces time available for Return to Yoshi’s Island.",
-      "quote": null
-    },
-    {
-      "topic": "team",
-      "importance": "medium",
-      "summary": "Zeina has already created most animations for at least one character/enemy (referenced as “this guy”), but Kaze notes the ‘overseer’ enemy can’t be implemented yet because it still needs animations first.",
-      "quote": null
-    },
-    {
-      "topic": "design",
-      "importance": "medium",
-      "summary": "Kaze added new Tox Box variants (more expressive/higher-quality look) and considers hiding a Yoshi coin inside one of them, implying collectibles may be embedded in enemies/props for exploration rewards.",
-      "quote": null
+      "topic": "technical",
+      "importance": "high",
+      "summary": "Real N64 testing surfaced a floating-point exception caused by division by zero in ClipMario—an area Kaze had edited—turning into a must-fix hardware bug rather than an emulator-only quirk.",
+      "quote": "Floating point exception… in ClipMario. It’s actually a function I’ve edited, so… this might be a real bug I need to fix."
     },
     {
       "topic": "technical",
       "importance": "high",
-      "summary": "He implemented collision improvements (including new collision codes) that make movement under/into ceilings and on complex surfaces significantly more stable than vanilla Mario 64; he explicitly highlights that surfaces that were “deadly” in SM64 now behave reliably.",
+      "summary": "The division-by-zero persisted even after an apparent code fix because the compiler scheduled the divide into the branch delay slot, effectively executing it unconditionally. Kaze worked around this by restructuring computations to avoid unsafe instructions being pipelined into delay slots.",
+      "quote": "The compiler decided… to pipeline the division into the delay slot of my branch. So that no matter what happens, I always divide by 0."
+    },
+    {
+      "topic": "technical",
+      "importance": "high",
+      "summary": "Kaze validated a major console performance lever: enabling backface culling on specific “metal” materials (likely only on N64) improved worst-case views from ~19 FPS to ~25–29 FPS, making a huge scene acceptably playable on hardware.",
+      "quote": null
+    },
+    {
+      "topic": "technical",
+      "importance": "medium",
+      "summary": "He is building platform-specific rendering behavior: he prefers the look with backface culling off on emulator, but will enable it on N64 for performance (and even notes it can look better on real hardware).",
+      "quote": null
+    },
+    {
+      "topic": "technical",
+      "importance": "medium",
+      "summary": "The large factory level’s scale is quantified: ~13,000 polygons with on-screen text; ~6,000 without text, helping frame the optimization problem and why certain camera angles are the true bottlenecks.",
+      "quote": null
+    },
+    {
+      "topic": "technical",
+      "importance": "medium",
+      "summary": "He identifies additional optimization avenues not yet applied: deleting unseen underside geometry, removing unnecessary transform nodes (wasted matrix multiplies), adding a collision map to reduce collision processing cost, and possibly reorganizing areas if console load becomes too heavy.",
+      "quote": null
+    },
+    {
+      "topic": "design",
+      "importance": "high",
+      "summary": "Setpiece design: a breakable box triggers a seesaw/plank to fall; Kaze iterates to make the motion readable, deterministic, and funny—aiming to end with the plank pinning/squashing the Goomba in a visually satisfying final pose.",
+      "quote": "We only need to fake it well enough that no one notices that it’s fake."
+    },
+    {
+      "topic": "design",
+      "importance": "medium",
+      "summary": "He emphasizes player readability: he rejects ideas that would obscure when a star will appear, because existing levels rely on having a clear marker/telegraph for star spawns.",
       "quote": null
     },
     {
       "topic": "design",
       "importance": "medium",
-      "summary": "A new level setpiece/mission concept is prototyped: a Goomba attached to a seesaw/plank that falls after a trigger (breaking a box), with Kaze iterating toward a predictable, readable, comedic ‘squish’ outcome; he worries about player readability (box doesn’t look breakable) and wants the behavior to be deterministic enough to script the gag.",
+      "summary": "World/lore drift: the area began as “Bozo’s Fleet Factory” but evolved toward a general “refueling/tanking up” location; Kaze isn’t sure airships will appear there later, but expects a narrative beat where Bozo is angry Mario destroyed his airships.",
       "quote": null
     },
     {
       "topic": "philosophy",
       "importance": "medium",
-      "summary": "Kaze rejects Banjo-Tooie-style heavy inter-world interconnectedness because it creates backtracking; he prefers separate worlds with interconnectedness primarily via the overworld.",
-      "quote": null
-    },
-    {
-      "topic": "technical",
-      "importance": "high",
-      "summary": "The project targets real hardware and uses the Expansion Pak; Kaze says the game likely doesn’t fit into 4MB currently, and while a 4MB mode might be possible by loading areas/code separately, it would be “a lot of extra work for very little extra game.”",
-      "quote": null
-    },
-    {
-      "topic": "technical",
-      "importance": "high",
-      "summary": "A real N64 test reveals a floating point exception in ClipMario: division by zero persisted even after adding a guard because the compiler scheduled the division into the branch delay slot, making it execute unconditionally. Kaze fixes it by rearranging computations into safer instruction slots, and notes emulators (Project64) may not surface divide-by-zero issues the way hardware does.",
-      "quote": null
-    },
-    {
-      "topic": "technical",
-      "importance": "high",
-      "summary": "Major performance tuning on N64: the large factory/shipyard area dips to ~19–22 FPS at worst with backface culling off; enabling backface culling on specific materials boosts worst-case performance to ~28–29 FPS. Kaze decides to apply backface culling on N64 only (keeping the nicer look on emulator) and identifies further gains from deleting never-visible underside polygons and generating a collision map to reduce collision processing.",
+      "summary": "Level-structure stance: he’s fine with interconnected worlds in theory, but prefers separate courses with overworld-only connections, criticizing Banjo-Tooie-style interconnection for backtracking.",
       "quote": null
     },
     {
       "topic": "business",
+      "importance": "high",
+      "summary": "Kaze explains channel strategy: he streams on Kaze Clips (10k subs) rather than a smaller channel or the main channel to avoid algorithm damage and to keep streams focused on game-dev viewers rather than broad-audience commenters.",
+      "quote": "My streams here… are all about the game. If you get entertained, that’s a side effect—I just care about making a good game."
+    },
+    {
+      "topic": "business",
+      "importance": "high",
+      "summary": "Financial reality check: he says the channel is “barely profitable” and notes that the Brilliant sponsorship deal ended after six videos, putting him “back to square zero” for that income source.",
+      "quote": "My YouTube channel is barely profitable, especially now that Brilliant doesn’t sponsor me anymore—kind of back to square zero."
+    },
+    {
+      "topic": "technical",
       "importance": "medium",
-      "summary": "Kaze avoids streaming dev on his main channel to protect the algorithm and keep the audience game-focused; he also states his YouTube channel is “barely profitable” now that a Brilliant sponsorship deal ended (six-video contract completed), affecting how much he can pay collaborators.",
-      "quote": "I don’t want to ruin my algorithm… I just care about making a good game."
+      "summary": "Platform target clarity: the mod uses the N64 Expansion Pak; he believes the game doesn’t currently fit into 4MB, though it might be possible with significant extra work (separately loaded areas/codes) that he views as low payoff.",
+      "quote": null
+    },
+    {
+      "topic": "team",
+      "importance": "medium",
+      "summary": "Pipeline dependencies: Zeina has already produced (most) animations for at least one new character/enemy; Kaze expected music from Badub but notes Badub has been absent recently, creating uncertainty for audio direction/timing.",
+      "quote": null
     }
   ],
   "contributor_findings": {
@@ -72,24 +96,24 @@
       {
         "topic": "community",
         "importance": "low",
-        "summary": "Biobak reacts to Kaze’s remark that the dev-only streams are ‘neat for me, sad for you,’ reinforcing that the smaller channel allows experimentation without algorithm pressure; Biobak also affirms Kaze’s approach to ‘fake it’ simulation for the seesaw gag.",
-        "quote": "Yep, Biobak understands the assignment."
+        "summary": "Biobak tracks Kaze’s “fake physics” approach as an intentional production choice, reinforcing the idea that the seesaw motion is more animation than simulation.",
+        "quote": "Real-time simulation physics for the YouTube clip, namely."
       }
     ],
     "badub": [
       {
         "topic": "team",
         "importance": "medium",
-        "summary": "Kaze expected Badub to compose music for the level/area being discussed, but says Badub has been “missing in attendance for a bit,” creating uncertainty around near-term music delivery; later Kaze indicates sound design will be finalized near the end once sound-slot budget is clear.",
-        "quote": "I thought Badub was gonna make [a] song, but Badub’s been missing in attendance for a bit."
+        "summary": "Kaze had been expecting Badub to contribute a song (and later agrees audio/sound design can be handled near the end), but says Badub has been missing, leaving music plans uncertain for the moment.",
+        "quote": null
       }
     ],
     "zeina": [
       {
         "topic": "team",
         "importance": "medium",
-        "summary": "Zeina has produced most animations for a character/enemy Kaze is integrating; Kaze also mentions she is out with friends during this stream (no direct appearance).",
-        "quote": "Zeina made the animations for this guy already, or most of them."
+        "summary": "Kaze credits Zeina with having made the animations (all or most) for a character/enemy he’s checking in the build, indicating asset readiness on animation for that element.",
+        "quote": null
       }
     ],
     "others": [
@@ -97,10 +121,10 @@
         "name": "Lilaa",
         "findings": [
           {
-            "topic": "community",
+            "topic": "design",
             "importance": "low",
-            "summary": "Lilaa gives input on technical/design decisions (e.g., advising against leaving an unfixed issue); Kaze uses the exchange to reaffirm his preference for fixing root causes rather than papering over them.",
-            "quote": "Without affixing the issue it might be a good idea… Thank you Lilaa for your input."
+            "summary": "Lilaa pushes for making star spawns readable/telegraphed and offers general implementation feedback during the seesaw and star-marker discussion, which Kaze aligns with due to existing level design dependencies.",
+            "quote": null
           }
         ]
       }
@@ -109,93 +133,106 @@
   "memorable_quotes": [
     {
       "speaker": "Kaze",
-      "quote": "We only need to fake it well enough that no one notices that it’s fake.",
-      "context": "Sums up his pragmatic approach to convincing setpieces: prioritize player perception over fully accurate physics, as long as the result reads cleanly."
+      "quote": "My streams here… are all about the game. If you get entertained, that’s a side effect—I just care about making a good game.",
+      "context": "Explains why he avoids streaming on his main channel and frames his priorities as craft-first rather than audience-maximization."
     },
     {
       "speaker": "Kaze",
-      "quote": "Basically, the compiler decided… to pipeline the division into the delay slot of my branch. So that no matter what happens, I always divide by 0.",
-      "context": "A rare, documentary-worthy example of building for real N64 hardware: low-level compiler/architecture behavior created a crash that wasn’t ‘his fault,’ forcing structural code changes."
+      "quote": "The compiler decided… to pipeline the division into the delay slot of my branch. So that no matter what happens, I always divide by 0.",
+      "context": "A rare, documentary-friendly moment where an invisible low-level detail (MIPS delay slots / compiler scheduling) directly breaks real-hardware gameplay."
+    },
+    {
+      "speaker": "Kaze",
+      "quote": "My YouTube channel is barely profitable, especially now that Brilliant doesn’t sponsor me anymore—kind of back to square zero.",
+      "context": "Blunt financial context that can anchor an interview segment about sustainability, time pressure, and why the project’s pace is hard to predict."
     }
   ],
   "key_stories": [
     {
-      "title": "N64 performance rescue via targeted backface culling",
-      "summary": "Testing a large industrial/fleet-factory area on real N64 reveals worst-case performance around 19–22 FPS. Kaze identifies that a large portion of triangles are not being backface culled in the heaviest views and flips backface culling on for specific materials.",
-      "challenge": "Keep a massive, visually dense level playable on original hardware without sacrificing the intended look on emulator/modern play.",
-      "process": "Measure FPS on N64 from worst camera angles; compare visual impact of backface culling; decide to apply it selectively and potentially only on N64; plan additional passes (delete unseen underside geometry, generate collision map, adjust draw-distance systems).",
-      "outcome": "Worst-case FPS improves to ~28–29 FPS (playable), with a plan to keep the nicer render on emulator while using culling on N64.",
+      "title": "Real N64 crash traced to compiler delay-slot division by zero",
+      "summary": "While testing on real N64, the game throws a floating-point exception in ClipMario—a function Kaze modified—forcing a deep dive into why a seemingly guarded divide still executes. The resolution reveals how compiler scheduling into MIPS branch delay slots can make “safe” code unsafe on hardware, and why emulator behavior can mask critical bugs.",
+      "challenge": "An N64-only crash (floating point exception) persists even after Kaze adds logic intended to avoid division by zero.",
+      "process": "Kaze reproduces the failure, inspects the code path, and realizes the compiler moved the division into the branch delay slot so it runs regardless of the branch condition. He restructures the computations to force safe scheduling and recompiles for another hardware test.",
+      "outcome": "The team gets a clear explanation for the crash and a concrete workaround strategy, plus a reinforced need to verify critical paths on real hardware (since emulators may not surface the issue).",
+      "key_quote": "That’s not a bug in the code. That is not my fault.",
+      "related_to": ["kaze"]
+    },
+    {
+      "title": "Factory level performance triage: N64-only backface culling and geometry cuts",
+      "summary": "Kaze tests a massive industrial scene on real N64 and finds worst-case views dropping to ~19–22 FPS. Instead of shrinking the level’s ambition, he identifies rendering-cost culprits (lack of backface culling, unnecessary unseen triangles) and applies targeted, platform-specific optimizations.",
+      "challenge": "The level’s scale and sightlines produce low FPS on N64, risking playability and forcing an optimization plan.",
+      "process": "He measures polygon counts, compares performance hotspots by camera angle, enables backface culling on key materials, and discusses removing undersides/hidden faces and adding a collision map to reduce CPU collision processing.",
+      "outcome": "Backface culling alone raises worst-case performance to ~25–29 FPS, making the level “playable” on hardware while preserving higher-fidelity visuals on emulator where he prefers culling off.",
       "key_quote": "Backface culling is insane.",
       "related_to": ["kaze"]
     },
     {
-      "title": "Division-by-zero crash caused by delay-slot scheduling",
-      "summary": "A new ClipMario change causes a floating point exception on N64. Even after adding a guard against dividing by zero, the crash persists because the compiler schedules the division into the branch delay slot, executing it unconditionally.",
-      "challenge": "A hardware-only crash that emulators don’t reliably flag, plus the difficulty of reasoning about generated MIPS code and delay slots.",
-      "process": "Reproduce on N64; locate crash address; identify divisor becoming 0; realize compiler reorders/pipelines the divide into delay slot; restructure code to move computations so the divide can’t execute before the guard resolves.",
-      "outcome": "A safer code structure that avoids unconditional divide-by-zero on N64; reinforces need for hardware testing and awareness of compiler/codegen quirks.",
-      "key_quote": "That’s not a bug in the code… I need to move some of these computations into new slots.",
+      "title": "Designing a readable ‘squash the Goomba’ seesaw gag",
+      "summary": "Kaze prototypes a setpiece where breaking a box causes a plank to tip, bounce, and pin a Goomba—aiming for comedy and clarity rather than perfect physics. The iteration shows his approach to making scripted moments feel physical, predictable, and communicative to the player.",
+      "challenge": "A dynamic object needs to fall convincingly, not clip through walls, and end in a clear, funny tableau while remaining deterministic enough for gameplay.",
+      "process": "He adjusts rotation/acceleration behavior, adds constraints and state changes (detach Goomba after tipping threshold), tests edge cases (Mario riding it, camera angles), and tweaks speed/slide to sell weight without breaking control.",
+      "outcome": "The motion reads well and the final pose is “beautiful,” but he still needs to finalize Goomba squish detection and polish (sounds, minor motion tweaks).",
+      "key_quote": "The final image is beautiful… it ending like this is the best thing ever.",
       "related_to": ["kaze"]
     },
     {
-      "title": "Two repos, twice the fixes",
-      "summary": "Kaze discovers the same ClipMario bug affects both Return to Yoshi’s Island and the separate Only Up 64 repo. Fixing the same issue in two places becomes immediate overhead.",
-      "challenge": "Parallel development across multiple ROMhack repos increases maintenance cost and risk of diverging fixes.",
-      "process": "Apply the fix in both repositories and vocalize frustration with duplicated maintenance.",
-      "outcome": "Bug fixed, but highlights a structural workflow issue worth addressing (shared engine code, submodules, or cherry-pick discipline).",
-      "key_quote": "This is why I hate having two repos, because now I need to fix this in two places at once.",
+      "title": "Creator tradeoffs: algorithm protection, sponsor loss, and project sustainability",
+      "summary": "Kaze explains why he quarantines dev streams on Kaze Clips and avoids the main channel: protecting the algorithm and keeping the audience aligned with game development. He also mentions a concluded sponsorship deal and low profitability, hinting at the economic pressure behind development pace and streaming choices.",
+      "challenge": "Balancing discoverability and income with the need for a focused, low-noise development space and sustainable time allocation.",
+      "process": "He chooses a secondary channel for streams, keeps the main channel’s content tightly curated, and acknowledges sponsorship cycles ending (six-video deal completed).",
+      "outcome": "A clearer picture emerges of why releases are hard to forecast and why the stream space is intentionally niche and craft-first.",
+      "key_quote": "I don’t want to ruin my algorithm.",
       "related_to": ["kaze"]
     }
   ],
   "open_questions": [
     {
-      "topic": "Collision system upgrade (new collision codes, ceiling stability)",
-      "context": "Kaze claims noticeable stability improvements versus vanilla SM64, especially when walking into ceilings and on complex triangle-defined surfaces; he treats it as a meaningful engine upgrade.",
+      "topic": "Preventing and detecting delay-slot / scheduling hazards across the codebase",
+      "context": "The ClipMario crash showed the compiler can schedule unsafe operations (like division) into a branch delay slot, making a guard ineffective on N64.",
       "questions": [
-        "What exactly changed in the collision system (data structures, numeric tolerances, edge/vertex handling, ceiling checks)?",
-        "Was this driven by a specific broken area/bug in Return to Yoshi’s Island, or was it proactive engine work?",
-        "How do you validate collision improvements (test maps, automated cases, N64 vs emulator parity)?",
-        "Do these changes affect level design freedom (steeper slopes, tighter ceilings, more complex geometry) compared to vanilla SM64?"
+        "After discovering this delay-slot scheduling issue, did you add any coding guidelines or patterns to avoid similar hazards elsewhere?",
+        "How do you audit for other ‘looks safe in C, unsafe in assembly’ cases—especially in performance-critical math and collision code?",
+        "Did this change how often you test on real N64 versus relying on emulators during day-to-day iteration?"
       ],
       "related_to": ["kaze"]
     },
     {
-      "topic": "N64-only rendering differences as a design policy",
-      "context": "Kaze prefers the visual look with backface culling off on emulator, but needs it on N64 for performance. He suggests making backface visibility an emulator-only ‘nice look’ feature.",
+      "topic": "Defining an N64-versus-emulator visual policy (backface culling, fog, draw distance)",
+      "context": "Kaze prefers backface culling off on emulator for visual reasons, but enabling it on N64 dramatically improves FPS (and can even look better on hardware).",
       "questions": [
-        "Do you want Return to Yoshi’s Island to look identical on emulator and real hardware, or is ‘hardware-first’ with emulator enhancements acceptable?",
-        "How will you communicate or manage differences (graphics options menu, auto-detection, documented ‘accuracy’ modes)?",
-        "What other rendering compromises might become N64-only (LOD, fog usage, draw distance, effects)?"
+        "What’s your guiding rule for when a visual difference between emulator and hardware is acceptable versus when it breaks the ‘authentic N64’ promise?",
+        "Will players be able to toggle any of these performance/visual tradeoffs, or will it be fully automatic per platform?",
+        "How do you test that these N64-only changes don’t affect gameplay readability (e.g., scaffolding bars disappearing)?"
       ],
       "related_to": ["kaze"]
     },
     {
-      "topic": "Collision map generation as a performance lever",
-      "context": "Kaze notes they haven’t created a collision map yet and expects it to significantly improve performance by reducing collision processing cost.",
+      "topic": "Impact of a missing audio collaborator on production planning",
+      "context": "Kaze expected Badub to deliver music but says Badub has been absent; later he agrees sound design will be done near the end when the sound budget is clear.",
       "questions": [
-        "What is your collision-map pipeline (manual tagging, automated generation, spatial partitioning like grids/quadtrees/BSP)?",
-        "How big is the performance hit currently from collision triangle checks in this level, and how will you measure the gain after the map is added?",
-        "Does the collision map affect gameplay bugs (e.g., missed collisions, edge cases) and how will you QA it on N64?"
-      ],
-      "related_to": ["kaze"]
-    },
-    {
-      "topic": "Sound/music pipeline uncertainty (Badub absent; end-of-project sound design)",
-      "context": "Kaze expected music from Badub but says he’s been absent recently; Kaze also plans to do sound design late once sound-slot limits are known.",
-      "questions": [
-        "What’s the agreed process for track requests, iteration, and deadlines with Badub (and what happens when he’s unavailable)?",
-        "What are the hard technical limits for sounds in your build (number of step sounds, SFX bank limits, memory)?",
-        "How do you decide when a level’s ‘timing’ is final enough for sound design to start (setpieces like the seesaw, squish gag, factory ambience)?"
+        "When Badub is unavailable, what’s your fallback plan—temp tracks, another collaborator, or shifting the schedule?",
+        "How late can you realistically leave sound design before it starts affecting level design and feedback (telegraphs, comedy timing, atmosphere)?",
+        "What parts of audio do you want Badub to own versus what you’ll implement yourself (mixing, triggers, per-surface footstep set, etc.)?"
       ],
       "related_to": ["kaze", "badub"]
     },
     {
-      "topic": "Course 2 playtest changes",
-      "context": "Kaze briefly mentions a recent playtest on Course 2 with changes made afterward but does not detail what was learned or altered.",
+      "topic": "Consolidating parallel repos and build targets",
+      "context": "Kaze notes he must fix the same bug in two repos (Return to Yoshi’s Island and Only Up 64), which he says he hates because it doubles maintenance effort.",
       "questions": [
-        "Who conducted the Course 2 playtest (team vs external), and what was the test prompt?",
-        "What specific changes did you make to Course 2 afterward (difficulty, readability, camera, objectives, pacing)?",
-        "Did the playtest reveal any broader design rules you’re applying across the project?"
+        "What’s the long-term plan to avoid duplicated engine fixes across repos—shared submodules, cherry-pick workflow, or merging common code?",
+        "How often do ‘side project’ prototypes (like Only Up 64) generate fixes that you later backport into Return to Yoshi’s Island, and is that worth the overhead?",
+        "Did this incident change how you decide whether to prototype in a separate repo versus inside the main project?"
+      ],
+      "related_to": ["kaze"]
+    },
+    {
+      "topic": "Designing the ‘five people you mess with’ mission structure in the factory area",
+      "context": "Kaze outlines a plan for multiple NPC/encounter beats (Goomba, cement guy, oil barrels, etc.) but says he still needs to brainstorm how the player ‘messes with’ some of them, especially oil barrels.",
+      "questions": [
+        "Who are the five ‘people’/targets in this sequence, and what’s the intended emotional arc—comedy, cruelty, workplace satire, escalation?",
+        "What makes the oil-barrel interaction hard compared to the cement guy—technical constraints, readability, or just not finding the right gag yet?",
+        "How do you keep these scripted interactions from feeling like one-off jokes and instead make them feel like a cohesive mission?"
       ],
       "related_to": ["kaze"]
     }

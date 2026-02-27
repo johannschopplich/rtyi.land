@@ -1,82 +1,100 @@
 {
   "stream_context": {
-    "summary": "Kaze integrates Zeina’s piano-playing Shy Guy NPC into the Wild West saloon (Course 12), adding dialogue, animation handling, and directional (panned) audio. The session is interrupted by a hard crash traced to N64 memory limits, leading to immediate level/asset optimization and a few engine-side fixes/optimizations. He also begins staging a “high noon” duel cutscene setup (camera lock and framing) and outlines next assets needed (Mario Party 2 card gun + countdown).",
+    "summary": "Kaze integrates Zeina’s animated “piano Shy Guy” into the Wild West saloon (Course 12), adds diegetic/directional audio panning and NPC crowd reactions, then debugs a sudden crash that turns into a memory/initialization/animation-loop troubleshooting session. He ends by framing the next big beat: a High Noon duel using a Mario Party 2-style card gun plus a countdown and cinematic camera setup, while sharing a few engine/performance insights (N64 cache/bandwidth tricks, object list optimizations, Fast3DEX3 status).",
     "level": ["Course 12 – Wild West Saloon"],
-    "significance": "notable",
-    "significance_reason": "A self-contained feature (piano Shy Guy centerpiece with panned audio + crowd reaction) is implemented, and a major practical constraint surfaces: hitting N64 RAM limits in a near-finished level, forcing optimization and revealing how close the project runs to real-hardware boundaries."
+    "significance": "milestone",
+    "significance_reason": "A major character/scene component lands (piano Shy Guy + dialogue + directional audio + crowd reaction), the stream hits a real technical wall (crash/memory concerns) that forces optimization thinking, and Kaze outlines the next signature set-piece (High Noon duel) with concrete implementation plans."
   },
   "findings": [
     {
       "topic": "milestone",
       "importance": "high",
-      "summary": "Zeina’s piano-playing Shy Guy NPC is successfully imported into the Wild West saloon with smooth animation transitions (playing → stops/talks → returns to playing) and bespoke dialogue, establishing him as a level centerpiece.",
+      "summary": "Kaze successfully imports Zeina’s modeled/animated piano-playing Shy Guy (with piano) into the Wild West saloon and treats him as a centerpiece ambient performer the player can interact with.",
       "quote": null
     },
     {
       "topic": "design",
-      "importance": "medium",
-      "summary": "Kaze decides the saloon crowd should all turn and stare at Mario when the piano music is interrupted (via talking), to sell the social ‘record-scratch’ moment and make the player feel like they disrupted the vibe.",
-      "quote": null
-    },
-    {
-      "topic": "technical",
       "importance": "high",
-      "summary": "A sudden level crash initially appears after adding the piano NPC, but investigation shows the project is hitting a RAM/memory overflow condition on N64; Kaze concludes the Wild West level is near its memory ceiling and must be optimized to continue adding content.",
-      "quote": "Oh shit, it is Mario Day. It’s a RAM overflow—we’re out of memory."
-    },
-    {
-      "topic": "technical",
-      "importance": "high",
-      "summary": "Kaze reduces geometry/triangle cost as a first response to the memory issue (e.g., identifying multi-thousand-triangle contributors and converting/merging meshes to cut triangle counts) to get the level loading again while continuing development.",
+      "summary": "He designs the interaction so the piano music stops when the Shy Guy speaks to Mario, then restarts smoothly when the animation returns to playing—aiming for a polished, stage-performer feel rather than a generic NPC.",
       "quote": null
-    },
-    {
-      "topic": "technical",
-      "importance": "medium",
-      "summary": "A spawn/initialization bug is diagnosed as a likely null/zero-pointer read: checking animation end-state before initializing the animation can read invalid state and crash/behave unpredictably; he adjusts ordering/logic to prevent unsafe reads.",
-      "quote": null
-    },
-    {
-      "topic": "technical",
-      "importance": "medium",
-      "summary": "An animation problem is ultimately traced to the asset itself: the piano animation wasn’t looping, causing timing/transition issues that looked like code problems until verified.",
-      "quote": "The animation doesn’t loop—that’s the issue. It wasn’t an issue in the code; it was an issue in the animation."
-    },
-    {
-      "topic": "technical",
-      "importance": "medium",
-      "summary": "Directional audio is added for the piano performance by panning the music based on camera-to-object positioning; Kaze tests and corrects left/right direction and experiments with normalization levels to keep the effect subtle but noticeable.",
-      "quote": null
-    },
-    {
-      "topic": "technical",
-      "importance": "medium",
-      "summary": "Kaze highlights a systemic optimization approach: using appropriate object lists (e.g., separating objects that must interact/collide from those that don’t) to skip expensive interaction checks, describing this as a meaningful engine-side performance lever.",
-      "quote": null
-    },
-    {
-      "topic": "technical",
-      "importance": "medium",
-      "summary": "He notes Fast3DEX3 is still not fully adopted; current implementation has a significant bug and runs ~20% lower FPS than expected compared to F3DEX2 for him, making F3DEX3 a desired but currently risky target.",
-      "quote": "It slows the game down significantly—and that’s 20% lower FPS than normal F3DEX2 for me."
     },
     {
       "topic": "design",
       "importance": "high",
-      "summary": "Kaze begins staging a ‘high noon’ duel sequence: he locks and manually positions the camera for a cinematic view, plans a 3-2-1-Go countdown (acknowledging it may trigger more memory pressure), and commits to using the Mario Party 2 card gun model to preserve period-appropriate authenticity.",
-      "quote": "We want this to fit into the 1990 era of the world of video games."
+      "summary": "A comedic ‘social pressure’ gag is added: when the piano guy stops or is disturbed, the entire saloon crowd turns to stare at Mario, reinforcing that the pianist is there for the vibe and Mario is interrupting.",
+      "quote": "When the piano guy stops the music, the entire bar should look at you."
     },
     {
-      "topic": "team",
-      "importance": "medium",
-      "summary": "Kaze describes his internal iteration pipeline: play through once, write quick-change notes, apply changes in one batch, then beat it again and send to a tester—while explicitly limiting tester access due to ROM leak risk.",
-      "quote": "You could leak my ROM, you know. You’re just a random dude to me, so I am afraid of sending a ROM to you."
+      "topic": "technical",
+      "importance": "high",
+      "summary": "He implements directional/positional audio panning for the piano music so it sounds like it comes from the performer’s location in the room, including experimentation with channel handling and normalization.",
+      "quote": null
+    },
+    {
+      "topic": "technical",
+      "importance": "high",
+      "summary": "A mysterious crash appears after adding the piano guy; Kaze pulls out a debugger and investigates memory limits/level script changes before identifying a logic order issue (checking animation end before initialization) and later noticing an animation-loop problem.",
+      "quote": "No way, we might have to pull out the debugger… which I did not expect."
+    },
+    {
+      "topic": "technical",
+      "importance": "high",
+      "summary": "He repeatedly bumps into RAM/memory pressure in this nearly-finished level and talks through reducing costs (e.g., reducing triangles/turning geometry into meshes, collision simplification) as a near-term necessity.",
+      "quote": "It’s a RAM overflow—we’re out of memory."
     },
     {
       "topic": "technical",
       "importance": "medium",
-      "summary": "Kaze shares a real-hardware optimization technique: on N64, writing small values can implicitly load an entire cache line; he uses a cache invalidate/dirty instruction to avoid unnecessary RAM reads and reduce memory bandwidth in his rendering thread, which he says roughly halved bandwidth in that path.",
-      "quote": "When you write 4 bytes, what you really do is you read 16 bytes… I use that a lot in my rendering thread, and it’s halved a lot of memory bandwidth."
+      "summary": "Kaze highlights object list usage as a practical optimization: splitting objects into lists (e.g., surfaces vs spawners) can skip whole interaction checks and improve performance, and he wants the team to use these more consistently.",
+      "quote": null
+    },
+    {
+      "topic": "technical",
+      "importance": "medium",
+      "summary": "He states the project is optimized enough that this saloon scene runs close to 60 FPS on real N64 hardware.",
+      "quote": "The scene you just saw actually runs close to 60 FPS on real hardware because my engine is that optimized."
+    },
+    {
+      "topic": "technical",
+      "importance": "medium",
+      "summary": "Fast3DEX3 is not yet implemented/usable; he notes a significant current issue and that performance is about 20% lower FPS than normal F3DEX2 in his case.",
+      "quote": null
+    },
+    {
+      "topic": "milestone",
+      "importance": "high",
+      "summary": "He blocks out the next major set-piece for Course 12: a cinematic ‘High Noon’ duel where Mario pulls out a card gun after a 3-2-1-go countdown and ‘whoever shoots first wins,’ with an ominous music sting and camera framing around the clock.",
+      "quote": "Whoever shoots first wins. It’s going to be funny."
+    },
+    {
+      "topic": "design",
+      "importance": "medium",
+      "summary": "Kaze wants the Wild West content to feel period-appropriate—matching a “1990 era” game-world vibe—and plans to copy the card gun from Mario Party 2 specifically so it looks exactly like the original asset.",
+      "quote": "We want this to fit into like the 1990 era of the world of video games."
+    },
+    {
+      "topic": "personal",
+      "importance": "medium",
+      "summary": "Kaze reveals his day job: he is a programmer working on Unreal Engine 5 games (under NDA), framing the ROM hack as ‘technically a hobby’ but effectively worked on full-time.",
+      "quote": "Yes, I am a programmer. I work on games that we make in Unreal Engine 5—that is my actual full-time job."
+    },
+    {
+      "topic": "technical",
+      "importance": "medium",
+      "summary": "He shares a concrete N64 optimization approach: invalidating cache lines before sequential writes to avoid unnecessary RAM reads, reducing memory bandwidth in his rendering thread; he also mentions a small audio-thread inlining win discovered today.",
+      "quote": null
+    },
+    {
+      "topic": "community",
+      "importance": "medium",
+      "summary": "He describes his testing/release workflow: play through once, take small notes, batch changes, beat again, then send to a trusted tester; he refuses random offers to test due to ROM leak risk.",
+      "quote": "You’re just a random dude to me. I am afraid of sending a ROM to you."
+    },
+    {
+      "topic": "legal-nintendo",
+      "importance": "medium",
+      "summary": "He discusses emulator/piracy discourse (including Yuzu shutdown) with a ‘prisoner’s dilemma’ framing: players choose to buy or pirate; companies choose to make access easy or restrictive—arguing the ethics/economics aren’t always straightforward.",
+      "quote": null
     }
   ],
   "contributor_findings": {
@@ -84,21 +102,32 @@
     "badub": [],
     "zeina": [
       {
-        "topic": "team",
+        "topic": "milestone",
         "importance": "high",
-        "summary": "Zeina provides the modeled/animated piano-playing Shy Guy plus the piano asset; Kaze praises the vertex coloring/lighting look and builds the entire saloon ‘piano man’ setpiece around her animation work.",
+        "summary": "Zeina created the modeled/animated piano Shy Guy (and piano), including vertex coloring that Kaze praises as fitting the lighting well; Kaze showcases the integrated result to her near the end of the stream.",
         "quote": null
       }
     ],
     "others": [
       {
+        "name": "Lilaa",
+        "findings": [
+          {
+            "topic": "community",
+            "importance": "low",
+            "summary": "Lilaa is referenced repeatedly as a consistent community presence; Kaze jokes about trolling her and implies she’s a detail-oriented critic who would quickly flag visual issues if she saw a build.",
+            "quote": null
+          }
+        ]
+      },
+      {
         "name": "QED",
         "findings": [
           {
-            "topic": "team",
+            "topic": "design",
             "importance": "medium",
-            "summary": "Kaze plans to contact QED to help rip/extract the Mario Party 2 card gun model so the duel minigame prop matches the original asset closely.",
-            "quote": "I’m going to ask QED if we can rip this."
+            "summary": "Kaze plans to ask QED about ripping/copying the Mario Party 2 card gun model so the duel prop matches the original exactly.",
+            "quote": null
           }
         ]
       }
@@ -107,88 +136,96 @@
   "memorable_quotes": [
     {
       "speaker": "Kaze",
-      "quote": "We want this to fit into the 1990 era of the world of video games.",
-      "context": "Explains why he rejects some costume/asset ideas and commits to period-authentic references (e.g., Mario Party 2 card gun) to keep the hack respectful to the N64-era feel."
+      "quote": "Someone explained to me what soft skills are… and it’s changed my entire view of what I should do in my job.",
+      "context": "A rare personal/professional realization on stream—Kaze reframes ‘soft skills’ as social communication and admits he previously thought it didn’t matter."
     },
     {
       "speaker": "Kaze",
-      "quote": "This whole game runs on real hardware. The scene you just saw actually runs close to 60 FPS on real hardware because my engine is that optimized.",
-      "context": "A direct statement of the project’s technical ambition: building new content while maintaining near-60 FPS on original N64 hardware."
+      "quote": "The scene you just saw actually runs close to 60 FPS on real hardware because my engine is that optimized.",
+      "context": "A strong thesis-style claim about the project’s technical ambition: modern-feeling scenes on original N64 hardware."
     },
     {
       "speaker": "Kaze",
-      "quote": "Oh shit, it is Mario Day. It’s a RAM overflow—we’re out of memory.",
-      "context": "A candid turning point showing the real constraints of building ‘something new’ on N64 limits and how quickly content additions can hit hard ceilings."
+      "quote": "It’s a RAM overflow—we’re out of memory.",
+      "context": "A concrete development pressure point: the level is pushing N64 limits and forces tradeoffs/optimization."
     }
   ],
   "key_stories": [
     {
-      "title": "The piano Shy Guy setpiece hits the N64 memory ceiling",
-      "summary": "Kaze’s main goal is to import Zeina’s piano-playing Shy Guy into the saloon with dialogue and audio panning. Shortly after integration, the level begins crashing despite seemingly minimal changes, forcing a debugging session that reveals they’ve hit a RAM overflow/out-of-memory condition.",
-      "challenge": "A mysterious crash appears after adding the piano NPC, threatening progress on a near-finished course.",
-      "process": "Kaze removes/re-adds assets to isolate the issue, uses the debugger, verifies the crash pattern across areas, and concludes the level is exceeding memory. He responds by cutting geometry/triangle costs and checking for other memory-heavy exports (including accidentally exporting temporary objects).",
-      "outcome": "The piano NPC works (with looping/transition fixes) and the team gains a clear warning: Course 12 is at the edge of its memory budget, and future additions (countdown models, more props) must be planned with aggressive optimization.",
-      "key_quote": "Didn’t think it would happen so soon… we have to optimize the fucking level.",
+      "title": "Integrating the piano Shy Guy as a diegetic performance centerpiece",
+      "summary": "Kaze’s goal for the saloon is a memorable ambient anchor: a Shy Guy on piano whose music feels like it truly lives in the room. He integrates Zeina’s model/animations, adds dialogue, and treats the performer as ‘not to be attacked,’ reinforcing the scene’s tone.",
+      "challenge": "Make an NPC performance feel polished (animation, lighting, dialogue, and audio) without breaking immersion or feeling ‘gamey.’",
+      "process": "Imports Zeina’s asset, reviews vertex colors/lighting, wires behavior so the pianist stops to talk then returns smoothly to playing, and tunes the presentation to keep him the saloon’s centerpiece.",
+      "outcome": "A working interactive performer loop is in the level, and Kaze considers it a standout moment worth building other gags around.",
+      "key_quote": "He’s there for the vibe. I can’t just hit him.",
       "related_to": ["kaze", "zeina"]
     },
     {
-      "title": "Designing a social ‘record-scratch’ reaction in the saloon",
-      "summary": "Kaze wants talking to the pianist to feel disruptive, not routine. He adds a gag where the entire saloon audience turns to stare at Mario when the piano stops, reinforcing that the pianist is performing for everyone and that the player is interrupting the vibe.",
-      "challenge": "Make the saloon feel like a lived-in space with social consequences, not just NPCs that dispense text.",
-      "process": "He ties crowd head-turn behavior to the time-stop/dialog state and corrects which objects pause during time stop so the reaction happens immediately during the interruption.",
-      "outcome": "A stronger comedic/immersive moment: the pianist becomes the setpiece anchor, and the crowd reaction sells the idea that this is a performance space with attention and etiquette.",
-      "key_quote": "They are looking at you. They’re like, what the fuck, brah?",
+      "title": "A sudden crash forces debugger work and exposes memory/initialization pitfalls",
+      "summary": "What should have been a straightforward asset import turns into a destabilizing crash, prompting Kaze to debug and question whether the level has hit N64 RAM limits. The incident becomes a reminder that ‘almost finished’ levels are where memory budgets collapse.",
+      "challenge": "The level begins crashing after seemingly minor changes, threatening to block the day’s planned integration work.",
+      "process": "He removes/re-adds changes, compares level scripts, considers duplicate geo layouts/hash map issues and RAM overflow, then identifies a problematic order of operations (animation end checks before init) and later recognizes an animation loop issue.",
+      "outcome": "The level becomes spawnable again and Kaze pivots toward optimization and cleanup as the next constraint for finishing Course 12.",
+      "key_quote": "No way, we might have to pull out the debugger… which I did not expect.",
+      "related_to": ["kaze"]
+    },
+    {
+      "title": "Turning interruption into comedy: the whole bar stares at Mario",
+      "summary": "Kaze converts a simple interaction (talking to the pianist) into a social gag: the crowd reacts as if Mario is ruining the room’s vibe. This kind of staging gives the hack its own identity beyond platforming—more like a living scene.",
+      "challenge": "Make NPC interactions in the saloon feel socially grounded and funny, not just functional dialogue boxes.",
+      "process": "Adds logic so that when the pianist stops/gets talked to, nearby Western NPCs rotate their heads toward Mario; he discovers time-stop flag interactions and adjusts behavior so the rotation triggers correctly.",
+      "outcome": "The ‘record scratch’ moment works: talking to the pianist draws attention from the room and sells the scene as a performance space.",
+      "key_quote": "They’d be like, what the fuck, bro? Why’d you stop my jam? I was vibing.",
+      "related_to": ["kaze"]
+    },
+    {
+      "title": "High Noon duel set-piece planning (card gun + countdown + cinematic camera)",
+      "summary": "Kaze outlines the next defining beat of the Wild West level: a duel that reframes Mario movement into a timed shootout. He composes the shot with a clock in frame, plans ominous music, and decides to use a recognizable Mario Party 2 card gun to nail the era and aesthetic.",
+      "challenge": "Design a fresh ‘Mario 64 but not Mario 64’ gameplay moment that still feels Nintendo-authentic and period-consistent.",
+      "process": "Iterates on fixed camera positioning and framing, experiments with letterbox bars, and commits to sourcing/modeling a faithful Mario Party 2 card gun plus a 3-2-1-go countdown asset.",
+      "outcome": "The next development target is clear and scoped: gun prop + countdown model + camera/cutscene logic + duel rules.",
+      "key_quote": "We’re going to have to give Mario a card gun… and then there will be a countdown here.",
       "related_to": ["kaze"]
     }
   ],
   "open_questions": [
     {
-      "topic": "Course 12 memory budgeting and content triage",
-      "context": "Kaze hits a RAM overflow and notes the level is almost done, implying future additions (countdown model, more props/collisions) are now constrained by a hard memory ceiling.",
+      "topic": "Course 12 memory budget and what gets cut",
+      "context": "Kaze hits crashes he associates with RAM pressure and anticipates further memory issues once he adds duel assets like the countdown model. He discusses reducing triangles/collision costs but hasn’t defined the final budget strategy for the whole level.",
       "questions": [
-        "What tools/metrics do you use to measure memory usage per area (geometry, collision, animations, audio, object counts) on real hardware vs emulator?",
-        "After discovering the overflow, what content did you consider cutting or redesigning (e.g., card games, crowd density, countdown model complexity) to stay within budget?",
-        "Do you have a formal ‘memory budget’ per course/area, or is it discovered reactively through crashes like this?"
+        "When you realized Course 12 was hitting RAM limits, what was the first thing you were willing to cut or simplify—and what was non-negotiable to keep?",
+        "Do you have a formal ‘memory budget’ per area now (textures, geo, collision, animations, audio), or is it still managed by feel and debugging symptoms?",
+        "Which optimization ended up saving the level: collision simplification, geometry merging, object list discipline, or something else?"
       ],
       "related_to": ["kaze"]
     },
     {
-      "topic": "Engine architecture for object lists and interaction skipping",
-      "context": "Kaze mentions object lists as a ‘mini optimization’ that avoids expensive interaction checks by categorizing objects (solid & interactive vs solid but non-interactive/spawners).",
+      "topic": "Directional audio system: design goals vs hardware constraints",
+      "context": "Kaze pans the saloon music to the pianist and experiments with normalization, but he’s not fully satisfied with how it feels (“not really feeling it”) and also mentions needing thread-safe copies / inlining concerns.",
       "questions": [
-        "How did you originally structure object processing, and what changed when you began using object lists ‘more appropriately’?",
-        "What are the biggest CPU wins you’ve seen from reorganizing lists (collision, interaction, spawn, audio objects), and how do you validate the performance gains on N64?",
-        "Did this change force any redesigns of level scripting or conventions for designers/artists delivering assets?"
+        "What’s your ‘success criterion’ for N64 directional audio in this game—subtle realism, strong comedic exaggeration, or just enough to sell the source location?",
+        "What constraints in your audio thread/engine made this harder than expected (thread safety, performance, channel routing, or toolchain issues)?",
+        "Did you end up standardizing directional audio as a reusable system for other levels, or is this a one-off saloon trick?"
       ],
       "related_to": ["kaze"]
     },
     {
-      "topic": "Directional audio implementation on N64",
-      "context": "He pans the piano music so it feels like it comes from the pianist’s location, experimenting with normalization and correcting reversed panning.",
+      "topic": "Fast3DEX3 roadmap and the 20% FPS hit",
+      "context": "Kaze says Fast3DEX3 isn’t implemented yet and that something about it causes major slowdown (~20% lower FPS than F3DEX2 for him).",
       "questions": [
-        "What’s your underlying model for directional audio (camera-to-object vector, angle thresholds, per-channel volume curves), and how expensive is it per frame?",
-        "How do you handle edge cases like time-stop/dialog, room transitions, or multiple sound sources competing for stereo space?",
-        "Was this built specifically for Course 12, or is it becoming a general engine feature for other courses?"
+        "What specifically is missing or broken in your current Fast3DEX3 pipeline, and what milestone will make you confident switching the project over?",
+        "How do you decide whether to spend time on microcode/rendering infrastructure versus finishing levels and content?",
+        "Was the 20% FPS drop due to your engine’s usage patterns, the microcode implementation itself, or emulator/tooling differences?"
       ],
       "related_to": ["kaze"]
     },
     {
-      "topic": "F3DEX3 adoption risks and timeline",
-      "context": "Kaze says Fast3DEX3 isn’t implemented yet and currently has a major bug causing ~20% lower FPS than expected for him; he wants F3DEX3 “in the end.”",
+      "topic": "High Noon duel: final rules and player readability",
+      "context": "Kaze proposes a countdown, ominous music, a fixed shot with the clock in frame, and ‘whoever shoots first wins,’ but doesn’t yet describe how player input timing, fairness, and feedback will work.",
       "questions": [
-        "What specific bug/limitation is blocking Fast3DEX3 adoption, and is it in your integration or the microcode/tooling itself?",
-        "What concrete benefits are you expecting from F3DEX3 for Return to Yoshi’s Island (features, performance, rendering flexibility)?",
-        "How do you decide when the rendering stack is ‘stable enough’ to switch, given it could affect every course?"
-      ],
-      "related_to": ["kaze"]
-    },
-    {
-      "topic": "Asset sourcing philosophy and the Mario Party 2 card gun",
-      "context": "Kaze commits to copying/ripping the Mario Party 2 card gun so it looks exactly right, and mentions asking QED to rip it; he frames it as preserving authenticity and ‘not breaking’ the era feel.",
-      "questions": [
-        "Why was Mario Party 2 the right reference point for the duel prop (recognizability, era fit, style consistency)?",
-        "What’s your internal standard for when you ‘recreate’ versus ‘rip’ an asset, and what are the legal/ethical lines you draw for this project?",
-        "What does the collaboration with QED typically look like (file formats delivered, cleanup, poly/texture limits, iteration loop)?"
+        "What’s the exact interaction loop for the duel—does the player react to a cue, a sound, the countdown, or a visual flash?",
+        "How will you teach the mechanic without breaking pacing—tutorial text, NPC dialogue, camera language, or failure states?",
+        "Will the duel be optional flavor, a required star objective, or a branching outcome with different rewards?"
       ],
       "related_to": ["kaze"]
     }

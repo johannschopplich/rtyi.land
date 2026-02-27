@@ -1,99 +1,81 @@
 {
   "stream_context": {
-    "summary": "Kaze integrates Biobak’s updated Course 10 (C10) rework assets, debugs recurring Fast64/export issues (palette/duplicate texture names, environment color constraints), and continues engine/performance cleanups (zero compiler warnings, fewer engine bugs). He also fixes/partially fixes Yoshi interaction/animation problems, tweaks visual variation via primitive color multipliers, discusses F3DEX3-based automatic patching, and realizes a full collision remap is needed due to moved geometry (likely finished off-stream).",
+    "summary": "Kaze announces a new TeePublic merch store (starting with course-themed shirts), then returns to integrating Biobak’s latest Course 10 (C10) rework: importing updated actors/assets, debugging Fast64/Blender export issues, tuning materials/colors, fixing a Yoshi model/interaction regression, and starting a new collision map after major layout shifts. Along the way he explains deep engine optimization decisions (actor ordering for instruction cache locality) and mentions F3 2025 plans as a sponsored event with a potential cash-prize vote.",
     "level": ["Course 10"],
     "significance": "notable",
-    "significance_reason": "Contains meaningful engine/performance philosophy (instruction cache behavior, actor ordering), concrete tooling constraints (Fast64 environment color disabled, export/palette issues, F3DEX3 auto patching), collaboration touchpoints with Biobak, plus production/business notes (merch strategy, F3 2025 event idea)."
+    "significance_reason": "Contains meaningful documentary-relevant reveals: Kaze’s unusually low-level performance philosophy (instruction-cache-driven actor ordering), a concrete business/community initiative (TeePublic merch + sponsored F3 2025 with cash reward), and several representative pipeline problems (Fast64 material constraints, Blender version quirks, N64-only rendering edge cases) while integrating Biobak’s C10 update."
   },
   "findings": [
     {
       "topic": "business",
       "importance": "medium",
-      "summary": "Kaze announces a new merch store on TeePublic (cheaper than Spreadshirt) and plans a design for every course using the final game’s course icons; YouTube Studio integration may take up to two days.",
-      "quote": null
-    },
-    {
-      "topic": "team",
-      "importance": "high",
-      "summary": "Kaze resumes work on Biobak’s Course 10 (C10) rework via a new changelog with numerous actor/asset changes, importing updated files and iterating on visuals and gameplay objects based on Biobak’s feedback (e.g., color/brightness/outlines, collapse-floor behavior).",
-      "quote": null
-    },
-    {
-      "topic": "technical",
-      "importance": "high",
-      "summary": "A recurring “texture has too many colors”/material export error reappears; Kaze traces it to a practical pipeline issue (two textures sharing the same name) and treats it as a fixable asset/export naming conflict rather than a fundamental limitation.",
-      "quote": null
-    },
-    {
-      "topic": "technical",
-      "importance": "high",
-      "summary": "Kaze says he recently removed many engine bugs, is “slowly approaching zero engine bugs,” and got his compiler output down to zero warnings—framing this as a key stability/maintenance goal for the project as complexity rises.",
-      "quote": "I am slowly approaching zero engine bugs. I actually got my entire compiler down to zero warnings as well."
-    },
-    {
-      "topic": "technical",
-      "importance": "high",
-      "summary": "He optimizes runtime behavior execution by controlling actor execution order: actors run in the order they’re named in the level, so he renames/group-sorts actors with the same code to improve cache proximity. He argues ordering similar actors (e.g., multiple Shy Guys) helps performance more than interleaving disparate actor code.",
-      "quote": null
-    },
-    {
-      "topic": "technical",
-      "importance": "high",
-      "summary": "Kaze discusses instruction cache behavior on N64 MIPS, claiming his game is optimized enough that Mario’s behavior loop stays resident in cache; he also rejects “entity component system” approaches as inefficient overhead for this context, preferring direct function/tick-based execution and careful ordering/alignment.",
-      "quote": "Turns out my game by itself is already so optimized that Mario's behavior loop never gets thrown out of cache."
-    },
-    {
-      "topic": "technical",
-      "importance": "medium",
-      "summary": "He notes a visual workaround for an “N64-only bug” with z-clipping on grass overhangs: he changes how the grass geometry hangs to hide seams/clipping that wouldn’t be visible in typical preview contexts.",
-      "quote": null
-    },
-    {
-      "topic": "technical",
-      "importance": "high",
-      "summary": "Fast64/material constraints: Kaze states environment color is disabled “because of the Fast64 issue,” so the team standardizes on primitive color multipliers for tint/variation. He explains the level’s lighting/variation is largely vertex colors plus primitive-color multiplication/interpolation rather than shadow textures.",
+      "summary": "Kaze launches a new merch storefront on TeePublic (cheaper than Spreadshirt) but notes YouTube Studio integration can take up to two days; the first designs include a Course 4 shirt and Rambos items, with a plan to produce a design for every course using the final in-game course icons.",
       "quote": null
     },
     {
       "topic": "technical",
       "importance": "medium",
-      "summary": "He mentions they “no longer need patching” manually because they now have automatic patching, crediting F3DEX3—implying a tooling upgrade that reduces manual build/integration steps for assets or display lists.",
-      "quote": "I also don't need to do this patching anymore. Because we now have automatic patching. Very cool. Thank you, F3DEX3."
-    },
-    {
-      "topic": "design",
-      "importance": "medium",
-      "summary": "Kaze tunes aesthetic variation for repeated assets (e.g., bushes/planes) by random selection plus primitive-color-driven tint and brightness variance, balancing Biobak’s desire for less brightness/intensity against keeping slight variety so the environment doesn’t look flat or repetitive.",
+      "summary": "While pulling Biobak’s updated changelog and exports, Kaze hits a recurring Fast64/texture constraint error (“texture has too many colors”) that turns out to be caused by duplicate texture names leading to the wrong texture being used; he resolves it and proceeds with the import.",
       "quote": null
     },
     {
       "topic": "technical",
       "importance": "high",
-      "summary": "Yoshi integration issues: the imported Yoshi initially lacks collision/interaction and is spawned via the wrong list (“OBJ list spawner instead of surface”), and one mouth-open animation goes missing. Kaze identifies the failure mode and performs a quick model/animation fix sufficient to allow entering Yoshi, leaving the “talks twice” bug for later.",
-      "quote": null
-    },
-    {
-      "topic": "technical",
-      "importance": "medium",
-      "summary": "Kaze encounters N64 render constraints/bugs during asset import (e.g., “two textures in one cycle” illegal operation on a donut asset) and applies quick fixes like reducing texture cycles and rescaling the model to match the level.",
+      "summary": "Kaze reports major internal cleanup: he fixed many “annoying” engine bugs recently, is “slowly approaching zero engine bugs,” and got the compiler to produce zero warnings—framing it as a meaningful quality milestone for the project’s codebase.",
       "quote": null
     },
     {
       "topic": "design",
       "importance": "medium",
-      "summary": "He references boss pacing: he’s fine with the “second boss” being easy to avoid but considers making it slightly more dangerous, indicating ongoing difficulty tuning rather than locking challenge early.",
+      "summary": "He showcases the updated C10 visuals as running at ~55 FPS and argues the project’s N64-era look is exceptionally strong, emphasizing water and overall scene quality as a selling point.",
+      "quote": null
+    },
+    {
+      "topic": "technical",
+      "importance": "high",
+      "summary": "To address an N64-only visual issue, Kaze adjusts grass overhang geometry because of z-clipping; the fix is to reposition/extend overhangs so the seam effectively disappears on hardware despite being “invisible” on emulator.",
+      "quote": null
+    },
+    {
+      "topic": "technical",
+      "importance": "high",
+      "summary": "Kaze explains a core engine optimization strategy: actors execute in a deterministic order based on naming; he groups same-code actors with similar names to improve cache proximity. He discusses instruction-cache behavior and claims his game loop is optimized enough that Mario’s behavior code essentially never gets evicted from I-cache under normal play.",
+      "quote": null
+    },
+    {
+      "topic": "philosophy",
+      "importance": "medium",
+      "summary": "He strongly rejects an entity-component-system approach for this project, arguing it adds overhead (“run code to figure out what to run”) and that deterministic ordering and memory layout are what matter on N64-class constraints.",
+      "quote": "Entity component system is complete garbage… you just need to order the actors correctly in memory."
+    },
+    {
+      "topic": "technical",
+      "importance": "medium",
+      "summary": "Kaze clarifies the project’s lighting/texture approach: shadows are baked via vertex colors and primitive-color multiplication rather than shadow textures; he avoids environment color due to a known Fast64 issue and frames vertex lighting as strictly superior for static geometry (but it sacrifices some dynamic lighting effects).",
+      "quote": null
+    },
+    {
+      "topic": "milestone",
+      "importance": "medium",
+      "summary": "He integrates a newer Yoshi model (implied to be Biobak’s improved version) and debugs multiple issues: missing collision/interaction, wrong object list classification, a missing animation causing a mouth-open clip, and a regression where Yoshi’s dialogue triggers twice. He patches the logic enough to re-enable entering Yoshi (“go inside the Yoshi”) and defers the double-talk bug.",
       "quote": null
     },
     {
       "topic": "technical",
       "importance": "medium",
-      "summary": "A visual artifact with alpha/opacity appears darker/weirder in certain render backends; Kaze suspects either an emulator/backend bug or mismatch between Blender/preview and in-game alpha behavior, and postpones deeper diagnosis.",
+      "summary": "Kaze notes that with F3DEX3 in the pipeline, they no longer need certain manual patching steps because patching is now automatic; he also remarks collision data is cheap enough that duplicating/mirroring collisions is acceptable when exporting mirrored geometry is annoying.",
       "quote": null
     },
     {
       "topic": "design",
-      "importance": "high",
-      "summary": "Course 10 layout changes force collision work: because many objects/warp holes moved, Kaze concludes a new collision map is required for the reworked area to be playable; he decides to finish this collision work off-stream due to time.",
+      "importance": "low",
+      "summary": "He tunes foliage/“TempoBush” visuals by adjusting primitive-color brightness/variance and placement (down into the floor for better animation), balancing readability (avoid too bright) against variation, while taking feedback about outlines and saturation.",
+      "quote": null
+    },
+    {
+      "topic": "business",
+      "importance": "medium",
+      "summary": "Kaze announces F3 2025 will happen this year and—because it’s sponsored—he’s considering a user vote where the most popular game receives a cash reward on release as added motivation.",
       "quote": null
     }
   ],
@@ -102,19 +84,13 @@
       {
         "topic": "design",
         "importance": "high",
-        "summary": "Provides a substantial Course 10 (C10) rework with a new changelog and many actor/asset updates; prompts Kaze’s re-import pass and color/brightness tuning decisions.",
+        "summary": "Biobak delivers a new changelog and asset/actor updates for C10, including geometry/material changes that require reimport and on-stream tuning (colors, outlines, placement).",
         "quote": null
       },
       {
-        "topic": "design",
+        "topic": "milestone",
         "importance": "medium",
-        "summary": "Gives art-direction feedback on repeated assets (bush/plane colors, brightness, outlines) and on mechanical setpieces like a collapse-floor that now slides sideways (scratch marks imply motion direction).",
-        "quote": null
-      },
-      {
-        "topic": "technical",
-        "importance": "medium",
-        "summary": "Sends updated Yoshi assets that require re-hooking armature/animations and resolving export/material issues during integration.",
+        "summary": "Biobak provides an updated Yoshi model that Kaze prefers over the old one (“what’s wrong with the old Yoshi… Biobak made a nice one”), prompting armature/tongue/animation reintegration work.",
         "quote": null
       }
     ],
@@ -123,13 +99,7 @@
       {
         "topic": "personal",
         "importance": "low",
-        "summary": "Kaze mentions being “banished” to the basement by Zeina, a small window into their day-to-day dynamic while he streams/works.",
-        "quote": null
-      },
-      {
-        "topic": "personal",
-        "importance": "low",
-        "summary": "Kaze references a recurring couple joke: Zeina calls a sausage alone a “hot dog,” which Kaze disputes, illustrating their casual back-and-forth during dev time.",
+        "summary": "Kaze mentions he’s streaming from the basement because Zeina “banished” him there; later he references Zeina’s habit of calling just a sausage a “hot dog,” illustrating their recurring playful domestic banter on stream.",
         "quote": null
       }
     ],
@@ -140,7 +110,7 @@
           {
             "topic": "technical",
             "importance": "medium",
-            "summary": "Challenges/queries Kaze’s cache/performance reasoning, prompting Kaze to explain his instruction-cache measurements and actor ordering strategy in more detail.",
+            "summary": "Lilaa pushes Kaze to explain I-cache behavior and object ordering tradeoffs (e.g., repeating one actor type vs mixed actors), prompting a rare, detailed performance explanation tied to N64 constraints.",
             "quote": null
           }
         ]
@@ -150,83 +120,70 @@
   "memorable_quotes": [
     {
       "speaker": "Kaze",
-      "quote": "Turns out my game by itself is already so optimized that Mario's behavior loop never gets thrown out of cache.",
-      "context": "Kaze explains how far he’s pushed engine/runtime optimization on N64 by measuring instruction cache behavior and then designing around it (actor ordering, alignment)."
+      "quote": "I don’t think you can even make the case that there’s a better looking N64 game than this… anywhere in the world.",
+      "context": "Said while showing the updated C10 scene (notably water) at high framerate, framing RTYI’s visuals as a marquee achievement."
     },
     {
       "speaker": "Kaze",
-      "quote": "I am slowly approaching zero engine bugs. I actually got my entire compiler down to zero warnings as well.",
-      "context": "A maintenance milestone mindset: stability and cleanliness as the project grows, implying a deliberate engineering push rather than only content production."
+      "quote": "There are only two programming languages and that’s assembly and high level. And anything after that is mental illness.",
+      "context": "A character-defining exaggeration while discussing C standards/ANSI and his pragmatic approach: he learns only what he needs to control compiler output and assembly."
     }
   ],
   "key_stories": [
     {
-      "title": "Course 10 rework integration reveals pipeline and engine constraints",
-      "summary": "Kaze starts integrating Biobak’s updated Course 10 files and immediately hits recurring export/material errors (palette/too many colors, broken textures). He diagnoses a naming collision (duplicate texture names), fixes it, and continues import/testing while applying N64-specific visual workarounds.",
-      "challenge": "Asset imports intermittently break due to tool/export constraints (Fast64/material rules, duplicate names), and N64-only rendering quirks (z-clipping, alpha differences) don’t always appear in the same way in preview tools.",
-      "process": "He downloads Biobak’s new changelog/files, re-exports/tries again, identifies duplicate texture names as the cause, then validates in-game and makes targeted geometry tweaks to hide N64 z-clipping seams.",
-      "outcome": "Import proceeds with known constraints in mind; Kaze continues tuning and prepares for heavier follow-up work (collision remap) caused by the rework.",
+      "title": "C10 import blocked by a ‘too many colors’ texture regression",
+      "summary": "While integrating Biobak’s newest C10 export, a previously-solved N64 texture limitation suddenly reappears. Kaze tracks it down to an asset pipeline gotcha—two textures sharing the same name—causing the wrong texture to be referenced and triggering the color-limit error.",
+      "challenge": "Fast64 reports a texture color-limit error that ‘should have been fixed yesterday,’ threatening the day’s planned import work.",
+      "process": "Kaze re-downloads/retries the export, inspects the unexpected texture output, hypothesizes a duplicate-name collision, and re-runs the import with corrected references.",
+      "outcome": "The import proceeds after identifying the duplicate texture name as the culprit, allowing him to continue integrating Biobak’s changes.",
       "key_quote": null,
       "related_to": ["kaze", "biobak"]
     },
     {
-      "title": "Yoshi becomes usable again, but edge-case dialogue/animation bugs remain",
-      "summary": "After importing an updated Yoshi, Kaze finds missing collision/interaction and a broken/missing mouth-open animation. He corrects the spawn/list issue and performs a small model/animation edit so the player can enter Yoshi, postponing deeper issues like doubled dialogue triggers.",
-      "challenge": "Character integration requires multiple synchronized parts (model, armature, animations, interaction/collision) and can fail subtly when object lists or animation data are incomplete.",
-      "process": "Kaze inspects in-game behavior, predicts the failure mode (“OBJ list spawner instead of surface”), fixes the configuration, then edits the model/animation setup to restore the missing animation state.",
-      "outcome": "Yoshi is functional enough for progression; remaining bugs (talking twice, possible shy-guy-eating flag oddities) are logged implicitly for later.",
-      "key_quote": null,
+      "title": "Yoshi breaks: missing interaction/animation and ‘talks twice’ regression",
+      "summary": "Updating to a newer Yoshi model triggers multiple gameplay-facing issues: collision/interaction doesn’t register correctly, one mouth-open animation disappears/clips, and Yoshi’s dialogue triggers twice. Kaze prioritizes getting ‘enter Yoshi’ working again so the level remains playable, then defers the deeper behavioral regression.",
+      "challenge": "The new Yoshi asset appears in the wrong state (no collision/interaction), and a missing animation/flag logic issue prevents intended gameplay flow (including ‘go inside the Yoshi’ section).",
+      "process": "Kaze checks object list classification (predicting it will show ‘OBJ list spawner’ vs ‘surface’), edits model/armature assignments, identifies the missing animation, and simplifies/removes legacy cutscene flags he believes are obsolete from an older engine version.",
+      "outcome": "He restores functionality enough to enter Yoshi and continue level work, but leaves the “talks twice” issue for later investigation.",
+      "key_quote": "I knew it. He’s fixed… I still don’t see how I can talk twice to you.",
       "related_to": ["kaze", "biobak"]
+    },
+    {
+      "title": "Collision rebuild after layout shifts (and mirroring pain)",
+      "summary": "Because ‘everything moved’ in the updated course layout (including warp holes), Kaze has to rebuild collision to keep the reworked area playable. He also discovers mirrored geometry/collision can’t be solved with a simple negative scale, deciding that exporting two collisions is acceptable since collision data is cheap.",
+      "challenge": "Major asset movement invalidates existing collision; mirrored sections complicate reuse and exporter constraints block simple mirroring tricks.",
+      "process": "Kaze trims unnecessary triangles where possible, searches for the relevant collapse-floor model, tests collision assumptions, and plans to export separate collision sets rather than fight mirroring limitations.",
+      "outcome": "He begins collision authoring but decides to finish the bulk of the collision work off-stream due to time and tedium.",
+      "key_quote": null,
+      "related_to": ["kaze"]
     }
   ],
   "open_questions": [
     {
-      "topic": "Actor execution ordering as a performance strategy",
-      "context": "Kaze says actors execute in order of their level names and he renamed/grouped similar actors to improve cache proximity, claiming measurable benefits on N64.",
+      "topic": "Actor ordering as a first-class optimization strategy",
+      "context": "Kaze claims a measurable performance win by ordering actors by name (thus execution order) to improve instruction-cache locality, and says Mario’s behavior loop effectively never leaves I-cache in his optimized build.",
       "questions": [
-        "When did you discover that actor name/order affected execution order—was this an engine design choice you made, or a pre-existing behavior you decided to exploit?",
-        "How much performance headroom did this gain in real scenes (fps, CPU time, RSP/RDP load), and what profiling tools/metrics did you use to validate it?",
-        "Did this optimization change how level designers (including Biobak) are allowed to name/place actors to avoid accidental regressions?"
-      ],
-      "related_to": ["kaze"]
-    },
-    {
-      "topic": "F3DEX3 “automatic patching” pipeline upgrade",
-      "context": "Kaze says he no longer needs manual patching because “we now have automatic patching,” crediting F3DEX3.",
-      "questions": [
-        "What exactly was being manually patched before (display lists, texture tables, segment addresses, bank layout), and what does the new automatic system do end-to-end?",
-        "Who implemented/integrated the automatic patching (you vs. Sauraen/others), and what failure cases still require manual intervention?",
-        "How did this change day-to-day collaboration with artists (fewer constraints, faster iteration, fewer ‘it broke in-game’ moments)?"
-      ],
-      "related_to": ["kaze"]
-    },
-    {
-      "topic": "Fast64 limitations driving material rules (environment color disabled)",
-      "context": "Kaze states environment color is disabled due to a Fast64 issue, so the team relies on primitive color multipliers plus vertex colors for lighting/variation.",
-      "questions": [
-        "What is the specific Fast64 issue that forces environment color off (export bug, incorrect combine mode setup, runtime mismatch)?",
-        "How much did this constraint shape the project’s art direction (e.g., leaning into vertex-painted lighting, limiting dynamic lighting effects)?",
-        "Are there any scenes/levels where you felt the loss of environment color most, and did you build custom workarounds?"
-      ],
-      "related_to": ["kaze"]
-    },
-    {
-      "topic": "Collision workflow after major level reworks",
-      "context": "Because many Course 10 objects/warp holes moved, Kaze concludes a new collision map must be created; he ends stream planning to finish it off-stream.",
-      "questions": [
-        "What’s your collision authoring pipeline (Blender → Fast64 → export), and what tends to break when geometry shifts late in development?",
-        "How do you budget collision triangle count vs. accuracy for N64 performance/memory, and what are your ‘must-have’ collision details?",
-        "Do you have any automated checks/tests to catch missing collisions (like the initial Yoshi collision issue), or is it purely playtest-driven?"
+        "When did you first realize actor ordering could be used as a systemic performance tool—not just micro-optimization—and what experiment convinced you it was worth redesigning around?",
+        "How did this constraint (cache locality via naming/order) change how you and level designers (like Biobak) structure actor placement and naming conventions in practice?",
+        "What tradeoffs did you accept (tooling complexity, designer friction, debugging difficulty) to keep this deterministic, cache-friendly ordering?"
       ],
       "related_to": ["kaze", "biobak"]
     },
     {
-      "topic": "Yoshi dialogue triggering twice and shy-guy-eating flag oddities",
-      "context": "After getting Yoshi usable, Kaze notices Yoshi “talks twice” and suspects something around object lists/flags, plus weirdness when eating a Shy Guy.",
+      "topic": "Fast64 pipeline constraints shaping rendering choices (primitive vs environment color)",
+      "context": "Kaze says environment color is disabled because of a Fast64 issue, pushing them toward primitive color and vertex-color lighting; he positions it as superior for static geometry but with lost dynamic-light effects.",
       "questions": [
-        "What’s the underlying state machine for Yoshi interactions (actions/subactions/flags), and what recent engine changes might have caused the double-trigger?",
-        "Is the ‘talk twice’ bug tied to cutscene flags, object list changes, or the new actor grouping/order optimizations?",
-        "How important is Yoshi’s interaction polish to the overall feel of the hack (as a ‘respectful’ modernization of Mario 64’s NPC logic)?"
+        "What exactly is the Fast64 environment-color failure mode you hit, and how did it change your material conventions across the whole project?",
+        "How often do tool limitations like this force you to redesign art direction decisions—and how do you communicate those ‘engine rules’ to collaborators so assets don’t come back incompatible?"
+      ],
+      "related_to": ["kaze", "biobak"]
+    },
+    {
+      "topic": "F3 2025 sponsorship and a cash-prize ‘release day’ vote",
+      "context": "Kaze proposes a sponsored F3 2025 with a user vote where the most popular game gets a cash reward upon release, positioning it as extra motivation.",
+      "questions": [
+        "What’s the origin story of F3 2025 being sponsored this year—who approached whom, and what changed compared to past years?",
+        "How would you structure a user-vote cash reward so it motivates developers without turning F3 into a popularity contest or encouraging rushed releases?"
       ],
       "related_to": ["kaze"]
     }

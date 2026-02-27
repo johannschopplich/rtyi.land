@@ -1,146 +1,133 @@
 {
   "stream_context": {
-    "summary": "Kaze focuses on getting the first overworld ready for a near-term beta: placing/decorating Yoshi villagers, evaluating the “special Yoshi mission” system for clarity, and tightening the overworld’s scale so it feels denser and more alive. The stream also includes a significant tooling/animation setback (Fast64/animation export corruption and Euler→quaternion conversion timing issues) and discussion of the long-term technical goal of removing all original Nintendo code.",
+    "summary": "Kaze focuses on getting the first overworld segment ready for an upcoming beta: validating early-game progression (first ~24 stars), placing and animating overworld Yoshi villagers, and iterating on the “special Yoshi mission” system. The stream includes a concrete UX/design decision to visually differentiate mission-giving Yoshis via unique accessories (“drip”), a pruning/refactor of weaker mission concepts, and a tooling crisis where Fast64/animation export and an Euler→Quaternion conversion step intermittently corrupt animation data. He also shrinks/reshapes overworld geometry to reduce empty ‘Hyrule Field’ scale and reiterates the long-term plan to replace warp-based transitions with a seamless overworld in the final release.",
     "level": ["Overworld"],
     "significance": "milestone",
-    "significance_reason": "Kaze states the programming for the first part of the overworld is finished and he is shifting into decoration/polish specifically to run a beta test; he also confirms the first 24 stars now work on a fresh save and discusses the final (seamless) overworld architecture."
+    "significance_reason": "He states programming for the first part of the overworld is complete, early star progression is functioning (~24 stars), and he’s actively stabilizing content/UI and decoration to run a first-overworld beta test—while making a key readability decision for the special-Yoshi mission system."
   },
   "findings": [
     {
       "topic": "milestone",
       "importance": "high",
-      "summary": "Kaze confirms the first 24 stars now work correctly on a new save file, and he wants to re-beat key progression “legit” rather than cheating in stars so he doesn’t miss test coverage for gating/progression.",
+      "summary": "Kaze says the first ~24 stars now work correctly on a fresh save, and he’s trying to avoid cheating critical stars so he doesn’t skip real-world testing for the beta build.",
       "quote": null
     },
     {
       "topic": "milestone",
       "importance": "high",
-      "summary": "He says the programming for the first part of the overworld is done; the immediate goal is to decorate/polish overworld part 1 and verify Courses 1–5 plus the first puzzle level for a beta test build (Courses 4–5 and the puzzle level still need work/testing).",
+      "summary": "He considers the first part of the overworld ‘programming-complete’ and shifts to decoration/polish specifically to support a beta test for that first overworld segment.",
       "quote": null
     },
     {
       "topic": "design",
       "importance": "high",
-      "summary": "Overworld “special Yoshi mission” concept is reiterated: 11 special Yoshis can show an exclamation mark in the overworld, give a mission, then appear on course select and in-level; completing the mission grants an extra star similar to Mario Galaxy’s green stars.",
+      "summary": "Core UX concern: the game has ~11 special Yoshis that unlock after the first Bowser level and give mission-stars (Mario Galaxy green-comet style), but Kaze worries players won’t understand which Yoshis are mission-givers vs. normal NPCs—creating confusion and backtracking.",
       "quote": null
     },
     {
       "topic": "design",
       "importance": "high",
-      "summary": "Kaze identifies a key UX risk: players may not understand which Yoshis are mission-givers and may assume every Yoshi should have missions. He leans toward visually differentiating the 11 special Yoshis with distinctive accessories (“drip”) while leaving regular Yoshis plain to prevent confusion.",
+      "summary": "He converges on a solution: give each special mission-giving Yoshi distinctive visual accessories (“special drip”), while leaving ordinary overworld Yoshis visually plain, to make interaction priority immediately legible.",
+      "quote": "If you give every single one of those Yoshis a special thing that makes them stand out and all the other Yoshis on the island are naked, that will make it very clear which Yoshis are worth interacting with and which ones aren’t."
+    },
+    {
+      "topic": "design",
+      "importance": "medium",
+      "summary": "Mission concepts discussed include: secret ‘green star’ hunts, coinless star, physics-altering potion, A-press-limited challenge, combat/kill quota, riddle mission, time mission, and coin-star themed missions. During the stream he identifies at least two mission ideas as weak and moves toward cutting/replacing them rather than forcing 1:1 coverage for every Yoshi personality.",
       "quote": null
     },
     {
       "topic": "design",
       "importance": "medium",
-      "summary": "Unlock timing for special Yoshis: they start spawning after the first Bowser level, justified in-fiction as previously being captured by Bowser. Kaze worries putting many special Yoshis in the first overworld could make later overworld segments feel less special, so he considers distributing them across later parts.",
+      "summary": "He floats the possibility of reducing the total number of Yoshi mission threads entirely (“only nine/ten Yoshi missions”) to avoid padding the game with unfun tasks, indicating willingness to change scope to protect quality.",
+      "quote": null
+    },
+    {
+      "topic": "technical",
+      "importance": "medium",
+      "summary": "Overworld NPC movement issues: Yoshis initially don’t move; later they walk but eventually get stuck. Separately, Kaze realizes a major ‘ocean’ behavior/render issue was an emulator (Project64) problem rather than core game logic.",
+      "quote": null
+    },
+    {
+      "topic": "technical",
+      "importance": "high",
+      "summary": "Fast64 animation export can ‘completely destroy’ his animation file/state (loss of animations, wrong looping, warped motion). He frames it as a tooling bug that forces re-exporting and adds friction to iteration.",
+      "quote": "Fast64 just completely destroys the file when you export an animation."
+    },
+    {
+      "topic": "technical",
+      "importance": "high",
+      "summary": "Root cause hypothesis for some animation warping: Arthur Strohl’s pipeline step converting Euler angles to Quaternions sometimes runs after the object file is built, meaning the ROM build can ingest Euler data and produce garbage. Kaze notes this is likely a Makefile dependency/order issue and that doing a full ‘make clean’ can temporarily resolve it.",
+      "quote": null
+    },
+    {
+      "topic": "technical",
+      "importance": "medium",
+      "summary": "Kaze adjusts animation timing/loop settings (e.g., setting a minimum start frame and enabling looping) to stop sliding/‘walking on the spot’ artifacts, but notes he may need to accept ‘good enough’ until tooling stabilizes.",
       "quote": null
     },
     {
       "topic": "design",
       "importance": "medium",
-      "summary": "Mission brainstorming includes challenge-style variants meant to feel like self-imposed Mario 64 challenges: hidden/secret star, coinless star, physics-altering potion, A-press limit, point-collection, enemy-kill quota, riddle-based objective, timed objective, and a coin-star variant; Kaze calls out at least two mission concepts as weak and is willing to change personalities/missions accordingly.",
-      "quote": null
-    },
-    {
-      "topic": "philosophy",
-      "importance": "medium",
-      "summary": "He sets a design constraint for mission design: avoid ideas that require per-enemy or per-level bespoke implementation/maintenance (e.g., “no enemies” checks across all enemies, Cosmic Mario-like systems, invisible Boo gimmicks). Missions should be clear to communicate and scalable across many courses.",
-      "quote": null
-    },
-    {
-      "topic": "technical",
-      "importance": "medium",
-      "summary": "He encounters an overworld NPC pathing issue where Yoshis don’t move as intended; later he diagnoses at least part of the problem as a Project64/emulator-specific issue (they walk there but get stuck over time).",
-      "quote": null
-    },
-    {
-      "topic": "technical",
-      "importance": "high",
-      "summary": "Tooling failure: exporting an animation via Fast64 can corrupt/destroy the file state (animations missing, values mangled), forcing re-export/rework. Kaze also deals with loop flags, incorrect start frames, and transition artifacts (sliding/walking-in-place) while trying to get Yoshi walk cycles clean.",
-      "quote": null
-    },
-    {
-      "topic": "technical",
-      "importance": "high",
-      "summary": "Animation pipeline root cause (as Kaze suspects): Arthur Strohl’s conversion step (Euler→quaternion) sometimes runs after the object file is built, so the ROM build can consume Euler data and produce warped animations. Workaround is to run a full “make clean”; he believes the real fix is adding proper Makefile dependencies and considers asking “MechaHitler” for help.",
-      "quote": null
-    },
-    {
-      "topic": "technical",
-      "importance": "medium",
-      "summary": "Kaze notes a broader engineering reality: fixing legacy engine bugs can cascade into widespread behavior changes. Example: he fixed Mario 64 friction behavior, which then broke other content because many assets/behaviors relied on ‘wrong’ friction values.",
+      "summary": "Overworld composition pass: he feels the first area is too open and ‘Hyrule-fieldy,’ so he shrinks the space to increase density and ‘lived-in’ feel—while balancing that against hiding/loading-transition constraints and not breaking world connections (tunnels/geometry seams).",
       "quote": null
     },
     {
       "topic": "design",
       "importance": "high",
-      "summary": "Overworld layout critique and action: the early area feels too open (“Hyrule Field-y”) and some early traversal jumps feel too large. He decides to shrink/condense the space to feel more lived-in, while trying to keep transitions/streaming seams hidden and maintaining tunnel/cave connections; he backs up to GitHub before doing risky geometry edits.",
-      "quote": null
+      "summary": "Long-term overworld tech goal: the final release should have no warp transitions; areas will be seamless, requiring neighboring areas to render simultaneously and likely special model/streaming tricks. He explicitly postpones that work until layouts are stable to avoid redoing it repeatedly.",
+      "quote": "In the final version… there is not going to be any warps anymore. It is going to be seamless."
     },
     {
-      "topic": "technical",
+      "topic": "legal-nintendo",
       "importance": "high",
-      "summary": "Final overworld architecture plan: the released game will remove warp transitions and be seamless; adjacent areas will need to render together, requiring ‘special model stuff.’ He explicitly postpones implementing this until layouts/UI are more finalized to avoid repeated rework.",
+      "summary": "He reiterates an eventual goal of reaching “0% Nintendo code” (fully original engine/codebase rather than inherited Nintendo code), but says that work is currently paused while he prioritizes getting the first overworld ready for beta.",
+      "quote": "I am planning to be at 0% Nintendo code at the end."
+    },
+    {
+      "topic": "business",
+      "importance": "low",
+      "summary": "He confirms the project is a free romhack when asked about price/monetization.",
       "quote": null
     },
     {
       "topic": "business",
-      "importance": "medium",
-      "summary": "He reiterates the project is a free ROM hack and refuses to engage with ‘release date’ chatter on stream (focus is on finishing the game).",
-      "quote": null
-    },
-    {
-      "topic": "technical",
-      "importance": "high",
-      "summary": "Long-term goal stated: eventually reaching “0% Nintendo code” (no original Nintendo code remaining). This effort is currently paused while he focuses on getting overworld part 1 ready for beta; he mentions recent work reworking level script comments and main level scripts, and plans to do area processing next when returning to the de-Nintendo-ification effort.",
-      "quote": "I am planning to be at 0% intended quote at the end, like no Nintendo code at all."
+      "importance": "low",
+      "summary": "He mentions upcoming YouTube video plans (sound engine video; possibly exclamation boxes) and candidly says scripting is fine but gathering footage is the part he hates.",
+      "quote": "The scripting I don’t mind, but gathering the footage—holy shit I hate it."
     }
   ],
   "contributor_findings": {
-    "biobak": [
-      {
-        "topic": "team",
-        "importance": "medium",
-        "summary": "Kaze frames the overworld visuals as a placeholder ‘version one’ meant to communicate intent; he expects Biobak to later make the overworld look substantially better (“make it pretty”), implying a handoff from blockout/prototype to art polish.",
-        "quote": null
-      }
-    ],
+    "biobak": [],
     "badub": [],
     "zeina": [
       {
         "topic": "team",
         "importance": "low",
-        "summary": "Zeina reacts during the animation cleanup discussion (Kaze addresses her comment about multiple walk loops and transition sliding), indicating she is actively watching/giving feedback on animation feel/readability.",
-        "quote": null
-      },
-      {
-        "topic": "technical",
-        "importance": "low",
-        "summary": "Kaze notes Zeina has not installed Linux (in response to chat), suggesting their tool/work environment remains primarily non-Linux at this moment.",
+        "summary": "Zeina is present during the animation/tooling segment (Kaze addresses her comment while discussing duplicated walk loops and transition sliding), indicating she’s actively watching/giving feedback during iteration even when not speaking on mic.",
         "quote": null
       }
     ],
     "others": [
       {
-        "name": "Arthur Strohl",
+        "name": "Lilaa",
         "findings": [
           {
-            "topic": "technical",
-            "importance": "high",
-            "summary": "Kaze attributes warped/misbuilt animations to an ordering/timing issue in Arthur Strohl’s Euler→quaternion conversion toolchain step, which may run after compilation outputs are produced; he uses ‘make clean’ as a workaround and wants a Makefile dependency fix.",
+            "topic": "team",
+            "importance": "medium",
+            "summary": "Kaze explicitly frames one of the animation-file corruption incidents as a ‘bug report for Lilaa,’ implying Lilaa is involved in toolchain support/debugging or tracking reproducible issues.",
             "quote": null
           }
         ]
       },
       {
-        "name": "Lilaa",
+        "name": "Arthur Strohl",
         "findings": [
           {
             "topic": "technical",
             "importance": "medium",
-            "summary": "Kaze explicitly calls a discovered file-destruction/export issue a “bug report for Lilaa,” indicating Lilaa is a tooling maintainer/point of contact for fixing Fast64/export problems.",
-            "quote": "This is a bug report for Lilaa."
+            "summary": "Kaze attributes intermittent animation corruption/warping to a step in Arthur Strohl’s Euler→Quaternion conversion workflow running at the wrong time in the build pipeline; he suggests dependency ordering in the Makefile is incorrect and requires ‘make clean’ as a workaround.",
+            "quote": null
           }
         ]
       }
@@ -149,97 +136,87 @@
   "memorable_quotes": [
     {
       "speaker": "Kaze",
-      "quote": "Friction didn’t work in Mario 64. So I fixed it, and now it broke a bunch of things, because a bunch of things just have the wrong friction set.",
-      "context": "A concise statement of the unintended consequences of ‘fixing’ legacy engine behavior—core to the documentary theme of rebuilding a classic without breaking its ecosystem."
+      "quote": "If you give every single one of those Yoshis a special thing that makes them stand out and all the other Yoshis on the island are naked, that will make it very clear which Yoshis are worth interacting with and which ones aren’t.",
+      "context": "He lands on a clear readability solution for the special-Yoshi mission system: visually distinct ‘mission givers’ vs. normal villagers."
     },
     {
       "speaker": "Kaze",
-      "quote": "In the final version, the way this is going to work is that there is not going to be any warps anymore. It is going to be seamless.",
-      "context": "Clear declaration of an ambitious technical/design target: a contiguous overworld rather than warp-separated zones."
+      "quote": "Fast64 just completely destroys the file when you export an animation.",
+      "context": "A blunt snapshot of toolchain instability that costs time and threatens progress during a beta push."
     },
     {
       "speaker": "Kaze",
-      "quote": "I am planning to be at 0%… like no Nintendo code at all.",
-      "context": "Project-defining technical/philosophical goal: fully replacing original code despite targeting original hardware constraints."
+      "quote": "In the final version… there is not going to be any warps anymore. It is going to be seamless.",
+      "context": "A statement of long-term technical ambition for the overworld structure and immersion."
     }
   ],
   "key_stories": [
     {
-      "title": "Making ‘special Yoshi missions’ readable to players",
-      "summary": "Kaze re-evaluates the plan where 11 specific Yoshis give Galaxy-style optional missions that award extra stars. He worries players won’t understand which Yoshis matter and will waste time trying to talk to every Yoshi, so he proposes a clear visual language: give mission-giver Yoshis distinctive accessories (‘drip’) while keeping ordinary Yoshis plain.",
-      "challenge": "A strong mechanic risks becoming frustrating if players can’t distinguish mission-critical NPCs from flavor NPCs in a dense overworld.",
-      "process": "He walks through the mission system flow, considers alternatives (every Yoshi gives a mission vs. only special ones), evaluates specific mission concepts, and lands on a readability solution via character silhouettes/accessories tied to personality.",
-      "outcome": "Directionally commits to ‘special drip’ as the primary signifier for mission Yoshis and begins planning which Yoshis appear in which overworld segments so later areas still feel special.",
-      "key_quote": "If you give every single one of those Yoshis a special thing that makes them stand out and all the other Yoshis on the island are naked, that will work out.",
+      "title": "Making mission-giving Yoshis readable (the ‘special drip’ decision)",
+      "summary": "While decorating the overworld, Kaze realizes the special-Yoshi mission concept could confuse players: why do only some Yoshis have missions, and how would anyone know which ones matter? The stream ends with a concrete direction—use strong visual differentiation so players instantly recognize mission-givers.",
+      "challenge": "Players may assume every overworld Yoshi offers missions, or miss the ‘special’ ones entirely, causing confusion and frustrating backtracking.",
+      "process": "Kaze reviews the current indicators (exclamation marks; HUD in mission view), compares to Mario Galaxy’s ‘Hungry Luma looks different’ readability, debates moving all special Yoshis into the first overworld vs. distributing them, and brainstorms accessories tied to personality/mission type (sunglasses, karate headband, eggshell, glasses, etc.).",
+      "outcome": "He commits to the ‘drip’ approach: special Yoshis get unique accessories; ordinary Yoshis remain plain, making the mission system self-explanatory at a glance.",
+      "key_quote": "If you give every single one of those Yoshis a special thing that makes them stand out… that will make it very clear which Yoshis are worth interacting with and which ones aren’t.",
       "related_to": ["kaze"]
     },
     {
-      "title": "Toolchain setback: Fast64 export corruption and quaternion ordering",
-      "summary": "While trying to get overworld Yoshis walking, Kaze hits a serious tooling problem: exporting animations can corrupt files or make animations disappear, and some builds produce warped motion. He suspects the Euler→quaternion conversion sometimes runs too late in the build pipeline, requiring manual cleaning and a future Makefile dependency fix.",
-      "challenge": "Animation iteration becomes unreliable when the export/build pipeline produces nondeterministic or corrupted results.",
-      "process": "He reproduces the issue, adjusts loop flags and frame ranges, re-exports, runs ‘make clean’ to force correct rebuilds, and diagnoses likely ordering issues in the conversion step.",
-      "outcome": "He gets the walk loop closer to acceptable and identifies an actionable engineering fix (dependency ordering), but the broader risk remains: tooling instability can slow content production and erode confidence.",
-      "key_quote": "Your tool converts the animations after the .o file is built… I need to make clean when that happens.",
-      "related_to": ["kaze", "zeina"]
+      "title": "Toolchain breakdown: Fast64 export corrupts animations",
+      "summary": "During a push to make overworld Yoshis feel alive, Kaze hits a destabilizing issue where exporting animations can wipe or corrupt animation data. The incident becomes a mini forensic session about where the pipeline is failing and what temporary rituals (‘make clean’) are needed to proceed.",
+      "challenge": "Animation exports intermittently break: missing animations, incorrect looping, warping, and inability to undo changes—blocking overworld NPC polish.",
+      "process": "Kaze re-exports animations, adjusts loop settings and frame ranges, and hypothesizes that the Euler→Quaternion conversion step sometimes occurs after the build artifact is generated. He identifies a likely missing Makefile dependency/order and considers asking another dev (MechaHitler) about the fix.",
+      "outcome": "He gets Yoshis walking ‘close to what we want’ but acknowledges the tooling is still buggy and may require build-system fixes to stop recurring corruption.",
+      "key_quote": "Fast64 just completely destroys the file when you export an animation.",
+      "related_to": ["kaze"]
     },
     {
-      "title": "Condensing the overworld to avoid ‘Hyrule Field’ emptiness",
-      "summary": "After placing Yoshis and minor fauna, Kaze tests traversal feel and concludes the early overworld is too large and empty, with early jumps that may be discouraging. He decides to shrink and reconnect geometry while preserving the illusion of natural transitions and minimizing visible streaming/warp seams in the beta build.",
-      "challenge": "An expansive overworld reads as barren and can make early navigation feel slow or intimidating; shrinking risks breaking tunnels, UVs, and layout continuity.",
-      "process": "He identifies problem stretches, lowers/adjusts a problematic jump, backs up to GitHub, then rescales/reconnects terrain and checks how transitions read in motion.",
-      "outcome": "The area becomes denser and more ‘lived in’ for the beta, while the final seamless-render approach is deferred until layout stabilizes.",
-      "key_quote": "It feels a little bit Hyrule-fieldy. Maybe we should shrink the whole area a little bit—make it less big and open.",
+      "title": "Shrinking the overworld to fix ‘Hyrule Field’ emptiness",
+      "summary": "As he places NPCs and small wildlife (grasshoppers), Kaze judges the first overworld zone as too wide and empty for early-game pacing. He decides to physically shrink the layout, then deals with knock-on issues like broken connections and transition visibility.",
+      "challenge": "The overworld feels too open and sparse; early jumps and traversal distances risk feeling tedious, yet transitions between areas must stay visually masked.",
+      "process": "He tests traversal feel, lowers/adjusts problematic jumps, scales geometry back (iterating numeric adjustments), reconnects tunnels after the shrink, and adds small ambient life while being careful not to overpopulate.",
+      "outcome": "The area reads more ‘cozy’ and lived-in, though he notes there remains a necessary long stretch to hide loading/transition seams until the future seamless-overworld system is implemented.",
+      "key_quote": null,
       "related_to": ["kaze"]
     }
   ],
   "open_questions": [
     {
-      "topic": "Special Yoshi readability and mission onboarding",
-      "context": "Kaze leans toward giving the 11 mission Yoshis distinctive accessories (‘drip’) to prevent players from assuming every Yoshi has quests, but the UI/HUD and onboarding are not finalized.",
+      "topic": "Special Yoshi mission UX: how will players know what matters?",
+      "context": "Kaze worries that having ~11 special Yoshis (unlocked after the first Bowser level) could train players to bother every Yoshi NPC, creating confusion. He leans toward differentiating mission-givers with unique accessories and later adding a Galaxy-like map screen that flags where new tasks exist.",
       "questions": [
-        "What exact visual rules will define ‘special’ Yoshis (color + accessory + animation + SFX), and how will you prevent edge cases where players still misread NPC importance?",
-        "Will the exclamation mark remain, be replaced, or be supplemented by other cues (sparkle, unique idle, camera framing, dialogue tone)?",
-        "How will the first time a special Yoshi unlocks be introduced/tutorialized after the first Bowser level so players immediately understand the system?"
-      ],
-      "related_to": ["kaze", "biobak"]
-    },
-    {
-      "topic": "Mission list triage and cut decisions",
-      "context": "Kaze calls out at least two mission concepts as ‘shitty’ and considers cutting/replacing missions or even reducing the count of mission Yoshis/stars to avoid weak content.",
-      "questions": [
-        "Which mission concepts were ultimately cut, and what criteria did you use (fun, clarity, implementation cost, thematic fit)?",
-        "How many mission stars per Yoshi is the target now (he mentions ‘exactly three’ but also floats other totals), and what does that do to the overall star economy (~200 total, ~40 Yoshi stars)?",
-        "Do you want missions to mostly reuse existing star placements with extra constraints, or will some require new bespoke star placements per course?"
+        "What did your playtesting or intuition tell you about how quickly players would misread the ‘special Yoshi’ system—was there a specific moment that made you step back?",
+        "How do you want the player to discover the system: immediately (obvious drip + exclamation), or gradually (map screen, gated unlocks, tutorials)?",
+        "Did you ever consider making every Yoshi give a mission, and what ultimately made you reject/hesitate on that approach?"
       ],
       "related_to": ["kaze"]
     },
     {
-      "topic": "Seamless overworld rendering plan",
-      "context": "Kaze states the final game will have no warps and will be seamless, implying adjacent areas render together via special model handling; he’s delaying implementation to avoid rework.",
+      "topic": "Cutting/replacing weak mission concepts vs. keeping a rigid structure",
+      "context": "He labels at least two mission ideas as ‘shitty’ and entertains reducing the number of Yoshi mission threads rather than forcing parity across personalities/colors.",
       "questions": [
-        "What is the intended technical approach for seamlessness on N64 (streaming chunks, scene graph partitioning, LOD/occlusion planes, portal rendering, multi-mesh swaps)?",
-        "What are the performance budgets and constraints (triangles, draw calls, memory) that determine how many adjacent areas can be visible at once?",
-        "What content or layout rules do level designers/artists have to follow so the seamless transitions remain performant and visually clean?"
+        "Which mission ideas did you cut, and what was your personal rubric for ‘this is not fun’ in the context of Mario 64-style challenges?",
+        "How much do you want mission types to be ‘player-made challenges’ (coinless, damageless, A-press limits) versus bespoke setpieces designed per course?",
+        "At what point would you rather reduce the total mission count than ship a mission you don’t believe in—and how does that affect your star-count targets?"
       ],
-      "related_to": ["kaze", "biobak"]
+      "related_to": ["kaze"]
     },
     {
-      "topic": "Fast64/export corruption and build dependency reliability",
-      "context": "Kaze experiences animation exports ‘destroying’ files and missing/warped animations, likely tied to conversion/build ordering (Euler→quaternion) and incomplete Makefile dependencies; he mentions escalating to Lilaa and possibly MechaHitler.",
+      "topic": "Seamless overworld plan (removing warps)",
+      "context": "Kaze states the final game will remove warps between overworld areas and render adjacent areas seamlessly, requiring ‘special model stuff,’ but he is postponing implementation until layouts settle.",
       "questions": [
-        "What exactly is being corrupted during Fast64 export (animation JSON, Blender file, intermediate build artifacts, or the ROM asset pack), and how reproducible is it?",
-        "Did the team implement a permanent fix (Makefile dependency changes, tool update, pipeline change), or adopt a different workflow/tooling to avoid the issue?",
-        "How do these tooling failures affect schedule and team confidence—did they change how you version/backup art assets (Git LFS, separate repos, export scripts)?"
+        "What’s your intended technical approach for a seamless overworld on N64 constraints—occlusion, LOD swaps, segmented display lists, dynamic loading, or something else?",
+        "What risks are you most worried about (performance, memory, pop-in, camera angles revealing seams), and how will you test it on real hardware vs. emulator?",
+        "What needs to be ‘locked’ in the overworld design before you start the seamless transition work so you don’t redo it multiple times?"
       ],
-      "related_to": ["kaze", "zeina"]
+      "related_to": ["kaze"]
     },
     {
-      "topic": "De-Nintendo-ification roadmap (“0% Nintendo code”)",
-      "context": "Kaze states a goal of removing all Nintendo code, but it’s temporarily deprioritized to ship an overworld beta; he mentions recent work reworking level script comments and plans area processing next.",
+      "topic": "Animation pipeline reliability (Fast64 + Euler/Quaternion conversion ordering)",
+      "context": "Kaze experiences apparent file corruption and attributes some of it to conversion/build-order issues. He uses ‘make clean’ as a workaround and suggests a Makefile dependency fix.",
       "questions": [
-        "What motivated the ‘0% Nintendo code’ goal most: legality, engineering pride, portability, long-term maintainability, or creative independence?",
-        "What are the hardest remaining subsystems to replace (physics, audio, rendering microcode, level scripting, memory manager), and what order are you tackling them?",
-        "When you replace an original behavior (like friction), how do you decide whether to preserve ‘classic feel’ vs. correct the bug, given the cascade effects?"
+        "Can you walk through the exact toolchain steps for an animation from Blender to ROM in RTYI, and where it’s most fragile today?",
+        "How often does this corruption happen, and did it change after a specific Fast64 update or internal ‘animation rework’?",
+        "Who on the team (Lilaa, Arthur Strohl, others) owns the fix, and what would a robust, reproducible pipeline look like for you?"
       ],
       "related_to": ["kaze"]
     }

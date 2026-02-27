@@ -1,233 +1,227 @@
 {
   "stream_context": {
-    "summary": "Kaze reviews and polishes the (newly completed) first-pass overworld, fixes several crash/behavior issues, and starts “world dressing” with ambient wildlife. He also outlines a major technical restructuring plan: splitting the overworld into 14 streamed sub-levels to reduce load times while keeping the traversal visually seamless, alongside RAM/segment optimizations.",
+    "summary": "Kaze reports major off-stream progress: the overworld hub is essentially finished in its first full iteration (now moving into decoration, sidequests, and polish). On-stream he debugs several overworld crashes (including RAM exhaustion and a drill-rotation bug), reviews an expanding to-do list (NPC text, side levels, animal population, missing effects), and outlines a technical plan to split the overworld into many sub-levels while keeping traversal visually seamless.",
     "level": ["Overworld"],
     "significance": "milestone",
-    "significance_reason": "Kaze declares the overworld “pass 1” complete and frames the project as ~95–96% done on his side, shifting the work from building core spaces to polishing, decoration, sidequests/side-levels, and performance/loading optimizations."
+    "significance_reason": "Kaze declares the overworld “pass 1 / first iteration” officially done and frames the project as ~95–96% complete from his side, shifting the stream focus from core construction to polish/decoration, crash stabilization, and planning the final overworld streaming system (splitting into 14 sub-levels with seamless transitions)."
   },
   "findings": [
     {
       "topic": "milestone",
       "importance": "high",
-      "summary": "Kaze says he essentially finished the overworld off-stream; on-stream he marks “pass 1” of the overworld as officially done and transitions into decoration and sidequest polish.",
-      "quote": "Okay, we have pass 1 of the overworld. Done. Officially."
+      "summary": "Kaze says he “pretty much finished the overworld” off-stream; the overworld is now in decoration/polish mode with optional sidequests and visual fidelity upgrades still pending (many via Biobak reworks).",
+      "quote": null
     },
     {
       "topic": "business",
-      "importance": "medium",
-      "summary": "Kaze estimates the project is ~95–96% complete from his side, but warns there is still substantial remaining work in Biobak-driven reworks; he targets having V1 of all content done by June/July depending on available time.",
-      "quote": "From my side we're approaching 100%. I would say 95–96% is done. But there is still a lot of Biobak reworks."
-    },
-    {
-      "topic": "technical",
       "importance": "high",
-      "summary": "The overworld is hitting memory limits: Kaze explicitly says they ran out of RAM in the overworld, and he suspects this is contributing to instability/crashes during traversal and camera angles.",
-      "quote": "The thing actually is that we ran out of RAM in the overworld."
-    },
-    {
-      "topic": "technical",
-      "importance": "high",
-      "summary": "Major restructuring plan: split the overworld into 14 separate levels that load independently, then make transitions appear seamless; he also wants to keep actors in one RAM segment to avoid repeatedly reloading segment 6.",
-      "quote": "Let's make this into 14 separate levels... and then I will try to make this seamless... using one RAM segment for all the actors, so that we don't need to reload segment 6 over and over."
-    },
-    {
-      "topic": "design",
-      "importance": "medium",
-      "summary": "Overworld progression includes a visual/physical construction mechanic: a drilling sequence advances as the player collects stars, communicating world change tied directly to completion.",
-      "quote": "Every time you get a star, this goes further and further down. So Bozo is making progress in drilling as you progress through the game."
-    },
-    {
-      "topic": "design",
-      "importance": "medium",
-      "summary": "The overworld contains a money-driven rebuildable hub element (a “Yoshi hotel”), reinforcing the island-as-place fantasy and a longer-term restoration arc rather than pure level-select functionality.",
-      "quote": "This is the Yoshi hotel you rebuild with money."
-    },
-    {
-      "topic": "technical",
-      "importance": "medium",
-      "summary": "Kaze troubleshoots a crash tied to looking at/rotating the drill object; the fix direction is to rotate the drill in the model by 90 degrees rather than relying on runtime face-angle adjustments (axis/order issues with pitch/yaw/roll).",
-      "quote": "I probably need to rotate the drill 90 degrees in the model and then it should work."
-    },
-    {
-      "topic": "technical",
-      "importance": "medium",
-      "summary": "He tunes environmental feedback for the drilling setpiece: adds camera shake with falloff/range parameters and searches for an appropriate continuous “metal scrape/elevator groan” style sound from existing Mario 64 sound assets.",
-      "quote": "Both of them should have a camera shake... Falloff range and falloff start... Now we need a sound. Is there a sound in Mario 64 we could use for this?"
-    },
-    {
-      "topic": "technical",
-      "importance": "medium",
-      "summary": "During an overworld walkthrough, he uses emulator crash diagnostics that directly point to a failing target object reference (OBJ field / target OBJ 0), demonstrating how tooling is used to rapidly locate content-script bugs in a large connected hub.",
-      "quote": "This emulator is so good... it just tells you what crashes... It's... OBJ field. It's target OBJ 0."
-    },
-    {
-      "topic": "technical",
-      "importance": "medium",
-      "summary": "Cutscene/dialogue bugs can be caused by missing hitbox metadata: he notes the cutscene height is derived from the NPC hitbox, so an NPC without a proper hitbox/height breaks dialogue/cutscene flow.",
-      "quote": "It actually gets the size of the cutscene height from the hitbox, so that's why we need that."
-    },
-    {
-      "topic": "design",
-      "importance": "medium",
-      "summary": "Kaze discusses an ambitious time-of-day progression idea (day → sunset → night) but rejects it as impractical because it would require updating vertex colors across the entire island and would be expensive/awkward on the N64 combiner unless planned from the start.",
-      "quote": "The problem with that is we need to change all the vertex colors all over the entire island."
+      "summary": "He estimates the project is ~95–96% done from his side and expects to finish a V1 of all content by June/July, with remaining work heavily dependent on Biobak’s reworks and optional graphics upgrades.",
+      "quote": null
     },
     {
       "topic": "design",
       "importance": "high",
-      "summary": "He confirms an in-game map is planned to reduce hub traversal friction: players will be able to warp to level entrances (including Bowser levels) via the map, and he calls out the need for a better UI/screenshot implementation (likely with Zeina’s help).",
-      "quote": "There is going to be an in-game map... you're going to be using the in-game map to warp to level entrances right away... I think you'll be able to warp to all courses and the Bowser levels."
+      "summary": "The overworld progression includes a drilling/construction meta-element: a drill visually advances further downward each time the player gets a star, implying the hub itself changes as a function of completion.",
+      "quote": null
+    },
+    {
+      "topic": "technical",
+      "importance": "high",
+      "summary": "The overworld is hitting stability limits due to RAM exhaustion; Kaze suspects this is causing “instabilities” and intermittent crashes when looking at certain objects/areas.",
+      "quote": null
+    },
+    {
+      "topic": "technical",
+      "importance": "high",
+      "summary": "Kaze plans to split the overworld into 14 separate levels that load independently, while attempting to keep it feeling continuous (reducing load times and avoiding repeated segment reloads). He also wants all overworld actors to share one RAM segment to avoid reloading segment 6 repeatedly.",
+      "quote": null
+    },
+    {
+      "topic": "design",
+      "importance": "medium",
+      "summary": "He wants the 14-area overworld traversal to be visually seamless: when moving between winding regions, the next area should already be visible, and the game should avoid the typical star/warp transition in favor of direct continuity.",
+      "quote": null
+    },
+    {
+      "topic": "design",
+      "importance": "medium",
+      "summary": "Kaze considers (but rejects for now) a dynamic time-of-day arc for the island (day → sunset → night), saying it would require changing vertex colors across the entire island and would have needed to be planned from the start; he also worries about combiner complexity if they multiplied colors globally.",
+      "quote": null
+    },
+    {
+      "topic": "design",
+      "importance": "medium",
+      "summary": "Hub NPC text is intentionally being delayed for some Yoshis: he wants to wait until more side-levels exist so NPC dialogue can provide meaningful hints rather than placeholder lines.",
+      "quote": null
     },
     {
       "topic": "technical",
       "importance": "medium",
-      "summary": "Mario’s character polish includes a custom idle-animation system with around 16 different idle animations, implying a broader push to modernize ‘feel’/personality while staying on original hardware constraints.",
-      "quote": "This Mario has around 16 different custom idle animations... There's a whole idle animation system."
+      "summary": "A drill object’s rotation was crashing/behaving incorrectly depending on axis order (pitch/yaw/roll). Kaze resolves it by rotating the model itself ~90 degrees and correcting which axis is used, noting engine rotation-order quirks can invert or flatten motion.",
+      "quote": null
+    },
+    {
+      "topic": "technical",
+      "importance": "medium",
+      "summary": "Kaze uses emulator crash diagnostics to pinpoint overworld crashes (emulator reports a specific crash location and indicates an OBJ field targeting OBJ 0), allowing him to trace why a cutscene/interaction crashes.",
+      "quote": null
     },
     {
       "topic": "design",
       "importance": "low",
-      "summary": "Ambient life becomes a deliberate phase: Kaze begins placing butterflies, birds, crabs, grasshoppers (and plans seagulls, fish/cheep-cheeps, spiders), treating the overworld as a lived-in ecosystem rather than a sterile level menu.",
-      "quote": "Now we're decorating it with animals. I want butterflies, I want birds, I want crabs."
+      "summary": "He begins populating the overworld with ambient life (butterflies, birds, crabs, grasshoppers; later plans for seagulls/cheep-cheeps/fish/spiders) to make the hub feel “lively.”",
+      "quote": null
     },
     {
-      "topic": "milestone",
-      "importance": "medium",
-      "summary": "Next production phase is side-level creation: Kaze hopes to complete side-levels in 2–3 days each, referencing the rapid cadence of his 2017 “Mario 64 Land” development streams as a target rhythm.",
-      "quote": "I'm hoping we can finish the side levels in like 2 or 3 days each... Do you guys remember when we made Super Mario 64 Land on stream in 2017? Where we made like one level every 2 or 3 days?"
+      "topic": "technical",
+      "importance": "low",
+      "summary": "He encounters an export/level ID mix-up (accidentally exporting the wrong level/area), which temporarily made it look like warps/models were missing; re-exporting fixes it.",
+      "quote": null
+    },
+    {
+      "topic": "technical",
+      "importance": "low",
+      "summary": "He mentions not doing anything specific to support PAL yet; it might work incidentally, and he’ll only address it if it’s “reasonable.”",
+      "quote": null
     }
   ],
   "contributor_findings": {
     "biobak": [
       {
         "topic": "team",
-        "importance": "high",
-        "summary": "Kaze frames remaining work as largely dependent on Biobak’s reworks, emphasizing that optional but desired “graphic fidelity increases” and revisits are still ahead even as Kaze considers the core content nearly complete.",
-        "quote": "There is still a lot of Biobak reworks... we do want to just take the optional graphic fidelity increase."
+        "importance": "medium",
+        "summary": "Kaze frames remaining polish as largely “Biobak reworks” (graphics/level rework passes) and explicitly avoids blaming him, emphasizing the team wants the optional fidelity increases even if they take time.",
+        "quote": null
       },
       {
-        "topic": "team",
+        "topic": "design",
         "importance": "low",
-        "summary": "Biobak joins during the walkthrough; Kaze mentions some of his own merged-distance/decals work may be remade anyway, indicating a pipeline where Kaze blocks in functionality/space and Biobak later refines/overhauls visuals.",
-        "quote": "It's fine, Biobak would remake my work anyway."
+        "summary": "Kaze notes some overworld work will likely be redone anyway (“Biobak would remake my work anyway”), implying Biobak is the final-pass quality gate for parts of the hub.",
+        "quote": null
       }
     ],
     "badub": [],
     "zeina": [
       {
-        "topic": "team",
+        "topic": "design",
         "importance": "medium",
-        "summary": "Kaze calls out Zeina as a dependency for the “fruit juice bar” overworld area (implying asset/animation/UI needs before it can be finalized).",
-        "quote": "And for the fruit juice bar we need Zeina."
+        "summary": "Kaze references needing Zeina for the fruit juice bar and suggests Zeina could create a nicer-looking presentation asset for the planned in-game map/warp UI (current version not screenshot-ready).",
+        "quote": null
       },
       {
-        "topic": "team",
-        "importance": "medium",
-        "summary": "For the planned in-game map, Kaze suggests Zeina may create a cleaner visual presentation, hinting that UI/graphic polish for navigation tools is likely her domain.",
-        "quote": "This is not made very well for the screenshot, but maybe Zeina can make something nice."
+        "topic": "personal",
+        "importance": "low",
+        "summary": "Kaze jokes about being trapped in the “wood dimension” basement until RTYI is done, attributing it to Zeina as comedic motivation/pressure.",
+        "quote": "Zeina said I will not let you out until R.T.Y.I. is done."
       }
     ],
-    "others": [
-      {
-        "name": "Pixel",
-        "findings": [
-          {
-            "topic": "community",
-            "importance": "low",
-            "summary": "A community member (Pixel) repeatedly requests the Neverhood OST; Kaze reacts strongly, showing how live chat requests can steer stream atmosphere but not core dev direction.",
-            "quote": null
-          }
-        ]
-      }
-    ]
+    "others": []
   },
   "memorable_quotes": [
     {
       "speaker": "Kaze",
-      "quote": "Okay, we have pass 1 of the overworld. Done. Officially.",
-      "context": "He marks completion of the first full iteration of the game’s central hub, shifting the project into polish/decoration/side-content mode."
+      "quote": "It feels so good to be done with the first part. You have no idea.",
+      "context": "He marks completing the overworld’s first iteration and the relief of moving from construction into polish/decoration."
     },
     {
       "speaker": "Kaze",
-      "quote": "The thing actually is that we ran out of RAM in the overworld.",
-      "context": "A blunt statement of the core constraint of building a dense, modern-feeling hub on N64 memory limits—and a likely root cause of multiple crashes."
+      "quote": "You don't need to know any C. C is free. You came free with your having a brain on earth.",
+      "context": "A character-defining, comedic line during debugging that also reflects how normalized low-level work has become for him."
     },
     {
       "speaker": "Kaze",
-      "quote": "How fucking cool does this look? And it runs on N64. Can you believe it?",
-      "context": "He showcases a visually striking area while reaffirming the project’s guiding tension: ambitious presentation on original hardware."
+      "quote": "And the worst part is it's all my own fault. Probably.",
+      "context": "Said while wrestling with a frustrating rotation/crash issue—captures the solo-lead burden and self-blame that often accompanies technical debt."
     }
   ],
   "key_stories": [
     {
-      "title": "Overworld first-pass completion and the shift to polish",
-      "summary": "Kaze explains that the overworld is essentially finished and declares the first iteration complete. The stream’s focus shifts from building major geometry to making the island feel alive—decorating with animals, fixing immersion-breaking issues, and cleaning up NPC/text/cutscene problems.",
-      "challenge": "Turning a large connected overworld into a cohesive, stable, and “lived-in” hub without breaking immersion or adding too much friction.",
-      "process": "Walkthrough-driven review, rapid bugfixing (NPC hitbox/cutscene height, misplaced actors, broken walls), and deliberate placement of ambient creatures to sell the environment.",
-      "outcome": "Overworld pass 1 is declared done; remaining work is framed as decoration, sidequests, and team-driven reworks rather than foundational construction.",
+      "title": "Overworld V1 completion and shift to decoration",
+      "summary": "Kaze announces the overworld hub is effectively finished in its first complete pass, with the remaining work shifting to atmosphere, NPC text, optional sidequests, and art/fidelity upgrades. This is a structural turning point: the hub is now something to polish and populate rather than build from scratch.",
+      "challenge": "Finish a cohesive, explorable overworld and reach a stable ‘first iteration’ milestone while still leaving room for later content and art passes.",
+      "process": "He completes major overworld work off-stream, then does an on-stream walkthrough to identify immersion breaks, placeholder elements (exclamation marks, missing NPC text), and missing ambient details; he starts adding animals/critters to increase liveliness.",
+      "outcome": "Kaze declares ‘pass 1’ of the overworld done and begins a decoration phase, with plans to continue adding animals off-stream and start side levels next stream.",
       "key_quote": "It feels so good to be done with the first part. You have no idea.",
       "related_to": ["kaze", "biobak"]
     },
     {
-      "title": "Seamless overworld streaming plan (14 sub-levels) to fight load times and memory pressure",
-      "summary": "After experiencing instability and acknowledging RAM exhaustion in the overworld, Kaze proposes splitting the overworld into 14 separately loaded areas. The goal is to preserve the illusion of one continuous island while reducing load times and avoiding repeated segment reloads.",
-      "challenge": "A single massive overworld stresses N64 RAM and increases instability; frequent transitions/loading undermine the feeling of a continuous world.",
-      "process": "Architectural plan to partition the overworld, load segments more efficiently (one actor segment), and visually hide transitions so the next area is already visible before a seamless handoff.",
-      "outcome": "A concrete near-term technical task is set: implement multi-area streaming and seamless transitions; Kaze suggests this should improve load times and the continuous-world feel.",
+      "title": "Overworld instability from RAM limits",
+      "summary": "While showcasing how advanced the project looks on real N64 hardware, Kaze hits crashes and unstable behavior that he traces back to running out of RAM in the overworld. This reveals a late-stage constraint of building a dense, modern-feeling hub on original hardware budgets.",
+      "challenge": "Crashes and instability when viewing certain objects/areas in the overworld, threatening polish work and iteration speed.",
+      "process": "He tests problem viewpoints repeatedly, acknowledges the overworld’s RAM ceiling, and postpones additional effects (like dirt spawns) until the root crash is fixed to avoid compounding the issue.",
+      "outcome": "The hub is considered content-complete but not yet stability-complete; crash fixing becomes a gating task before more visual dressing is added.",
+      "key_quote": "The thing actually is that we ran out of RAM in the overworld.",
+      "related_to": ["kaze"]
+    },
+    {
+      "title": "Designing a seamless overworld by splitting into 14 sub-levels",
+      "summary": "Kaze outlines a technical strategy to make the overworld faster to load without sacrificing the fantasy of a continuous island. The plan is to split the hub into many separate levels, then hide streaming/transition seams so the player can see and move into adjacent regions naturally.",
+      "challenge": "Reduce load times and repeated segment reloads in a large overworld while preserving a continuous-world feel.",
+      "process": "He proposes 14 separately loaded overworld areas, shared actor memory (avoid reloading segment 6), and a new transition approach where the next region is visible ahead and the game avoids a star-transition warp.",
+      "outcome": "A clear roadmap for a ‘streamed’ overworld experience on N64 constraints; implementation work is queued for upcoming sessions.",
       "key_quote": "We will also soon split this overworld into 14 different levels to reduce load times a little bit.",
+      "related_to": ["kaze"]
+    },
+    {
+      "title": "Debugging crashes with emulator crash tracing (OBJ target 0)",
+      "summary": "During a walkthrough, Kaze encounters a repeatable crash and uses an emulator feature that identifies the crash location and points to an object field targeting OBJ 0. This demonstrates a mature debugging workflow and how tool choice accelerates late-stage stabilization.",
+      "challenge": "A specific overworld segment/cutscene crashes, blocking progression and polish testing.",
+      "process": "He reproduces the crash, reads the emulator’s crash report, and traces it to an invalid/zero object reference (OBJ target 0), then adjusts the underlying object/cutscene setup (including hitbox/height dependencies).",
+      "outcome": "The crash cause becomes actionable and fixable rather than mysterious, enabling continued overworld iteration.",
+      "key_quote": "This emulator is so good... it just tells you what crashes.",
       "related_to": ["kaze"]
     }
   ],
   "open_questions": [
     {
-      "topic": "How the 14-part overworld will be made seamless on N64",
-      "context": "Kaze plans to split the overworld into 14 levels and eliminate the visible ‘star transition’ so players can see and move into the next area naturally.",
+      "topic": "Seamless 14-area overworld streaming",
+      "context": "Kaze wants to split the overworld into 14 levels but have transitions feel continuous (next area visible, no star transition), and to avoid repeated segment reloads by sharing actor memory.",
       "questions": [
-        "What exact technique will you use to hide the load (corridor bend, camera control, fog, deferred spawning, preloaded geometry)?",
-        "Will this be implemented as true streaming or as rapid area swaps with clever masking?",
-        "What are the constraints that determined ‘14’ areas—RAM budgets, segment limits, collision size, or actor count?"
+        "What specific technique are you planning to use to make adjacent areas visible before they load—duplicated silhouette geometry, pre-baked far meshes, or some kind of soft streaming/preview segment?",
+        "Where do you expect the biggest risk to be: RAM fragmentation, actor state persistence across areas, camera transitions, or matching lighting/vertex colors so seams don’t show?",
+        "At what point did you realize the overworld had to be subdivided, and what trade-offs (visual density vs. stability vs. load time) forced that decision?"
       ],
       "related_to": ["kaze"]
     },
     {
-      "topic": "Actor memory strategy: keeping everything in one RAM segment",
-      "context": "Kaze mentions using one RAM segment for all actors to avoid reloading segment 6 repeatedly.",
+      "topic": "RAM exhaustion and late-stage stability triage",
+      "context": "Kaze attributes multiple instabilities/crashes to running out of RAM in the overworld, and postpones adding additional effects until the crash is solved.",
       "questions": [
-        "What is currently stored in segment 6 in your build, and what specifically causes the reload churn?",
-        "What tradeoffs does ‘one actor segment’ create (max actor variety, animation memory, per-area uniqueness)?",
-        "Did you hit this limitation only after adding ambient wildlife/NPCs, or was it present earlier?"
+        "What ended up being the biggest RAM consumers in the overworld—geometry, textures, actors, or custom systems (NPC text/cutscenes/idle animations)?",
+        "Do you have a hard budget you target per overworld region, and how do you measure it during development?",
+        "When RAM gets tight, what do you cut first—visual flourishes (particles/critters), interactivity, or art fidelity—and how do you decide?"
       ],
       "related_to": ["kaze"]
     },
     {
-      "topic": "Overworld RAM exhaustion and stability",
-      "context": "Kaze attributes multiple instabilities to running out of RAM in the overworld.",
+      "topic": "Overworld progression system (the drilling visual)",
+      "context": "The overworld has a drill/construction element that advances each time the player earns a star, implying the hub evolves with completion.",
       "questions": [
-        "What was the biggest RAM offender: geometry, textures, collision, audio, or actor data?",
-        "How do you measure and monitor RAM in the decomp-based toolchain during development?",
-        "Which fixes were ‘content’ fixes (remove assets) versus ‘engine’ fixes (allocator/segment refactor)?"
+        "When did the idea of the overworld changing as you collect stars first appear, and what did you want players to feel when they notice the drill advancing?",
+        "Is the drilling purely visual feedback, or does it gate sidequests/areas and change traversal over time?",
+        "How do you balance ‘hub evolution’ with the need for the overworld to remain readable and navigable for speedrunners or returning players?"
       ],
       "related_to": ["kaze"]
     },
     {
-      "topic": "Progress-driven drilling setpiece tied to star count",
-      "context": "The drill advances “every time you get a star,” making the overworld change as the player progresses.",
+      "topic": "Cut dynamic time-of-day feature due to vertex-color/combiner constraints",
+      "context": "Kaze considers day→sunset→night but says it would require vertex-color changes across the entire island and might be too oppressive for the N64 combiner if done multiplicatively.",
       "questions": [
-        "Narratively, who is drilling and why—what does it represent in the island’s story arc?",
-        "Why did you choose star milestones for progression instead of story flags, quests, or boss triggers?",
-        "How did you decide the pacing (e.g., 85/100/140 stars) for visible changes?"
+        "How early did you prototype or discuss time-of-day, and what would have had to be different architecturally to make it feasible?",
+        "Can you explain the combiner/vertex-color constraint in practical terms—what exactly would have become ‘oppressive’ or impossible?",
+        "Do you still want a smaller-scale version of the idea (localized lighting changes, skybox-only changes, or per-zone tinting) later in development?"
       ],
       "related_to": ["kaze"]
     },
     {
-      "topic": "In-game map UI and warp philosophy",
-      "context": "Kaze wants an in-game map that lets players warp directly to level entrances (including Bowser levels) to reduce wasted traversal time.",
+      "topic": "Delayed NPC text and hint design strategy",
+      "context": "Kaze is holding back text for several Yoshis so they can later provide useful hints once more side levels exist, rather than locking in filler dialogue.",
       "questions": [
-        "When did you decide convenience should beat ‘physical travel’ immersion, and what pushed you there?",
-        "How will you prevent the map from making the overworld feel irrelevant (e.g., unlock conditions, limited warp points, diegetic map)?",
-        "What assets/UI work do you expect from Zeina for the map, and what’s the implementation plan?"
+        "What’s your philosophy for hint NPCs in RTYI—do you want them to nudge players toward secrets, teach mechanics, or build story tone?",
+        "How do you decide when an NPC line is ‘final’ versus placeholder, especially when side-level layouts and secrets are still changing?",
+        "Are you planning any systemic hint unlocking (based on progress) so dialogue evolves the way the overworld visuals do?"
       ],
-      "related_to": ["kaze", "zeina"]
+      "related_to": ["kaze", "biobak"]
     }
   ]
 }

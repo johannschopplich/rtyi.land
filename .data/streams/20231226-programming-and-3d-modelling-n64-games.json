@@ -1,221 +1,183 @@
 {
   "stream_context": {
-    "summary": "Bonus post-Christmas stream focused on two things: (1) pausing the new Wild West-themed level to finish presentation work for Oily Boily Bay (star names + an intro cutscene synced to the music), and (2) building out the Western level’s traversal concept with colored warp-pipe shortcuts, new pipe visuals, and a planned scavenger-hunt star built around oversized Western set pieces (skull, shotgun, wheel, hoof iron, shed).",
+    "summary": "Bonus stream focused on two parallel tasks: (1) pausing the in-progress Wild West level to finalize Oily Boily Bay’s star/mission names and intro cutscene timing synced to music, and (2) implementing and polishing a multi-colored warp-pipe shortcut system for the Wild West canyon sub-area. Kaze also troubleshoots a hard crash caused by newly added warp pipes, pivots to NEMU64 for better crash location info, and reflects on constraints like cartridge size limits, open-sourcing, and inability to monetize.",
     "level": [
-      "Course ? – Wild West Valley (Western level)",
-      "Course ? – Oily Boily Bay",
-      "Course 11 – Dry World"
+      "Course 11 – Oily Boily Bay",
+      "Course ? – Wild West (working title)"
     ],
     "significance": "notable",
-    "significance_reason": "Introduces several documentary-relevant constraints and philosophies (real N64 cartridge size limit, open-source/free release reality, “inoffensive platformer” design theory), plus concrete pipeline/tech details (Fast64 Blender import, geo-asm pipe recolor causing a crash debugged via NEMU64) and clear cross-team dependencies (Zeina asset, Biobak finishing an area, Badub music, payment friction)."
+    "significance_reason": "Substantial level-production progress (naming + intro cutscene planning for Oily Boily Bay) plus a concrete technical implementation (colored shortcut pipes) that immediately caused a crash, leading to a clear debugging episode and a resolved direction for how the shortcuts will work in the Wild West level."
   },
   "findings": [
     {
       "topic": "design",
       "importance": "high",
-      "summary": "Kaze lays out a core design theory: modern games are often unpleasant enough that a ROM hack that is simply “inoffensive” (low frustration, low friction, easy-to-solve platforming) could be extremely popular; he specifically imagines 10 levels with ~20 stars each and no star “boot-out,” then notes that the concept resembles Mario Odyssey.",
-      "quote": "If you make a game that is just not offensive to the player… with no frustration, no friction… people will fucking love it."
-    },
-    {
-      "topic": "design",
-      "importance": "high",
-      "summary": "The Western level’s main star concept is a guided scavenger-hunt/treasure hunt using environmental landmarks: an NPC gives a first hint, then the player follows chained hints from signs triggered by actions (e.g., ground pound inside the giant skull) to move between major set pieces and eventually reach the treasure.",
-      "quote": null
+      "summary": "Kaze pauses work on the Wild West level to finalize Oily Boily Bay’s star/mission names and create an intro cutscene that’s tightly synced to the music, treating music timing as the primary constraint for camera cuts.",
+      "quote": "The most important part of the cutscene for me is that it's fitting to the music."
     },
     {
       "topic": "design",
       "importance": "medium",
-      "summary": "Kaze debates adding warp pipes as optional shortcuts between sub-areas of the Western level; he leans toward pipes because they add discovery and reduce traversal time, and he explicitly frames them as non-mandatory conveniences rather than core puzzles (wrong pipe costs ~5 seconds).",
+      "summary": "He workshop-tests mission naming as player guidance: he wants mission titles to act as hints (e.g., explicitly referencing the crane/cannon) and avoids names that feel too cryptic.",
+      "quote": null
+    },
+    {
+      "topic": "design",
+      "importance": "high",
+      "summary": "For the Wild West canyon sub-area, Kaze outlines a “surreal set-piece scavenger hunt”: oversized symbolic Western props (shotgun walkway, skull, wheel, hoof iron, shed) and a sequence of hint signs that send Mario between landmarks via platforming.",
       "quote": null
     },
     {
       "topic": "design",
       "importance": "medium",
-      "summary": "Oily Boily Bay gets “presentation polish” work: Kaze pauses Western development to create/adjust the intro cutscene camera splines and to draft star/mission names intended to be readable hints (e.g., a crane/cannon mission name should reference the crane so players understand the goal).",
+      "summary": "Kaze debates traversal options for this scavenger-hunt area and leans toward adding warp pipes as discoverable shortcuts between landmarks (rather than forcing long backtracking), emphasizing exploration and movement flow.",
       "quote": null
     },
     {
       "topic": "technical",
       "importance": "high",
-      "summary": "Kaze confirms the project is intended to run natively on real N64 hardware and he is imposing a hard content-size constraint: it must fit on a standard N64 cartridge size (he doesn’t want to exceed 64MB even though larger carts are technically possible).",
-      "quote": "It is one of my conditions that it fits on a normal N64 cartridge. I'm not gonna go above 64 megabytes."
+      "summary": "Implementing the new colored warp-pipe system triggers a crash specifically after entering the pipes; Kaze escalates to NEMU64 to obtain a program counter and identifies the crash inside his new pipe-color code (a geoset/material path), enabling targeted debugging.",
+      "quote": null
     },
     {
       "topic": "technical",
       "importance": "medium",
-      "summary": "The asset pipeline includes direct Blender-to-N64 importing via Fast64 (a Blender plugin that converts models to N64 formats), which Kaze uses as a routine workflow step rather than a special-case process.",
-      "quote": "We have a plug-in for that called Fast64. It converts Blender models to N64 models."
-    },
-    {
-      "topic": "technical",
-      "importance": "high",
-      "summary": "Kaze rebuilds pipe visuals (model + texture/UV tweaks) to get a better shine and higher-poly look while staying performant; he argues many original N64 games went unnecessarily low-poly instead of addressing real bottlenecks.",
-      "quote": "A common mistake in N64 games… they thought if they just made their stuff low-poly it would run better. And they never actually addressed the real issues."
-    },
-    {
-      "topic": "technical",
-      "importance": "high",
-      "summary": "Implementing multiple colored warp pipes required a new approach: Kaze adds a Geo ASM (geo-assembly) hook to set pipe color from behavior parameters (bparam2). This initially caused crashes when entering the warp pipes, prompting debugging rather than design changes.",
+      "summary": "Kaze states the project imports models directly from Blender using the Fast64 pipeline (Blender-to-N64 conversion), reinforcing a modern DCC-to-N64 workflow rather than manual ROM-hack-era asset injection.",
       "quote": null
     },
     {
       "topic": "technical",
-      "importance": "high",
-      "summary": "Kaze diagnoses the pipe crash by switching to NEMU64 for better crash data (program counter), locating the fault in his GeoSetPipeColor code (PC reported around “d974”), and then fixes/continues implementation; he notes he avoids assembly-level debugging unless forced because it is tedious.",
-      "quote": null
-    },
-    {
-      "topic": "team",
       "importance": "medium",
-      "summary": "Work is explicitly interdependent: Zeina is currently making the giant skull asset for the Western level; Biobak is expected to finish an unfinished area in Oily Boily Bay (and a song/collision are still needed there); Badub is credited as the level music composer for the project’s levels “nowadays.”",
+      "summary": "He argues many original N64 games went “too low-poly” due to misunderstanding performance bottlenecks; he’s comfortable spending polygons where it improves look/feel and focuses on the real constraints (rendering/material setup, engine behavior).",
       "quote": null
     },
     {
       "topic": "business",
       "importance": "high",
-      "summary": "Kaze describes payment friction with Biobak: PayPal is not usable for him “right now,” pushing him toward crypto payments that create fees on both ends and complicate taxes; he expresses strong frustration and would prefer bank transfers.",
-      "quote": "I still need to buy fucking crypto… just to pay Biobak… and I can't properly do this… because now I paid on fucking crypto."
-    },
-    {
-      "topic": "business",
-      "importance": "high",
-      "summary": "Kaze states he cannot monetize the game and must release it for free due to Nintendo/legal risk, framing monetization as something that would get him “murdered” (hyperbole) if attempted.",
+      "summary": "Kaze reiterates two major distribution constraints: the game will be open source and he intends to keep it within a real N64 cartridge size ceiling (~64MB), framing >64MB as potentially “cheating.” He also says he cannot monetize and must release free due to Nintendo risk.",
       "quote": "I unfortunately cannot monetize this. I have to release it for free or I will get murdered."
     },
     {
-      "topic": "community",
-      "importance": "low",
-      "summary": "Kaze dual-streams on Twitch and YouTube now that Twitch allows it, and he notices unusually high live viewership; he attributes it partly to dual streaming and post-holiday audience availability.",
+      "topic": "business",
+      "importance": "medium",
+      "summary": "Kaze describes payment friction with contractors: PayPal is unavailable for paying Biobak, and using crypto creates extra fees and tax/accounting annoyance—suggesting real operational overhead in running the team.",
       "quote": null
     }
   ],
   "contributor_findings": {
     "biobak": [
       {
-        "topic": "team",
+        "topic": "design",
         "importance": "medium",
-        "summary": "Kaze expects Biobak to finish an unfinished area in Oily Boily Bay (he references the area as incomplete and attributes its completion to Biobak), indicating pipeline dependence for level completion.",
-        "quote": "Biobak said he would finish this area."
+        "summary": "Kaze notes Biobak is expected to finish an unfinished area in Oily Boily Bay (and that collision/music are still pending around that work), indicating ongoing delegated environment/level completion tasks.",
+        "quote": null
       },
       {
         "topic": "business",
-        "importance": "high",
-        "summary": "Biobak’s compensation is currently difficult for Kaze to handle due to blocked PayPal and the need to use crypto (fees + tax complications), highlighting a real production risk unrelated to creative work.",
+        "importance": "medium",
+        "summary": "Biobak’s compensation is impeded by PayPal issues, pushing Kaze toward crypto payment despite added fees and tax complexity.",
         "quote": null
       }
     ],
     "badub": [
       {
-        "topic": "team",
-        "importance": "medium",
-        "summary": "Badub is identified as the consistent composer for Kaze’s levels at this stage of development; Kaze casually treats Badub as the default music source for levels.",
-        "quote": "He always makes the music for my levels. Nowadays at least."
+        "topic": "milestone",
+        "importance": "low",
+        "summary": "Kaze credits Badub as the (current) regular composer for his levels and listens to level music while doing mission naming/cutscene timing, reinforcing that music is integrated early into level presentation decisions.",
+        "quote": null
       }
     ],
     "zeina": [
       {
-        "topic": "team",
+        "topic": "design",
         "importance": "medium",
-        "summary": "Zeina is actively producing a key Western-level set-piece asset (a giant skull), and Kaze reacts positively to her model preview on stream.",
-        "quote": "Oh, that looks really good, Zeina. I like that a lot."
+        "summary": "Zeina is actively producing a large skull set-piece for the Wild West surreal canyon area, one of the key landmarks for the scavenger-hunt hint chain.",
+        "quote": null
       }
     ],
-    "others": []
+    "others": [
+      {
+        "name": "Pyro J",
+        "findings": [
+          {
+            "topic": "technical",
+            "importance": "low",
+            "summary": "Kaze references reusing/stealing a pipe texture/model from Pyro J (or prior shared assets) to avoid redoing texture work, showing pragmatic asset reuse to keep momentum.",
+            "quote": null
+          }
+        ]
+      }
+    ]
   },
   "memorable_quotes": [
     {
       "speaker": "Kaze",
-      "quote": "It is one of my conditions that it fits on a normal N64 cartridge. I'm not gonna go above 64 megabytes.",
-      "context": "Captures the project’s “respect the original platform” constraint and frames technical/creative limits as a deliberate artistic choice."
-    },
-    {
-      "speaker": "Kaze",
-      "quote": "If you make a game that is just not offensive to the player… with no frustration, no friction… people will fucking love it.",
-      "context": "A blunt statement of Kaze’s design philosophy for why revisiting Mario 64 structure can succeed today."
-    },
-    {
-      "speaker": "Kaze",
       "quote": "I unfortunately cannot monetize this. I have to release it for free or I will get murdered.",
-      "context": "Summarizes the economic/legal reality of Nintendo-adjacent fan development and why the project’s distribution must be free."
+      "context": "While discussing monetization constraints and Nintendo risk, he bluntly summarizes why the project must be free despite the scale of the work."
+    },
+    {
+      "speaker": "Kaze",
+      "quote": "The most important part of the cutscene for me is that it's fitting to the music.",
+      "context": "During Oily Boily Bay’s intro cutscene work, he explains his top priority for camera timing and editing."
     }
   ],
   "key_stories": [
     {
-      "title": "Pausing a level to finish Oily Boily Bay’s intro cutscene and star names",
-      "summary": "Mid-stream, Kaze decides the Western level can wait so he can finalize Oily Boily Bay’s intro cutscene and mission naming. He emphasizes that cuts must land on musical beats, and that mission names should provide gameplay hints (e.g., referencing the crane/cannon) rather than being purely flavorful.",
-      "challenge": "The level needed an intro cutscene that feels professional and is rhythmically synced to the music; star names also needed to guide players without over-explaining.",
-      "process": "Kaze blocks out multiple camera spline segments, iteratively adjusts timing by frames, and evaluates cuts against the music’s beat changes. In parallel, he drafts/edits mission names to better communicate objectives.",
-      "outcome": "He declares the cutscene task complete (“homework” done) and returns to Western development, with star names/cutscene considered workable (not final).",
+      "title": "Pausing a level to lock Oily Boily Bay’s intro cutscene and mission names",
+      "summary": "Mid-stream, Kaze intentionally halts Wild West production to do “homework”: finalize Oily Boily Bay’s mission names and build an intro cutscene. The story shows his production discipline—he treats presentation (names + intro) as shippable content and uses music as the organizing principle for pacing.",
+      "challenge": "Oily Boily Bay lacked finalized mission/star names and an intro cutscene, risking a level that plays fine but feels unfinished or unclear.",
+      "process": "Kaze drafts mission names with an emphasis on hinting key mechanics/targets (e.g., crane/cannon), then blocks out multiple cutscene spline segments and iterates timing by ear to match the beat and musical changes.",
+      "outcome": "He reaches a cutscene sequence he’s satisfied with and returns to the Wild West level, explicitly checking off the task as completed.",
       "key_quote": "The most important part of the cutscene for me is that it's fitting to the music.",
       "related_to": ["kaze"]
     },
     {
-      "title": "Colored warp pipes as a discovery-focused shortcut system (and the crash they caused)",
-      "summary": "Kaze’s Western level includes multiple sub-areas, and he considers how to keep traversal fun without making the space tedious. He implements colored warp pipes as optional shortcuts, then hits a reproducible crash tied to new Geo ASM code that sets pipe color.",
-      "challenge": "Add multiple clearly distinguishable pipe variants without duplicating too much data or forcing confusing UX; fix a new crash that appears when entering the pipes.",
-      "process": "Kaze builds a new pipe model/texture look, implements color selection via Geo ASM reading behavior parameters, then switches to NEMU64 to get a program counter and locate the failing code path in GeoSetPipeColor. He iterates on pipe colors for readability and coherence.",
-      "outcome": "Pipes work with four colors and a clearer palette direction, and the Western area’s traversal plan solidifies around “optional shortcuts” rather than required navigation.",
+      "title": "Shortcut pipes for the Wild West scavenger-hunt area",
+      "summary": "Kaze designs a surreal canyon sub-area built around oversized Western props and a hint-driven scavenger hunt. A key decision is whether to rely on movement traversal alone or add warp-pipe shortcuts to increase discovery and reduce travel friction.",
+      "challenge": "A sign-driven scavenger hunt risks becoming tedious if traversal between landmarks is slow or repetitive.",
+      "process": "He maps landmark placement (skull, shotgun walkway, wheel, hoof iron, shed), describes the hint chain logic, then proposes color-coded warp pipes as optional shortcuts connecting regions.",
+      "outcome": "He commits to adding pipes as shortcuts (not mandatory), focusing on readability at a distance via distinct pipe colors and accepting that occasional wrong-pipe entry is low-cost.",
       "key_quote": null,
-      "related_to": ["kaze"]
+      "related_to": ["kaze", "zeina"]
     },
     {
-      "title": "Paying collaborators when PayPal isn’t available",
-      "summary": "While discussing progress and dependencies, Kaze vents about being unable to use PayPal to pay Biobak and resorting to crypto. He highlights that crypto introduces fees for both parties and creates tax/accounting headaches, and he’d rather do a normal bank transfer.",
-      "challenge": "A practical production bottleneck: getting money to a core contributor reliably and in a tax-manageable way.",
-      "process": "Kaze considers/uses crypto as a workaround but frames it as a last resort and a frustration source.",
-      "outcome": "Payment is an ongoing unresolved issue in this stream, flagged as a recurring annoyance and risk to smooth collaboration.",
-      "key_quote": "I'd literally just rather send them a bank transfer that'd be a million times more useful.",
-      "related_to": ["kaze", "biobak"]
+      "title": "A crash introduced by warp pipes, solved by switching debuggers",
+      "summary": "Adding the new warp pipes causes an unexplained crash after entering them, with no obvious cause from inspection. Kaze switches tools to get a precise crash location and finds the fault in his new pipe-color/material code path.",
+      "challenge": "The game begins crashing specifically when interacting with the new warp pipes, and the source isn’t apparent from code review alone.",
+      "process": "Kaze avoids heavy debugger workflows where possible, but escalates to NEMU64 to retrieve the crash program counter. With the PC address, he traces the issue to the geoset pipe color code he just added.",
+      "outcome": "He identifies the exact subsystem responsible (pipe color geoset) and continues implementing multi-color pipes with clearer confidence in where the problem lives.",
+      "key_quote": null,
+      "related_to": ["kaze"]
     }
   ],
   "open_questions": [
     {
-      "topic": "‘Inoffensive platformer’ philosophy vs. Mario 64 expectations",
-      "context": "Kaze suggests a low-friction, non-frustrating structure (many stars, no boot-out) could outperform more demanding hacks because players are tired of hostile design; he observes this converges on Odyssey-like structure.",
+      "topic": "Wild West level identity and naming",
+      "context": "Kaze dislikes early working titles like “Wild West Valley” and “Western Wilds,” and chat proposes alternatives; he’s still undecided while level theming and layout solidify.",
       "questions": [
-        "Was this philosophy already guiding Return to Yoshi’s Island before this stream, or is it an emerging direction?",
-        "How do you balance ‘inoffensive/easy’ with still making movement challenges (like the harder underground 8-bit pipe star) feel rewarding rather than punitive?",
-        "Which specific Mario 64 conventions are you deliberately rejecting (boot-out, cryptic missions, punishing traversal) and why?"
+        "What final name did you land on for the Wild West course, and what did you want the name to communicate about tone (grounded town vs surreal canyon props)?",
+        "How do you decide when a name is ‘too generic’ versus ‘too cute/cryptic’ for a Mario 64 mission or level title?",
+        "Were there any internal naming rules (alliteration, hint clarity, humor limits) you developed while writing star names?"
       ],
       "related_to": ["kaze"]
     },
     {
-      "topic": "Real-cartridge 64MB limit as an artistic/technical constraint",
-      "context": "Kaze says the game must fit on a normal N64 cartridge and he won’t exceed 64MB even though bigger carts exist.",
+      "topic": "Accessibility of color-coded shortcut systems",
+      "context": "Kaze chooses distinct pipe colors to make shortcut routing readable at a distance, briefly discussing colorblindness and rejecting adding extra labels/symbols due to UI clutter and “sleek design.”",
       "questions": [
-        "What content trade-offs has the 64MB limit forced so far (audio quality, number of songs, texture sizes, cutscenes, level count)?",
-        "Do you treat the limit as ‘authenticity’ (respecting the era) or as a practical distribution goal (flashcarts/physical carts)?",
-        "Have you ever come close to breaking the limit, and what did you cut/optimize to stay under?"
+        "Did you ever test the pipe colors with a colorblindness simulator or a colorblind playtester, and did it change your final palette?",
+        "What’s your broader philosophy for accessibility in this hack—when do you add explicit labeling versus relying on level readability and low penalty for mistakes?",
+        "If the pipes expand beyond ‘optional shortcuts,’ how would you redesign the system to avoid color-only reliance?"
       ],
       "related_to": ["kaze"]
     },
     {
-      "topic": "Free/open-source release and Nintendo risk management",
-      "context": "Kaze says the game will be open source and also says he cannot monetize it and must release free due to Nintendo risk.",
+      "topic": "Project constraints: 64MB cartridge ceiling, open source, and no monetization",
+      "context": "Kaze states he won’t exceed ~64MB ROM size (even if technically possible), will open-source the game, and cannot monetize due to Nintendo risk. He also mentions operational pain paying contractors (PayPal issues → crypto).",
       "questions": [
-        "Why choose open-source for this project—community longevity, trust/transparency, or development practicality?",
-        "What does ‘free’ concretely mean for distribution (no ads, no Patreon gating, no paid soundtrack, no physical carts)?",
-        "Have you consulted anyone about legal risk, or is this based on precedent/intuition from past projects?"
-      ],
-      "related_to": ["kaze"]
-    },
-    {
-      "topic": "Collaboration pipeline dependencies (Zeina assets, Biobak finishing areas, Badub music)",
-      "context": "The Western level depends on Zeina’s skull; Oily Boily Bay has an unfinished area Kaze expects Biobak to complete; music is often from Badub, and Kaze notes missing song/collision tasks.",
-      "questions": [
-        "How do you schedule around contributor delivery—do you block out levels with placeholders first, then swap assets in, or do you wait for finished art/music?",
-        "What’s the handoff format between Kaze and artists (Blender files, exported Fast64 assets, naming conventions, version control)?",
-        "How do you keep level feel consistent when music or a major visual set piece arrives late and changes the vibe?"
-      ],
-      "related_to": ["kaze", "biobak", "badub", "zeina"]
-    },
-    {
-      "topic": "Payment friction with contributors",
-      "context": "Kaze says he can’t use PayPal right now and may have to pay Biobak using crypto, which adds fees and tax complexity; he’d prefer bank transfer.",
-      "questions": [
-        "What exactly happened with PayPal access, and how often has payment logistics disrupted production?",
-        "Do you have a standard contractor/payment workflow for the team, or is it improvised per person?",
-        "Has this influenced where you recruit collaborators from (countries/platforms) or how you scope paid work?"
+        "Why is staying within a 64MB cartridge limit important to you artistically and ethically—what would ‘cheating’ mean in this context?",
+        "How does the open-source plan affect your decision-making around assets (music, models, textures) and contributor agreements?",
+        "What’s been the most stressful part of the ‘real-world’ production side—payments, taxes, tooling, or Nintendo risk—and how has it shaped the schedule?"
       ],
       "related_to": ["kaze", "biobak"]
     }

@@ -1,106 +1,88 @@
 {
   "stream_context": {
-    "summary": "Kaze implements and debugs ambient seagull (Goonies-inspired) background actors for the overworld using spline paths, then integrates Zeina’s “message in a bottle” hint system meant to reliably guide players to an Ice Cap–related secret/course unlock. The stream also includes a brief production status update (Course 9 beta feedback, milestone tracker percentages) and small workflow/engineering notes (debug crash assertions for invalid floors, Project64 quirks, overflow bugs).",
-    "level": ["Overworld", "Course 9 – Koopa Wave Gulf"],
+    "summary": "Kaze prototypes and debugs a background seagull (Goonies) system for the overworld using spline-based paths, resolving multiple logic and overflow issues. He also reviews and integrates Zeina’s “message in a bottle” asset used to hint/lock access to the Ice Cap secret and discusses recent beta-test feedback for Course 9, side-level workload, and a new crash-on-invalid-floor debugging tool.",
+    "level": ["Overworld", "Course 9", "Course ? – Ice Cap"],
     "significance": "notable",
-    "significance_reason": "Introduces a concrete overworld ‘living world’ feature (seagulls) and a player-guidance/gating mechanism (bottle hint + sparkles) tied to accessing a locked course/secret, plus shows Kaze’s debugging approach (crash screen/asserts) and coordination with Zeina/Biobak/Graham/Marty."
+    "significance_reason": "The stream adds two player-facing overworld features (ambient seagulls + a critical bottle hint gating access to Ice Cap/Course 5), includes a concrete beta-test update for Course 9, and shows Kaze’s debugging workflow (crash screen + overflow diagnosis) in a way that’s interview-useful, even though it’s not a major shipping milestone."
   },
   "findings": [
     {
       "topic": "design",
-      "importance": "medium",
-      "summary": "Kaze wants the overworld to feel more alive by adding multiple background seagulls (silhouette ‘Goonies’ inspired by Yoshi’s Island) flying around the island; he specifically imagines ~11–15 birds passing through the scene to add atmosphere.",
-      "quote": "Imagine like 15 of these just flying by; that would do so much for the game."
+      "importance": "high",
+      "summary": "Kaze frames overworld “seagulls” as silhouette-like background ambience inspired directly by the Goonies from Yoshi’s Island, arguing that having many of them fly by (e.g., ~15) would add a lot of perceived life to the world.",
+      "quote": "Imagine like 15 of these just flying by—that would do so much for the game."
     },
     {
       "topic": "technical",
       "importance": "high",
-      "summary": "Seagulls are implemented as an actor that follows a spline path with randomized spawn offsets and per-bird variation (size/position); Kaze avoids making a complex separate spawner system and aims for an approach that’s easy to reuse in other areas by moving/copying the spline.",
+      "summary": "He refactors and implements a spline-driven seagull system: spawn/despawn outside level bounds, randomize spawn along a spline with offsets and per-bird variation (size/position), then reuse by copying the spline into other areas to place a flock quickly.",
       "quote": null
     },
     {
       "topic": "technical",
       "importance": "high",
-      "summary": "Debugging the seagulls revealed multiple issues: missing logic (forgotten line), incorrect axis usage (moving relative to Y instead of X), lack of random float offset around zero (making all birds same height), and a need to handle end-of-spline behavior (turn around/warp) to prevent out-of-bounds/crashes.",
-      "quote": null
-    },
-    {
-      "topic": "technical",
-      "importance": "high",
-      "summary": "A key root cause for one spline behaving incorrectly was a coordinate overflow: the seagulls’ Z coordinate overflowed into a negative value, explaining why they appeared to take an unintended path and why the ‘last point’ wasn’t reached as expected.",
-      "quote": "Oh, wait, you're right! The Z coordinate just overflowed to a negative value."
+      "summary": "A major seagull bug came from using the wrong axis (moving relative to Y instead of respecting X), producing chaotic movement; later, a separate issue was traced to Z-coordinate overflow wrapping negative, which explained why birds took the wrong side/path.",
+      "quote": "Oh, wait, you're right! The Z coordinate just overflowed to a negative value. Duh, obviously that would happen."
     },
     {
       "topic": "technical",
       "importance": "medium",
-      "summary": "Kaze mentions a Project64-specific workaround (bit-shifting by 8) to avoid an emulator bug; he notes this wouldn’t be necessary normally, highlighting emulator-driven development friction.",
-      "quote": null
+      "summary": "Kaze leans heavily on his crash screen/assert tooling to diagnose issues quickly (e.g., missing a second spline setup, out-of-bounds path goals), emphasizing that the register/PC/address dump is actionable for him during live debugging.",
+      "quote": "Skill issue if you can't read the crash screen."
     },
     {
       "topic": "design",
       "importance": "high",
-      "summary": "The “message in a bottle” is a deliberate hinting/gating tool placed near the Ice Cap area; it must visually ‘pull’ the player (sparkle effect) and present an explicit riddle/instructions so players can unlock a secret and access a locked progression element (he says Course 5 / Ice Cap is locked behind it).",
+      "summary": "The “message in a bottle” is a critical navigational hint because Course 5 and the Ice Cap secret are locked behind discovering/reading it; Kaze plans a sparkle effect near (not attached to) the bottle and wants the bottle to stop calling attention after the player completes the relevant star/goal.",
       "quote": "It is very important that the player sees this, because Course 5 and the Ice Cap is locked behind it."
     },
     {
       "topic": "design",
       "importance": "medium",
-      "summary": "Kaze iterates on readability constraints for N64 visuals: he increases scroll/message thickness for legibility at low resolution, dislikes the cork because he wants immediate readability, and wants the paper/message to visibly stick out of the bottle top.",
-      "quote": null
-    },
-    {
-      "topic": "technical",
-      "importance": "medium",
-      "summary": "Kaze plans state-based logic so the bottle’s attention-getting sparkles stop spawning once the player has already obtained the relevant star/goal, preventing persistent UI/attention noise after completion.",
+      "summary": "Kaze drafts the bottle’s riddle-style instructions (stand on a stone circle, interact with three colored “friends,” show red your behind, then do seven backflips) and explicitly frames readability/obviousness as a beta-test question that can be reworded if players miss it.",
       "quote": null
     },
     {
       "topic": "milestone",
       "importance": "medium",
-      "summary": "Kaze reports an initial beta test of Course 9 (Koopa Wave Gulf) with “pretty positive” reception, but notes there are still many changes to make; he also admits he forgets to keep his milestone tracker updated and references gameplay testing being around ~15% (per his tracker).",
+      "summary": "He reports the first beta test of Course 9 (“Koopa Wave Kulf”) with a “pretty positive” reception, but notes there are still many changes to make; he also admits he’s behind on updating his milestone tracker document.",
       "quote": null
     },
     {
-      "topic": "design",
+      "topic": "team",
       "importance": "medium",
-      "summary": "He’s rethinking side levels: rather than one-off gimmicks, he wants side levels to be small and mechanic-focused so core mechanics recur throughout the game; he also hopes to recruit more helpers because side content is a large workload.",
-      "quote": "I was thinking all the side levels would be minimal and just single mechanic based, so we can have some recurring mechanics instead of having them only be used once."
+      "summary": "Kaze says side levels remain a major workload and he’s hoping to recruit additional help; he highlights Marty’s side level as unusually large and labor-intensive, contrasting it with Kaze’s earlier intent that side levels be small, single-mechanic spaces with recurring mechanics.",
+      "quote": null
     },
     {
       "topic": "technical",
       "importance": "medium",
-      "summary": "Kaze describes a new debugging tool/assertion: if an object would have an invalid floor during render, the game deliberately crashes and notifies him. He uses this to systematically eliminate invalid-floor cases and improve visual consistency (he mentions shadows), accepting a small CPU cost.",
+      "summary": "He mentions gaining significant RAM recently thanks to a script/tool made by a contributor named “someone2639,” and separately describes adding a debugging mode where the game intentionally crashes if an object renders with an invalid floor to help eliminate invalid-floor bugs and make shadows more consistent.",
       "quote": null
     }
   ],
   "contributor_findings": {
     "biobak": [
       {
-        "topic": "team",
+        "topic": "milestone",
         "importance": "medium",
-        "summary": "Biobak is actively working on the Ice Cap course while Kaze focuses on overworld systems like seagulls and the bottle hint that points toward the Ice Cap/secret access.",
-        "quote": null
-      },
-      {
-        "topic": "design",
-        "importance": "low",
-        "summary": "Kaze references existing overworld elements/textures that came from Biobak and says he will likely rework them anyway, implying ongoing iteration on contributor assets to fit final art direction/performance constraints.",
+        "summary": "Kaze states Biobak is actively working on the Ice Cap course during this stream timeframe, while Kaze handles overworld systems (seagulls + bottle hint).",
         "quote": null
       }
     ],
     "badub": [],
     "zeina": [
       {
-        "topic": "team",
+        "topic": "design",
         "importance": "high",
-        "summary": "Zeina is creating the message-in-a-bottle asset (model + textures) for the overworld; Kaze gives direct art-direction feedback (paper should protrude, remove cork for immediate readability) and they iterate live on file/format issues.",
+        "summary": "Zeina is building the “message in a bottle” asset intended to sit by the Ice Cap entrance and sparkle to attract players; Kaze gives art-direction feedback (message should visibly stick out; no cork so Mario can read immediately; readability/mesh vs texture considerations).",
         "quote": null
       },
       {
         "topic": "technical",
         "importance": "medium",
-        "summary": "Zeina initially sends an incorrect file type (a .blend1 backup rather than the main .blend), and her texture dimensions are unusual (33×32). Kaze asks her to fix and resend, showing day-to-day pipeline friction and constraints of N64-friendly texture handling.",
-        "quote": "Zeina, what is this texture format? ... You made the textures 33 by 32."
+        "summary": "Kaze flags a pipeline/format issue in Zeina’s textures (a 33×32 texture size) and asks for corrected textures, indicating tight constraints and the need for consistent asset formatting for N64 rendering.",
+        "quote": null
       }
     ],
     "others": [
@@ -108,9 +90,9 @@
         "name": "Graham",
         "findings": [
           {
-            "topic": "team",
-            "importance": "medium",
-            "summary": "Graham provided notable overworld textures (hills/mountains); Kaze showcases them on stream and distinguishes which assets Graham did versus others (e.g., not the rocks).",
+            "topic": "design",
+            "importance": "low",
+            "summary": "Kaze credits Graham for overworld terrain textures (hills/mountains) that support the new background ambience elements.",
             "quote": null
           }
         ]
@@ -121,8 +103,8 @@
           {
             "topic": "team",
             "importance": "medium",
-            "summary": "Marty is building a major side level; Kaze says Marty’s side level is likely the biggest side level and that its scope is large relative to a single star reward, indicating substantial contributor-driven content.",
-            "quote": "Marty is already helping with one side level... It's gonna be the biggest side level, I think."
+            "summary": "Kaze spotlights Marty’s side level as potentially the biggest side level in the project and remarks that it’s “so much work,” signaling side-content scope creep relative to the original plan.",
+            "quote": "All that just for one star is going to be crazy."
           }
         ]
       }
@@ -131,87 +113,82 @@
   "memorable_quotes": [
     {
       "speaker": "Kaze",
-      "quote": "Imagine like 15 of these just flying by; that would do so much for the game.",
-      "context": "Explains his philosophy for adding ambient life to the overworld using simple background actors that dramatically boost atmosphere."
-    },
-    {
-      "speaker": "Kaze",
-      "quote": "Skill issue if you can't read the crash screen. We fixed it in 0.5 seconds.",
-      "context": "Shows his engineering mindset: instrumented crashes and assert-style debugging are a core productivity tool for building a stable N64 hack."
+      "quote": "Imagine like 15 of these just flying by—that would do so much for the game.",
+      "context": "Explaining why ambient background actors (seagulls/Goonies) meaningfully change the feel of the overworld."
     },
     {
       "speaker": "Kaze",
       "quote": "It is very important that the player sees this, because Course 5 and the Ice Cap is locked behind it.",
-      "context": "States the design intent behind the bottle hint: explicit guidance is necessary when progression is gated by an overworld secret."
+      "context": "Clarifying that the message-in-a-bottle is not flavor text—it gates progression to a major secret/route."
     }
   ],
   "key_stories": [
     {
-      "title": "Building ‘living overworld’ seagulls via spline paths",
-      "summary": "Kaze wants the overworld to feel alive, so he adds Yoshi’s Island–inspired ‘Goonies’ seagulls as background silhouettes. He prototypes them quickly, then debugs a chain of issues (axis mistakes, missing random offsets, path-end behavior) until the base implementation works and can be reused by moving splines between areas.",
-      "challenge": "Make multiple background birds that feel natural (not uniform, not on one identical path) while keeping implementation simple and reusable across overworld areas.",
-      "process": "He designs a spline-following approach with randomized spawn/offsets, tests in-game, reads crash/assert output, and iteratively fixes logic errors (wrong axis, missing random-around-zero height variation, and end-of-path handling).",
-      "outcome": "Base seagull system works in at least one area, with plans for enhancements (e.g., sine-wave motion, better layering behind scenery) and easy duplication to other areas by copying/moving the spline.",
-      "key_quote": "Oh, oh, oh! We forgot to do the random float around zero.",
+      "title": "Building spline-based overworld seagulls (and chasing down the weird bugs)",
+      "summary": "Kaze prototypes a flock of background seagulls inspired by Yoshi’s Island’s Goonies to add motion and life to the overworld. The work becomes a live demonstration of how small coordinate/path mistakes cascade into crashes and uncanny behavior—and how he uses crash tooling and debugging prints to stabilize systems intended for reuse across areas.",
+      "challenge": "Seagulls need to look natural (varied height/position, not identical paths), stay within level bounds, and be easy to reuse—while avoiding crashes and incorrect pathing.",
+      "process": "He designs a spline-path approach with randomized spawn points/offsets and per-bird variation, tests in multiple overworld areas, adds/uses asserts and debug logs, and iterates on missing logic (direction reversals, random float around zero, wrong-axis movement).",
+      "outcome": "The base implementation is working and reusable by moving splines between areas, though Kaze still notes remaining oddities (e.g., closeness/path choice) before the overflow root cause is identified and resolved.",
+      "key_quote": "Oh, wait, you're right! The Z coordinate just overflowed to a negative value. Duh, obviously that would happen.",
       "related_to": ["kaze"]
     },
     {
-      "title": "Message-in-a-bottle as progression-critical hinting",
-      "summary": "Zeina provides a bottle model/texture while Kaze integrates it as a sparkly overworld object that delivers explicit instructions (a riddle) for a secret needed to reach Ice Cap/Course 5 content. Kaze prioritizes visibility and readability, and adds logic to disable the attention effect after the player completes the objective.",
-      "challenge": "Prevent players from missing a required secret when a major course/area is locked behind an overworld interaction; ensure readability on N64 rendering and low resolution.",
-      "process": "Kaze reviews Zeina’s asset, requests the paper visibly stick out and removal of the cork for instant reading, tweaks message thickness for legibility, drafts the riddle text, and plans a completion flag so sparkles stop once the star is obtained.",
-      "outcome": "Bottle hint is visually and mechanically integrated (with planned sparkle attention), with wording to be validated via beta testing and adjusted if players still miss the secret.",
-      "key_quote": "I think this is obvious enough so that every player will find it... But that's what we have beta testing for.",
+      "title": "Message-in-a-bottle as progression gate to Ice Cap / Course 5",
+      "summary": "Kaze and Zeina collaborate on an overworld bottle that visually attracts players and delivers a riddle-like hint. Kaze treats it as a critical UX element because it gates access to a secret route/level, and he plans safeguards so it grabs attention until the player completes the relevant objective.",
+      "challenge": "Players must reliably notice and understand the hint, otherwise they may never discover the Ice Cap/Course 5 route.",
+      "process": "Kaze reviews Zeina’s model and requests changes (scroll visibility, no cork, readability tweaks), drafts the riddle text, plans a sparkle effect near the bottle, and adds logic to disable sparkles once the star/objective is completed; he frames final wording as dependent on beta test results.",
+      "outcome": "The bottle asset and text are close to shippable for testing, with an explicit plan to reword if beta testers don’t find it obvious enough.",
+      "key_quote": "I think this is obvious enough so that every player will find it. I'm not 100% certain. But that's what we have beta testing for.",
       "related_to": ["kaze", "zeina"]
+    },
+    {
+      "title": "Turning crashes into a deliberate debugging feature (invalid floors during render)",
+      "summary": "Kaze describes adding a tool that intentionally crashes the game when an object renders with an invalid floor, turning a hard-to-find class of issues into fast, actionable bug reports. This reveals a philosophy of investing in debugging infrastructure to keep a sprawling ROM hack stable.",
+      "challenge": "Invalid floor data during rendering causes inconsistent behavior and visual issues (including shadow consistency) that are difficult to track across many levels and objects.",
+      "process": "He adds a targeted crash/notification system to flag invalid floors at render time and uses it to identify and eliminate problematic cases; he also questions whether current coverage includes side levels.",
+      "outcome": "He expects fewer invalid-floor bugs and more consistent shadows, but suspects the tool may not cover side levels yet and plans to verify.",
+      "key_quote": "When an object would have an invalid floor during render, the game just crashes and notifies me.",
+      "related_to": ["kaze"]
     }
   ],
   "open_questions": [
     {
-      "topic": "How exactly the bottle hint gates progression to Ice Cap / Course 5",
-      "context": "Kaze says the bottle is critical because Course 5 and the Ice Cap are locked behind it, implying an overworld secret unlock path tied to a star flag and a hidden entrance.",
+      "topic": "Progression design: why gate Ice Cap/Course 5 behind the bottle hint?",
+      "context": "Kaze explicitly says Course 5 and the Ice Cap route are locked behind noticing/reading the bottle, and he’s adding sparkles plus post-completion disabling logic.",
       "questions": [
-        "What is the exact progression flow: what does the bottle hint lead the player to do, and what gets unlocked (a warp, a cap switch area, a new course entrance, a secret stage)?",
-        "At what point did you decide this content needed explicit hinting (bottle + sparkles) rather than discovery/intuition?",
-        "How do you balance ‘mystery’ with ‘not getting players stuck’ in RTYI’s overworld compared to vanilla Mario 64 and Yoshi’s Island?"
+        "When did you decide the Ice Cap/Course 5 route needed to be gated behind an overworld riddle instead of a more direct unlock?",
+        "What player behavior were you anticipating (getting lost, sequence-breaking, missing content) that made this hint feel mandatory rather than optional flavor?",
+        "How will you measure success in beta testing—what would convince you the hint is ‘obvious enough,’ and what changes would you make if testers still miss it?"
       ],
       "related_to": ["kaze", "zeina"]
     },
     {
-      "topic": "Course 9 beta test feedback and resulting changes",
-      "context": "Kaze mentions Course 9 (Koopa Wave Gulf) had a first beta test with positive reception but “a lot of things” to change; he also tracks progress in a milestone tracker he forgets to update.",
+      "topic": "Course 9 beta test results and planned changes",
+      "context": "Kaze says the first beta test of Course 9 (“Koopa Wave Kulf”) was positive but requires many changes; he also references a milestone tracker he hasn’t updated.",
       "questions": [
-        "Who participated in the Course 9 beta test (internal team, patrons, community testers), and what format did you use to collect feedback?",
-        "What were the top 3 concrete changes you identified after the beta test (difficulty, camera, performance, clarity, objectives)?",
-        "What does your milestone tracker measure (percent complete for gameplay testing, level completion, art, etc.), and how do you decide those percentages?"
+        "Who tested Course 9, and what kinds of feedback came up most—difficulty, clarity, performance, or ‘feel’?",
+        "What were the biggest changes you immediately knew you had to make after watching/reading the feedback?",
+        "How do you use the milestone tracker in practice—does it shape priorities or just document progress after the fact?"
       ],
       "related_to": ["kaze"]
     },
     {
-      "topic": "Side-level philosophy shift toward recurring mechanics",
-      "context": "Kaze frames side levels as a major workload and suggests changing direction: minimal, single-mechanic levels that reuse mechanics across the game; he also hopes to recruit more people to help.",
+      "topic": "Side-level scope creep vs original plan",
+      "context": "Kaze says side levels are still a large remaining workload, he hopes to get more people to help, and Marty’s side level may be the biggest despite Kaze originally imagining small, single-mechanic side levels.",
       "questions": [
-        "What prompted the shift toward recurring mechanics in side levels—player feedback, scope control, or a specific design lesson from earlier courses?",
-        "Which mechanics are you intentionally trying to ‘teach once, reuse often’ across multiple side levels?",
-        "How do you decide what work is safe to delegate to contributors (like Marty) versus what must remain in-house?"
+        "What made Marty’s side level grow so large—was it creative ambition, necessary context for a mechanic, or just the reality of making something ‘feel complete’?",
+        "Do you still want side levels to be single-mechanic teaching spaces with recurring mechanics, or has the project’s definition of side levels changed?",
+        "How do you decide when a side level is ‘done’ versus ‘worth expanding,’ especially when it’s only for one star?"
       ],
       "related_to": ["kaze"]
     },
     {
-      "topic": "Engineering approach: crash screen/assert tooling and invalid-floor detection",
-      "context": "Kaze describes adding a debugging tool that forces a crash when an object would have an invalid floor during render, to systematically clean up stability/visual consistency issues (including shadows), at a small CPU cost.",
+      "topic": "Debugging infrastructure strategy (invalid floor crash tool coverage)",
+      "context": "Kaze adds a crash-on-invalid-floor-during-render tool, then wonders if it might not cover side levels.",
       "questions": [
-        "What does ‘invalid floor during render’ mean in RTYI specifically (bad collision triangles, out-of-bounds floor queries, precision issues)?",
-        "How often did these invalid floors occur before the tool, and what kinds of gameplay/level design patterns tended to cause them?",
-        "How do you decide when to keep an assert/crash tool enabled in development builds versus removing it for release?"
-      ],
-      "related_to": ["kaze"]
-    },
-    {
-      "topic": "Emulator-driven development constraints (Project64 workarounds)",
-      "context": "Kaze mentions bit-shifting by 8 due to a Project64 bug and implies some behaviors differ between ‘normal’ expectations and emulator quirks.",
-      "questions": [
-        "What specific Project64 bug required the right-shift-by-8 workaround, and how do you ensure it doesn’t introduce real-hardware bugs?",
-        "What is your current test matrix (Project64, other emulators, EverDrive/real N64), and how often do emulator-only issues change your implementation decisions?"
+        "What specific bugs or visual artifacts pushed you to build the invalid-floor crash tool now?",
+        "How do you ensure your debugging tools apply consistently across overworlds, courses, and side levels—what’s the architecture challenge there?",
+        "Have there been past moments where investing in tooling like this saved the project from a major stability/performance spiral?"
       ],
       "related_to": ["kaze"]
     }

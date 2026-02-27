@@ -1,114 +1,68 @@
 {
   "stream_context": {
-    "summary": "Kaze showcases progress on a Biobak-remade factory/power-plant style level (\"Only/Oily Body May\"), then works through a concrete to-do list: implementing sparkle particles that travel along wires, fixing the fuzzy/dizzy visual state (rim/prim color issues), investigating a ledge-hang respawn softlock (safe-position updates), and adding a special elevator camera to prevent clipping/stuck situations. He also outlines late-game level plans for Crystals 14–15 and discusses design philosophy around player control and pacing (notably via a Super Mario Sunshine critique).",
-    "level": ["Overworld"],
+    "summary": "Kaze reviews his latest progress on the remade “Oily Body May” factory level (assets imported from Biobak), then spends most of the stream implementing/repairing visual effects (sparkle lines, fuzzy/dizzy overlay colors) and camera behavior (a special elevator camera). He also outlines upcoming content (Crystals 14/15 themes) and shares strong opinions about player control/cutscene interruptions (Sunshine), which implicitly informs RTYI’s design philosophy.",
+    "level": [
+      "Course (unknown) – Oily Body May (Factory/Elevator/Underground/Office)"
+    ],
     "significance": "notable",
-    "significance_reason": "Includes a substantial level-progress showcase, a clear prioritized changelog/to-do list with multiple fixes completed (sparkle path + elevator camera), concrete late-game level plans (Crystals 14–15), and a strong design-philosophy statement about avoiding forced interruptions and non-rewarding collectibles."
+    "significance_reason": "Beyond routine bug-fixing, the stream contains (1) concrete previews of a major level remake and its effect pipeline, (2) a clear design philosophy rant about preserving player agency, and (3) specific future-level reveals (Space Casino / Paper Craft) that help anchor the project’s long-term roadmap."
   },
   "findings": [
     {
-      "topic": "design",
-      "importance": "high",
-      "summary": "Kaze strongly rejects frequent forced cutscenes/interruptions as a design approach, using Super Mario Sunshine as a negative example; he frames it as both an intrinsic-motivation killer (loss of player control) and extrinsic-motivation killer (many collectibles/paths feel unrewarding).",
-      "quote": "Every time the game takes control away from me, it just feels like a small kick to my balls."
-    },
-    {
-      "topic": "design",
+      "topic": "milestone",
       "importance": "medium",
-      "summary": "He names two late-game crystals: Crystal 14 will be a Space Casino level, and Crystal 15 will be a Paper Craft level built to look like cardboard.",
+      "summary": "Kaze shows substantial progress on the remade “Oily Body May” level: Biobak’s rebuild has been imported, areas are laid out (office, underground, factory), and Kaze is layering lighting/fog and effects; some assets are still pending from Biobak.",
       "quote": null
     },
     {
-      "topic": "team",
+      "topic": "technical",
       "importance": "medium",
-      "summary": "Kaze is implementing a level remake from Biobak: he imported the assets, built out multiple areas (office, factory, underground), and notes Biobak still has additional assets to make.",
+      "summary": "The course is very tight on memory; Kaze rejects adding some carry-over assets (“scales” from a previous course) because the level can’t afford them.",
       "quote": null
     },
     {
       "topic": "technical",
       "importance": "high",
-      "summary": "The level is constrained by very low memory, preventing easy addition of extra set-dressing assets (e.g., previously-made scales).",
+      "summary": "Kaze hits a serious-seeming intermittent break where ‘ROM pointers’ appear to fail (DMA/segmented pointer symptoms), which in turn breaks music and animations; he treats it as a low-level streaming/pointer issue rather than a simple gameplay bug.",
       "quote": null
     },
     {
       "topic": "technical",
       "importance": "medium",
-      "summary": "A persistent rendering issue is attributed to a Glideon bug: a light-up effect intended to illuminate each ball individually cannot be fixed on their end and will remain visually wrong.",
-      "quote": null
-    },
-    {
-      "topic": "technical",
-      "importance": "high",
-      "summary": "Kaze encounters a severe state corruption symptom (music/animations breaking) that he suspects is caused by broken ROM/DMA pointers; he treats it as a systemic issue rather than a simple scene bug.",
-      "quote": null
-    },
-    {
-      "topic": "technical",
-      "importance": "high",
-      "summary": "He debugs an effect where “debug Mario clones” visualize positions along an electric/sparkle line path; the pathing initially reads the wrong waypoint/opacity state due to a math/logic error (he notes forgetting an SQR step), then confirms it’s fixed once the corrected calculation is in place.",
-      "quote": null
-    },
-    {
-      "topic": "technical",
-      "importance": "medium",
-      "summary": "Blender 4.x workflow changes slowed him down (vertex color picking/hex extraction). He finds a workable method to sample exact vertex colors and uses it to align the fuzzy-state rim/prim colors; one apparent in-game discrepancy was ultimately due to forgetting to export the updated level.",
+      "summary": "A known rendering limitation/bug prevents a desired effect: a “ball-by-ball” lighting behavior is broken due to a Glideon bug, and he believes there’s nothing actionable on his side to fix it.",
       "quote": null
     },
     {
       "topic": "design",
       "importance": "medium",
-      "summary": "He decides falling into oil should not trigger an instant death animation; instead, players should respawn with reduced health to avoid punishing failure “for no reason.” He also considers a temporary oil decal overlay on Mario that fades over a few seconds as feedback.",
+      "summary": "Kaze defines upcoming late-game themes: Crystal 14 will be “Space Casino” and Crystal 15 will be a “Paper Craft” level built from cardboard-like materials.",
       "quote": null
     },
     {
-      "topic": "technical",
+      "topic": "philosophy",
       "importance": "high",
-      "summary": "A softlock risk exists when Mario’s “safe position” updates while hanging from ledges; Kaze attempts to reproduce the issue, then moves toward a code-level fix (prevent safe-position updates in that state).",
-      "quote": null
+      "summary": "Kaze explains why he dislikes Sunshine: frequent, unskippable micro-cutscenes undermine intrinsic motivation (flow) by constantly taking control away, while extrinsic motivation is weakened by collectables that don’t meaningfully progress the player (e.g., blue coins/stars outside the core set).",
+      "quote": "Every time the game takes control away from me, it feels like a small kick to my balls."
     },
     {
       "topic": "technical",
       "importance": "medium",
-      "summary": "He adds a special hard-coded camera behavior for an elevator section and plans an additional workaround: shift the camera further inside the elevator and offset the elevator collision inward (~40 units) to reduce clipping/getting stuck. Elevator floor collision remains known-bug/complex to fix.",
-      "quote": null
-    },
-    {
-      "topic": "design",
-      "importance": "medium",
-      "summary": "Collectible UX planning: collecting all 5 special coins will award a bonus star, and a radar feature will unlock after collecting a threshold (tentatively 3 coins), as a way to guide completion without making it available immediately.",
-      "quote": null
-    },
-    {
-      "topic": "design",
-      "importance": "low",
-      "summary": "He considers an Easter egg: a “janitor throwing soap” NPC/prop that is talkable and uses Biobak-written text.",
+      "summary": "He implements/repairs multiple level-polish tasks from a changelog-style to-do list: sparkle particles moving along wires/lines (debugged with floating Mario ‘clones’ as positional markers), fuzzy/dizzy overlay color fixes, and a special elevator camera. Some remaining items are deferred (boss area, factory ‘shining’ platform effects, elevator music).",
       "quote": null
     }
   ],
   "contributor_findings": {
     "biobak": [
       {
-        "topic": "team",
-        "importance": "medium",
-        "summary": "Biobak provides the level remake Kaze is implementing; Kaze notes remaining asset requests from Biobak.",
-        "quote": null
-      },
-      {
         "topic": "design",
-        "importance": "low",
-        "summary": "Biobak clarifies the intended particle type for the wires (star sparkles rather than electrical sparkles), helping align visuals with the level’s art direction.",
+        "importance": "medium",
+        "summary": "Biobak’s remade level is the base Kaze is importing and iterating on; Biobak also continues to have additional assets they still want to make for the course.",
         "quote": null
       },
       {
         "topic": "technical",
         "importance": "low",
-        "summary": "Biobak flags that a fan model on-screen was not his; Kaze locates and swaps to Biobak’s correct fan asset, improving consistency with the level’s lighting/materials.",
-        "quote": null
-      },
-      {
-        "topic": "design",
-        "importance": "low",
-        "summary": "Biobak is referenced as the author of text/dialogue for a potential janitor Easter egg.",
+        "summary": "Biobak helps diagnose content issues during review (e.g., noticing the wrong fan model was being used) and gives workflow tips for Blender 4 color/vertex picking that Kaze immediately applies to fix the fuzzy overlay rim color.",
         "quote": null
       }
     ],
@@ -117,7 +71,7 @@
       {
         "topic": "personal",
         "importance": "low",
-        "summary": "Zeina appears briefly in chat and leaves mid-stream; no direct production decision is attributed to her in this transcript.",
+        "summary": "Zeina appears briefly in chat/stream presence; Kaze jokingly blames clothing shrinkage on how laundry is washed too warm, a small domestic beat amid development.",
         "quote": null
       }
     ],
@@ -126,78 +80,67 @@
   "memorable_quotes": [
     {
       "speaker": "Kaze",
-      "quote": "Every time the game takes control away from me, it just feels like a small kick to my balls.",
-      "context": "His critique of Super Mario Sunshine’s repeated mission cutscenes becomes a broader statement of RTYI’s design philosophy: preserve player agency and avoid constant forced interruptions."
+      "quote": "Every time the game takes control away from me, it feels like a small kick to my balls.",
+      "context": "While explaining his unusually intense dislike of Sunshine, he frames it as a player-agency issue (constant forced cutscenes), which implicitly contrasts with how RTYI tries to keep players in control."
     }
   ],
   "key_stories": [
     {
-      "title": "Getting wire sparkles to travel correctly along paths",
-      "summary": "Kaze creates/adjusts a sparkle effect intended to move along overhead lines in the factory area. To debug incorrect positioning, he spawns “floating Marios” as visual markers and traces the waypoint math until he identifies a calculation mistake.",
-      "challenge": "The sparkles were snapping toward an incorrect waypoint/reading wrong values, suggesting logic errors (and raising suspicion of pointer issues in other contexts).",
-      "process": "He isolates the issue by reducing to a single instance, adds prints, verifies waypoint assumptions, and corrects the math (mentions forgetting an SQR step). He then scales the effect (bigger/faster) for N64 visibility.",
-      "outcome": "The debug markers begin sliding along the intended line, and he declares the fix complete without extensive retesting.",
+      "title": "Sparkle-line effect debugged with ‘floating Mario’ markers",
+      "summary": "While building a new ‘sparkles moving along a line’ effect for the factory, Kaze discovers the effect instances are being placed at nonsensical positions. He uses an intentionally absurd debug visualization (spawning multiple Mario models) to trace where the engine thinks each sparkle is and ultimately identifies a math mistake.",
+      "challenge": "Sparkle objects (debugged as Mario clones) move toward the wrong waypoint/position, suggesting pointer/coordinate logic is wrong despite ‘segmented pointers’ appearing valid.",
+      "process": "Kaze disables all but one instance, adds prints, inspects waypoint indexing/distance math, and realizes a missing square-root (SQR) step is breaking the distance calculation, which cascades into wrong placements.",
+      "outcome": "After adding the missing SQR, he’s confident the effect is fixed (“not even gonna test…”) and continues tuning size/speed for readability on N64.",
       "key_quote": "I forgot the SQR, okay now it works.",
       "related_to": ["kaze"]
     },
     {
-      "title": "Fixing the fuzzy/dizzy state rim color and pipeline pitfalls",
-      "summary": "Kaze addresses a visual bug where hitting a fuzzy triggers an ugly rim/edge color mismatch on decals (ocean edge/NPG). Blender 4.x makes it harder to sample exact vertex colors, complicating consistent prim/vertex color behavior.",
-      "challenge": "He needs exact color values to match the rim/prim behavior in the fuzzy state, but Blender 4 changed familiar tools; in-game results initially appear wrong even after code/material changes.",
-      "process": "He finds a workable way to pick vertex colors/hex values, applies the change, and then sanity-checks in emulator—eventually realizing the in-game discrepancy was because he forgot to export the updated level.",
-      "outcome": "After exporting, the color behavior matches expectations and the item is checked off the to-do list.",
+      "title": "Fuzzy/dizzy overlay rim-color fix via Blender 4 workflow workaround",
+      "summary": "Kaze tries to fix an ugly rim/edge artifact on the fuzzy/dizzy overlay by matching vertex/prim colors precisely, but Blender 4’s UI changes block his usual method of sampling exact color values. After receiving guidance, he extracts the needed values and realizes the in-game test looked wrong simply because the level hadn’t been re-exported.",
+      "challenge": "The fuzzy overlay shows an unwanted rim color; Kaze needs exact vertex/hex values, but Blender 4.0/4.1 makes his normal color-picking workflow confusing/unreliable.",
+      "process": "He experiments with Blender shading modes/attribute views to read the correct vertex color, updates the material/prim color logic, then validates in-game and finally notices he forgot to export the updated level build.",
+      "outcome": "After exporting, the color behavior resets correctly and the visual issue is considered resolved, allowing him to move on to gameplay/camera bugs.",
       "key_quote": "Yep, I just had to export a level.",
+      "related_to": ["kaze", "biobak"]
+    },
+    {
+      "title": "Elevator camera: preventing player ‘pickle’ with camera/collision offsets",
+      "summary": "Kaze adds a special camera for an elevator sequence, but the camera clips and behaves poorly when Mario jumps (losing floor reference). He chooses a pragmatic hack: move the camera forward inside the elevator and shift the elevator collision slightly to prevent edge cases and clipping.",
+      "challenge": "The elevator camera feels unstable/clippy and the elevator floor collision is already known to be buggy/complicated to fix properly.",
+      "process": "He hard-codes a special camera position/behavior for the elevator, then proposes a paired adjustment: push the camera deeper by ~40 units and nudge the elevator collision inward by a similar amount so players can’t get stuck or force bad angles.",
+      "outcome": "He marks the elevator special cam as done on the to-do list; remaining elevator polish includes adding elevator music.",
+      "key_quote": "The inaccuracy should not be noticeable, and this should keep the player from getting themselves into a pickle.",
       "related_to": ["kaze"]
     }
   ],
   "open_questions": [
     {
-      "topic": "Glideon rendering limitations for per-object lighting effects",
-      "context": "Kaze says an effect meant to light up each ball individually cannot be fixed because it’s a Glideon bug and will remain broken “forever.”",
-      "questions": [
-        "What exactly is the Glideon bug/limitation here (pipeline state, combiner, lighting, z-buffer, per-vertex vs per-primitive)?",
-        "Did you explore alternate implementations (different material setup, geometry split, fake lighting via textures) to approximate the intended look?",
-        "How often do emulator/plugin-specific constraints force RTYI art/design compromises, and how do you decide when to accept them?"
-      ],
-      "related_to": ["kaze"]
-    },
-    {
       "topic": "DMA/ROM pointer break causing music/animation failures",
-      "context": "He observes broken music and animations and hypothesizes that ROM pointers/DMA are breaking, implying a deeper engine/build-system issue.",
+      "context": "Kaze observes a state where ‘ROM pointers’ seem to break, which then breaks music and animations; he describes it like DMA is broken, implying a deeper streaming/memory issue.",
       "questions": [
-        "What’s the root cause of the DMA/pointer break (asset table overflow, segmented address misuse, memory overwrite, build step)?",
-        "How do you detect and prevent these regressions (assertions, pointer validators, automated tests, content budget checks)?",
-        "Was this tied to the new level’s memory pressure, or is it a separate systemic bug?"
+        "When did you first start seeing the DMA/‘ROM pointer’ break behavior—did it begin with this level’s memory pressure, or was it triggered by a specific new system (effects, assets, audio)?",
+        "How do you typically isolate bugs that look like low-level pointer/DMA problems in an N64-era engine—what tooling or logging do you rely on?",
+        "Did this issue end up being an emulator/plugin artifact (e.g., Glideon) or a real hardware-accurate bug you had to fix? What was the root cause?"
       ],
       "related_to": ["kaze"]
     },
     {
-      "topic": "Course memory budgets affecting level content decisions",
-      "context": "Kaze says the current course is very low on memory and rejects adding additional decorative assets (scales).",
+      "topic": "Late-game crystal themes (Space Casino / Paper Craft) and why they fit RTYI",
+      "context": "Kaze states Crystal 14 is ‘Space Casino’ and Crystal 15 is a cardboard ‘Paper Craft’ world, but doesn’t explain their narrative/design role or mechanics.",
       "questions": [
-        "What is consuming the budget in this level (textures, geometry, animation data, collision, scripts, audio)?",
-        "Do you have formal per-level budgets and tooling to measure them, or is it intuition plus trial-and-error?",
-        "How do you negotiate tradeoffs with artists/level designers (e.g., Biobak) when memory limits block desired set dressing?"
-      ],
-      "related_to": ["kaze", "biobak"]
-    },
-    {
-      "topic": "Ledge-hang safe-position softlock bug",
-      "context": "Kaze notes a situation where Mario can become soft-locked because the game updates Mario’s “safe position” while hanging on an edge, preventing proper respawn.",
-      "questions": [
-        "What were the original reproduction steps when you first discovered the softlock, and which level geometry tends to trigger it?",
-        "How does RTYI define and update “safe position” (frequency, state machine conditions), and why does ledge hang break it?",
-        "Did this bug come from vanilla SM64 behavior, decomp refactors, or RTYI-specific movement/ledge logic?"
+        "What is the creative origin of ‘Space Casino’ and ‘Paper Craft’—were they inspired by specific Nintendo worlds (Galaxy, Paper Mario, etc.) or something original you wanted to explore on N64?",
+        "What gameplay gimmicks or mechanics make these worlds more than just a visual theme (e.g., casino rules, paper physics, cardboard props)?",
+        "How late in development did you decide on these themes, and did they replace earlier concepts?"
       ],
       "related_to": ["kaze"]
     },
     {
-      "topic": "Elevator section: camera/collision workarounds vs a real collision fix",
-      "context": "He adds a special elevator camera and considers shifting camera and collision inward to prevent clipping, while calling the elevator floor collision bug “complicated.”",
+      "topic": "Player punishment philosophy in hazardous ‘oil’ sections",
+      "context": "Kaze explicitly rejects an overly punishing death state for falling into oil; he suggests respawning with reduced health or adding a temporary oil decal on Mario instead.",
       "questions": [
-        "What makes the elevator floor collision bug hard (moving collision limitations, transform syncing, precision, floor detection)?",
-        "Is the camera/collision offset a temporary hack or the intended final solution?",
-        "How do you decide when to “cheat” via camera/collision adjustments rather than engineering a full moving-platform collision system?"
+        "What’s your guiding rule for when RTYI should kill the player versus ‘mark’ them (health reduction, temporary debuff, visual gag like an oil decal)?",
+        "Did playtesting (or your own frustration thresholds) push you away from instant-death oil, or was it always intended to be a softer penalty?",
+        "If you add an oil decal that fades, does it stay purely cosmetic, or does it tie into mechanics (slipperiness, reduced traction, altered moves)?"
       ],
       "related_to": ["kaze"]
     }

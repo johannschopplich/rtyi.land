@@ -1,75 +1,81 @@
 {
   "stream_context": {
-    "summary": "Kaze reviews project progress (Course 10 update and beta testing status), then focuses on Overworld work: experimenting with storm-cloud background visuals tied to story progression, discussing tricky N64 rendering edge cases (water + concave geometry, draw order), and showing/diagnosing a new occlusion-plane system for major N64 performance gains. The stream ends with a substantial design brainstorm on how to stage a Kamek encounter in the overworld as a progression gate (including a disguise/detective-style setup).",
-    "level": ["Overworld", "Course 1", "Course 10"],
-    "significance": "notable",
-    "significance_reason": "Introduces/updates several documentary-relevant pillars: near-term milestone planning (second beta test + tracker nearing 100%), a major engine/performance feature (occlusion planes for real N64), and a concrete narrative/gameplay concept for Kamek as an overworld progression gate."
+    "summary": "Kaze reviews overall project progress (Course 10 update completed; more levels nearing 100%), begins new overworld programming/visual work (storm-cloud background that changes after a thunder objective), discusses tricky N64-era rendering constraints (water vs concave geometry; coin glow combiner trick), and introduces a major engine-side performance feature (occlusion planes) while also workshopping a new structure for the overworld Kamek encounter (shapeshift/disguise + 60-star gate via evil message blocks).",
+    "level": ["Overworld", "Course 10", "Course 1", "Course 2"],
+    "significance": "milestone",
+    "significance_reason": "Introduces/ships a major performance feature (occlusion planes), finishes a Course 10 update and schedules the next beta test, and substantially reframes the planned overworld Kamek encounter into a star-gated narrative event (evil blocks → disguise/deduction setup)."
   },
   "findings": [
     {
       "topic": "milestone",
-      "importance": "medium",
-      "summary": "Kaze says he recently finished the update for Course 10 and has already run a first beta test for that update; he expects a second beta test soon.",
+      "importance": "high",
+      "summary": "Kaze says he recently finished the update for Course 10 and that the first beta test/first update has already happened; a second beta test is planned soon, with at least one more level expected to reach 100% completion on the progress tracker.",
       "quote": null
     },
     {
       "topic": "milestone",
       "importance": "medium",
-      "summary": "He references the internal progress tracker: two items are at 96% and he expects to push them to 100% soon; several other items are basically done on his side but are waiting on Biobak; four areas still need a first gameplay test pass.",
+      "summary": "Progress-tracker status: several levels are in the mid-to-high 90% range, with two at ~96% that Kaze expects to push to 100% soon; other areas are “basically 100%” on his side and waiting on Biobak’s remaining work; four additional levels still need a first full gameplay test pass.",
       "quote": null
     },
     {
       "topic": "design",
       "importance": "medium",
-      "summary": "Returning to the overworld after a few days changes his perspective: he notes the entrance vista feels notably stronger than he remembered, reinforcing the importance of taking breaks for level-readability and first-impression checks.",
+      "summary": "Coming back to the overworld after a few days, Kaze says he likes the area more than before—specifically praising the “view you have when you enter” as a strong first impression.",
       "quote": null
     },
     {
       "topic": "technical",
-      "importance": "high",
-      "summary": "He discusses a difficult N64 rendering edge case: concave geometry over a water plane can cause the water inside the concavity to disappear, and fixing it “properly” would require draw-order/depth tricks that risk side effects (e.g., particles not rendering correctly inside the shell).",
+      "importance": "medium",
+      "summary": "Kaze investigates/asks about a rendering issue involving water planes and concave geometry (e.g., a concave shell over water causing the water to disappear), and considers workarounds involving draw order/depth masking.",
       "quote": null
     },
     {
       "topic": "philosophy",
       "importance": "high",
-      "summary": "Kaze reiterates a boundary for the project: engine-level changes are effectively “off-limits” unless the feature will be used broadly, because engine hacks are costly and can introduce systemic issues (he references past incidents caused by required draw-order constraints).",
+      "summary": "He sets a clear boundary: features that require engine-level hacks (like changing draw order globally) are “off limits” unless he expects to reuse them broadly, because they raise complexity and maintenance cost across the project.",
       "quote": "Any feature that requires engine-level hacks—unless I want to use it a lot—I say it’s off limits."
     },
     {
       "topic": "technical",
       "importance": "high",
-      "summary": "He announces/teases that the game now has occlusion planes and frames it as an “insane” real-N64 performance improvement, but cannot demonstrate live due to an N64 boot issue; he points viewers to a KazeClips video releasing the next day.",
+      "summary": "Kaze announces the game now has “occlusion plates” (occlusion planes) for performance. He intended to demonstrate N64 performance gains but couldn’t show it on stream (teasing a separate video).",
       "quote": null
     },
     {
       "topic": "technical",
       "importance": "high",
-      "summary": "Kaze explains his occlusion system design: the microcode accepts a single occlusion plane, and his tooling can derive that plane from placed helper actors (4-actor planes, 2-actor cuboids, and a planned cylinder volume). The current overworld implementation is buggy because the algorithm often chooses a plane that is too far away or even ends up behind the camera; it works better in Course 1.",
+      "summary": "Occlusion-plane implementation details: the microcode can accept a single occlusion plane; Kaze’s system computes/supplies that plane from editor-placed helpers (4-actor plane, 2-actor cuboid endpoints, planned cylinder variant, and a possible second occlusion plane). The selection algorithm is currently buggy in the overworld (plane chosen too far from camera or even behind it), though it works in Course 1.",
       "quote": null
     },
     {
       "topic": "technical",
       "importance": "medium",
-      "summary": "He gives a concrete example of N64 combiner behavior used artistically: coins look “glowy” because he intentionally exploits clamping/wraparound behavior when output values go slightly out of the 0–255 range, enabling overbright color ranges.",
+      "summary": "Kaze gives a concrete explanation for why coins can look “glowy”: he exploits N64 combiner behavior where values outside 0–255 clamp but small over/underflows wrap around, allowing an overbright range (conceptually like a modulo wrap) to simulate a pseudo-HDR glow.",
       "quote": null
     },
     {
       "topic": "design",
       "importance": "high",
-      "summary": "Overworld visual storytelling: he prototypes stormy/dark clouds that signal “trouble brewing,” then plans to change/clear them after the player beats a thunder-related objective. He iterates on render layering so the storm background draws in the correct order with transparency.",
+      "summary": "Overworld visual/state change: Kaze prototypes stormy “dark and evil” clouds that will appear before a thunder-related objective is cleared, and then disappear/brighten after progress (star/state) changes. He adjusts render layering after realizing the background was being drawn in the wrong order.",
       "quote": null
     },
     {
       "topic": "design",
       "importance": "high",
-      "summary": "He brainstorms how to place a Kamek encounter into the overworld without it feeling awkward: instead of a straight fight, Kamek could gate progress by transforming Yoshis into hostile/insulting message blocks and tying their removal (and the next progression reveal) to a star threshold (e.g., 60 stars). He settles on the blocks taunting the player to reach the threshold, then revealing a secret (Kamek is disguised as a Yoshi in the village), setting up a “detective setting” rather than a full detective mission.",
+      "summary": "Kaze shifts planning for the overworld Kamek sequence: instead of (or in addition to) a straightforward chase/fight, he explores Kamek disguising herself as a Yoshi in the village and using transformed “evil” message blocks as a progression gate tied to star count (e.g., 60 stars).",
       "quote": null
     },
     {
-      "topic": "team",
+      "topic": "design",
+      "importance": "high",
+      "summary": "He identifies the core UX challenge with a disguise/deduction setup: the player needs an immediate, readable indicator of “who” is suspicious (e.g., an obvious visual tell like Kamek glasses) and a clean trigger that only activates after sufficient progression, without relying on meta-knowledge or arbitrary cutscenes.",
+      "quote": null
+    },
+    {
+      "topic": "technical",
       "importance": "medium",
-      "summary": "He mentions he pays someone else to edit his videos, implying development time is protected by outsourcing non-dev production tasks.",
+      "summary": "Kaze notes he’s actively removing leftover vanilla Mario 64 code when he encounters it, suggesting an ongoing effort to de-vanilla/refactor systems rather than layering new behaviors on top of legacy code indefinitely.",
       "quote": null
     }
   ],
@@ -78,116 +84,127 @@
       {
         "topic": "technical",
         "importance": "medium",
-        "summary": "Biobak proposes a render-order/depth-plane workaround for water disappearing inside concave geometry (rendering a depth plane on a specific layer before water), which Kaze acknowledges could work but would likely break particles and require engine draw-order support.",
-        "quote": null
-      },
-      {
-        "topic": "milestone",
-        "importance": "medium",
-        "summary": "Kaze indicates multiple tracker items are waiting on Biobak, and that Biobak is “pretty far along” on the Ice Cap rework; Kaze expects that section to reach 100% soon once Biobak finishes.",
+        "summary": "Biobak participates in discussing a potential rendering workaround for concave geometry over water; Kaze agrees a suggested depth-plane/draw-order idea could work but hesitates due to side effects (particles) and engine-level complexity.",
         "quote": null
       },
       {
         "topic": "design",
-        "importance": "low",
-        "summary": "Kaze treats current storm clouds as temporary placeholders and expects Biobak to later make final versions that look significantly nicer; Kaze wants something functional now so animation/progression logic can be built.",
+        "importance": "medium",
+        "summary": "Biobak is implied to be responsible for improving placeholder cloud art and is “pretty far along” on the Ice Cap rework, which is expected to push that area toward 100% completion on the tracker.",
         "quote": null
       }
     ],
     "badub": [],
     "zeina": [],
-    "others": []
+    "others": [
+      {
+        "name": "Rayman (chat)",
+        "findings": [
+          {
+            "topic": "technical",
+            "importance": "medium",
+            "summary": "Raises a key constraint about the proposed depth-plane draw-order workaround: it may prevent certain effects (like particles) from rendering inside the shell, creating visual jank.",
+            "quote": null
+          }
+        ]
+      }
+    ]
   },
   "memorable_quotes": [
     {
       "speaker": "Kaze",
       "quote": "Any feature that requires engine-level hacks—unless I want to use it a lot—I say it’s off limits.",
-      "context": "Kaze draws a hard line on scope creep: systemic engine modifications are avoided unless they will pay off across the whole game."
+      "context": "His maintenance philosophy: drawing a line against one-off engine complexity even when it would solve an immediate visual problem."
     },
     {
       "speaker": "Kaze",
-      "quote": "This looks pretty cool now. It really does look like it’s going to send you back to the past—to the cool games that do not suck ass.",
-      "context": "He reacts to the overworld’s atmosphere after implementing the stormy background, articulating his nostalgia-driven target feeling for the project."
+      "quote": "It really does look like it’s going to send you back to the past—to the cool games that do not suck ass.",
+      "context": "Reaction to the updated overworld storm-cloud background effect; captures his nostalgia-driven aesthetic goal for the project."
+    },
+    {
+      "speaker": "Kaze",
+      "quote": "Mario 64’s sound engine is better than the game itself.",
+      "context": "Off-the-cuff provocation while joking about YouTube title ideas; it also signals how highly he rates Mario 64’s underlying tech compared to its moment-to-moment gameplay."
     }
   ],
   "key_stories": [
     {
-      "title": "Occlusion planes for real N64 performance (working in one course, broken in overworld)",
-      "summary": "Kaze describes a new occlusion-plane system that dramatically improves performance on real N64 hardware by skipping triangles behind an occlusion plane. He can’t demo it live due to an N64 boot issue, but he explains the design and shows the current flaw: the plane-selection algorithm behaves incorrectly in the overworld while working better in Course 1.",
-      "challenge": "Rendering performance on real N64 requires aggressive triangle culling; choosing the best occlusion plane dynamically is non-trivial and his current algorithm selects suboptimal or even invalid planes (too deep into geometry or behind the camera).",
-      "process": "He implements tooling where designers place simple helper actors (planes/cuboids, with future cylinder support) and the engine derives an occlusion plane to feed the microcode. He tests visually by drawing/debugging the chosen plane and comparing behavior across areas.",
-      "outcome": "Feature exists and provides measurable uplift (he cites ~5% in Course 1), but the overworld selection logic is not correct yet; he identifies it as a good candidate to outsource as a discrete technical task.",
-      "key_quote": null,
-      "related_to": ["kaze"]
-    },
-    {
-      "title": "Overworld storm clouds as progression state (before/after beating the thunder)",
-      "summary": "Kaze prototypes a stormy cloud background in the overworld meant to look ominous and signal narrative trouble. The visual state is planned to change after the player completes a thunder-related objective, brightening or removing the clouds to communicate world progression.",
-      "challenge": "Achieving the right mood while respecting N64-era rendering constraints and correct draw ordering for transparent background layers.",
-      "process": "He iterates on material/combine settings and fixes a layering bug where the storm layer rendered in the wrong order relative to other backgrounds. He frames the clouds as temporary assets so gameplay scripting can proceed while final art arrives later.",
-      "outcome": "A working stormy look that reads as “trouble brewing,” with a clear plan to swap/clear it once the relevant objective is completed.",
+      "title": "Course 10 update finished and second beta test planned",
+      "summary": "Kaze positions the project as moving through a structured playtest cadence: Course 10’s update is done, the first beta/update has already occurred, and a second beta is imminent. This marks a shift from isolated level work to broader, trackable readiness across multiple courses.",
+      "challenge": "Keeping multiple courses moving toward completion while coordinating dependencies (e.g., waiting on remaining art/design work).",
+      "process": "He reviews the progress tracker live, identifies which levels are nearly complete, and calls out remaining tasks (waiting on Biobak; first gameplay tests needed for a set of four courses).",
+      "outcome": "Course 10 update is complete; several levels are close to 100%; the next beta test is planned soon.",
       "key_quote": null,
       "related_to": ["kaze", "biobak"]
     },
     {
-      "title": "Kamek in the overworld: from boss fight to disguise-based progression gate",
-      "summary": "Kaze wrestles with how to make a Kamek encounter feel fun and natural in a hub-like overworld space. He pivots away from a stationary or awkward arena fight toward a narrative trick: Kamek transforms Yoshis into hostile message blocks that taunt and gate progression until the player reaches a star threshold, then reveals that Kamek is disguised as one of the Yoshis.",
-      "challenge": "Designing a hub encounter that doesn’t “suck,” doesn’t rely on the player having meta-knowledge, and clearly communicates what to do—while also enforcing intended star-based progression (e.g., not allowing passage until ~60 stars).",
-      "process": "He evaluates multiple concepts (direct fight in the lake, ice platforming to reach Kamek, Kamek causing chaos in the village, a detective mission) and identifies communication problems for each. He narrows to a “detective setting” with an explicit reveal from the taunting blocks once the star requirement is met.",
-      "outcome": "A sketched structure: insulting/evil blocks block routes, challenge the player to hit 60 stars, then give a secret leading to unmasking a disguised Kamek-Yoshi; Kaze notes he needs an obvious, player-readable way to identify the disguised character.",
+      "title": "Occlusion planes added to boost real N64 performance",
+      "summary": "Kaze introduces occlusion planes as a microcode-facing performance tool: triangles behind a chosen plane simply don’t render, which can dramatically reduce scene cost on real hardware. The story is partly a triumph (feature exists) and partly unfinished (selection algorithm still wrong in the overworld).",
+      "challenge": "Overworld scenes are high-poly, and N64 rendering budgets are tight; Kaze needs systemic performance wins without hand-optimizing every view.",
+      "process": "He implements an occlusion-plane system where designers place helpers (planes/cuboids), then the engine chooses a plane to feed the microcode. He tests behavior across areas and observes incorrect plane selection relative to camera position.",
+      "outcome": "Feature works in some contexts (e.g., Course 1 shows ~5% gain) but is currently unreliable in the overworld; he plans to fix selection logic before showcasing results.",
+      "key_quote": null,
+      "related_to": ["kaze"]
+    },
+    {
+      "title": "Choosing not to ‘engine-hack’ a water/concave-geometry rendering fix",
+      "summary": "A common ROM-hack temptation is to solve one visual bug with a special-case engine change. Kaze explicitly rejects that approach here, prioritizing maintainability and consistency over a clever-but-fragile fix.",
+      "challenge": "Concave geometry over a water plane can cause water/visibility artifacts; a proposed solution involves changing render order and using depth masking.",
+      "process": "Kaze and chat explore a depth-plane approach that would likely fix the artifact, but he enumerates costs: particles may fail to render correctly and it would require supporting draw-order manipulation in his engine.",
+      "outcome": "He effectively shelves the approach unless it becomes broadly useful across the game, establishing a project-wide decision rule.",
+      "key_quote": "Any feature that requires engine-level hacks—unless I want to use it a lot—I say it’s off limits.",
+      "related_to": ["kaze"]
+    },
+    {
+      "title": "Reframing the overworld Kamek encounter into a 60-star gated ‘disguise’ event",
+      "summary": "Instead of a simple boss arena, Kaze explores making Kamek’s presence felt as an overworld narrative disruption: Yoshis transformed into hostile rhyme-insulting message blocks that gate progression until the player reaches a star threshold. After the gate, the blocks reveal Kamek has disguised herself as a Yoshi, creating a Mario-64-ified ‘detective setting.’",
+      "challenge": "He wants a memorable overworld confrontation that doesn’t break traversal, doesn’t rely on awkward cutscene logic, and clearly communicates objectives to players.",
+      "process": "He iterates through multiple concepts (Kamek chase; ice-on-lake traversal; transforming Yoshis into attacking blocks; then a disguise setup). He repeatedly tests each idea against clarity (“how would players figure it out?”) and progression gating (must not be solvable early).",
+      "outcome": "A workable spine emerges: evil blocks taunt the player to reach ~60 stars; upon success they divulge the disguise twist and/or revert, enabling a controlled trigger and readable midgame event. Kaze writes the idea down as a candidate plan.",
       "key_quote": null,
       "related_to": ["kaze"]
     }
   ],
   "open_questions": [
     {
-      "topic": "Occlusion-plane selection algorithm (overworld bug)",
-      "context": "Kaze’s occlusion cuboid/plane system exists but often chooses a plane too far from the camera or behind it in the overworld; Course 1 behaves better. He calls it a task that could be outsourced.",
+      "topic": "Occlusion-plane selection algorithm and tooling",
+      "context": "Kaze’s occlusion plane system can be fed by planes/cuboids (and potentially cylinders), but the algorithm currently chooses planes that are too far, not closest to camera, or even behind it—especially in the overworld.",
       "questions": [
-        "What exact heuristic is the occlusion selector using today (closest plane, smallest plane, most ‘valuable’ by projected area, etc.)?",
-        "What camera-space constraints should be enforced so the chosen plane can never end up behind the camera?",
-        "How do you want designers to think about placing occlusion helpers—what is the intended mental model and debugging workflow?",
-        "Who would be the ideal person to outsource this to, and what would the spec/test scenes be (Overworld problem spots, Course 2 performance-heavy spaces, etc.)?"
+        "What exact heuristic did you intend for ‘best’ occlusion plane (closest to camera, smallest plane, maximum occluded triangles, or something else)?",
+        "How did you design the editor workflow (actors/handles) so level designers can place occlusion volumes without constantly debugging them?",
+        "At what point do you decide the system is ‘reliable enough’ to roll out across many courses, and what metrics on real N64 will you use to prove it?",
+        "You mentioned a second occlusion plane and a cylinder variant—what scenes require those, and how much complexity are you willing to add to get the extra wins?"
       ],
       "related_to": ["kaze"]
     },
     {
-      "topic": "Engine scope rules: draw order changes vs. one-off hacks",
-      "context": "A proposed fix for concave-object-over-water involves changing draw order / depth planes, but Kaze resists engine-level features unless broadly reused (and mentions prior issues from required ordering).",
+      "topic": "Overworld storm-cloud state change (pre/post thunder objective)",
+      "context": "Kaze prototypes stormy clouds as a temporary/early-game state that disappears after beating a thunder-related objective, and he had to correct draw-layer ordering to make it render properly.",
       "questions": [
-        "What past incident(s) convinced you that draw-order/engine hacks are risky (what broke, and how costly was it to fix)?",
-        "What criteria decide whether an engine change is ‘worth it’ (number of levels affected, performance impact, art freedom gained)?",
-        "Are there specific engine constraints you enforce to keep the hack stable on real N64 hardware?"
-      ],
-      "related_to": ["kaze"]
-    },
-    {
-      "topic": "Kamek overworld gate design (60-star taunt blocks + disguise reveal)",
-      "context": "Kaze sketches a progression-gated encounter: blocks taunt you until you have 60 stars, then reveal a secret that Kamek is disguised as a Yoshi in the village; he wants it obvious enough that it doesn’t become a frustrating detective mission.",
-      "questions": [
-        "Why 60 stars specifically—what does that correspond to in the overall pacing and access to later overworlds (Courses 14/15, ‘magic Kamek area’)?",
-        "What is the ‘proof’ mechanic for identifying the disguised Yoshi—visual cue (glasses/hat), dialogue inconsistency, an item check, or a triggered cutscene?",
-        "How do you ensure the player understands the objective immediately once the threshold is met, without relying on meta-knowledge or obscure dialogue?",
-        "What is the concrete reward/state change after unmasking Kamek (blocks removed, new path opens, clouds clear, new star/bonus star, etc.)?"
-      ],
-      "related_to": ["kaze"]
-    },
-    {
-      "topic": "Overworld atmosphere state changes (storm clouds before/after thunder)",
-      "context": "Kaze prototypes an ominous storm layer and plans to brighten/remove it after beating a thunder-related objective; he treats current assets as placeholders pending Biobak polish.",
-      "questions": [
-        "What is the exact gameplay event that flips the overworld’s ‘storm’ state (boss, star count, level completion, a scripted cutscene)?",
-        "Do you want the change to be instant (clouds vanish) or transitional (animated clearing, lighting shift, music change)?",
-        "What art/tech constraints does Biobak need to know early (texture limits, animation method, layering rules) to make the final clouds fit the engine?"
+        "What is the exact player-facing event that clears the ‘storm state’—is it a star, a boss, or a world event flag?",
+        "How do you want players to interpret the storm clouds narratively (warning, blockade, mood), and how explicit will the game be about that?",
+        "What’s the final art/animation plan for these clouds—how much is placeholder vs. the intended look once Biobak revisits them?"
       ],
       "related_to": ["kaze", "biobak"]
     },
     {
-      "topic": "Coin glow technique and broader use of N64 combiner quirks",
-      "context": "Kaze describes exploiting N64 combiner clamp/wraparound behavior to create overbright, glowy coins by pushing values slightly out of range.",
+      "topic": "Designing the Kamek overworld encounter so it’s readable and ‘Mario 64-ified’",
+      "context": "Kaze likes the idea of Kamek disguising herself as a Yoshi and using evil message blocks as a midgame progression gate (e.g., 60 stars), but he worries a true detective mission could ‘suck’ without clear player guidance.",
       "questions": [
-        "Is this ‘overbright via wraparound’ approach used elsewhere (UI, pickups, magic effects), and does it ever cause platform-specific differences between emulator and hardware?",
-        "Did you document these ‘approved’ combiner tricks for artists so they can intentionally target the look without breaking compatibility?"
+        "What would be the single strongest visual/behavioral tell that makes the disguised Kamek legible without a walkthrough (e.g., glasses, unique hat, dialogue cadence, animation)?",
+        "How do you plan to trigger the event cleanly at ~60 stars—instant overworld cutscene, NPC approach, map/letter, or something else?",
+        "What is the player’s concrete action to ‘prove’ the disguise—talk options, item/flag check, a mini-challenge, or a short fight?",
+        "Where does the reward land in the progression—does it unlock a new overworld path, remove blockades, grant a star, or all of the above?"
+      ],
+      "related_to": ["kaze"]
+    },
+    {
+      "topic": "Coin glow rendering trick and broader material/lighting strategy",
+      "context": "Kaze explains the coin glow effect as an intentional exploitation of N64 combiner wrap-around/overbright range (pseudo-HDR behavior).",
+      "questions": [
+        "When did you first discover/decide to use the combiner wrap-around trick—was it inherited from vanilla SM64 coins or something you tuned specifically for RTYI?",
+        "Are there other materials you plan to ‘overbright’ this way (gems, magic, lightning), and how do you keep it consistent across courses?",
+        "Does this technique have emulator-vs-hardware differences you’ve had to account for, especially with different graphics plugins?"
       ],
       "related_to": ["kaze"]
     }

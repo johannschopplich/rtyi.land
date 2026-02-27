@@ -1,82 +1,76 @@
 {
   "stream_context": {
-    "summary": "Kaze continues overworld polishing: designs and programs a cannon-unlock opening cutscene, fixes a dialogue state bug caused by his ongoing rewrite of Mario 64’s dialogue system, prototypes Poochie as an overworld follower with a digging reward, and brainstorms a highly-visible rope/spool shortcut interaction. He also reports a major engine optimization (4x3 matrices) and discusses toolchain/library choices (modified LibUltra, future switch to DeathWizard’s new LibUltra).",
+    "summary": "Kaze continues overworld development, focusing on a buyable cannon-opening cutscene, adding/iterating on Poochie as an overworld follower NPC, and designing the new rope/shortcut mechanism (spool + unfurl animation). Off-stream he lands a meaningful engine optimization (switching transform matrices to 4x3), fixes a dialogue-state regression caused by his custom dialogue rewrite, and discusses upcoming beta/polish status (blocked on Zeina animations).",
     "level": ["Overworld", "Course 7"],
-    "significance": "notable",
-    "significance_reason": "Contains multiple concrete development beats (new cutscene, AI/prototype behavior, dialogue-system bugfix), a measurable engine optimization with performance claims, and clear design philosophy for overworld progression (dead island → revived)."
+    "significance": "milestone",
+    "significance_reason": "Multiple overworld systems advance from concept to implementation (cannon cutscene, Poochie follower), a concrete engine-level optimization lands (4x3 matrices), and Kaze frames the project as entering a polish/beta phase once remaining animations arrive."
   },
   "findings": [
     {
-      "topic": "technical",
-      "importance": "high",
-      "summary": "Kaze implemented an engine optimization off-stream by converting transformation matrices from 4x4 floats to 4x3 floats, leveraging the affine-matrix property that the last column is constant, and expects a meaningful per-frame time savings at this late stage.",
-      "quote": "The optimization I did off-stream was to turn the 4x4 float matrices into 4x3 float matrices."
-    },
-    {
-      "topic": "technical",
-      "importance": "medium",
-      "summary": "Kaze estimates the aggregate effect of his optimizations versus vanilla Mario 64 as roughly 5× faster in worst cases and up to 10× in best cases, depending on scenario/use case.",
-      "quote": "In the absolute worst case, it's a 5x speed improvement, and in the best case, it's a 10x speed improvement."
-    },
-    {
       "topic": "milestone",
-      "importance": "medium",
-      "summary": "He programs a cannon-opening cutscene tied to purchasing/unlocking the cannon door in the overworld, including plans for sound effects and camera shake, and iterates on how the cannon door should physically open without clipping into nearby mountain geometry.",
-      "quote": null
-    },
-    {
-      "topic": "team",
-      "importance": "medium",
-      "summary": "Kaze is waiting on Zeina’s animations before shipping the current work for beta testing; he also mentions ongoing delay in receiving Course 7 beta-test results due to a slow tester.",
-      "quote": "There's some minor bug fixes left, but I need animations from Zeina first, and then we will ship it off for beta testing."
-    },
-    {
-      "topic": "design",
-      "importance": "medium",
-      "summary": "Overworld presentation is being diversified: Kaze wants a “shadow overworld” look (avoiding a single repeated color) and notes the overworld has ~15 different music themes, including a new one Badub delivered that morning.",
-      "quote": "The overworld has like 15 different themes. Badub made another one this morning."
-    },
-    {
-      "topic": "technical",
       "importance": "high",
-      "summary": "A dialogue/NPC interaction bug is traced to Kaze’s incremental replacement of the vanilla dialogue system with his own; after changing dialogue handling during earlier work (he references bomb-related work), the game became stuck in an “await dialogue” state until he adjusted the logic so the state can advance correctly.",
-      "quote": "The whole vanilla dialogue system I'm not a fan of, that's why over time I just removed more and more parts of it and made my own."
-    },
-    {
-      "topic": "technical",
-      "importance": "medium",
-      "summary": "Kaze fixes a movement/animation issue where Mario’s head bugged out on landing because velocity wasn’t resetting; he patches it immediately while debugging other systems.",
+      "summary": "Kaze says a major overworld rework is essentially complete aside from minor bug fixes, but it can’t be sent for beta until Zeina delivers needed animations; Course 7 beta results are also still pending and the tester he wants to use is slow.",
       "quote": null
     },
     {
       "topic": "technical",
+      "importance": "high",
+      "summary": "Off-stream, Kaze optimized the engine by converting 4x4 float matrices to 4x3 matrices (dropping the always-constant last column), expecting ~100 microseconds improvement at the current optimization stage.",
+      "quote": null
+    },
+    {
+      "topic": "technical",
+      "importance": "high",
+      "summary": "Kaze estimates cumulative optimizations versus vanilla SM64 range from ~5× speedup in worst-case scenarios to ~10× in best-case scenarios, depending on use case.",
+      "quote": null
+    },
+    {
+      "topic": "design",
       "importance": "medium",
-      "summary": "RTYI is built with GCC and runs on a modified LibUltra. Kaze is not using libdragon, and plans to migrate to (and further modify) a new LibUltra being developed by DeathWizard because libdragon’s priorities/design don’t match RTYI’s needs.",
-      "quote": "I'm using a modified LibUltra, and currently DeathWizard is working on a completely new LibUltra, and I'm going to be using that."
+      "summary": "Overworld art direction tweaks: Kaze wants a darker/shadowed overworld variant and dislikes that the current save block silhouette reads like a star from a distance.",
+      "quote": null
+    },
+    {
+      "topic": "design",
+      "importance": "medium",
+      "summary": "The overworld will have ~15 different musical themes; Kaze mentions Badub delivered another theme that morning, intended for a castle area “in front of Bozo’s theme park.”",
+      "quote": null
     },
     {
       "topic": "design",
       "importance": "high",
-      "summary": "Kaze prototypes Poochie in the overworld: Poochie can follow Mario around, and when jumped on, relocates to a random spot and digs up coins (not a star). He discusses extending this into a more meaningful overworld progression mechanic (e.g., revealing a minigame/side-level entrance).",
-      "quote": "We put Poochie in the overworld, he kind of follows Mario around. And if you jump on him, he goes to a random spot and starts digging."
+      "summary": "Kaze prototypes a cannon “door” solution for the overworld that can plausibly open without clipping into surrounding mountains, and begins implementing a purchase-triggered cannon-opening cutscene with sound/shake feedback.",
+      "quote": null
+    },
+    {
+      "topic": "technical",
+      "importance": "high",
+      "summary": "A dialogue/NPC interaction broke because Kaze heavily modified the vanilla dialogue system over time; the game got stuck in an “await dialogue” state because a response arrived before the expected end-action transition. He identifies the faulty control flow and patches it.",
+      "quote": null
     },
     {
       "topic": "technical",
       "importance": "medium",
-      "summary": "Kaze discovers a Fast64 export bug that unexpectedly changes Poochie’s model origin/centering, causing an in-game visual break; he attributes the issue to the tool rather than his code or asset edits.",
-      "quote": "No! Fast64 did that! As soon as I hit export, Fast64 does that. That is a Fast64 bug."
+      "summary": "Toolchain/platform choices: Kaze compiles with GCC, is not using libdragon, and instead uses a modified LibUltra; he plans to migrate to a new LibUltra being developed by DeathWizard and then modify it further to fit RTYI’s priorities.",
+      "quote": null
     },
     {
       "topic": "design",
       "importance": "high",
-      "summary": "The team brainstorms a rope/spool shortcut that the player unlocks later (to prevent early access). Kaze emphasizes the interaction must be extremely visible/unmissable to avoid frustrating players who miss a critical progression shortcut, and he explores an animation plan using bones and/or vertex/UV scaling (rope lengthening) with a spool that falls and settles at the bottom.",
-      "quote": "There needs to be something that's basically unmissable. Something where no player in their right mind would skip this, because skipping this on accident would be extremely frustrating."
+      "summary": "Poochie is added to the overworld as a follower NPC: he trails Mario around, and if Mario jumps on him, Poochie runs to a random spot and digs. Currently it yields coins, and Kaze/ Biobak discuss making it sometimes reveal a minigame or side-level entrance instead of a “cheap” star.",
+      "quote": null
     },
     {
-      "topic": "philosophy",
+      "topic": "technical",
+      "importance": "medium",
+      "summary": "Kaze discovers a Fast64 export bug that unexpectedly changes/centers Poochie’s model/rig on export, producing a visually broken Poochie; he attributes the change to the tool rather than his edits.",
+      "quote": null
+    },
+    {
+      "topic": "design",
       "importance": "high",
-      "summary": "Kaze articulates a core overworld narrative goal: the island should feel empty and desolate at the start, then become lively as players free Yoshis—guiding NPC density and set dressing decisions (e.g., resisting adding too many friendly NPCs too early).",
-      "quote": "We want this island to feel very dead at first and then you free the Yoshis and suddenly there's life everywhere."
+      "summary": "Rope shortcut mechanic is designed as a clearly readable progression-gated shortcut: Kaze wants it to be unmissable to avoid player frustration, and also wants the early island to feel desolate until Yoshis are freed and life returns (avoiding too many friendly NPCs early).",
+      "quote": null
     }
   ],
   "contributor_findings": {
@@ -84,41 +78,23 @@
       {
         "topic": "design",
         "importance": "medium",
-        "summary": "Biobak engages live on stream as Kaze demonstrates the cannon cutscene and Poochie prototype; the discussion shifts to making Poochie digging yield something more meaningful (minigame/side-level entrance) rather than only coins.",
-        "quote": null
-      },
-      {
-        "topic": "design",
-        "importance": "medium",
-        "summary": "Biobak proposes/entertains the idea of Poochie yielding a “treasure map” style clue or repeatable dig mechanic; Kaze pushes back on ideas he thinks would be annoying to live with if repeatable every overworld return.",
-        "quote": null
-      },
-      {
-        "topic": "design",
-        "importance": "medium",
-        "summary": "Biobak participates in the rope mechanic brainstorming (spool/anchor concept and player interaction), prompting Kaze to refine toward a clearer, more intuitive, and more visible solution.",
+        "summary": "Biobak pushes the idea that Poochie’s dig should yield something important (not just coins), such as revealing a minigame/side-level entrance, possibly via a “treasure map” style cue; Kaze flags a risk of the mechanic becoming annoying if it’s too repeatable or too random.",
         "quote": null
       }
     ],
     "badub": [
       {
-        "topic": "team",
-        "importance": "low",
-        "summary": "Kaze reports Badub delivered a new overworld theme that morning, contributing to an overworld soundtrack plan spanning roughly 15 themes.",
+        "topic": "milestone",
+        "importance": "medium",
+        "summary": "Badub delivers another overworld music theme (one of ~15 planned), which Kaze associates with a specific castle/theme-park approach area.",
         "quote": null
       }
     ],
     "zeina": [
       {
         "topic": "team",
-        "importance": "medium",
-        "summary": "Kaze states progress is blocked on Zeina’s animations before sending the current build to beta testing.",
-        "quote": null
-      },
-      {
-        "topic": "personal",
-        "importance": "low",
-        "summary": "Kaze mentions playing a multiplayer game (Driving Strikers) with Zeina recently and enjoying it, a small signal of shared leisure during an intense production period.",
+        "importance": "high",
+        "summary": "Kaze is blocked from shipping an overworld rework to beta because he still needs animations from Zeina; he frames this as the remaining dependency before broader testing.",
         "quote": null
       }
     ],
@@ -129,7 +105,7 @@
           {
             "topic": "technical",
             "importance": "medium",
-            "summary": "Kaze says DeathWizard is developing a completely new LibUltra that RTYI intends to adopt and then modify, implying an infrastructure dependency outside Kaze’s immediate codebase.",
+            "summary": "Kaze says DeathWizard is building a completely new LibUltra, which Kaze intends to adopt and then modify for RTYI rather than switching to libdragon.",
             "quote": null
           }
         ]
@@ -140,84 +116,115 @@
     {
       "speaker": "Kaze",
       "quote": "We want this island to feel very dead at first and then you free the Yoshis and suddenly there's life everywhere.",
-      "context": "Design north star for overworld tone/progression; used to justify limiting friendly NPC presence early and staging “life returning” as a reward loop."
+      "context": "Core statement of the overworld’s intended emotional arc and why early NPC density/visuals must feel desolate."
+    },
+    {
+      "speaker": "Kaze",
+      "quote": "Depending on the use case, in the absolute worst case, it's a 5x speed improvement, and in the best case, it's a 10x speed improvement.",
+      "context": "A rare, concrete claim about how far RTYI’s engine performance has been pushed beyond vanilla SM64."
     },
     {
       "speaker": "Kaze",
       "quote": "The whole vanilla dialogue system I'm not a fan of, that's why over time I just removed more and more parts of it and made my own.",
-      "context": "A rare explicit statement of “deconstruct and rebuild” philosophy: not just adding content, but replacing core Mario 64 subsystems to fit RTYI."
+      "context": "Explains the philosophical and technical reason dialogue regressions happen: he’s replacing core SM64 subsystems rather than patching them."
     }
   ],
   "key_stories": [
     {
-      "title": "Replacing Mario 64’s dialogue system breaks an overworld interaction",
-      "summary": "While implementing new overworld events (like the cannon unlock), Kaze hits a bug where NPC/dialogue logic gets stuck in an “await dialogue” state. He identifies the root cause as collateral from his long-running effort to strip out parts of the vanilla dialogue system and replace it with custom logic better suited to RTYI’s needs.",
-      "challenge": "A critical dialogue-driven action never completes, preventing the game from advancing the interaction as intended.",
-      "process": "He instruments the system by printing/inspecting dialogue state, checks whether the relevant function is still being called, and reasons about ordering: a dialogue response is being registered before the state-advance logic runs. He then adjusts the control flow so the state can properly progress.",
-      "outcome": "The dialogue completion issue is fixed, reaffirming that RTYI’s customization of core SM64 systems introduces integration risks that require careful state management.",
-      "key_quote": "It just never finishes this. Because we are getting a dialogue response before this happens.",
+      "title": "4x3 matrix optimization lands late in development",
+      "summary": "Between streams, Kaze implements a low-level math optimization by removing redundant matrix data that is effectively constant in typical transforms. Even small microsecond gains matter now because he claims most engine features are already complete and the project is in polishing mode.",
+      "challenge": "Performance headroom is tight and remaining gains are incremental; he needs optimizations that don’t break rendering correctness.",
+      "process": "He converts engine transforms from 4x4 float matrices to 4x3, relying on the invariant last column/row behavior in affine transforms, and updates the codepaths accordingly.",
+      "outcome": "He expects ~100µs improvement and situates it as part of a broader 5×–10× performance uplift over vanilla, depending on scenario.",
+      "key_quote": "I expect that to be like a 100 microsecond improvement, which is really nice at this stage.",
       "related_to": ["kaze"]
     },
     {
-      "title": "Designing an unmissable rope shortcut and its animation plan",
-      "summary": "Kaze plans a rope-based shortcut that players unlock later by interacting with a visible object near a cliff/lighthouse area. The discussion focuses on readability and intuitiveness so players don’t accidentally miss a key progression unlock, and on implementing the rope unfurl animation within N64 constraints.",
-      "challenge": "The rope must look good, be clearly interactable, and animate convincingly without expensive techniques (e.g., parallax-heavy effects), while still preventing early traversal.",
-      "process": "He explores multiple metaphors (snake, spool, anchor) and converges on a spool/pole concept. Technically, he considers bones and vertex/UV scaling to extend rope length, adding a shrinking rope coil on the spool and a final “tug/settle” motion to sell weight and slack.",
-      "outcome": "A tentative plan forms: Mario pushes a spool that drops, rope extends via UV/vertex scaling, and the spool settles/rolls off camera at the end to simplify the final slack behavior; lighthouse interior work is noted as still missing.",
-      "key_quote": "There needs to be something that's basically unmissable.",
+      "title": "Dialogue system regression from ongoing vanilla replacement",
+      "summary": "A gameplay interaction breaks because the custom dialogue system diverged from vanilla assumptions. Kaze uses debugging (state printing/breakpoints) to prove the system is stuck and then patches the logic so dialogue completes again.",
+      "challenge": "NPC dialogue gets stuck in an “await dialogue” state and never advances to the end action, blocking progression/behavior completion.",
+      "process": "Kaze inspects dialogue state/response variables, realizes a response is being registered before the function reaches the expected completion path, and adjusts the control flow so state advancement occurs correctly.",
+      "outcome": "The dialogue completes again; he reiterates his long-term approach of replacing vanilla dialogue pieces with his own system.",
+      "key_quote": "We're stuck in await dialogue forever.",
+      "related_to": ["kaze"]
+    },
+    {
+      "title": "Cannon-opening purchase cutscene added to overworld",
+      "summary": "Kaze implements a buyable cannon-door opening moment (with sound and camera/shake flavor) and iterates on how the door can physically open without clipping into the surrounding mountain geometry. It’s part of making overworld progression feel tangible and ‘mechanical.’",
+      "challenge": "A cannon ‘door’ needs to open believably in tight terrain, and the unlock should feel like a satisfying progression event rather than a silent toggle.",
+      "process": "He explores multi-panel/flap concepts, then settles on moving geometry into the mountain to avoid ugly intersections; he scripts the cutscene and adds sound/shaking feedback.",
+      "outcome": "A working cutscene exists, though he briefly breaks it again near the end and says he already understands the issue.",
+      "key_quote": "We programmed a cool cutscene for the cannon opening, when you buy the opening for the cannon.",
+      "related_to": ["kaze"]
+    },
+    {
+      "title": "Poochie becomes an overworld follower with a dig reward hook",
+      "summary": "Kaze brings Poochie out of a course and into the overworld as a persistent-feeling companion who follows Mario and triggers a randomized ‘dig’ event. The team debates what the dig should reward, balancing charm against the risk of handing out “cheap” stars.",
+      "challenge": "Make Poochie functional in the overworld (movement, collision/solidity, behavior copying) and decide a reward that feels meaningful without undermining progression pacing.",
+      "process": "Kaze copies/repairs behavior code, troubleshoots solidity and missing behavior segments, and discovers a Fast64 export bug that distorts Poochie. After getting him working, he and Biobak workshop rewards: coins now, but potentially spawning minigame or side-level entrances later.",
+      "outcome": "Poochie follows Mario; jumping on him sends him to dig once (currently coins). A design note is made to connect digging to optional entrances/importance.",
+      "key_quote": "We put Poochie in the overworld, he kind of follows Mario around.",
       "related_to": ["kaze", "biobak"]
+    },
+    {
+      "title": "Rope shortcut: designing an unmissable, animatable progression gate",
+      "summary": "Kaze designs a rope/shortcut you “open” as you progress—intended to be visually obvious so players don’t miss it and get frustrated. He converges on a spool-based mechanism and sketches an animation approach that fits N64 constraints (bones/UV scaling), while keeping the early island intentionally lifeless.",
+      "challenge": "Create a rope that looks good, reads clearly as interactable, animates within performance constraints, and supports the overworld’s intended ‘desolate → lively’ arc.",
+      "process": "He rejects expensive approaches (e.g., parallax animation), considers bones vs vertex animation, and lands on a spool that Mario pushes; the rope visually ‘extends’ via UV/vertex scaling and a bone/anchor trick at corners. He also considers end-of-animation ‘tug/loose rope’ staging or letting the spool roll away off-camera for simplicity.",
+      "outcome": "A concrete plan is chosen: spool push triggers rope unfurl; animation will likely be implemented via bone + UV scaling, with a simplified ending if needed.",
+      "key_quote": "There needs to be something that's basically unmissable.",
+      "related_to": ["kaze"]
     }
   ],
   "open_questions": [
     {
-      "topic": "4x3 matrix optimization implementation and impact",
-      "context": "Kaze claims moving from 4x4 to 4x3 float matrices was easy and should yield ~100 microseconds improvement; he also claims cumulative optimizations can be 5×–10× faster than vanilla depending on scenario.",
+      "topic": "Polish/beta gating and Zeina’s animation dependency",
+      "context": "Kaze says the overworld rework is basically ready for beta but is waiting on Zeina’s animations, and Course 7 beta feedback is also pending/slow.",
       "questions": [
-        "What profiling setup and benchmarks did you use to measure the 4x3 matrix change (hardware vs emulator, which scenes)?",
-        "Where exactly was matrix bandwidth/compute time bottlenecking you (animation skinning, object transforms, display list building, collision, something else)?",
-        "What other optimizations contribute most to the claimed 5×–10× speedup, and which ones were required to make RTYI’s new features feasible on real hardware?"
-      ],
-      "related_to": ["kaze"]
-    },
-    {
-      "topic": "“All engine features are done” and what remains to ship",
-      "context": "Kaze implies core engine work is essentially complete and the project is in polishing, but still needs “a couple things” and animations from Zeina before beta shipping.",
-      "questions": [
-        "What do you consider the last unfinished engine-level risks (streaming, camera, memory, audio, save system, cutscenes)?",
-        "What specific animations are you waiting on from Zeina, and which features are blocked until they arrive?",
-        "What are the remaining 'couple things' that prevent a release candidate?"
+        "What specific animations are still missing from Zeina before you feel comfortable sending the build to beta—and why are those animations blockers rather than “nice-to-haves”?",
+        "When Course 7 feedback finally arrives, what are you expecting to learn from it (difficulty balance, readability, performance, bugs), and how might it change your overworld/polish priorities?"
       ],
       "related_to": ["kaze", "zeina"]
     },
     {
-      "topic": "DeathWizard’s new LibUltra dependency",
-      "context": "Kaze plans to migrate from a modified LibUltra to a completely new LibUltra being made by DeathWizard, then modify it further; he rejects libdragon due to differing priorities.",
+      "topic": "Quantifying the 5×–10× performance claim",
+      "context": "Kaze gives a rare numeric range for performance gains versus vanilla and mentions 4x3 matrices as a late-stage micro-optimization.",
       "questions": [
-        "What problems in the current modified LibUltra are pushing you toward a new LibUltra (performance, features, toolchain compatibility, maintainability)?",
-        "What capabilities will DeathWizard’s LibUltra unlock for RTYI (audio, scheduling, modern toolchain support, hardware accuracy)?",
-        "How risky is this migration late in development, and what is the fallback plan if it slips?"
+        "What benchmark scenes or workloads produce the 5× case versus the 10× case? (e.g., heavy geometry, animation, scripting, audio)",
+        "Which single optimization delivered the biggest leap, and which ones were ‘death by a thousand cuts’?",
+        "How do you verify these gains on real hardware versus emulator, and what tools do you rely on to profile?"
       ],
       "related_to": ["kaze"]
     },
     {
-      "topic": "Overworld music structure and Badub’s 15-theme plan",
-      "context": "Kaze says the overworld has ~15 themes and highlights a newly delivered piece intended for a specific area (castle/front of 'Bozo’s theme park').",
+      "topic": "Replacing LibUltra and the decision not to use libdragon",
+      "context": "Kaze says RTYI uses a modified LibUltra and plans to migrate to DeathWizard’s new LibUltra, because libdragon’s priorities/design philosophy don’t fit.",
       "questions": [
-        "How did you and Badub decide the overworld needed ~15 themes—what’s the organizing principle (biomes, story beats, progress state like 'dead' vs 'revived')?",
-        "Do themes transition dynamically based on progression (freeing Yoshis) or are they purely location-based?",
-        "What constraints did Badub compose to (instrument limits, sequence format, memory budget), and how did those constraints shape the soundtrack identity?"
+        "What specific libdragon tradeoffs (APIs, performance, memory model, tooling) conflict with RTYI’s needs?",
+        "What does the new LibUltra unlock for you that the current modified LibUltra can’t—stability, performance, audio, developer ergonomics?",
+        "How risky is this migration late in development, and what parts of RTYI are most coupled to the current low-level layer?"
       ],
-      "related_to": ["kaze", "badub"]
+      "related_to": ["kaze"]
     },
     {
-      "topic": "Fast64 export bug affecting Poochie model centering",
-      "context": "Kaze attributes a major, unexpected visual break to Fast64 changing the model’s center/origin on export.",
+      "topic": "Poochie dig reward design: charm vs progression integrity",
+      "context": "Poochie digs once per interaction and currently yields coins; Biobak suggests revealing minigame/side entrances, while Kaze is wary of “cheap” stars and annoying repeatability.",
       "questions": [
-        "How often do Fast64 export issues cause regressions in RTYI, and what safeguards/version pinning do you use to avoid toolchain surprises?",
-        "Did this bug affect only Poochie or reveal a broader pipeline vulnerability for animated/bone-driven assets?",
-        "What’s the team workflow for verifying exports before they land in the build (checklists, test maps, automated diffing)?"
+        "What role do you want Poochie to play emotionally—pure flavor, a guide, a source of secrets—and how does that fit the overworld’s pacing?",
+        "If Poochie can reveal entrances, how will the game communicate that possibility without making players feel forced to grind the dig interaction every revisit?",
+        "What would make a dig reward feel ‘important’ without becoming a star dispenser—unique collectibles, map markers, temporary world changes?"
       ],
-      "related_to": ["kaze", "biobak", "zeina"]
+      "related_to": ["kaze", "biobak"]
+    },
+    {
+      "topic": "Rope shortcut implementation under N64 constraints",
+      "context": "Kaze converges on a spool-push rope unfurl using bones/UV scaling; he emphasizes the shortcut must be unmissable and not frustrate players exiting a cave area.",
+      "questions": [
+        "How will you stage the camera, sound, and player control so the rope unfurl reads instantly as ‘a shortcut I just unlocked’?",
+        "Which technical approach did you finally choose (bones, vertex animation, UV scaling), and what was the deciding constraint—performance, tool bugs, or animation authoring time?",
+        "How will you test ‘unmissable’ in practice—do you have playtest heuristics for visibility, lighting, and player pathing that you apply to overworld gates?"
+      ],
+      "related_to": ["kaze"]
     }
   ]
 }

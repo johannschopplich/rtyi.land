@@ -1,109 +1,96 @@
 {
   "stream_context": {
-    "summary": "Kaze iterates on the Cowboy level’s underground Mole Hideout encounter, implementing rock-throwing enemies that aim at Mario and brainstorming how to turn the room into a satisfying “boss”/star challenge. He also showcases a major engine change: replacing SM64’s collision with a custom collision system for stability, and he gives a concrete project-status update (remaining levels, ~80% complete) plus a brief post-release plan (Kickstarter for an original game).",
-    "level": ["Course – Cowboy level (Mole Hideout)"],
+    "summary": "Kaze continues work on the Cowboy level’s Mole Hideout encounter: tuning Monty Mole rock-throw physics, making spawns random across holes, and iterating on a simple “defeat the moles” boss concept. Mid-stream he reveals a major engine change: replacing SM64’s collision with a new custom collision system for stability (with side effects like BLJ being harder/less common). He also discusses design philosophy (how he interprets player criticism), gives a concrete remaining-scope estimate (~80% complete), and briefly talks business plans post-release (Kickstarter for an original 3D platformer and hiring ROM hackers).",
+    "level": ["Course (Cowboy level / Mole Hideout)"],
     "significance": "milestone",
-    "significance_reason": "He reveals a major technical milestone (a fully new collision system replacing SM64’s) and gives a clear production milestone update (~80% complete, remaining courses). The stream also effectively locks in the Mole Hideout encounter design (randomized-hole rock throwers; stars 1–2 essentially done)."
+    "significance_reason": "Introduces a major technical pivot—Kaze says he replaced Mario 64’s collision system entirely—plus the Cowboy level’s star objectives are nearing “done” (stars 1–2) and he states a clear overall completion estimate and remaining level count, which meaningfully anchors the project timeline."
   },
   "findings": [
     {
       "topic": "technical",
       "importance": "high",
-      "summary": "Kaze replaced Super Mario 64’s original collision handling with a completely new custom collision system, citing the original as “unusable” and emphasizing improved stability (reduced sticking on awkward geometry).",
-      "quote": "I made a completely new collision system. I said, fuck Mario 64’s collision. It is unusable. We have our completely own collision system now. And it’s so much more stable."
+      "summary": "Kaze says he replaced SM64’s original collision with a completely new custom collision system because the original was “unusable,” and demonstrates improved stability (less sticking in messy geometry).",
+      "quote": null
     },
     {
       "topic": "technical",
       "importance": "high",
-      "summary": "The new collision system changes emergent movement tech: BLJ becomes harder or sometimes removed as a side effect of more stable physics, which Kaze considers undesirable; he would prefer BLJ remain possible in at least some spots.",
-      "quote": "By making more stable physics, it just so happened to remove BLJ. And I consider that a bad thing, actually."
+      "summary": "He notes the new, more stable physics/collision has an unintended gameplay side effect: BLJ becomes harder/less available, which he considers a negative side effect he’d like to avoid if possible.",
+      "quote": null
     },
     {
-      "topic": "philosophy",
+      "topic": "design",
       "importance": "high",
-      "summary": "Kaze articulates a rule for bug preservation: exploits/bugs that require intentional effort (like BLJ) can stay because they won’t affect normal players, but glitches that can happen accidentally should be removed.",
-      "quote": "If there’s a bug in Mario 64 that you only encounter if you do it on purpose, I’ll leave it in the game. But if it can happen on accident, I’ll remove it."
+      "summary": "Kaze articulates a bug/tech-debt policy: keep “bugs” that require intentional player action (like BLJ-style exploits), but remove issues that can happen accidentally during normal play.",
+      "quote": null
     },
     {
       "topic": "technical",
       "importance": "medium",
-      "summary": "To make mole-thrown rocks reach Mario reliably, Kaze computes the correct initial Y-velocity based on discrete per-frame gravity steps (a frame-step sum), then applies that to aim at Mario’s current position.",
+      "summary": "He implements/tunes Monty Mole rock throws by computing a per-frame-step sum (discrete-time gravity) to derive an initial Y-velocity so rocks land correctly at Mario’s position, then confirms it works in-game.",
       "quote": null
     },
     {
       "topic": "design",
       "importance": "medium",
-      "summary": "Kaze explicitly rejects predictive enemy aiming; rocks target Mario’s current position rather than leading him, because the goal is readable/fair behavior rather than anti-speedrun countermeasures.",
-      "quote": "It shoots exactly where Mario is at. It’s not predictive. I don’t want this to be predictive."
+      "summary": "He explicitly chooses non-predictive aiming for thrown rocks (shoot at Mario’s current position, not leading his velocity), focusing on fairness/feel rather than anti-speedrun countermeasures.",
+      "quote": null
     },
     {
       "topic": "technical",
       "importance": "medium",
-      "summary": "He notes that some collision on the Cowboy level bridge was temporarily removed “for RAM reasons,” implying memory constraints are still actively shaping level geometry/collision decisions.",
-      "quote": "I had to remove the collision here for RAM reasons for now."
-    },
-    {
-      "topic": "design",
-      "importance": "high",
-      "summary": "Boss-fight brainstorming outcome: Kaze moves away from a ‘five separate moles’ boss concept (risk of visual clutter and bland repetition) toward a simpler challenge where multiple moles pop out of randomized holes; the encounter serves as a mechanic introduction before a harder variant.",
+      "summary": "He discovers and fixes aiming/spawn issues (e.g., flipped values causing wrong behavior, offset shots), then adds randomized hole selection so moles can’t be picked off one-by-one.",
       "quote": null
     },
     {
       "topic": "design",
       "importance": "medium",
-      "summary": "Kaze considers (and mostly rejects) alternative encounter concepts: pure survival/waves, a power-up requirement (e.g., hard-hat/bombs), a ‘star popping in/out’ gimmick, or skipping a boss entirely and just awarding a star; he gravitates toward the simplest readable solution.",
+      "summary": "Boss encounter direction shifts from a ‘formal boss’ to a simpler arena-clear concept: defeat multiple moles emerging from different holes, with randomness to keep it engaging without overcomplicating readability.",
       "quote": null
-    },
-    {
-      "topic": "philosophy",
-      "importance": "high",
-      "summary": "Kaze explains his critique-processing method: he tries to address the underlying feeling behind feedback rather than literal suggestions, arguing that experienced critics can overfit to “parameters” instead of the emotions the game evokes.",
-      "quote": "When I receive a criticism, I try to figure out what the person was feeling that’s wrong… I try to address their feeling instead of their actual critique."
     },
     {
       "topic": "technical",
       "importance": "medium",
-      "summary": "While debugging coins on enemy death, he points out SM64 has a built-in safety mechanism that limits coin spawning (to prevent runaway spawning from respawning actors), which he must satisfy by setting the spawn amount before calling the spawn routine.",
+      "summary": "He temporarily removes collision on a Cowboy level bridge due to RAM constraints, indicating current memory budgeting is still affecting geometry/collision decisions.",
       "quote": null
     },
     {
       "topic": "technical",
       "importance": "low",
-      "summary": "Kaze comments on N64 performance constraints as largely bandwidth-related; he speculates that with more memory bandwidth games could run significantly faster, and observes that CPU becomes the bottleneck mainly when code is not optimized.",
+      "summary": "While wiring death/loot feedback, he hits SM64 engine safeguards: coin spawning requires setting an amount first due to built-in safety precautions around respawning actors.",
+      "quote": null
+    },
+    {
+      "topic": "philosophy",
+      "importance": "high",
+      "summary": "Kaze explains how he processes criticism: he tries to identify the underlying feeling a player had rather than implementing the critique literally, because ‘media-literate’ critics can overfit to arbitrary parameters.",
       "quote": null
     },
     {
       "topic": "milestone",
       "importance": "high",
-      "summary": "Project status update: after this work, he estimates the hack is ~80% complete, with “three more main courses, two side levels, and one Bowser level” remaining. He states the Mole Hideout area’s first two stars are effectively done and the next target is star three: the ‘Goomba imposter tower.’",
-      "quote": "The levels are left to make after this: three more main courses and two side levels and one Bowser level—we’re like 80% of the way there… star one and two are done and we need to move on to star three… the Goomba imposter tower."
+      "summary": "He gives a concrete progress snapshot: after this area, he estimates the project is ~80% complete, with three main courses, two side levels, and one Bowser level remaining; Cowboy stars 1–2 are close to done and star 3 will be the “Goomba imposter tower.”",
+      "quote": null
     },
     {
       "topic": "business",
       "importance": "medium",
-      "summary": "Post-release plan: Kaze intends to launch a Kickstarter for an original 3D platformer alongside Return to Yoshi’s Island’s release and hopes to hire other ROM hackers to help transition into that project.",
-      "quote": "Alongside the release of Return to Yoshi’s Island I’ll probably launch a Kickstarter for my own game… and then hopefully I can hire some other ROM hackers to work on it with me."
+      "summary": "Post-release plan: alongside Return to Yoshi’s Island’s release, he’s considering launching a Kickstarter for an original 3D platformer and transitioning to that, potentially hiring other ROM hackers to help.",
+      "quote": null
     }
   ],
   "contributor_findings": {
     "biobak": [],
     "badub": [],
-    "zeina": [
-      {
-        "topic": "personal",
-        "importance": "low",
-        "summary": "Zeina is mentioned as not being home during this stream (no direct collaboration moment captured here).",
-        "quote": null
-      }
-    ],
+    "zeina": [],
     "others": [
       {
-        "name": "Chat (general)",
+        "name": "Lilaa / chat",
         "findings": [
           {
             "topic": "community",
-            "importance": "medium",
-            "summary": "Viewers propose multiple boss/encounter variations (e.g., bomb-only damage, power-up gating, tank joke, star gimmicks). Kaze uses the suggestions as a brainstorming springboard but ultimately chooses a random-hole multi-mole approach for clarity and western theme consistency.",
+            "importance": "low",
+            "summary": "Chat pitches multiple boss-fight variations (e.g., hammer, survival waves, star gimmicks, bomb-based solution); Kaze rejects several for theme/readability and lands on a random-hole multi-mole concept.",
             "quote": null
           }
         ]
@@ -113,89 +100,95 @@
   "memorable_quotes": [
     {
       "speaker": "Kaze",
-      "quote": "I made a completely new collision system. I said, fuck Mario 64’s collision. It is unusable.",
-      "context": "A rare, blunt statement that signals a major technical fork from vanilla SM64 behavior and a willingness to replace core systems to achieve stability on N64-era constraints."
+      "quote": "I made a completely new collision system. I said, fuck Mario 64's collision. It is unusable.",
+      "context": "Major technical reveal framing why he rewrote a core engine subsystem and what problem it solved (stability/stuck issues)."
     },
     {
       "speaker": "Kaze",
-      "quote": "If there’s a bug in Mario 64 that you only encounter if you do it on purpose, I’ll leave it in the game. But if it can happen on accident, I’ll remove it.",
-      "context": "A clear design/philosophy rule that connects ‘respecting the classic’ with modern polish and player experience."
+      "quote": "If there's a bug in Mario 64 that you only encounter if you do it on purpose, I'll leave it in the game. But if it can happen on accident, I'll remove it.",
+      "context": "Clear design rule for which legacy exploits/glitches he preserves versus fixes—important for ‘respectful but new’ documentary framing."
     },
     {
       "speaker": "Kaze",
-      "quote": "When I receive a criticism, I try to figure out what the person was feeling that’s wrong… I try to address their feeling instead of their actual critique.",
-      "context": "Explains how Kaze makes design decisions under feedback pressure—useful for documentary framing about iteration, community input, and intent vs. interpretation."
+      "quote": "When I receive a criticism, I try to figure out what the person was feeling that's wrong… I try to address their feeling instead of their actual critique.",
+      "context": "Concise statement of his feedback philosophy, useful as documentary narration about iterative design and playtesting interpretation."
     }
   ],
   "key_stories": [
     {
-      "title": "Replacing SM64 collision with a custom system",
-      "summary": "Kaze shows off a newly implemented collision system intended to fix sticking and instability in complex geometry. The change alters classic emergent behaviors (like BLJ) and forces him to think about which legacy quirks should remain.",
-      "challenge": "Vanilla SM64 collision behavior is described as unstable/unusable for his level geometry and gameplay needs, causing sticking and unreliable movement interactions.",
-      "process": "He implements an entirely separate collision system and stress-tests it in ‘fucked up spots’ of the Cowboy level, checking for stability and edge cases like ceilings and movement tech.",
-      "outcome": "Movement becomes significantly more stable, but BLJ becomes harder/less available; Kaze frames that as a negative side effect and suggests he still wants BLJ to exist somewhere.",
-      "key_quote": "By making more stable physics, it just so happened to remove BLJ. And I consider that a bad thing, actually.",
+      "title": "Replacing Mario 64’s collision with a custom system",
+      "summary": "Kaze reveals he rewrote collision because the original SM64 collision became a blocker for stability and level geometry complexity. He demonstrates improved behavior in previously ‘stuck-prone’ areas, but notes it changes emergent tech like BLJ.",
+      "challenge": "SM64’s collision was producing unstable behavior (getting stuck in awkward geometry) and was ‘unusable’ for his needs.",
+      "process": "He implemented a new collision system and tested it live in troublesome geometry spots to verify stability.",
+      "outcome": "Movement/collision becomes much more stable, but BLJ becomes harder/less common—an unintended consequence he views as a drawback.",
+      "key_quote": "I made a completely new collision system. I said, fuck Mario 64's collision. It is unusable.",
       "related_to": ["kaze"]
     },
     {
-      "title": "Mole Hideout encounter design: from ‘boss’ to readable challenge",
-      "summary": "Kaze enters the Mole Hideout with a partially built arena and iterates on how the encounter should end (boss vs. simple enemy clear vs. star reward). He converges on randomized-hole moles throwing rocks at Mario, tuned for readability and pacing.",
-      "challenge": "A five-mole ‘boss’ risks being visually cluttered and not fun; the arena was built before the boss concept was fully decided.",
-      "process": "He prototypes rock-throwing behavior, tunes damage, debugs death/coin drops, and weighs multiple design suggestions (survival, power-up gating, star gimmicks) before choosing a simpler randomized-hole structure.",
-      "outcome": "He considers the boss fight ‘basically done’ pending animations/decorations; stars 1–2 in this area are effectively complete, and the next task is star 3 (Goomba imposter tower).",
-      "key_quote": "I think nine Monty Moles is really the best thing we can do here… But they switch holes. Let’s do that.",
+      "title": "Making the Mole Hideout rock-throw fight work (discrete physics + fairness)",
+      "summary": "The stream’s core dev work is getting Monty Moles to emerge from holes and throw rocks that reliably reach Mario. Kaze struggles with deriving the correct initial Y-velocity, then switches to discrete per-frame math and iteration until the throw feels right.",
+      "challenge": "Rocks weren’t traveling correctly (wrong distance/offset), especially with vertical differences; the behavior needed consistent results without predictive aiming.",
+      "process": "He derives the motion using a sum of per-frame gravity steps, fixes flipped parameters/offset logic, and explicitly chooses non-predictive targeting (shoot at current Mario position).",
+      "outcome": "Rock throws become reliable enough to proceed; he begins tuning damage/coin drops and behavior edge cases (dying, intangible state).",
+      "key_quote": "We computed the proper sum of frame steps and then made it go towards Mario.",
+      "related_to": ["kaze"]
+    },
+    {
+      "title": "Boss design pivots toward ‘simple and readable’",
+      "summary": "Kaze questions whether a five-mole ‘boss’ is inherently fun or just noisy/visually cluttered. He considers dropping the boss entirely (just a star) or implementing a minimal multi-enemy clear, ultimately favoring randomized holes to prevent trivializing the encounter.",
+      "challenge": "A multi-mole boss risks being lame, cluttered, or hard to read (too many rocks, unclear interactions, easy to pick off enemies).",
+      "process": "He brainstorms live, evaluates chat ideas against theme (western/cowboy) and clarity, and selects a straightforward ‘defeat the moles’ structure with randomized hole emergence.",
+      "outcome": "A direction is chosen that matches the level’s mechanic tutorial role and keeps the encounter from becoming overly complex.",
+      "key_quote": "I think we may need a better idea for the boss fight… I kind of made this area before even thinking about it.",
+      "related_to": ["kaze"]
+    },
+    {
+      "title": "Anchoring the project timeline: “~80% done” and what’s left",
+      "summary": "Kaze states a concrete remaining scope: several main courses, side levels, and a Bowser level still to build, while Cowboy stars 1–2 are close to complete. This gives the documentary a rare quantitative ‘where are we now’ milestone in development.",
+      "challenge": "Without explicit accounting, long ROM-hack projects can feel endless and hard to narrativize.",
+      "process": "He enumerates remaining level counts and immediately identifies the next star focus (Goomba imposter tower).",
+      "outcome": "A clear progress marker emerges for timeline and interview framing; near-term roadmap becomes specific (finish decorations, then star 3).",
+      "key_quote": "The levels left to make after this: three more main courses and two side levels and one Bowser level—we're like 80% of the way there.",
       "related_to": ["kaze"]
     }
   ],
   "open_questions": [
     {
-      "topic": "Custom collision system details and tradeoffs",
-      "context": "Kaze states he replaced SM64 collision entirely for stability and that it impacted BLJ availability, but he does not explain how the system works, how much of the engine it replaces, or how compatibility with SM64-level data is maintained.",
+      "topic": "Custom collision system rewrite",
+      "context": "Kaze says he replaced SM64 collision entirely for stability, but it changes emergent movement tech like BLJ and may still have ceiling edge cases.",
       "questions": [
-        "What specifically about SM64’s collision was ‘unusable’ for Return to Yoshi’s Island—sticking, edge snapping, floor/ceiling classification, triangle limits, precision, or something else?",
-        "How is the new collision system implemented (math approach, spatial partitioning, triangle queries), and how hard was it to integrate into the decomp codebase?",
-        "What did you have to give up (performance, memory, edge-case accuracy) to gain stability on N64 hardware?",
-        "Do you plan to intentionally re-enable BLJ-like behavior in specific places, or accept that the hack’s movement tech will differ from vanilla SM64? If intentional, how do you ‘design in’ an exploit safely?"
+        "What specifically made SM64’s collision ‘unusable’ for Return to Yoshi’s Island—was it precision, sticking, performance, authoring complexity, or all of the above?",
+        "When you rewrote collision, what were the non-negotiable design goals (e.g., no sticking, deterministic results, slope/ceiling rules), and what tradeoffs did you accept?",
+        "How do you decide whether to re-enable BLJ-like behavior intentionally versus treating its disappearance as a ‘fixed bug’ from better physics?"
       ],
       "related_to": ["kaze"]
     },
     {
-      "topic": "N64 RAM constraints shaping level collision",
-      "context": "Kaze mentions temporarily removing bridge collision “for RAM reasons,” implying collision/geo budgeting is still a live production constraint.",
+      "topic": "Mole Hideout boss encounter goals",
+      "context": "He debates whether to include a boss at all, then settles on a simple multi-mole fight with random holes and non-predictive aiming.",
       "questions": [
-        "What exactly was consuming RAM on the bridge section—collision triangles, visual geometry, actors, or other level scripts?",
-        "What is your working budget/target for collision triangles or area complexity per course, and how often do you have to cut collision to fit?",
-        "Is the plan to re-add bridge collision later via optimization, streaming, or re-authoring geometry?"
+        "What feeling do you want the Mole Hideout to leave the player with—comedy, tension, mastery of a new mechanic, or just pacing between platforming beats?",
+        "You rejected predictive aiming—what playtest moments made you confident that ‘shoot where Mario is’ is the right kind of fairness for this game?",
+        "How did you evaluate the ‘too many rocks / can’t read the fight’ risk, and what rules (caps, spawn timing, arena layout) will you use to keep it readable?"
       ],
       "related_to": ["kaze"]
     },
     {
-      "topic": "Mole Hideout encounter goals and tuning",
-      "context": "Kaze settles on randomized-hole rock throwers and non-predictive aiming, but details about difficulty targets, readability, and reward structure are not finalized on-stream.",
+      "topic": "Memory/RAM constraints shaping level collision",
+      "context": "He removed collision on a bridge ‘for RAM reasons,’ implying active memory budgeting still constrains geometry/collision decisions.",
       "questions": [
-        "What player skill are you trying to teach in this room—reading telegraphs, timing jumps, spatial positioning, or resource use?",
-        "How do you decide between ‘boss’ vs. ‘enemy clear’ for a star objective in this hack—what makes something worthy of a boss?",
-        "What animations/telegraphs are still needed to make the rock throws feel fair (wind-up, sound cues, camera framing)?"
+        "What’s the current RAM/memory budget bottleneck in RTYI—collision triangles, object counts, animation data, or something else?",
+        "How often do you have to compromise level design (like removing bridge collision) due to memory, and what’s your plan for getting those features back before release?"
       ],
       "related_to": ["kaze"]
     },
     {
-      "topic": "Production roadmap and remaining content at ~80%",
-      "context": "Kaze lists remaining level counts and names the next objective (Goomba imposter tower), but doesn’t map these to courses, themes, or risk areas.",
+      "topic": "Post-release Kickstarter and hiring ROM hackers",
+      "context": "Kaze says he may launch a Kickstarter for an original platformer around RTYI’s release and potentially hire ROM hackers to help.",
       "questions": [
-        "Which specific courses/areas remain in ‘three main courses, two side levels, and one Bowser level,’ and which are the riskiest/most time-consuming?",
-        "What does the ‘Goomba imposter tower’ star involve mechanically and narratively, and why is it a good fit for the next milestone?",
-        "What’s the definition of ‘80%’ here—content complete, or also polish (animations, music integration, bugfixing, performance passes)?"
-      ],
-      "related_to": ["kaze"]
-    },
-    {
-      "topic": "Kickstarter timing alongside hack release",
-      "context": "Kaze says he may run a Kickstarter for an original platformer around the hack’s release and hopes to hire ROM hackers to help.",
-      "questions": [
-        "Why pair the Kickstarter with Return to Yoshi’s Island’s release—audience timing, financial runway, or creative momentum?",
-        "What parts of the ROM-hack team pipeline translate to the original game (level art, animation, music), and what will need entirely new roles?",
-        "How will you handle the legal/PR optics of launching a commercial Kickstarter adjacent to a Nintendo-adjacent fan project?"
+        "What made you decide the timing—Kickstarter ‘alongside release’—instead of after a cooldown period, and what risks are you trying to manage?",
+        "What parts of your workflow would you want other ROM hackers to take over (tools, collision/engine, level scripting, optimization), and how would you coordinate quality/vision?",
+        "How has working in UE5 alongside ROM hacking influenced what you want your original platformer to be (tech, art style, design philosophy)?"
       ],
       "related_to": ["kaze"]
     }

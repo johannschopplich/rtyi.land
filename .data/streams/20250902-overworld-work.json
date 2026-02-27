@@ -1,70 +1,100 @@
 {
   "stream_context": {
-    "summary": "Kaze refactors code and iterates on an overworld enemy/interaction sequence involving “Boobla/Goobla” blob enemies and a prerequisite object (“Pandora’s box”) that spawns ghosts. He debugs multiple AI/state and interpolation issues (notably 60fps-only artifacts), discusses upcoming engine/performance work (BVH rollout, Sauraen’s X3 microcode call), and outlines a near-term milestone: finishing the first overworld segment up to the first Bowser level and running an initial beta test to validate the project’s overworld/game-design philosophy.",
-    "level": ["Overworld"],
-    "significance": "notable",
-    "significance_reason": "Contains concrete roadmap planning (first 5-level beta to validate/correct design philosophy), multiple technical decisions (crash-on-missing-floor debugging, BVH for actors, 60fps interpolation bug), collaboration dependencies (Biobak reworking a level; planned call with Sauraen about X3), and a candid legal/packaging concern about releasing a finished non-hack Mario 64 FPS-style project without Nintendo takedowns."
+    "summary": "Kaze refactors and debugs gameplay code for the overworld/early hub, focusing on the “Boobla”/ghost behaviors (crashes from leaving the map, animation/interpolation issues at 60 FPS, and pursuit logic). He also discusses performance/graphics concepts (instancing/draw calls analogs on N64), plans a call with Sauraen about X3 microcode features, outlines a future 12-part optimization video series monetized via sponsors, and shares a near-term milestone plan: finish the secret crystal mechanic, then beta test the first five levels to validate (or course-correct) the overworld design philosophy.",
+    "level": ["Overworld", "Course 3"],
+    "significance": "milestone",
+    "significance_reason": "He frames a concrete near-term production milestone (finish first overworld section up to first Bowser, then beta test first five levels to validate design philosophy), reveals he has a separate full game/extension already finished but is delaying release due to Nintendo risk, and notes a planned technical sync with Sauraen about X3 microcode for further performance gains."
   },
   "findings": [
     {
-      "topic": "technical",
+      "topic": "milestone",
       "importance": "high",
-      "summary": "Kaze changed his debugging strategy for actor placement: instead of silently skipping shadow rendering when an object spawns with “no floor,” he now forces a crash to locate and fix all missing-floor spawns; this currently makes multiple levels crash until all problematic spawns are found and corrected.",
-      "quote": "Until a few days ago, I made it so that if there's no floor, it just doesn't render a shadow. Now I made it so that it crashes if there's no floor, so I can find all the missing floors."
+      "summary": "Kaze’s immediate roadmap is to finish the “secret crystal” in the overworld; once that’s done, the first four overworld parts (up to the first Bowser level) are “mostly done.” He then plans to fix the crystal/ice-cap level and the first Bowser level, and run a beta test for the first five levels to evaluate whether the overworld design philosophy works or needs course correction.",
+      "quote": null
     },
     {
       "topic": "design",
       "importance": "high",
-      "summary": "Overworld progression is being structured into “parts” leading up to the first Bowser level; Kaze says part 3 is mostly done and part 4 will complete the first overworld stretch up to the first Bowser level, after which he intends to fix the ice cap level and the first Bowser level before running a beta test on the first five levels.",
-      "quote": "After that, we are going to fix the crystal, the ice cap level. We're going to fix the first Bowser level. And then I'm going to try to get a beta test done for the first five levels."
-    },
-    {
-      "topic": "philosophy",
-      "importance": "high",
-      "summary": "Kaze frames the upcoming first-five-level beta as the first real test of whether the team’s overworld/game-design philosophy works; he explicitly anticipates either validation (“do more of it”) or the need to course-correct based on player feedback.",
-      "quote": "So we will get, for the first time, a proper insight on how our whole game design philosophy works for the overworld. And based on that, we might have to course correct."
+      "summary": "The overworld includes a crystal-carry mechanic similar to Mario Galaxy: while holding a glowing crystal, otherwise-invisible platforms become visible/solid, leading to a star. Kaze worries players may not infer the rule, so he proposes making the crystal emit a large sphere of light and staging the first crystal so a platform is partially visible to teach the mechanic.",
+      "quote": null
     },
     {
       "topic": "design",
       "importance": "medium",
-      "summary": "Kaze develops a “crystal reveals platforms” mechanic (compared to Mario Galaxy / shifting visibility) where platforms are only solid/visible while carrying a glowing crystal; he worries players may not infer the rule, so he considers adding a large sphere-of-light effect and staging the first crystal so the first platform is partially visible as a tutorial cue.",
-      "quote": "The problem I see here is that the player might not make that connection easily. So the crystal must probably have like a big sphere of light around it."
+      "summary": "A star objective is gated by opening “Pandora’s box,” which spawns ghosts; Kaze considers that prerequisite part of the puzzle flow, but notes the box itself still needs to be programmed.",
+      "quote": null
+    },
+    {
+      "topic": "design",
+      "importance": "medium",
+      "summary": "Kaze works on the “Boobla” enemy behaviors: they sneak/patrol, react when Mario gets close, and can launch Mario upward. He also wants them to look more “suspicious” (more pronounced looking-around) and adjusts how much of the body is visible, considering a separate ‘blob’ mesh for readability.",
+      "quote": null
+    },
+    {
+      "topic": "technical",
+      "importance": "high",
+      "summary": "A recurring crash source is ghosts/actors leaving the map; a crash screen indicated a ghost had exited bounds. Kaze adds defensive checks to prevent out-of-bounds behavior and continues iterating after observing they can still escape.",
+      "quote": null
+    },
+    {
+      "topic": "technical",
+      "importance": "high",
+      "summary": "Kaze changes his debugging strategy for missing collision floors: previously, if an actor spawned above “no floor,” the game simply wouldn’t render a shadow; now he makes it hard-crash when there’s no floor so he can quickly find and fix missing-floor spawns, even though this temporarily causes many levels to crash.",
+      "quote": null
     },
     {
       "topic": "technical",
       "importance": "medium",
-      "summary": "Enemy/ghost AI issues are traced to action/state interactions: the blob enemies “lose their will to live” (stop turning/chasing) when Mario is nearby or in a thrown/damaged action; Kaze implements a group-wide cooldown so that after Mario is thrown once, all enemies temporarily stop chasing for about a second.",
-      "quote": "Maybe we should instead make it so that once Mario gets thrown once, all of them go into a state where they stop chasing Mario."
+      "summary": "He diagnoses a visual ‘one weird frame’ artifact that only occurs at 60 FPS (not 30), concluding it’s an interpolation/timing issue and attempts to capture the offending frame for analysis.",
+      "quote": null
     },
     {
       "topic": "technical",
       "importance": "medium",
-      "summary": "A visual artifact (“one weird frame”) only appears at 60 FPS, not 30, implying an interpolation/timing bug; Kaze tries to capture the frame for diagnosis and notes it’s tied to his 60fps interpolation path.",
-      "quote": "So it doesn't happen at 30 fps, it only happens at 60. So that's a problem with the interpolation for us."
+      "summary": "Kaze explores the concept of instancing and “draw calls” through chat Q&A, mapping modern terminology to N64’s closest analog: minimizing state changes like texture/render-state switches and batching mesh data behind a single setup, emphasizing that the N64 pipeline resembles modern command-list rendering in simpler form.",
+      "quote": null
     },
     {
       "topic": "technical",
       "importance": "medium",
-      "summary": "Kaze confirms he is using Sauraen’s newer N64 microcode work (X3) and has a planned post-stream call with Sauraen to discuss feature ideas and potential performance improvements.",
-      "quote": "I'm using X3. That's a microcode Sauraen has been working on... we talk about some of the feature ideas for X3. We might get a few more performance improvements."
+      "summary": "He notes emulator/hardware status: he primarily tests on Luna’s Project64 build; Ares is ‘most accurate’ but currently crashes on some behaviors, and he expects EverDrive support eventually but says it currently fails due to a bug he believes he can fix.",
+      "quote": null
     },
     {
-      "topic": "technical",
-      "importance": "medium",
-      "summary": "For one enemy form, Kaze removes a texture because it is too memory/quality expensive (“too chunky”) even after scaling down; he replaces it with vertex colors plus small texture chunks, and also decides to create a separate simplified “blob form” model for motion readability.",
-      "quote": "I had to, unfortunately, remove the texture from him... He's now just using vertex colors. The texture was waaaaay too chunky."
+      "topic": "team",
+      "importance": "high",
+      "summary": "Kaze is using X3 microcode (not X2) being developed by Sauraen, and he has a planned post-stream call with Sauraen to discuss new X3 feature ideas that may yield further performance improvements.",
+      "quote": null
     },
     {
-      "topic": "technical",
+      "topic": "team",
       "importance": "medium",
-      "summary": "Kaze discusses broader performance architecture: he recently finished BVH work and says applying BVH broadly to actors is cheaper due to locality/reuse in dense scenes; he also considers revisiting an “AI Mario” project now that BVH is done.",
-      "quote": "Making all actors use the BVH is a lot cheaper, because... actors are going to be dense in certain situations, so they will reuse the same cache lines over and over."
+      "summary": "Biobak is actively reworking an overworld/early level segment (Kaze references Biobak handling lighting/visual elements such as entrance/exit and a one-way mirror to a ‘Rainbow Grotto’ area) and also reworking the cap-switch-related level.",
+      "quote": null
     },
     {
       "topic": "legal-nintendo",
       "importance": "high",
-      "summary": "Kaze says a separate project/game is already finished and ready to release, but he is delaying because of Nintendo enforcement risk; he references another creator being shut down after “Shotgun Mario” and is actively looking for a safer packaging/title/thumbnail approach that won’t invite takedowns.",
-      "quote": "It's actually done. Already finished. And I'm ready to release it. I am just waiting for an opportunity to release it. The problem is, Nintendo hates stuff like that."
+      "summary": "Kaze says a separate project (described as a full ‘game’/extension—framed like “turning Mario 64 into a first-person shooter”) is already finished and ready to release, but he’s waiting because Nintendo has shut down similar projects (he cites Doriel/“Shotgun Mario”). He’s seeking safer packaging/title/thumbnail strategies to avoid getting “completely destroyed.”",
+      "quote": null
+    },
+    {
+      "topic": "business",
+      "importance": "medium",
+      "summary": "He outlines a monetization-driven content plan: a 12-part optimization series (with parts already planned out by topic) where each video carries a sponsor, then later removing sponsor segments and releasing a combined ~2-hour ‘masterclass’ version.",
+      "quote": null
+    },
+    {
+      "topic": "technical",
+      "importance": "medium",
+      "summary": "Two-player is “a good chance,” but he won’t confirm until he proves it’s technically feasible without severe lag; he anticipates potentially having to remove/disable the graphics thread and lock the game to 30 FPS to make it work.",
+      "quote": null
+    },
+    {
+      "topic": "philosophy",
+      "importance": "medium",
+      "summary": "Kaze contrasts talent vs. practice: he claims he has ‘zero talent for art’ despite learning it through repetition, but says he had an unusually flat learning curve for programming (it ‘just worked’). He cites Zeina’s ability to identify the first 151 Pokémon cries as an example of innate aptitude affecting learning speed.",
+      "quote": null
     }
   ],
   "contributor_findings": {
@@ -72,17 +102,17 @@
       {
         "topic": "team",
         "importance": "medium",
-        "summary": "Kaze states Biobak is currently reworking one of the overworld levels (he mentions it twice in the context of not worrying about that area/cap switch yet), and that certain planned visual elements (additional light sources/one-way mirror presentation) are items Biobak will handle rather than Kaze.",
-        "quote": "Biobak is reworking that level right now."
+        "summary": "Kaze states Biobak is reworking an early level/overworld section and will likely handle specific lighting/visual features (entrance/exit light sources and a one-way mirror view into the Rainbow Grotto area), plus reworking the cap-switch level.",
+        "quote": null
       }
     ],
     "badub": [],
     "zeina": [
       {
-        "topic": "personal",
+        "topic": "philosophy",
         "importance": "low",
-        "summary": "Kaze uses Zeina as an example in a discussion about talent: he claims she can identify all original 151 Pokémon cries instantly without practice, which he frames as an innate musical/audio-recognition ability that would translate to skills like music.",
-        "quote": "She is able, for no reason at all, all 151 first Pokémon cries, you play one to her, she just knows which one it is."
+        "summary": "Kaze uses Zeina as an example of ‘talent’/innate aptitude: she can recognize all 151 original Pokémon cries instantly, which he frames as a musical-memory skill she didn’t explicitly train.",
+        "quote": null
       }
     ],
     "others": [
@@ -92,8 +122,8 @@
           {
             "topic": "technical",
             "importance": "high",
-            "summary": "Kaze confirms active dependency on Sauraen’s X3 microcode and schedules a feature/performance discussion call, suggesting ongoing low-level rendering/performance R&D beyond content production.",
-            "quote": "After the stream, I have a call planned for Sauraen, where we talk about some of the feature ideas for X3."
+            "summary": "Kaze is using Sauraen’s X3 microcode and has a scheduled call to discuss feature ideas aimed at additional performance improvements.",
+            "quote": null
           }
         ]
       },
@@ -101,10 +131,10 @@
         "name": "Graham",
         "findings": [
           {
-            "topic": "team",
+            "topic": "design",
             "importance": "low",
-            "summary": "Kaze reassures a contributor named Graham that their mesh work is not being discarded; the enemy needs two distinct forms (blob/hidden form and a pop-up detailed form), so Kaze is building an additional blob model to complement the existing mesh.",
-            "quote": "That's not like I'm throwing your work away. It's just that I need two forms."
+            "summary": "Kaze reassures a contributor named Graham that he’s not discarding Graham’s enemy mesh work; he needs a second ‘blob’ form for the Boobla that transitions into the detailed mesh during its pop-up behavior.",
+            "quote": null
           }
         ]
       }
@@ -113,97 +143,108 @@
   "memorable_quotes": [
     {
       "speaker": "Kaze",
+      "quote": "Without sponsors, I'd be making like 3 videos a year.",
+      "context": "He explains the financial incentive structure behind his output cadence and why sponsor support directly changes how much he can ship publicly."
+    },
+    {
+      "speaker": "Kaze",
       "quote": "It's actually done. Already finished. And I'm ready to release it. I am just waiting for an opportunity to release it. The problem is, Nintendo hates stuff like that.",
-      "context": "On having a finished project but delaying release due to takedown risk—directly relevant to how fan-adjacent work is packaged to survive legally."
+      "context": "He reveals a finished side project and the core tension: wanting to publish while fearing takedowns based on precedent."
     },
     {
       "speaker": "Kaze",
-      "quote": "So we will get, for the first time, a proper insight on how our whole game design philosophy works for the overworld. And based on that, we might have to course correct.",
-      "context": "A clear statement of an empirical, test-and-iterate philosophy for validating the hack’s new structure against player experience."
-    },
-    {
-      "speaker": "Kaze",
-      "quote": "When you look at how the N64 does it, and then you look at how modern hardware does it, it's doing it the same way, just slightly more advanced.",
-      "context": "Connects the project’s technical respect for the N64 to modern graphics concepts—useful for documentary framing about rebuilding on old hardware."
+      "quote": "The N64 is actually just a building block for all modern 3D rendering, it feels like.",
+      "context": "While discussing instancing/draw-call concepts, he frames the N64 pipeline as a conceptual ancestor of modern command-list rendering—useful documentary framing for ‘old hardware, modern thinking’."
     }
   ],
   "key_stories": [
     {
-      "title": "Crash-on-missing-floor debugging to harden content",
-      "summary": "Kaze describes changing engine behavior so that spawning an actor with no valid floor now triggers a crash instead of quietly omitting a shadow. This intentionally breaks multiple areas during development, but gives him exact locations to fix and ultimately stabilizes content for real hardware/emulators.",
-      "challenge": "Objects/actors spawning with invalid floor data were hard to notice and could cause subtle issues or inconsistent behavior across builds/emulators.",
-      "process": "He replaced a lenient fallback (no shadow) with a strict fail-fast crash, then uses the resulting crash reports to hunt down and correct problematic spawns across levels.",
-      "outcome": "Short-term instability (many levels crash during dev) in exchange for long-term robustness and completeness of level/object placement validation.",
-      "key_quote": "Now I made it so that it crashes if there's no floor, so I can find all the missing floors.",
+      "title": "Stopping ghost/Boobla actors from leaving the map and crashing",
+      "summary": "A crash screen indicates a ghost has left the map bounds, pointing to a systemic AI/state bug rather than a single bad placement. Kaze treats it as a reliability milestone: add defensive protections, then iterate until out-of-bounds escapes stop happening.",
+      "challenge": "Ghosts/actors can exit the playable area, triggering crashes and breaking the star-gated flow (Pandora’s box spawning ghosts).",
+      "process": "He reproduces the issue, interprets the crash screen, adds protection logic to prevent leaving the map, then continues testing after noticing they can still escape in some cases.",
+      "outcome": "Partial mitigation is implemented, but he recognizes further fixes are required—suggesting ongoing hardening of enemy AI/state constraints.",
+      "key_quote": null,
       "related_to": ["kaze"]
     },
     {
-      "title": "Validating overworld design with a first-five-level beta test",
-      "summary": "Kaze outlines a near-term roadmap: finish the first overworld segment up to the first Bowser level, then fix specific early-game content (ice cap level and first Bowser level), and finally run a beta test for the first five levels. He frames this as the first true measurement of whether their overworld design philosophy is landing with players.",
-      "challenge": "Without external playtesting, the team can’t be sure the new overworld structure and mechanics communicate clearly or feel satisfying to new players.",
-      "process": "Ship a coherent early slice (five levels), observe feedback/behavior, and decide whether to course-correct or scale up the approach.",
-      "outcome": "A planned decision point: either reinforce the current design direction or adjust overworld/mechanics based on beta results.",
-      "key_quote": "And based on that, we might have to course correct. Or we get the, yep, this is amazing, do more of it.",
+      "title": "A finished FPS-style project delayed by Nintendo risk",
+      "summary": "Kaze says he has completed a separate Mario 64-related project and wants a major release video for it, but is holding it back due to takedown risk. He references prior shutdowns as evidence and discusses how packaging/positioning (title/thumbnail) might reduce the chance of being targeted.",
+      "challenge": "How to release a high-profile Mario 64-derived project without provoking Nintendo enforcement.",
+      "process": "He reviews precedent (Doriel/‘Shotgun Mario’ being shut down), brainstorms safer framing (e.g., ‘I turned Mario 64 into a first-person shooter’), and asks for ideas on packaging that won’t ‘fly close to the sun.’",
+      "outcome": "Project remains unreleased despite being complete; release strategy is unresolved and becomes an interview-worthy tension between creative ambition and legal reality.",
+      "key_quote": "It's actually done. Already finished. And I'm ready to release it. I am just waiting for an opportunity to release it.",
+      "related_to": ["kaze"]
+    },
+    {
+      "title": "Design-validation milestone: first five levels beta test to confirm overworld philosophy",
+      "summary": "Kaze lays out a structured plan to reach a playable chunk (overworld up to first Bowser plus early levels), then beta test the first five levels specifically to evaluate whether the overworld’s guiding design philosophy works. He frames the test as a potential pivot point: either double down or course-correct.",
+      "challenge": "Uncertainty about whether the overworld’s mechanics, gating, and readability (e.g., crystal platforms) will ‘click’ for players at scale.",
+      "process": "Finish the secret crystal → complete early overworld parts → fix crystal/ice-cap and first Bowser level → run a beta test focused on early-game flow and comprehension.",
+      "outcome": "A clear decision gate is established: beta feedback will determine whether the team continues the current overworld approach or revises it.",
+      "key_quote": null,
       "related_to": ["kaze", "biobak"]
     },
     {
-      "title": "Finished project delayed due to Nintendo packaging risk",
-      "summary": "Kaze says a separate game/project is finished and ready, but he is waiting to release because Nintendo enforcement is a real threat. He cites another creator being shut down after “Shotgun Mario,” and brainstorms safer framing/packaging (title/thumbnail positioning) that communicates the idea without painting a target.",
-      "challenge": "How to release something adjacent to Mario 64 without prompting a takedown or broader consequences.",
-      "process": "Delay release; research examples of past takedowns; consider alternative branding/positioning and packaging approaches before publishing.",
-      "outcome": "Project remains unreleased despite being complete; packaging strategy is an unresolved blocker and potential documentary tension point.",
-      "key_quote": "I need to think of a way to package that without getting completely destroyed.",
-      "related_to": ["kaze"]
+      "title": "Pushing performance forward with X3 microcode planning",
+      "summary": "Kaze positions Sauraen’s X3 microcode as an active performance frontier and schedules a dedicated call to discuss feature additions. The story shows the project’s ‘under the hood’ ambition: leveraging low-level N64 rendering improvements to unlock more complex scenes and systems.",
+      "challenge": "Achieving further performance headroom on N64 constraints while expanding game complexity (actors, visuals, potential 2-player).",
+      "process": "Adopt X3 in the build, collect feature ideas, and hold a focused technical call with Sauraen after stream.",
+      "outcome": "Pending: the call is set up as the next step toward potential performance gains and new rendering capabilities.",
+      "key_quote": null,
+      "related_to": ["kaze", "biobak"]
     }
   ],
   "open_questions": [
     {
-      "topic": "First-five-level beta test: what metrics decide ‘course correct’ vs ‘do more’?",
-      "context": "Kaze frames the upcoming beta as the first real test of overworld philosophy, implying specific criteria will drive redesign decisions.",
+      "topic": "How will the first-five-level beta test be run, and what would force a redesign?",
+      "context": "Kaze plans a beta test for the first five levels to validate the overworld design philosophy and potentially course-correct.",
       "questions": [
-        "What exactly do you want to learn from the beta—navigation clarity, mechanic readability, difficulty curve, pacing, or player retention?",
-        "What outcomes would trigger a course correction, and what parts of the overworld design are on the table to change (layout, gating, tutorialization, star objectives)?",
-        "How will you run the beta (who gets access, how you collect feedback, what telemetry or observation methods you use)?"
-      ],
-      "related_to": ["kaze"]
-    },
-    {
-      "topic": "Crystal-revealed platforms: ensuring players understand the rule",
-      "context": "Kaze worries the player may not connect “holding crystal” with “platforms become solid/visible,” and considers a sphere-of-light and staged introduction.",
-      "questions": [
-        "What’s your final tutorial plan for the first crystal encounter—visual language, placement, NPC hints, camera framing, or gating?",
-        "Will the platforms be invisible, translucent, or only appear as collision, and how do you balance mystery vs. frustration?",
-        "How do you prevent edge cases (players dropping the crystal mid-jump, carrying it into unintended areas) from breaking progression?"
+        "Who will be invited to the beta (speedrunners, casual players, N64 hardware testers), and what kind of feedback will you prioritize?",
+        "What specific ‘failure modes’ are you watching for in the overworld (getting lost, misunderstanding prerequisites like Pandora’s box, crystal-platform confusion, pacing issues)?",
+        "If the beta shows problems, what parts are you willing to change versus keep as core identity?",
+        "What would count as a success signal that makes you say ‘do more of it’?"
       ],
       "related_to": ["kaze", "biobak"]
     },
     {
-      "topic": "X3 microcode feature roadmap and impact on RTYI",
-      "context": "Kaze confirms he’s on Sauraen’s X3 and planned a call to discuss feature ideas and performance improvements.",
+      "topic": "Crystal-carry platforms: how will the game teach the rule without breaking immersion?",
+      "context": "He worries players won’t intuit that holding a glowing crystal makes platforms appear/turn solid; he proposes a large light sphere and tutorialized placement.",
       "questions": [
-        "Which concrete RTYI bottlenecks are you hoping X3 helps with (draw calls/state changes, dynamic lighting, geometry throughput, effects)?",
-        "What features are being considered for X3, and which of them would enable new art direction or level design you couldn’t do otherwise?",
-        "How risky is adopting X3 mid-production—do you maintain fallbacks for X2/F3DEX2, and what’s your testing plan on hardware?"
+        "What did your earliest playtests (or your own instincts) suggest players will misinterpret about the crystal mechanic?",
+        "How do you want the teaching moment to feel—mysterious discovery, explicit tutorial, or environmental hinting?",
+        "Do you plan any fail-safe (e.g., first platform partially visible, NPC hint, camera framing) to prevent players from missing the mechanic entirely?"
+      ],
+      "related_to": ["kaze", "biobak"]
+    },
+    {
+      "topic": "Nintendo risk: what packaging or release strategy could make the finished project survivable?",
+      "context": "Kaze says an FPS-style Mario 64 project is finished but unreleased due to takedown fears, citing prior shutdowns.",
+      "questions": [
+        "What exactly is the ‘thing’ you’re trying to package—patch, mod, standalone build, tool, or video-only showcase—and which format do you think is safest?",
+        "What lessons did you take from the Doriel/‘Shotgun Mario’ takedown about what triggers enforcement (branding, assets, distribution method, monetization)?",
+        "Would you consider releasing it as a technical breakdown without distributing binaries, or shipping it in a way that requires users to provide their own ROM/decomp assets?",
+        "What’s the personal risk calculus: is it mainly channel strikes, legal cost, losing future collaboration options, or something else?"
       ],
       "related_to": ["kaze"]
     },
     {
-      "topic": "EverDrive compatibility blocker",
-      "context": "Kaze believes RTYI will work on EverDrive but says it currently doesn’t due to a bug he expects he can fix.",
+      "topic": "Two-player mode: what technical compromises are acceptable?",
+      "context": "Kaze says 2-player is likely but unconfirmed; he may need to remove the graphics thread and lock to 30 FPS to avoid lag.",
       "questions": [
-        "What specifically fails on EverDrive right now (boot, level load, audio, DMA timing, memory init)?",
-        "How are you reproducing and diagnosing EverDrive-only issues—real hardware capture, logging, emulator parity tests?",
-        "Is this tied to undefined behavior/initialization assumptions or timing differences compared to emulator testing?"
+        "What is the minimum experience you’d accept for 2-player to ship—stable 30 FPS, certain camera constraints, fewer effects/actors?",
+        "How would removing the graphics thread change your engine architecture and debugging workload?",
+        "Is 2-player intended for the full game or only specific modes/levels (battle arenas, co-op challenges)?"
       ],
       "related_to": ["kaze"]
     },
     {
-      "topic": "Packaging and releasing finished Mario-adjacent projects under Nintendo pressure",
-      "context": "Kaze says a finished project is ready but unreleased due to takedown risk; he’s searching for a safer packaging strategy.",
+      "topic": "X3 microcode: what features are on the table, and what do they unlock for level design?",
+      "context": "Kaze is already using Sauraen’s X3 microcode and has a planned call about feature ideas and performance improvements.",
       "questions": [
-        "What exactly is the finished project (scope, platform, how directly it uses Nintendo IP/assets), and what about it feels most legally vulnerable?",
-        "What ‘packaging’ options are you considering (separate patcher, asset downloader, naming/branding changes, disclaimers, release timing)?",
-        "Did the Shotgun Mario takedown teach a specific lesson you’re applying (title phrasing, thumbnails, distribution method, code/asset separation)?"
+        "What are the top 2–3 X3 features you’re hoping to add next, and what measurable gains do you expect (FPS, triangle throughput, fewer state changes)?",
+        "How do you translate microcode improvements into creative freedom for Biobak’s levels (more dynamic actors, denser scenes, better materials/effects)?",
+        "What are the risks of adopting new microcode features mid-production (compatibility, emulator/hardware regressions, debugging complexity)?"
       ],
       "related_to": ["kaze"]
     }

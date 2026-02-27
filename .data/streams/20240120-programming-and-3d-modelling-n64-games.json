@@ -1,82 +1,100 @@
 {
   "stream_context": {
-    "summary": "Kaze reviews recent progress importing a Wild West saloon area, then designs a hidden “illegal chocolate milk” back-room encounter that transitions into a minecart chase. The stream mixes level-design iteration (mission structure, camera behavior, readability of secrets) with practical technical constraints (render/combiners, collision/export quirks in Fast64, emulator-specific rendering bugs, triangle budgets) and some broader project decisions about open-sourcing and monetization.",
-    "level": [],
-    "significance": "notable",
-    "significance_reason": "Introduces/solidifies a full mission concept for the saloon’s secret room (hidden door → cutscene → minecart chase → potential boss arena), includes multiple concrete engine/tech constraints shaping design (actor processing/room system, minecart curve handling, rail collision rules, triangle limits, emulator bugs), and contains explicit statements about release philosophy (free + open source, possible OST cartridge)."
+    "summary": "Kaze continues integrating and polishing the Wild West saloon area, showing new dialogue cutscenes and iterating on materials/lighting. The stream’s major focus becomes designing a new “secret room” star mission: Shy Guys are caught secretly drinking illegal chocolate milk, triggering a chase that transitions into a minecart sequence and (possibly) a final encounter. Alongside level design, Kaze discusses engine/performance tradeoffs (room system, expansion RAM, emulation rendering bugs), and lays out clear release/monetization philosophy: the game will be free and open source, with potential monetization via a physical OST cartridge as a souvenir.",
+    "level": ["Course 12"],
+    "significance": "milestone",
+    "significance_reason": "A concrete new mission concept is designed end-to-end (secret door → cutscene → chase → minecart gameplay rules/controls → tentative final beat), with multiple implementation decisions locked in. Kaze also states a clear release/monetization plan (free + open source; optional OST cartridge), which is interview-critical context."
   },
   "findings": [
     {
-      "topic": "design",
+      "topic": "milestone",
       "importance": "high",
-      "summary": "The saloon level’s next major objective is a hidden-door “secret room” scene where Shy Guys are secretly drinking illegal chocolate milk; when discovered, they panic and flee, initiating a chase-style star mission.",
-      "quote": null
-    },
-    {
-      "topic": "design",
-      "importance": "high",
-      "summary": "Kaze iterates the mission structure toward a platforming-centric minecart chase: Shy Guys run to minecarts, the player follows, and the chase culminates at the end of the track in a confrontation area (possibly a boss fight), rather than a pure combat-only chase.",
+      "summary": "Kaze reveals the saloon now has new dialogue cutscenes and flags it as something he wants to clip and upload later.",
       "quote": null
     },
     {
       "topic": "design",
-      "importance": "medium",
-      "summary": "He wants the secret door to remain visually blended/hidden; discovery is intended to come from NPC dialogue hints inside the bar rather than obvious highlighting. Key NPCs will turn toward the player to help direct critical conversations for main progress.",
+      "importance": "high",
+      "summary": "He designs a new saloon “secret room” concept: a hidden door leads to a backroom where Shy Guys/cowboys are secretly drinking illegal chocolate milk; when spotted, they panic and flee, creating a chase-style star mission.",
       "quote": null
     },
     {
       "topic": "design",
-      "importance": "medium",
-      "summary": "Camera/control design is under consideration: holding the L button briefly triggers first-person currently, but Kaze is leaning toward making it always go full first-person (more consistent with other first-person moments like the Yoshi hook) to avoid accidental partial transitions—especially for keyboard players.",
+      "importance": "high",
+      "summary": "Kaze rejects making the hidden door more obvious: it’s meant to blend in, while NPC dialogue will hint at its location; key NPCs will also turn toward Mario to guide main progression conversations.",
       "quote": null
     },
     {
-      "topic": "technical",
+      "topic": "design",
       "importance": "high",
-      "summary": "To support the minecart chase, Kaze identifies a core constraint from existing minecart tech: curves are guided by dynamic “wall” objects that are only solid while in the minecart, steering the cart around turns. For this new section, he anticipates needing spline-following or similar guidance so Mario’s movement and carts don’t collide unpredictably with curve walls.",
+      "summary": "The chase mission evolves into a minecart sequence: Shy Guys run to minecarts; Mario follows and the gameplay becomes dodging projectiles and platforming under forced camera constraints (likely behind Mario). Kaze repeatedly emphasizes it must stay ‘platforming-based’ rather than becoming a shooter or giving Mario a gun.",
       "quote": null
     },
     {
-      "topic": "technical",
+      "topic": "design",
       "importance": "high",
-      "summary": "He decides players should not be able to walk the rails: if Mario lands on the rails during the chase, the game should treat it as failure (e.g., Shy Guys escape) and kill/fade out, because too much freedom lets players ruin pacing by walking away from the chase.",
-      "quote": "I don't know how much freedom you should give players, and it should end when they ruin their playthrough for themselves."
+      "summary": "Kaze decides that if the player lands on or tries to walk along the rails/track (to bypass the chase), they should die/lose the chase to prevent self-ruining, boring ‘walk the track’ gameplay.",
+      "quote": null
     },
     {
-      "topic": "technical",
-      "importance": "medium",
-      "summary": "The minecart track geometry immediately runs into platform constraints: initial rail meshes are too triangle-heavy, forcing simplification/optimization. He also notes Fast64 export quirks (modifiers not applied to collision) and a case where geometry became non-solid until adjusted within bounds.",
+      "topic": "design",
+      "importance": "high",
+      "summary": "After debate about difficulty of jumping between moving carts on curves (inertia + turns), Kaze tentatively commits to trying a multi-cart setup: a 2x3 (six total) minecart concept with snuffit-like enemies as shooters, to be implemented/tested next stream.",
       "quote": null
     },
     {
       "topic": "technical",
       "importance": "medium",
-      "summary": "Rendering/debugging constraints influence workflow: some track rendering looks wrong in GlideN64, and Nemu/Astella crashes prevent previewing certain scenes. Kaze suspects at least one issue is a GlideN64-only bug and may not warrant changing the actual assets if N64 behavior is fine; he tests texture filtering modes without resolving it.",
+      "summary": "Kaze explains a prior minecart technical trick: a dynamic ‘wall’ object becomes solid only while you are in the minecart, guiding the cart around curves. For the new sequence, he anticipates needing spline-following or similar control to keep movement stable while preserving Mario’s platforming feel.",
+      "quote": null
+    },
+    {
+      "topic": "technical",
+      "importance": "medium",
+      "summary": "He notes emulation/rendering constraints: some track rendering looked wrong on the GLideN emulator plugin (and Nemu), requiring adjustments; he also hits crashes in a specific area and notes their debugger provides exact crash addresses, making fixes tractable.",
+      "quote": null
+    },
+    {
+      "topic": "technical",
+      "importance": "medium",
+      "summary": "Kaze mentions he recently improved the engine’s ‘room system’ algorithm to skip processing actors, reducing lag. He also reiterates performance lessons from other N64 projects: overlay/layer overdraw is expensive; Kirby 64 avoids lag partly because it can render 2D with known depth and less overdraw.",
+      "quote": null
+    },
+    {
+      "topic": "technical",
+      "importance": "medium",
+      "summary": "He states he does not want to port the project to libdragon due to poor performance, but he sometimes discusses optimization ideas with libdragon developers and may port select features into his own engine.",
+      "quote": null
+    },
+    {
+      "topic": "technical",
+      "importance": "medium",
+      "summary": "Kaze confirms he is using Expansion Pak/extra RAM, partly for workflow, and notes it enables memory segmenting for a modest ~3–5% speedup; he’s unsure the full game would even be feasible without extra memory.",
+      "quote": null
+    },
+    {
+      "topic": "milestone",
+      "importance": "medium",
+      "summary": "Status update on the pirate ship: it’s mostly done, missing a few jelly block animation frames; he wants improved flame effects before calling it finished.",
       "quote": null
     },
     {
       "topic": "business",
       "importance": "high",
-      "summary": "Kaze states Return to Yoshi’s Island 64 will be downloadable for free and open source; he frames this as necessary because open-sourcing the game implies open-sourcing the engine as well. As a monetization alternative, he considers selling a physical “OST cartridge” with a box and instruction manual as a souvenir rather than selling the game itself.",
-      "quote": "You can't buy the game, but you can buy a souvenir about the game."
+      "summary": "Kaze states the game will be downloadable for free and open source (implying the engine must be open sourced too). He floats a monetization idea: selling a physical ‘OST cartridge’ with box/manual as a souvenir, not selling the game itself.",
+      "quote": "I might sell a version of the game that is just the OST—an OST cartridge with a box and an instruction manual."
+    },
+    {
+      "topic": "business",
+      "importance": "medium",
+      "summary": "He argues against monetizing games via sales because digital copies are free to replicate; he prefers monetization via souvenirs/merch (physical goods) rather than charging for patch files.",
+      "quote": "I actually think video games should not be monetized off of video game sales. I think that’s a stupid concept."
     },
     {
       "topic": "legal-nintendo",
-      "importance": "medium",
-      "summary": "He reiterates Nintendo has repeatedly taken down his content (over 70 videos), believing popularity triggers removals; he views it as Nintendo not wanting competition and says his channel would likely be larger without those takedowns.",
-      "quote": "My channel would be a lot more blown up if it wasn't for Nintendo trying to sabotage me."
-    },
-    {
-      "topic": "technical",
-      "importance": "medium",
-      "summary": "He mentions performance/memory realities: the project targets expanded memory (8MB); the extra 4MB is not “because of the engine” but because it’s easier to develop with. He notes memory segmenting enabled by the extra memory can yield a ~3–5% speedup, but it’s minor compared to other bottlenecks. He also improved his room-system algorithm to skip actor processing more effectively, reducing lag.",
-      "quote": null
-    },
-    {
-      "topic": "team",
-      "importance": "low",
-      "summary": "Zeina was expected to deliver milk bottle props for the secret room set dressing; Kaze notes she said she wanted to provide them but hasn’t yet.",
-      "quote": null
+      "importance": "high",
+      "summary": "Kaze claims Nintendo has taken down 70+ of his videos, often when they get ‘too popular,’ and believes this materially limited his channel’s growth.",
+      "quote": "My channel would be a lot more blown up if it wasn’t for Nintendo trying to sabotage me."
     }
   ],
   "contributor_findings": {
@@ -84,29 +102,17 @@
       {
         "topic": "design",
         "importance": "medium",
-        "summary": "Biobak provides ongoing environment/visual feedback (e.g., vertex shading on the carpet that went missing after layer merges) and suggests dialogue/pun ideas that Kaze considers placing as hard-to-reach easter eggs (e.g., on top of a hat) to avoid confusing main progression.",
-        "quote": null
-      },
-      {
-        "topic": "design",
-        "importance": "medium",
-        "summary": "Biobak participates in the mission ideation loop around the saloon secret-room sequence and its cinematic ending concept, pushing for a satisfying ‘payoff’ moment; Kaze balances that against readability and not tricking players with cutscenes that override expected control.",
+        "summary": "Biobak pushes humor/wordplay for saloon NPC dialogue (“milky way” pun) and contributes the ‘bounty chocolate bar conspiracy’ gag, which Kaze considers placing as a hard-to-reach easter egg (e.g., on top of a large hat/structure).",
         "quote": null
       }
     ],
     "badub": [],
     "zeina": [
       {
-        "topic": "design",
+        "topic": "team",
         "importance": "low",
-        "summary": "Zeina is expected to create/provide milk bottle assets/props for the saloon’s secret-room set dressing; the delivery is pending.",
-        "quote": null
-      },
-      {
-        "topic": "design",
-        "importance": "low",
-        "summary": "Kaze references feedback that “squash and stretch is too much” (likely about character animation), suggesting animation exaggeration is being tuned down based on viewer/team feedback.",
-        "quote": null
+        "summary": "Kaze mentions Zeina intended to provide ‘milk bottle’ props for the secret room dressing, but hasn’t delivered them yet; he expresses mild frustration because the set dressing needs those assets.",
+        "quote": "We still need a bunch of milk bottles and stuff and Zeina said she wanted to give those to us, but I guess she forgot."
       }
     ],
     "others": []
@@ -114,89 +120,97 @@
   "memorable_quotes": [
     {
       "speaker": "Kaze",
-      "quote": "You can't buy the game, but you can buy a souvenir about the game.",
-      "context": "Clear articulation of his planned legal/ethical monetization approach: free ROMhack release paired with optional physical memorabilia (OST cartridge, box, manual)."
+      "quote": "My channel would be a lot more blown up if it wasn’t for Nintendo trying to sabotage me.",
+      "context": "He’s explaining why 70+ of his videos were taken down and how that affected his growth."
     },
     {
       "speaker": "Kaze",
-      "quote": "My channel would be a lot more blown up if it wasn't for Nintendo trying to sabotage me.",
-      "context": "Candid statement tying Nintendo takedowns to perceived suppression/competition—useful for the documentary’s legal/industry pressure thread."
+      "quote": "I actually think video games should not be monetized off of video game sales. I think that’s a stupid concept.",
+      "context": "His broader philosophy that digital goods shouldn’t be paywalled like physical goods; leads into his ‘souvenir/OST cartridge’ monetization idea."
     },
     {
       "speaker": "Kaze",
-      "quote": "I don't know how much freedom you should give players, and it should end when they ruin their playthrough for themselves.",
-      "context": "Design philosophy moment: he justifies restricting player freedom (killing/failing on rails) to protect pacing and intended experience in the chase mission."
+      "quote": "I might sell a version of the game that is just the OST—an OST cartridge with a box and an instruction manual.",
+      "context": "A concrete plan for how to monetize without selling the ROM hack itself; useful for documentary questions about legality, ethics, and sustainability."
     }
   ],
   "key_stories": [
     {
-      "title": "Designing the saloon secret-room star mission (illegal choccy milk → minecart chase)",
-      "summary": "Kaze shifts the saloon’s next star objective toward a comedic stealth-discovery premise: Shy Guys hiding in a secret room drinking illegal chocolate milk. The reveal triggers a cutscene and a platforming-forward minecart chase with hazards and shooting enemies, ending in a payoff area that may become a boss fight arena.",
-      "challenge": "Create a chase mission that feels like Mario platforming (not a shooter), reads clearly to players, and avoids giving them loopholes that break pacing (e.g., walking on rails or dodging a ‘cinematic fall’ in unintended ways).",
-      "process": "He blocks out the secret room shape, plans a hidden-door discovery via NPC hints, prototypes track layout and cinematic ending concepts, and stress-tests rules like ‘landing on rails = failure.’ He cross-references how earlier minecart sections handle curves (dynamic curve-walls) and weighs whether to implement multi-cart jumping or a simpler single-cart ride based on difficulty and inertia on turns.",
-      "outcome": "Direction converges on a multi-minecart concept (ending with a confrontation space), but implementation details are deferred. The stream ends with a provisional plan: try a small set of minecarts (two-by-three / six total) with snuffit-style shooters, then iterate in a future stream.",
-      "key_quote": "I like the minecart idea.",
-      "related_to": ["kaze", "biobak", "zeina"]
+      "title": "Designing the saloon’s secret-room minecart chase mission",
+      "summary": "Kaze develops a full mission pitch for the Wild West saloon: a hidden door leads to a secret backroom where Shy Guys are caught drinking illegal chocolate milk, triggering a chase that becomes a minecart platforming sequence. The story shows his design priorities—platforming first, readable player feedback, and preventing ‘degenerate’ solutions that let players bypass intended gameplay.",
+      "challenge": "Create a fresh, memorable star mission that fits the level’s theme while not repeating existing ‘kill X enemies’ missions and not turning Mario into a shooter.",
+      "process": "He outlines a cutscene trigger, NPC panic/run animations, and a transition to minecarts. He debates multiple variants (single target vs multiple; cinematic fall vs natural end-of-track), explores camera constraints, and iterates on fail states (fade-out vs fall-through vs instant death) to stop players from walking the track/rails. He considers technical constraints (curves, inertia, enemy shots readability) and how to implement stable curved motion (dynamic walls/splines).",
+      "outcome": "He tentatively commits to prototyping a multi-cart setup (2x3 = six carts) with snuffit-like shooters, with more implementation/testing next stream. He also ‘locks’ the rule that landing on rails/track should kill/end the chase to avoid boring player behavior.",
+      "key_quote": "I’m going to make it so that if you land on the rails, you’re just going to die. That’s literally it—there’s no argument about this.",
+      "related_to": ["kaze", "biobak"]
     },
     {
-      "title": "Free + open source release, monetized through souvenirs instead of game sales",
-      "summary": "Kaze answers questions about selling the hack by committing to a free, downloadable release and full open-sourcing. He proposes monetizing via an optional physical OST cartridge package (box + instruction manual) as a collectible souvenir rather than charging for the game or patch files.",
-      "challenge": "Find a monetization strategy that doesn’t rely on selling infinitely-copyable game files and minimizes legal/ethical friction around a Mario ROMhack.",
-      "process": "He reasons publicly about the economics of digital game copies, rejects paid patch-file distribution as self-defeating (it would be re-uploaded instantly), and positions merchandise/souvenirs as the sustainable option.",
-      "outcome": "A clear stated plan: the game will be free and open source; merchandising, if any, would focus on OST/collectible physical goods rather than access to the hack itself.",
-      "key_quote": "I can't open source the game without open sourcing the engine.",
+      "title": "Release and monetization stance: free/open source + physical OST souvenir",
+      "summary": "Kaze clarifies how he intends to release the project and how (if at all) it should make money. This is a key ‘values’ moment: he wants the hack free and open source, and rejects selling patch files or paywalling digital copies, instead favoring physical souvenirs like an OST cartridge.",
+      "challenge": "Find a sustainable, ethical way to monetize without selling a ROM hack or creating a paywall that can be instantly redistributed.",
+      "process": "He proposes making the full game downloadable for free and open source, and argues that video game sales are conceptually flawed for infinitely-copyable digital goods. He brainstorms ‘souvenir’ products (manual/box/plushies), landing on an OST cartridge as the most compelling collectible.",
+      "outcome": "A concrete plan emerges: free + open source release, with a possible optional OST cartridge release as merch.",
+      "key_quote": "So you can’t buy the game, but you can buy a souvenir about the game.",
+      "related_to": ["kaze"]
+    },
+    {
+      "title": "Performance philosophy informed by other N64 projects (and emulator limits)",
+      "summary": "While building new geometry (cave + minecart rails), Kaze runs into rendering quirks and crashes, and uses this to discuss how N64 performance is shaped by overdraw/overlays and engine choices. He contrasts his approach with libdragon’s current performance and explains why some 2D games (Kirby 64) avoid certain bottlenecks.",
+      "challenge": "Keep ambitious scenes stable across real hardware constraints and imperfect emulator/rendering paths while continuing to add content.",
+      "process": "He diagnoses render issues as likely GLideN quirks, notes Nemu/Astella crashing, and emphasizes that their debugger makes crash localization easy. He references his improved room system (skipping actor processing) and talks about overdraw/overlay costs and why 2D rendering with known depth reduces lag.",
+      "outcome": "He deprioritizes some emulator-only artifacts, continues iterating on assets with awareness of hardware constraints, and confirms he won’t port to libdragon (but will borrow ideas).",
+      "key_quote": "It sucks a little bit that we’re limited by what renders fine on GLideN.",
       "related_to": ["kaze"]
     }
   ],
   "open_questions": [
     {
-      "topic": "Final camera behavior for first-person mode (L button)",
-      "context": "Kaze debates whether holding L should snap to full first-person always (to avoid accidental partial transitions and match the Yoshi-hook first-person behavior) versus keeping the current quick/partial mode with ‘exact angle’ utility for lining up actions.",
+      "topic": "Final design of the saloon secret-door discovery flow",
+      "context": "Kaze wants the door to remain visually hidden while NPCs hint at it; he also wants key NPCs to turn toward Mario to guide progress.",
       "questions": [
-        "What concrete playtests or feedback will decide whether first-person becomes ‘always full’ versus the current hold-to-peek behavior?",
-        "How central is keyboard support to this decision, and are there other camera concessions being made specifically for keyboard players?",
-        "How does this camera decision interact with level design (e.g., secrets, aiming, minecart sections) across multiple courses?"
-      ],
-      "related_to": ["kaze"]
-    },
-    {
-      "topic": "Secret room props and visual storytelling (milk bottles)",
-      "context": "The secret room’s premise depends on readable set dressing (milk bottles/contraband vibe). Kaze expected Zeina to deliver bottle assets but they weren’t available this stream.",
-      "questions": [
-        "What is the visual language for ‘illegal choccy milk’ in this world—bottle design, labels, colors, props, lighting?",
-        "What’s Zeina’s asset pipeline for props like bottles (tools, export path, iteration speed), and what typically causes delays?",
-        "How important is this prop readability to player comprehension versus relying on NPC dialogue alone?"
-      ],
-      "related_to": ["kaze", "zeina"]
-    },
-    {
-      "topic": "Minecart chase implementation details and difficulty tuning",
-      "context": "The chase hinges on tricky constraints: inertia on curves makes jumping between multiple moving minecarts potentially frustrating; Kaze references existing curve guidance via dynamic walls and considers splines. He also wants ‘rail walking’ to be punished to protect pacing.",
-      "questions": [
-        "Will the final chase be ‘jump between multiple moving minecarts’ or ‘ride one cart with constrained controls’? What made you choose one over the other after testing?",
-        "How will you telegraph failure states (e.g., landing on rails) so it feels fair rather than arbitrary?",
-        "What enemies/fire patterns will you use (snuffit puff-up telegraph, big iron balls), and how will you ensure reaction time at N64 frame rates?",
-        "Is the endpoint a boss fight, an NPC confrontation/cutscene, or something else—and what’s the narrative/tonal goal of that payoff?"
+        "Which NPCs will explicitly hint at the hidden door, and how do you avoid players missing the entire mission on a first playthrough?",
+        "What was your guiding rule for ‘hidden but fair’ in this level—did you test it with people who didn’t build the level?",
+        "Do you plan any environmental cues (lighting, sound, prop placement) that subconsciously pull players toward the door without highlighting it outright?"
       ],
       "related_to": ["kaze", "biobak"]
     },
     {
-      "topic": "Triangle/performance budgets shaping level art",
-      "context": "Kaze repeatedly hits geometry constraints (rail meshes ‘way too many triangles’) and mentions room-system optimizations plus segmenting gains with expanded memory.",
+      "topic": "Minecart chase controls, difficulty, and readability",
+      "context": "Kaze worries about inertia + curves making cart-to-cart jumps unfair, but still wants platforming-first gameplay with projectiles that are dodgeable (e.g., enemies puffing up before firing).",
       "questions": [
-        "What triangle/material/combiner constraints are you using as ‘hard limits’ per area, and how do you measure them during production?",
-        "How often do design ideas get cut or simplified due to triangle count versus CPU (actors) versus RDP fillrate/overdraw?",
-        "Can you explain the room-system actor-skipping improvement—what changed, and which level(s) benefited most?"
+        "When you prototype the 2x3 minecart setup, what will be your ‘go/no-go’ criteria for whether it’s fun or too frustrating?",
+        "How will you telegraph incoming shots—will the snuffit ‘puff up’ be enough at N64 frame rates and camera distance?",
+        "What’s the intended failure message: are you ‘dying,’ ‘losing the chase,’ or being ‘too late’—and how will the game communicate that clearly?"
       ],
       "related_to": ["kaze"]
     },
     {
-      "topic": "Emulator vs hardware validation workflow (GlideN64, Nemu/Astella crashes)",
-      "context": "Kaze encounters a rendering issue that appears to be a GlideN64 bug and a Nemu/Astella crash that blocks previewing; he notes having a debugger that provides exact crash addresses, making crashes ‘easy to find.’",
+      "topic": "Technical implementation of curved minecart motion while preserving Mario movement",
+      "context": "Kaze describes an older solution: dynamic walls only solid in minecart mode, guiding carts around turns; for this mission he anticipates using splines and must prevent players from walking the track.",
       "questions": [
-        "What is your current validation stack (hardware, EverDrive, emulators), and what qualifies as ‘ship it’ correct rendering?",
-        "How often do you choose not to ‘fix’ something because it’s an emulator-only artifact, and how do you document those decisions?",
-        "What debugger tooling are you using that gives exact addresses, and how has that changed development speed compared to pre-decomp ROMhacking?"
+        "Will the minecarts be true moving platforms with Mario physics, or will you partially ‘script’ Mario’s forward motion to keep the sequence controllable?",
+        "How will you prevent corner cases like players landing on track geometry or clipping into walls during turns—pure collision rules, or a more guided movement state?",
+        "Is the ‘dynamic wall while in minecart’ trick something you want to reuse, or is it too brittle when Mario can move freely?"
+      ],
+      "related_to": ["kaze"]
+    },
+    {
+      "topic": "Open-source scope and long-term maintainability",
+      "context": "Kaze says the game will be open source and implies he can’t open source the game without open sourcing the engine.",
+      "questions": [
+        "What parts do you consider ‘the engine’ versus ‘the game’—and what do you want to be reusable by other hackers after release?",
+        "Are there any legal or third-party asset concerns (tools, ripped textures, music conversions) that complicate a clean open-source release?",
+        "Do you expect open-sourcing to increase community contributions, or is it mostly a values/legacy decision?"
+      ],
+      "related_to": ["kaze"]
+    },
+    {
+      "topic": "OST cartridge merch plan (logistics and legal risk)",
+      "context": "Kaze proposes monetizing via a physical OST cartridge with box and instruction manual instead of selling the game or patch files.",
+      "questions": [
+        "How serious is the OST cartridge plan—have you explored manufacturing, cost, and distribution yet?",
+        "What’s your legal/ethical line on selling a physical N64 cartridge product associated with a Mario ROM hack, even if it’s ‘just the OST’?",
+        "Would the manual/box be framed as ‘fan art/souvenir,’ and how do you avoid it looking like an ‘unauthorized commercial release’?"
       ],
       "related_to": ["kaze"]
     }
