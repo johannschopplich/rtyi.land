@@ -44,8 +44,8 @@ Run `pnpm stream-synthesis` to generate topic narratives from stream data.
   }}</span>
 </div>
 
-<p v-for="(para, i) in splitParagraphs(arc.narrative_summary)" :key="i">
-  {{ para }}
+<p v-for="(paragraph, i) in splitParagraphs(arc.narrative_summary)" :key="i">
+  {{ paragraph }}
 </p>
 
 <details class="vp-details">

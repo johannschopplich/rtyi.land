@@ -5,6 +5,7 @@ description: Arc-first narrative stories with embedded interview questions and q
 
 <script setup>
 import { ref, computed } from "vue";
+import slugify from "@sindresorhus/slugify";
 import { data as storyArcsData } from "./story-arcs.data";
 import {
   capitalizeInitialLetter,
@@ -14,7 +15,7 @@ import {
 const selectedPerson = ref("all");
 
 const TARGET_LABELS = {
-  kaze: "Kaze Emanuar",
+  kaze: "Kaze",
   biobak: "Biobak",
   badub: "Badub",
   kaze_zeina: "Kaze & Zeina",
@@ -30,13 +31,9 @@ const arcs = computed(() => {
 
 const relatedPeople = computed(() => {
   if (!storyArcsData) return [];
-  const people = new Set();
-  for (const arc of storyArcsData.arcs) {
-    for (const person of arc.related_to) {
-      people.add(person);
-    }
-  }
-  return [...people].sort();
+  return [
+    ...new Set(storyArcsData.arcs.flatMap((arc) => arc.related_to)),
+  ].sort();
 });
 </script>
 
@@ -75,7 +72,7 @@ Run `pnpm stream-synthesis` to generate story arcs from stream data.
 
 <div v-for="(arc, index) in arcs" :key="arc.title" class="vp-card">
 
-<h3>{{ index + 1 }}. {{ arc.title }}</h3>
+<h3 :id="slugify(arc.title)">{{ index + 1 }}. {{ arc.title }}</h3>
 
 <p>{{ arc.summary }}</p>
 
@@ -127,10 +124,14 @@ Run `pnpm stream-synthesis` to generate story arcs from stream data.
         >— {{ TARGET_LABELS[question.target] }}</span
       >
     </p>
-    <p class="question-context">{{ question.context }}</p>
-    <ul v-if="question.evidence.length" class="question-notes">
-      <li v-for="(ev, i) in question.evidence" :key="i">{{ ev }}</li>
-    </ul>
+    <p class="question-rationale">{{ question.rationale }}</p>
+    <p v-if="question.source_streams.length" class="question-sources">
+      📺
+      <span v-for="(date, i) in question.source_streams" :key="date">
+        <a :href="`/streams/${date}`">{{ formatDateFromYYYYMMDD(date) }}</a
+        ><span v-if="i < question.source_streams.length - 1">, </span>
+      </span>
+    </p>
   </li>
 </ol>
 
@@ -171,7 +172,6 @@ Run `pnpm stream-synthesis` to generate story arcs from stream data.
 
 .question-text {
   font-weight: 500;
-  margin-bottom: 4px;
 }
 
 .question-target {
@@ -179,11 +179,12 @@ Run `pnpm stream-synthesis` to generate story arcs from stream data.
   color: var(--vp-c-text-2);
 }
 
-.question-context {
+.question-rationale {
   color: var(--vp-c-text-2);
 }
 
-.question-notes {
+.question-sources {
+  font-size: 13px;
   color: var(--vp-c-text-2);
 }
 

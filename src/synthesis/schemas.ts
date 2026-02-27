@@ -30,17 +30,17 @@ const StoryArcQuestionSchema = z.object({
   target: z
     .enum(["kaze", "biobak", "badub", "kaze_zeina"])
     .describe("Who to ask this question"),
-  context: z
+  rationale: z
     .string()
     .describe(
-      "Why this question matters for the documentary – what it could reveal",
+      "Why this question matters for the documentary – what it could reveal, referencing specific stream moments by describing what happened",
     ),
-  evidence: z
+  source_streams: z
     .array(z.string())
     .min(1)
     .max(3)
     .describe(
-      "Brief references to specific stream evidence (e.g. 'June 2024: Kaze mentioned…')",
+      "YYYYMMDD dates of streams that provide evidence for this question",
     ),
 });
 
@@ -70,8 +70,8 @@ const StoryArcSchema = z.object({
     ),
   interview_questions: z
     .array(StoryArcQuestionSchema)
-    .min(1)
-    .max(5)
+    .min(2)
+    .max(7)
     .describe(
       "The best interview questions to ask about this arc – designed to elicit storytelling, not yes/no answers",
     ),

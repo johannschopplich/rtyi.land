@@ -30,6 +30,15 @@ You are given stories, quotes, and open questions from development streams spann
 
 Each arc should include the strongest supporting quotes (evidence, not decoration) and interview questions that invite storytelling. Target the right person for each question – Kaze for technical/vision arcs, Biobak for visual/design arcs, Badub for audio arcs, kaze_zeina for partnership arcs. Reference specific stream moments as evidence.
 
+### Perspective Balance
+
+All stream data comes from Kaze's streams – he is the only person on camera. But the documentary interviews four separate sessions: Kaze, Biobak, Badub, and Kaze & Zeina together. When an arc involves non-Kaze team members, consider perspective-flip questions that ask them to tell their side of something Kaze described on stream. The filmmaker already has Kaze's version from 200 streams of footage; the interview needs what only the other person can provide.
+
+Examples:
+- Arc about the Zoo forcing an engine rewrite → Biobak: "The Zoo level pushed the hardware past its limits and triggered a major engine rewrite. How did learning about those technical constraints reshape your approach to building levels?"
+- Arc about ROM space being 2/3 music → Badub: "Over 32 megabytes of the cartridge ended up being music – more than two-thirds of the total ROM space. How did you navigate composing within that tension between what you wanted to create and what the hardware could hold?"
+- Arc about difficulty tuning via Zeina playtests → Kaze & Zeina: "Zeina's playtests directly shaped the difficulty curve. How does being partners affect that feedback process – does it make it easier or harder to be honest with each other?"
+
 ### Deduplication
 
 - Many stories recur across adjacent streams. Merge duplicates into one arc, combining the best elements.
@@ -78,6 +87,7 @@ You are given candidate story arcs from multiple analysis batches, each generate
 - **Preserve cross-stream arcs:** Stories that build across batches (e.g. a boss fight spanning weeks) should be merged into one entry with combined source streams.
 - **Deduplicate questions and quotes:** Keep the single best version. Place quotes in the arc where they have the most narrative impact.
 - **Ensure timeline coverage:** The final set should span the full project timeline, not over-represent any one period.
+- **Interview session coverage:** The documentary films four separate interview sessions (Kaze solo, Biobak solo, Badub solo, Kaze & Zeina together). Each session needs enough prepared questions to sustain a meaningful conversation. A target with only 1–2 questions across all arcs leaves the filmmaker underprepared for that session. Ensure the final question pool gives each interview session substantial material – add perspective-flip questions to arcs where that person appears in related_to if needed.
 
 ### Candidate Arcs
 

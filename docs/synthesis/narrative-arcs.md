@@ -4,6 +4,7 @@ description: Thematic filming roadmap – the documentary's high-level structure
 ---
 
 <script setup>
+import slugify from "@sindresorhus/slugify";
 import { data as narrativeArcsData } from "./narrative-arcs.data";
 import {
   capitalizeInitialLetter,
@@ -33,7 +34,7 @@ Run `pnpm stream-synthesis` to generate narrative arcs from stream data.
 
 <div v-for="(arc, index) in arcs" :key="arc.title" class="vp-card">
 
-<h2 :id="arc.title.toLowerCase().replace(/[^a-z0-9]+/g, '-')">
+<h2 :id="slugify(arc.title)">
   {{ index + 1 }}. {{ arc.title }}
 </h2>
 

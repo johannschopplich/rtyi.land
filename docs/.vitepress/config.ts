@@ -63,6 +63,7 @@ export default defineConfig({
           { text: "Overview", link: "/synthesis" },
           { text: "Narrative Arcs", link: "/synthesis/narrative-arcs" },
           { text: "Story Arcs", link: "/synthesis/story-arcs" },
+          { text: "Questions", link: "/synthesis/questions" },
           { text: "Topic Narratives", link: "/synthesis/topics" },
         ],
       },
@@ -102,6 +103,10 @@ export default defineConfig({
           {
             text: "Story Arcs",
             link: "/synthesis/story-arcs",
+          },
+          {
+            text: "Questions",
+            link: "/synthesis/questions",
           },
           {
             text: "Topic Narratives",

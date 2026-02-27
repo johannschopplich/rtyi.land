@@ -12,8 +12,8 @@ export interface StoryArcQuote {
 export interface StoryArcQuestion {
   question: string;
   target: "kaze" | "biobak" | "badub" | "kaze_zeina";
-  context: string;
-  evidence: string[];
+  rationale: string;
+  source_streams: string[];
 }
 
 export interface StoryArc {
