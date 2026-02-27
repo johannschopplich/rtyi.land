@@ -64,8 +64,13 @@ const NARRATIVE_ARCS_TOKEN_BUDGET = 300_000;
 export type SynthesisTask = "story-arcs" | "narrative-arcs" | "topic-arcs";
 
 export type ProgressEvent =
-  | { phase: "map-start"; total: number }
-  | { phase: "map-chunk-done"; index: number; total: number }
+  | { phase: "map-start"; total: number; streamCounts: number[] }
+  | {
+      phase: "map-chunk-done";
+      index: number;
+      total: number;
+      chunkStreams: number;
+    }
   | { phase: "reduce-start"; batches: number }
   | { phase: "single-prompt-start"; tokens: number }
   | { phase: "topic-start"; total: number }
@@ -320,9 +325,12 @@ async function runTopicArcs(options: SynthesisOptions): Promise<TopicArcs> {
         const chunkSize = Math.ceil(findings.length / chunkCount);
 
         const chunkResults: TopicArc[] = [];
-        for (let c = 0; c < chunkCount; c++) {
-          const chunk = findings.slice(c * chunkSize, (c + 1) * chunkSize);
-          const chunkKey = `topic-arcs:map:${hash({ topic, chunkIndex: c, chunk })}`;
+        for (let chunkIndex = 0; chunkIndex < chunkCount; chunkIndex++) {
+          const chunk = findings.slice(
+            chunkIndex * chunkSize,
+            (chunkIndex + 1) * chunkSize,
+          );
+          const chunkKey = `topic-arcs:map:${hash({ topic, chunkIndex, chunk })}`;
           const result = await cachedGenerate(chunkKey, () => {
             const prompt = template(TOPIC_ARC_SINGLE_PROMPT, {
               topic,
@@ -492,8 +500,9 @@ async function mapReduce<T>({
   concurrency?: number;
 }): Promise<T | undefined> {
   const chunks = chunkByBudget(streams, payloadSizeFn);
+  const streamCounts = chunks.map((chunk) => chunk.length);
 
-  onProgress?.({ phase: "map-start", total: chunks.length });
+  onProgress?.({ phase: "map-start", total: chunks.length, streamCounts });
 
   const cachedMapFn = (chunk: ParsedStream[], index: number) => {
     const key = `${taskName}:map:${index}:${hash(chunk.map((stream) => stream.fileName))}`;
@@ -503,7 +512,12 @@ async function mapReduce<T>({
   // Single pass – everything fits in one call
   if (chunks.length === 1) {
     const result = await cachedMapFn(chunks[0]!, 0);
-    onProgress?.({ phase: "map-chunk-done", index: 1, total: 1 });
+    onProgress?.({
+      phase: "map-chunk-done",
+      index: 1,
+      total: 1,
+      chunkStreams: streamCounts[0]!,
+    });
     return result;
   }
 
@@ -519,6 +533,7 @@ async function mapReduce<T>({
         phase: "map-chunk-done",
         index: completed,
         total: chunks.length,
+        chunkStreams: chunk.length,
       });
     },
     { concurrency },

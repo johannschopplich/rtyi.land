@@ -1,4 +1,4 @@
-import type { ProgressResult } from "@clack/prompts";
+import type { SpinnerResult } from "@clack/prompts";
 import type { StreamAnalysis } from "../src/analysis/schemas";
 import type { ParsedStream, SynthesisTask } from "../src/synthesis/runner";
 import * as fsp from "node:fs/promises";
@@ -101,7 +101,7 @@ if (tasksToRun.length === 0) {
 }
 
 clack.log.info(
-  `Running ${ansis.bold(tasksToRun.length)} synthesis tasks: ${tasksToRun.map((t) => t.name).join(", ")}`,
+  `Running ${ansis.bold(tasksToRun.length)} synthesis tasks: ${tasksToRun.map((task) => task.name).join(", ")}`,
 );
 
 const languageModel = resolveLanguageModel();
@@ -113,7 +113,8 @@ for (let ti = 0; ti < tasksToRun.length; ti++) {
     `Task ${ti + 1}/${tasksToRun.length} — ${ansis.bold(task.name)}`,
   );
 
-  let p: ProgressResult | undefined;
+  let s: SpinnerResult | undefined;
+  let totalStreams = 0;
 
   try {
     // Purge stale intermediate cache entries for this task before re-running.
@@ -129,29 +130,53 @@ for (let ti = 0; ti < tasksToRun.length; ti++) {
       onProgress: (event) => {
         switch (event.phase) {
           case "map-start":
-            p = clack.progress({ max: event.total });
-            p.start(event.total === 1 ? "Processing" : "Mapping");
+            totalStreams = event.streamCounts.reduce((a, b) => a + b, 0);
+            s = clack.spinner();
+            if (event.total === 1) {
+              s.start(`Processing ${ansis.dim(`(${totalStreams} streams)`)}`);
+            } else {
+              s.start(
+                `Mapping ${task.name.toLowerCase()} ${ansis.dim(`(${event.total} chunks · ${totalStreams} streams)`)}`,
+              );
+            }
             break;
           case "map-chunk-done":
-            p?.advance(1, `Mapped ${event.index} of ${event.total}`);
+            if (event.total === 1) {
+              // Single-chunk: spinner stops on its own after task completes
+            } else {
+              s?.message(
+                `Mapping ${task.name.toLowerCase()} · chunk ${event.index}/${event.total} ${ansis.dim(`(${event.chunkStreams} streams)`)}`,
+              );
+              // If all chunks mapped, stop the map spinner
+              if (event.index === event.total) {
+                s?.stop(
+                  `Mapped ${event.total} chunks ${ansis.dim(`(${totalStreams} streams)`)}`,
+                );
+              }
+            }
             break;
           case "reduce-start":
-            p?.message(`Reducing ${event.batches} batches`);
+            // Start a new spinner for the reduce phase
+            s = clack.spinner();
+            s.start(
+              `Reducing ${event.batches} partial results ${ansis.dim("(→ final arcs)")}`,
+            );
             break;
           case "single-prompt-start":
-            p = clack.progress({ max: 1 });
-            p.start(
-              `Single-prompt synthesis (~${Math.round(event.tokens / 1000)}K tokens)`,
+            s = clack.spinner();
+            s.start(
+              `Synthesizing filming roadmap ${ansis.dim(`(~${Math.round(event.tokens / 1000)}K tokens · ${streams.length} streams)`)}`,
             );
             break;
           case "topic-start":
-            p = clack.progress({ max: event.total });
-            p.start("Processing topics");
+            s = clack.spinner();
+            s.start(
+              `Synthesizing topic arcs ${ansis.dim(`(${event.total} topics)`)}`,
+            );
             break;
           case "topic-done":
-            p?.advance(
-              1,
-              `${toTitleCase(event.name)} (${event.index}/${event.total})`,
+            s?.message(
+              `${toTitleCase(event.name)} ${ansis.dim(`(${event.index}/${event.total} topics)`)}`,
             );
             break;
         }
@@ -165,10 +190,10 @@ for (let ti = 0; ti < tasksToRun.length; ti++) {
       "utf-8",
     );
 
-    p?.stop(`${task.name} ${ansis.green("done")}`);
+    s?.stop(`${task.name} ${ansis.green("done")}`);
   } catch (error) {
-    if (p) {
-      p.error(`${task.name} ${ansis.red("failed")}`);
+    if (s) {
+      s.error(`${task.name} ${ansis.red("failed")}`);
     }
 
     const message =
