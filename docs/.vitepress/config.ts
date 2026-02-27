@@ -86,7 +86,12 @@ export default defineConfig({
             text: "Narrative Arcs",
             link: "/drafts/narrative-arcs",
           },
-          ...teamMemberNavigationItems(),
+          {
+            text: "Interviews",
+            link: "/interviews",
+            collapsed: true,
+            items: teamMemberSidebarItems(),
+          },
         ],
       },
       {
@@ -186,6 +191,19 @@ function teamMemberNavigationItems(): DefaultTheme.NavItemWithLink[] {
       text: "Overview & Team",
       link: "/interviews",
     },
+    ...TEAM_MEMBERS.map((member) => ({
+      text: capitalizeInitialLetter(member),
+      link: `/interviews/${member}`,
+    })),
+    {
+      text: "Kaze & Zeina",
+      link: "/interviews/kaze-zeina",
+    },
+  ];
+}
+
+function teamMemberSidebarItems(): DefaultTheme.SidebarItem[] {
+  return [
     ...TEAM_MEMBERS.map((member) => ({
       text: capitalizeInitialLetter(member),
       link: `/interviews/${member}`,
