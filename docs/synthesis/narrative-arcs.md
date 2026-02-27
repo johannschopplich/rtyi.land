@@ -42,18 +42,16 @@ Run `pnpm stream-synthesis` to generate narrative arcs from stream data.
     v-for="member in arc.team_members"
     :key="member"
     class="vp-pill tip"
-    >{{ capitalizeInitialLetter(member) }}</span
-  >
+    v-text="capitalizeInitialLetter(member)"
+  />
 </div>
 
-<div class="narrative-goal">
-  <strong>Narrative Goal:</strong> {{ arc.narrative_goal }}
-</div>
+<p><strong>Narrative Goal:</strong> {{ arc.narrative_goal }}</p>
 
 <details class="vp-details">
 <summary>Topics to Cover ({{ arc.topics_to_cover.length }})</summary>
 
-<ul class="topics-list">
+<ul>
   <li v-for="topic in arc.topics_to_cover" :key="topic">{{ topic }}</li>
 </ul>
 
@@ -62,41 +60,35 @@ Run `pnpm stream-synthesis` to generate narrative arcs from stream data.
 <details class="vp-details">
 <summary>B-Roll Suggestions ({{ arc.b_roll.length }})</summary>
 
-<ul class="broll-list">
+<ul>
   <li v-for="item in arc.b_roll" :key="item">{{ item }}</li>
 </ul>
 
 </details>
 
-<div v-if="arc.source_streams?.length" class="vp-card-meta">
-  <strong>Source Streams:</strong>
-  <span v-for="(date, i) in arc.source_streams" :key="date">
-    <a :href="`/streams/${date}`">{{ formatDateFromYYYYMMDD(date) }}</a
+<p v-if="arc.source_streams?.length" class="source-streams">
+  <strong>Sources: </strong>
+  <span v-for="(date, i) in arc.source_streams" :key="date"
+    ><a :href="`/streams/${date}`">{{ formatDateFromYYYYMMDD(date) }}</a
     ><span v-if="i < arc.source_streams.length - 1">, </span>
   </span>
-</div>
+</p>
 
 </div>
 
 </template>
 
 <style scoped>
-.narrative-goal {
-  font-size: 15px;
-  line-height: 1.7;
-  color: var(--vp-c-text-1);
-  margin-bottom: 16px;
+.source-streams {
+  font-size: 13px;
+  color: var(--vp-c-text-2);
 }
 
-.topics-list,
-.broll-list {
-  font-size: 14px;
-  line-height: 1.7;
-  padding-left: 20px;
+.source-streams a {
+  color: var(--vp-c-text-2);
 }
 
-.topics-list li,
-.broll-list li {
-  margin-bottom: 4px;
+.source-streams a:hover {
+  color: var(--vp-c-brand-1);
 }
 </style>

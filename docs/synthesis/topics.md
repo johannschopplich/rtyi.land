@@ -8,6 +8,10 @@ import { data as topicArcsData } from "./topics.data";
 import { formatTopicLabel, formatDateFromYYYYMMDD } from "../.vitepress/shared";
 
 const arcs = topicArcsData?.arcs ?? [];
+
+function splitParagraphs(text) {
+  return text.split(/\n{2,}/).filter(Boolean);
+}
 </script>
 
 # Topic Narratives
@@ -40,15 +44,14 @@ Run `pnpm stream-synthesis` to generate topic narratives from stream data.
   }}</span>
 </div>
 
-<div
-  class="narrative-summary"
-  v-html="arc.narrative_summary.replace(/\n/g, '<br>')"
-></div>
+<p v-for="(para, i) in splitParagraphs(arc.narrative_summary)" :key="i">
+  {{ para }}
+</p>
 
 <details class="vp-details">
 <summary>Top Findings ({{ arc.top_findings.length }})</summary>
 
-<table class="findings-table">
+<table>
   <thead>
     <tr>
       <th></th>
@@ -58,7 +61,7 @@ Run `pnpm stream-synthesis` to generate topic narratives from stream data.
   </thead>
   <tbody>
     <tr v-for="(finding, i) in arc.top_findings" :key="i">
-      <td class="importance-cell">
+      <td>
         <span :class="['importance-dot', finding.importance]"></span>
       </td>
       <td>{{ finding.summary }}</td>
@@ -73,7 +76,7 @@ Run `pnpm stream-synthesis` to generate topic narratives from stream data.
 
 </details>
 
-<p class="topic-link">
+<p>
   <a :href="`/topics/${arc.topic}`">View all raw findings →</a>
 </p>
 
@@ -82,23 +85,6 @@ Run `pnpm stream-synthesis` to generate topic narratives from stream data.
 </template>
 
 <style scoped>
-.narrative-summary {
-  font-size: 15px;
-  line-height: 1.7;
-  color: var(--vp-c-text-1);
-  margin-bottom: 16px;
-}
-
-.findings-table {
-  font-size: 14px;
-  width: 100%;
-}
-
-.importance-cell {
-  width: 20px;
-  text-align: center;
-}
-
 .importance-dot {
   display: inline-block;
   width: 8px;
@@ -112,10 +98,5 @@ Run `pnpm stream-synthesis` to generate topic narratives from stream data.
 
 .importance-dot.medium {
   background: var(--vp-c-warning-1);
-}
-
-.topic-link {
-  font-size: 14px;
-  margin-top: 8px;
 }
 </style>

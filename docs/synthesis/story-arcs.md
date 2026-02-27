@@ -75,15 +75,13 @@ Run `pnpm stream-synthesis` to generate story arcs from stream data.
 
 <div v-for="(arc, index) in arcs" :key="arc.title" class="vp-card">
 
-<h3 class="arc-title">{{ index + 1 }}. {{ arc.title }}</h3>
+<h3>{{ index + 1 }}. {{ arc.title }}</h3>
 
-<p class="arc-summary">{{ arc.summary }}</p>
+<p>{{ arc.summary }}</p>
 
-<p class="arc-value">
-  <strong>Why it matters:</strong> {{ arc.narrative_value }}
-</p>
+<p><strong>Why it matters:</strong> {{ arc.narrative_value }}</p>
 
-<details class="vp-details arc-details">
+<details class="vp-details">
 <summary>Full arc details</summary>
 
 <p><strong>Challenge:</strong> {{ arc.challenge }}</p>
@@ -92,7 +90,7 @@ Run `pnpm stream-synthesis` to generate story arcs from stream data.
 
 </details>
 
-<details v-if="arc.key_quotes.length" class="vp-details quotes-details">
+<details v-if="arc.key_quotes.length" class="vp-details">
 <summary>Key Quotes ({{ arc.key_quotes.length }})</summary>
 
 <div
@@ -100,8 +98,10 @@ Run `pnpm stream-synthesis` to generate story arcs from stream data.
   :key="kq.quote.slice(0, 30)"
   class="arc-quote"
 >
-  <blockquote>"{{ kq.quote }}"</blockquote>
-  <p class="quote-context" v-if="kq.context">{{ kq.context }}</p>
+  <blockquote>
+    "{{ kq.quote }}"
+    <footer v-if="kq.context" class="quote-context">{{ kq.context }}</footer>
+  </blockquote>
   <p class="quote-attribution">
     — <strong>{{ kq.speaker }}</strong
     >,
@@ -113,25 +113,26 @@ Run `pnpm stream-synthesis` to generate story arcs from stream data.
 
 </details>
 
-<details v-if="arc.interview_questions.length" class="vp-details questions-details">
+<details v-if="arc.interview_questions.length" class="vp-details">
 <summary>Interview Questions ({{ arc.interview_questions.length }})</summary>
 
-<div
-  v-for="(q, qi) in arc.interview_questions"
-  :key="q.question.slice(0, 30)"
-  class="arc-question"
->
-  <p class="question-text">{{ qi + 1 }}. {{ q.question }}</p>
-  <p class="question-target">
-    <span class="vp-pill tip">{{ TARGET_LABELS[q.target] }}</span>
-  </p>
-  <p class="question-context">{{ q.context }}</p>
-  <div v-if="q.evidence.length" class="question-evidence">
-    <ul>
-      <li v-for="(ev, i) in q.evidence" :key="i">{{ ev }}</li>
+<ol>
+  <li
+    v-for="question in arc.interview_questions"
+    :key="question.question.slice(0, 30)"
+  >
+    <p class="question-text">
+      {{ question.question }}
+      <span class="question-target"
+        >— {{ TARGET_LABELS[question.target] }}</span
+      >
+    </p>
+    <p class="question-context">{{ question.context }}</p>
+    <ul v-if="question.evidence.length" class="question-notes">
+      <li v-for="(ev, i) in question.evidence" :key="i">{{ ev }}</li>
     </ul>
-  </div>
-</div>
+  </li>
+</ol>
 
 </details>
 
@@ -151,96 +152,39 @@ Run `pnpm stream-synthesis` to generate story arcs from stream data.
 </template>
 
 <style scoped>
-.arc-title {
-  color: var(--vp-c-brand-1);
-}
-
-.arc-summary {
-  font-size: 15px;
-  line-height: 1.6;
-  margin-bottom: 8px;
-}
-
-.arc-value {
-  color: var(--vp-c-text-2);
-  font-size: 14px;
-  line-height: 1.5;
-  margin-bottom: 12px;
-}
-
-.arc-details,
-.quotes-details,
-.questions-details {
-  font-size: 14px;
-  line-height: 1.6;
-}
-
 .arc-quote blockquote {
   font-style: italic;
-  border-left: 2px solid var(--vp-c-divider);
-  padding-left: 16px;
-  margin: 8px 0 4px;
-  color: var(--vp-c-text-2);
-  transition: border-color 0.5s;
+  border-left: 2px solid var(--vp-c-brand-1);
+  color: var(--vp-c-text-1);
 }
 
 .quote-context {
-  font-size: 13px;
-  color: var(--vp-c-text-3);
-  margin: 2px 0 4px;
-  padding-left: 16px;
-  line-height: 1.5;
+  font-style: normal;
+  color: var(--vp-c-text-2);
 }
 
 .quote-attribution {
   font-size: 13px;
   color: var(--vp-c-text-2);
-  margin-bottom: 12px;
-}
-
-.arc-question {
-  margin-bottom: 16px;
-  padding-bottom: 12px;
-  border-bottom: 1px solid var(--vp-c-divider);
-  transition: border-color 0.5s;
-}
-
-.arc-question:last-child {
-  border-bottom: none;
-  margin-bottom: 0;
-  padding-bottom: 0;
+  margin-top: -8px;
 }
 
 .question-text {
   font-weight: 500;
-  line-height: 1.5;
-  margin-bottom: 6px;
+  margin-bottom: 4px;
 }
 
 .question-target {
-  margin-bottom: 6px;
+  font-size: 13px;
+  color: var(--vp-c-text-2);
 }
 
 .question-context {
   color: var(--vp-c-text-2);
-  font-size: 13px;
-  line-height: 20px;
-  margin-bottom: 6px;
 }
 
-.question-evidence {
-  font-size: 13px;
-  line-height: 20px;
+.question-notes {
   color: var(--vp-c-text-2);
-}
-
-.question-evidence ul {
-  margin: 0;
-  padding-left: 20px;
-}
-
-.question-evidence li {
-  margin-bottom: 2px;
 }
 
 .meta-people::before {
