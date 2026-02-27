@@ -144,7 +144,7 @@ export default {
 
 **Role:** ${role}
 
-[← All Team Profiles](/team/index.md) · [Interview Prep](/synthesis/interview-prep)
+[← All Team Profiles](/team/index.md) · [Interview Prep](/synthesis/questions)
 
 ::: tip Summary
 **Streams with Mentions:** ${streams.length}

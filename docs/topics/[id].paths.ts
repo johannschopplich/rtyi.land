@@ -12,11 +12,9 @@ interface TopicFinding {
 
 export default {
   async paths() {
-    const topicMap: Partial<Record<FindingTopic, TopicFinding[]>> = {};
-
-    for (const key of TOPIC_KEYS) {
-      topicMap[key] = [];
-    }
+    const topicMap = Object.fromEntries(
+      TOPIC_KEYS.map((key) => [key, [] as TopicFinding[]]),
+    ) as Record<FindingTopic, TopicFinding[]>;
 
     const entries = await loadStreamAnalyses();
 
@@ -44,20 +42,20 @@ export default {
         findings.map((finding) => finding.streamId),
       );
 
-      const byStream: Record<
+      const findingsByStream: Record<
         string,
         { date: string; id: string; findings: TopicFinding[] }
       > = {};
       for (const finding of findings) {
-        byStream[finding.streamId] ??= {
+        findingsByStream[finding.streamId] ??= {
           date: finding.streamDate,
           id: finding.streamId,
           findings: [],
         };
-        byStream[finding.streamId].findings.push(finding);
+        findingsByStream[finding.streamId].findings.push(finding);
       }
 
-      const streamGroups = Object.values(byStream).sort((a, b) =>
+      const streamGroups = Object.values(findingsByStream).sort((a, b) =>
         a.findings[0].streamRawDate.localeCompare(b.findings[0].streamRawDate),
       );
 
@@ -65,7 +63,7 @@ export default {
 
 All **${label.toLowerCase()}** findings from stream analyses, listed by stream date.
 
-[← All Topics](/topics/index.md) · [Team Profiles](/team/index.md) · [Curated Quotes](/synthesis/quotes)
+[← All Topics](/topics/index.md) · [Team Profiles](/team/index.md) · [Story Arcs & Quotes](/synthesis/story-arcs)
 
 ::: tip Summary
 **Total Findings:** ${findings.length}

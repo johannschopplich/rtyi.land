@@ -7,10 +7,6 @@ description: Narrative arcs, story arcs with interview questions, and topic narr
 
 This section contains **curated, cross-stream synthesis** – focused briefings distilled from all stream analyses for documentary work.
 
-::: tip How this works
-Run `pnpm stream-synthesis` to generate synthesis files from the per-stream extraction data. The results are written to `.data/synthesis/` and loaded by these pages.
-:::
-
 ## Sections
 
 | Page                                            | What It Contains                                        | Use Case                         |
@@ -28,3 +24,7 @@ The synthesis above is built from the per-stream extractions. You can always dri
 - [Stream Highlights](/streams/highlights) – pivotal & milestone streams
 - [Raw Findings by Topic](/topics/) – every finding, every stream
 - [Team Profiles](/team/) – per-person raw data across streams
+
+::: tip How this works
+Run `pnpm stream-synthesis` to generate synthesis files from the per-stream extraction data. The results are written to `.data/synthesis/` and loaded by these pages.
+:::
