@@ -62,7 +62,7 @@ export default defineConfig({
         items: [
           { text: "Overview", link: "/synthesis" },
           { text: "Narrative Arcs", link: "/synthesis/narrative-arcs" },
-          { text: "Story Arcs", link: "/synthesis/story-arcs" },
+          { text: "Story Threads", link: "/synthesis/story-threads" },
           { text: "Questions", link: "/synthesis/questions" },
           { text: "Topic Narratives", link: "/synthesis/topics" },
         ],
@@ -106,8 +106,8 @@ export default defineConfig({
             link: "/synthesis/narrative-arcs",
           },
           {
-            text: "Story Arcs",
-            link: "/synthesis/story-arcs",
+            text: "Story Threads",
+            link: "/synthesis/story-threads",
           },
           {
             text: "Questions",

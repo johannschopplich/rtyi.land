@@ -2,7 +2,7 @@ import { z } from "zod";
 import { FindingTopicSchema, TeamMemberSchema } from "../analysis/schemas";
 import { QUOTE_FORMATTING_INSTRUCTIONS } from "../constants";
 
-// #region story-arcs
+// #region story-threads
 
 const StoryArcQuoteSchema = z.object({
   speaker: z
@@ -83,17 +83,17 @@ const StoryArcSchema = z.object({
     .describe("YYYYMMDD dates of streams that contain this arc"),
 });
 
-export const StoryArcsSchema = z.object({
+export const StoryThreadsSchema = z.object({
   arcs: z
     .array(StoryArcSchema)
     .min(10)
     .max(25)
     .describe(
-      "Story arcs ranked by documentary potential – each arc is a self-contained narrative unit with embedded questions and quotes",
+      "Story threads ranked by documentary potential – each thread is a self-contained narrative unit with embedded questions and quotes",
     ),
 });
 
-// #endregion story-arcs
+// #endregion story-threads
 
 // #region narrative-arcs
 
@@ -185,7 +185,7 @@ export const TopicArcsSchema = z.object({
 
 // #region types
 
-export type StoryArcs = z.output<typeof StoryArcsSchema>;
+export type StoryThreads = z.output<typeof StoryThreadsSchema>;
 export type NarrativeArcs = z.output<typeof NarrativeArcsSchema>;
 export type TopicArcs = z.output<typeof TopicArcsSchema>;
 export type TopicArc = z.output<typeof TopicArcSchema>;

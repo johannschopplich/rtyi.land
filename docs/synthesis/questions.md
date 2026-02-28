@@ -6,7 +6,7 @@ description: All generated interview questions grouped by target person.
 <script setup>
 import { ref, computed } from "vue";
 import slugify from "@sindresorhus/slugify";
-import { data as storyArcsData } from "./story-arcs.data";
+import { data as storyThreadsData } from "./story-threads.data";
 import { formatDateFromYYYYMMDD } from "../.vitepress/shared";
 
 const TARGET_LABELS = {
@@ -28,9 +28,9 @@ const TARGET_ORDER = ["kaze", "biobak", "badub", "kaze_zeina"];
 const selectedPerson = ref("all");
 
 const questionsByTarget = computed(() => {
-  if (!storyArcsData) return {};
+  if (!storyThreadsData) return {};
   const grouped = {};
-  for (const arc of storyArcsData.arcs) {
+  for (const arc of storyThreadsData.arcs) {
     for (const question of arc.interview_questions) {
       if (!grouped[question.target]) grouped[question.target] = [];
       grouped[question.target].push({ ...question, arcTitle: arc.title });
@@ -58,12 +58,12 @@ const visibleTargets = computed(() => {
 
 # Interview Questions (Generated)
 
-All interview questions extracted from the [Story Arcs](/synthesis/story-arcs) synthesis, grouped by target person for interview prep.
+All interview questions extracted from the [Story Threads](/synthesis/story-threads) synthesis, grouped by target person for interview prep.
 
-<template v-if="!storyArcsData">
+<template v-if="!storyThreadsData">
 
 ::: warning Synthesis data not available
-Run `pnpm stream-synthesis` to generate story arcs from stream data.
+Run `pnpm stream-synthesis` to generate story threads from stream data.
 :::
 
 </template>
@@ -71,7 +71,7 @@ Run `pnpm stream-synthesis` to generate story arcs from stream data.
 <template v-else>
 
 ::: tip Summary
-**{{ totalQuestions }}** questions across **{{ storyArcsData.arcs.length }}** arcs
+**{{ totalQuestions }}** questions across **{{ storyThreadsData.arcs.length }}** threads
 · <span v-for="(t, i) in targets" :key="t">{{ TARGET_LABELS[t] }}: {{ questionsByTarget[t].length }}<span v-if="i < targets.length - 1"> · </span></span>
 :::
 
@@ -108,7 +108,7 @@ Run `pnpm stream-synthesis` to generate story arcs from stream data.
     <p class="question-rationale">{{ question.rationale }}</p>
     <p class="question-meta">
       from:
-      <a :href="`/synthesis/story-arcs#${slugify(question.arcTitle)}`">{{
+      <a :href="`/synthesis/story-threads#${slugify(question.arcTitle)}`">{{
         question.arcTitle
       }}</a>
       <span v-if="question.source_streams.length" class="question-sources">

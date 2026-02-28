@@ -2,7 +2,12 @@ import type { OpenAILanguageModelChatOptions } from "@ai-sdk/openai";
 import type { LanguageModelV3 } from "@ai-sdk/provider";
 import type { z } from "zod";
 import type { StreamAnalysis } from "../analysis/schemas";
-import type { NarrativeArcs, StoryArcs, TopicArc, TopicArcs } from "./schemas";
+import type {
+  NarrativeArcs,
+  StoryThreads,
+  TopicArc,
+  TopicArcs,
+} from "./schemas";
 import { generateText, Output } from "ai";
 import { hash } from "ohash";
 import pMap from "p-map";
@@ -13,14 +18,14 @@ import { cachedGenerate } from "./cache";
 import {
   DOCUMENTARY_CONTEXT,
   NARRATIVE_ARCS_PROMPT,
-  STORY_ARCS_PROMPT,
-  STORY_ARCS_REDUCE_PROMPT,
+  STORY_THREADS_PROMPT,
+  STORY_THREADS_REDUCE_PROMPT,
   TOPIC_ARC_REDUCE_PROMPT,
   TOPIC_ARC_SINGLE_PROMPT,
 } from "./prompts";
 import {
   NarrativeArcsSchema,
-  StoryArcsSchema,
+  StoryThreadsSchema,
   TopicArcSchema,
 } from "./schemas";
 
@@ -50,7 +55,7 @@ const NARRATIVE_ARCS_TOKEN_BUDGET = 300_000;
  * - `significance_reason` on summaries — tier label sufficient (~17K saved)
  * - `context` on quotes — recoverable via stream_date cross-ref (~19K saved)
  *
- * Story arcs:
+ * Story threads:
  * - `questions` on open questions — model generates its own (~93K saved)
  *
  * Topic arcs:
@@ -61,7 +66,7 @@ const NARRATIVE_ARCS_TOKEN_BUDGET = 300_000;
 
 // #region api
 
-export type SynthesisTask = "story-arcs" | "narrative-arcs" | "topic-arcs";
+export type SynthesisTask = "story-threads" | "narrative-arcs" | "topic-arcs";
 
 export type ProgressEvent =
   | { phase: "map-start"; total: number; streamCounts: number[] }
@@ -95,8 +100,8 @@ export async function runSynthesisTask(options: SynthesisOptions) {
   const { task } = options;
 
   switch (task) {
-    case "story-arcs":
-      return runStoryArcs(options);
+    case "story-threads":
+      return runStoryThreads(options);
     case "narrative-arcs":
       return runNarrativeArcs(options);
     case "topic-arcs":
@@ -106,22 +111,22 @@ export async function runSynthesisTask(options: SynthesisOptions) {
 
 // #endregion api
 
-// #region story-arcs
+// #region story-threads
 
-async function runStoryArcs(options: SynthesisOptions) {
+async function runStoryThreads(options: SynthesisOptions) {
   const { model, streams, dateRange, concurrency, onProgress } = options;
 
-  return mapReduce<StoryArcs>({
-    taskName: "story-arcs",
+  return mapReduce<StoryThreads>({
+    taskName: "story-threads",
     streams,
-    payloadSizeFn: storyArcsPayloadSize,
+    payloadSizeFn: storyThreadsPayloadSize,
     concurrency,
     onProgress,
     mapFn: (chunk) => {
       const { stories, quotes, openQuestions, findings } =
-        extractStoryArcsPayload(chunk);
+        extractStoryThreadsPayload(chunk);
 
-      const prompt = template(STORY_ARCS_PROMPT, {
+      const prompt = template(STORY_THREADS_PROMPT, {
         date_range: dateRange,
         stories: JSON.stringify(stories),
         quotes: JSON.stringify(quotes),
@@ -131,7 +136,7 @@ async function runStoryArcs(options: SynthesisOptions) {
 
       return generateObject(
         model,
-        StoryArcsSchema,
+        StoryThreadsSchema,
         prompt,
         DOCUMENTARY_CONTEXT,
       );
@@ -139,14 +144,14 @@ async function runStoryArcs(options: SynthesisOptions) {
     reduceFn: (batchResults) => {
       const allArcs = batchResults.flatMap((batch) => batch.arcs);
 
-      const prompt = template(STORY_ARCS_REDUCE_PROMPT, {
+      const prompt = template(STORY_THREADS_REDUCE_PROMPT, {
         date_range: dateRange,
         candidate_arcs: JSON.stringify(allArcs),
       });
 
       return generateObject(
         model,
-        StoryArcsSchema,
+        StoryThreadsSchema,
         prompt,
         DOCUMENTARY_CONTEXT,
       );
@@ -154,7 +159,7 @@ async function runStoryArcs(options: SynthesisOptions) {
   });
 }
 
-// #endregion story-arcs
+// #endregion story-threads
 
 // #region narrative-arcs
 
@@ -383,7 +388,7 @@ async function runTopicArcs(options: SynthesisOptions): Promise<TopicArcs> {
 
 // #region extractors
 
-function extractStoryArcsPayload(streams: ParsedStream[]) {
+function extractStoryThreadsPayload(streams: ParsedStream[]) {
   const stories = streams.flatMap((stream) =>
     stream.analysis.key_stories.map((story) => ({
       stream_date: stream.rawDate,
@@ -422,9 +427,9 @@ function extractStoryArcsPayload(streams: ParsedStream[]) {
   return { stories, quotes, openQuestions, findings };
 }
 
-function storyArcsPayloadSize(streams: ParsedStream[]) {
+function storyThreadsPayloadSize(streams: ParsedStream[]) {
   const { stories, quotes, openQuestions, findings } =
-    extractStoryArcsPayload(streams);
+    extractStoryThreadsPayload(streams);
   return (
     JSON.stringify(stories).length +
     JSON.stringify(quotes).length +

@@ -1,12 +1,12 @@
 ---
-title: Story Arcs
-description: Arc-first narrative stories with embedded interview questions and quotes.
+title: Story Threads
+description: Narrative threads with embedded interview questions and quotes.
 ---
 
 <script setup>
 import { ref, computed } from "vue";
 import slugify from "@sindresorhus/slugify";
-import { data as storyArcsData } from "./story-arcs.data";
+import { data as storyThreadsData } from "./story-threads.data";
 import {
   capitalizeInitialLetter,
   formatDateFromYYYYMMDD,
@@ -22,29 +22,29 @@ const TARGET_LABELS = {
 };
 
 const arcs = computed(() => {
-  if (!storyArcsData) return [];
-  if (selectedPerson.value === "all") return storyArcsData.arcs;
-  return storyArcsData.arcs.filter((arc) =>
+  if (!storyThreadsData) return [];
+  if (selectedPerson.value === "all") return storyThreadsData.arcs;
+  return storyThreadsData.arcs.filter((arc) =>
     arc.related_to.includes(selectedPerson.value),
   );
 });
 
 const relatedPeople = computed(() => {
-  if (!storyArcsData) return [];
+  if (!storyThreadsData) return [];
   return [
-    ...new Set(storyArcsData.arcs.flatMap((arc) => arc.related_to)),
+    ...new Set(storyThreadsData.arcs.flatMap((arc) => arc.related_to)),
   ].sort();
 });
 </script>
 
-# Story Arcs
+# Story Threads
 
-Arc-first narrative stories synthesized from all development streams. Each arc captures a challenge, the process of working through it, and the outcome – with the best interview questions and supporting quotes attached.
+Narrative threads synthesized from all development streams. Each thread captures a challenge, the process of working through it, and the outcome – with the best interview questions and supporting quotes attached.
 
-<template v-if="!storyArcsData">
+<template v-if="!storyThreadsData">
 
 ::: warning Synthesis data not available
-Run `pnpm stream-synthesis` to generate story arcs from stream data.
+Run `pnpm stream-synthesis` to generate story threads from stream data.
 :::
 
 </template>
@@ -52,7 +52,7 @@ Run `pnpm stream-synthesis` to generate story arcs from stream data.
 <template v-else>
 
 ::: tip Summary
-**Story Arcs:** {{ storyArcsData.arcs.length }}
+**Story Threads:** {{ storyThreadsData.arcs.length }}
 :::
 
 **Filter by person:**
@@ -60,7 +60,7 @@ Run `pnpm stream-synthesis` to generate story arcs from stream data.
 <div class="vp-filter-bar">
   <VPInput id="person" label="Person">
     <select id="person" v-model="selectedPerson">
-      <option value="all">All ({{ storyArcsData.arcs.length }})</option>
+      <option value="all">All ({{ storyThreadsData.arcs.length }})</option>
       <option v-for="person in relatedPeople" :key="person" :value="person">
         {{ capitalizeInitialLetter(person) }}
       </option>

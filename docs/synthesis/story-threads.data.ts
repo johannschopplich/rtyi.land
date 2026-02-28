@@ -2,39 +2,39 @@ import type { TeamMember } from "../../src/analysis/schemas";
 import { defineLoader } from "vitepress";
 import { loadSynthesisFile } from "../.vitepress/utils";
 
-export interface StoryArcQuote {
+export interface StoryThreadQuote {
   speaker: string;
   quote: string;
   context: string;
   stream_date: string;
 }
 
-export interface StoryArcQuestion {
+export interface StoryThreadQuestion {
   question: string;
   target: "kaze" | "biobak" | "badub" | "kaze_zeina";
   rationale: string;
   source_streams: string[];
 }
 
-export interface StoryArc {
+export interface StoryThread {
   title: string;
   summary: string;
   narrative_value: string;
   challenge: string;
   process: string;
   outcome: string;
-  key_quotes: StoryArcQuote[];
-  interview_questions: StoryArcQuestion[];
+  key_quotes: StoryThreadQuote[];
+  interview_questions: StoryThreadQuestion[];
   related_to: TeamMember[];
   source_streams: string[];
 }
 
-export interface StoryArcsData {
-  arcs: StoryArc[];
+export interface StoryThreadsData {
+  arcs: StoryThread[];
 }
 
 export default defineLoader({
-  async load(): Promise<StoryArcsData | null> {
-    return loadSynthesisFile<StoryArcsData>("story-arcs.json");
+  async load(): Promise<StoryThreadsData | null> {
+    return loadSynthesisFile<StoryThreadsData>("story-threads.json");
   },
 });

@@ -15,9 +15,9 @@ Frame everything for a global audience unfamiliar with ROM hacking. Viewers who 
 Your job is to synthesize the raw per-stream data into a curated briefing that a documentary filmmaker can actually use. Quality over quantity. Every item you include should earn its place.`;
 // #endregion context
 
-// #region story-arcs
-export const STORY_ARCS_PROMPT = `
-## Task: Build Story Arcs with Embedded Interview Questions and Quotes
+// #region story-threads
+export const STORY_THREADS_PROMPT = `
+## Task: Build Story Threads with Embedded Interview Questions and Quotes
 
 You are given stories, quotes, and open questions from development streams spanning {date_range}. Your job is to produce **arc-first** story units – each arc is the primary structure, with the best interview questions and supporting quotes attached to it.
 
@@ -70,10 +70,10 @@ a rich pool is more valuable than a lean one.
 </findings>
 `;
 
-export const STORY_ARCS_REDUCE_PROMPT = `
-## Task: Merge and Rank Story Arcs
+export const STORY_THREADS_REDUCE_PROMPT = `
+## Task: Merge and Rank Story Threads
 
-You are given candidate story arcs from multiple analysis batches, each generated from a different subset of development streams (full project span: {date_range}). Many arcs overlap or cover the same ground.
+You are given candidate story threads from multiple analysis batches, each generated from a different subset of development streams (full project span: {date_range}). Many threads overlap or cover the same ground.
 
 ### Guidelines
 
@@ -95,7 +95,7 @@ You are given candidate story arcs from multiple analysis batches, each generate
 {candidate_arcs}
 </candidate_arcs>
 `;
-// #endregion story-arcs
+// #endregion story-threads
 
 // #region narrative-arcs
 export const NARRATIVE_ARCS_PROMPT = `

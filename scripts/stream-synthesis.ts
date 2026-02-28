@@ -60,9 +60,9 @@ interface SynthesisTaskConfig {
 
 const tasks: SynthesisTaskConfig[] = [
   {
-    name: "Story Arcs",
-    outputFile: "story-arcs.json",
-    promptKey: "story-arcs",
+    name: "Story Threads",
+    outputFile: "story-threads.json",
+    promptKey: "story-threads",
   },
   {
     name: "Narrative Arcs",

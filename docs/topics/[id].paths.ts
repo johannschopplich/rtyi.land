@@ -63,7 +63,7 @@ export default {
 
 All **${label.toLowerCase()}** findings from stream analyses, listed by stream date.
 
-[← All Topics](/topics/index.md) · [Team Profiles](/team/index.md) · [Story Arcs & Quotes](/synthesis/story-arcs)
+[← All Topics](/topics/index.md) · [Team Profiles](/team/index.md) · [Story Threads & Quotes](/synthesis/story-threads)
 
 ::: tip Summary
 **Total Findings:** ${findings.length}
