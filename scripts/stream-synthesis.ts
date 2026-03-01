@@ -1,6 +1,6 @@
 import type { SpinnerResult } from "@clack/prompts";
 import type { StreamAnalysis } from "../src/analysis/schemas";
-import type { ParsedStream, SynthesisTask } from "../src/synthesis/runner";
+import type { ParsedStream, SynthesisTask } from "../src/synthesis/shared";
 import * as fsp from "node:fs/promises";
 import { basename, extname, join } from "node:path";
 import process from "node:process";
