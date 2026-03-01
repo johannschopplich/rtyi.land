@@ -72,7 +72,7 @@ Run `pnpm stream-synthesis` to generate story threads from stream data.
 
 <div v-for="(arc, index) in arcs" :key="arc.title" class="vp-card">
 
-<h3 :id="slugify(arc.title)">{{ index + 1 }}. {{ arc.title }}</h3>
+<h2 :id="slugify(arc.title)">{{ index + 1 }}. {{ arc.title }}</h2>
 
 <p>{{ arc.summary }}</p>
 
