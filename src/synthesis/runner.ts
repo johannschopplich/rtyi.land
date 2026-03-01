@@ -12,7 +12,7 @@ import { generateText, Output } from "ai";
 import { hash } from "ohash";
 import pMap from "p-map";
 import { estimateTokenCount } from "tokenx";
-import { template } from "utilful";
+import { createCSV, template } from "utilful";
 import { CORE_CONTRIBUTORS } from "../constants";
 import { cachedGenerate } from "./cache";
 import {
@@ -43,23 +43,32 @@ const DEFAULT_CONCURRENCY = 1;
  * Token budget for the narrative arcs single-prompt path.
  * GPT-5.2 supports ~400K tokens; leave headroom for output + system.
  */
-const NARRATIVE_ARCS_TOKEN_BUDGET = 300_000;
+const NARRATIVE_ARCS_TOKEN_BUDGET = 350_000;
+
+/**
+ * Topics whose medium-importance findings are shed first when over budget.
+ * These two categories account for ~70% of all findings but are dominated by
+ * routine technical/design details – personal, team, and philosophy findings
+ * carry more narrative texture per token.
+ */
+const EXPENDABLE_TOPICS = new Set(["design", "technical", "milestone"]);
 
 /**
  * Omitted input fields (token budget optimizations):
  *
  * All tasks:
- * - `related_to` on stories/questions — 81-83% redundant with text content
+ * - `related_to` on stories/questions – redundant with text content
  *
  * Narrative arcs:
- * - `significance_reason` on summaries — tier label sufficient (~17K saved)
- * - `context` on quotes — recoverable via stream_date cross-ref (~19K saved)
+ * - `significance_reason` on summaries – tier label sufficient
+ * - `context` on quotes – recoverable via stream_date cross-ref
+ * - `challenge`/`outcome` on stories – summary is sufficient
  *
  * Story threads:
- * - `questions` on open questions — model generates its own (~93K saved)
+ * - `questions` on open questions – model generates its own
  *
  * Topic arcs:
- * - `quote` on findings — absent from output schema, 81% null (~29K saved)
+ * - `quote` on findings – absent from output schema
  */
 
 // #endregion config
@@ -77,7 +86,13 @@ export type ProgressEvent =
       chunkStreams: number;
     }
   | { phase: "reduce-start"; batches: number }
-  | { phase: "single-prompt-start"; tokens: number }
+  | {
+      phase: "single-prompt-start";
+      tokens: number;
+      tier: number;
+      totalFindings: number;
+      selectedFindings: number;
+    }
   | { phase: "topic-start"; total: number }
   | { phase: "topic-done"; index: number; total: number; name: string };
 
@@ -128,10 +143,10 @@ async function runStoryThreads(options: SynthesisOptions) {
 
       const prompt = template(STORY_THREADS_PROMPT, {
         date_range: dateRange,
-        stories: JSON.stringify(stories),
-        quotes: JSON.stringify(quotes),
-        open_questions: JSON.stringify(openQuestions),
-        findings: JSON.stringify(findings),
+        stories: createCSV(stories),
+        quotes: createCSV(quotes),
+        open_questions: createCSV(openQuestions),
+        findings: createCSV(findings),
       });
 
       return generateObject(
@@ -163,6 +178,13 @@ async function runStoryThreads(options: SynthesisOptions) {
 
 // #region narrative-arcs
 
+interface NarrativeFinding {
+  stream_date: string;
+  topic: string;
+  importance: string;
+  summary: string;
+}
+
 async function runNarrativeArcs(
   options: SynthesisOptions,
 ): Promise<NarrativeArcs | undefined> {
@@ -181,9 +203,25 @@ async function runNarrativeArcs(
       .map((finding) => ({
         stream_date: stream.rawDate,
         topic: finding.topic,
+        importance: finding.importance,
         summary: finding.summary,
       })),
   );
+
+  const contributorFindings = streams.flatMap((stream) =>
+    CORE_CONTRIBUTORS.flatMap((member) =>
+      stream.analysis.contributor_findings[member]
+        .filter((finding) => finding.importance !== "low")
+        .map((finding) => ({
+          stream_date: stream.rawDate,
+          topic: finding.topic,
+          importance: finding.importance,
+          summary: `[${member}] ${finding.summary}`,
+        })),
+    ),
+  );
+
+  const allFindings: NarrativeFinding[] = [...findings, ...contributorFindings];
 
   const stories = streams.flatMap((stream) =>
     stream.analysis.key_stories.map((story) => ({
@@ -201,51 +239,51 @@ async function runNarrativeArcs(
     })),
   );
 
-  let promptData = {
-    stream_summaries: JSON.stringify(streamSummaries),
-    findings: JSON.stringify(findings),
-    stories: JSON.stringify(stories),
-    quotes: JSON.stringify(quotes),
-  };
-
-  // Check token count; if too large, pre-summarize
-  let fullPrompt = template(NARRATIVE_ARCS_PROMPT, {
-    date_range: dateRange,
-    ...promptData,
-  });
-
-  const tokenCount = estimateTokenCount(fullPrompt);
-
-  if (tokenCount > NARRATIVE_ARCS_TOKEN_BUDGET) {
-    // Pre-summarize: drop low-importance findings, trim quotes
-    const condensedFindings = findings.filter((finding) =>
-      // Keep only high-importance when over budget
-      streams.some(
-        (stream) =>
-          stream.rawDate === finding.stream_date &&
-          stream.analysis.findings.some(
-            (streamFinding) =>
-              streamFinding.summary === finding.summary &&
-              streamFinding.importance === "high",
-          ),
+  // Build prompt, applying tiered budget fallback if needed.
+  // Tier 1: all findings (main + contributor).
+  // Tier 2: drop medium-importance from expendable topics (design/technical/milestone).
+  // Tier 3: drop ALL medium-importance findings (high-only).
+  const tiers: (() => NarrativeFinding[])[] = [
+    () => allFindings,
+    () =>
+      allFindings.filter(
+        (finding) =>
+          !EXPENDABLE_TOPICS.has(finding.topic) ||
+          finding.importance === "high",
       ),
-    );
+    () => allFindings.filter((f) => f.importance === "high"),
+  ];
 
-    promptData = {
-      stream_summaries: JSON.stringify(streamSummaries),
-      findings: JSON.stringify(condensedFindings),
-      stories: JSON.stringify(stories),
-      quotes: JSON.stringify(quotes),
-    };
+  let selectedFindings = allFindings;
+  let fullPrompt = "";
+  let selectedTier = 1;
+
+  for (let i = 0; i < tiers.length; i++) {
+    selectedFindings = tiers[i]!();
+    const csvFindings = selectedFindings.map(
+      ({ importance: _, ...rest }) => rest,
+    );
 
     fullPrompt = template(NARRATIVE_ARCS_PROMPT, {
       date_range: dateRange,
-      ...promptData,
+      stream_summaries: createCSV(streamSummaries),
+      findings: createCSV(csvFindings),
+      stories: createCSV(stories),
+      quotes: createCSV(quotes),
     });
+    selectedTier = i + 1;
+
+    if (estimateTokenCount(fullPrompt) <= NARRATIVE_ARCS_TOKEN_BUDGET) break;
   }
 
   const finalTokenCount = estimateTokenCount(fullPrompt);
-  onProgress?.({ phase: "single-prompt-start", tokens: finalTokenCount });
+  onProgress?.({
+    phase: "single-prompt-start",
+    tokens: finalTokenCount,
+    tier: selectedTier,
+    totalFindings: allFindings.length,
+    selectedFindings: selectedFindings.length,
+  });
 
   const cacheKey = `narrative-arcs:${hash(fullPrompt)}`;
   return cachedGenerate(cacheKey, () =>
@@ -257,7 +295,7 @@ async function runNarrativeArcs(
 
 // #region topics
 
-interface TopicFinding {
+interface TopicFinding extends Record<string, unknown> {
   stream_date: string;
   summary: string;
 }
@@ -313,7 +351,7 @@ async function runTopicArcs(options: SynthesisOptions): Promise<TopicArcs> {
         arc = await cachedGenerate(topicKey, () => {
           const prompt = template(TOPIC_ARC_SINGLE_PROMPT, {
             topic,
-            findings: JSON.stringify(findings),
+            findings: createCSV(findings),
           });
           return generateObject(
             model,
@@ -339,7 +377,7 @@ async function runTopicArcs(options: SynthesisOptions): Promise<TopicArcs> {
           const result = await cachedGenerate(chunkKey, () => {
             const prompt = template(TOPIC_ARC_SINGLE_PROMPT, {
               topic,
-              findings: JSON.stringify(chunk),
+              findings: createCSV(chunk),
             });
             return generateObject(
               model,
@@ -431,10 +469,10 @@ function storyThreadsPayloadSize(streams: ParsedStream[]) {
   const { stories, quotes, openQuestions, findings } =
     extractStoryThreadsPayload(streams);
   return (
-    JSON.stringify(stories).length +
-    JSON.stringify(quotes).length +
-    JSON.stringify(openQuestions).length +
-    JSON.stringify(findings).length
+    createCSV(stories).length +
+    createCSV(quotes).length +
+    createCSV(openQuestions).length +
+    createCSV(findings).length
   );
 }
 

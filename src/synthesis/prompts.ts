@@ -53,19 +53,19 @@ a rich pool is more valuable than a lean one.
 
 ### Stream Data
 
-<stories>
+<stories type="csv">
 {stories}
 </stories>
 
-<quotes>
+<quotes type="csv">
 {quotes}
 </quotes>
 
-<open_questions>
+<open_questions type="csv">
 {open_questions}
 </open_questions>
 
-<findings>
+<findings type="csv">
 {findings}
 </findings>
 `;
@@ -123,25 +123,23 @@ This is NOT a technical summary or a list of features. This is a **filming roadm
 - **B-roll suggestions should be concrete** – not "show gameplay" but "side-by-side of Zoo level at 10fps vs. smooth 30fps after engine rewrite."
 - **Order arcs to tell a story** – the sequence should feel like a documentary structure, not an alphabetical list.
 
-Aim for 10-15 arcs. Fewer, richer arcs with concrete specificity are more valuable than
-many thin ones. Each arc should justify its inclusion – if you can't articulate a clear
-narrative goal, cut it.
+Level-specific case studies and personal/partnership arcs are welcome alongside broad thematic ones. Fewer, richer arcs with concrete specificity are more valuable than many thin ones. Each arc should justify its inclusion – if you can't articulate a clear narrative goal, cut it.
 
 ### Stream Data
 
-<stream_summaries>
+<stream_summaries type="csv">
 {stream_summaries}
 </stream_summaries>
 
-<findings>
+<findings type="csv">
 {findings}
 </findings>
 
-<stories>
+<stories type="csv">
 {stories}
 </stories>
 
-<quotes>
+<quotes type="csv">
 {quotes}
 </quotes>
 `;
@@ -163,7 +161,7 @@ You are given all findings tagged under the "{topic}" topic across the full set 
 
 ### Findings for "{topic}"
 
-<findings>
+<findings type="csv">
 {findings}
 </findings>
 `;

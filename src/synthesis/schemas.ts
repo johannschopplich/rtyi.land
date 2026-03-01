@@ -4,7 +4,7 @@ import { QUOTE_FORMATTING_INSTRUCTIONS } from "../constants";
 
 // #region story-threads
 
-const StoryArcQuoteSchema = z.object({
+const StoryThreadQuoteSchema = z.object({
   speaker: z
     .string()
     .describe(
@@ -21,7 +21,7 @@ const StoryArcQuoteSchema = z.object({
   stream_date: z.string().describe("YYYYMMDD format of the source stream"),
 });
 
-const StoryArcQuestionSchema = z.object({
+const StoryThreadQuestionSchema = z.object({
   question: z
     .string()
     .describe(
@@ -44,7 +44,7 @@ const StoryArcQuestionSchema = z.object({
     ),
 });
 
-const StoryArcSchema = z.object({
+const StoryThreadSchema = z.object({
   title: z
     .string()
     .describe(
@@ -62,14 +62,14 @@ const StoryArcSchema = z.object({
     .describe("How Kaze or the team worked through the challenge"),
   outcome: z.string().describe("The resolution, learning, or current state"),
   key_quotes: z
-    .array(StoryArcQuoteSchema)
+    .array(StoryThreadQuoteSchema)
     .min(1)
     .max(5)
     .describe(
       "The strongest verbatim quotes that bring this arc to life – evidence, not decoration",
     ),
   interview_questions: z
-    .array(StoryArcQuestionSchema)
+    .array(StoryThreadQuestionSchema)
     .min(2)
     .max(7)
     .describe(
@@ -85,7 +85,7 @@ const StoryArcSchema = z.object({
 
 export const StoryThreadsSchema = z.object({
   arcs: z
-    .array(StoryArcSchema)
+    .array(StoryThreadSchema)
     .min(10)
     .max(25)
     .describe(
@@ -137,7 +137,7 @@ const NarrativeArcSchema = z.object({
 export const NarrativeArcsSchema = z.object({
   arcs: z
     .array(NarrativeArcSchema)
-    .min(6)
+    .min(10)
     .max(20)
     .describe(
       "Thematic arcs that together form the documentary's filming roadmap – ordered to tell a coherent story",

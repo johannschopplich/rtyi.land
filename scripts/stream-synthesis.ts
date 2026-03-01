@@ -165,7 +165,7 @@ for (let ti = 0; ti < tasksToRun.length; ti++) {
           case "single-prompt-start":
             s = clack.spinner();
             s.start(
-              `Synthesizing filming roadmap ${ansis.dim(`(~${Math.round(event.tokens / 1000)}K tokens · ${streams.length} streams)`)}`,
+              `Synthesizing filming roadmap ${ansis.dim(`(~${Math.round(event.tokens / 1000)}K tokens · tier ${event.tier}/3 · ${event.selectedFindings}/${event.totalFindings} findings · ${streams.length} streams)`)}`,
             );
             break;
           case "topic-start":
